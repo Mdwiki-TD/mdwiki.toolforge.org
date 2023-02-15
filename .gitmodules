@@ -1,0 +1,3 @@
+[submodule "public_html/Translation_Dashboard"]
+	path = public_html/Translation_Dashboard
+	url = https://github.com/MrIbrahem/Translation-Dashboard
