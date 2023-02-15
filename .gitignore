@@ -22,7 +22,7 @@ printe.py
 *.rar
 *.7z
 public_html/td/**
-pywikibot.py
+*/pywikibot.py
 t.js
 *.pyc
 __pycache__/**
@@ -30,3 +30,8 @@ __pycache__/**
 tw/twet_config.py
 w.xml
 نجاح الوصول للرابط واستبدال النص.js
+*/.gitx/**
+*.csv
+py/sql_test.py
+*/back/**
+pywikibot.py
