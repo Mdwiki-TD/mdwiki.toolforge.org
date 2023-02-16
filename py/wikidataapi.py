@@ -45,6 +45,9 @@ import wikidataapi
 # wikidataapi.Labels_API(Qid, label, lang, remove = False)
 # wikidataapi.sparql_generator_url(quary, printq = False, add_date = True)
 # wikidataapi.wbsearchentities(search, language)
+# wikidataapi.Claim_API_qid(qid, property, numeric)
+# wikidataapi.Claim_API_str(qid, property, string)
+# wikidataapi.
 # wikidataapi.
 #---
 '''
@@ -56,6 +59,9 @@ import user_account_new
 username = user_account_new.bot_username     #user_account_new.my_username
 password = user_account_new.bot_password     #user_account_new.my_password      #user_account_new.mdwiki_pass
 #---
+if 'workhimo' in sys.argv:
+    username = user_account_new.my_username
+    password = user_account_new.my_password
 #---
 yes_answer = [ "y" , "a" , "" , "Y" , "A", "all"]
 #---
@@ -89,9 +95,8 @@ except:
 #---
 def outbotnew( s ):
     if s == '' : return '' 
-        #pywikibot.output( s )
     if print_pywikibot[1] :
-        pywikibot.output( s )
+        pywikibot.output ( s )
     else:
         print( s )
 #---
@@ -164,15 +169,15 @@ def post( params , apiurl='', token = True):
         r4 = SS["ss"].post( SS["url"] , data = params)
         jsone = r4.json()
     except Exception as e:
-        pywikibot.output( 'Traceback (most recent call last):' )
+        outbotnew( 'Traceback (most recent call last):' )
         warn('Exception:' + str(e), UserWarning)
-        pywikibot.output( params )
-        pywikibot.output( 'CRITICAL:' )
+        outbotnew( params )
+        outbotnew( 'CRITICAL:' )
         return {}
     #---
     status = get_status(r4)
     if status != 200:
-        pywikibot.output( "<<lightred>> wikidataapi.py: post error status: %s" % str(status) )
+        outbotnew( "<<lightred>> wikidataapi.py: post error status: %s" % str(status) )
         return {}
     #---
     return jsone
@@ -297,7 +302,7 @@ def WD_Merge( q1, q2):
         From = q2
         To = q1
     #---
-    pywikibot.output('from %s to %s ' % (From , To) )
+    outbotnew('from %s to %s ' % (From , To) )
     #---
     params = {
         "action": "wbmergeitems",
@@ -313,32 +318,32 @@ def WD_Merge( q1, q2):
     #---
     if 'success' in r4:
         if '"redirected":1' in r4:
-            pywikibot.output('<<lightgreen>> ** true .. redirected.' )
+            outbotnew('<<lightgreen>> ** true .. redirected.' )
             return True
         else:
-            pywikibot.output('<<lightgreen>> ** true.' )
+            outbotnew('<<lightgreen>> ** true.' )
             #---
             pams2 = {"action": "wbcreateredirect","from": From,"to": To,"ignoreconflicts": "description","summary": ""}
             #---
             r5 = post(pams2, apiurl = "https://www.wikidata.org/w/api.php", token = True)
             #---
             if 'success' in r5:
-                pywikibot.output('<<lightgreen>> **createredirect true.' )
+                outbotnew('<<lightgreen>> **createredirect true.' )
                 return True
             else:
-                pywikibot.output('<<lightred>> r5' + str(r5))
+                outbotnew('<<lightred>> r5' + str(r5))
     else:
-        pywikibot.output('<<lightred>> r4' + str(r4))
+        outbotnew('<<lightred>> r4' + str(r4))
         return False
 #---
 def Labels_API(Qid, label, lang, remove = False):
     #---
     if Qid == '':
-        pywikibot.output( "Labels_API Qid == '' " )
+        outbotnew( "Labels_API Qid == '' " )
         return False
     #---
     if label == "" and not remove:
-        pywikibot.output( "Labels_API label == '' and remove = False " )
+        outbotnew( "Labels_API label == '' and remove = False " )
         return False
     #---
     # save the edit
@@ -357,16 +362,76 @@ def Labels_API(Qid, label, lang, remove = False):
         text = str(req)
         if ('using the same description text' in text) and ('associated with language code' in text):
             item2 = re.search('(Q\d+)', str(req["error"]['info'])).group(1)
-            pywikibot.output('<<lightred>>API: same label item: ' + item2 )
+            outbotnew('<<lightred>>API: same label item: ' + item2 )
             #---
             #outbot(text, fi = out, NoWait = nowait)
         #---
         if 'success' in req:
-            pywikibot.output('<<lightgreen>> **Labels_API true.' )
+            outbotnew('<<lightgreen>> **Labels_API true.' )
         else:
-            pywikibot.output('<<lightred>> r5' + str(req))
+            outbotnew('<<lightred>> r5' + str(req))
     else:
         return False
+#---
+def Claim_API_str(qid, property, string):
+    #---
+    outbotnew(f'<<lightyellow>> Claim_API_str: add claim to qid: {qid}, [{property}:{string}]')
+    #---
+    if string == '' or qid == '' or property == '' : return ''
+    #---
+    #---
+    params = {
+        "action": "wbcreateclaim",
+        "entity": qid,
+        "snaktype": "value",
+        "property": property,
+        "value": json.JSONEncoder().encode(string)
+    }
+    #---
+    req = post(params, apiurl = "https://www.wikidata.org/w/api.php", token=True)
+    #---
+    if not req or req == {}:
+        outbotnew(f'req:str({req})')
+        return False
+    #---        
+    if 'success' in req:
+        outbotnew('<<lightgreen>> **Claim_API true.' )
+        return True
+    else:
+        outbotnew('<<lightred>> req' + str(req))
+    #---
+    return False
+#---
+def Claim_API_qid(qid, property, numeric):
+    #---
+    outbotnew(f'<<lightyellow>> Claim_API_qid: add claim to qid: {qid}, [{property}:{numeric}]')
+    #---
+    #  remove Q from numeric
+    if 'Q' in numeric: numeric = numeric.replace('Q' , '')
+    #---
+    if numeric == '' or qid == '' or property == '' : return ''
+    #---
+    params = {
+        "action": "wbcreateclaim",
+        "entity": qid,
+        "snaktype": "value",
+        "property": property,
+        "value": "{\"entity-type\":\"item\",\"numeric-id\":" + numeric + "}",
+    }
+    #---
+    req = post(params, apiurl = "https://www.wikidata.org/w/api.php", token=True)
+    #---
+    if not req or req == {}:
+        outbotnew(f'req:str({req})')
+        return False
+    #---        
+    if 'success' in req:
+        outbotnew('<<lightgreen>> **Claim_API true.' )
+        return True
+    else:
+        outbotnew('<<lightred>> req' + str(req))
+    #---
+    return False
 #---
 def open_url(url, return_json = False):
     #---
@@ -377,28 +442,28 @@ def open_url(url, return_json = False):
     try:
         req = urllib.request.urlopen(url)
     except Exception as e:
-        pywikibot.output( 'Traceback (most recent call last):' )
+        outbotnew( 'Traceback (most recent call last):' )
         warn('Exception:' + str(e), UserWarning)
-        pywikibot.output( 'CRITICAL:' )
+        outbotnew( 'CRITICAL:' )
     #---
     if not req:
-        pywikibot.output( ' open_url no req ' )
+        outbotnew( ' open_url no req ' )
         return result
     #---
     html = ""
     try:
         html = req.read().strip().decode('utf-8')
     except Exception as e:
-        pywikibot.output( 'Traceback (most recent call last):' )
+        outbotnew( 'Traceback (most recent call last):' )
         warn('Exception:' + str(e), UserWarning)
-        pywikibot.output( 'CRITICAL:' )
+        outbotnew( 'CRITICAL:' )
         return result 
     #---
     jsontab = {}
     try:
         jsontab = json.loads(html)
     except Exception as e:
-        pywikibot.output( ' open_url: Exception %s ' % e )
+        outbotnew( ' open_url: Exception %s ' % e )
         return result 
     #---
     return jsontab
@@ -408,7 +473,7 @@ def sparql_generator_url(quary, printq = False, add_date = True):
     if add_date:
         quary = quary + '\n#' + str(menet)
     #---
-    if printq == True:  pywikibot.output(quary)
+    if printq == True:  outbotnew(quary)
     #---
     fao = py_tools.quoteurl(quary)
     #---
@@ -435,7 +500,7 @@ def sparql_generator_url(quary, printq = False, add_date = True):
                             s[vv] = ''
                     qlist.append(s)
     #---
-    pywikibot.output('#sparql_generator_url:<<lightgreen>> %d items found. %s' % ( len(qlist) , menet))
+    outbotnew('#sparql_generator_url:<<lightgreen>> %d items found. %s' % ( len(qlist) , menet))
     return qlist
 #---
 def wbsearchentities(search, language):
@@ -452,11 +517,11 @@ def wbsearchentities(search, language):
     req = post(params, apiurl = "https://www.wikidata.org/w/api.php")
     #---
     if not req or req == {}:
-        pywikibot.output( ' wbsearchentities no req ' )
+        outbotnew( ' wbsearchentities no req ' )
         return False
     #---
     if not 'success' in req:
-        pywikibot.output('<<lightred>> wbsearchentities: ' + str(req))
+        outbotnew('<<lightred>> wbsearchentities: ' + str(req))
         return False
     #---
     table = {}
