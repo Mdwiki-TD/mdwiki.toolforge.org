@@ -65,6 +65,7 @@ text-decoration: none;
 			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav me-auto">
+					<a class="nav-link" target="_blank" href="https://github.com/MrIbrahem/mdwiki.toolforge.org">Github</a>
 				</ul>
 				<div class="d-flex">
 					<ul class="nav navbar-nav ml-auto">
