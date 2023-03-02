@@ -225,6 +225,8 @@ def main():
     #---
     New_Table_by_lang = {}
     #---
+    Skip_titles_global = ['جامعة نورث كارولاينا','جامعة ولاية كارولينا الشمالية إيه آند تي','نيشان راجاميترابورن']
+    #---
     Skip_titles = {}
     Skip_titles['Mr. Ibrahem'] = { 'targets' : ['جامعة نورث كارولاينا','جامعة ولاية كارولينا الشمالية إيه آند تي','نيشان راجاميترابورن'] , 'mdtitles' : [] }
     Skip_titles['Avicenno'] =  { 'targets' : ['ألم فرجي','لقاح المكورة السحائية'], 'mdtitles' : [] }
@@ -284,8 +286,10 @@ def main():
                 md_title = co_text.split('User:Mr. Ibrahem/')[1].split(']]')[0].replace("_" , " ")#.replace("'" , "\'")
                 #---
                 target = target.replace("_" , " ")#.replace("'" , "\'")
+                #---
                 user = user.replace("_" , " ")#.replace("'" , "\'")
                 #---
+                if target in Skip_titles_global: continue
                 if target in Skip_titles.get(user,{}).get('targets',[]): continue
                 #---
                 if md_title in Skip_titles.get(user,{}).get('mdtitles',[]): continue

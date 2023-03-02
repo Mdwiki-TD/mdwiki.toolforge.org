@@ -21,7 +21,6 @@ $title = isset($_GET['title']) ? $_GET['title'] : '';
                         </div>
                     </div>
                     <div class='col-md-2'>
-
                         <div class='form-check form-switch'>
                             <input class='form-check-input' type='checkbox' id='save' name='save' value='1' <?php echo $save ?>>
                             <label class='form-check-label' for='save'>Auto save</label>

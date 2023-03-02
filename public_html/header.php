@@ -6,10 +6,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WikiProjectMed Tools</title>
-<?php 
+<?php
 //---
-if ($_REQUEST['test'] != '') {
-	// echo(__file__);
+if ($_REQUEST['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
