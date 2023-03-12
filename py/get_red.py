@@ -35,7 +35,7 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 #---
 import py_tools
-# py_tools.split_lists_to_numbers( lise, maxnumber = 100 )
+
 #---
 #---
 import en_to_md

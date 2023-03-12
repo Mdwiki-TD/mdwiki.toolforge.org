@@ -34,7 +34,7 @@ import wikidataapi
 # wikidataapi.post( params )
 #---
 import py_tools
-# py_tools.split_lists_to_numbers( lise, maxnumber = 100 )
+
 # py_tools.
 #---
 import mdwiki_api
