@@ -36,3 +36,5 @@ py/sql_test.py
 */back/**
 pywikibot.py
 public_html/Translation_Dashboard/**
+nccommons/all_files.json
+nccommons/ns_0_pages.json
