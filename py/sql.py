@@ -215,7 +215,7 @@ and r.rev_parent_id = 0
 AND r.rev_timestamp > 20210101000000
 and comment_text like "%User:Mr. Ibrahem/%"
 #and p.page_namespace = 0
-;'''
+'''
 #---
 def main():
     #---
