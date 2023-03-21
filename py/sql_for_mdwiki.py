@@ -12,8 +12,22 @@ import pywikibot
 import sys
 import os
 #---
-# import sql_for_mdwiki
+import py_tools
+# py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
+# py_tools.ec_de_code( tt , type )
+# py_tools.make_cod(string)
+# py_tools.Decode_bytes(x)
+# py_tools.quoteurl(fao)
+#---
+'''
+#---
+import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.add_titles_to_qids(tab)
+#---
+'''
 #---
 can_use_sql_db = { 1 : False }
 #---
@@ -27,6 +41,10 @@ except Exception as e:
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
+#---
+def Decode_bytes(x):
+    if type(x) == bytes:    x = x.decode("utf-8")
+    return x
 #---
 def make_sql_connect_new(query , update = False, Prints = True):
     #---
@@ -189,4 +207,57 @@ def mdwiki_sql(query , update = False, Prints = True):
     cn.close()
     #---
     return results
+#---
+def get_all_qids():
+    #---
+    mdtitle_to_qid = {}
+    #---
+    sq = mdwiki_sql(' select DISTINCT title, qid from qids;')
+    #---
+    for ta in sq: 
+        title = Decode_bytes(ta[0])
+        qqid = Decode_bytes(ta[1])
+        if qqid != '':
+            mdtitle_to_qid[title] = qqid
+    #---
+    return mdtitle_to_qid
+#---
+def add_qid(title, qid):
+    qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = py_tools.make_cod(title))
+    #---
+    print(f'add_qid()  title:{title}, qid:{qid}')
+    #---
+    mdwiki_sql(qua, update=True)
+#---
+def update_qid(title, qid):
+    qua = """UPDATE qids set qid = '{qid}' where title = {title};""".format(qid=qid, title = py_tools.make_cod(title))
+    #---
+    print(f'update_qid()  title:{title}, qid:{qid}')
+    #---
+    mdwiki_sql(qua, update=True)
+#---
+def add_titles_to_qids(tab):
+    #---
+    new = {}
+    #---
+    for title, qid in tab.items():
+        #---
+        if qid == '' or title == '': 
+            print("qid == '' or title == ''")
+            continue
+        #---
+        new[title] = qid
+        #---
+    all_in = get_all_qids()
+    #---
+    for title, qid in new.items():
+        if not title in all_in:
+            add_qid(title, qid)
+            continue
+        #---
+        if title != all_in[title]:
+            update_qid(title, qid)
+            continue
+        #---
+    #---
 #---

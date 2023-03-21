@@ -80,12 +80,12 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     $jsub = 'python3 ';
     //---
     if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' ) { 
-        $dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/core'; 
+        $dir = '/data/project/mdwiki/core'; 
         $jsub = 'jsub -N history python3 ';
-        $filee = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/public_html/importlist.txt';
+        $filee = '/data/project/mdwiki/public_html/importlist.txt';
     };
     //---
-    $python3 = " $dir/pwb.py $dir/py/imp -page2:" . rawurlencode($title) . ' save' ;
+    $python3 = " $dir/pwb.py mdpy/imp -page2:" . rawurlencode($title) . ' save' ;
     //---
     //if ( $code == 'James' ) {
     //---
@@ -94,7 +94,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     echo "";
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     if ($title != '') {
-        $python3 = " $dir/pwb.py $dir/py/imp -page2:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save' ;
+        $python3 = " $dir/pwb.py mdpy/imp -page2:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save' ;
         //---
         if ($from == '') {
             echo 'The Bot will import ' . rawurldecode($title) . ' history in seconds.';
@@ -108,7 +108,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         fwrite($myfile , $titlelist);
         fclose($myfile);
         //---
-        $python3 = " $dir/pwb.py $dir/py/imp -file:" . $filee . ' save' ;
+        $python3 = " $dir/pwb.py mdpy/imp -file:" . $filee . ' save' ;
         //---
         echo 'The Bot will import history for titles in the list in seconds.';
         //---

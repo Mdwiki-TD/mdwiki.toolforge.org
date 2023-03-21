@@ -4,9 +4,9 @@
 
 page views bot
 
-python pwb.py mdwiki/py/sqlviewsm localhost ar limit5
+python pwb.py mdwiki/mdpy/sqlviewsm localhost ar limit5
 
-python3 pwb.py py/enwiki_views
+python3 pwb.py mdpy/enwiki_views
 
 
 """
@@ -68,6 +68,8 @@ def get_RTT2():
     #---
     sitelinks_file = project + '/public_html/Translation_Dashboard/Tables/sitelinks.json'
     #---
+    print(f'get sitelinks from {sitelinks_file}')
+    #---
     sitelinks_all = json.loads(codecs.open(sitelinks_file, "r", encoding="utf-8").read())
     #---
     diff = 0
@@ -102,6 +104,8 @@ def main():
     #---
     d_end   = d_end.strftime('%Y%m%d')
     d_start = d_start.strftime('%Y%m%d')
+    #---
+    print(f'start get_views_with_rest_v1: lenth: {len(en_keys)}')
     #---
     enviews = wdapi.get_views_with_rest_v1('en', en_keys, date_start=d_start, date_end=d_end)
     #---

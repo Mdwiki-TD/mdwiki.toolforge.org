@@ -46,7 +46,7 @@ from_toolforge = True
 #---
 if not "from_toolforge" in sys_argv:
     from_toolforge = False
-    from py import printe
+    from mdpy import printe
 #---
 import user_account_new
 #---

@@ -4,15 +4,15 @@
 
 تجميع المراجع في الصفحات
 
-python3 pwb.py py/wpref -lang:es ask savetofile
-python3 pwb.py py/wpref -lang:or ask -page:ପାଟେଲୋଫିମୋରାଲ_ଯନ୍ତ୍ରଣା_ସିଣ୍ଡ୍ରୋମ
-python3 pwb.py py/wpref -lang:or ask -page:ପୋଷ୍ଟିରିଅର_ୟୁରେଥ୍ରାଲ_ଭଲଭ ask
-python3 pwb.py py/wpref -lang:or -page:user:Mr._Ibrahem/sandbox ask
+python3 pwb.py mdpy/wpref -lang:es ask savetofile
+python3 pwb.py mdpy/wpref -lang:or ask -page:ପାଟେଲୋଫିମୋରାଲ_ଯନ୍ତ୍ରଣା_ସିଣ୍ଡ୍ରୋମ
+python3 pwb.py mdpy/wpref -lang:or ask -page:ପୋଷ୍ଟିରିଅର_ୟୁରେଥ୍ରାଲ_ଭଲଭ ask
+python3 pwb.py mdpy/wpref -lang:or -page:user:Mr._Ibrahem/sandbox ask
 
-python3 pwb.py py/wpref -lang:ro ask
+python3 pwb.py mdpy/wpref -lang:ro ask
 
 
-python3 pwb.py py/wpref ask
+python3 pwb.py mdpy/wpref ask
 
 """
 #
@@ -85,7 +85,7 @@ def ec_de_code( tt , type ):
 #---
 def make_ref_done_list():
     #---
-    reffixed_file[1] = project + '/py/reffixed.csv'
+    reffixed_file[1] = project + '/md_core/mdpy/reffixed.csv'
     reffixed = ''
     #---
     try:
@@ -301,7 +301,7 @@ def page_put(oldtext, NewText, summary, title, lang):
         print_s(r4.text)
     #---
     if 'savetofile' in sys.argv:
-        with codecs.open( project + '/py/wpref_1.txt' , "w", encoding="utf-8") as ggg:
+        with codecs.open( project + '/md_core/mdpy/wpref_1.txt' , "w", encoding="utf-8") as ggg:
             ggg.write( NewText )
         ggg.close()
     #---
@@ -497,7 +497,7 @@ def maine():
     #---
 #---
 def tests():
-    # python3 pwb.py py/wpref tests
+    # python3 pwb.py mdpy/wpref tests
     title = 'Utilizator:Mr._Ibrahem/teste'
     lang = 'ro'
     log( lang )

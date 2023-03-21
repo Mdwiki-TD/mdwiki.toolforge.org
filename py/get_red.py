@@ -4,7 +4,7 @@
 """ 
 إيجاد معرف ويكيداتا للعناصر بدون معرف
 
-python3 ./core/pwb.py ./core/py/get_red
+python3 ./core/pwb.py ./core/mdpy/get_red
 
 
 """
@@ -32,12 +32,7 @@ sys_argv = sys.argv or []
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
-#---
-#---
 import py_tools
-
-#---
-#---
 import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
@@ -49,24 +44,6 @@ import wdapi
 # wdapi.submitAPI( params, apiurl = 'https://' + 'en.wikipedia.org/w/api.php' )
 #---
 import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #---
 def get_pages():
     #---
@@ -96,10 +73,12 @@ def get_pages():
     #---
     to_add = {}
     #---
-    for r, t in table.items():
-        ll = f'"{r}" to: "{t}",\n'
-        t_q = mdwiki_to_qid.get(t, False)
-        r_q = mdwiki_to_qid.get(r, False)
+    for old_title, new_title in table.items():
+        ll = f'"old_title: {old_title}" to: "{new_title}",\n'
+        #---
+        t_q = mdwiki_to_qid.get(new_title, False)
+        r_q = mdwiki_to_qid.get(old_title, False)
+        #---
         if r_q: 
             if not t_q:
                 # استبدال
@@ -107,14 +86,14 @@ def get_pages():
                 #---
                 pywikibot.output('<<lightyellow>>' + ll.strip() )
                 #---
-                del mdwiki_to_qid[r]
-                mdwiki_to_qid[t] = r_q
+                del mdwiki_to_qid[old_title]
+                mdwiki_to_qid[new_title] = r_q
                 #---
                 tat += ll
                 #---
             elif t_q == r_q:
                 remo += 1
-                del mdwiki_to_qid[r]
+                del mdwiki_to_qid[old_title]
                 
     #---
     pywikibot.output('===================' )

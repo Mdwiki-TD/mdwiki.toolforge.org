@@ -52,8 +52,7 @@ def quoteurl(fao):
 #---
 #---
 def Decode_bytes(x):
-    if type(x) == bytes:
-        x = x.decode("utf-8")
+    if type(x) == bytes:    x = x.decode("utf-8")
     return x
 #---
 def split_lists_to_numbers( lise , maxnumber = 100, out =True ):

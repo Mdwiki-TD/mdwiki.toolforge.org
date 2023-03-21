@@ -46,17 +46,9 @@ mdwiki_to_enwiki = {}
 #---
 other_qids_json = {}
 #---
-mdtitle_to_qid = {}
-#---
 import sql_for_mdwiki
 #---
-sq = sql_for_mdwiki.mdwiki_sql(' select DISTINCT title, qid from qids;')
-#---
-for ta in sq: 
-    title = py_tools.Decode_bytes(ta[0])
-    qqid = py_tools.Decode_bytes(ta[1])
-    if qqid != '':
-        mdtitle_to_qid[title] = qqid
+mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 #---
 lala = ''
 #---
@@ -84,36 +76,7 @@ def make_mdwiki_list():
             #---
             mdwiki_to_enwiki[md] = en
 #---
-def make_qids_list():
-    mdwiki_to_qid_file = project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json'
-    #---
-    to_qids_text = ""
-    #---
-    try:
-        to_qids_text = open( mdwiki_to_qid_file , "r", encoding="utf-8-sig").read()
-        mdtitle_to_qid = json.loads(to_qids_text)
-    except Exception as e:
-        print("error when open mdwiki_to_qid.json: " + str(e))
-        time.sleep(4)
-    #---
-    json_file = project + '/public_html/Translation_Dashboard/Tables/other_qids.json'
-    # load json file
-    #---
-    try:
-        with open(json_file) as f:
-            other_qids_json = json.load(f)
-        f.close()
-    except Exception as e:
-        print("error when open file: %s " % json_file)
-        print(str(e))
-        time.sleep(4)
-    #---
-    for ee, q in other_qids_json.items():
-        if q != "":
-            mdtitle_to_qid[ee] = q
-#---
 make_mdwiki_list()
-# make_qids_list()
 #---
 if __name__ == "__main__":
     text = ''

@@ -3,9 +3,9 @@
 """
 page views bot
 
-python3 pwb.py py/sqlviews testtest -lang:ar
+python3 pwb.py mdpy/sqlviews testtest -lang:ar
 
-python3 pwb.py /data/project/mdwiki/py/sqlviews -lang:or
+python3 pwb.py /data/project/mdwiki/mdpy/sqlviews -lang:or
 
 """
 #

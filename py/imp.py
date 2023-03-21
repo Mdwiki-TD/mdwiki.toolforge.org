@@ -5,7 +5,7 @@
 نسخ التاريخ من الإنجليزية إلى mdwiki
 
 
-python3 pwb.py py/imp -page:Infertility
+python3 pwb.py mdpy/imp -page:Infertility
 
 """
 #
@@ -17,7 +17,6 @@ import urllib
 import codecs
 #---
 import pywikibot
-#from pywikibot import textlib
 #---
 import re
 import string

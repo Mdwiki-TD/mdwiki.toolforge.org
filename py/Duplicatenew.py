@@ -4,7 +4,7 @@
 
 تجميع المراجع المتشابهة
 
-python pwb.py mdwiki/py/Duplicatenew.py
+python pwb.py mdwiki/mdpy/Duplicatenew.py
 
 """
 #

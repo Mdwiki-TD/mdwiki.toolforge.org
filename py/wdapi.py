@@ -96,7 +96,7 @@ def log( api_urle ) :
         warn('Exception:' + str(r2.json()), UserWarning)
         pywikibot.output( 'CRITICAL:' )
     else:
-        pywikibot.output( "<<lightgreen>> mdwiki/py/wdapi.py: log to %s user:%s Success... " % (api_urle, lgname ) )
+        pywikibot.output( "<<lightgreen>> mdwiki/mdpy/wdapi.py: log to %s user:%s Success... " % (api_urle, lgname ) )
     #---
     # get edit token
     r3 = session[1].get(api_urle, params={
@@ -392,6 +392,10 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
     for page in titles: 
         #---
         numb += 1
+        #---
+        #print when numb % 100 == 0
+        if numb % 100 == 0:
+            print(f'get_views_with_rest_v1: {numb}/{len(titles)}')
         #---
         if 'limit5' in sys.argv and numb > 5 : break
         #---

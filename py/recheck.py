@@ -3,8 +3,8 @@
 """
 التحقق من ربط المقالات بالعنصر المناسب في ويكي بيانات
 
-python3 pwb.py mdwiki/py/recheck
-python3 pwb.py py/recheck
+python3 pwb.py mdwiki/mdpy/recheck
+python3 pwb.py mdpy/recheck
 
 """
 #
@@ -26,6 +26,9 @@ import wiki_sql
 #---
 import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.add_titles_to_qids(tab)
 #---
 import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
@@ -88,51 +91,6 @@ wd_tt = {}
 #---
 dodo_sql()
 #---
-"""
-def do_it_sql(lange, targets):
-    #---
-    query = '''#use arwiki_p;
-    select DISTINCT p.page_title, c.comment_text, a.actor_name, r.rev_timestamp, pp.pp_value
-    from change_tag t
-    INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
-    INNER JOIN revision r on r.rev_id = t.ct_rev_id
-    INNER JOIN actor a ON r.rev_actor = a.actor_id
-    inner join comment c on c.comment_id = r.rev_comment_id
-    INNER JOIN page p on r.rev_page=p.page_id
-    INNER JOIN page_props pp on pp.pp_page=p.page_id
-    where ctd.ctd_name in (
-        "contenttranslation", #id = 3
-    "contenttranslation-v2" # id = 120
-    )
-    and r.rev_parent_id = 0
-    #AND a.actor_name in ('Mr. Ibrahem')
-    AND r.rev_timestamp > 20210101000000 #BETWEEN 20201201000000 AND 20210101000000
-    #and comment_text like "%[[:en:Special:Redirect/revision/%|User:Mr. Ibrahem/%]]%"
-    and comment_text like "%User:Mr. Ibrahem/%"
-    and p.page_namespace = 0
-    AND pp.pp_propname='wikibase_item'
-    #limit 10
-    and p.page_title not in ('جامعة_نورث_كارولاينا','جامعة_ولاية_كارولينا_الشمالية_إيه_آند_تي','نيشان_راجاميترابورن')
-    ;'''
-    #---
-    result = wiki_sql.Make_sql_many_rows( query , wiki = str(lange) + "wiki" )
-    #---
-    if result != {}:
-        pywikibot.output( 'recheck.py len(result) = "{}"'.format( len( result ) ) )
-        #--- 
-        for list in result:
-            #---
-            target   = py_tools.Decode_bytes(list[0]) 
-            co_text  = py_tools.Decode_bytes(list[1])
-            user     = py_tools.Decode_bytes(list[2])
-            pp_value = py_tools.Decode_bytes(list[4])
-            #---
-            md_title = co_text.split('User:Mr. Ibrahem/')[1].split(']]')[0].replace("_" , " ")
-            target = target.replace("_" , " ")
-            #---
-            wd_tt[target] = {"mdtitle": md_title, "lang":lange, "qid" : pp_value}
-"""
-#---
 def do_it_sql(lange, targets):
     #---
     all_list = py_tools.split_lists_to_numbers( list(targets.keys()), maxnumber = 100, out = False )
@@ -189,6 +147,7 @@ def do_it_sql(lange, targets):
                 pywikibot.output( 'recheck.py %d missing from %d' % (diff,len(t_list) ))
                 pywikibot.output( 'recheck.py missing:(%d):%s' % (len_missing , ",".join(itemdiff) ))
         #---
+#---
 def do_it_api(lange, targets):
     #---
     New_targets = list(targets.keys())
@@ -257,7 +216,7 @@ for lange in targets_done:
     #---
     numb_lang += 1
     # pywikibot.output( ' ================================ ')
-    # pywikibot.output( 'mdwiki/py/sql.py: %d Lang : "%s"' % (numb_lang,lange) )
+    # pywikibot.output( 'mdwiki/mdpy/sql.py: %d Lang : "%s"' % (numb_lang,lange) )
     #---
     #if "sql" in sys.argv:
     do_it_sql(lange,targets_done[lange])
@@ -290,7 +249,7 @@ for target in wd_tt:
     #---
     if qid_mdwiki == '' and qid_2 == '':
         #pywikibot.output( '<<lightred>> qid_mdwiki is empty for mdtitle:%s' % mdtitle )
-        mdwiki_empty_qids[mdtitle] = line22
+        mdwiki_empty_qids[mdtitle] = (lang, target, qid_target)
         continue
     #---
     if qid_target == '' :
@@ -405,10 +364,15 @@ for oldqid,tab in newtabs.items():
     work_with_2_qids(oldqid, qid2)
 #---
 pywikibot.output( '<<lightblue>> mdwiki_empty_qids:')
-for mdm,targ in mdwiki_empty_qids.items():
-    pywikibot.output( '<<lightred>> no qid for md_title:%s> target:%s' % (mdm, targ) )
+to_add = {}
+for mdm in mdwiki_empty_qids:
+    lang, target, qid_target = mdwiki_empty_qids[mdm]
+    pywikibot.output( f'<<lightred>> no qid for md_title:{mdm}> {lang}: {target}, qid: {qid_target}' )
+    to_add[mdm] = qid_target
 #---
 pywikibot.output( '<<lightblue>> empty_qid_target:')
 for lal in empty_qid_target:
     pywikibot.output( '<<lightred>> qid_target is empty> target:%s' % lal )
 #---
+if 'addthem' in sys.argv:
+    sql_for_mdwiki.add_titles_to_qids(to_add)

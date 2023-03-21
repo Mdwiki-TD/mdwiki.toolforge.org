@@ -2,10 +2,10 @@
 
 """
 
-python pwb.py mdwiki/py/check
+python pwb.py mdwiki/mdpy/check
 
 
-python3 pwb.py py/check
+python3 pwb.py mdpy/check
 
 """
 #
@@ -16,7 +16,6 @@ import json
 import urllib
 import codecs
 #---
-#from pywikibot import textlib
 #---
 import re
 import string

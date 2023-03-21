@@ -6,11 +6,11 @@ Pages in WikiProjectMed:List missing Category:RTT
 
 تحديث صفحة User:Mr. Ibrahem/List
 
-python mdwiki/py/listo.py save
+python mdwiki/mdpy/listo.py save
 
-python3 /data/project/mdwiki/core/py/listo.py save
+python3 /data/project/mdwiki/core/mdpy/listo.py save
 
-python3 /data/project/mdwiki/core/pwb.py /data/project/mdwiki/core/py/listo save
+python3 /data/project/mdwiki/core/pwb.py /data/project/mdwiki/core/mdpy/listo save
 
 """
 #
@@ -22,7 +22,6 @@ import urllib
 import codecs
 #---
 #import pywikibot
-#from pywikibot import textlib
 #---
 import re
 import string

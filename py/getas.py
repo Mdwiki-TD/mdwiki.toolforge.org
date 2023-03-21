@@ -6,9 +6,9 @@
 
 python pwb.py mdwiki/public_html/Translation_Dashboard/getas
 
-python3 pwb.py /data/project/mdwiki/py/getas
+python3 pwb.py /data/project/mdwiki/mdpy/getas
 
-python3 pwb.py py/getas newpages
+python3 pwb.py mdpy/getas newpages
 
 
 """

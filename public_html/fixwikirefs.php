@@ -61,8 +61,8 @@ function get_results() {
     global $test, $lang, $title, $movedots, $infobox;
     //---
     $params = array(
-        'dir' => '/mnt/nfs/labstore-secondary-tools-project/mdwiki/core/py',
-        'localdir' => '../py',
+        'dir' => '/data/project/mdwiki/core/mdpy',
+        'localdir' => '../mdpy',
         'pyfile' => 'wpref.py',
         'other' => '',
         'test' => $test
@@ -119,7 +119,7 @@ function worknew() {
     $resultb = trim($resultb);
     //---
     $t1  = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
-    $t2 = strstartswith( $resultb , '/mnt/nfs/labstore-secondary-tools-project/mdwiki/public_html/wprefcash/' );
+    $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/wprefcash/' );
     //---
     $t3 = endsWith( $resultb , '.txt' );
     // $t3 = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );

@@ -3,9 +3,9 @@
 """
 بوت قواعد البيانات
 
-python3 pwb.py py/sql justsql break
-python3 pwb.py py/sql justsql
-python3 pwb.py py/sql
+python3 pwb.py mdpy/sql justsql break
+python3 pwb.py mdpy/sql justsql
+python3 pwb.py mdpy/sql
 
 """
 #
@@ -248,7 +248,7 @@ def main():
         numb_lang += 1
         #---
         pywikibot.output( ' \\/\\/\\/\\/\\/ ')
-        pywikibot.output( 'mdwiki/py/sql.py: %d Lang from %s : "%s"' % (numb_lang, lnn, lange) )
+        pywikibot.output( 'mdwiki/mdpy/sql.py: %d Lang from %s : "%s"' % (numb_lang, lnn, lange) )
         #---
         result = {}
         #---

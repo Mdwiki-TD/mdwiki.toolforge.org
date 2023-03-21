@@ -2,7 +2,7 @@
 
 """
 
-python3 pwb.py py/copy_word_table
+python3 pwb.py mdpy/copy_word_table
 
 """
 #

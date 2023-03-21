@@ -2,7 +2,7 @@
 
 """
 
-python3 pwb.py py/backup
+python3 pwb.py mdpy/backup
 
 """
 #
@@ -14,7 +14,6 @@ import urllib
 import codecs
 #---
 import pywikibot
-#from pywikibot import textlib
 #---
 import re
 import string

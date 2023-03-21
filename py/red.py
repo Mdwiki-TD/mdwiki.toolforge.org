@@ -233,7 +233,7 @@ def main():
         if arg == "-file" : 
             #---
             #if value == 'redirectlist.txt' :
-                #value = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/public_html/redirectlist.txt'
+                #value = '/data/project/mdwiki/public_html/redirectlist.txt'
             #---
             text2 = codecs.open(value, 'r', 'utf8')
             text = text2.read()

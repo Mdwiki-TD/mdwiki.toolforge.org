@@ -248,7 +248,7 @@ def fix_page(newtext, title, move_dots= False, infobox = False, section_0 ='', l
     #---
     return newtext
 #---
-# python pwb.py py/wpref_text
+# python pwb.py mdpy/wpref_text
 #---
 def testee():
     printa[1] = True

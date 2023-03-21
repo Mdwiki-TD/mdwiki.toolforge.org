@@ -121,7 +121,7 @@ and lang = "or"
         #---
         create_redirect( target , mdtitle )
 #---
-# python3 pwb.py py/orred
+# python3 pwb.py mdpy/orred
 #---
 if __name__ == "__main__":
     dodo_sql()

@@ -57,7 +57,7 @@ try:
     SQL_Ready = True
     can_use_sql_db[1] = True
 except Exception as e:
-    pywikibot.output('<<lightred>> mdwiki/py/wiki_sql.py errors when import MySQLdb ')
+    pywikibot.output('<<lightred>> mdwiki/mdpy/wiki_sql.py errors when import MySQLdb ')
     pywikibot.output('<<lightred>> %s ' % e)
 #---
 '''

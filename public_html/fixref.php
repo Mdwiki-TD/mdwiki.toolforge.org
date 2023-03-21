@@ -70,10 +70,10 @@ if ($number == '' && $titlelist == '') {
     if ( $titlelist != '' ) {
         $filename = $nn . '_fix_ref_list.txt';
         writee( $filename , $titlelist );
-        $jsub = "python3 $dir/pwb.py $dir/py/fixref -file:" . $filename;
+        $jsub = "python3 $dir/pwb.py mdpy/fixref -file:" . $filename;
         //---
     } elseif ( $number != '' ) {
-        $jsub = "python3 $dir/pwb.py $dir/py/fixref allpages -number:" . $number;
+        $jsub = "python3 $dir/pwb.py mdpy/fixref allpages -number:" . $number;
     };
     //---
     $jsub = 'jsub -N fixref' . "$nn $jsub" ;

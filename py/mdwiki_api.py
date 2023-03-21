@@ -53,12 +53,10 @@ ar_lag = { 1 : maxlag }
 #---
 import requests
 #---
-#---
 import user_account_new
 #---
 username = user_account_new.my_username     #user_account_new.bot_username
 password = user_account_new.mdwiki_pass     #user_account_new.bot_password      #user_account_new.my_password
-#---
 #---
 Main_User = { 1: username}
 Bot_or_himo = { 1: ""}
@@ -165,7 +163,7 @@ def post( params ):
 def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
     #---
     #---
-    outbotnew( "mdwiki/py/mdwiki_api.py: log to %s.%s.org user:%s" % (lang,family , r2_params['lgname'] )    )
+    outbotnew( "mdwiki/mdpy/mdwiki_api.py: log to %s.%s.org user:%s" % (lang,family , r2_params['lgname'] )    )
     SS["family"] = family
     SS["lang"] = lang
     SS["url"] = 'https://' + '%s.%s.org/w/api.php' % (lang , family)
@@ -207,15 +205,6 @@ def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
     SS["url"] = 'https://' + '%s.%s.org/w/api.php' % (lang , family)
     #---
     SS["r3_token"] = SS["r33"].json()['query']['tokens']['csrftoken']
-    #---
-    #outbotnew( ' r3_token:%s' % SS["r3_token"] )
-    #---
-    tab = { "token" : SS["r3_token"] }
-    #---
-    #jsonffilename = 'API/token/%s.%s.org-%s.json' % ( lang , family , r2_params['lgname'] )
-    #with open(jsonffilename, 'w') as outfile:
-        #JJson.dump(tab, outfile)
-    #---
     #---
     login_not_done[1] = False
 #---
@@ -702,7 +691,7 @@ def page_put(NewText , summary , title, time_sleep="", family="", lang="", minor
             except:
                 outbotnew( ' -mdwiki cant showDiff' )
         outbotnew(' -Edit summary: %s:' % summary )
-        sa = py_input('<<lightyellow>>mdwiki/py/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s.org user:%s'  %(lang,title,r2_params['lgname'] ))
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s.org user:%s'  %(lang,title,r2_params['lgname'] ))
         #---
         if sa == "a":
             outbotnew('<<lightgreen>> ---------------------------------' )
@@ -1098,7 +1087,7 @@ def Add_To_Head(prependtext , summary , title, Ask, minor = "" ):
         if Ask or "ask" in sys.argv and not "save" in sys.argv:
         #if Ask:
             #pywikibot.showDiff( "" , prependtext )
-            sa = py_input('<<lightyellow>>mdwiki/py/mdwiki_api.py: Add_To_Head of page "%s" ? ([y]es, [N]o):'  % title)
+            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Head of page "%s" ? ([y]es, [N]o):'  % title)
             if sa in yes_answer:
                 faso = True
                 Add_To_Bottom2(prependtext , summary , title, poss = "Head", minor = minor )
@@ -1120,7 +1109,7 @@ def Add_To_Bottom(appendtext , summary , title, Ask , family="", minor = "" ):
         faso = False
         if Ask or "ask" in sys.argv and not "save" in sys.argv:
         #if Ask:
-            sa = py_input('<<lightyellow>>mdwiki/py/mdwiki_api.py: Add_To_Bottom of page "%s" ? ([y]es, [N]o):' % title)
+            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Bottom of page "%s" ? ([y]es, [N]o):' % title)
             if sa in yes_answer:
                 faso = True
                 Add_To_Bottom2(appendtext , summary , title, family = family, minor = minor )
@@ -1173,7 +1162,7 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
         #pywikibot.showDiff("" , text)
         outbotnew( "<<lightgreen>> " + text)
         outbotnew( " summary: " + summary)
-        sa = py_input('<<lightyellow>>mdwiki/py/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,r2_params['lgname']))
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,r2_params['lgname']))
         if sa.strip() in yes_answer:
             #---
             if sa.strip() == "a":
@@ -1238,7 +1227,7 @@ def page_putWithAsk(oldtext,NewText,summary,title,Ask,lang="",family="",minor=""
                     outbotnew( ' -mdwiki cant showDiff' )
             #---
             outbotnew(' -Edit summary: %s:' % summary )
-            sa = py_input('<<lightyellow>>mdwiki/py/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s user:%s'  %(lang,title,r2_params['lgname'] ))
+            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s user:%s'  %(lang,title,r2_params['lgname'] ))
             #---
             if sa == "a":
                 outbotnew('<<lightgreen>> ---------------------------------' )
@@ -1249,14 +1238,14 @@ def page_putWithAsk(oldtext,NewText,summary,title,Ask,lang="",family="",minor=""
             if sa in yes_answer:
                 return page_put_new(NewText , summary , title, family = family, lang = lang, minor = minor, nocreate = nocreate,tags=tags , basetimestamp = basetimestamp, returntrue = returntrue)
             else:
-                outbotnew( ' mdwiki/py/mdwiki_api.py: wrong answer' )
+                outbotnew( ' mdwiki/mdpy/mdwiki_api.py: wrong answer' )
             #return sa
         else:
             outbotnew(' -Edit summary: %s:' % summary )
             return page_put_new(NewText , summary , title, family = family, lang = lang, minor = minor, nocreate = nocreate,tags=tags , basetimestamp = basetimestamp, returntrue = returntrue)
     else:
         outbotnew('No changes in "%s"' % title)
-        outbotnew( '<<lightyellow>> mdwiki/py/mdwiki_api.py: No changes were needed on "%s:%s".'     % (family , title))
+        outbotnew( '<<lightyellow>> mdwiki/mdpy/mdwiki_api.py: No changes were needed on "%s:%s".'     % (family , title))
         return 'No changes'
     #---
     return False
@@ -1286,7 +1275,7 @@ def move(From , to , reason , lang = 'ar'  , nosleep = False ):
     JustMove = True
     #---
     if not Save_2020[1] and "ask" in sys.argv :
-        sa = py_input('<<lightyellow>>mdwiki/py/mdwiki_api.py: Do you move page:[[%s:%s]] to [[%s]]? ([y]es, [N]o, [a]ll): user:%s' % (lang,From,to,r2_params['lgname'] ))
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you move page:[[%s:%s]] to [[%s]]? ([y]es, [N]o, [a]ll): user:%s' % (lang,From,to,r2_params['lgname'] ))
         #---
         if sa == "a":
             outbotnew('<<lightgreen>> ---------------------------------' )
@@ -1296,7 +1285,7 @@ def move(From , to , reason , lang = 'ar'  , nosleep = False ):
         #---
         if not sa in yes_answer:
             JustMove = False
-            outbotnew( ' mdwiki/py/mdwiki_api.py: wrong answer' )
+            outbotnew( ' mdwiki/mdpy/mdwiki_api.py: wrong answer' )
         #return sa
     #---
     if JustMove:

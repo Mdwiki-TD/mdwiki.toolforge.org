@@ -1,3 +1,5 @@
+md_core/**
+11/**
 databasebackup/**
 old/**
 */old/**
@@ -27,14 +29,16 @@ t.js
 *.pyc
 __pycache__/**
 */__pycache__/**
-tw/twet_config.py
+md_core/tw/twet_config.py
 w.xml
 نجاح الوصول للرابط واستبدال النص.js
 */.gitx/**
 *.csv
-py/sql_test.py
+md_core/mdpy/sql_test.py
 */back/**
 pywikibot.py
 public_html/Translation_Dashboard/**
 nccommons/all_files.json
 nccommons/ns_0_pages.json
+py/sql_test.py
+tw/twet_config.py

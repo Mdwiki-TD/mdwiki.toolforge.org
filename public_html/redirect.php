@@ -56,7 +56,7 @@ function Get_Value() {
 function worknew() {
     //---
     global $title, $titlelist;
-    //$dir = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/py/'; 
+    //$dir = '/data/project/mdwiki/mdpy/'; 
     //---
     //---
     //echo $_SERVER['SERVER_NAME'];
@@ -73,9 +73,9 @@ function worknew() {
         $filee = '/data/project/mdwiki/public_html/redirectlist.txt';
     };
     //---
-    // python3 /data/project/mdwiki/py/red.py -page2:Aneurysmal_bone_cyst save
+    // python3 /data/project/mdwiki/mdpy/red.py -page2:Aneurysmal_bone_cyst save
     if ($title != '') {
-        $python3 = "python3 $dir/pwb.py $dir/py/red -page2:" . rawurlencode($title) . ' save' ;
+        $python3 = "python3 $dir/pwb.py mdpy/red -page2:" . rawurlencode($title) . ' save' ;
         //---
         echo '<span class="">The Bot will create redirects for ' . rawurldecode($title) . ' in seconds.</span>';
         //---
@@ -86,7 +86,7 @@ function worknew() {
         fclose($myfile);
         //---
         //$python3 = ' ' . $dir . 'red.py -file:' . $filee . ' save' ;
-        $python3 = "python3 $dir/pwb.py $dir/py/red  -file:$filee save";
+        $python3 = "python3 $dir/pwb.py mdpy/red  -file:$filee save";
         echo '<span class="">The Bot will create redirects for titles in the list in seconds.</span>';
         //---
     };

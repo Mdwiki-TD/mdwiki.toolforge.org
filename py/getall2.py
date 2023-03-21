@@ -2,7 +2,7 @@
 
 """
 
-python ./nash/py/getall2.py
+python ./nash/mdpy/getall2.py
 
 """
 import os
@@ -90,7 +90,7 @@ def get_text(file_path):
 #---
 shared_paths = {}
 #---
-drivepath = "I:\\mdwiki\\py"
+drivepath = "I:\\mdwiki\\mdpy"
 #---
 for pyfile in os.listdir(drivepath):
     #---

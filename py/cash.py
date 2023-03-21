@@ -4,12 +4,12 @@
 """ 
 إيجاد معرف ويكيداتا للعناصر بدون معرف
 
-python3 pwb.py py/cash
+python3 pwb.py mdpy/cash
 
 
 """
 #
-# (C) Ibrahem Qasim, 2022
+# (C) Ibrahem Qasim, 2023
 #
 #
 
@@ -33,17 +33,13 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 #---
-noqids1 = {}
-#---
 json_file = project + '/public_html/Translation_Dashboard/Tables/noqids.json'
 # load json file
-with open(json_file, 'r') as f:
-    noqids1 = json.load(f)
-f.close()
+#---
+noqids1 = json.load(open(json_file, 'r'))
 #---
 import py_tools
 # py_tools.split_lists_to_numbers( lise, maxnumber = 100 )
-#---
 #---
 import en_to_md
 # en_to_md.mdtitle_to_qid
@@ -55,9 +51,19 @@ import wdapi
 #---
 noqids = [ x for x in noqids1 if not x in en_to_md.mdtitle_to_qid ]
 #---
+import sql_for_mdwiki
+# sql_for_mdwiki.mdwiki_sql(query , update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.add_titles_to_qids(tab)
+#---
 new_title_qid = {}
 #---
 qids_already = list(en_to_md.mdtitle_to_qid.values())
+#---
+def add_them(to_add):
+    #---
+    sql_for_mdwiki.add_titles_to_qids(to_add)
 #---
 def get_qids():
     #---
@@ -129,19 +135,7 @@ def get_qids():
     pywikibot.output('find qid to %d from %d pages. ' % ( toadd, len(noqids)))
     #---
     if 'addthem' in sys.argv and toadd > 0:
-        qids = json.load(open(project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json'))
-        #---
-        qids_values = list(qids.values())
-        #---
-        for title, qid in to_add.items():
-            if not qid in qids_values:
-                qids[title] = qid
-        #---
-        with open( project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json', 'w') as uuu:
-            json.dump(qids, uuu)
-        uuu.close()
-#---
-
+        add_them(to_add)
 #---
 if __name__ == '__main__':
     get_qids()

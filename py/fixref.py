@@ -4,7 +4,7 @@
 
 Change refs to newlines
 
-python3 pwb.py py/fixref
+python3 pwb.py mdpy/fixref
 
 """
 #
@@ -16,7 +16,6 @@ import urllib
 import codecs
 #---
 import pywikibot
-#from pywikibot import textlib
 #---
 import re
 import string
@@ -203,7 +202,7 @@ def main():
         if arg == 'allpages':
             list = mdwiki_api.Get_All_pages( '' )
         #---
-        # python pwb.py mdwiki/py/fixref -page:Histrelin ask
+        # python pwb.py mdwiki/mdpy/fixref -page:Histrelin ask
         if arg == '-page':
             list = [ value ]
         #---
@@ -217,7 +216,7 @@ def main():
         #---
         work( title ) 
     #---
-# python pwb.py mdwiki/py/fixref test
+# python pwb.py mdwiki/mdpy/fixref test
 #---
 def test():
     text = """

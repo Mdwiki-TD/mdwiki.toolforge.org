@@ -67,7 +67,7 @@ title = 'WikiProjectMed:List'
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
-json_file = project + '/twitter/done.json'
+json_file = project + '/md_core/tw/done.json'
 #---
 def get_links():
     #---

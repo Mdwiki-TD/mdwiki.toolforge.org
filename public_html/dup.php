@@ -21,7 +21,7 @@ if ($start == '') {
     //---
     $dir = '/data/project/mdwiki/core'; 
     //---
-    $faf = "jsub -N fixduplict python3 $dir/pwb.py $dir/py/dup save";
+    $faf = "jsub -N fixduplict python3 $dir/pwb.py mdpy/dup save";
     //---
     if ($test != '') print $faf;
     //---

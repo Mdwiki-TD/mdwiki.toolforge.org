@@ -2,7 +2,7 @@
 
 """
 
-python3 pwb.py py/our
+python3 pwb.py mdpy/our
 
 """
 #
@@ -185,10 +185,10 @@ def main():
             #---
             if '50' in sys.argv and num > 50 : break
         #---
-        with open(project + '/py/our.json', 'w') as f: json.dump(values, f)
+        with open(project + '/md_core/mdpy/our.json', 'w') as f: json.dump(values, f)
         #---
     else:
-        with open(project + '/py/our.json', 'r') as f:  values = json.load(f)
+        with open(project + '/md_core/mdpy/our.json', 'r') as f:  values = json.load(f)
     #---
     make_log(values)
     #---

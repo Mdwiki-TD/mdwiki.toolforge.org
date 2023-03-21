@@ -104,8 +104,8 @@ function worknew($find, $replace, $number) {
         writee( $nn . '_replace.txt' , $replace );
     }
     //---
-    // python3 /data/project/mdwiki/py/replace1.py -rand:84230289 ask newlist
-    $jsub = 'python3 /data/project/mdwiki/py/replace1.py -rand:' . $nn . ' -number:' . $number ;
+    // python3 /data/project/mdwiki/mdpy/replace1.py -rand:84230289 ask newlist
+    $jsub = 'python3 /data/project/mdwiki/mdpy/replace1.py -rand:' . $nn . ' -number:' . $number ;
     //---
     if ($listtype == 'newlist') {
         $jsub .= ' newlist';

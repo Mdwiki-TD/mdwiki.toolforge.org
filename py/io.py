@@ -5,7 +5,7 @@
 إيجاد الصفحات القديمة
 تحديث صفحة User:Mr. Ibrahem/pages
 
-python3 py/io.py test 
+python3 mdpy/io.py test 
 
 """
 #
@@ -23,7 +23,6 @@ try:
 except:
     print_pywikibot[1] = False
 #---
-#from pywikibot import textlib
 #---
 import re
 import string
@@ -79,7 +78,7 @@ def outbotnew( s ):
 #---
 NewList = {}
 #---
-fska = codecs.open( project + '/py/date_before_20200701.txt' , "r", encoding="utf-8") .read()
+fska = codecs.open( project + '/md_core/mdpy/date_before_20200701.txt' , "r", encoding="utf-8") .read()
 fakalist = fska.split('\n')
 fakalist = [ x.strip().split(']]')[0].replace('[[','').strip() for x in fakalist ]
 #---
@@ -139,13 +138,13 @@ outbotnew( 'we have %d pages with date < 20200701. ' % len(old) )
 #masha = '\n'.join( [ "[[%s]]\t%d" % (s,d) for d,s in new ] )
 masha = '\n'.join( [ "%s" % s for d,s in new ] )
 #---
-with codecs.open( 'py/date_after_20200701.txt' , "w", encoding="utf-8") as logfil3e:
+with codecs.open( project + '/md_core/mdpy/date_after_20200701.txt' , "w", encoding="utf-8") as logfil3e:
     logfil3e.write( masha )
 logfil3e.close()
 #---
 masha3 = '\n'.join( [ "%s" % ss for ds,ss in old ] )
 #---
-with codecs.open( 'py/date_before_20200701.txt' , "w", encoding="utf-8") as ooo:
+with codecs.open( project + '/md_core/mdpy/date_before_20200701.txt' , "w", encoding="utf-8") as ooo:
     ooo.write( masha3 )
 ooo.close()
 #---

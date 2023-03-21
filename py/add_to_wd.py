@@ -2,7 +2,7 @@
 
 """
 بوت فرعي من 
-py/sql.py
+mdpy/sql.py
 
 #---
 import add_to_wd

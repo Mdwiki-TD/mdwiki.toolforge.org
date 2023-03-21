@@ -39,7 +39,7 @@ if ($title == '') {
 } else {
     //---
     $dir = '/data/project/mdwiki/core'; 
-    $python3 = "jsub -N fixred python3 $dir/pwb.py $dir/py/fixred -page2:" . rawurlencode($title) . ' save' ;
+    $python3 = "jsub -N fixred python3 $dir/pwb.py mdpy/fixred -page2:" . rawurlencode($title) . ' save' ;
     //---
     if (isset($_REQUEST['test'])) print $python3;
     //---

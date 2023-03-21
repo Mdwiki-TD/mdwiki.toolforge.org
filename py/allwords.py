@@ -4,9 +4,9 @@
 
 إنشاء قائمة بعدد الكلمات
 
-python3 pwb.py py/allwords less100
-# python3 pwb.py /data/project/mdwiki/py/words
-python3 pwb.py py/allwords newpages
+python3 pwb.py mdpy/allwords less100
+# python3 pwb.py /data/project/mdwiki/mdpy/words
+python3 pwb.py mdpy/allwords newpages
 
 
 """
@@ -20,7 +20,6 @@ import codecs
 import os
 #---
 #import pywikibot
-#from pywikibot import textlib
 #---
 import re
 import string

@@ -2,7 +2,7 @@
 
 """
 
-python3 pwb.py py/P11143
+python3 pwb.py mdpy/P11143
 
 """
 #

@@ -2,7 +2,7 @@
 
 """
 
-python3 pwb.py py/copy_qids
+python3 pwb.py mdpy/copy_qids
 
 delete from qids q1 WHERE q1.qid = '' and EXISTS  (SELECT 1 FROM qids q2 WHERE q1.title = q2.title and q2.qid != '')
 
@@ -17,7 +17,13 @@ import os
 import json
 import sys
 import pywikibot
-import sql_for_mdwiki 
+#---
+import sql_for_mdwiki
+# sql_for_mdwiki.mdwiki_sql(query , update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.add_titles_to_qids(tab)
+#---
 # from sql import *
 #---
 import py_tools
@@ -26,19 +32,7 @@ import py_tools
 # py_tools.make_cod(string)
 # py_tools.Decode_bytes(x)
 #---
-que = ' select DISTINCT title, qid from qids;'
-#---
-in_qids = {}
-#---
-sq = sql_for_mdwiki.mdwiki_sql(que)
-#---
-for ta in sq : 
-    t = py_tools.Decode_bytes(ta[0])
-    id = py_tools.Decode_bytes(ta[1])
-    in_qids[t] = id
-    if id.find('Q') == -1:
-        id = [id]
-        if 'rr' in sys.argv: print(f'{t}:{id}')
+in_qids = sql_for_mdwiki.get_all_qids()
 #---
 if 'rr' in sys.argv: sys.exit()
 #---
@@ -95,6 +89,6 @@ if texts != '':
     vfg = sql_for_mdwiki.mdwiki_sql(texts, update = True, Prints = False)
 #---
 # log all_texts
-with codecs.open(f'{project}/py/copy_qids.txt', 'w', 'utf-8') as f:
+with codecs.open(f'{project}/md_core/mdpy/copy_qids.txt', 'w', 'utf-8') as f:
     f.write(all_texts)
 #---

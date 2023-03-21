@@ -3,7 +3,7 @@
 """
 بوت إضافة التصنيف للمقالات بدون تصنيف في قواعد البيانات
 
-python3 pwb.py py/fixcat
+python3 pwb.py mdpy/fixcat
 
 """
 #

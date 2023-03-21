@@ -2,7 +2,7 @@
 # -*- coding: utf-8  -*-
 #   himo
 """
-python3 pwb.py py/cashwd
+python3 pwb.py mdpy/cashwd
 
 """
 #

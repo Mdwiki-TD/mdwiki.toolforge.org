@@ -65,7 +65,7 @@ def auth(tweet, link=None):
     api = tweepy.API(auth)
     #---
     # t = api.update_status(tweet)  
-    t = api.update_status_with_media(tweet, project + '/tw/a.png')
+    t = api.update_status_with_media(tweet, project + '/md_core/tw/a.png')
     print(t)
     #---
     dataid = getattr(t, 'id')
@@ -94,7 +94,7 @@ title = 'WikiProjectMed:List'
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
-json_file = project + '/tw/done.json'
+json_file = project + '/md_core/tw/done.json'
 #---
 def get_links():
     #---

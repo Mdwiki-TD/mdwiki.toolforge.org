@@ -3,7 +3,7 @@
 #   himo
 """ 
 
-python3 pwb.py py/catdepth2
+python3 pwb.py mdpy/catdepth2
 
 
 """
