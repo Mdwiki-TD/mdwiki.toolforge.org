@@ -10,6 +10,10 @@ import wiki_api
 # wiki_api.Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, pasubprojects=0 )
 # wiki_api.get_page_views(titles, site='en', days = 30)
 # wiki_api.get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20300101', printurl=False, printstr=False)
+# wiki_api.GetPageText(title, lang, redirects=False)
+# wiki_api.get_langlinks(title, lang)
+# wiki_api.
+# wiki_api.
 #---
 """
 #
@@ -223,6 +227,24 @@ def Find_pages_exists_or_not( liste, apiurl='') :
         #---
     return table
 #---
+def get_langlinks(title, lang): 
+    #---
+    params = {
+        "action": "query",
+        "titles": title,
+        "prop": "langlinks",
+        "lllimit": "max",		# langlinks
+        "formatversion": "2",
+    }
+    #---
+    ta = submitAPI( params, apiurl = 'https://' +  lang + '.wikipedia.org/w/api.php' )
+    #---
+    if not ta: return {}
+    #---
+    langlinks = { ta["lang"]: ta.get("*") or ta.get("title") for ta in ta.get('langlinks', []) }
+    #---
+    return langlinks
+#---
 def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
     #---
     if sitecode.endswith("wiki") :  sitecode = sitecode[:-4]
@@ -331,6 +353,35 @@ def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, 
                 break
     #---
     return Tables
+#---
+def GetPageText(title, lang, redirects=False):
+    #pywikibot.output( '**GetarPageText: ')
+    #---
+    params = {
+        "action": "parse",
+        "format": "json",
+        #"prop": "wikitext|sections",
+        "prop": "wikitext",
+        "page": title,
+        #"redirects": 1,
+        "utf8": 1,
+        #"normalize": 1,
+    }
+    #---
+    if redirects:   params["redirects"] = 1
+    #---
+    text = ''
+    json1 = submitAPI( params, apiurl = 'https://' +  lang + '.wikipedia.org/w/api.php' )
+    if json1: 
+        text = json1.get('parse',{}).get('wikitext',{}).get('*','')
+    else:
+        pywikibot.output('no parse in json1:' )
+        pywikibot.output(json1)
+    #---
+    if text == "" :
+        pywikibot.output('page %s text == "".' % title )
+    #---
+    return text
 #---
 def _get_page_views_(titles, site='en', days = 30):
     #---

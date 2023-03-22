@@ -33,8 +33,8 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/public_html/Translation_Dashboard/Tables/'
 #---
-import catdepth2
-import wiki_api
+from mdpy import catdepth2
+from mdpy import wiki_api
 #---
 medwiki_to_enwiki_conflic = {}
 medwiki_to_enwiki = {}

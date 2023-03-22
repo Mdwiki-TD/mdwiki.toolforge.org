@@ -53,7 +53,7 @@ ar_lag = { 1 : maxlag }
 #---
 import requests
 #---
-import user_account_new
+from mdpy import user_account_new
 #---
 username = user_account_new.my_username     #user_account_new.bot_username
 password = user_account_new.mdwiki_pass     #user_account_new.bot_password      #user_account_new.my_password
