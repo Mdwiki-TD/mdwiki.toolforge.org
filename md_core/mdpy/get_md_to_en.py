@@ -54,9 +54,9 @@ def check():
     #---
     Listo = [ x for x in Listo if not ( x.startswith('Category:') or x.startswith('File:') or x.startswith('Template:') or x.startswith('User:') or x.endswith("(disambiguation)") ) ]
     #---
-    for i in range(0, len(qs_list), 100):
+    for i in range(0, len(Listo), 100):
         #---
-        newlist = qs_list[i:i+100]
+        newlist = Listo[i:i+100]
         #---
         line = "|".join( newlist )
         #---
