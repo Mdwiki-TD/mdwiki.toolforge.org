@@ -31,25 +31,12 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
+import sql_for_mdwiki
+# sql_for_mdwiki.mdwiki_sql(query, update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
+#---
 import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #---
 def Get_cat(enlink, print_url = False ): 
     #---
@@ -157,10 +144,10 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     #---
     tablemember = Get_cat( title, print_url = True )
     #---
-    # result_table = { x : da for x, da in tablemember.items() if not x.startswith('User:') }
+    # result_table = { x : da for x, da in tablemember.items() if check_title(x) }
     result_table = { x : da for x, da in tablemember.items() if int(da["ns"]) == 0 }
     #---
-    # for x in tablemember: if not x.startswith('User:') :  result_table[x] = tablemember[x]
+    # for x in tablemember: if check_title(x) :  result_table[x] = tablemember[x]
     #---
     cat_done = []
     #---
@@ -214,6 +201,15 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     #return result_table
     return result_tab
 #---
+def check_title(title):
+    #---
+    title = title.lower().strip()
+    #---
+    if title.find('(disambiguation)') != -1 :   return False
+    if title.startswith('user:') :              return False
+    #---
+    return True
+#---
 def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ): 
     filename = project + '/public_html/Translation_Dashboard/cash/%s.json' % cat
     #---
@@ -245,26 +241,22 @@ def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ):
         if 'print' in sys_argv: print('get new catmembers')
         #---
         Listo = subcatquery( cat , depth = depth , ns = ns , limit = limit , test = test )
-        #Listo = Listo.get('list',[])
         Table = {}
-        #Table['list'] = Listo
         #---
-        Table['list'] = [ x for x in Listo if not x.startswith('User:') ]
+        Table['list'] = [ x for x in Listo if check_title(x) ]
         #---
         Table['Day_History'] = Day_History
         #---
-        with open( filename , 'w') as outfile:
-            json.dump(Table, outfile)
-        outfile.close()
+        json.dump(Table, open( filename , 'w'))
         #---
     #---
     if 'print' in sys_argv: print('len of list:%d' % len(Table['list']) )
     #---
     return Table
 #---
-def make_cash_to_cats():
-    #---
-    import sql_for_mdwiki
+all_pages = []
+#---
+def make_cash_to_cats(return_all_pages=False):
     #---
     cac = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;')
     #---
@@ -282,7 +274,16 @@ def make_cash_to_cats():
     #---
     for cat, depth in cats.items():
         ca = subcatquery2( cat, depth=depth, ns='all' )
+        #---
         print(f"len of pages in {cat}, depth:{depth}, : %d" % len(ca['list']) )
+        #---
+        for x in ca['list']:
+            if not x in all_pages:
+                all_pages.append(x)
+    #---
+    if return_all_pages:
+        return all_pages
+    #---
 #---
 if __name__ == '__main__':
     make_cash_to_cats()

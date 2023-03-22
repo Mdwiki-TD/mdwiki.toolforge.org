@@ -68,10 +68,10 @@ for arg in sys_argv:
         Nore[1] = True
 #--- 
 #---
-import wdapi
-# wdapi.submitAPI( params , apiurl = 'https://' + 'www.wikidata.org/w/api.php' , returnjson = False )
-# wdapi.submitAPI_token( params , apiurl = 'https://' + 'www.wikidata.org/w/api.php' , returnjson = False )
-# wdapi.Getpageassessments_from_wikipedia( titlel, site="en", find_redirects=False, pasubprojects=0 )
+import wiki_api
+
+
+
 #---
 #---
 def split_list_to_numbers( lll ):
@@ -108,7 +108,7 @@ def work_for_list(list):
     # من ميد إلى الإنجليزية
     listo = [ mdwiki_to_enwiki.get(cc,cc) for cc in list ]
     #---
-    ase = wdapi.Getpageassessments_from_wikipedia("|".join(list), site='en')
+    ase = wiki_api.Getpageassessments_from_wikipedia("|".join(list), site='en')
     #---
     lenn = 0
     #---

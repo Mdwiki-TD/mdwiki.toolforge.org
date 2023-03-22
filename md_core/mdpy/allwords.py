@@ -18,42 +18,14 @@ import json
 import urllib
 import codecs
 import os
-#---
-#import pywikibot
-#---
 import re
 import string
-#import datetime 
-#import dateutil.parser
 import time
-#from datetime import datetime, date
-#menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
 import sys
-#---
-sys_argv = sys.argv or []
 #---
 import pywikibot
 #---
-# start of mdwiki_api.py file
 import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #---
 all_words = {}
 #---
@@ -90,7 +62,7 @@ def get_valid_Links():
     #---
     vav = tabe['list']
     #---
-    if 'newpages' in sys_argv:
+    if 'newpages' in sys.argv:
         dada = [ t for t in vav if ( not t in all_words or all_words[t] == 0 ) ]
         vav = dada
     #---
@@ -125,7 +97,6 @@ def mmain():
     #---
     limit = 10000
     if 'limit100' in sys.argv : limit = 100
-    #---
     #---
     if 'sql' in sys.argv:
         vai2 = from_sql()
@@ -162,5 +133,9 @@ def mmain():
     logaa()
 #---
 if __name__ == '__main__':
+    mmain()
+    #---
+    sys.argv.append('sql')
+    #---
     mmain()
 #---

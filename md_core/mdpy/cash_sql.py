@@ -35,8 +35,8 @@ noqids1 = []
 with open(project + '/public_html/Translation_Dashboard/Tables/noqids.json', 'r') as f:
     noqids1 = json.load(f)
 #---
-import wdapi
-# wdapi.submitAPI( params, apiurl = 'https://' + 'en.wikipedia.org/w/api.php' )
+import wiki_api
+
 #---
 noqids = []
 #---
@@ -162,7 +162,7 @@ def get_qids():
         ggg = splits[lis]
         params["titles"] = '|'.join( ggg )
         #---
-        json1 = wdapi.submitAPI( params, apiurl = 'https://en.wikipedia.org/w/api.php' )
+        json1 = wiki_api.submitAPI( params, apiurl = 'https://en.wikipedia.org/w/api.php' )
         #---
         if json1:
             pages = json1.get("query",{}).get("pages",{})

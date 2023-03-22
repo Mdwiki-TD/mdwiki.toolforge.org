@@ -24,12 +24,12 @@ import sys
 import datetime
 from datetime import timedelta
 #---
-import wdapi
-# wdapi.submitAPI( params , apiurl = 'https://' + 'www.wikidata.org/w/api.php' )
-# wdapi.Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, pasubprojects=0 )
-# wdapi.get_page_views(titles, site='en', days = 30)
-# wdapi.
-# wdapi.
+import wiki_api
+
+
+
+
+
 #---
 #---
 from en_to_md import enwiki_to_mdwiki, mdwiki_to_enwiki
@@ -97,7 +97,7 @@ def main():
     #---
     en_keys.append('Cisatracurium')
     #---
-    # enviews = wdapi.get_page_views(en_keys, site='en', days=30)
+    # enviews = wiki_api.get_page_views(en_keys, site='en', days=30)
     #---
     d_end   = datetime.datetime.utcnow() - timedelta(days = 1)
     d_start = d_end - timedelta(weeks=4)
@@ -107,7 +107,7 @@ def main():
     #---
     print(f'start get_views_with_rest_v1: lenth: {len(en_keys)}')
     #---
-    enviews = wdapi.get_views_with_rest_v1('en', en_keys, date_start=d_start, date_end=d_end)
+    enviews = wiki_api.get_views_with_rest_v1('en', en_keys, date_start=d_start, date_end=d_end)
     #---
     pywikibot.output(f'len of enviews: {len(enviews.keys())}')
     #---

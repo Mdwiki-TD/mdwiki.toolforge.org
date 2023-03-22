@@ -24,8 +24,6 @@ import codecs
 import re
 import sys
 #---
-sys_argv = sys.argv or []
-#---
 print_pywikibot = { 1 : False }
 try:
     import pywikibot
@@ -52,26 +50,6 @@ def Decode_bytes(x):
 	return x
 #---
 import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 old_words = {}
 json_file = {}
 words = {}
@@ -93,7 +71,6 @@ def from_sql():
 	#---
 	for tab in sq :
 		title  = Decode_bytes(tab[0])
-		# word  = Decode_bytes(tab[1])
 		#---
 		titles.append(title)
 		#---
@@ -117,7 +94,7 @@ def get_word_file():
     #---
     # len_old = len(old_words)
     #---
-    if not 'new' in sys_argv:
+    if not 'new' in sys.argv:
         for xa in old_words :
             if old_words[xa] > 0 : words[xa] = old_words[xa]
     #---
@@ -126,7 +103,7 @@ def get_word_file():
 def get_vaild_links():
     vai = []
     #---
-    if 'newpages' in sys_argv:
+    if 'newpages' in sys.argv:
         outbotnew('Get vaild_links from cat : RTT' )
         tabe = catdepth2.subcatquery2( 'RTT', depth = '3', ns = '0' )
         vai = tabe['list']
@@ -136,7 +113,7 @@ def get_vaild_links():
         #---
         outbotnew( 'Category-members:%d, New-members:%d' % ( len(vai2), len(vai) ) )
     #--- 
-    elif 'oldway' in sys_argv:
+    elif 'oldway' in sys.argv:
         ptext = mdwiki_api.GetPageText( 'WikiProjectMed:List' )
         for m2 in link_regex.finditer(ptext):
             sa = re.compile('\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags = re.IGNORECASE )
@@ -148,16 +125,16 @@ def get_vaild_links():
         #---
         outbotnew('Get vaild_links fromlist : WikiProjectMed:List (oldway)' )
     #---
-    elif 'listnew' in sys_argv:
+    elif 'listnew' in sys.argv:
         outbotnew('Get vaild_links listnew' )
         ttt = '''Lymphogranuloma venereum'''
         vai = [ x.strip() for x in ttt.split('\n') if x.strip() != '' ]
     #---
-    elif 'fromlist' in sys_argv:
+    elif 'fromlist' in sys.argv:
         vai = mdwiki_api.Get_page_links_2( 'WikiProjectMed:List' )
         outbotnew('Get vaild_links fromlist : WikiProjectMed:List' )
     #---
-    elif 'sql' in sys_argv:
+    elif 'sql' in sys.argv:
         vai2 = from_sql()
         vai = [ t for t in vai2 if (not t in old_words or old_words[t] < 50) ]
         outbotnew('ALL SQL LINKS:%d, to work:%d' % (len(vai2), len(vai) ) )
@@ -176,10 +153,9 @@ def get_vaild_links():
     return vai
 #---
 io = get_word_file()
-vaild_links = get_vaild_links()
 #---
 Nore = { 1 : False }
-for arg in sys_argv:
+for arg in sys.argv:
     if arg in [ 'new', 'listnew', 'less100', 'more400' ] :
         Nore[1] = True
 #--- 
@@ -193,7 +169,7 @@ def log():
 #--- 
 def get_lead( x, numb, lenth ):
     #---
-    #if old_words.get(x) and not 'new' in sys_argv and not 'listnew' in sys_argv and not 'less100' in sys_argv and not 'more400' in sys_argv: 
+    #if old_words.get(x) and not 'new' in sys.argv and not 'listnew' in sys.argv and not 'less100' in sys.argv and not 'more400' in sys.argv: 
     if old_words.get(x) and not Nore[1]: 
         outbotnew('page %d from %d, x:%s' % ( numb, lenth, x ) )
         outbotnew( "<<lightyellow>> page:%s already in old_words:%d" % (x, old_words.get(x, 0)) )
@@ -253,7 +229,7 @@ def get_lead( x, numb, lenth ):
     text = re.sub( "\s+", " ", text )
     text = re.sub( "\/", " ", text )
     #---
-    if print_pywikibot[1] and 'test' in sys_argv : pywikibot.showDiff( text2, text )
+    if print_pywikibot[1] and 'test' in sys.argv : pywikibot.showDiff( text2, text )
     #---
     llen = len(text.split(' '))
     #---
@@ -274,7 +250,7 @@ def check():
     #---
     word_list = old_words.keys()
     #---
-    if 'new' in sys_argv:
+    if 'new' in sys.argv:
         Listo = catdepth2.subcatquery( 'RTT', depth = '3', ns = '0' )
     else:
         Listo = catdepth2.subcatquery2( 'RTT', depth = '3', ns = '0' )
@@ -293,19 +269,21 @@ def check():
 def mmain():
     numb = 0
     #---
-    if 'check' in sys_argv: return check()
+    if 'check' in sys.argv: return check()
+    #---
+    vaild_links = get_vaild_links()
     #---
     kkk = { 1 : vaild_links }
     #---
-    if not 'new' in sys_argv:
+    if not 'new' in sys.argv:
         #kkk = [ x for x in vaild_links if not x in old_words ]
         kkk[1] = []
         for x in vaild_links :
             x2 = x[0].upper() + x[1:]
-            #if not x in old_words or 'listnew' in sys_argv:
+            #if not x in old_words or 'listnew' in sys.argv:
             kkk[1].append( x2 )
     #---
-    if 'less100' in sys_argv:
+    if 'less100' in sys.argv:
         #kkk = [ x for x in vaild_links if not x in old_words ]
         kkk[1] = []
         for x in old_words :
@@ -313,7 +291,7 @@ def mmain():
             if old_words[x] < 100 :
                 kkk[1].append( x2 )
     #---
-    if 'more400' in sys_argv:
+    if 'more400' in sys.argv:
         kkk[1] = []
         for x in old_words :
             x2 = x[0].upper() + x[1:]
@@ -329,5 +307,9 @@ def mmain():
     log()
 #---
 if __name__ == '__main__':
+    mmain()
+    #---
+    sys.argv.append('sql')
+    #---
     mmain()
 #---

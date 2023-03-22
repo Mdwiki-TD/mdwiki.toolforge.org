@@ -2,9 +2,8 @@
 # -*- coding: utf-8  -*-
 #   himo
 """ 
-إيجاد معرف ويكيداتا للعناصر بدون معرف
 
-python3 ./core/pwb.py ./core/mdpy/get_red
+python3 ./core/pwb.py mdpy/get_red
 
 
 """
@@ -12,8 +11,6 @@ python3 ./core/pwb.py ./core/mdpy/get_red
 # (C) Ibrahem Qasim, 2022
 #
 #
-
-
 import re
 import json
 import pywikibot
@@ -40,8 +37,8 @@ import en_to_md
 #---
 mdwiki_to_qid = en_to_md.mdtitle_to_qid
 #---
-import wdapi
-# wdapi.submitAPI( params, apiurl = 'https://' + 'en.wikipedia.org/w/api.php' )
+import wiki_api
+
 #---
 import mdwiki_api
 #---
@@ -72,6 +69,7 @@ def get_pages():
     remo = 0
     #---
     to_add = {}
+    to_del = []
     #---
     for old_title, new_title in table.items():
         ll = f'"old_title: {old_title}" to: "{new_title}",\n'
@@ -86,6 +84,9 @@ def get_pages():
                 #---
                 pywikibot.output('<<lightyellow>>' + ll.strip() )
                 #---
+                to_del.append(old_title)
+                to_add[new_title] = r_q
+                #---
                 del mdwiki_to_qid[old_title]
                 mdwiki_to_qid[new_title] = r_q
                 #---
@@ -93,8 +94,8 @@ def get_pages():
                 #---
             elif t_q == r_q:
                 remo += 1
+                to_del.append(old_title)
                 del mdwiki_to_qid[old_title]
-                
     #---
     pywikibot.output('===================' )
     if tat != '':
@@ -104,6 +105,14 @@ def get_pages():
     #---
     pywikibot.output('replace %d pages. ' % rep)
     pywikibot.output('remove %d pages. ' % remo)
+    #---
+    if len(to_del) > 0:
+        pywikibot.output('delete %d pages. ' % len(to_del))
+        pywikibot.output(to_del)
+    #---
+    if len(to_add) > 0:
+        pywikibot.output('add %d pages. ' % len(to_add))
+        pywikibot.output(to_add)
     #---
     if 'fix' in sys.argv:
         back_up = json.load(open(project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json'))
@@ -115,8 +124,6 @@ def get_pages():
         with open( project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json', 'w') as uuu:
             json.dump(mdwiki_to_qid, uuu)
         uuu.close()
-#---
-
 #---
 if __name__ == '__main__':
     get_pages()

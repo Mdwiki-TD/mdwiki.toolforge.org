@@ -19,7 +19,7 @@ if ($start == '') {
     </form>";
 } else {
     //---
-    $dir = '/data/project/mdwiki/core'; 
+    $dir = './core'; 
     //---
     $faf = "jsub -N fixduplict python3 $dir/pwb.py mdpy/dup save";
     //---

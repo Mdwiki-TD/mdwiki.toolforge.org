@@ -79,9 +79,6 @@ def split_lists_to_numbers( lise , maxnumber = 100, out =True ):
                     num += 1
                 #---
     #---
-    #for x in List:
-        #pywikibot.output(' split_lists_to_numbers:x:%d, lenth :%d' % ( x , len(List[x]) )  )
-    #---
     return List
 #---
 def ec_de_code( tt , type ):

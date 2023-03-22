@@ -61,7 +61,7 @@ function get_results() {
     global $test, $lang, $title, $movedots, $infobox;
     //---
     $params = array(
-        'dir' => '/data/project/mdwiki/core/mdpy',
+        'dir' => '/data/project/mdwiki/md_core/mdpy',
         'localdir' => '../mdpy',
         'pyfile' => 'wpref.py',
         'other' => '',

@@ -27,25 +27,14 @@ import urllib
 import urllib.request
 import urllib.parse
 #---
-sys_argv = sys.argv or []
-#---
-import mdwiki_api
-
-
-
-#---
-import py_tools
-# py_tools.split_lists_to_numbers( list, maxnumber = 100 )
-#---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/public_html/Translation_Dashboard/Tables/'
 #---
-import wdapi
-# wdapi.submitAPI( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
-# wdapi.submitAPI_token( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
+import catdepth2
+import wiki_api
 #---
 medwiki_to_enwiki_conflic = {}
 medwiki_to_enwiki = {}
@@ -55,38 +44,34 @@ sames = []
 def check():
     #---
     pywikibot.output('Get cat pages from cat : RTT' )
-    Listo = mdwiki_api.subcatquery( 'RTT', depth = '1', ns = '0' )
+    #---
+    # Listo = mdwiki_api.subcatquery( 'RTT', depth = '1', ns = '0' )
+    Listo = catdepth2.make_cash_to_cats(return_all_pages=True)
+    #---
     pywikibot.output('len of cat pages: %d' % len(Listo) )
     #---
     number = 0
     #---
     Listo = [ x for x in Listo if not ( x.startswith('Category:') or x.startswith('File:') or x.startswith('Template:') or x.startswith('User:') or x.endswith("(disambiguation)") ) ]
     #---
-    splits = py_tools.split_lists_to_numbers( Listo, maxnumber = 150 )
-    #---
-    for numbb in splits :
+    for i in range(0, len(qs_list), 100):
         #---
-        newlist = splits[numbb]
+        newlist = qs_list[i:i+100]
         #---
         line = "|".join( newlist )
-        #---
-        #pywikibot.output(line)
         #---
         params = {
             "action": "query",
             "format": "json",
-            
             #"prop": "redirects",
             #"rdlimit": "max"
-            
             "titles": line,
             "redirects": 1,
             "converttitles": 1,
             "utf8": 1,
         }
         #---
-        #jsone = mdwiki_api.post( params )
-        jsone = wdapi.submitAPI( params, apiurl = 'https://' + 'en.wikipedia.org/w/api.php', returnjson = False )
+        jsone = wiki_api.submitAPI( params, apiurl = 'https://' + 'en.wikipedia.org/w/api.php', returnjson = False )
         #---
         if jsone and 'batchcomplete' in jsone:
             #---
@@ -159,17 +144,11 @@ def check():
     pywikibot.output('<<lightgreen>> len of sames:%d' % ( len(sames) ) )
     #---
     # الكتابة إلى الملفات
-    with open( project + 'medwiki_to_enwiki.json', 'w' ) as f1:
-        json.dump( medwiki_to_enwiki, f1 )
-    f1.close()
+    json.dump( medwiki_to_enwiki, open( project + 'medwiki_to_enwiki.json', 'w' ) )
     #---
-    with open( project + 'missing_in_enwiki.json', 'w' ) as f1:
-        json.dump( missing_in_enwiki, f1 )
-    f1.close()
+    json.dump( missing_in_enwiki, open( project + 'missing_in_enwiki.json', 'w' ) )
     #---
-    with open( project + 'sames.json', 'w' ) as f1:
-        json.dump( sames, f1 )
-    f1.close()
+    json.dump( sames, open( project + 'sames.json', 'w' ) )
 #---
 if __name__ == '__main__':
     check()

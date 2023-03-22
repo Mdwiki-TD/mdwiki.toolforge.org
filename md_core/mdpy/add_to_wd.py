@@ -29,8 +29,8 @@ import py_tools
 import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
-import wdapi
-# wdapi.submitAPI( params , apiurl = 'https://' + 'www.wikidata.org/w/api.php' )
+import wiki_api
+
 #---
 import mdwiki_api
 
@@ -76,15 +76,6 @@ for tab in sq_dd :
     #---
 import wikidataapi
 wikidataurl = "https://www.wikidata.org/w/api.php"
-# wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
-# wikidataapi.post( params , apiurl = '' )
-# wikidataapi.Get_page_qids( sitecode, titles )
-# wikidataapi.Get_sitelinks_From_Qid( q )
-# wikidataapi.WD_Merge( q1, q2)
-# wikidataapi.Labels_API(Qid, label, lang, remove = False)
-# wikidataapi.sparql_generator_url(quary, printq = False, add_date = True)
-# wikidataapi.wbsearchentities(search, language)
-# wikidataapi.
 #---
 def work_with_2_qids(oldq, new_q):
     #---
@@ -146,7 +137,7 @@ def add_wd(qid, enlink, lang, target):
         params['title'] = enlink
         params['site']  = 'enwiki'
     #---
-    ss = wdapi.submitAPI_token( params, apiurl='https://' + 'www.wikidata.org/w/api.php')
+    ss = wikidataapi.post( params, apiurl=wikidataurl, token = True)
     #---
     pywikibot.output(ss)
     #---
@@ -165,7 +156,7 @@ def add_wd(qid, enlink, lang, target):
             qid2 = qii.group(1)
             #---
             if qid == "":
-                qids_from_wiki = wikidataapi.Get_page_qids( "en", [enlink] )
+                qids_from_wiki = wiki_api.Get_page_qids( "en", [enlink] )
                 #---
                 for x,tab in qids_from_wiki.items():
                     qid = tab.get('q','')

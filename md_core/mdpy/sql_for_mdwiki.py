@@ -18,14 +18,13 @@ import py_tools
 # py_tools.make_cod(string)
 # py_tools.Decode_bytes(x)
 # py_tools.quoteurl(fao)
-#---
+#--- 
 '''
 #---
 import sql_for_mdwiki
-# sql_for_mdwiki.mdwiki_sql(query , update = False)
+# sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
-# sql_for_mdwiki.get_all_qids()
-# sql_for_mdwiki.add_titles_to_qids(tab)
+# sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 #---
 '''
 #---
@@ -201,8 +200,8 @@ def mdwiki_sql(query , update = False, Prints = True):
     #---
     if Prints and update:
         res = str(results)
-        ux = query.lower().split('values')[0].split('select')[0].strip()
-        pywikibot.output(f"<<lightyellow>>sql_for_mdwiki.py mdwiki_sql result:{ux}:\n{res}" )
+        ux = [query.lower().split('values')[0].split('select')[0].strip()]
+        pywikibot.output(f"<<lightyellow>>sql_for_mdwiki.py mdwiki_sql result:str({ux}):\n{res}" )
     #---
     cn.close()
     #---
@@ -217,8 +216,8 @@ def get_all_qids():
     for ta in sq: 
         title = Decode_bytes(ta[0])
         qqid = Decode_bytes(ta[1])
-        if qqid != '':
-            mdtitle_to_qid[title] = qqid
+        # if qqid != '':
+        mdtitle_to_qid[title] = qqid
     #---
     return mdtitle_to_qid
 #---
@@ -236,18 +235,22 @@ def update_qid(title, qid):
     #---
     mdwiki_sql(qua, update=True)
 #---
-def add_titles_to_qids(tab):
+def add_titles_to_qids(tab, add_empty_qid=False):
     #---
     new = {}
     #---
     for title, qid in tab.items():
         #---
-        if qid == '' or title == '': 
-            print("qid == '' or title == ''")
+        if title == '': 
+            print("title == ''")
+            continue
+        #---
+        if qid == '' and not add_empty_qid: 
+            print("qid == ''")
             continue
         #---
         new[title] = qid
-        #---
+    #---
     all_in = get_all_qids()
     #---
     for title, qid in new.items():
@@ -255,9 +258,14 @@ def add_titles_to_qids(tab):
             add_qid(title, qid)
             continue
         #---
-        if title != all_in[title]:
-            update_qid(title, qid)
-            continue
+        q_in = all_in[title]
+        #---
+        if qid != '':
+            if q_in == '':
+                update_qid(title, qid)
+            else:
+                # update_qid(title, qid)
+                print(f'update_qid()  qid_in:{q_in}, new_qid:{qid}')
         #---
     #---
 #---

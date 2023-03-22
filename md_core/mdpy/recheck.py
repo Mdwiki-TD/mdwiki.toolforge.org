@@ -30,7 +30,6 @@ import sql_for_mdwiki
 
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
-# sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
 #---
 import py_tools
@@ -41,14 +40,9 @@ import py_tools
 # py_tools.Decode_bytes( x )
 #---
 import wikidataapi
-
 wikidataurl = "https://www.wikidata.org/w/api.php"
-# wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
-# wikidataapi.post( params , apiurl = "https://www.wikidata.org/w/api.php" )
-# wikidataapi.Get_page_qids( sitecode , titles )
-# wikidataapi.Get_sitelinks_From_Qid( q )
-# wikidataapi.
-# wikidataapi.
+#---
+import wiki_api
 #---
 targets_done = {}
 #---
@@ -173,7 +167,7 @@ def do_it_api(lange, targets):
     #---
     for nu, t_list in all_list.items():
         # get all pages qid
-        qids_from_wiki = wikidataapi.Get_page_qids(lange, t_list)
+        qids_from_wiki = wiki_api.Get_page_qids(lange, t_list)
         #---
         qids = {}
         for title, tab in qids_from_wiki.items():
@@ -307,7 +301,8 @@ def work_with_2_qids(oldq, new_q):
             pywikibot.output("<<lightred>> **remove sitelink false.")
             pywikibot.output(remove)
         #---
-        remove2 = wikidataapi.post({"action": "wbsetlabel", "id": oldq, "language": "en", "value": ""}, apiurl=wikidataurl, token=True)
+        remove2 = wikidataapi.Labels_API(oldq, '', 'en', remove=True)
+        #---
         if "success" in remove2:
             len_sites -= 1
             pywikibot.output("<<lightgreen>> **remove2 label true.")

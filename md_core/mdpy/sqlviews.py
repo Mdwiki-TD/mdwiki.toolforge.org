@@ -20,15 +20,7 @@ import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #===
 #---
-import wdapi
-# wdapi.submitAPI( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
-# wdapi.submitAPI_token( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
-# wdapi.Find_pages_exists_or_not( liste, apiurl = 'https://' + 'or.wikipedia.org/w/api.php' )
-# wdapi.Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, pasubprojects=0 )
-# wdapi.get_page_views(titles, site='en', days = 30)
-# wdapi.get_views_with_rest_v1(langcode, titles)
-# wdapi.
-#---
+import wiki_api
 #===
 #---
 import py_tools
@@ -253,7 +245,7 @@ def main():
             #---
             printe.output(f'<<lightyellow>> get pageviews for {lenlist} pages, date_start:{start}' )
             #---
-            numbers = wdapi.get_views_with_rest_v1(lange, title_list, date_start=start, date_end='20300101', printurl=False, printstr=False)
+            numbers = wiki_api.get_views_with_rest_v1(lange, title_list, date_start=start, date_end='20300101', printurl=False, printstr=False)
             #---
             numbs = {**numbs, **numbers}
         #---

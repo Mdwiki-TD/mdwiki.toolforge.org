@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 #---
-# import wdapi
-# wdapi.submitAPI( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
-# wdapi.submitAPI_token( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
-# wdapi.Find_pages_exists_or_not( liste, apiurl = 'https://' + 'or.wikipedia.org/w/api.php' )
-# wdapi.Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, pasubprojects=0 )
-# wdapi.get_page_views(titles, site='en', days = 30)
-# wdapi.get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20300101', printurl=False, printstr=False)
-# wdapi.
+import wiki_api
+# wiki_api.Get_page_qids(sitecode, titles)
+# wiki_api.submitAPI( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
+# wiki_api.submitAPI_token( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
+# wiki_api.Find_pages_exists_or_not( liste, apiurl = 'https://' + 'or.wikipedia.org/w/api.php' )
+# wiki_api.Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, pasubprojects=0 )
+# wiki_api.get_page_views(titles, site='en', days = 30)
+# wiki_api.get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20300101', printurl=False, printstr=False)
 #---
 """
 #
@@ -57,7 +57,6 @@ import user_account_new
 lgname     = user_account_new.bot_username     #user_account_new.my_username
 lgpassword = user_account_new.bot_password     #user_account_new.my_password      #user_account_new.mdwiki_pass
 #---
-#---
 def log( api_urle ) :
     #---
     if login_done[1] == api_urle or api_urle =='': return ''
@@ -67,7 +66,7 @@ def log( api_urle ) :
     #---
     session[1] = requests.Session()
     #---
-    #if api_urle != session["url"]: pywikibot.output( "wdapi.py: log to %s. user:%s" % (api_urle, username)  )
+    #if api_urle != session["url"]: pywikibot.output( "wiki_api.py: log to %s. user:%s" % (api_urle, username)  )
     #---
     session["url"] = api_urle
     #---
@@ -96,7 +95,7 @@ def log( api_urle ) :
         warn('Exception:' + str(r2.json()), UserWarning)
         pywikibot.output( 'CRITICAL:' )
     else:
-        pywikibot.output( "<<lightgreen>> mdwiki/mdpy/wdapi.py: log to %s user:%s Success... " % (api_urle, lgname ) )
+        pywikibot.output( "<<lightgreen>> mdwiki/mdpy/wiki_api.py: log to %s user:%s Success... " % (api_urle, lgname ) )
     #---
     # get edit token
     r3 = session[1].get(api_urle, params={
@@ -195,8 +194,6 @@ def submitAPI( params, apiurl='', returnjson=False ):
 #---
 def Find_pages_exists_or_not( liste, apiurl='') :
     #---
-    log( apiurl )
-    #---
     params = {
         "action": "query",
         "format": "json",
@@ -209,7 +206,7 @@ def Find_pages_exists_or_not( liste, apiurl='') :
     #---
     table = {}
     #---
-    json1 = submitAPI( params )
+    json1 = submitAPI( params, apiurl=apiurl )
     #---
     if json1:
         query_pages = json1.get("query",{}).get("pages",{})
@@ -225,6 +222,62 @@ def Find_pages_exists_or_not( liste, apiurl='') :
                     table[tit] = True
         #---
     return table
+#---
+def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
+    #---
+    if sitecode.endswith("wiki") :  sitecode = sitecode[:-4]
+    #---
+    if apiurl == '' and sitecode != "":
+        apiurl = "https://" + sitecode + ".wikipedia.org/w/api.php"
+    #---
+    if type(titles) == str : titles = [ titles ]
+    #---
+    Main_table = {}
+    #---
+    params = {
+        "action": "query",
+        "format": "json",
+        #"prop": "langlinks|pageprops",
+        # "titles": "|".join(titles),
+        "redirects": 1,
+        "prop": "pageprops",
+        "ppprop": "wikibase_item",
+        "utf8": 1,
+        #"normalize": 1,
+    }
+    #---
+    if normalize == 1 :
+        params["normalize"] = 1
+    #---
+    for i in range(0, len(titles), 50):
+        #---
+        # group = dict(list(liste.items())[i:i+50])
+        group = titles[i:i+50]
+        #---
+        params["titles"] = "|".join(group)
+        #---
+        json1 = submitAPI( params, apiurl=apiurl )
+        #---
+        if json1:
+            js_query = json1.get('query',{})
+            #---
+            for red in js_query.get('redirects', {}):
+                #redirects_table[ red["from"] ] = red["to"]
+                Main_table[ red["from"] ] = { 'isRedirectPage': True, 'missing': True, 'from' : red["from"], 'to' : red["to"], 'title' : red["from"], 'ns' : '', 'q' : ''}
+            #---
+            for id in js_query.get('pages', {}):
+                kk = js_query['pages'][id]
+                faso = ''
+                title = ""
+                if "title" in kk:
+                    title = kk["title"]
+                    Main_table[title] = {}
+                    if "missing" in kk:
+                        Main_table[title]['missing'] = True
+                    if "pageprops" in kk and kk["pageprops"].get( "wikibase_item" , "") != "":
+                        Main_table[title]['q'] =  kk["pageprops"].get( "wikibase_item" , "")
+    #---
+    return Main_table
 #---
 def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, pasubprojects=0 ):
     #Tables = { "stub" : False }
@@ -253,7 +306,6 @@ def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, 
     langcode = "ar"
     #if pasubprojects == 1 : params["pasubprojects"] = 1
     #---
-    #json1 = submitAPI(params , langcode , "wikipedia" )
     json1 = submitAPI( params, apiurl = 'https://' +  site + '.wikipedia.org/w/api.php' )
     #---
     if not json1 or json1 == {}: return Tables
@@ -313,7 +365,6 @@ def _get_page_views_(titles, site='en', days = 30):
         params['titles'] = "|".join(titles_1)
         #---
         json1 = submitAPI( params, apiurl = 'https://' +  site + '.wikipedia.org/w/api.php' )
-        # json1 = submitAPI(params, site, 'wikipedia')
         #---
         if not json1 or json1 == {}: continue
         #---

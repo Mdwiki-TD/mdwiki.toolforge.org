@@ -36,10 +36,9 @@ import py_tools
 #---
 '''
 #---
-import wikidataapi 
+import wikidataapi
 # wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
 # wikidataapi.post( params , apiurl = '' )
-# wikidataapi.Get_page_qids( sitecode , titles )
 # wikidataapi.Get_sitelinks_From_Qid( q )
 # wikidataapi.WD_Merge( q1, q2)
 # wikidataapi.Labels_API(Qid, label, lang, remove = False)
@@ -182,75 +181,6 @@ def post( params , apiurl='', token = True):
     #---
     return jsone
 #---
-def Get_page_qids( sitecode , titles , apiurl='', normalize = 0 ):
-    #---
-    if type(titles) == str : titles = [ titles ]
-    #---
-    params = {
-        "action": "query",
-        "format": "json",
-        #"prop": "langlinks|pageprops",
-        # "titles": titles,
-        "titles": "|".join(titles),
-        "redirects": 1,
-        "prop": "pageprops",
-        "ppprop": "wikibase_item",
-        "utf8": 1,
-        #"normalize": 1,
-    }
-    #---
-    if normalize == 1 :
-        params["normalize"] = 1
-    #---
-    if sitecode.endswith("wiki") :
-        sitecode = sitecode[:-4]
-    #---
-    sitewiki = sitecode + 'wiki'
-    #---
-    if apiurl == '' and sitecode != "":
-        apiurl = "https://" + sitecode + ".wikipedia.org/w/api.php"
-    #---
-    json1 = post(params, apiurl = apiurl)
-    #---
-    Main_table = {}
-    #---
-    if json1:
-        js_query = json1.get('query',{})
-        #---
-        if 'query' in json1:
-            #---
-            if "redirects" in js_query:
-                for red in js_query['redirects']:
-                    #redirects_table[ red["from"] ] = red["to"]
-                    Main_table[ red["from"] ] = {
-                            'isRedirectPage': True,
-                            'missing': True,
-                            'from' : red["from"],
-                            'to' : red["to"],
-                            'title' : red["from"],
-                            'ns' : '',
-                            'q' : '',
-                        }
-            #---
-            if 'pages' in js_query:
-                for id in js_query['pages']:
-                    kk = js_query['pages'][id]
-                    faso = ''
-                    title = ""
-                    if "title" in kk:
-                        title = kk["title"]
-                        Main_table[title] = {}
-                        if "missing" in kk:
-                            Main_table[title]['missing'] = True
-                        #if "ns" in kk: table['ns'] = kk["ns"]
-                        #if "pageid" in kk: table['pageid'] = kk["pageid"]
-                        if "pageprops" in kk and kk["pageprops"].get( "wikibase_item" , "") != "":
-                            Main_table[title]['q'] =  kk["pageprops"].get( "wikibase_item" , "")
-            #---
-            return Main_table
-    #---
-    return {}
-#---
 def Get_sitelinks_From_Qid( q ):
     params = {
         "action": "wbgetentities",
@@ -336,7 +266,7 @@ def WD_Merge( q1, q2):
         outbotnew('<<lightred>> r4' + str(r4))
         return False
 #---
-def Labels_API(Qid, label, lang, remove = False):
+def Labels_API(Qid, label, lang, remove=False):
     #---
     if Qid == '':
         outbotnew( "Labels_API Qid == '' " )
@@ -373,12 +303,89 @@ def Labels_API(Qid, label, lang, remove = False):
     else:
         return False
 #---
+def get_redirects(liste):
+    #---
+    redirects = {}
+    #---
+    for i in range(0, len(liste), 50):
+        #---
+        # group = dict(list(liste.items())[i:i+50])
+        group = liste[i:i+50]
+        params = {
+            "action": "query",
+            "format": "json",
+            "titles": '|'.join( group ),
+            "redirects": 1,
+            "utf8": 1,
+        }
+        #---
+        json1 = post(params, apiurl = "https://www.wikidata.org/w/api.php", token = True)
+        #---
+        if json1:
+            redd = json1.get("query",{}).get("redirects", [])
+            for red in redd:
+                redirects[ red["from"] ] = red["to"]
+            #---
+    return redirects
+#---
+'''
+def Sitelink_API(Qid, title, wiki):
+    #---
+    if wiki.endswith("wiki") : wiki = wiki[:-4]
+    #---
+    wiki = f"{wiki}wiki"
+    #---
+    print(' **Sitelink_API: Qid:"%s" %s:%s, lag:"%s"' % (Qid, wiki, title, FFa_lag[1]) )
+    #---
+    if Qid.strip() == "":
+        outbotnew('<<lightred>> **Sitelink_API: False: Qid == "" %s:%s.' % (wiki, title) )
+        return False
+    #---
+    paramse = {
+        "action": "wbsetsitelink",
+        "id": Qid,
+        "linktitle": title,
+        "linksite": wiki,
+    }
+    #---
+    out = 'Added link to "%s" [%s]:"%s"' % ( Qid, wiki, title) 
+    #---
+    r4 = post(paramse, apiurl = "https://www.wikidata.org/w/api.php", token = True)
+    #---
+    if not r4 or r4 == {}: return False
+    #---
+    if 'success' in str(r4).lower():
+        outbotnew( '<<lightgreen>> true ' + out )
+        return True
+    #---
+    return False
+#---
+def Remove_Sitelink(Qid, wiki):
+    #---
+    if wiki.endswith("wiki") : wiki = wiki[:-4]
+    #---
+    wiki = f"{wiki}wiki"
+    #---
+    out = 'remove "%s" link from "%s"' % ( wiki , Qid)
+    #---
+    params ={ "action": "wbsetsitelink", "id": Qid, "linksite": wiki}
+    #---
+    r4 = post(params, apiurl = "https://www.wikidata.org/w/api.php", token = True)
+    #---
+    if not r4 or r4 == {}: return False
+    #---
+    if 'success' in str(r4).lower():
+        outbotnew( '<<lightgreen>> true ' + out )
+        return True
+    #---
+    return False
+'''
+#---
 def Claim_API_str(qid, property, string):
     #---
     outbotnew(f'<<lightyellow>> Claim_API_str: add claim to qid: {qid}, [{property}:{string}]')
     #---
     if string == '' or qid == '' or property == '' : return ''
-    #---
     #---
     params = {
         "action": "wbcreateclaim",
@@ -387,6 +394,24 @@ def Claim_API_str(qid, property, string):
         "property": property,
         "value": json.JSONEncoder().encode(string)
     }
+    #---
+    req = post(params, apiurl = "https://www.wikidata.org/w/api.php", token=True)
+    #---
+    if not req or req == {}:
+        outbotnew(f'req:str({req})')
+        return False
+    #---        
+    if 'success' in req:
+        outbotnew('<<lightgreen>> **Claim_API true.' )
+        return True
+    else:
+        outbotnew('<<lightred>> req' + str(req))
+    #---
+    return False
+#---
+def Delete_claim(claimid):
+    #---
+    params = { "action": "wbremoveclaims", "claim": claimid }
     #---
     req = post(params, apiurl = "https://www.wikidata.org/w/api.php", token=True)
     #---
@@ -556,6 +581,38 @@ def wbsearchentities(search, language):
     #---
     return table
 #---
+def Get_claim(q, property, get_claim_id=False):
+    #---
+    params = {
+        "action": "wbgetclaims",
+        "entity": q,
+        "property": property,
+    }
+    #---
+    json1 = post(params, apiurl = "https://www.wikidata.org/w/api.php", token=True)
+    #---
+    listo = []
+    #---
+    if not json1 or json1 == {}: return []
+    #---
+    claims_p = json1.get('claims',{}).get(property,{})
+    #---
+    for claims in claims_p:
+        claim_id = claims.get('id','')
+        datavalue = claims.get('mainsnak',{}).get('datavalue',{})
+        Type = datavalue.get("type", False)
+        value = datavalue.get("value","")
+        #---
+        if type(value) == dict:
+            if value.get("id", False) :
+                value = value.get("id")
+        #---
+        if get_claim_id:
+            listo.append({"id":claim_id, "value":value})
+        else:
+            listo.append(value)
+    #---
+    return listo
 #---
 if __name__ == '__main__':
     Log_to_wiki(url="https://www.wikidata.org/w/api.php")

@@ -22,45 +22,25 @@ Day_History = datetime.now().strftime("%Y-%m-%d")
 #---
 sys_argv = sys.argv or []
 #---
-#---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-#---
+Dashboard_tables_path = project + '/public_html/Translation_Dashboard/Tables'
 #---
 import wikidataapi 
-# wikidataapi.Log_to_wiki("mdwiki" , lang = "www" )
-# wikidataapi.post( params )
-#---
 import py_tools
-
-# py_tools.
-#---
 import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #---
 import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
 #---
+import sql_for_mdwiki
+# sql_for_mdwiki.mdwiki_sql(query , update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.add_titles_to_qids(tab)
 #---
 redirects_qids = {}
 mis_qids = []
@@ -71,7 +51,7 @@ missing = {'all' : 0, 'date' : Day_History, 'langs' : {} }
 #---
 def get_qids_sitelinks( qidslist ):
     #---
-    splits = py_tools.split_lists_to_numbers( list( qidslist.keys() ), maxnumber = 100 )
+    qs_list = list(qidslist.keys())
     #---
     params_wd = {
         "action": "wbgetentities",
@@ -97,11 +77,13 @@ def get_qids_sitelinks( qidslist ):
     #---
     all_entities = {}
     #---
-    for _, qids in splits.items():
+    for i in range(0, len(qs_list), 100):
+        #---
+        qids = qs_list[i:i+100]
         #---
         params_wd["ids"] = '|'.join( qids )
         #---
-        pywikibot.output('<<lightgreen>> done:%d from %d, get sitelinks for %d qids.' % ( len(all_entities),len(list( qidslist.keys() )), len(qids) ) )
+        pywikibot.output('<<lightgreen>> done:%d from %d, get sitelinks for %d qids.' % ( len(all_entities), len(qidslist), len(qids) ) )
         #---
         json1 = wikidataapi.post( params_wd , apiurl = 'https://www.wikidata.org/w/api.php' )
         #---
@@ -114,8 +96,7 @@ def get_qids_sitelinks( qidslist ):
         for qid_1, kk in all_entities.items():
             #---
             numb += 1
-            ma = kk.get("missing")
-            if ma:
+            if "missing" in kk:
                 #---
                 mis_qids.append( kk.get("id") )
                 #---
@@ -181,7 +162,6 @@ def cash_wd():
     #---
     pywikibot.output('<<lightgreen>> len of mdwiki_api.subcatquery:RTT:%d.' % len(titles) )
     #---
-    # qids_list = [ en_to_md.mdtitle_to_qid[x] for x in titles if x in en_to_md.mdtitle_to_qid ]
     qids_list = {}
     #---
     missing['all'] = len(titles)
@@ -194,24 +174,13 @@ def cash_wd():
     #---
     lists, table_l = get_qids_sitelinks( qids_list )
     #---
-    with open( project + '/public_html/Translation_Dashboard/Tables/sitelinks.json' , 'w') as hjh:
-        json.dump( lists, hjh )
-    hjh.close()
+    json.dump( lists, open( Dashboard_tables_path + '/sitelinks.json' , 'w') )
     #---
-    with open( project + '/public_html/Translation_Dashboard/Tables/sitelinks_list.json' , 'w') as hjh:
-        json.dump( table_l, hjh, ensure_ascii=False, indent=4 )
-    hjh.close()
+    # json.dump( table_l, open( Dashboard_tables_path + '/sitelinks_list.json' , 'w'), ensure_ascii=False, indent=4 )
     #---
-    table_to_log = { "redirects": redirects_qids, "missing": mis_qids }
-    with open( project + '/public_html/Translation_Dashboard/Tables/qid_redirects_missing.json' , 'w') as llk:
-        json.dump( table_to_log, llk )
-    llk.close()
-    # copy it to file2
-    file2 = project + '/qid_redirects_missing.json'
+    # table_to_log = { "redirects": redirects_qids, "missing": mis_qids }
     #---
-    with open( file2 , 'w') as llk:
-        json.dump( table_to_log, llk )
-    llk.close()
+    # json.dump( table_to_log, open( Dashboard_tables_path + '/qid_redirects_missing.json' , 'w') )
     #---
     for site, liste in main_table_sites.items():
         pywikibot.output('<<lightblue>> main_table_sites:%s, len:%d.' % (site, len(liste)) )
@@ -226,9 +195,8 @@ def cash_wd():
         #---
         # dump liste to json_file
         try:
-            with codecs.open( project + json_file, 'w', encoding="utf-8") as yuy: 
-                json.dump( liste, yuy, ensure_ascii=False, indent=4 )
-            yuy.close()
+            json.dump( liste, codecs.open( project + json_file, 'w', encoding="utf-8"), ensure_ascii=False, indent=4 )
+            #---
             pywikibot.output('<<lightgreenn>>dump to cash_exists/%s.json done..' % site )
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
@@ -242,9 +210,7 @@ def cash_wd():
     noqids = [ x for x in titles if not x in en_to_md.mdtitle_to_qid ]
     noqids.sort()
     #---
-    with open( project + '/public_html/Translation_Dashboard/Tables/noqids.json' , 'w') as tyt:
-        json.dump( noqids, tyt )
-    tyt.close()
+    json.dump( noqids, open( Dashboard_tables_path + '/noqids.json' , 'w') )
     #---
     noqids1 = [ x for x in noqids if not x in en_to_md.other_qids_json ]
     #---
@@ -275,10 +241,8 @@ def cash_wd():
     pywikibot.output(' len of redirects_qids:  %d' % len(redirects_qids.keys()) )
     pywikibot.output(' len of missing_qids:    %d' % len(mis_qids) )
     #---
-    with open( project + '/public_html/Translation_Dashboard/Tables/missing.json', 'w') as hhg:
-        json.dump(missing, hhg)
-        pywikibot.output(' log to missing.json true.... ' )
-    hhg.close()
+    json.dump(missing, open( Dashboard_tables_path + '/missing.json', 'w'))
+    pywikibot.output(' log to missing.json true.... ' )
     #---
 #---
 if __name__ == '__main__':
