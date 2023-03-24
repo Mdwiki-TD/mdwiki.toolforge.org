@@ -115,7 +115,7 @@ def do_it_sql(lange, targets):
         #---
         # pywikibot.output('--------------------')
         #---
-        result = wiki_sql.Make_sql_many_rows(query, wiki=str(lange) + "wiki")
+        result = wiki_sql.Make_sql_many_rows(query, wiki=str(lange))
         #---
         res_len = len(result)
         #---

@@ -37,7 +37,7 @@ def main_links():
     #---
     return links
 #---
-from newapi.page import MainPage
+from new_api.page import MainPage
 #---
 def print_test(s):
     if 'test' in sys.argv:print(s)
@@ -82,10 +82,9 @@ def get_weblinks(refs, text):
     #---
     return liste1
 #---
-if not os.path.exists(project + 'allen.json'):
-    codecs.open(project + 'allen.json', 'w', encoding='utf-8').write(json.dumps({}))
+# if not os.path.exists(project + 'allen2.json'): codecs.open(project + 'allen2.json', 'w', encoding='utf-8').write(json.dumps({}))
 #---
-all = json.loads(codecs.open(project + 'allen.json', 'r', encoding='utf-8').read())
+all = json.loads(codecs.open(project + 'allen2.json', 'r', encoding='utf-8').read())
 #---
 def work_in_one_lang_link(lang, title):
     #---
@@ -118,26 +117,44 @@ def work_in_en_page(title):
     #---
     if not title in all : all[title] = {'refs':0, 'langs':{}}
     #---
-    page	  = MainPage(title, 'en')
-    exists	  = page.exists()
+    all[title]['en'] = title
     #---
-    text = page.get_text()
+    langlinks = {}
     #---
-    if not exists: return
+    page = False
     #---
-    refs    = page.Get_tags(tag='ref')
-    en_weblinks = get_weblinks(refs, text)
-    printe.output(f'{len(en_weblinks)} en refs found')
+    if all[title]['refs'] == 0:
+        if not page:    page = MainPage(title, 'en')
+        #---
+        if page.isRedirect() :
+            target = page.get_redirect_target()
+            if target != '':
+                page = MainPage(target, 'en')
+                all[title]['en'] = target
     #---
-    print_test("\n*".join(en_weblinks))
-    #---
-    all[title]['refs'] = len(en_weblinks)
-    #---
-    if len(en_weblinks) == 0: return
-    #---
-    langlinks = page.get_langlinks()
+    if len(all[title]['langs']) == 0:
+        if not page:    page = MainPage(title, 'en')
+        langlinks = page.get_langlinks()
     #---
     print_test(f"langlinks: {len(langlinks)}")
+    #---
+    en_weblinks = []
+    #---
+    if all[title]['refs'] == 0:
+        if not page:    page = MainPage(title, 'en')
+        text = page.get_text()
+        #---
+        refs    = page.Get_tags(tag='ref')
+        #---
+        en_weblinks = get_weblinks(refs, text)
+        #---
+        all[title]['refs'] = len(en_weblinks)
+        #---
+    printe.output(f'{len(en_weblinks)} en refs found')
+    #---
+    # print_test("\n*".join(en_weblinks))
+    #---
+    # if len(en_weblinks) == 0: return
     #---
     n = 0
     #---
@@ -146,20 +163,26 @@ def work_in_en_page(title):
         #---
         n += 1
         #---
-        web_links = work_in_one_lang_link(lang, tit)
+        tata = all[title]['langs'].get(lang, {'title':tit, 'refs': 0, 'same': 0 })
         #---
-        if len(web_links) == 0: continue
+        web_links = []
+        same = []
         #---
-        same = [ x for x in web_links if x in en_weblinks ]
+        len_web_links = tata['refs']
+        len_same      = tata['same']
         #---
-        printe.output(f'p{n}/{len(langlinks)}:\t{lang}\t{len(web_links)} refs, {len(same)} same')
+        if len(en_weblinks) > 0:
+            web_links = work_in_one_lang_link(lang, tit)
+            len_web_links = len(web_links)
+            #---
+            same = [ x for x in web_links if x in en_weblinks ]
+            len_same = len(same)
         #---
-        if len(same) == 0: continue
+        printe.output(f'p{n}/{len(langlinks)}:\t{lang}\t{len_web_links} refs, {len_same} same')
         #---
-        all[title]['langs'][lang] = {'title':tit, 'refs': len(web_links), 'same': len(same) }
+        all[title]['langs'][lang] = {'title':tit, 'refs': len_web_links, 'same': len_same }
         #---
     #---
-    codecs.open(project + 'allen.json', 'w', encoding='utf-8').write(json.dumps(all, indent=4))
 #---
 def start():
     #---
@@ -169,8 +192,16 @@ def start():
         links = main_links()
     #---
     # start work in all links
+    n = 0
     for x in links:
+        n += 1
+        pap = f'p {n}/{len(links)}: {x}'
+        printe.output(pap)
         work_in_en_page(x)
+        if n % 100 == 0:
+            codecs.open(project + 'allen3.json', 'w', encoding='utf-8').write(json.dumps(all))
+    #---
+    codecs.open(project + 'allen3.json', 'w', encoding='utf-8').write(json.dumps(all))
 #---
 class testmycode(object):
     def __init__(self):

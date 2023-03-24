@@ -42,8 +42,7 @@ if not os.path.isdir(project): project = '/mdwiki'
 def get_RTT():
     RTT = []
     #---
-    #---
-    filename = project + '/public_html/Translation_Dashboard/cash/RTT.json'
+    filename = project + '/public_html/Translation_Dashboard/cats_cash/RTT.json'
     #---
     try:
         textn = codecs.open( filename, "r", encoding="utf-8").read() 

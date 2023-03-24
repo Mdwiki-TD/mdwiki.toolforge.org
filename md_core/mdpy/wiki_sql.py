@@ -2,21 +2,6 @@
 
 """
 بوت قواعد البيانات
-
-    $content_lang_map = array(
-        'als' => 'gsw',
-        'bat-smg' => 'sgs',
-        'be-x-old' => 'be-tarask',
-        'bh' => 'bho',
-        'crh' => 'chr-latn',
-        'fiu-vro' => 'vro',
-        'no' => 'nb',
-        'roa-rup' => 'rup',
-        'simple' => 'en',
-        'zh-classical' => 'lzh',
-        'zh-min-nan' => 'nan',
-        'zh-yue' => 'yue',
-    );
 """
 #
 # (C) Ibrahem Qasim, 2022
@@ -39,7 +24,6 @@ import datetime
 from datetime import datetime#, date, time
 #---
 TTime = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
-
 #---
 can_use_sql_db  = { 1 : False }
 SQL_Ready  = False
@@ -50,7 +34,6 @@ import py_tools
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
 # py_tools.Decode_bytes(x)
-#---
 #---
 try:
     import MySQLdb
@@ -70,11 +53,65 @@ import wiki_sql
 #---
 def GET_SQL():
     return can_use_sql_db[1]
+#---        
+content_lang_map = {
+    "be-x-old" : "be-tarask",
+    "be_x_old" : "be-tarask",
+    "bh" : "bho",
+    "crh" : "chr-latn",
+    "no" : "nb",
+    "als"	:	"gsw",
+    "bat-smg"	:	"sgs",
+    "cbk-zam"	:	"cbk",
+    "eml"	:	"egl",
+    "fiu-vro"	:	"vro",
+    "map-bms"	:	"jv-x-bms",
+    "nrm"	:	"nrf",
+    "roa-rup"	:	"rup",
+    "roa-tara"	:	"nap-x-tara",
+    "simple"	:	"en-simple",
+    "zh-classical"	:	"lzh",
+    "zh-min-nan"	:	"nan",
+    "zh-yue"	:	"yue",
+}
 #---
-def Make_sql_many_rows( queries , wiki="", printqua = False):
+def make_labsdb_dbs_p(wiki):
+    #---
+    lang = wiki
+    #---
+    if lang.endswith('wiki') : lang = lang[:-4]
+    #---
+    if lang in content_lang_map:
+        wiki = content_lang_map[lang]
+    #---
+    dbs = ''
+    #---
+    if wiki == "wikidata" : 
+        wiki = "wikidatawiki"
+        dbs = "wikidatawiki"
+    else:
+        dbs = wiki
+    #---
+    host = "%s.analytics.db.svc.wikimedia.cloud" % wiki
+    #---
+    dbs_p = dbs + '_p'
+    #---
+    _host_    =   config.db_hostname_format.format(wiki)
+    if host != _host_:
+        pywikibot.output(f'<<lightyellow>>host:{host} != _host:{_host_}')
+    #---
+    _dbs_p_   =   config.db_name_format.format(wiki)
+    if dbs_p != _dbs_p_:
+        pywikibot.output(f'dbs_p:{dbs_p} != _dbs_p:{_dbs_p_}')
+    #---
+    return host, dbs_p
+#---
+def Make_sql_many_rows(queries, wiki="", printqua=False):
     rows = []
     #---
     pywikibot.output( "wiki_sql.py Make_sql_many_rows wiki '%s'" % wiki )
+    #---
+    host, dbs_p = make_labsdb_dbs_p(wiki)
     #---
     if printqua or "printsql" in sys.argv:
         pywikibot.output( queries )
@@ -88,38 +125,18 @@ def Make_sql_many_rows( queries , wiki="", printqua = False):
     #delta = int(final - start)
     #pywikibot.output( 'wiki_sql.py Make_sql len(encats) = "{}", in {} seconds'.format( len( encats ) , delta)  )
     #---
-    repa = {
-        "zh-yuewiki" : "yuewiki",
-        "zh-yue" : "yue",
-        }
-    #---
-    if wiki in repa : wiki = repa[wiki]
-    #---
-    dbs = ''
-    #if wiki == "arwiki" : dbs = ar_site.dbName()
-    #---
-    if wiki == "wikidata" : 
-        wiki = "wikidatawiki"
-        dbs = "wikidatawiki"
-    else:
-        dbs = wiki
-    #---
     db_user = config.db_username
     dpas    = config.db_password
     #---
-    labsdb = "%s.analytics.db.svc.wikimedia.cloud" % wiki
-    #---
     TTime = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
     #---
-    dbs_p = dbs + '_p'
-    #---
-    # pywikibot.output( '<<lightred>> wiki_sql.py <<lightyellow>>labsdb:"%s" , db:"%s" , db_user:"%s" %s' % (labsdb , dbs_p , db_user , TTime) )
+    # pywikibot.output( '<<lightred>> wiki_sql.py <<lightyellow>>host:"%s" , db:"%s" , db_user:"%s" %s' % (host , dbs_p , db_user , TTime) )
     #---
     if SQL_Ready:
         #---
         # MySQLdb.connect with arrgs
         arrgs = {
-            'host': labsdb,
+            'host': host,
             'user': db_user,
             'passwd': dpas,
             'db': dbs_p,

@@ -262,7 +262,7 @@ def main():
             pywikibot.output( 'skip lang:%s' % lange)
         else:
             if 'printquery' in sys.argv: print(qua)
-            result = wiki_sql.Make_sql_many_rows( qua, wiki = str(lange) + "wiki" )
+            result = wiki_sql.Make_sql_many_rows( qua, wiki = str(lange))
         #---
         if result != {}:
             pywikibot.output( 'sql.py len(result) = "{}"'.format( len( result ) ) )

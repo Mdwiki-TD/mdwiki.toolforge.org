@@ -211,7 +211,7 @@ def check_title(title):
     return True
 #---
 def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ): 
-    filename = project + '/public_html/Translation_Dashboard/cash/%s.json' % cat
+    filename = project + '/public_html/Translation_Dashboard/cats_cash/%s.json' % cat
     #---
     if cat == 'RTT' : depth = 2
     #---
