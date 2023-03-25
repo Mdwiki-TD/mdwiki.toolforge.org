@@ -24,7 +24,7 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/md_core/prior'
 #---
-all = json.loads(codecs.open(project + '/allen3.json', 'r', encoding='utf-8').read())
+all = json.loads(codecs.open(project + '/allennew.json', 'r', encoding='utf-8').read())
 #--
 # _all_ = { "Abacavir": { "refs": 23, "langs": { "ar": { "title": "title", "refs": 5, "same": 4 } } } }
 #---
@@ -117,10 +117,12 @@ def make_text(allo):
             #---
             if l in langs:
                 tito = f'[[:{l}:{tit}|{same}]]'
-                if match_p(refs, langs[l]['refs']):
-                    color = '#c0fcc0'
-                else:
-                    color = '#fcc0c0'
+                #---
+                color = '#fcc0c0'   # red
+                #---
+                if match_p(refs, same):
+                    color = '#c0fcc0'   # green
+                #---   
                 tito = f'| style="background-color:{color} | {tito}'
             #---
             # make background color
@@ -133,6 +135,24 @@ def make_text(allo):
     #---
     return text
 #---
+# mdwiki_api.post(params)
+# mdwiki_api.wordcount(title, srlimit='30')
+# mdwiki_api.purge(title)
+# mdwiki_api.page_put(NewText, summary, title, time_sleep="", minor="")
+# mdwiki_api.page_putWithAsk(oldtext, NewText, summary, title, Ask, minor="")
+# mdwiki_api.create_Page(text, summary, title, ask, sleep=0, duplicate4="")
+# mdwiki_api.Add_To_Bottom(appendtext, summary, title, ask)
+# mdwiki_api.Add_To_Head(prependtext, summary, title, Ask)
+# mdwiki_api.move(From, to, reason)
+# mdwiki_api.Get_Newpages(limit="max", namespace="0", rcstart="")
+# mdwiki_api.Get_UserContribs(user, limit="max", namespace="*", ucshow="")
+# mdwiki_api.GetPageText(title)
+# mdwiki_api.Get_All_pages(start, limit="max", namespace="*", apfilterredir='')
+# mdwiki_api.Search(title, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
+# mdwiki_api.import_page(title)
+# mdwiki_api.Get_page_links(title, namespace="*", limit="max")
+# mdwiki_api.subcatquery(title, depth=0, ns="all", without_lang="", with_lang="", tempyes=[], limit=0)
+# mdwiki_api.get_redirect(liste)
 # write text to file
 if 'all' in sys.argv:
     filetitle = f'{project}/log/en.txt'
@@ -157,6 +177,8 @@ else:
     print(f'all_wikilinks: {len(all_wikilinks)}')
     #---
     Done = []
+    #---
+    mmm_links = []
     #---
     for s in sections:
         #---
@@ -195,7 +217,13 @@ else:
         #---
         codecs.open(filetitle, 'w', encoding='utf-8').write(text)
         #---
+        ttt = f'User:Mr. Ibrahem/prior/{t}'
+        mmm_links.append(ttt)
+        mdwiki_api.page_put(text, 'update', ttt)
         # break
     # get text sections use wikitextparser
     #---
+    n_text = "\n".join([ f'* [[{x}]]' for x in mmm_links])
+    #---
+    mdwiki_api.page_put(n_text, 'create', 'User:Mr. Ibrahem/prior')
     

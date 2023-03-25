@@ -24,7 +24,7 @@ sys.dont_write_bytecode = True
 #---
 '''
 # start of mdwiki_api.py file
-import mdwiki_api
+from mdpy import mdwiki_api
 # mdwiki_api.post(params)
 # mdwiki_api.wordcount(title, srlimit='30')
 # mdwiki_api.purge(title)
@@ -1125,7 +1125,7 @@ def Add_To_Bottom(appendtext , summary , title, Ask , family="", minor = "" ):
 #---
 Save_2040 = { 1 : False }
 #---
-def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="", minor = "" ):
+def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="", minor = "", printtext=True ):
     outbotnew(' create Page %s:' % title )
     time_sleep = timesleep
     #---
@@ -1160,7 +1160,8 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
     #if ask or "ask" in sys.argv and not "save" in sys.argv:
     #if ask:
         #pywikibot.showDiff("" , text)
-        outbotnew( "<<lightgreen>> " + text)
+        if printtext:
+            outbotnew( "<<lightgreen>> " + text)
         outbotnew( " summary: " + summary)
         sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,r2_params['lgname']))
         if sa.strip() in yes_answer:

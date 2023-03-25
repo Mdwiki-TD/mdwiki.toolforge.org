@@ -76,12 +76,15 @@ def add_to_mdwiki_sql(table):
             #---
             uuu = '';
             #---
+            #date now format like 2023-01-01
+            add_date = tttime.strftime("%Y-%m-%d")
+            #---
             update_qua = f'''
-    UPDATE pages SET target = {tar}, pupdate = "{pupdate}" WHERE user = {user2} AND title = {mdtit} AND lang = "{lang}";''';
+    UPDATE pages SET target = {tar}, pupdate = "{pupdate}", add_date = "{add_date}", WHERE user = {user2} AND title = {mdtit} AND lang = "{lang}";''';
             #---
             insert_qua = f'''
-    INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target)
-    SELECT {mdtit}, '{word}', 'lead', '{cat}', '{lang}', '', {user2}, '{pupdate}', {tar}
+    INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+    SELECT {mdtit}, '{word}', 'lead', '{cat}', '{lang}', '', {user2}, '{pupdate}', {tar}, '{add_date}'
     WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title = {mdtit} AND lang = '{lang}' AND user = {user2} );''';
             #---
             pywikibot.output('______ \\/\\/\\/ _______')
@@ -184,7 +187,7 @@ def dodo_sql():
     #---
     tttime.sleep(3)
 #---
-query_main_old = '''#use arwiki_p;
+query_main_old = '''
 select DISTINCT p.page_title, c.comment_text , a.actor_name , r.rev_timestamp
 from change_tag t
 INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
@@ -202,8 +205,10 @@ and p.page_namespace = 0
 #limit 10
 '''
 #---
-query_main = '''#use arwiki_p;
-select DISTINCT p.page_title, c.comment_text, a.actor_name, r.rev_timestamp, p.page_namespace
+query_main = '''
+select DISTINCT p.page_title, 
+SUBSTRING_INDEX(SUBSTRING_INDEX(c.comment_text, 'Ibrahem/', -1), ']]', 1), 
+a.actor_name, r.rev_timestamp, p.page_namespace, r.rev_parent_id
 from change_tag t
 INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
 INNER JOIN revision r on r.rev_id = t.ct_rev_id
@@ -211,10 +216,11 @@ INNER JOIN actor a ON r.rev_actor = a.actor_id
 inner join comment c on c.comment_id = r.rev_comment_id
 INNER JOIN page p on r.rev_page=p.page_id
 where ctd.ctd_name in ("contenttranslation", "contenttranslation-v2") #id = 3 # id = 120
-and r.rev_parent_id = 0
+#and r.rev_parent_id = 0
 AND r.rev_timestamp > 20210101000000
 and comment_text like "%User:Mr. Ibrahem/%"
 #and p.page_namespace = 0
+group by p.page_title, a.actor_name, c.comment_text
 '''
 #---
 def main():
@@ -277,17 +283,18 @@ def main():
                 user     = py_tools.Decode_bytes(list[2])
                 pupdate  = py_tools.Decode_bytes(list[3])
                 namespace= py_tools.Decode_bytes(list[4])
+                rev_parent_id= py_tools.Decode_bytes(list[5])
                 #---
                 namespace = str(namespace)
                 #---
                 pupdate  = pupdate[:8]
-                pupdate  = re.sub('^(\d\d\d\d)(\d\d)(\d\d)$' , '\g<1>-\g<2>-\g<3>' , pupdate )
+                pupdate  = re.sub(r'^(\d\d\d\d)(\d\d)(\d\d)$', '\g<1>-\g<2>-\g<3>', pupdate)
                 #---
-                md_title = co_text.split('User:Mr. Ibrahem/')[1].split(']]')[0].replace("_" , " ")#.replace("'" , "\'")
+                md_title = co_text.replace("_" , " ")
                 #---
-                target = target.replace("_" , " ")#.replace("'" , "\'")
+                target = target.replace("_" , " ")
                 #---
-                user = user.replace("_" , " ")#.replace("'" , "\'")
+                user = user.replace("_" , " ")
                 #---
                 if target in Skip_titles_global: continue
                 if target in Skip_titles.get(user,{}).get('targets',[]): continue
@@ -295,11 +302,11 @@ def main():
                 if md_title in Skip_titles.get(user,{}).get('mdtitles',[]): continue
                 #---
                 Taba2 = {
-                    "mdtitle": md_title , 
-                    "target": target, 
-                    "user":user, 
-                    "lang":lange, 
-                    "pupdate":pupdate, 
+                    "mdtitle": md_title,
+                    "target": target,
+                    "user":user,
+                    "lang":lange,
+                    "pupdate":pupdate,
                     "namespace":namespace
                 }
                 #---
