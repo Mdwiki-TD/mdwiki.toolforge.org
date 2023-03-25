@@ -84,13 +84,8 @@ def make_labsdb_dbs_p(wiki):
     if lang in content_lang_map:
         wiki = content_lang_map[lang]
     #---
-    dbs = ''
-    #---
-    if wiki == "wikidata" : 
-        wiki = "wikidatawiki"
-        dbs = "wikidatawiki"
-    else:
-        dbs = wiki
+    wiki = f"{wiki}wiki"
+    dbs = wiki
     #---
     host = "%s.analytics.db.svc.wikimedia.cloud" % wiki
     #---
@@ -100,7 +95,7 @@ def make_labsdb_dbs_p(wiki):
     if host != _host_:
         pywikibot.output(f'<<lightyellow>>host:{host} != _host:{_host_}')
     #---
-    _dbs_p_   =   config.db_name_format.format(wiki)
+    _dbs_p_   =   config.db_name_format.format(wiki) + '_p'
     if dbs_p != _dbs_p_:
         pywikibot.output(f'dbs_p:{dbs_p} != _dbs_p:{_dbs_p_}')
     #---

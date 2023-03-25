@@ -80,7 +80,7 @@ def add_to_mdwiki_sql(table):
             add_date = tttime.strftime("%Y-%m-%d")
             #---
             update_qua = f'''
-    UPDATE pages SET target = {tar}, pupdate = "{pupdate}", add_date = "{add_date}", WHERE user = {user2} AND title = {mdtit} AND lang = "{lang}";''';
+    UPDATE pages SET target = {tar}, pupdate = "{pupdate}", add_date = "{add_date}" WHERE user = {user2} AND title = {mdtit} AND lang = "{lang}";''';
             #---
             insert_qua = f'''
     INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
@@ -235,7 +235,7 @@ def main():
     #---
     Skip_titles = {}
     Skip_titles['Mr. Ibrahem'] = { 'targets' : ['جامعة نورث كارولاينا','جامعة ولاية كارولينا الشمالية إيه آند تي','نيشان راجاميترابورن'] , 'mdtitles' : [] }
-    Skip_titles['Avicenno'] =  { 'targets' : ['ألم فرجي','لقاح المكورة السحائية'], 'mdtitles' : [] }
+    Skip_titles['Avicenno'] =  { 'targets' : ['ألم فرجي','لقاح المكورة السحائية', 'استئصال اللوزتين'], 'mdtitles' : [] }
     #---
     Skip_titles['Subas Chandra Rout'] =  { 'targets' : [], 'mdtitles' : ["Wilms' tumor" , "Sheehan's syndrome", "Membranous nephropathy"] }
     #---
@@ -340,10 +340,10 @@ def main():
                         n += 1
                         pywikibot.output( laloly )
                 #---
-    #---
-    add_to_wd.add_tab_to_wd(New_Table_by_lang)
-    #---
-    add_to_mdwiki_sql(New_Table_by_lang)
+        #---
+        add_to_wd.add_tab_to_wd( { lange : New_Table_by_lang[lange] } )
+        #---
+        add_to_mdwiki_sql( { lange : New_Table_by_lang[lange] } )
     #wpref.make_ref_change(New_Table_by_lang)# if newtext.find('[[Category:Translated from MDWiki') == -1 : newtext = newtext + '\n[[Category:Translated from MDWiki]]'
     #---
 if __name__ == '__main__':
