@@ -16,7 +16,7 @@ import wikitextparser
 import codecs
 #---
 from mdpy import printe
-from mdpy import mdwiki_api
+# from mdpy import mdwiki_api
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
@@ -24,7 +24,16 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/md_core/prior'
 #---
-all = json.loads(codecs.open(project + '/allennew.json', 'r', encoding='utf-8').read())
+all = json.loads(codecs.open(project + '/allennew_2.json', 'r', encoding='utf-8').read())
+#---
+if os.path.exists(project + '/new_1.json'):
+    all1 = json.loads(codecs.open(project + '/new_1.json', 'r', encoding='utf-8').read())
+    all2 = json.loads(codecs.open(project + '/new_2.json', 'r', encoding='utf-8').read())
+    all3 = json.loads(codecs.open(project + '/new_3.json', 'r', encoding='utf-8').read())
+    all4 = json.loads(codecs.open(project + '/new_4.json', 'r', encoding='utf-8').read())
+    #---
+    all = {**all1, **all2, **all3, **all4}
+    print(f'new all len:{len(all)}')
 #--
 # _all_ = { "Abacavir": { "refs": 23, "langs": { "ar": { "title": "title", "refs": 5, "same": 4 } } } }
 #---
@@ -36,11 +45,17 @@ if True:
     all_langs = list(set(all_langs))
     all_langs.sort()
 #---
-def match_p(refs, same):
-    if same < 1: return False
-    if 11 > same < ((refs/2)-1): return False
+def match_p(refs, p_ref):
     #---
-    return True
+    same = [ x for x in p_ref if x in refs ]
+    len_same = int(len(same))
+    #---
+    len_refs = int(len(refs))
+    #---
+    if len_same < 1: return False, len_same
+    if 9 > len_same < ((len_refs/2)-1): return False, len_same
+    #---
+    return True, len_same
 #---
 text_main = '''
 <div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">
@@ -49,22 +64,8 @@ text_main = '''
 |- style="position: sticky;top: 0; z-index: 2;"
 ! n
 ! style="position: sticky;top: 0;left: 0;" | en
-!refs
+!urls/refs
 !'''
-#---
-change_codes = {
-    "bat_smg" : "bat-smg",
-    "be_x_old" : "be-tarask",
-    "be-x-old" : "be-tarask",
-    "cbk_zam" : "cbk-zam",
-    "fiu_vro" : "fiu-vro",
-    "map_bms" : "map-bms",
-    "nds_nl" : "nds-nl",
-    "roa_rup" : "roa-rup",
-    "zh_classical" : "zh-classical",
-    "zh_min_nan" : "zh-min-nan",
-    "zh_yue" : "zh-yue",
-}
 #---
 def make_text(allo):
     # create wikitable from json
@@ -94,13 +95,15 @@ def make_text(allo):
     #---
     text = text_main
     #---
-    text += " !! ".join([ change_codes.get(x.strip(), x.strip()) for x in all_langs1 ])
-    # text += " !! ".join([x for x, ta in all_langs_2])
+    text += " !! ".join(all_langs1)
+    #text += " !! ".join([x for x, ta in all_langs_2])
     #---
     n = 0
     #---
     for en, ta in allo.items():
-        refs  = ta['refs']
+        extlinks  = [ x.lower() for x in ta['extlinks'] ]
+        refsname  = [ x.lower() for x in ta['refsname'] ]
+        #---
         en    = ta.get('en', en)
         langs = ta['langs']
         #---
@@ -117,28 +120,36 @@ def make_text(allo):
 |-
 ! {n}
 ! style="position: sticky;left: 0;" | [[:en:{en}|{en}]]
-! {refs}
+! {len(extlinks)}/{len(refsname)}
 '''
         #---
         for l in all_langs1:
         #for l, ta in all_langs_2:
             #---
-            tit   = langs.get(l, {}).get('title', '')
-            same  = langs.get(l, {}).get('same', 0)
-            p_ref = langs.get(l, {}).get('refs', 0)        
+            tit     = langs.get(l, {}).get('title', '')
+            #---
+            p_ref   = langs.get(l, {}).get('extlinks', [])
+            p_ref = [ x.lower() for x in p_ref ]
+            #---
+            p_names = langs.get(l, {}).get('refsname', [])    
+            p_names = [ x.lower() for x in p_names ]
             #---
             tito = '|'
             #---
             if l in langs:
-                l2 = change_codes.get(l, l)
-                #---
-                tito = f'[[:{l2}:{tit}|{same}]]'
                 #---
                 color = '#fcc0c0'   # red
                 #---
-                if match_p(refs, same):
+                _sa_, same1 = match_p(extlinks, p_ref)
+                _sa_2, same2 = match_p(refsname, p_names)
+                #---
+                if _sa_ or _sa_2:
                     color = '#c0fcc0'   # green
-                #---   
+                #---
+                same = f'{same1}/{same2}'
+                #---  
+                tito = f'[[:{l}:{tit}|{same}]]'
+                #---
                 tito = f'| style="background-color:{color} | {tito}'
             #---
             # make background color
@@ -163,6 +174,7 @@ if 'all' in sys.argv:
     #---
 else:
     title = "WikiProjectMed:List/Prior"
+    from mdpy import mdwiki_api
     text  = mdwiki_api.GetPageText(title)
     #---
     # get text sections use wikitextparser

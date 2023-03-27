@@ -41,5 +41,7 @@ nccommons/ns_0_pages.json
 py/sql_test.py
 tw/twet_config.py
 md_core/mdpy/‫md_core - رمز اختصار.lnk
-md_core/prior/allen.json
-md_core/prior/links.json
+md_core/prior/*.json
+md_core/prior/test.py
+md_core/prior/test1.py
+md_core/prior/new_1.json

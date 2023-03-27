@@ -52,6 +52,7 @@ missing = {'all' : 0, 'date' : Day_History, 'langs' : {} }
 skip_codes = ["commons", "species", "ary", "arz", "meta"]
 #---
 change_codes = {
+    "nb" : "no",
     "bat_smg" : "bat-smg",
     "be_x_old" : "be-tarask",
     "be-x-old" : "be-tarask",

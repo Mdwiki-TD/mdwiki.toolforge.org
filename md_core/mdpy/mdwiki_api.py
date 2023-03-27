@@ -23,7 +23,7 @@ sys.dont_write_bytecode = True
 #---
 #---
 '''
-# start of mdwiki_api.py file
+#---
 from mdpy import mdwiki_api
 # mdwiki_api.post(params)
 # mdwiki_api.wordcount(title, srlimit='30')
@@ -34,7 +34,7 @@ from mdpy import mdwiki_api
 # mdwiki_api.Add_To_Bottom(appendtext, summary, title, ask)
 # mdwiki_api.Add_To_Head(prependtext, summary, title, Ask)
 # mdwiki_api.move(From, to, reason)
-# mdwiki_api.Get_Newpages(limit="max", namespace="0", rcstart="")
+# mdwiki_api.Get_Newpages(limit="max", namespace="0", rcstart="", user='')
 # mdwiki_api.Get_UserContribs(user, limit="max", namespace="*", ucshow="")
 # mdwiki_api.GetPageText(title)
 # mdwiki_api.Get_All_pages(start, limit="max", namespace="*", apfilterredir='')
@@ -737,7 +737,7 @@ def GetPageText(title , redirects = False):
     #---
     return text
 #---
-def Get_Newpages( limit="max", namespace = "0" , rcstart = ""):
+def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
     #---
     params = {
         "action": "query",
@@ -750,34 +750,29 @@ def Get_Newpages( limit="max", namespace = "0" , rcstart = ""):
         "rctype": "new"
     }
     #---
-    if rcstart != "" :
-        params["rcstart"] = rcstart
+    if rcstart != "" :  params["rcstart"] = rcstart
+    if user != "" :     params["rcuser"] = user
     #---
     json1 = post( params )
     #---
     Main_table = []
     #---
-    if json1:
-        #outbotnew(json1)
-        #outbotnew('find json1:')
-        newp = json1.get( "query" , {} ).get( "recentchanges" , {} )
-        if 'query' in json1:
-            #---
-            ccc = {
-                "type": "new",
-                "ns": 0,
-                "title": "تشارلز مسيون ريمي",
-                "pageid": 7004776,
-                "revid": 41370093,
-                "old_revid": 0,
-                "rcid": 215347464,
-                "timestamp": "2019-12-15T13:14:34Z"
-            }
-            #---
-            Main_table = [ x[ "title" ] for x in newp ]
-            #for iteme in newp:
-                #q = newp[ "title" ]
-                #Main_table.append( q )
+    if not json1 or json1 == {} : return []
+    #---
+    newp = json1.get( "query" , {} ).get( "recentchanges" , {} )
+    #---
+    ccc = {
+        "type": "new",
+        "ns": 0,
+        "title": "تشارلز مسيون ريمي",
+        "pageid": 7004776,
+        "revid": 41370093,
+        "old_revid": 0,
+        "rcid": 215347464,
+        "timestamp": "2019-12-15T13:14:34Z"
+    }
+    #---
+    Main_table = [ x[ "title" ] for x in newp ]
     #---
     return Main_table
 #---

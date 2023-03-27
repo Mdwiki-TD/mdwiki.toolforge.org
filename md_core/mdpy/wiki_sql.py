@@ -96,6 +96,7 @@ def make_labsdb_dbs_p(wiki):
         pywikibot.output(f'<<lightyellow>>host:{host} != _host:{_host_}')
     #---
     _dbs_p_   =   config.db_name_format.format(wiki) + '_p'
+    #---
     if dbs_p != _dbs_p_:
         pywikibot.output(f'dbs_p:{dbs_p} != _dbs_p:{_dbs_p_}')
     #---
