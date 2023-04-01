@@ -79,13 +79,12 @@ def add_to_mdwiki_sql(table):
             #date now format like 2023-01-01
             add_date = tttime.strftime("%Y-%m-%d")
             #---
-            update_qua = f'''
-    UPDATE pages SET target = {tar}, pupdate = "{pupdate}", add_date = "{add_date}" WHERE user = {user2} AND title = {mdtit} AND lang = "{lang}";''';
+            update_qua = f'''UPDATE pages SET target = {tar}, pupdate = "{pupdate}", add_date = "{add_date}" WHERE user = {user2} AND title = {mdtit} AND lang = "{lang}";''';
             #---
             insert_qua = f'''
-    INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-    SELECT {mdtit}, '{word}', 'lead', '{cat}', '{lang}', '', {user2}, '{pupdate}', {tar}, '{add_date}'
-    WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title = {mdtit} AND lang = '{lang}' AND user = {user2} );''';
+                INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
+                SELECT {mdtit}, '{word}', 'lead', '{cat}', '{lang}', '{add_date}', {user2}, '{pupdate}', {tar}, '{add_date}'
+                WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title = {mdtit} AND lang = '{lang}' AND user = {user2} );''';
             #---
             pywikibot.output('______ \\/\\/\\/ _______')
             # find if to update or to insert
