@@ -24,7 +24,7 @@ import sys
 import datetime
 from datetime import timedelta
 #---
-import wiki_api
+from mdpy import wiki_api
 
 
 

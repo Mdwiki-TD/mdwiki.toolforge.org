@@ -29,18 +29,18 @@ sys_argv = sys.argv or []
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
-import py_tools
-import en_to_md
+from mdpy import py_tools
+from mdpy import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
 #---
 mdwiki_to_qid = en_to_md.mdtitle_to_qid
 #---
-import wiki_api
+from mdpy import wiki_api
 
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 #---
 def get_pages():
     #---

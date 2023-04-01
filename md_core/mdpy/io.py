@@ -46,7 +46,7 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = 'I:/mdwiki'
 #---
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 
@@ -169,5 +169,5 @@ text += '''|-
 if 'test' in sys_argv:
     outbotnew( text )
 else:
-    mdwiki_api.page_put( text , 'update' , 'User:Mr. Ibrahem/pages' )
+    mdwiki_api.page_put( newtext=text , summary='update' , title='User:Mr. Ibrahem/pages' )
 #---

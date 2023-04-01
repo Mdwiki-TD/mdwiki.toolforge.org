@@ -17,9 +17,9 @@ import string
 import sys
 sys_argv = sys.argv or []
 #---
-import txtlib2
+from mdpy import txtlib2
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 
@@ -164,7 +164,7 @@ def make_log(dad):
     te = '= errors = \n' + text_error + '\n'
     te += '= no errors = \n' + text + '\n'
     #---
-    mdwiki_api.page_put(te, 'update', 'User:Mr. Ibrahem/Ourworldindatamirror', diff=False)
+    mdwiki_api.page_put(newtext=te, summary='update', title='User:Mr. Ibrahem/Ourworldindatamirror', diff=False)
 #---
 def main():
     nn = ''

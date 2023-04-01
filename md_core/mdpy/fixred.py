@@ -27,7 +27,7 @@ import urllib.parse
 #---
 sys_argv = sys.argv or []
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 
@@ -72,7 +72,7 @@ pywikibot.output( 'len of nonredirects %d ' % len( nonredirects ) )
 from_to = {}
 normalized = {}
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 #---
@@ -222,7 +222,7 @@ def treat_page( title ):
                 #pywikibot.output('<<lightred>> tit:["%s"] not in from_to' % tit )
             #---
     #---
-    mdwiki_api.page_putWithAsk( text , newtext , 'Fix redirects' , title , False )
+    mdwiki_api.page_put(oldtext=text, newtext=newtext, summary='Fix redirects', title=title, returntrue=False, diff=True)
 #---
 def main():
     #---

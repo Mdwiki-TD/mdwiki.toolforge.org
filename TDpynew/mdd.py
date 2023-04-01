@@ -1138,7 +1138,6 @@ def work( title , returntext = False , text_O = "" ):
         print( new_text )
     #---
     #if new_text != text :
-        #apim.page_putWithAsk(text , new_text, sus , title , False )
         #return new_text
     #else:
         #print( " no changes.")

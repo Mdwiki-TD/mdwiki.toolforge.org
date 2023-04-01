@@ -19,7 +19,7 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-project += '/md_core/prior/'
+project += '/md_core/prior/json/'
 #---
 all = json.loads(codecs.open(project + 'allen.json', 'r', encoding='utf-8').read())
 #--

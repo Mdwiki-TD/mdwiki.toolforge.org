@@ -31,12 +31,12 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 #---
 def Get_cat(enlink, print_url = False ): 
     #---
@@ -131,6 +131,15 @@ def Get_cat(enlink, print_url = False ):
     #---
     return table
 #---
+def check_title(title):
+    #---
+    title = title.lower().strip()
+    #---
+    if title.find('(disambiguation)') != -1 :   return False
+    if title.startswith('user:') :              return False
+    #---
+    return True
+#---
 def subcatquery( title, depth=0, ns="all", limit=0, test=False ): 
     #---
     # إيجاد categorymembers والتصانيف الفرعية لتصنيف
@@ -153,11 +162,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     #---
     new_list = [ v['title'] for x, v in tablemember.items() if int(v["ns"]) == 14 ]
     #---
-    if type(depth) != int:
-        try:
-            depth = int(depth)
-        except:
-            depth = depth
+    if type(depth) != int and depth.isdigit():  depth = int(depth)
     #---
     if 'newlist' in sys_argv: print('lenof main cat:%d' % len(result_table) )
     #---
@@ -200,15 +205,6 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     #---
     #return result_table
     return result_tab
-#---
-def check_title(title):
-    #---
-    title = title.lower().strip()
-    #---
-    if title.find('(disambiguation)') != -1 :   return False
-    if title.startswith('user:') :              return False
-    #---
-    return True
 #---
 def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ): 
     filename = project + '/public_html/Translation_Dashboard/cats_cash/%s.json' % cat
@@ -253,6 +249,18 @@ def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ):
     if 'print' in sys_argv: print('len of list:%d' % len(Table['list']) )
     #---
     return Table
+#---
+def get_RTT():
+    #---
+    Listo = subcatquery( 'RTT', depth = '3', ns = '0' )
+    #---
+    # Listo = Listo['list']
+    #---
+    for x in Listo[:]:
+        if x.startswith('Category:') :
+            Listo.remove(x)
+    #---
+    return Listo
 #---
 all_pages = []
 #---

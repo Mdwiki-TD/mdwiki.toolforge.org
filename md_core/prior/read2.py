@@ -217,11 +217,11 @@ else:
         #---
         ttt = f'User:Mr. Ibrahem/prior/{t}'
         mmm_links.append(ttt)
-        mdwiki_api.page_put(text, 'update', ttt, diff=False)
+        mdwiki_api.page_put(newtext=text, summary='update', title=ttt, diff=False)
         # break
     # get text sections use wikitextparser
     #---
     n_text = "\n".join([ f'* [[{x}]]' for x in mmm_links])
     #---
-    # mdwiki_api.page_put(n_text, 'create', 'User:Mr. Ibrahem/prior')
+    # mdwiki_api.page_put(oldtext='', newtext=n_text, summary='create', title='User:Mr. Ibrahem/prior', family="", lang="", returntrue=False, diff=True)
     

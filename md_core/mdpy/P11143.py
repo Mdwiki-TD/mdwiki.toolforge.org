@@ -14,14 +14,14 @@ import sys
 import os
 import json
 import time
-import py_tools
+from mdpy import py_tools
 #---
 sys.argv.append('workhimo')
 #---
-import wikidataapi 
+from mdpy import wikidataapi
 wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)

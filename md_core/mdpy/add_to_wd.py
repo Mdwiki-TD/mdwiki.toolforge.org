@@ -5,7 +5,7 @@
 mdpy/sql.py
 
 #---
-import add_to_wd
+from mdpy import add_to_wd
 # add_to_wd.add_tab_to_wd(New_Table_by_lang)
 #---
 
@@ -21,30 +21,30 @@ import pywikibot
 import string
 import sys
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
 # py_tools.Decode_bytes(x)
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
-import wiki_api
+from mdpy import wiki_api
 
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-import en_to_md
+from mdpy import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
 #---
-import orred
+from mdpy import orred
 #---
 '''CREATE TABLE wddone (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -74,7 +74,7 @@ for tab in sq_dd :
     wddone_by_u_t.append(tuple([user,target]))
     wddone_by_u_l_mdt.append(tuple([user,lang,mdtitle]))
     #---
-import wikidataapi
+from mdpy import wikidataapi
 wikidataurl = "https://www.wikidata.org/w/api.php"
 #---
 def work_with_2_qids(oldq, new_q):

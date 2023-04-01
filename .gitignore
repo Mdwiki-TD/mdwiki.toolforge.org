@@ -45,3 +45,6 @@ md_core/prior/*.json
 md_core/prior/test.py
 md_core/prior/test1.py
 md_core/prior/new_1.json
+md_core/.vscode/settings.json
+md_core/nccommons/mv.json
+*.json

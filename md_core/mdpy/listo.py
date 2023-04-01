@@ -41,7 +41,7 @@ import urllib.request
 import urllib.parse
 #---
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 
@@ -141,5 +141,5 @@ text += "\n".join( [ '# [[%s]]' % dx for dx in re_listo ] )
 #---
 print(text)
 #---
-mdwiki_api.page_put( text , 'update' , 'User:Mr. Ibrahem/List' , nocreate = 0 )
+mdwiki_api.page_put( newtext=text , summary='update' , title='User:Mr. Ibrahem/List' , nocreate = 0 )
 #---

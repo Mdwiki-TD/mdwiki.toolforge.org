@@ -60,13 +60,6 @@ function get_results() {
     //---
     global $test, $lang, $title, $movedots, $infobox;
     //---
-    $params = array(
-        'dir' => '/data/project/mdwiki/md_core/mdpy',
-        'localdir' => '../mdpy',
-        'pyfile' => 'wpref.py',
-        'other' => '',
-        'test' => $test
-    );
     $title2 = str_replace( '+' , '_' , $title );
     $title2 = str_replace( ' ' , '_' , $title2 );
     $title2 = str_replace( '"' , '\\"' , $title2 );
@@ -78,7 +71,13 @@ function get_results() {
     //---
     $ccc = "returnfile -page:$title2 -lang:$lang $mv";
     //---
-    $params['other'] .= $ccc;
+    $params = array(
+        'dir' => '/data/project/mdwiki/md_core/mdpy',
+        'localdir' => '../mdpy',
+        'pyfile' => 'wpref.py',
+        'other' => $ccc,
+        'test' => $test
+    );
     //---
     $result = do_py($params);
     //---

@@ -2,12 +2,12 @@
 
 """
 
-from API import txtlib
+from new_api import txtlib
 # txtlib.get_one_temp_params( text, templates=[], lowers=False )
 # alltemp = txtlib.get_all_temps_params( text, templates=[], lowers=False )
 # for tab in alltemp: for namestrip, params in tab.keys():   
 #---
-from API import txtlib
+from new_api import txtlib
 # temps = txtlib.extract_templates_and_params(text)
 # for temp in temps: name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
 
@@ -21,7 +21,7 @@ from collections import OrderedDict
 import pywikibot
 import re
 import json
-# from API import printe
+# from new_api import printe
 import sys
 sys.dont_write_bytecode = True
 try:

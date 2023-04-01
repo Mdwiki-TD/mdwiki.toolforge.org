@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 #---
-import wiki_api
+from mdpy import wiki_api
 # wiki_api.Get_page_qids(sitecode, titles)
 # wiki_api.submitAPI( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
 # wiki_api.submitAPI_token( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
@@ -56,7 +56,7 @@ Url_To_login = { 1 : '', 'not' : True }
 login_done = { 1 : False }
 #---
 #---
-import user_account_new
+from mdpy import user_account_new
 #---
 lgname     = user_account_new.bot_username     #user_account_new.my_username
 lgpassword = user_account_new.bot_password     #user_account_new.my_password      #user_account_new.mdwiki_pass

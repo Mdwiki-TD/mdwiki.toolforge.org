@@ -16,9 +16,9 @@ import pywikibot
 import os
 import sys
 #---
-import wikidataapi 
+from mdpy import wikidataapi
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
@@ -55,7 +55,7 @@ def fix_redirects():
             pywikibot.output(qua)
             pywikibot.output('add "fix" to sys.argv to fix them..')
 #---
-import catdepth2
+from mdpy import catdepth2
 #---
 def check_title(title):
     #---

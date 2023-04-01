@@ -14,7 +14,7 @@ import string
 import sys
 sys_argv = sys.argv or []
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 

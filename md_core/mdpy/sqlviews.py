@@ -16,14 +16,14 @@ import re
 import pywikibot
 import sys
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #===
 #---
-import wiki_api
+from mdpy import wiki_api
 #===
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
@@ -33,7 +33,7 @@ import py_tools
 # py_tools.
 #===
 #---
-import printe
+from mdpy import printe
 # printe.output('<<red>>red')
 # printe.showDiff(text, newtext)
 #---

@@ -36,7 +36,7 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 
@@ -55,7 +55,7 @@ import mdwiki_api
 
 
 #---
-import txtlib2
+from mdpy import txtlib2
 #---
 thenumbers = { 1 : 20000 , 'done' : 0 }
 #---
@@ -181,7 +181,7 @@ def work( title ):
     if new_text != text :
         thenumbers['done'] += 1
         #---
-        mdwiki_api.page_putWithAsk( text , new_text , summary , title , Ask )
+        mdwiki_api.page_put(oldtext=text, newtext=new_text, summary=summary, title=title, returntrue=False, diff=True)
     else:
         pywikibot.output( 'no changes.')
     #---

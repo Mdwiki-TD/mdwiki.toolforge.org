@@ -12,7 +12,7 @@ import pywikibot
 import sys
 import os
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
@@ -21,9 +21,10 @@ import py_tools
 #--- 
 '''
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# pages = sql_for_mdwiki.get_all_pages()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 #---
 '''
@@ -220,6 +221,16 @@ def get_all_qids():
         mdtitle_to_qid[title] = qqid
     #---
     return mdtitle_to_qid
+#---
+def get_all_pages():
+    #---
+    pages = []
+    #---
+    for ta in mdwiki_sql(' select DISTINCT title from pages;'): 
+        title = Decode_bytes(ta[0])
+        pages.append(title)
+    #---
+    return pages
 #---
 def add_qid(title, qid):
     qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = py_tools.make_cod(title))

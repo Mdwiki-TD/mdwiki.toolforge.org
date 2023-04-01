@@ -27,10 +27,10 @@ import urllib.request
 import urllib.parse
 from pywikibot import config
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
-import wpref
+from mdpy import wpref
 # wpref.submitAPI( params , lang = 'or' , returnjson = False )
 #---
 or_url = 'https://' + 'or.wikipedia.org/w/api.php'

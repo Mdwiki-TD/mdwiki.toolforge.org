@@ -31,12 +31,12 @@ import urllib.request
 import urllib.parse
 #---
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 #---
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 

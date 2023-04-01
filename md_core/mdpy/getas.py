@@ -22,7 +22,7 @@ import os
 import sys
 sys_argv = sys.argv or []
 import pywikibot
-import catdepth2
+from mdpy import catdepth2
 #---
 #---
 #---
@@ -68,7 +68,7 @@ for arg in sys_argv:
         Nore[1] = True
 #--- 
 #---
-import wiki_api
+from mdpy import wiki_api
 
 
 

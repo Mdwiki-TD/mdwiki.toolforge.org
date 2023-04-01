@@ -29,7 +29,7 @@ can_use_sql_db  = { 1 : False }
 SQL_Ready  = False
 #---
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
@@ -45,7 +45,7 @@ except Exception as e:
 #---
 '''
 #---
-import wiki_sql
+from mdpy import wiki_sql
 # wiki_sql.GET_SQL()
 # wiki_sql.Make_sql_many_rows( queries , wiki="", printqua = False)
 #---

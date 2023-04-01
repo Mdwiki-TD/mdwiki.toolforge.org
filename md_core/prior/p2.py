@@ -20,7 +20,7 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-project += '/md_core/prior/'
+project += '/md_core/prior/json/'
 #---
 def main_links():
     title = "WikiProjectMed:List/Prior"
@@ -37,7 +37,7 @@ def main_links():
     #---
     return links
 #---
-from new_api.page import MainPage
+from new_api.wiki_page import MainPage
 #---
 def print_test(s):
     if 'test' in sys.argv:print(s)

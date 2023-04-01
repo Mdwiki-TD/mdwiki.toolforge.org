@@ -23,7 +23,7 @@ import sys
 sys_argv = sys.argv or []
 pywikibot.output(sys_argv)
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 from TDpynew import mdd
 #---
 def treat_page( title, textn ):
@@ -34,7 +34,7 @@ def treat_page( title, textn ):
         pywikibot.showDiff( textn , newtext )
         return ''
     #---
-    mdwiki_api.page_putWithAsk( textn , newtext , 'mdwiki changes.' , title , False )
+    mdwiki_api.page_put(oldtext=textn, newtext=newtext, summary='mdwiki changes.', title=title, returntrue=False, diff=True)
     #---
     test_text = '''
 {{Drugbox

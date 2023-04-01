@@ -21,28 +21,28 @@ import os
 import time
 
 #---
-import wiki_sql
+from mdpy import wiki_sql
 
 # wiki_sql.GET_SQL()
 # wiki_sql.Make_sql_many_rows( queries , wiki="", printqua = False)
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
 #---
-import py_tools
+from mdpy import py_tools
 
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
 # py_tools.Decode_bytes( x )
 #---
-import wikidataapi
+from mdpy import wikidataapi
 wikidataurl = "https://www.wikidata.org/w/api.php"
 #---
-import wiki_api
+from mdpy import wiki_api
 #---
 targets_done = {}
 #---
@@ -225,7 +225,7 @@ for lange in targets_done:
     # do_it_api(lange,targets_done[lange])
     #---
 #---
-import en_to_md
+from mdpy import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki

@@ -21,7 +21,7 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-project += '/md_core/prior/'
+project += '/md_core/prior/json/'
 #---
 def main_links():
     title = "WikiProjectMed:List/Prior"
@@ -38,7 +38,7 @@ def main_links():
     #---
     return links
 #---
-from new_api.page import MainPage, change_codes
+from new_api.wiki_page import MainPage, change_codes
 #---
 # if not os.path.exists(project + 'allen2.json'): codecs.open(project + 'allen2.json', 'w', encoding='utf-8').write(json.dumps({}))
 #---

@@ -25,7 +25,7 @@ from datetime import datetime
 menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
 #---
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
@@ -36,7 +36,7 @@ import py_tools
 #---
 '''
 #---
-import wikidataapi
+from mdpy import wikidataapi
 # wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
 # wikidataapi.post( params , apiurl = '' )
 # wikidataapi.Get_sitelinks_From_Qid( q )
@@ -53,7 +53,7 @@ import wikidataapi
 #---
 import requests
 #---
-import user_account_new
+from mdpy import user_account_new
 #---
 username = user_account_new.bot_username     #user_account_new.my_username
 password = user_account_new.bot_password     #user_account_new.my_password      #user_account_new.mdwiki_pass

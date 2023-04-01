@@ -24,9 +24,9 @@ sys.dont_write_bytecode = True
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-import wiki_api
+from mdpy import wiki_api
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)

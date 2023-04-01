@@ -20,20 +20,20 @@ import string
 import sys
 import time as tttime
 #---
-import add_to_wd
+from mdpy import add_to_wd
 # add_to_wd.add_tab_to_wd(New_Table_by_lang)
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
 # py_tools.Decode_bytes(x)
 #---
-import wiki_sql
+from mdpy import wiki_sql
 # wiki_sql.GET_SQL()
 # wiki_sql.Make_sql_many_rows( queries , wiki="", printqua = False)
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'

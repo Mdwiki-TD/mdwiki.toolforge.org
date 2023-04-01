@@ -13,10 +13,10 @@ python3 pwb.py mdpy/sql
 #
 #
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 # from sql import *
 #---
-import py_tools
+from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)

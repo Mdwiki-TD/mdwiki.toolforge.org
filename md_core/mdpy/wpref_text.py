@@ -161,7 +161,7 @@ def move_dots_text(newtext, lang=''):
     #---
     return newtext
 #---
-import txtlib2
+from mdpy import txtlib2
 #---
 def Expend_Infobox(text, title, section_0):
     #---

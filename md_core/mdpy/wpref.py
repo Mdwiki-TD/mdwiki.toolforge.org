@@ -29,9 +29,10 @@ import sys
 sys.dont_write_bytecode = True
 import requests
 #---
-sys_argv = sys.argv or []
+from mdpy.wpref_text import fix_page
+# newtext = fix_page(text,title, move_dots= move_dot[1], infobox = False)
 #---
-if not 'returnfile' in sys_argv:
+if not 'returnfile' in sys.argv:
     from warnings import warn
     import pywikibot
     import printe
@@ -71,7 +72,7 @@ if os.path.isfile(fixwikirefs):
     # print(f'fixwikirefs:{fixwikirefs} not file...')
 #---
 def print_s(s):
-    if not 'returnfile' in sys_argv:
+    if not 'returnfile' in sys.argv:
         printe.output(s)
 #---
 def ec_de_code( tt , type ):
@@ -93,7 +94,7 @@ def make_ref_done_list():
             reffixed = mama.read()
         mama.close()
     except Exception as e:
-        if not 'returnfile' in sys_argv:
+        if not 'returnfile' in sys.argv:
             pywikibot.output( 'Traceback (most recent call last):' )
             warn('Exception:' + str(e), UserWarning)
             pywikibot.output( 'CRITICAL:' )
@@ -307,28 +308,10 @@ def page_put(oldtext, NewText, summary, title, lang):
     #---
     return False
 #---
-from wpref_text import fix_page
-# newtext = fix_page(text,title, move_dots= move_dot[1], infobox = False)
-#---
 def fix_page_here(text, title, langcode):
     newtext = text
     #---
     section_0_text = ''
-    #---
-    '''
-    if expend_infobox[1]:
-        params = { "action": "parse", "page": title, "prop": "sections|wikitext", "section": 0, "utf8": 1 }
-        #---
-        json1 = submitAPI(params, lang=langcode, Type = 'get')
-        #---
-        if json1 and json1 != {}:
-            #---
-            section_0_text = json1.get("parse", {}).get("wikitext", {}).get("*", "")
-            #---
-            print_s(section_0_text)
-            #---
-        else:
-            print_s(json1)'''
     #---
     lang_default = setting.get(langcode, {})
     #---
@@ -367,7 +350,7 @@ def work_one_lang(list, lang):
         number += 1
         print_s( '<<lightyellow>> %d from %d, page: %s' % (number,len(newlist),lio) )
         #---
-        if lio in reffixed_List and not 'lala' in sys_argv:
+        if lio in reffixed_List and not 'lala' in sys.argv:
             print_s( '<<lightred>>\talready in reffixed_List.' )
             continue
         #---
@@ -387,14 +370,14 @@ def work_one_lang(list, lang):
             if aa :
                 donee = True 
         else:
-            if 'donee' in sys_argv: donee = True 
+            if 'donee' in sys.argv: donee = True 
         #---
         if donee:
             with codecs.open( reffixed_file[1] , "a", encoding="utf-8") as ggg:
                 ggg.write( '\n' + lio )
             ggg.close()
 #---
-for arg in sys_argv:
+for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     arg = arg[1:] if arg.startswith("-") else arg
     #---
@@ -407,7 +390,7 @@ def maine():
     lange = ''
     nolange = ''
     #---
-    for arg in sys_argv:
+    for arg in sys.argv:
         arg, sep, value = arg.partition(':')
         # remove the - from the argument
         arg = arg[1:] if arg.startswith("-") else arg
@@ -421,7 +404,7 @@ def maine():
     if page != "" and lange != "":
         newtable[lange] = [page]
     #---
-    if page != "" and lange != "" and 'returnfile' in sys_argv:
+    if page != "" and lange != "" and 'returnfile' in sys.argv:
         #---
         title = ec_de_code( page, 'decode' )
         log( lange )
@@ -453,7 +436,7 @@ def maine():
             print(filename)
             #---
         except Exception as e:
-            if not 'returnfile' in sys_argv:
+            if not 'returnfile' in sys.argv:
                 pywikibot.output( 'Traceback (most recent call last):' )
                 warn('Exception:' + str(e), UserWarning)
                 pywikibot.output( 'CRITICAL:' )
@@ -489,7 +472,7 @@ def maine():
     for lang in newtable:
         work_one_lang( newtable[lang] , lang )
     #---
-    if not 'returnfile' in sys_argv:
+    if not 'returnfile' in sys.argv:
         print_s( 'find %s pages in missingtitles' % len(missingtitles) )
         for x, lang in missingtitles.items():
             print_s( 'lang: %s, title: %s' % (lang, x) )

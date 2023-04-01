@@ -22,9 +22,9 @@ import os
 import sys
 sys.dont_write_bytecode = True
 #---
-import sql_for_mdwiki
+from mdpy import sql_for_mdwiki
 #---
-import py_tools
+from mdpy import py_tools
 
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
@@ -35,7 +35,7 @@ noqids1 = []
 with open(project + '/public_html/Translation_Dashboard/Tables/noqids.json', 'r') as f:
     noqids1 = json.load(f)
 #---
-import wiki_api
+from mdpy import wiki_api
 
 #---
 noqids = []

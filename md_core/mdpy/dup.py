@@ -29,7 +29,7 @@ import urllib.request
 import urllib.parse
 #---
 #---
-import mdwiki_api
+from mdpy import mdwiki_api
 
 
 
@@ -71,7 +71,8 @@ def fix_dup(From,To):
     newtext = '#REDIRECT [[%s]]' % To
     #---
     oldtext = mdwiki_api.GetPageText(From)
-    mdwiki_api.page_putWithAsk( oldtext , newtext , 'fix duplicate redirect to [[%s]]' % To , From, False )
+    sus = 'fix duplicate redirect to [[%s]]' % To
+    mdwiki_api.page_put(oldtext=oldtext, newtext=newtext, summary=sus, title=From, returntrue=False, diff=True)
     #---
 #---
 def main():
