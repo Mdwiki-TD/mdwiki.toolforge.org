@@ -4,6 +4,8 @@ from newapi.page import NEW_API
 # api_new = NEW_API('ar', family='wikipedia')
 # login   = api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
+# pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
+# search  = api_new.Search(value, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
 '''
 #---
 import pywikibot
@@ -88,7 +90,7 @@ class NEW_API():
             #---
             pywikibot.output(f"Find_pages_exists_or_not : {done}/{len(liste)}")
             #---
-            params = { "action": "query", "titles": "|".join(titles) }
+            params = { "action": "query", "titles": "|".join(titles), "formatversion" : 2 }
             #---
             json1 = self.log.post(params)
             #---
@@ -97,13 +99,16 @@ class NEW_API():
                 return table
             #---
             query = json1.get("query", {})
-            normalz = query.get("normalized", {})
+            normalz = query.get("normalized", [])
             #---
             for red in normalz: normalized[red["to"]] = red["from"]
             #---
-            query_pages = query.get("pages", {})
+            query_pages = query.get("pages", [])
             #---
-            for _, kk in query_pages.items():
+            for kk in query_pages:
+                #---
+                if type(query_pages) == dict: kk = query_pages[kk]
+                #---
                 tit = kk.get("title", "")
                 if tit != "":
                     tit = normalized.get(tit, tit)
@@ -119,5 +124,156 @@ class NEW_API():
         pywikibot.output(f"Find_pages_exists_or_not : missing:{missing}, exists: {exists}")
         #---
         return table
+    #---
+    def Get_All_pages(self, start='', namespace="0", limit="max", apfilterredir='', limit_all=0):
+        #---
+        pywikibot.output(f'Get_All_pages for start:{start}, limit:{limit},namespace:{namespace},apfilterredir:{apfilterredir}')
+        #---
+        numb = 0
+        #---
+        params = {
+            "action": "query",
+            "format": "json",
+            "list": "allpages",
+            "apnamespace": namespace,
+            "aplimit": limit,
+            "apfilterredir": "nonredirects",
+        }
+        #---
+        if apfilterredir in ['redirects', 'all', 'nonredirects']: params['apfilterredir'] = apfilterredir
+        #---
+        if start != '' : params['apfrom'] = start
+        #---
+        apcontinue = 'x'
+        #---
+        Main_table = []
+        #---
+        while apcontinue != '':
+            #---
+            numb += 1
+            #---
+            pywikibot.output(f'Get_All_pages {numb}, apcontinue:{apcontinue}..')
+            #---
+            if apcontinue != 'x' : params['apcontinue'] = apcontinue
+            #---
+            json1 = self.log.post(params)
+            #---
+            if not json1 or json1 == {}: break
+            #---
+            apcontinue = json1.get( "continue" , {} ).get( "apcontinue" , '' )
+            #---
+            newp = json1.get("query", {}).get("allpages", [])
+            pywikibot.output( "<<lightpurple>> --- Get_All_pages : find %d pages." % len(newp) )
+            #---
+            for x in newp:
+                if not x[ "title" ] in Main_table : 
+                    Main_table.append(x["title"])
+            #---
+            pywikibot.output( "len of Main_table %d." % len(Main_table) )
+            #---
+            if limit_all > 0 and len(Main_table) > limit_all : 
+                apcontinue = '' 
+                pywikibot.output( "<<lightgreen>> limit_all > len(Main_table) " )
+                break
+            #---
+        #---
+        if numb > 0 and apcontinue == '' : 
+            pywikibot.output( "<<lightgreen>> apcontinue == '' " )
+        #---
+        pywikibot.output( "bot_api.py Get_All_pages : find %d pages." % len(Main_table) )
+        #---
+        return Main_table
+    #---
+    def Search(self, valu, ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
+        #---
+        results = []
+        #---
+        pywikibot.output( 'bot_api.Search for "%s",ns:%s' % (valu, ns) )
+        #---
+        if srlimit == "":   srlimit = "max"
+        #---
+        params = {
+            "action": "query",
+            "format": "json",
+            "list": "search",
+            "srsearch": valu,
+            "srnamespace": 0,
+            "srlimit": srlimit,
+        }
+        #---
+        if addparams != {} :
+            for pp, vv in addparams.items():
+                if vv != '':    params[pp] = vv
+        #---
+        if ns != "" :  params["srnamespace"] = ns
+        #---
+        if offset != "" :   params["sroffset"] = offset
+        #---
+        json1 = self.log.post(params)
+        #---
+        if not json1 or json1 == {}:
+            pywikibot.output("<<lightred>> error when Find_pages_exists_or_not")
+            return results
+        #---
+        search = json1.get("query", {}).get("search", [])
+        #---
+        for pag in search:
+            if RETURN_dict:
+                results.append( pag )
+            else:
+                results.append( pag["title"] )
+        #---
+        pywikibot.output( 'bot_api.Search find "%d" result. s' % len(results) )
+        #---
+        return results
+    #---
+    def Get_Newpages(self, limit="max", namespace="0", rcstart="", user=''):
+        #---
+        rccontinue = "x"
+        #---
+        params = {
+            "action": "query",
+            "format": "json",
+            "list": "recentchanges",
+            #"rcdir": "newer",
+            "rcnamespace": namespace,
+            "rclimit": limit,
+            "utf8": 1,
+            "rctype": "new"
+        }
+        #---
+        if rcstart != "" :  params["rcstart"] = rcstart
+        if user != "" :     params["rcuser"] = user
+        #---
+        Main_table = []
+        #---
+        numb = 0
+        #---
+        while rccontinue != '':
+            #---
+            numb += 1
+            #---
+            pywikibot.output(f'Get_All_pages {numb}, rccontinue:{rccontinue}..')
+            #---
+            if rccontinue != 'x' : params['rccontinue'] = rccontinue
+            #---
+            json1 = self.log.post(params)
+            #---
+            if not json1 or json1 == {}:    return Main_table
+            #---
+            newp = json1.get("query", {}).get("recentchanges", {})
+            #---
+            rccontinue = json1.get("continue", {}).get( "rccontinue", '')
+            #---
+            ccc = { 
+                "type": "new", "ns": 0, "title": "تشارلز مسيون ريمي", "pageid": 7004776, 
+                "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"
+                }
+            #---
+            Main_table.extend( [ x[ "title" ] for x in newp ] )
+        #---
+        pywikibot.output( 'bot_api.Get_Newpages find "%d" result. s' % len(Main_table) )
+        #---
+        return Main_table
     #---
 #---

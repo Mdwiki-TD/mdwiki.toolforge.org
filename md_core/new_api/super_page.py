@@ -9,7 +9,7 @@ import wikitextparser
 #---
 """
 
-from new_api.wiki_page import MainPage
+from new_api.mdwiki_page import MainPage
 '''
 page      = MainPage(title, 'ar', family='wikipedia')
 exists    = page.exists()
@@ -99,7 +99,10 @@ class MainPage():
         self.wikibase_item = ""
         self.text = ""
         self.text_html = ""
+        #---
         self.revid = ""
+        self.newrevid = ""
+        #---
         self.pageid = ""
         self.timestamp = ""
         self.user = ""
@@ -618,7 +621,7 @@ class MainPage():
         #---
         printe.output(f'<<lightred>>{function} ERROR: <<defaut>>info: {err_info}.')
 
-    def save(self, newtext='', summary='', nocreate=1, minor='', tags='', nodiff = False):
+    def save(self, newtext='', summary='', nocreate=1, minor='', tags='', nodiff=False):
         #---
         self.newtext = newtext
         if summary != '':
@@ -646,25 +649,33 @@ class MainPage():
         #---
         if pop == {}: return False
         #---
-        if 'success' in str(pop).lower():
+        error  = pop.get('error',{})
+        edit   = pop.get('edit',{})
+        result = edit.get('result','')
+        #---
+        # {'edit': {'result': 'Success', 'pageid': 5013, 'title': 'User:Mr. Ibrahem/sandbox', 'contentmodel': 'wikitext', 'oldrevid': 1336986, 'newrevid': 1343447, 'newtimestamp': '2023-04-01T23:14:07Z', 'watched': ''}}
+        #---
+        if result.lower() == 'success':
             self.text = newtext
             self.user = ''
             printe.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]] ' % (self.lang, self.family, self.title)  )
             printe.output( 'تم بنجاح... time.sleep() ')
             #---
-            new_time_stamp = pop.get('edit',{}).get('newtimestamp','')
-            if new_time_stamp != '':
-                self.timestamp = new_time_stamp
+            if 'printpop' in sys.argv:
+                print(pop)
+            #---
+            self.pageid = edit.get('pageid')   or self.pageid
+            self.revid  = edit.get('newrevid') or self.revid
+            self.newrevid  = edit.get('newrevid') or self.newrevid
+            self.timestamp = edit.get('newtimestamp') or self.timestamp
             #---
             return True
-        #---
-        error = pop.get("error",{})
         #---
         if error != {}:
             er = self.handel_err(error, function='Save')
             #---
             return er
-            #---
+        #---
         return False
 
     def Create(self, text='', summary=''):
@@ -696,7 +707,7 @@ class MainPage():
             print('pop:')
             print(pop)
         #---
-        if result == 'Success':
+        if result.lower() == 'success':
             #---
             #{'edit': {'new': '', 'result': 'Success', 'pageid': 9090918, 'title': 'مستخدم:Mr. Ibrahem/test2024', 'contentmodel': 'wikitext', 'oldrevid': 0, 'newrevid': 61016221, 'newtimestamp': '2023-02-01T21:52:42Z'}}
             #---
@@ -707,6 +718,7 @@ class MainPage():
             #---
             self.pageid = edit.get('pageid')   or self.pageid
             self.revid  = edit.get('newrevid') or self.revid
+            self.newrevid  = edit.get('newrevid') or self.newrevid
             self.timestamp = edit.get('newtimestamp') or self.timestamp
             #---
             return True

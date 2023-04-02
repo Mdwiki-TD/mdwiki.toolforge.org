@@ -36,25 +36,7 @@ from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 #---
-#---
 from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #---
 import requests
 Session = requests.Session()
@@ -65,33 +47,44 @@ to_make = {}
 #---
 #from export import * # export_en_history( title )
 #---
+from new_api.mdwiki_page import MainPage, NEW_API
+api_new = NEW_API('www', family='mdwiki')
+login   = api_new.Login_to_wiki()
+# pages   = api_new.Find_pages_exists_or_not(liste)
+# pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
+#---
+'''
+page      = MainPage(title, 'www', family='mdwiki')
+exists    = page.exists()
+if not exists: return
+#---
+# if page.isRedirect() :  return
+# target = page.get_redirect_target()
+#---
+text        = page.get_text()
+save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
+'''
+#---
 def work( title , num , lenth  , From = '' ):
     #---
     pywikibot.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d title:"%s".' % ( num , lenth , title ) )
     #---
-    if num < offset[1]:
-       return ""
+    if num < offset[1]: return ""
     #---
-    exists = mdwiki_api.Find_pages_exists_or_not( [title] )
+    page      = MainPage(title, 'www', family='mdwiki')
+    exists    = page.exists()
+    if not exists:
+        pywikibot.output( " page:%s not exists in mdwiki." % title )
+        return ""
     #---
-    for tit , o in exists.items() :
-        if o == False and tit == title :
-            pywikibot.output( " page:%s not exists in mdwiki." % title )
-            return ""
+    # if page.isRedirect() :  return
+    # target = page.get_redirect_target()
     #---
-    text = mdwiki_api.GetPageText( title )
+    text        = page.get_text()
     #---
-    #if '2021' in sys_argv:
-        #---
-        #FILE_PATH = export_en_history( title )
-        #---
-        #ing = mdwiki_api.import_history( FILE_PATH , title )
-        #---ing = mdwiki_api.import_page( title )
-    #else:
     ing = mdwiki_api.import_page( title )
     #---
     if text and text != "":
-       # {"import":[{"ns":0,"title":"Kerion","revisions":74}]}
        pywikibot.output( ing )
     #---
     ing_js = {}
@@ -104,26 +97,16 @@ def work( title , num , lenth  , From = '' ):
     #---
     pywikibot.output( "<<lightgreen>> imported %d revisions" % done )
     #---
-    #uuu = mdwiki_api.page_put_new( text , '' , title , returntrue = True )
     if done > 0 : 
-        uuu = mdwiki_api.page_put_new( text , '' , title , returntrue = True )
         #---
-        if uuu != True:
+        save_page   = page.save(newtext=text, summary='', nocreate=1)
+        #---
+        if save_page != True:
             title2 = 'User:Mr._Ibrahem/' + title
-            paramse = {
-                "action": "edit",
-                "format": "json",
-                "title": title2,
-                "text": text,
-                "summary": 'Returns the article text after importing the history',
-                #"createonly": 1,
-                "utf8": 1
-                }
             #---
-            mdwiki_api.post( paramse )
-            #fd = mdwiki_api.create_Page( text , '' , title2 , False )
-               #fd = mdwiki_api.create_Page( text , '' , title2 , False , sleep = 0 )
-            #---
+            page2      = MainPage(title2, 'www', family='mdwiki')
+            save = page2.save(newtext=text, summary='Returns the article text after importing the history', nocreate=0)
+#---
 for arg in sys_argv:
     arg, sep, value = arg.partition(':')
     #---
@@ -216,10 +199,9 @@ def main():
             if value in searchlist :
                 value = searchlist[value]
             #---
-            ccc = mdwiki_api.Search( value , ns = "0" , offset='', srlimit ="max" , RETURN_dict = False , addparams = {} )
+            ccc = NEW_API.Search(value, ns="0", srlimit="max")
             for x in ccc : 
                 pages.append( x )
-        #---
         #---
     #---
     starts = starts
@@ -235,7 +217,7 @@ def main():
             # python imp.py -start:all
             # 
             #---
-            list = mdwiki_api.Get_All_pages( '' , namespace = namespaces, limit = limite )
+            list = api_new.Get_All_pages(start='' , namespace = namespaces, limit = limite )
             start_done = starts
             num = 0
             for page in list:
@@ -245,7 +227,7 @@ def main():
                 starts = page
     #---
     if starts != '' :
-        listen = mdwiki_api.Get_All_pages( starts , namespace = namespaces, limit = limite )
+        listen = api_new.Get_All_pages(start=starts , namespace = namespaces, limit = limite )
         num = 0
         for page in listen:
             num += 1
@@ -255,7 +237,7 @@ def main():
     list = []
     #---
     if newpages != "":
-        list = mdwiki_api.Get_Newpages( limit = newpages , namespace = namespaces )
+        list = api_new.Get_Newpages(limit=newpages, namespace=namespaces)
     elif user != "":
         list = mdwiki_api.Get_UserContribs( user , limit = user_limit , namespace = namespaces , ucshow = "new" )
     elif pages != []:
@@ -277,7 +259,7 @@ def main():
             # python imp.py -start:all
             # 
             #---
-            list = mdwiki_api.Get_All_pages( '' , namespace = namespaces, limit = limite )
+            list = api_new.Get_All_pages(start='' , namespace = namespaces, limit = limite )
             start_done = starts
             num = 0
             for page in list:
@@ -296,7 +278,7 @@ def main():
             # python3 imp.py -start:! -limit:3
             # 
             #---
-            list = mdwiki_api.Get_All_pages( starts , namespace = namespaces, limit = limite )
+            list = api_new.Get_All_pages(start=starts , namespace = namespaces, limit = limite )
             start_done = starts
             num = 0
             for page in list:

@@ -1,4 +1,32 @@
 
+# from new_api.mdwiki_page import MainPage
+'''
+page      = MainPage(title, 'www', family='mdwiki')
+exists    = page.exists()
+if not exists: return
+#---
+# if page.isRedirect() :  return
+# target = page.get_redirect_target()
+#---
+text        = page.get_text()
+ns          = page.namespace()
+links       = page.page_links()
+categories  = page.get_categories(with_hidden=False)
+wiki_links  = page.get_wiki_links_from_text()
+refs        = page.Get_tags(tag='ref')# for x in ref: name, contents = x.name, x.contents
+words       = page.get_words()
+templates   = page.get_templates()
+save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
+create      = page.Create(text='', summary='')
+#---
+back_links  = page.page_backlinks()
+text_html   = page.get_text_html()
+hidden_categories= page.get_hidden_categories()
+flagged     = page.is_flagged()
+timestamp   = page.get_timestamp()
+user        = page.get_user()
+purge       = page.purge()
+'''
 #---
 from mdpy import user_account_new
 #---
@@ -40,7 +68,7 @@ def test():
     create    = page.Create(text='', summary='')
     '''
     #---
-    page = MainPage("Category:About_melanoma:_for_patients", 'www', family='mdwiki')
+    page = MainPage("User:Mr. Ibrahem/sandbox", 'www', family='mdwiki')
     #---
     text = page.get_text()
     print(text)
@@ -56,7 +84,11 @@ def test():
     # red = page.page_links()
     # print(f'page_links:{red}')
     #---
-    # save = page.save(newtext='')
+    # save = page.save(newtext=text + "\n{}")
+    api_new = NEW_API('www', family='mdwiki')
+    # login   = api_new.Login_to_wiki()
+    # pages   = api_new.Find_pages_exists_or_not(liste)
+    pages   = api_new.Get_Newpages(limit=5000)
 #---
 if __name__ == '__main__':
     # python3 pwb.py new_api/page

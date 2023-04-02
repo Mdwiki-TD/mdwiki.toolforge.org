@@ -58,6 +58,10 @@ def test():
     # print(f'page_links:{red}')
     #---
     # save = page.save(newtext='')
+    api_new = NEW_API('ar', family='wikipedia')
+    # login   = api_new.Login_to_wiki()
+    # pages   = api_new.Find_pages_exists_or_not(liste)
+    pages   = api_new.Get_Newpages()
 #---
 if __name__ == '__main__':
     # python3 pwb.py new_api/page

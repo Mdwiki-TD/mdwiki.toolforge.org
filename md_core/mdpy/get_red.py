@@ -37,9 +37,6 @@ from mdpy import en_to_md
 #---
 mdwiki_to_qid = en_to_md.mdtitle_to_qid
 #---
-from mdpy import wiki_api
-
-#---
 from mdpy import mdwiki_api
 #---
 def get_pages():

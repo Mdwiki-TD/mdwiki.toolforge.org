@@ -20,25 +20,6 @@ sys_argv = sys.argv or []
 from mdpy import txtlib2
 #---
 from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#---
 #---
 import os
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
@@ -107,7 +88,7 @@ def work( title ):
                 sa = True
         #---
         if sa:
-            vav = mdwiki_api.page_put_new( newtext, 'fix ourworldindatamirror template.', title )
+            vav = mdwiki_api.page_put_new( newtext, 'fix ourworldindatamirror template.', title ) 
     #---
     pywikibot.output( pas )
 #---

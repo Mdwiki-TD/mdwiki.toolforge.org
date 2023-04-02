@@ -117,7 +117,8 @@ class Login():
                 warn(warn_err('self.r3_token == "" '), UserWarning)
             params["token"] = self.r3_token
         #---
-        if params.get("summary") and User_tables["username"].find("bot") == -1 :    params["summary"] = ""
+        if self.family == "wikipedia" and params.get("summary") and User_tables["username"].find("bot") == -1 :
+            params["summary"] = ""
         #---
         if 'workibrahem' in sys.argv: params["summary"] = ""
         #---

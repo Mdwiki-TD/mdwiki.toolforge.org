@@ -341,6 +341,359 @@ def import_history( FILE_PATH , title ):
         #---
         #outbot(r4.text)
 #---
+def import_page( title ) : 
+    params = {  
+        "action" : "import" , 
+        "format" : "json" , 
+        "interwikisource":"wikipedia" , 
+        "interwikipage":title,
+        "fullhistory" : 1 ,
+        "assignknownusers" : 1 ,
+        "token" :  SS["r3_token"]
+        }
+    #---
+    r4 = post_s( params )
+    #---
+    outbot('import_page:' )
+    outbot( r4 )
+    #---
+    return r4
+    #---
+#---
+def page_put_new(NewText,summary,title,time_sleep="",family="",lang="",minor="",nocreate=1,tags="",returntrue=False,return_table=False):
+    #---
+    pywikibot.output(' page_put %s:' % title )
+    #---
+    if minor == "" : 
+        minor = Bot_or_himo[1]
+    #---
+    pparams = {
+        "action": "edit",
+        "format": "json",
+        #"maxlag": ar_lag[1],
+        "title": title,
+        "text": NewText,
+        "summary": summary,
+        #"starttimestamp": starttimestamp,
+        "minor": minor,
+        #"notminor": 1,
+        "bot": 1,
+        "nocreate": nocreate,
+        "token": SS["r3_token"] ,
+    }
+    #---
+    if sys.argv and "workibrahem" in sys.argv :     pparams["summary"] = ""
+    #---
+    if tags != "" :
+        pparams["tags"] = tags
+    #---
+    tts = timesleep
+    if time_sleep != "" : tts = time_sleep
+    #---
+    r4 = post_s(pparams)
+    #---
+    Invalid = ''
+    if type(r4.get("error",{})) == dict:
+        Invalid = r4.get("error",{}).get("info",'')
+    #---
+    if 'Success' in str(r4):
+        pywikibot.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]]   time.sleep(%d) ' % (SS["lang"] , SS["family"] ,title , tts)  )
+        pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % tts)
+        time.sleep(tts)
+        if return_table:
+            return r4
+        elif returntrue:
+            return True
+    #---
+    elif Invalid == "Invalid CSRF token." : 
+        pywikibot.output('<<lightred>> ** error "Invalid CSRF token.". ')
+        pywikibot.output(r4)
+        #---
+        Log_to_wiki("mdwiki" , lang = "www" )
+        #---
+        return page_put_new(NewText,summary,title,time_sleep=time_sleep,family=family,lang=lang,minor=minor,nocreate=nocreate,tags=tags,returntrue=returntrue)
+    #---
+    else:
+        outbot(r4)
+        if returntrue:
+            return False
+        elif return_table:
+            return {}
+#---
+Save_2020 = { 1 : False }
+Save_2040 = { 1 : False }
+#---
+def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, diff=True):
+    #---
+    if not Save_2020[1] and "ask" in sys.argv and not "save" in sys.argv :
+        if diff:
+            try:
+                pywikibot.showDiff(oldtext, newtext)
+            except:
+                pywikibot.output( ' -mdwiki cant showDiff' )
+        pywikibot.output(' -Edit summary: %s:' % summary )
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s.org user:%s'  %(lang,title,r2_params['lgname'] ))
+        #---
+        if sa == "a":
+            pywikibot.output('<<lightgreen>> ---------------------------------' )
+            pywikibot.output('<<lightgreen>> mdwiki.py save all without asking.' )
+            pywikibot.output('<<lightgreen>> ---------------------------------' )
+            Save_2020[1] = True
+        #---
+        if not sa in yes_answer:
+            pywikibot.output( "wrong answer" )
+            return False
+    #---
+    return page_put_new(newtext, summary, title, time_sleep=time_sleep, family=family, lang=lang, minor=minor, nocreate=nocreate, tags=tags, returntrue=returntrue)
+#---
+def Add_To_Bottom2(aptext , summary , title, poss="", family="", minor = "" ):
+    if title.strip() != "" : 
+        pywikibot.output('** Add_To_Bottom2 .. ' + '[[' + title + ']] ' )
+        #pywikibot.showDiff("" , aptext)
+        #---
+        Paramso = {
+            "action": "edit",
+            "format": "json",
+            #"maxlag": ar_lag[1],
+            "title": title,
+            #"appendtext": "\n" + aptext,
+            "summary": summary,
+            "bot": Bot_or_himo[1],
+            "notminor": 1,
+            "nocreate": 1,
+            #"token": r3.json()['query']['tokens']['csrftoken'],
+            "utf8": 1
+        }
+        #---
+        if poss == "Head" : 
+            Paramso["prependtext"] = aptext.strip() + "\n"
+        else:
+            Paramso["appendtext"] = "\n" + aptext.strip()
+        #---
+        if sys.argv and "workibrahem" in sys.argv : 
+            Paramso["summary"] = ""
+        #---
+        Paramso["token"] = SS["r3_token"]
+        r4 = post_s(Paramso)
+        #---
+        if 'Success' in r4:
+            pywikibot.output('<<lightgreen>>** true .. %s : [[%s]] '    % (SS["family"] , title) )
+            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % timesleep)
+            #time.sleep(timesleep)
+        else:
+            outbot(r4)
+    else:
+        pywikibot.output('** Add_To_Bottom2 ..  title == ""' )
+#---
+def Add_To_Head(prependtext , summary , title, Ask, minor = "" ):
+    if title.strip() != "" : 
+        #---
+        pywikibot.output(' Add_To_Head for Page %s:' % title )
+        #pywikibot.output(prependtext)
+        faso = False
+        if Ask or "ask" in sys.argv and not "save" in sys.argv:
+        #if Ask:
+            #pywikibot.showDiff( "" , prependtext )
+            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Head of page "%s" ? ([y]es, [N]o):'  % title)
+            if sa in yes_answer:
+                faso = True
+                Add_To_Bottom2(prependtext , summary , title, poss = "Head", minor = minor )
+            else:
+                pywikibot.output( "wrong answer" )
+            return sa
+        else:
+            faso = True
+            Add_To_Bottom2(prependtext , summary , title , poss = "Head", minor = minor )
+        #---
+    else:
+        pywikibot.output('** Add_To_Head ..  title == ""' )
+#---
+def Add_To_Bottom(appendtext , summary , title, Ask , family="", minor = "" ):
+    if title.strip() != "" : 
+        #---
+        pywikibot.output(' Add_To_Bottom for Page %s:' % title )
+        pywikibot.output( appendtext)
+        faso = False
+        if Ask or "ask" in sys.argv and not "save" in sys.argv:
+        #if Ask:
+            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Bottom of page "%s" ? ([y]es, [N]o):' % title)
+            if sa in yes_answer:
+                faso = True
+                Add_To_Bottom2(appendtext , summary , title, family = family, minor = minor )
+            else:
+                pywikibot.output( "wrong answer" )
+            return sa
+        else:
+            faso = True
+            Add_To_Bottom2(appendtext , summary , title, family = family, minor = minor )
+        #---
+    else:
+        pywikibot.output('** Add_To_Bottom ..  title == ""' )
+#---
+def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="", minor = "", printtext=True ):
+    pywikibot.output(' create Page %s:' % title )
+    time_sleep = timesleep
+    #---
+    if title.startswith("نقاش القالب:") and  title.endswith("/ملعب"):
+        pywikibot.output( ' skip make talk to sandboxes..' )
+        return False
+    #---
+    if sleep != False:
+        time_sleep = sleep
+    #---
+    params = {
+        "action": "edit",
+        "format": "json",
+        #"maxlag": ar_lag[1],
+        "title": title,
+        "text": text,
+        "summary": summary,
+        "bot": Bot_or_himo[1],
+        "notminor": 1,
+        "createonly": 1,
+        "token": SS["r3_token"] ,
+        "utf8": 1
+    }
+    #---
+    if sys.argv and "workibrahem" in sys.argv : 
+        params["summary"] = "+"
+    #---
+    sa = {"error":{"code":"articleexists","info":"The article you tried to create has been created already.","*":"See https://ar.wikipedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes."},"servedby":"mw1284"}
+    Faco = False
+    #---
+    if not Save_2040[1] and ( ask or "ask" in sys.argv and not "save" in sys.argv ) :
+    #if ask or "ask" in sys.argv and not "save" in sys.argv:
+    #if ask:
+        #pywikibot.showDiff("" , text)
+        if printtext:
+            pywikibot.output( "<<lightgreen>> " + text)
+        pywikibot.output( " summary: " + summary)
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,r2_params['lgname']))
+        if sa.strip() in yes_answer:
+            #---
+            if sa.strip() == "a":
+                pywikibot.output('<<lightgreen>> ---------------------------------------------' )
+                pywikibot.output('<<lightgreen>> mdwiki.py create_Page save all without asking.' )
+                pywikibot.output('<<lightgreen>> ---------------------------------------------' )
+                Save_2040[1] = True
+            #---
+            r4 = post_s(params)
+            Faco = True
+        else:
+            pywikibot.output( "wrong answer" )
+            return False
+    else:
+        r4 = post_s(params)
+        Faco = True
+    #---a
+    if Faco:
+        #---
+        if 'Success' in r4 :
+            pywikibot.output('<<lightgreen>>** true ..  %s : [[%s]] '    % (SS["family"] , title) )
+            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % time_sleep)
+            time.sleep(time_sleep)
+            return True
+        elif 'error' in r4 :
+            if 'code' in r4['error']:
+                if r4['error']['code'] == "articleexists":
+                    pywikibot.output("error when create_Page")
+            outbot(r4)
+        else:
+            pywikibot.output( "create_Page: outbot(r4.text)" )
+            outbot(r4)
+            return False
+    #---a
+    pywikibot.output( "<<lightred>> end of create_Page def return False title:(%s)" % title )
+    pywikibot.output(r4)
+    #---a
+    return False
+#---
+def move(From , to , reason , lang = 'ar'  , nosleep = False ):
+    #---
+    pywikibot.output('<<lightyellow>> ** move .. [[%s:%s]] to [[%s]] ' % (lang , From , to) )
+    Params = {
+        "action": "move",
+        "format": "json",
+        #"maxlag": ar_lag[1],
+        "from": From,
+        "to": to,
+        "movetalk": 1,
+        #"reason": reason,
+        #"bot": Bot_or_himo[1],
+        "token": SS["r3_token"],
+        "utf8": 1
+    }
+    #---
+    pywikibot.output(' -Edit reason: %s:' % reason )
+    #---
+    if From == to:
+        pywikibot.output('<<lightred>>** From == to %s ' % to )
+        return False
+    #---
+    JustMove = True
+    #---
+    if not Save_2020[1] and "ask" in sys.argv :
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you move page:[[%s:%s]] to [[%s]]? ([y]es, [N]o, [a]ll): user:%s' % (lang,From,to,r2_params['lgname'] ))
+        #---
+        if sa == "a":
+            pywikibot.output('<<lightgreen>> ---------------------------------' )
+            pywikibot.output('<<lightgreen>> mdwiki.py move all without asking.' )
+            pywikibot.output('<<lightgreen>> ---------------------------------' )
+            Save_2020[1] = True
+        #---
+        if not sa in yes_answer:
+            JustMove = False
+            pywikibot.output( ' mdwiki/mdpy/mdwiki_api.py: wrong answer' )
+        #return sa
+    #---
+    if JustMove:
+        r4 = post_s(Params)
+        #---
+        if 'Success' in r4.text or "redirectcreated" in r4.text:
+            pywikibot.output('<<lightgreen>>** true .. ' + '[[' + to + ']] ' )
+            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % 7 )
+            if nosleep :
+                time.sleep(7)
+            return True
+        elif "Please wait some time and try again" in r4.text or "ratelimited" in r4.text:
+            pywikibot.output(r4.text)
+            if nosleep :
+                time.sleep(7)
+            return move(From , to , reason , lang = lang )
+        elif "Please choose another name." in r4.text:
+            pywikibot.output(r4.text)
+            return "Please choose another name."
+        else:
+            return outbot(r4.text)
+            #pywikibot.output(r4.text)
+    return False
+#---
+def wordcount(title, srlimit='30'):
+    # srlimit = "30"
+    params = {
+        "action": "query",
+        "list": "search",
+        "srsearch": title,
+        "srlimit": srlimit,
+        "format" : "json" , 
+    }
+    data = post_s(params)
+    #---
+    if not data or data == {}: return 0
+    #---
+    search = data.get('query', {}).get('search', [])
+    #---
+    words = 0
+    #---
+    for pag in search:
+        tit = pag["title"]
+        count = pag["wordcount"]
+        if tit == title: 
+            words = count
+            break
+    #---
+    return words
+#---
 def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True ): 
     #---
     # إيجاد categorymembers والتصانيف الفرعية لتصنيف
@@ -554,138 +907,6 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False, without_lang="",
     #---
     #return result_table
     return result_tab
-#---
-def import_page( title ) : 
-    params = {  
-        "action" : "import" , 
-        "format" : "json" , 
-        "interwikisource":"wikipedia" , 
-        "interwikipage":title,
-        "fullhistory" : 1 ,
-        "assignknownusers" : 1 ,
-        "token" :  SS["r3_token"]
-        }
-    #---
-    r4 = post_s( params )
-    #---
-    outbot('import_page:' )
-    outbot( r4 )
-    #---
-    return r4
-    #---
-#---
-def wordcount(title, srlimit='30'):
-    # srlimit = "30"
-    params = {
-        "action": "query",
-        "list": "search",
-        "srsearch": title,
-        "srlimit": srlimit,
-        "format" : "json" , 
-    }
-    data = post_s(params)
-    #---
-    if not data or data == {}: return 0
-    #---
-    search = data.get('query', {}).get('search', [])
-    #---
-    words = 0
-    #---
-    for pag in search:
-        tit = pag["title"]
-        count = pag["wordcount"]
-        if tit == title: 
-            words = count
-            break
-    #---
-    return words
-#---
-def page_put_new(NewText,summary,title,time_sleep="",family="",lang="",minor="",nocreate=1,tags="",returntrue=False,return_table=False):
-    #---
-    pywikibot.output(' page_put %s:' % title )
-    #---
-    if minor == "" : 
-        minor = Bot_or_himo[1]
-    #---#
-    #"tags": "تعديل شريط البوابات",
-    #---
-    pparams = {
-        "action": "edit",
-        "format": "json",
-        #"maxlag": ar_lag[1],
-        "title": title,
-        "text": NewText,
-        "summary": summary,
-        #"starttimestamp": starttimestamp,
-        "minor": minor,
-        #"notminor": 1,
-        "bot": 1,
-        "nocreate": nocreate,
-        "token": SS["r3_token"] ,
-    }
-    #---
-    if sys.argv and "workibrahem" in sys.argv :     pparams["summary"] = ""
-    #---
-    if tags != "" :
-        pparams["tags"] = tags
-    #---
-    tts = timesleep
-    if time_sleep != "" : tts = time_sleep
-    #---
-    r4 = post_s(pparams)
-    #---
-    Invalid = ''
-    if type(r4.get("error",{})) == dict:
-        Invalid = r4.get("error",{}).get("info",'')
-    #---
-    if 'Success' in str(r4):
-        pywikibot.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]]   time.sleep(%d) ' % (SS["lang"] , SS["family"] ,title , tts)  )
-        pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % tts)
-        time.sleep(tts)
-        if return_table:
-            return r4
-        elif returntrue:
-            return True
-    #---
-    elif Invalid == "Invalid CSRF token." : 
-        pywikibot.output('<<lightred>> ** error "Invalid CSRF token.". ')
-        pywikibot.output(r4)
-        #---
-        Log_to_wiki("mdwiki" , lang = "www" )
-        #---
-        return page_put_new(NewText,summary,title,time_sleep=time_sleep,family=family,lang=lang,minor=minor,nocreate=nocreate,tags=tags,returntrue=returntrue)
-    #---
-    else:
-        outbot(r4)
-        if returntrue:
-            return False
-        elif return_table:
-            return {}
-#---
-Save_2020 = { 1 : False }
-#---
-def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, diff=True):
-    #---
-    if not Save_2020[1] and "ask" in sys.argv and not "save" in sys.argv :
-        if diff:
-            try:
-                pywikibot.showDiff(oldtext, newtext)
-            except:
-                pywikibot.output( ' -mdwiki cant showDiff' )
-        pywikibot.output(' -Edit summary: %s:' % summary )
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s.org user:%s'  %(lang,title,r2_params['lgname'] ))
-        #---
-        if sa == "a":
-            pywikibot.output('<<lightgreen>> ---------------------------------' )
-            pywikibot.output('<<lightgreen>> mdwiki.py save all without asking.' )
-            pywikibot.output('<<lightgreen>> ---------------------------------' )
-            Save_2020[1] = True
-        #---
-        if not sa in yes_answer:
-            pywikibot.output( "wrong answer" )
-            return False
-    #---
-    return page_put_new(newtext, summary, title, time_sleep=time_sleep, family=family, lang=lang, minor=minor, nocreate=nocreate, tags=tags, returntrue=returntrue)
 #---
 def GetPageText(title , redirects = False):
     #pywikibot.output( '**GetarPageText: ')
@@ -1002,254 +1223,31 @@ def Search( valu , lang="", family='', ns="", offset='', srlimit = "max" , RETUR
     pywikibot.output( 'mdwiki_api.Search find "%d" result. s' % len(Lidy) )
     #---
     return Lidy
-#--- 
-def Add_To_Bottom2(aptext , summary , title, poss="", family="", minor = "" ):
-    if title.strip() != "" : 
-        pywikibot.output('** Add_To_Bottom2 .. ' + '[[' + title + ']] ' )
-        #pywikibot.showDiff("" , aptext)
-        #---
-        Paramso = {
-            "action": "edit",
-            "format": "json",
-            #"maxlag": ar_lag[1],
-            "title": title,
-            #"appendtext": "\n" + aptext,
-            "summary": summary,
-            "bot": Bot_or_himo[1],
-            "notminor": 1,
-            "nocreate": 1,
-            #"token": r3.json()['query']['tokens']['csrftoken'],
-            "utf8": 1
-        }
-        #---
-        if poss == "Head" : 
-            Paramso["prependtext"] = aptext.strip() + "\n"
-        else:
-            Paramso["appendtext"] = "\n" + aptext.strip()
-        #---
-        if sys.argv and "workibrahem" in sys.argv : 
-            Paramso["summary"] = ""
-        #---
-        Paramso["token"] = SS["r3_token"]
-        r4 = post_s(Paramso)
-        #---
-        if 'Success' in r4:
-            pywikibot.output('<<lightgreen>>** true .. %s : [[%s]] '    % (SS["family"] , title) )
-            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % timesleep)
-            #time.sleep(timesleep)
-        else:
-            outbot(r4)
-    else:
-        pywikibot.output('** Add_To_Bottom2 ..  title == ""' )
-#---
-def Add_To_Head(prependtext , summary , title, Ask, minor = "" ):
-    if title.strip() != "" : 
-        #---
-        pywikibot.output(' Add_To_Head for Page %s:' % title )
-        #pywikibot.output(prependtext)
-        faso = False
-        if Ask or "ask" in sys.argv and not "save" in sys.argv:
-        #if Ask:
-            #pywikibot.showDiff( "" , prependtext )
-            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Head of page "%s" ? ([y]es, [N]o):'  % title)
-            if sa in yes_answer:
-                faso = True
-                Add_To_Bottom2(prependtext , summary , title, poss = "Head", minor = minor )
-            else:
-                pywikibot.output( "wrong answer" )
-            return sa
-        else:
-            faso = True
-            Add_To_Bottom2(prependtext , summary , title , poss = "Head", minor = minor )
-        #---
-    else:
-        pywikibot.output('** Add_To_Head ..  title == ""' )
-#---
-def Add_To_Bottom(appendtext , summary , title, Ask , family="", minor = "" ):
-    if title.strip() != "" : 
-        #---
-        pywikibot.output(' Add_To_Bottom for Page %s:' % title )
-        pywikibot.output( appendtext)
-        faso = False
-        if Ask or "ask" in sys.argv and not "save" in sys.argv:
-        #if Ask:
-            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Bottom of page "%s" ? ([y]es, [N]o):' % title)
-            if sa in yes_answer:
-                faso = True
-                Add_To_Bottom2(appendtext , summary , title, family = family, minor = minor )
-            else:
-                pywikibot.output( "wrong answer" )
-            return sa
-        else:
-            faso = True
-            Add_To_Bottom2(appendtext , summary , title, family = family, minor = minor )
-        #---
-    else:
-        pywikibot.output('** Add_To_Bottom ..  title == ""' )
-#---
-Save_2040 = { 1 : False }
-#---
-def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="", minor = "", printtext=True ):
-    pywikibot.output(' create Page %s:' % title )
-    time_sleep = timesleep
-    #---
-    if title.startswith("نقاش القالب:") and  title.endswith("/ملعب"):
-        pywikibot.output( ' skip make talk to sandboxes..' )
-        return False
-    #---
-    if sleep != False:
-        time_sleep = sleep
-    #---
-    params = {
-        "action": "edit",
-        "format": "json",
-        #"maxlag": ar_lag[1],
-        "title": title,
-        "text": text,
-        "summary": summary,
-        "bot": Bot_or_himo[1],
-        "notminor": 1,
-        "createonly": 1,
-        "token": SS["r3_token"] ,
-        "utf8": 1
-    }
-    #---
-    if sys.argv and "workibrahem" in sys.argv : 
-        params["summary"] = "+"
-    #---
-    sa = {"error":{"code":"articleexists","info":"The article you tried to create has been created already.","*":"See https://ar.wikipedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes."},"servedby":"mw1284"}
-    Faco = False
-    #---
-    if not Save_2040[1] and ( ask or "ask" in sys.argv and not "save" in sys.argv ) :
-    #if ask or "ask" in sys.argv and not "save" in sys.argv:
-    #if ask:
-        #pywikibot.showDiff("" , text)
-        if printtext:
-            pywikibot.output( "<<lightgreen>> " + text)
-        pywikibot.output( " summary: " + summary)
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,r2_params['lgname']))
-        if sa.strip() in yes_answer:
-            #---
-            if sa.strip() == "a":
-                pywikibot.output('<<lightgreen>> ---------------------------------------------' )
-                pywikibot.output('<<lightgreen>> mdwiki.py create_Page save all without asking.' )
-                pywikibot.output('<<lightgreen>> ---------------------------------------------' )
-                Save_2040[1] = True
-            #---
-            r4 = post_s(params)
-            Faco = True
-        else:
-            pywikibot.output( "wrong answer" )
-            return False
-    else:
-        r4 = post_s(params)
-        Faco = True
-    #---a
-    if Faco:
-        #---
-        if 'Success' in r4 :
-            pywikibot.output('<<lightgreen>>** true ..  %s : [[%s]] '    % (SS["family"] , title) )
-            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % time_sleep)
-            time.sleep(time_sleep)
-            return True
-        elif 'error' in r4 :
-            if 'code' in r4['error']:
-                if r4['error']['code'] == "articleexists":
-                    pywikibot.output("error when create_Page")
-            outbot(r4)
-        else:
-            pywikibot.output( "create_Page: outbot(r4.text)" )
-            outbot(r4)
-            return False
-    #---a
-    pywikibot.output( "<<lightred>> end of create_Page def return False title:(%s)" % title )
-    pywikibot.output(r4)
-    #---a
-    return False
-#---
-def move(From , to , reason , lang = 'ar'  , nosleep = False ):
-    #---
-    pywikibot.output('<<lightyellow>> ** move .. [[%s:%s]] to [[%s]] ' % (lang , From , to) )
-    Params = {
-        "action": "move",
-        "format": "json",
-        #"maxlag": ar_lag[1],
-        "from": From,
-        "to": to,
-        "movetalk": 1,
-        #"reason": reason,
-        #"bot": Bot_or_himo[1],
-        "token": SS["r3_token"],
-        "utf8": 1
-    }
-    #---
-    pywikibot.output(' -Edit reason: %s:' % reason )
-    #---
-    if From == to:
-        pywikibot.output('<<lightred>>** From == to %s ' % to )
-        return False
-    #---
-    JustMove = True
-    #---
-    if not Save_2020[1] and "ask" in sys.argv :
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you move page:[[%s:%s]] to [[%s]]? ([y]es, [N]o, [a]ll): user:%s' % (lang,From,to,r2_params['lgname'] ))
-        #---
-        if sa == "a":
-            pywikibot.output('<<lightgreen>> ---------------------------------' )
-            pywikibot.output('<<lightgreen>> mdwiki.py move all without asking.' )
-            pywikibot.output('<<lightgreen>> ---------------------------------' )
-            Save_2020[1] = True
-        #---
-        if not sa in yes_answer:
-            JustMove = False
-            pywikibot.output( ' mdwiki/mdpy/mdwiki_api.py: wrong answer' )
-        #return sa
-    #---
-    if JustMove:
-        r4 = post_s(Params)
-        #---
-        if 'Success' in r4.text or "redirectcreated" in r4.text:
-            pywikibot.output('<<lightgreen>>** true .. ' + '[[' + to + ']] ' )
-            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % 7 )
-            if nosleep :
-                time.sleep(7)
-            return True
-        elif "Please wait some time and try again" in r4.text or "ratelimited" in r4.text:
-            pywikibot.output(r4.text)
-            if nosleep :
-                time.sleep(7)
-            return move(From , to , reason , lang = lang )
-        elif "Please choose another name." in r4.text:
-            pywikibot.output(r4.text)
-            return "Please choose another name."
-        else:
-            return outbot(r4.text)
-            #pywikibot.output(r4.text)
-    return False
 #---
 def get_redirect( liste ) :
     #---
-    params = {
-        "action": "query",
-        "format": "json",
-        "titles": '|'.join( liste ),
-        "redirects": 1,
-        #"prop": "templates|langlinks",
-        "utf8": 1,
-        #"normalize": 1,
-    }
-    #---
     redirects = {}
     #---
-    table = {}
-    #---
-    json1 = post_s(params)
-    #---
-    if json1:
-        redd = json1.get("query",{}).get("redirects", [])
-        for red in redd:
-            redirects[ red["from"] ] = red["to"]
+    for i in range(0, len(liste), 50):
+        titles = liste[i:i+50]
         #---
+        params = {
+            "action": "query",
+            "format": "json",
+            "titles": '|'.join( titles ),
+            "redirects": 1,
+            #"prop": "templates|langlinks",
+            "utf8": 1,
+            #"normalize": 1,
+        }
+        #---
+        json1 = post_s(params)
+        #---
+        if json1:
+            redd = json1.get("query",{}).get("redirects", [])
+            for red in redd:
+                redirects[ red["from"] ] = red["to"]
+    #---
     return redirects
 #---
 def Find_pages_exists_or_not(liste) :

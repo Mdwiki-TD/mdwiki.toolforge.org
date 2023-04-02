@@ -28,23 +28,6 @@ import urllib.parse
 sys_argv = sys.argv or []
 #---
 from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #---
 #import requests
 #Session = requests.Session()
@@ -248,7 +231,6 @@ def main():
     for title in ttab:
         treat_page( title )
     #---
-    
 #---
 if __name__ == '__main__':
     main()

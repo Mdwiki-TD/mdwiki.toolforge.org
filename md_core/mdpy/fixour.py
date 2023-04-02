@@ -14,25 +14,6 @@ import string
 import sys
 sys_argv = sys.argv or []
 #---
-from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#---
 numbers = { 1 : 20000 , 'done' : 0 }
 #---
 import os
@@ -42,12 +23,29 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 public_html = project + '/public_html'
 #---
+from new_api.mdwiki_page import MainPage, NEW_API
+api_new = NEW_API('www', family='mdwiki')
+login   = api_new.Login_to_wiki()
+# pages   = api_new.Find_pages_exists_or_not(liste)
+# pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
+#---
+'''
+page      = MainPage(title, 'www', family='mdwiki')
+exists    = page.exists()
+if not exists: return
+#---
+text        = page.get_text()
+save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
+#---
+'''
+#---
 def work( title ):
     #---
-    
+    page      = MainPage(title, 'www', family='mdwiki')
+    exists    = page.exists()
+    if not exists: return
     #---
-    text = mdwiki_api.GetPageText( title )
-    #---
+    text        = page.get_text()
     # <templatestyles src="Owid/styles.css"/><ourworldindatamirror>cumulative-covid-cases-region</ourworldindatamirror>
     #---
     regref = re.compile( r'<templatestyles\s*src="Owid/styles.css"\s*/\s*>\s*<ourworldindatamirror>(?P<content>.*?)</ourworldindatamirror>' , re.IGNORECASE | re.DOTALL)
@@ -72,12 +70,12 @@ def work( title ):
     if newtext != text :
         numbers['done'] += 1
         #---
-        vav = mdwiki_api.page_put_new( newtext, sus, title )
+        save_page   = page.save(newtext=newtext, summary=sus)
 #---
 def main():
     nn = ''
     #---
-    list = mdwiki_api.Get_All_pages( 'COVID' )
+    list = api_new.Get_All_pages(start='COVID', namespace="0", limit="max", apfilterredir='', limit_all=0)
     #---
     num = 0
     #---
