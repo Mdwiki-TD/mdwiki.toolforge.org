@@ -13,6 +13,11 @@ import sys
 sys.dont_write_bytecode = True
 from Duplicatenew2 import DuplicateReferences
 #---
+if 'returnfile' in sys.argv:
+    import txtlib2
+else:
+    from mdpy import txtlib2
+#---
 printa = { 1 : False}
 #---
 import os
@@ -160,8 +165,6 @@ def move_dots_text(newtext, lang=''):
     newtext = re.sub(dot + r'\s*' + regline, '\g<2>\g<1>', newtext)
     #---
     return newtext
-#---
-from mdpy import txtlib2
 #---
 def Expend_Infobox(text, title, section_0):
     #---
