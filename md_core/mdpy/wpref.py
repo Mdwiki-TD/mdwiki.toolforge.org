@@ -29,16 +29,18 @@ import sys
 sys.dont_write_bytecode = True
 import requests
 #---
-from mdpy.wpref_text import fix_page
 # newtext = fix_page(text,title, move_dots= move_dot[1], infobox = False)
 #---
-if not 'returnfile' in sys.argv:
+if 'returnfile' in sys.argv:
+    from wpref_text import fix_page
+else:
     from warnings import warn
     import pywikibot
     import printe
     #---
     import sql_for_mdwiki
     # sql_for_mdwiki.mdwiki_sql(query , update = False)
+    from mdpy.wpref_text import fix_page
 #---
 SS = { "token" : '' }
 session = {}

@@ -18,7 +18,7 @@ $url = "python.php?" . http_build_query( $params );
 $output = file_get_contents($url);
 */
 //---
-$test       = $_REQUEST['test'] ?? '';
+$test   = $_REQUEST['test'] ?? '';
 if ($test != '') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);

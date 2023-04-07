@@ -37,24 +37,6 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 #---
 from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#---
 from mdpy import txtlib2
 #---
 thenumbers = { 1 : 20000 , 'done' : 0 }
