@@ -6,10 +6,10 @@
 <?php
 //---
 $listtype   = $_REQUEST['listtype'];
-$test       = isset($_REQUEST['test']) ? $_REQUEST['test'] : $_REQUEST['test'];
+$test       = $_REQUEST['test'] ?? $_REQUEST['test'];
 $find       = $_REQUEST['find'];
 $replace    = $_REQUEST['replace'];
-$number     = isset($_REQUEST['number']) ? $_REQUEST['number'] : "";
+$number     = $_REQUEST['number'] ?? "";
 $code       = $_REQUEST['code'];
 //---
 function Get_Value() {

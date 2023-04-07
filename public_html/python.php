@@ -18,9 +18,7 @@ $url = "python.php?" . http_build_query( $params );
 $output = file_get_contents($url);
 */
 //---
-function is_set($d, $dad) { return isset($dad[$d]) ? $dad[$d] : ''; };
-//---
-$test       = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+$test       = $_REQUEST['test'] ?? '';
 if ($test != '') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -31,10 +29,10 @@ function do_py($params) {
     //---
     global $test;
     //---
-    $dir        = is_set('dir', $params);
-    $localdir   = is_set('localdir', $params);
-    $pyfile     = is_set('pyfile', $params);
-    $other      = is_set('other', $params);
+    $dir        = $params['dir'] ?? '';
+    $localdir   = $params['localdir'] ?? '';
+    $pyfile     = $params['pyfile'] ?? '';
+    $other      = $params['other'] ?? '';
     //---
     $my_dir = $dir;
     //---

@@ -5,8 +5,8 @@
     <div class="card-body">
 <?php
 //---
-$titlelist  = isset($_REQUEST['titlelist']) ? $_REQUEST['titlelist'] : '';
-$number     = isset($_REQUEST['number']) ? $_REQUEST['number'] : '';
+$titlelist  = $_REQUEST['titlelist'] ?? '';
+$number     = $_REQUEST['number'] ?? '';
 //---
 function writee($file,$text) {
     $myfile = fopen( 'find/' . $file, "w");

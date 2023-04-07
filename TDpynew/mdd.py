@@ -1104,6 +1104,7 @@ def work( title , returntext = False , text_O = "" ):
     #---
     #elif sys.argv and "ch" in sys.argv :
     elif sys.argv and len(sys.argv) > 2 and sys.argv[2] == "ch" :
+    # elif 'from_toolforge' in sys.argv:
         if text.strip() == "" or new_text.strip() == "" :
             print( "notext" )
         elif text == new_text :

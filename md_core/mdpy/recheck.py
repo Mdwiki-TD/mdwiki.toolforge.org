@@ -303,12 +303,11 @@ def work_with_2_qids(oldq, new_q):
         #---
         remove2 = wikidataapi.Labels_API(oldq, '', 'en', remove=True)
         #---
-        if "success" in remove2:
+        if remove2:
             len_sites -= 1
             pywikibot.output("<<lightgreen>> **remove2 label true.")
         else:
             pywikibot.output("<<lightred>> **remove2 label false.")
-            pywikibot.output(remove2)
     #---
     if len_sites == 1 or len_sites == 0:
         pywikibot.output("<<lightblue>> merge qids")

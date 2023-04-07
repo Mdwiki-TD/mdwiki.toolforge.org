@@ -1,9 +1,9 @@
 <?php
 require ('header.php');
 //---
-$test       = isset($_GET['test']) ? $_GET['test'] : '';
-$lang       = isset($_GET['lang']) ? $_GET['lang'] : '';
-$title      = isset($_GET['title']) ? $_GET['title'] : '';
+$test       = $_GET['test'] ?? '';
+$lang       = $_GET['lang'] ?? '';
+$title      = $_GET['title'] ?? '';
 // $title      = str_replace("'", "", $title);
 $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';

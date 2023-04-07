@@ -2,7 +2,7 @@
 require ('header.php');
 //---
 $save  = isset($_GET['save']) ? 'checked' : '';
-$title = isset($_GET['title']) ? $_GET['title'] : '';
+$title = $_GET['title'] ?? '';
 //---
 ?>
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -94,7 +94,7 @@ function worknew($title) {
     //---
     $edit_line = "<a class='btn btn-primary' href='$new'>Go to edit page.</a>";
     //---
-    $t1  = strstartswith( $resultb , '/mdwiki/public_html/updatercash/' );
+    $t1 = strstartswith( $resultb , '/mdwiki/public_html/updatercash/' );
     $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/updatercash/' );
     $t3 = endsWith( $resultb , '.txt' );
     //---
@@ -146,10 +146,7 @@ function worknew($title) {
     //---
 };
 //---
-if ($title == '') {
-    echo "
-    ";
-} else {
+if ($title != '') {
     worknew($title);
 };
 //---

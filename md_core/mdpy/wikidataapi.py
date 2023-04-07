@@ -298,10 +298,11 @@ def Labels_API(Qid, label, lang, remove=False):
         #---
         if 'success' in req:
             outbotnew('<<lightgreen>> **Labels_API true.' )
+            return True
         else:
             outbotnew('<<lightred>> r5' + str(req))
-    else:
-        return False
+    #---
+    return False
 #---
 def get_redirects(liste):
     #---
