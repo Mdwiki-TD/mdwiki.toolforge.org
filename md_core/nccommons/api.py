@@ -24,7 +24,7 @@ project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
 if not os.path.isdir(project):  project = "I:/mdwiki"
 #---
 config = configparser.ConfigParser()
-config.read(project + "/nccommons_user.ini")
+config.read(project + "/confs/nccommons_user.ini")
 #---
 username = config["DEFAULT"]["username"].strip()
 password = config["DEFAULT"]["password"].strip()

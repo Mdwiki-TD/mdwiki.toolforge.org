@@ -76,13 +76,13 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
     $dir = '/mdwiki';  
     //---
-    $filee = '/mdwiki/public_html/importlist.txt';
+    $filee = '/mdwiki/public_html/texts/importlist.txt';
     $jsub = 'python3 ';
     //---
     if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' ) { 
         $dir = '/data/project/mdwiki/core'; 
         $jsub = 'jsub -N history python3 ';
-        $filee = '/data/project/mdwiki/public_html/importlist.txt';
+        $filee = '/data/project/mdwiki/public_html/texts/importlist.txt';
     };
     //---
     $python3 = " $dir/pwb.py mdpy/imp -page2:" . rawurlencode($title) . ' save' ;

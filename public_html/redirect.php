@@ -58,19 +58,18 @@ function worknew() {
     global $title, $titlelist;
     //$dir = '/data/project/mdwiki/mdpy/'; 
     //---
-    //---
     //echo $_SERVER['SERVER_NAME'];
     echo "<span style='font-size:15pt;color:green'>";
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     //---
     //$dir = '';  
     $dir = '/data/project/mdwiki/core'; 
-    $filee = 'redirectlist.txt';
+    $filee = 'texts/redirectlist.txt';
     $jsub = '';
     //---
     if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' ) { 
         $jsub = 'jsub -N redirect ';
-        $filee = '/data/project/mdwiki/public_html/redirectlist.txt';
+        $filee = '/data/project/mdwiki/public_html/texts/redirectlist.txt';
     };
     //---
     // python3 /data/project/mdwiki/mdpy/red.py -page2:Aneurysmal_bone_cyst save
