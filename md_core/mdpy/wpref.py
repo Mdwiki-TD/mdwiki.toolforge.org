@@ -55,13 +55,13 @@ reffixed_file = { 1 : '' }
 move_dot = { 1 : False }
 expend_infobox = { 1 : False }
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki'
 #---
 if not os.path.isdir(project): project = 'I:/mdwiki'
 #---
 setting = {}
 #---
-fixwikirefs = project + '/fixwikirefs.json'
+fixwikirefs = project + '/confs/fixwikirefs.json'
 #---
 if os.path.isfile(fixwikirefs):
     try:
