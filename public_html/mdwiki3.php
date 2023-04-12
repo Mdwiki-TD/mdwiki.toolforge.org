@@ -1,10 +1,10 @@
 <?php 
-require ('header.php');
+require('header.php');
 //---
 $save  = isset($_GET['save']) ? 'checked' : '';
 $title = $_GET['title'] ?? '';
 //---
-?>
+echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Med updater</h3>
     </div>
@@ -17,12 +17,12 @@ $title = $_GET['title'] ?? '';
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Title</span>
                             </div>
-                            <input class='form-control' type='text' name='title' value='<?php echo $title ?>' required/>
+                            <input class='form-control' type='text' name='title' value='$title' required/>
                         </div>
                     </div>
                     <div class='col-md-2'>
                         <div class='form-check form-switch'>
-                            <input class='form-check-input' type='checkbox' id='save' name='save' value='1' <?php echo $save ?>>
+                            <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save>
                             <label class='form-check-label' for='save'>Auto save</label>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ $title = $_GET['title'] ?? '';
                 </div>
             </div>
         </form>
-<?php
+HTML;
 //---
 function strstartswith($text, $start) {
     return strpos($text, $start) === 0;
@@ -50,14 +50,14 @@ function get_results($title) {
     //---
     global $save;
     //---
-    $dir = 'I:/mdwiki/TDpynew';  
-    if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' )    $dir = '/data/project/mdwiki/TDpynew'; 
+    $dir = 'I:/mdwiki';  
+    if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' )    $dir = '/data/project/mdwiki'; 
     //---
     $title2 = rawurlencode($title);
     //---
     $sa = ($save != '') ? ' save' : '';
     //---
-    $ccc = "python3 $dir/mdd.py $title2 from_toolforge ch $sa"; 
+    $ccc = "python3 $dir/medUpdater/med.py $title2 from_toolforge ch $sa"; 
     //---
     if ( $_SERVER['SERVER_NAME'] != 'mdwiki.toolforge.org' or isset($_GET['test']) ) { 
         echo "<span style='font-size: 18px;'>$ccc</span>

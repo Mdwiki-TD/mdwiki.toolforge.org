@@ -50,3 +50,4 @@ md_core/nccommons/mv.json
 *.json
 public_html/adminer.php
 md_core/mdcount/old/allwords.py
+public_html/mdwiki3_old.php

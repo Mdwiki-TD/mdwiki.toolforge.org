@@ -26,34 +26,16 @@ done:
 
 """
 #
-# (C) Ibrahem Qasim, 2022
+# (C) Ibrahem Qasim, 2023
 #
 #
-import json
-import codecs
 import re
-import string
 import sys
-#---
-sys_argv = sys.argv or []
-#---
-import requests
-import urllib
-import urllib.request
-import urllib.parse
-#---
-from_toolforge = True
-#---
-if not "from_toolforge" in sys_argv:
-    from_toolforge = False
-    from mdpy import printe
-#---
-import user_account_new
-#---
-username = user_account_new.my_username
-password = user_account_new.mdwiki_pass
-#---
 import os
+#---
+def printn(s):
+    return
+#---
 project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
 #---
 if not os.path.isdir(project): project = "/mdwiki"
@@ -63,6 +45,12 @@ import txtlib2
 lkj = r"\<\!\-\-\s*(External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*\=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*\-\-\>"
 #---
 lkj2 = r"(\<\!\-\-\s*(?:External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*\=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*\-\-\>)"
+#---
+placeholders = {
+    "uses":"<!-- primary uses -->",
+    "side_effects":"<!-- common side effects and notable side effects -->",
+    "interactions":"<!-- notable interactions -->",
+    }
 #---
 identifiers = [
     "CAS_number",
@@ -123,16 +111,13 @@ _ETP_REGEX = re.compile(
     r"(?:\|(?P<params>[^{]+?(?:{[^{]+?}[^{]*?)?)?)?}}"
     )
 #---
-def printn(s):
-    # if "printn" in sys_argv or sys_argv[0] in [".\md2.py",".\\md2.py"]:
-    if not from_toolforge:
-        printe.output(s)
-#---
 def remove_cite_web( text, resources, line, title ):
     new_text = text
     External2 = re.search( "(\=\=\s*External links\s*\=\=)", new_text )
     #---
-    ioireg = "(\*\s*\{\{\s*cite web\s*\|\s*url\s*\=\s*https\:\/\/druginfo\.nlm\.nih\.gov\/drugportal\/name\/%s\s*\|\s*publisher\s*\=\s*U\.S\. National Library of Medicine\s*\|\s*work\s*\=\s*Drug Information Portal\s*\|\s*title\s*\=\s*%s\s*\}\})" % (title , title)
+    title2 = re.escape(title)
+    #---
+    ioireg = r"(\*\s*\{\{\s*cite web\s*\|\s*url\s*\=\s*https\:\/\/druginfo\.nlm\.nih\.gov\/drugportal\/name\/%s\s*\|\s*publisher\s*\=\s*U\.S\. National Library of Medicine\s*\|\s*work\s*\=\s*Drug Information Portal\s*\|\s*title\s*\=\s*%s\s*\}\})" % (title2 , title2)
     #---
     vavo = re.search( ioireg, new_text, flags = re.IGNORECASE )
     if vavo :
@@ -150,25 +135,15 @@ def remove_cite_web( text, resources, line, title ):
             if new_text.find("| NLM = {{PAGENAME}}") != -1 :
                 new_text = new_text.replace( vas, "" )                 # حذف قالب الاستشهاد
             
-        # القالب غير موجود
-        elif new_text.find("{{drug resources") != -1 :
-            if External2 and External2.group(1) != "" :
+            elif External2 and External2.group(1) != "" :
                 ttuy = External2.group(1)
                 drug_Line = "\n{{drug resources\n<!--External links-->\n| NLM = {{PAGENAME}}\n}}"
-                new_text = new_text.replace(ttuy ,  ttuy + drug_Line )
+                new_text = new_text.replace(ttuy , ttuy + drug_Line )
                 if new_text.find( drug_Line.strip() ) != -1 :
                     new_text = new_text.replace( vas, "" )             # حذف قالب الاستشهاد
     #---
-    #---
     return new_text
 #---
-placeholders = {
-    "uses":"<!-- primary uses -->",
-    "side_effects":"<!-- common side effects and notable side effects -->",
-    "interactions":"<!-- notable interactions -->",
-    }
-#---
-
 def add_Names(temptext, boxtable) :
     #---
     new_temptext = temptext
@@ -180,11 +155,11 @@ def add_Names(temptext, boxtable) :
     for xe in paen :
         new_valr = ""
         #---
-        Names_section += "| %s = %s\n" % ( xe , boxtable.get(xe,"") )
+        Names_section += "| %s = %s\n" % ( xe , boxtable.get(xe,"").strip() )
         finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % xe , new_temp_replaced , flags = re.IGNORECASE )
         if finde1:
             ttr = finde1.group(1)
-            goo = ttr + boxtable.get(xe,"")
+            goo = ttr + boxtable.get(xe,"").strip()
             if new_temp_replaced.find( goo ) != -1 :
                 new_temp_replaced = new_temp_replaced.replace( goo , new_valr )#jjjj
             elif new_temp_replaced.find( goo.strip() ) != -1 :
@@ -193,6 +168,8 @@ def add_Names(temptext, boxtable) :
                 printn( "*new_temp_replaced find (%s) == -1 ." % str([goo]) )
         else:
             printn( "*no finde1 for %s" % xe )
+    #---
+    Names_section = Names_section.strip()
     #---
     printn( "*Names_section:" )
     printn( Names_section )
@@ -236,15 +213,12 @@ def add_Names(temptext, boxtable) :
     #---
     return new_temptext , Names_section
 #---
-#---
-def portal_remove( text , sus ) :
+def portal_remove(text) :
     par = "{{portal bar|Medicine}}"
     new_text = text
     new_text = re.sub("\{\{\s*portal bar\s*\|\s*Medicine\s*\}\}", "", new_text , flags = re.IGNORECASE )
     #---
-    if new_text != text :
-        sus = "remove %s." % par
-    return new_text , sus
+    return new_text
 #---
 def add_Clinical( temptext , boxtable , boxtable_strip , Names_section ) :
     #---
@@ -327,14 +301,6 @@ def add_Clinical( temptext , boxtable , boxtable_strip , Names_section ) :
             new_temptext = new_temp_replaced.replace( Names_section.strip() , dodo  , 1 )
     #---
     return new_temptext
-#---
-def ec_de_code( tt , type ):
-    fao = tt
-    if type == "encode" :
-        fao = urllib.parse.quote(tt)
-    elif type == "decode" :
-        fao = urllib.parse.unquote(tt)
-    return fao
 #---
 def add_External_links( temptext , boxtable ) :
     #---
@@ -470,19 +436,24 @@ def add_Legal_data( temptext , boxtable ) :
     return temptext_new
 #---
 def add_Pharmacokinetic_data( temptext , boxtable ) :
-    #print( " add_Pharmacokinetic_data...." ) 
     temptext_new = temptext
     new_temp_replaced = temptext
     #---
-    aff = ""
-    lic = [ "bioavailability", "protein_bound", "metabolism", "metabolites", "elimination_half-life", "excretion" ]
+    lic = [ 
+        "bioavailability", 
+        "protein_bound", 
+        "metabolism", 
+        "metabolites", 
+        "elimination_half-life", 
+        "excretion"
+        ]
     #---
-    addr = ""
+    new_param_sorted = ""
     #---
     for x in lic :
         new_val = ""
         if x in boxtable :
-            addr += "| %s = %s\n" % ( x , boxtable[x] )
+            new_param_sorted += "| %s = %s\n" % ( x , boxtable[x] )
         #---
         finde1 = re.search( "(\|\s*%s\s*\=\s*)" % x , new_temp_replaced , flags = re.IGNORECASE )
         #---
@@ -505,10 +476,54 @@ def add_Pharmacokinetic_data( temptext , boxtable ) :
     elif before2 :
         bd = before2.group(1)
     #---
-    if bd != "" and new_temp_replaced.find(bd) != -1 and addr != "" :
-        addr = "\n<!-- Pharmacokinetic data -->\n" + addr
-        unde = addr + "\n" + bd.strip()
+    if bd != "" and new_temp_replaced.find(bd) != -1 and new_param_sorted != "" :
+        new_param_sorted = "\n\n<!-- Pharmacokinetic data -->\n" + new_param_sorted
+        #---
+        unde = new_param_sorted + "\n" + bd.strip()
+        #---
         temptext_new = new_temp_replaced.replace( bd , unde  , 1 )
+    #---
+    return temptext_new
+#---
+def add_Chemical_data( temptext , boxtable ) :
+    temptext_new = temptext
+    new_temp_replaced = temptext
+    #---
+    lic = [ 
+        "C",
+        "H",
+        "N",
+        "O",
+        "StdInChI",
+        "StdInChIKey",
+        "StdInChIKey_Ref",
+        "SMILES"
+        ]
+    #---
+    new_param_sorted = ""
+    #---
+    for x in lic :
+        new_val = ""
+        if x in boxtable :
+            new_param_sorted += "| %s = %s\n" % ( x , boxtable[x] )
+        #---
+        finde1 = re.search( "(\|\s*%s\s*\=\s*)" % x , new_temp_replaced , flags = re.IGNORECASE )
+        #---
+        if finde1:
+            tt = finde1.group(1)
+            faf = tt + boxtable.get(x,"").strip()
+            if new_temp_replaced.find(faf) != -1 :
+                new_temp_replaced = new_temp_replaced.replace( faf , new_val )
+            else:
+                printn( "*+new_temp_replaced find (%s) == -1 ." % str([faf]) )
+    #---
+    new_temp_replaced = re.sub( "(\<\!\-\-\s*Chemical data\s*\-\-\>)", "", new_temp_replaced , flags = re.IGNORECASE )
+    new_temp_replaced = re.sub( "(\<\!\-\-\s*Chemical and physical data\s*\-\-\>)", "", new_temp_replaced , flags = re.IGNORECASE )
+    #---
+    new_param_sorted = "\n<!-- Chemical and physical data -->\n" + new_param_sorted
+    #---
+    # temptext_new = new_temp_replaced.replace( bd , unde  , 1 )
+    temptext_new = re.sub(r"\}\}$", new_param_sorted + "\n}}", new_temp_replaced.strip() , flags = re.IGNORECASE )
     #---
     return temptext_new
 #---
@@ -547,62 +562,7 @@ def add_data( temptext, boxtable, params=[], tato="", finde="") :
     #---
     return temptext_new
 #---
-SS = {}
-#---
-SS["ss"] = requests.Session()
-SS["url"] = "https://" + "mdwiki.org/w/api.php"
-SS["ss"] = requests.Session()
-#---
-r11 = SS["ss"].get(SS["url"], params={
-    "format": "json",
-    "action": "query",
-    "meta": "tokens",
-    "type": "login",
-    })
-r11.raise_for_status()
-# log in
-r22 = SS["ss"].post(SS["url"], data= {
-    #fz"assert": "user",
-    "format": "json",
-    "action": "login",
-    "lgname": username,
-    "lgtoken": r11.json()["query"]["tokens"]["logintoken"],
-    "lgpassword": password,
-    } )
-#---
-# get edit token
-SS["r33"] = SS["ss"].get(SS["url"], params={
-    "format": "json",
-    "action": "query",
-    "meta": "tokens",
-})
-#---
-SS["r3_token"] = SS["r33"].json()["query"]["tokens"]["csrftoken"]
-#---
-def GetPageText(title):
-    text = ""
-    #---
-    params = {
-        "action": "parse",
-        "format": "json",
-        "prop": "wikitext",
-        "page": title,
-        "utf8": 1,
-    }
-    #---
-    url = "https://" + "mdwiki.org/w/api.php?action=parse&prop=wikitext&utf8=1&format=json&page=" + title
-    #jsoe = urllib.request.urlopen(url).read().strip().decode("utf-8")
-    r4 = SS["ss"].post(SS["url"], data=params)
-    #---
-    json1 = json.loads( r4.text )
-    #---
-    if not json1 or json1 == {} : return text
-    #---
-    text = json1.get("parse", {}).get("wikitext", {}).get("*", "")
-    #---
-    return text
-#---
-def aligns( text ):
+def aligns(text):
     #---
     newtext = text
     params = {}
@@ -620,46 +580,64 @@ def aligns( text ):
         newparam = '| %s=' % p.ljust(18)
         newtext = re.sub(r'\s*(\|\s*%s\s*\=\s)' % p.strip(), '\n' + newparam, newtext)
     #---
+    for param in params:
+        newtext = re.sub(r'\s*(\|\s*%s\s*\=)' % param.strip(), '\n\g<1>', newtext)
+    #---
     newtext = re.sub(r'\s*\}\}\s*$', '\n}}', newtext)
     #---
     return newtext
 #---
-def page_put( NewText, title ):
+def add_to_add(new_text, drug_resources, resources, to_add, title):
     #---
-    pparams = {
-        "action": "edit",
-        "format": "json",
-        "title": title,
-        "text": NewText,
-        "summary": "mdwiki changes.",
-        "bot": 1,
-        "nocreate3": 1,
-        "token": SS["r3_token"] ,
-    }
+    line = ""
     #---
-    r4 = SS["ss"].post(SS["url"], data=pparams)
+    to_add = to_add.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
+    to_add = to_add.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
+    to_add = to_add.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
     #---
-    text = ""
-    try:
-        text = json.loads(r4.text)
-    except:
-        text = ""
+    dng = "\=\=\s*External links\s*\=\=\s*\*\s*\{\{cite web\s*\|\s*\|\s*url\s*\=\s*https\:\/\/druginfo.*?\}\}"
     #---
-    if "Success" in r4.text:
-        print( "True" )
+    External = re.search( dng , new_text , flags = re.IGNORECASE )
+    External2 = re.search( "(\=\=\s*External links\s*\=\=)", new_text , flags = re.IGNORECASE )
+    External3 = re.search( "(\{\{reflist\}\})", new_text , flags = re.IGNORECASE )
+    #---
+    if drug_resources != "" :
+        new_drug_resources = drug_resources
+        #---
+        if new_drug_resources.strip().endswith("}}") :
+            new_drug_resources = new_drug_resources[:-2]
+            line = new_drug_resources + "\n"+ to_add.strip() + "\n}}"
+            new_text = new_text.replace( drug_resources , line )
+    #---
     else:
-        print( text["error"]["info"] )
-        print( "False" )
+        new_line = "{{drug resources\n\n<!--Identifiers-->\n" + to_add.strip() + "\n}}"
+        tt = ""
+        to = ""
+        #---
+        if External:
+            tt = External.group(1)
+        elif External2:
+            tt = External2.group(1)
+        #---
+        elif External3:
+            to = External3.group(1)
+        #---
+        if tt != "":
+            new_text = new_text.replace(tt ,  tt + "\n" + new_line )
+        #---
+        elif to != "":
+            new_text = new_text.replace(to ,  to + "\n== External links ==\n" + new_line )
+        #---
+        else:
+            new_text = new_text + "\n\n== External links ==\n" + new_line
+    #---
+    # إزالة استشهاد خاطىء
+    new_text = remove_cite_web( new_text , resources , line , title )
+    new_text = re.sub( "\{\{drug resources\s*\<\!", "{{drug resources\n<!", new_text , flags = re.IGNORECASE )
+    #---
+    return new_text
 #---
-def work( title , returntext = False , text_O = "" ):
-    #---
-    title = title
-    title = ec_de_code( title, "decode" )
-    #---
-    if text_O != "" :
-        text = text_O
-    else:
-        text = GetPageText( title )
+def work_on_text(title, text):
     #---
     drug_resources = ""
     drugbox = ""
@@ -677,8 +655,6 @@ def work( title , returntext = False , text_O = "" ):
     for temp in ingr:
         #---
         name, namestrip, params, txt = temp["name"], temp["namestrip"], temp["params"], temp["item"]
-        #---
-        #print( " <<lightblue>>==========%%%%%==================="  )
         #---
         if namestrip.lower() in [ "drug resources" ] and drug_resources == "":
             drug_resources = txt
@@ -721,28 +697,16 @@ def work( title , returntext = False , text_O = "" ):
     #---
     Names_section = ""
     #--- 
-    #if "names" in sys_argv or sys_argv:#xyz
+    #if "names" in sys.argv or sys.argv:#xyz
     # إضافة قسم Names
     #---
     if drugbox != "" : 
         drugbox_new , Names_section = add_Names(drugbox_new, drugbox_params )
-    #---
-    #
-    #dfdf = re.search( "(\<\!\-\-\s*Clinical data\s*\-\-\>)(\<\!\-\-\s*External links\s*\-\-\>)", drugbox_new , flags = re.IGNORECASE )
-    
-    #---
-    #---
-    if drugbox != "":
         finde13 = re.search( r"(\<\!\-\-\s*Identifiers\s*\-\-\>)", drugbox )
         if finde13:
             dd = finde13.group(1)
             idi_sect = drugbox.split(dd)[1].split("<!--Chemical data")[0].split("<!-- Chemical data")[0]
             idi_sect = idi_sect.split("<!-- Definition and medical uses -->")[0]
-            #idi_sect = idi_sect.split("'''%s" % title)[0]
-        #---
-        #print( "*idi_sect:" )
-        #print( idi_sect )
-        #print( ")_____________________(")
         #---
         # remove identifiers from {{drugbox|
         drugbox_new = re.sub(r"\<\!\-\-\s*Identifiers\s*\-\-\>","",drugbox_new , flags = re.IGNORECASE )
@@ -759,27 +723,25 @@ def work( title , returntext = False , text_O = "" ):
         drugbox_new = drugbox_new.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
         drugbox_new = drugbox_new.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
     #---
-    #if "lino" in sys_argv or sys_argv:#xyz
     tagnr = "Legal status"
     taton = "Physiological data"
     fng = ["source_tissues","target_tissues","receptors","agonists","antagonists","precursor","biosynthesis"]#,"metabolism"]
     drugbox_new = add_data(drugbox_new, drugbox_params , params = fng, tato = taton, finde = tagnr )
     #---
-    #if "links" in sys_argv or sys_argv:#xyz
     # إضافة External links
     drugbox_new = add_External_links(drugbox_new, drugbox_params )
     #---
-    #if "legal" in sys_argv or sys_argv:#xyz
     # إضافة Legal data
     drugbox_new = add_Legal_data(drugbox_new, drugbox_params )
     #---
-    #if "pharma" in sys_argv or sys_argv:#xyz
+    # إضافة Clinical data
+    drugbox_new = add_Clinical(drugbox_new, drugbox_params , drugbox_params_strip , Names_section )
+    #---
     # إضافة Pharmacokinetic data
     drugbox_new = add_Pharmacokinetic_data(drugbox_new, drugbox_params )
     #---
-    #if "data" in sys_argv or sys_argv:#xyz
-    # إضافة Clinical data
-    drugbox_new = add_Clinical(drugbox_new, drugbox_params , drugbox_params_strip , Names_section )
+    # إضافة Chemical data
+    drugbox_new = add_Chemical_data(drugbox_new, drugbox_params )
     #---
     if drugbox != drugbox_new :
         #---
@@ -787,162 +749,20 @@ def work( title , returntext = False , text_O = "" ):
         drugbox_new = drugbox_new.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
         drugbox_new = drugbox_new.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
     #---
-    #2) add "| typical_dose       ="
-    #3) add "| breastfeeding = "
     drugbox_new = re.sub( "\s*" + lkj2, "\n\n\g<1>", drugbox_new , flags = re.IGNORECASE | re.DOTALL )
-    #---
-    Align_Done = False
-    if not "noalign" in sys_argv: 
-        drugbox_new = aligns(drugbox_new)
-        Align_Done = True
     #---
     if drugbox != drugbox_new :
         #---
-        if not Align_Done:  drugbox_new = aligns(drugbox_new)
+        drugbox_new = aligns(drugbox_new)
         #---
         new_text = new_text.replace( drugbox, drugbox_new )
     #---
-    line = ""
-    #---
     # نقل المعرفات لأسفل
     if to_add.strip() != "" :
-        #print( "//////////////////////////" )
-        #print( '*to_add:"%s".' % to_add )
-        #---
-        to_add = to_add.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
-        to_add = to_add.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
-        to_add = to_add.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
-        #---
-        dng = "\=\=\s*External links\s*\=\=\s*\*\s*\{\{cite web\s*\|\s*\|\s*url\s*\=\s*https\:\/\/druginfo.*?\}\}"
-        #---
-        External = re.search( dng , new_text , flags = re.IGNORECASE )
-        External2 = re.search( "(\=\=\s*External links\s*\=\=)", new_text , flags = re.IGNORECASE )
-        External3 = re.search( "(\{\{reflist\}\})", new_text , flags = re.IGNORECASE )
-        #---
-        if drug_resources != "" :
-            new_drug_resources = drug_resources
-            #---
-            if new_drug_resources.strip().endswith("}}") :
-                new_drug_resources = new_drug_resources[:-2]
-                line = new_drug_resources + "\n"+ to_add.strip() + "\n}}"
-                new_text = new_text.replace( drug_resources , line )
-        #---
-        else:
-            new_line = "{{drug resources\n\n<!--Identifiers-->\n" + to_add.strip() + "\n}}"
-            tt = ""
-            to = ""
-            #---
-            if External:
-                tt = External.group(1)
-            elif External2:
-                tt = External2.group(1)
-            #---
-            elif External3:
-                to = External3.group(1)
-            #---
-            if tt != "":
-                new_text = new_text.replace(tt ,  tt + "\n" + new_line )
-            #---
-            elif to != "":
-                new_text = new_text.replace(to ,  to + "\n== External links ==\n" + new_line )
-            #---
-            else:
-                new_text = new_text + "\n\n== External links ==\n" + new_line
-    #---
-    # إزالة استشهاد خاطىء
-    new_text = remove_cite_web( new_text , resources , line , title )
-    new_text = re.sub( "\{\{drug resources\s*\<\!", "{{drug resources\n<!", new_text , flags = re.IGNORECASE )
-    #---
-    '''
-    ioi = "\*\s*\{\{cite web\s*\|\s*url = https://druginfo.nlm.nih.gov/drugportal/name/%s | publisher = U.S. National Library of Medicine | work = Drug Information Portal | title = %s }}" % (title,title)
-    #---
-    if new_text.find(ioi) != -1 :
-        if "NLM" in resources and resources["NLM"] == "":
-            line2 = re.sub("(\s*NLM\s*\=\s*)", "\g<1>{{PAGENAME}}", line )
-            new_text = new_text.replace( line , line2 )'''
-    #---
-    sus = "" #"Move identifiers to drug resources."
+        new_text = add_to_add(new_text, drug_resources, resources, to_add, title)
     #---
     # إزالة شريط البوابات
-    new_text , sus = portal_remove( new_text , sus )
-    #if text == new_text :
-        #new_text , sus = portal_remove( new_text , sus )
-    #else :
-        #new_text , sus1 = portal_remove( new_text , sus )
+    new_text = portal_remove( new_text)
     #---
-    if not Align_Done :
-        if text != new_text and new_text.find( drugbox_new ) != -1 :
-            drugbox_new2 = aligns( drugbox_new )
-            new_text = new_text.replace(drugbox_new, drugbox_new2 )
-    #---
-    #return new_text
-    #print( ec_de_code( new_text, "encode") )
-    #---json
-    if returntext :
-        return new_text
-    #---json
-    if sys.argv and len(sys.argv) > 2 and sys.argv[2] == "json" :
-        ff = { 1 : new_text }
-        print( str(ff) ) 
-    #---
-    elif sys.argv and "ch" in sys.argv :
-    # elif sys.argv and len(sys.argv) > 2 and sys.argv[2] == "ch" :
-    # elif 'from_toolforge' in sys.argv:
-        if text.strip() == "" or new_text.strip() == "" :
-            print( "notext" )
-        elif text == new_text :
-            print( "no changes" )
-        elif "save" in sys.argv:
-            return page_put( new_text, title )
-        else:
-            #---
-            #print( new_text )
-            #---
-            title2 = title
-            title2 = title2.replace(":","-").replace("/","-")
-            #---
-            try:
-                filename = project + "/public_html/updatercash/" + title2 + ".txt"
-                with codecs.open( filename, "w", encoding="utf-8") as oodfo: 
-                    oodfo.write( new_text ) 
-                oodfo.close()
-                #---
-                print (filename)
-                #---
-            except Exception as e:
-                filename = project + "/public_html/updatercash/title2.txt"
-                with codecs.open( filename, "w", encoding="utf-8") as oodfo: 
-                    oodfo.write( new_text ) 
-                oodfo.close()
-                #---
-                print (filename)
-                #---
-        #print( "sys.argv[2] == "ch"" )
-    else:
-        print( new_text )
-    #---
-    #if new_text != text :
-        #return new_text
-    #else:
-        #print( " no changes.")
-    #---
-# python mdd.py Loratadine json
-# python pwb.py mdwiki/mdd 
-# python mdd.py Allopurinol
-#---
-def main():
-    #---
-    if sys.argv and sys.argv[1] :
-        #---
-        title = sys.argv[1]
-        #---
-        if len(sys.argv) > 2 and sys.argv[2] == "text" :
-        #if "text" in sys.argv:
-            text = GetPageText( title )
-            print(text)
-        else:
-            work( title )
-#---
-if __name__ == "__main__":
-    main()
+    return new_text
 #---
