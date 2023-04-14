@@ -462,11 +462,11 @@ def maine():
         #---
         print_s(que)
         #---
-        sq = sql_for_mdwiki.mdwiki_sql(que)
+        sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
         #---
         for tab in sq :
-            lang   = tab[0]
-            target =  tab[1]
+            lang   = tab['lang']
+            target = tab['target']
             #---
             if not lang in newtable : newtable[lang] = []
             if not target in newtable[lang] : newtable[lang].append(target)

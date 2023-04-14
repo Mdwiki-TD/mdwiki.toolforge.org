@@ -60,16 +60,16 @@ from wddone
 ;
 '''
 #---
-sq_dd = sql_for_mdwiki.mdwiki_sql(que_wddone)
+sq_dd = sql_for_mdwiki.mdwiki_sql(que_wddone, return_dict=True)
 #---
 wddone_by_u_t = []
 wddone_by_u_l_mdt = []
 #---
 for tab in sq_dd :
-    mdtitle = py_tools.Decode_bytes(tab[0]) 
-    target  = py_tools.Decode_bytes(tab[1])
-    lang    = py_tools.Decode_bytes(tab[2])
-    user    = py_tools.Decode_bytes(tab[3])
+    mdtitle = tab['mdtitle']
+    target  = tab['target']
+    lang    = tab['lang']
+    user    = tab['user']
     #---
     wddone_by_u_t.append(tuple([user,target]))
     wddone_by_u_l_mdt.append(tuple([user,lang,mdtitle]))

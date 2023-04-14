@@ -107,17 +107,17 @@ def create_redirect( target, mdtitle ):
 def dodo_sql():
     #---
     que = '''
-select title,target from pages
+select title, target from pages
 where target != ""
 and lang = "or"
 ;
 '''
     #---
-    sq = sql_for_mdwiki.mdwiki_sql(que)
+    sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
     #---
     for tab in sq :
-        mdtitle  = tab[0]
-        target   =  tab[1]
+        mdtitle  = tab['title']
+        target   = tab['target']
         #---
         create_redirect( target , mdtitle )
 #---

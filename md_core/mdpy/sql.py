@@ -124,18 +124,16 @@ def dodo_sql():
     #---
     pywikibot.output( que )
     #---
-    sq = sql_for_mdwiki.mdwiki_sql(que)
+    sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
     #---
     len_no_target = 0
     len_done_target = 0
     #---
     for tab in sq :
-        mdtitle = py_tools.Decode_bytes(tab[0]) 
-        user    = py_tools.Decode_bytes(tab[1])
-        #---
-        target  = py_tools.Decode_bytes(tab[3])
-        #---
-        lang  = py_tools.Decode_bytes(tab[2]).lower()
+        mdtitle= tab['title']
+        user   = tab['user']
+        target = tab['target']
+        lang   = tab['lang'].lower()
         #---
         if lang_o != '' and lang != lang_o.strip() : continue
         #---

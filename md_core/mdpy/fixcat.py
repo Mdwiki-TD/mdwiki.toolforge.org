@@ -29,15 +29,15 @@ cat_for_pages = {}
 #---
 def get_cats_and_pages():
     #---
-    sq = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;')
+    sq = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;', return_dict=True)
     #---
     catlen = {}
     #---
     RTT_dpl = 0
     #---
     for tab in sq :
-        cat     = py_tools.Decode_bytes(tab[0]) 
-        depth   = py_tools.Decode_bytes(tab[1])
+        cat     = tab['category']
+        depth   = tab['depth']
         #---
         catlen[cat] = 0
         #---
@@ -66,10 +66,10 @@ def get_pages_with_no_cat():
     #---
     add_cat = {}
     #---
-    ioi = sql_for_mdwiki.mdwiki_sql("select title from pages where cat = '';")
+    ioi = sql_for_mdwiki.mdwiki_sql("select title from pages where cat = '';", return_dict=True)
     #---
     for tab in ioi :
-        title = py_tools.Decode_bytes(tab[0])
+        title = tab['title']
         #---
         cat     = cat_for_pages.get(title, '')
         if cat != '':

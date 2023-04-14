@@ -160,12 +160,12 @@ def get_targets(lang_o):
     {uu}
     ;'''
     #---
-    sq = sql_for_mdwiki.mdwiki_sql(que)
+    sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
     #---
     for tab in sq :
-        lang    = py_tools.Decode_bytes(tab[0]).lower()
-        target  = py_tools.Decode_bytes(tab[1])
-        pupdate = py_tools.Decode_bytes(tab[2])
+        lang    = tab['lang'].lower()
+        target  = tab['target']
+        pupdate = tab['pupdate']
         #---
         if '2023' in sys.argv and not pupdate.startswith('2023'):
             pupdate = '2023-01-01'
@@ -187,15 +187,15 @@ def get_views_sql(lang_o):
     ;
     '''
     #---
-    dad = sql_for_mdwiki.mdwiki_sql(que11)
+    dad = sql_for_mdwiki.mdwiki_sql(que11, return_dict=True)
     #---
     for tab in dad :
-        target = py_tools.Decode_bytes(tab[0])
-        lang   = py_tools.Decode_bytes(tab[1]).lower()
-        countall   = py_tools.Decode_bytes(tab[2])
-        count2021   = py_tools.Decode_bytes(tab[3])
-        count2022   = py_tools.Decode_bytes(tab[4])
-        count2023   = py_tools.Decode_bytes(tab[5])
+        target      = tab['target']
+        lang        = tab['lang'].lower()
+        countall    = tab['countall']
+        count2021   = tab['count2021']
+        count2022   = tab['count2022']
+        count2023   = tab['count2023']
         #---
         if not lang in already_in_sql : already_in_sql[lang] = {}
         #---

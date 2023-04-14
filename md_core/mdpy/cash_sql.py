@@ -42,11 +42,11 @@ noqids = []
 #---
 title_to_qid_in_sql = {}
 #---
-sq = sql_for_mdwiki.mdwiki_sql(' select DISTINCT title, qid from qids;')
+sq = sql_for_mdwiki.mdwiki_sql(' select DISTINCT title, qid from qids;', return_dict=True)
 #---
 for ta in sq: 
-    title = py_tools.Decode_bytes(ta[0])
-    qqid = py_tools.Decode_bytes(ta[1])
+    title = ta['title']
+    qqid  = ta['qid']
     if qqid != '':
         title_to_qid_in_sql[title] = qqid
     else:

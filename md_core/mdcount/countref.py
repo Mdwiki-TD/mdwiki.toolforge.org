@@ -135,14 +135,9 @@ def from_sql():
     #---
     que = '''select title, word from pages;'''
     #---
-    sq = sql_for_mdwiki.mdwiki_sql(que)
+    sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
     #---
-    titles2 = []
-    #---
-    for tab in sq :
-        title  = Decode_bytes(tab[0])
-        titles2.append(title)
-        #---
+    titles2 = [ q['title'] for q in sq ]
     #---
     titles = [ x for x in titles2 if not x in list_ma[1] ]
     #---

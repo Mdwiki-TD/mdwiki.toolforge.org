@@ -266,13 +266,13 @@ all_pages = []
 #---
 def make_cash_to_cats(return_all_pages=False):
     #---
-    cac = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;')
+    cac = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;', return_dict=True)
     #---
     cats = {}
     #---
     for c in cac:
-        cat = c[0]
-        dep = c[1]
+        cat = c['category']
+        dep = c['depth']
         #---
         cat = cat.decode("utf-8") if type(cat) == bytes else cat
         #---
