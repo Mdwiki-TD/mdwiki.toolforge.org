@@ -187,39 +187,39 @@ def dodo_sql():
     tttime.sleep(3)
 #---
 query_main_old = '''
-select DISTINCT p.page_title, c.comment_text , a.actor_name , r.rev_timestamp
-from change_tag t
-INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
-INNER JOIN revision r on r.rev_id = t.ct_rev_id
-INNER JOIN actor a ON r.rev_actor = a.actor_id
-inner join comment c on c.comment_id = r.rev_comment_id
-INNER JOIN page p on r.rev_page=p.page_id
-where ctd.ctd_name in ("contenttranslation", "contenttranslation-v2") #id = 3 # id = 120
-and r.rev_parent_id = 0
-#AND a.actor_name in ('Mr. Ibrahem')
-AND r.rev_timestamp > 20210101000000
-#and comment_text like "%[[:en:Special:Redirect/revision/%|User:Mr. Ibrahem/%]]%"
-and comment_text like "%User:Mr. Ibrahem/%"
-and p.page_namespace = 0
-#limit 10
+    select DISTINCT p.page_title, c.comment_text , a.actor_name , r.rev_timestamp
+    from change_tag t
+    INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
+    INNER JOIN revision r on r.rev_id = t.ct_rev_id
+    INNER JOIN actor a ON r.rev_actor = a.actor_id
+    inner join comment c on c.comment_id = r.rev_comment_id
+    INNER JOIN page p on r.rev_page=p.page_id
+    where ctd.ctd_name in ("contenttranslation", "contenttranslation-v2") #id = 3 # id = 120
+    and r.rev_parent_id = 0
+    #AND a.actor_name in ('Mr. Ibrahem')
+    AND r.rev_timestamp > 20210101000000
+    #and comment_text like "%[[:en:Special:Redirect/revision/%|User:Mr. Ibrahem/%]]%"
+    and comment_text like "%User:Mr. Ibrahem/%"
+    and p.page_namespace = 0
+    #limit 10
 '''
 #---
 query_main = '''
-select DISTINCT p.page_title, 
-SUBSTRING_INDEX(SUBSTRING_INDEX(c.comment_text, 'Ibrahem/', -1), ']]', 1), 
-a.actor_name, r.rev_timestamp, p.page_namespace, r.rev_parent_id
-from change_tag t
-INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
-INNER JOIN revision r on r.rev_id = t.ct_rev_id
-INNER JOIN actor a ON r.rev_actor = a.actor_id
-inner join comment c on c.comment_id = r.rev_comment_id
-INNER JOIN page p on r.rev_page=p.page_id
-where ctd.ctd_name in ("contenttranslation", "contenttranslation-v2") #id = 3 # id = 120
-#and r.rev_parent_id = 0
-AND r.rev_timestamp > 20210101000000
-and comment_text like "%User:Mr. Ibrahem/%"
-#and p.page_namespace = 0
-group by p.page_title, a.actor_name, c.comment_text
+    select DISTINCT p.page_title, 
+    SUBSTRING_INDEX(SUBSTRING_INDEX(c.comment_text, 'Ibrahem/', -1), ']]', 1), 
+    a.actor_name, r.rev_timestamp, p.page_namespace, r.rev_parent_id
+    from change_tag t
+    INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
+    INNER JOIN revision r on r.rev_id = t.ct_rev_id
+    INNER JOIN actor a ON r.rev_actor = a.actor_id
+    inner join comment c on c.comment_id = r.rev_comment_id
+    INNER JOIN page p on r.rev_page=p.page_id
+    where ctd.ctd_name in ("contenttranslation", "contenttranslation-v2") #id = 3 # id = 120
+    #and r.rev_parent_id = 0
+    AND r.rev_timestamp > 20210101000000
+    and comment_text like "%User:Mr. Ibrahem/%"
+    #and p.page_namespace = 0
+    group by p.page_title, a.actor_name, c.comment_text
 '''
 #---
 def main():

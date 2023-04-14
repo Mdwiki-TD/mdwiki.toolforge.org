@@ -112,73 +112,60 @@ def Make_sql_many_rows(queries, wiki="", printqua=False):
     if printqua or "printsql" in sys.argv:
         pywikibot.output( queries )
     #---
-    if not GET_SQL():
-        pywikibot.output( 'sql.GET_SQL() == False' )
-        return rows
+    if not GET_SQL():   return rows
     #---
     start = tttime.time()
     final = tttime.time()
-    #delta = int(final - start)
-    #pywikibot.output( 'wiki_sql.py Make_sql len(encats) = "{}", in {} seconds'.format( len( encats ) , delta)  )
     #---
     db_user = config.db_username
     dpas    = config.db_password
     #---
-    TTime = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
+    # MySQLdb.connect with arrgs
+    arrgs = {
+        'host': host,
+        'user': db_user,
+        'passwd': dpas,
+        'db': dbs_p,
+    }
     #---
-    # pywikibot.output( '<<lightred>> wiki_sql.py <<lightyellow>>host:"%s" , db:"%s" , db_user:"%s" %s' % (host , dbs_p , db_user , TTime) )
+    # connect to the database server without error
+    try:
+        cn = MySQLdb.connect(**arrgs)
+    except Exception as e:
+        pywikibot.output( 'Traceback (most recent call last):' )
+        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output( 'CRITICAL:' )
+        return rows
     #---
-    if SQL_Ready:
-        #---
-        # MySQLdb.connect with arrgs
-        arrgs = {
-            'host': host,
-            'user': db_user,
-            'passwd': dpas,
-            'db': dbs_p,
-        }
-        #---
-        # connect to the database server without error
-        try:
-            cn = MySQLdb.connect(**arrgs)
-        except Exception as e:
-            pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
-            pywikibot.output( 'CRITICAL:' )
-            return rows
-        #---
-        cn.set_character_set('utf8')
-        cur = cn.cursor()
-        #---
-        # cur.execute(queries)
-        # skip sql errors
-        try:
-            cur.execute(queries)
-        except Exception as e:
-            pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
-            pywikibot.output( queries )
-            pywikibot.output( 'CRITICAL:' )
-            return rows
-        #---
-        en_results = cur.fetchall()
-        cn.close()
-        # -----------------
-        final = tttime.time()
-        # -----------------end of sql--------------------------------------------
-        for raw in en_results:
-            #if type(raw) == bytes:
-                #raw = raw.decode("utf-8")
-            raw2 = raw
-            if type(raw2) == list or type(raw2) == tuple :
-                raw = [ py_tools.Decode_bytes(x) for x in raw2 ]
-            rows.append(raw)
-    # -----------------
-    else:
-        pywikibot.output("no SQL_Ready" )
-    # -----------------
+    cn.set_character_set('utf8')
+    cur = cn.cursor()
+    #---
+    # cur.execute(queries)
+    # skip sql errors
+    try:
+        cur.execute(queries)
+    except Exception as e:
+        pywikibot.output( 'Traceback (most recent call last):' )
+        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output( queries )
+        pywikibot.output( 'CRITICAL:' )
+        return rows
+    #---
+    en_results = cur.fetchall()
+    cn.close()
+    #---
+    final = tttime.time()
+    #---
+    for raw in en_results:
+        #if type(raw) == bytes:
+            #raw = raw.decode("utf-8")
+        raw2 = raw
+        if type(raw2) == list or type(raw2) == tuple :
+            raw = [ py_tools.Decode_bytes(x) for x in raw2 ]
+        rows.append(raw)
+    #---
     delta = int(final - start)
     pywikibot.output( 'wiki_sql.py Make_sql_many_rows len(encats) = "{}", in {} seconds'.format( len( rows ) , delta)  )
-    # -----------------
+    #---
     return rows
 #---

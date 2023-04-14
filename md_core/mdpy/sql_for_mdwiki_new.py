@@ -1,8 +1,9 @@
 #!/usr/bin/python
 """
+python3 pwb.py mdpy/sql_for_mdwiki
 """
 #
-# (C) Ibrahem Qasim, 2022
+# (C) Ibrahem Qasim, 2023
 #
 #
 from pywikibot import config
@@ -10,13 +11,6 @@ from warnings import warn
 import pywikibot
 import sys
 import os
-#---
-from mdpy import py_tools
-# py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
-# py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
-# py_tools.Decode_bytes(x)
-# py_tools.quoteurl(fao)
 #--- 
 '''
 #---
@@ -28,64 +22,78 @@ from mdpy import sql_for_mdwiki
 #---
 '''
 #---
-can_use_sql_db = { 1 : False }
+can_use_sql_db = { 1 : True }
 #---
-try:
-    import MySQLdb
-    can_use_sql_db[1] = True
-except Exception as e:
-    pywikibot.output('<<lightred>> mdwiki/sql_for_mdwiki.py errors when import MySQLdb')
-    pywikibot.output('<<lightred>> %s' % e )
+#---
+import MySQLdb
+import pymysql
+import pkg_resources
+#---
+py_v = pymysql.__version__
+if py_v.endswith('.None'): py_v = py_v[:-len('.None')]
+#---
+pymysql_version = pkg_resources.parse_version(py_v)
+pywikibot.output(f'<<lightyellow>> pymysql_version: {pymysql_version}')
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
-if not os.path.isdir(project): project = '/mdwiki'
+if not os.path.isdir(project):
+    project = '/mdwiki'
+    # can_use_sql_db[1] = False
+#---
+def make_cod(string):
+    lie = "'%s'" % string
+    #---
+    if string.find("'") != -1 : lie = '"%s"' % string
+    #---
+    return lie
 #---
 def Decode_bytes(x):
     if type(x) == bytes:    x = x.decode("utf-8")
     return x
 #---
-def make_sql_connect_new(query , update = False, Prints = True):
+main_args = {
+    'host':     'tools.db.svc.wikimedia.cloud',
+    'user':     config.db_username,
+    'passwd':   config.db_password,
+    'db':       config.db_username + '__mdwiki',
+    'charset':  'utf8',
+    'use_unicode': True,
+}
+#---
+if 'localhost' in sys.argv or project.find('/mnt/') == -1:
+    main_args['host'] = '127.0.0.1'
+    main_args['user'] = 'root'
+    main_args['passwd']  = 'root11'
+    main_args['db']   = 'mdwiki'
+#---
+def sql_connect_pymysql(query, update=False, Prints=True):
     #---
-    if Prints: pywikibot.output('start mdwiki_sql:')
+    pywikibot.output('start sql_connect_pymysql:')
     #---
-    if query == '' : 
-        pywikibot.output("query == ''")
-        return {}
+    args = { x: v for x,v in main_args.items()}
     #---
-    user    = config.db_username
-    passwd  = config.db_password
+    user    = args['user']
+    passwd  = args['passwd']
     #---
-    args = {}
-    args['host'] = 'tools.db.svc.wikimedia.cloud'
-    args['db']   = config.db_username + '__mdwiki'
-    args['charset'] = "utf8"
-    #---
-    if 'localhost' in sys.argv or project.find('/mnt/') == -1:
-        #---
-        args['host'] = '127.0.0.1'
-        args['db']   = 'mdwiki'
-        #---
-        user = 'root'
-        passwd  = 'root11'
+    del args['user']
+    del args['passwd']
+    del args['use_unicode']
     #---
     credentials = {'user': user, 'password': passwd}
     #---
     params = None
     #---
     # connect to the database server without error
+    #---
     try:
         connection = pymysql.connect(**args, **credentials)
-    except MySQLdb.Error as e:
-        pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
-        pywikibot.output( 'CRITICAL:' )
-        return Return
+
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
         warn('Exception:' + str(e), UserWarning)
         pywikibot.output( 'CRITICAL:' )
-        return Return
+        return []
     #---
     if pymysql_version < pkg_resources.parse_version('1.0.0'):
         from contextlib import closing
@@ -96,67 +104,35 @@ def make_sql_connect_new(query , update = False, Prints = True):
         # skip sql errors
         try:
             cursor.execute(query, params)
-        except MySQLdb.Error as e:
-            pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception: MySQLdb.Error', UserWarning)
-            pywikibot.output( 'CRITICAL:' )
-            return Return
-        except MemoryError :
-            pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception: MemoryError', UserWarning)
-            pywikibot.output( 'CRITICAL:' )
-            return Return
+
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
             warn('Exception:' + str(e), UserWarning)
             pywikibot.output( 'CRITICAL:' )
-            return Return
+            return []
         #---
         try:
             if update:
                 results = cursor.commit()
             else:
                 results = cursor.fetchall()
+
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
             warn('Exception:' + str(e), UserWarning)
             pywikibot.output( 'CRITICAL:' )
-            return Return
+            return []
         #---
         # yield from cursor
         return results
 #---
-def mdwiki_sql(query , update = False, Prints = True):
+def sql_connect_MySQLdb(query, update=False, Prints=True):
     #---
-    if 'newsql' in sys.argv:
-        pywikibot.output('<<lightyellow>> newsql::')
-        return make_sql_connect_new( query, update=update, Prints=Prints)
-    #---
-    if Prints: pywikibot.output('start mdwiki_sql:')
-    #---
-    if not can_use_sql_db[1] : 
-        pywikibot.output('no mysql')
-        return {}
-    #---
-    if query == '' : 
-        pywikibot.output("query == ''")
-        return {}
+    pywikibot.output('start sql_connect_MySQLdb:')
     #---
     # MySQLdb.connect with arrgs
-    arrgs = {
-        'host': 'tools.db.svc.wikimedia.cloud',
-        'user': config.db_username,
-        'passwd': config.db_password,
-        'db': config.db_username + '__mdwiki',
-        'charset': 'utf8',
-        'use_unicode': True,
-    }
     #---
-    if 'localhost' in sys.argv or project.find('/mnt/') == -1:
-        arrgs['host'] = '127.0.0.1'
-        arrgs['user'] = 'root'
-        arrgs['passwd']  = 'root11'
-        arrgs['db']   = 'mdwiki'
+    arrgs = { x: v for x,v in main_args.items()}
     #---
     # connect to the database server without error
     try:
@@ -180,23 +156,17 @@ def mdwiki_sql(query , update = False, Prints = True):
         pywikibot.output( 'CRITICAL:' )
         return {}
     #---
-    if 'te220' in sys.argv:
+    try:
         if update:
-           results = cn.commit()
+            results = cn.commit()
         else:
-           results = cur.fetchall()
-    else:
+            results = cur.fetchall()
         #---
-        try:
-            if update:
-               results = cn.commit()
-            else:
-               results = cur.fetchall()
-        except Exception as e:
-            pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
-            pywikibot.output( 'CRITICAL:' )
-            return {}
+    except Exception as e:
+        pywikibot.output( 'Traceback (most recent call last):' )
+        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output( 'CRITICAL:' )
+        return {}
     #---
     if Prints and update:
         res = str(results)
@@ -207,6 +177,24 @@ def mdwiki_sql(query , update = False, Prints = True):
     #---
     return results
 #---
+def mdwiki_sql(query, update=False, Prints=True):
+    #---
+    if not can_use_sql_db[1] :
+        pywikibot.output('no mysql')
+        return {}
+    #---
+    if query == '' :
+        pywikibot.output("query == ''")
+        return {}
+    #---
+    if 'newsql' in sys.argv:
+        pywikibot.output('<<lightyellow>> newsql::')
+        return sql_connect_pymysql( query, update=update, Prints=Prints)
+    else:
+        pywikibot.output('<<lightyellow>> oldsql::')
+        return sql_connect_MySQLdb( query, update=update, Prints=Prints)
+    #---
+#---
 def get_all_qids():
     #---
     mdtitle_to_qid = {}
@@ -216,7 +204,6 @@ def get_all_qids():
     for ta in sq: 
         title = Decode_bytes(ta[0])
         qqid = Decode_bytes(ta[1])
-        # if qqid != '':
         mdtitle_to_qid[title] = qqid
     #---
     return mdtitle_to_qid
@@ -232,14 +219,14 @@ def get_all_pages():
     return pages
 #---
 def add_qid(title, qid):
-    qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = py_tools.make_cod(title))
+    qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = make_cod(title))
     #---
     print(f'add_qid()  title:{title}, qid:{qid}')
     #---
     mdwiki_sql(qua, update=True)
 #---
 def update_qid(title, qid):
-    qua = """UPDATE qids set qid = '{qid}' where title = {title};""".format(qid=qid, title = py_tools.make_cod(title))
+    qua = """UPDATE qids set qid = '{qid}' where title = {title};""".format(qid=qid, title = make_cod(title))
     #---
     print(f'update_qid()  title:{title}, qid:{qid}')
     #---
@@ -279,3 +266,23 @@ def add_titles_to_qids(tab, add_empty_qid=False):
         #---
     #---
 #---
+def tests():
+    #---
+    # test_get_all_qids
+    qids = get_all_qids()
+    print(f'len of qids:{len(qids)}')
+    #---
+    # test_get_all_pages
+    pages = get_all_pages()
+    print(f'len of pages:{len(pages)}')
+    #---
+    # test_add_qid
+    t = add_qid('test', 'test')
+    t = add_qid('test11', '11')
+    #---
+    # test_update_qid
+    t = update_qid('test11', 'xxx')
+    #---
+#---
+if __name__ == '__main__':
+    tests()

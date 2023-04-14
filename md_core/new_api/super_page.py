@@ -140,6 +140,9 @@ class MainPage():
             self.username = self.log.username
             #---
     #---
+    def post_params(self, params, addtoken=False):
+        return self.log.post(params, addtoken=addtoken)
+    
     def get_text(self, redirects=False):
         params = {
             "action": "query",
@@ -151,7 +154,7 @@ class MainPage():
         }
         #---
         if redirects:    params["redirects"] = 1
-        data = self.log.post(params)
+        data = self.post_params(params)
         #---
         _dat_ = {"batchcomplete": "","query": {
                 "normalized": [{"from": "وب:ملعب", "to": "ويكيبيديا:ملعب"}],
@@ -250,7 +253,7 @@ class MainPage():
             }
         }
         #---
-        data = self.log.post(params)
+        data = self.post_params(params)
         #---
         xs = {'batchcomplete': True, 'query': {'pages': [{'pageid': 151314, 'ns': 10, 'title': 'قالب:أوب',
 
@@ -325,7 +328,7 @@ class MainPage():
             "formatversion": "2",
             "gblredirect": 1
         }
-        data = self.log.post(params)
+        data = self.post_params(params)
         #---
         x = {
             'batchcomplete': True,
@@ -355,7 +358,7 @@ class MainPage():
             "formatversion": "2",
             "page": self.title
         }
-        data = self.log.post(params)
+        data = self.post_params(params)
         #---
         # [{'ns': 14, 'title': 'تصنيف:مقالات بحاجة لشريط بوابات', 'exists': True}, {'ns': 14, 'title': 'تصنيف:مقالات بحاجة لصندوق معلومات', 'exists': False}]
         #---
@@ -371,7 +374,7 @@ class MainPage():
             "prop": "text"
         }
         #---
-        data = self.log.post(params)
+        data = self.post_params(params)
         #---
         _data_ = {'warnings': {'main': {'warnings': 'Unrecognized parameter: bot.'}}, 'parse': {'title': 'ويكيبيديا:ملعب', 'pageid': 361534, 'text': ''}}
         #---
@@ -388,7 +391,7 @@ class MainPage():
             "redirects": 1
         }
         #---
-        data = self.log.post(params)
+        data = self.post_params(params)
         #---
         _pages_ = {'batchcomplete': '', 'query': {'redirects': [{'from': 'Yemen', 'to': 'اليمن'}], 'pages': {}, 'normalized': [{'from': 'yemen', 'to': 'Yemen'}] }}
         #---
@@ -411,7 +414,7 @@ class MainPage():
             "srsearch": self.title,
             "srlimit": srlimit,
         }
-        data = self.log.post(params, addtoken = True)
+        data = self.post_params(params, addtoken = True)
         #---
         if data == {}: return 0
         #---
@@ -435,7 +438,7 @@ class MainPage():
             "titles": self.title
         }
         #---
-        data = self.log.post(params, Type='post')
+        data = self.post_params(params, addtoken=True)
         #---
         if data == {}:
             printe.output('<<lightred>> ** purge error. ')
@@ -645,7 +648,7 @@ class MainPage():
         #---
         # params['basetimestamp'] = self.timestamp
         #---
-        pop = self.log.post(params, addtoken=True)
+        pop = self.post_params(params, addtoken=True)
         #---
         if pop == {}: return False
         #---
@@ -695,7 +698,7 @@ class MainPage():
             "createonly": 1,
         }
         #---
-        pop = self.log.post(params, addtoken=True)
+        pop = self.post_params(params, addtoken=True)
         #---
         if pop == {}: return False
         #---

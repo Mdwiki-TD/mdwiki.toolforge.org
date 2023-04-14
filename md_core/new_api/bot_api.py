@@ -1,11 +1,25 @@
-
 '''
 from newapi.page import NEW_API
-# api_new = NEW_API('ar', family='wikipedia')
-# login   = api_new.Login_to_wiki()
-# pages   = api_new.Find_pages_exists_or_not(liste)
-# pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
-# search  = api_new.Search(value, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
+# api_new  = NEW_API('ar', family='wikipedia')
+# login    = api_new.Login_to_wiki()
+# pages    = api_new.Find_pages_exists_or_not(liste)
+# json1    = api_new.post_params(params)
+# pages    = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
+# search   = api_new.Search(value, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
+# newpages = api_new.Get_Newpages(limit="max", namespace="0", rcstart="", user='')
+'''
+#---
+'''
+from newapi.page import NEW_API
+#---
+login_done_lang = {1:''}
+#---
+# في بعض البوتات التي يتم ادخال اللغة من خلال وظائف معينة
+#---
+if login_done_lang[1] != code:
+    login_done_lang[1] = code
+    api_new = NEW_API(code, family='wikipedia')
+    api_new.Login_to_wiki()
 '''
 #---
 import pywikibot
@@ -73,6 +87,9 @@ class NEW_API():
         #---
         printe.output(f'<<lightred>>{function} ERROR: <<defaut>>info: {err_info}.')
 
+    def post_params(self, params):
+        return self.log.post(params)
+    
     def Find_pages_exists_or_not(self, liste):
         #---
         normalized = {}
@@ -92,7 +109,7 @@ class NEW_API():
             #---
             params = { "action": "query", "titles": "|".join(titles), "formatversion" : 2 }
             #---
-            json1 = self.log.post(params)
+            json1 = self.post_params(params)
             #---
             if not json1 or json1 == {}:
                 pywikibot.output("<<lightred>> error when Find_pages_exists_or_not")
@@ -156,7 +173,7 @@ class NEW_API():
             #---
             if apcontinue != 'x' : params['apcontinue'] = apcontinue
             #---
-            json1 = self.log.post(params)
+            json1 = self.post_params(params)
             #---
             if not json1 or json1 == {}: break
             #---
@@ -209,7 +226,7 @@ class NEW_API():
         #---
         if offset != "" :   params["sroffset"] = offset
         #---
-        json1 = self.log.post(params)
+        json1 = self.post_params(params)
         #---
         if not json1 or json1 == {}:
             pywikibot.output("<<lightred>> error when Find_pages_exists_or_not")
@@ -257,7 +274,7 @@ class NEW_API():
             #---
             if rccontinue != 'x' : params['rccontinue'] = rccontinue
             #---
-            json1 = self.log.post(params)
+            json1 = self.post_params(params)
             #---
             if not json1 or json1 == {}:    return Main_table
             #---
