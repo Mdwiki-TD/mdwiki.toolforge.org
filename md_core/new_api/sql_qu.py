@@ -34,8 +34,6 @@ pywikibot.output(f'<<lightyellow>> pymysql_version: {pymysql_version}')
 db_username = config.db_username
 db_password = config.db_password
 #---
-from API import printe
-#---
 can_use_sql_db  = { 1 : True }
 #---
 if not os.path.isdir('/mnt/nfs/labstore-secondary-tools-project/'): can_use_sql_db[1] = False
@@ -111,9 +109,9 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
 def make_sql_connect( query, db='', host='', update=False, Return=[], return_dict=False):
     #---
     if query == '' : 
-        printe.output("query == ''")
+        pywikibot.output("query == ''")
         return Return
     #---
-    printe.output('<<lightyellow>> newsql::')
+    pywikibot.output('<<lightyellow>> newsql::')
     return sql_connect_pymysql( query, db=db, host=host, update=update, Return=Return, return_dict=return_dict)
 #---
