@@ -203,7 +203,7 @@ def get_views_sql(lang_o):
 #---
 def main():
     #---
-    print( ' MySQLdb_finder: ' )
+    print( ' _finder: ' )
     #---
     lang_o = ''
     #---

@@ -222,7 +222,6 @@ query_main = '''
 #---
 def main():
     #---
-    # pywikibot.output( '<<lightred>> sql . MySQLdb_finder: ' )
     #---
     dodo_sql()
     #---

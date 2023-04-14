@@ -36,20 +36,7 @@ pywikibot.output(f'<<lightyellow>> pymysql_version: {pymysql_version}')
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
-if not os.path.isdir(project):
-    project = '/mdwiki'
-    # can_use_sql_db[1] = False
-#---
-def make_cod(string):
-    lie = "'%s'" % string
-    #---
-    if string.find("'") != -1 : lie = '"%s"' % string
-    #---
-    return lie
-#---
-def Decode_bytes(x):
-    if type(x) == bytes:    x = x.decode("utf-8")
-    return x
+if not os.path.isdir(project):  project = '/mdwiki'
 #---
 main_args = {
     'host':     'tools.db.svc.wikimedia.cloud',
@@ -126,6 +113,17 @@ def sql_connect_pymysql(query, return_dict=False):
         #---
         # yield from cursor
         return results
+#---
+def make_cod(string):
+    lie = "'%s'" % string
+    #---
+    if string.find("'") != -1 : lie = '"%s"' % string
+    #---
+    return lie
+#---
+def Decode_bytes(x):
+    if type(x) == bytes:    x = x.decode("utf-8")
+    return x
 #---
 def mdwiki_sql(query, return_dict=False, **kwargs):
     #---
