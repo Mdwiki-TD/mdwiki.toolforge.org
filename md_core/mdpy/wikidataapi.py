@@ -181,6 +181,48 @@ def post( params , apiurl='', token = True):
     #---
     return jsone
 #---
+def post_to_qs(data):
+    menet = datetime.now().strftime("%Y-%b-%d %H:%M:%S")
+    #---
+    r2 = requests.Session().post('https://quickstatements.toolforge.org/api.php', data={
+        'format': 'v1',
+        'action': 'import',#create
+        #'type': 'item',
+        'compress': 1,
+        'submit': 1,
+        'batchname': menet,
+        'username': "Mr. Ibrahem",
+        'token': user_account_new.qs_token,
+        'data': data,
+    })
+    #---
+    if not r2 or r2 == {}: return False
+    #---
+    print("QS_New_API: " + str(r2.text) )
+    #---
+    return r2.json()
+#---
+def QS_New_API(data2):
+    #---
+    CREATE = 'CREATE||'
+    for ss in data2.get("sitelinks",{}):
+        dd = data2.get("sitelinks",{})
+        CREATE += 'LAST|S%s|"%s"||' % ( dd[ss]["site"] , dd[ss]["title"]  )
+        CREATE += 'LAST|L%s|"%s"||' % ( dd[ss]["site"].replace("wiki","") , dd[ss]["title"]  )
+    #---
+    claims = data2.get("claims",{})
+    for Claim in claims:
+        for P in claims[Claim]:
+            value = P['mainsnak']["datavalue"].get("value",{}).get("id","")
+            #value = P["datavalue"].get("value",{}).get("id","")
+            if value != "":
+                CREATE += 'LAST|%s|%s||' % ( P['mainsnak']["property"] , value )
+    #---
+    CREATE = CREATE + "XX"
+    CREATE = CREATE.replace("||XX","")
+    #---
+    return post_to_qs(CREATE)
+#---
 def Get_sitelinks_From_Qid( q ):
     params = {
         "action": "wbgetentities",

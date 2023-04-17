@@ -32,3 +32,4 @@ mdwiki_pass = config['DEFAULT']['mdwiki_pass']
 lgname_enwiki = config['DEFAULT']['lgname_enwiki']
 lgpass_enwiki = config['DEFAULT']['lgpass_enwiki']
 
+qs_token = config['DEFAULT']['qs_token']

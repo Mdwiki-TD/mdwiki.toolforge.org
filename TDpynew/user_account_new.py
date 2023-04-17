@@ -1,6 +1,6 @@
 '''
 #---
-import user_account_new
+from mdpy import user_account_new
 #---
 username = user_account_new.bot_username     #user_account_new.my_username
 password = user_account_new.bot_password     #user_account_new.my_password      #user_account_new.mdwiki_pass
@@ -32,3 +32,4 @@ mdwiki_pass = config['DEFAULT']['mdwiki_pass']
 lgname_enwiki = config['DEFAULT']['lgname_enwiki']
 lgpass_enwiki = config['DEFAULT']['lgpass_enwiki']
 
+qs_token = config['DEFAULT']['qs_token']

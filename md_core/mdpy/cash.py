@@ -24,6 +24,7 @@ sys.dont_write_bytecode = True
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
+from mdpy import wikidataapi
 from mdpy import wiki_api
 #---
 from mdpy import sql_for_mdwiki
@@ -35,13 +36,37 @@ qids = sql_for_mdwiki.get_all_qids()
 #---
 qids_already = [ q for title, q in qids.items() if q != '']
 #---
+def check_title(title):
+    #---
+    title = title.lower().strip()
+    #---
+    if title.find('(disambiguation)') != -1 :   return False
+    if title.startswith('user:') :              return False
+    #---
+    return True
+#---
 noqids = [ title for title, q in qids.items() if q == '']
+#---
+noqids = [ title for title in noqids if check_title(title)]
 #---
 def add_them(to_add):
     #---
     sql_for_mdwiki.add_titles_to_qids(to_add)
 #---
 new_title_qid = {}
+#---
+def create_qids(noqids):
+    # create wikidata item for qids
+    #---
+    for x in noqids:
+        #---
+        CREATE = f'CREATE||LAST|Len|"{x}"||LAST|P11143|"{x}"'
+        #---
+        new = wikidataapi.post_to_qs(CREATE)
+        #---
+        print(new)
+        #---
+        # break
 #---
 def get_qids():
     #---
@@ -82,6 +107,8 @@ def get_qids():
     #---
     to_add = {}
     #---
+    no_qids = []
+    #---
     for x, q in new_title_qid.items():
         ll = f'"{q}":"{x}",\n'
         if q != '':
@@ -93,6 +120,7 @@ def get_qids():
                 to_add_text += ll
         else:
             no += ll
+            no_qids.append(x)
     #---
     pywikibot.output('===================' )
     if to_add_text != '':
@@ -103,6 +131,9 @@ def get_qids():
     pywikibot.output('===================' )
     pywikibot.output('<<lightred>>no qids:' )
     pywikibot.output( no )
+    #---
+    if 'createq' in sys.argv:
+        create_qids(no_qids)
     #---
     pywikibot.output('find qid to %d from %d pages. ' % ( toadd, len(noqids)))
     #---

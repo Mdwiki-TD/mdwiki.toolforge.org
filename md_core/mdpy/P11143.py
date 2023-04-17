@@ -11,6 +11,7 @@ python3 ./core/pwb.py mdpy/P11143
 #
 import codecs
 import sys
+import pywikibot
 import os
 import json
 import time
@@ -30,9 +31,13 @@ qids_di = sql_for_mdwiki.get_all_qids()
 #---
 qids = { q : title for title, q in qids_di.items() if q != '' }
 #---
+mdwiki_in_qids = list(qids.values())
+#---
 query = '''select distinct ?item ?prop where { ?item wdt:P11143 ?prop .}'''
 #---
 in_wd = {}
+#---
+new_qids = {}
 #---
 wdlist = wikidataapi.sparql_generator_url(query, printq = False, add_date = True)
 #---
@@ -42,12 +47,19 @@ for wd in wdlist:
     qid = wd['item'].split('/entity/')[1]
     #---
     in_wd[qid] = prop
+    #---
+    if not qid in qids and not prop in mdwiki_in_qids:
+        new_qids[qid] = prop
+    #---
 #---
 print(f'len of in_wd: {len(in_wd)}')
 #---
 newlist = { q: tt for q, tt in qids.items() if q not in in_wd.keys() }
 #---
 print('len of newlist: ' + str(len(newlist)))
+print("\n".join( [f'{k}:{v}' for k, v in newlist.items()]))
+#---
+print('add "add" to sys.argv to add them?' )
 #---
 def add_missing():
     #---
@@ -104,14 +116,28 @@ def duplict():
     va_tab = {}
     #---
     for q, va in merge_qids.items():
-        if not va in va_tab: va_tab[va] = []
-        if not q in va_tab[va]: va_tab[va].append(q)
+        #---
+        if not va in va_tab: 
+            va_tab[va] = []
+        #---
+        if not q in va_tab[va]: 
+            va_tab[va].append(q)
     #---
-    check = { value : qs for qs, value in va_tab.items() if len(qs) > 1 }
+    pywikibot.output(f'<<lightyellow>> len of va_tab: {len(va_tab)}')
     #---
-    for va, qs in check.items():
-        print(f'va:{va}, qs:{qs}')
+    for va, qs in va_tab.items():
+        if len(qs) > 1:
+            print(f'va:{va}, qs:{qs}')
+    #---
+    pywikibot.output(f'<<lightyellow>> duplict() end...')
 #---
-if 'duplict' in sys.argv:
-    duplict()
+duplict()
 #---
+if len(new_qids) > 0:
+    print('len of new_qids: ' + str(len(new_qids)))
+    print("\n".join( [f'{k}:{v}' for k, v in new_qids.items()]))
+    pywikibot.output(f'<<lightyellow>> add "addq" to sys.argv to add them to qids' )
+    if 'addq' in sys.argv:
+        newtitles = { title : qid for qid, title in new_qids.items() }
+        sql_for_mdwiki.add_titles_to_qids(newtitles)
+    #---
