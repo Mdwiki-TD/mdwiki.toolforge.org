@@ -11,7 +11,7 @@ from new_api import super_page
 from new_api import bot_api
 from new_api import super_login
 #---
-super_login.User_tables = User_tables
+super_login.User_tables["wikipedia"] = User_tables
 #---
 Login = super_login.Login
 #---
@@ -46,6 +46,11 @@ def test():
     text = page.get_text()
     print(text)
     #---
+    page2 = MainPage("Category:Yemen", 'en', family='wikipedia')
+    #---
+    text2 = page2.get_text()
+    print(text2)
+    #---
     # ex = page.page_backlinks()
     # print(f'---------------------------')
     # print(f'page_backlinks:{ex}')
@@ -58,10 +63,10 @@ def test():
     # print(f'page_links:{red}')
     #---
     # save = page.save(newtext='')
-    api_new = NEW_API('ar', family='wikipedia')
+    # api_new = NEW_API('en', family='wikipedia')
     # login   = api_new.Login_to_wiki()
     # pages   = api_new.Find_pages_exists_or_not(liste)
-    pages   = api_new.Get_Newpages()
+    # pages   = api_new.Get_Newpages()
 #---
 if __name__ == '__main__':
     # python3 pwb.py new_api/page

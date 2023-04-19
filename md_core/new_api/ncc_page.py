@@ -60,7 +60,7 @@ from new_api import super_page
 from new_api import bot_api
 from new_api import super_login
 #---
-super_login.User_tables = User_tables
+super_login.User_tables['nccommons'] = User_tables
 #---
 Login = super_login.Login
 #---

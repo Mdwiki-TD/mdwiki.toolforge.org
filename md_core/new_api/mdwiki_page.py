@@ -1,7 +1,7 @@
 
-# from new_api.mdwiki_page import MainPage
+# from new_api.mdwiki_page import MainPage as md_MainPage
 '''
-page      = MainPage(title, 'www', family='mdwiki')
+page      = md_MainPage(title, 'www', family='mdwiki')
 exists    = page.exists()
 if not exists: return
 #---
@@ -35,20 +35,20 @@ User_tables = { "username" : user_account_new.my_username, "password" : user_acc
 # xxxxxxxxxxx
 #---
 
-from new_api import super_page
+from new_api import super_page as su_page
 from new_api import bot_api
-from new_api import super_login
+from new_api import super_login as su_login
 #---
-super_login.User_tables = User_tables
+su_login.User_tables["mdwiki"] = User_tables
 #---
-Login = super_login.Login
+Login = su_login.Login
 #---
 bot_api.login_def    = Login
-super_page.login_def = Login
+su_page.login_def = Login
 #---
 NEW_API      = bot_api.NEW_API
-MainPage     = super_page.MainPage
-change_codes = super_page.change_codes
+MainPage     = su_page.MainPage
+change_codes = su_page.change_codes
 
 #---
 # xxxxxxxxxxx
@@ -92,7 +92,7 @@ def test():
 #---
 if __name__ == '__main__':
     # python3 pwb.py new_api/page
-    super_page.print_test[1] = True
-    super_login.print_test[1] = True
+    su_page.print_test[1] = True
+    su_login.print_test[1] = True
     test()
 #---

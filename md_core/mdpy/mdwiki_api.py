@@ -4,7 +4,7 @@
 
 """
 #
-# (C) Ibrahem Qasim, 2022
+# (C) Ibrahem Qasim, 2023
 # 
 #
 #--- 
@@ -14,15 +14,14 @@ import json as JJson
 from warnings import warn
 import time
 import urllib
+import pywikibot
 import urllib.parse
 import codecs
 import unicodedata
-#import datetime
-#from datetime import datetime
+import requests
 #---
 import sys
 sys.dont_write_bytecode = True
-#---
 #---
 '''
 #---
@@ -49,45 +48,25 @@ from mdpy import mdwiki_api
 #---
 '''
 #---
-maxlag = 3 #"3"
+maxlag = 3
 ar_lag = { 1 : maxlag }
-#---
-import requests
 #---
 from mdpy import user_account_new
 #---
-username = user_account_new.my_username     #user_account_new.bot_username
-password = user_account_new.mdwiki_pass     #user_account_new.bot_password      #user_account_new.my_password
-#---
-Main_User = { 1: username}
-Bot_or_himo = { 1: ""}
-if Main_User[1].find("bot") == -1:
-    Bot_or_himo[1] = 1
+account = {
+    'u' : user_account_new.my_username,     #user_account_new.bot_username
+    'p' : user_account_new.mdwiki_pass,     #user_account_new.bot_password      #user_account_new.my_password
+}
 #---
 yes_answer = [ "y" , "a" , "" , "Y" , "A", "all"]
 #---
 SS = {}
-r1_params = {
-    'format': 'json',
-    'action': 'query',
-    'meta': 'tokens',
-    'type': 'login',
-}
-r2_params = {
-    #fz'assert': 'user',
-    'format': 'json',
-    'action': 'login',
-    'lgname': username,
-    'lgpassword': password,
-}
-#---
 SS["ss"] = requests.Session()
+SS["r3_token"] = ""
 #---
 timesleep = 0
 #---
 login_not_done = { 1 : True }
-#---
-import pywikibot
 #---
 def py_input( s ):
     #---
@@ -106,12 +85,10 @@ def get_status(req):
         st = req.status
         return st
 #--- 
-def post_s( params, addtoken=False, **kwargs ):
-    #---
-    # r4 = SS["ss"].post(SS["url"], data = params )
-    # post to API without error handling
+def post_all( params, addtoken=False, **kwargs ):
     #---
     params["format"] = "json"
+    params["utf8"] = 1
     #---
     if 'printurl' in sys.argv: 
         url = SS["url"] + '?' + urllib.parse.urlencode(params)
@@ -148,16 +125,15 @@ def post_s( params, addtoken=False, **kwargs ):
     #---
     return jsone
 #---
-def post(p, **kwargs):
-    return post_s(p, **kwargs)
-#---
 def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
     #---
-    pywikibot.output( "mdwiki/mdpy/mdwiki_api.py: log to %s.%s.org user:%s" % (lang,family , r2_params['lgname'] )    )
+    pywikibot.output( "mdwiki/mdpy/mdwiki_api.py: log to %s.%s.org user:%s" % (lang,family , account['u'] )    )
     SS["family"] = family
     SS["lang"] = lang
     SS["url"] = 'https://' + '%s.%s.org/w/api.php' % (lang , family)
     SS["ss"] = requests.Session()
+    #---
+    r1_params = { 'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
     #---
     r22 = {}
     #if SS:
@@ -169,9 +145,11 @@ def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
         warn('Exception:' + str(e), UserWarning)
         pywikibot.output( 'CRITICAL:' )
         return False
+    #---
+    r2_params = { 'format': 'json', 'action': 'login', 'lgname': account['u'], 'lgpassword': account['p'] }
     r2_params['lgtoken'] = r11.json()['query']['tokens']['logintoken']
     #---
-    r22 = post_s( r2_params )
+    r22 = post_all( r2_params )
     if r22:
         if r22['login']['result'] != 'Success':
             pywikibot.output(r22['login']['reason'])
@@ -198,7 +176,14 @@ def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
     #---
     login_not_done[1] = False
 #---
-Log_to_wiki("mdwiki" , lang = "www" )
+def post_s( params, addtoken=False, **kwargs ):
+    #---
+    if login_not_done[1]:   Log_to_wiki("mdwiki" , lang = "www" )
+    #---
+    return post_all( params, addtoken=addtoken, **kwargs )
+#---
+def post(p, **kwargs):
+    return post_s(p, **kwargs)
 #---
 def outbot(text2):
     text = {}
@@ -257,12 +242,13 @@ def import_history2( FILE_PATH , title ):
     #---
     pywikibot.output('<<lightpurple>> import_history for page:%s:' % title )
     #---
+    if login_not_done[1]:   Log_to_wiki("mdwiki" , lang = "www" )
+    #---
     namespace = 0
     if title.lower().startswith('user:') : namespace = 2
     #---
     pp = {
         "action": "import",
-        "format": "json",
         #"xml": "...",
         "interwikiprefix": "user:",
         "fullhistory": 1,
@@ -298,12 +284,13 @@ def import_history( FILE_PATH , title ):
     #---
     pywikibot.output('<<lightpurple>> import_history for page:%s:' % title )
     #---
+    if login_not_done[1]:   Log_to_wiki("mdwiki" , lang = "www" )
+    #---
     namespace = 0
     if title.lower().startswith('user:') :  namespace = 2
     #---
     pparams = {
         "action": "import",
-        "format": "json",
         "interwikisource": "wikipedia",
         "interwikipage": title,
         "token": SS["r3_token"],
@@ -348,11 +335,10 @@ def import_page( title ) :
         "interwikisource":"wikipedia" , 
         "interwikipage":title,
         "fullhistory" : 1 ,
-        "assignknownusers" : 1 ,
-        "token" :  SS["r3_token"]
+        "assignknownusers" : 1
         }
     #---
-    r4 = post_s( params )
+    r4 = post_s( params, addtoken=True )
     #---
     outbot('import_page:' )
     outbot( r4 )
@@ -364,22 +350,12 @@ def page_put_new(NewText,summary,title,time_sleep="",family="",lang="",minor="",
     #---
     pywikibot.output(' page_put %s:' % title )
     #---
-    if minor == "" : 
-        minor = Bot_or_himo[1]
-    #---
     pparams = {
         "action": "edit",
-        "format": "json",
-        #"maxlag": ar_lag[1],
         "title": title,
         "text": NewText,
         "summary": summary,
-        #"starttimestamp": starttimestamp,
-        "minor": minor,
-        #"notminor": 1,
-        "bot": 1,
-        "nocreate": nocreate,
-        "token": SS["r3_token"] ,
+        "nocreate": nocreate
     }
     #---
     if sys.argv and "workibrahem" in sys.argv :     pparams["summary"] = ""
@@ -390,15 +366,15 @@ def page_put_new(NewText,summary,title,time_sleep="",family="",lang="",minor="",
     tts = timesleep
     if time_sleep != "" : tts = time_sleep
     #---
-    r4 = post_s(pparams)
+    r4 = post_s(pparams, addtoken=True)
     #---
     Invalid = ''
     if type(r4.get("error",{})) == dict:
         Invalid = r4.get("error",{}).get("info",'')
     #---
     if 'Success' in str(r4):
-        pywikibot.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]]   time.sleep(%d) ' % (SS["lang"] , SS["family"] ,title , tts)  )
-        pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % tts)
+        pywikibot.output(f'<<lightgreen>> ** true .. ' + '[[mdwiki:{title}]]   time.sleep({tts}) ')
+        pywikibot.output( 'Save True.. time.sleep(%d) ' % tts)
         time.sleep(tts)
         if return_table:
             return r4
@@ -432,7 +408,7 @@ def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family
             except:
                 pywikibot.output( ' -mdwiki cant showDiff' )
         pywikibot.output(' -Edit summary: %s:' % summary )
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s.org user:%s'  %(lang,title,r2_params['lgname'] ))
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s.org user:%s'  %(lang,title,account['u'] ))
         #---
         if sa == "a":
             pywikibot.output('<<lightgreen>> ---------------------------------' )
@@ -453,16 +429,10 @@ def Add_To_Bottom2(aptext , summary , title, poss="", family="", minor = "" ):
         #---
         Paramso = {
             "action": "edit",
-            "format": "json",
-            #"maxlag": ar_lag[1],
             "title": title,
-            #"appendtext": "\n" + aptext,
             "summary": summary,
-            "bot": Bot_or_himo[1],
             "notminor": 1,
             "nocreate": 1,
-            #"token": r3.json()['query']['tokens']['csrftoken'],
-            "utf8": 1
         }
         #---
         if poss == "Head" : 
@@ -473,13 +443,11 @@ def Add_To_Bottom2(aptext , summary , title, poss="", family="", minor = "" ):
         if sys.argv and "workibrahem" in sys.argv : 
             Paramso["summary"] = ""
         #---
-        Paramso["token"] = SS["r3_token"]
-        r4 = post_s(Paramso)
+        r4 = post_s(Paramso, addtoken=True)
         #---
         if 'Success' in r4:
             pywikibot.output('<<lightgreen>>** true .. %s : [[%s]] '    % (SS["family"] , title) )
-            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % timesleep)
-            #time.sleep(timesleep)
+            pywikibot.output( 'Save True... time.sleep(%d) ' % timesleep)
         else:
             outbot(r4)
     else:
@@ -543,16 +511,11 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
     #---
     params = {
         "action": "edit",
-        "format": "json",
-        #"maxlag": ar_lag[1],
         "title": title,
         "text": text,
         "summary": summary,
-        "bot": Bot_or_himo[1],
         "notminor": 1,
         "createonly": 1,
-        "token": SS["r3_token"] ,
-        "utf8": 1
     }
     #---
     if sys.argv and "workibrahem" in sys.argv : 
@@ -568,7 +531,7 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
         if printtext:
             pywikibot.output( "<<lightgreen>> " + text)
         pywikibot.output( " summary: " + summary)
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,r2_params['lgname']))
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,account['u']))
         if sa.strip() in yes_answer:
             #---
             if sa.strip() == "a":
@@ -577,7 +540,7 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
                 pywikibot.output('<<lightgreen>> ---------------------------------------------' )
                 Save_2040[1] = True
             #---
-            r4 = post_s(params)
+            r4 = post_s(params, addtoken=True)
             Faco = True
         else:
             pywikibot.output( "wrong answer" )
@@ -589,8 +552,8 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
     if Faco:
         #---
         if 'Success' in r4 :
-            pywikibot.output('<<lightgreen>>** true ..  %s : [[%s]] '    % (SS["family"] , title) )
-            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % time_sleep)
+            pywikibot.output(f'<<lightgreen>>** true .. : [[{title}]] ')
+            pywikibot.output(f'Save True... time.sleep({time_sleep}) ')
             time.sleep(time_sleep)
             return True
         elif 'error' in r4 :
@@ -613,15 +576,9 @@ def move(From , to , reason , lang = 'ar'  , nosleep = False ):
     pywikibot.output('<<lightyellow>> ** move .. [[%s:%s]] to [[%s]] ' % (lang , From , to) )
     Params = {
         "action": "move",
-        "format": "json",
-        #"maxlag": ar_lag[1],
         "from": From,
         "to": to,
         "movetalk": 1,
-        #"reason": reason,
-        #"bot": Bot_or_himo[1],
-        "token": SS["r3_token"],
-        "utf8": 1
     }
     #---
     pywikibot.output(' -Edit reason: %s:' % reason )
@@ -633,7 +590,7 @@ def move(From , to , reason , lang = 'ar'  , nosleep = False ):
     JustMove = True
     #---
     if not Save_2020[1] and "ask" in sys.argv :
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you move page:[[%s:%s]] to [[%s]]? ([y]es, [N]o, [a]ll): user:%s' % (lang,From,to,r2_params['lgname'] ))
+        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you move page:[[%s:%s]] to [[%s]]? ([y]es, [N]o, [a]ll): user:%s' % (lang,From,to,account['u'] ))
         #---
         if sa == "a":
             pywikibot.output('<<lightgreen>> ---------------------------------' )
@@ -647,13 +604,12 @@ def move(From , to , reason , lang = 'ar'  , nosleep = False ):
         #return sa
     #---
     if JustMove:
-        r4 = post_s(Params)
+        r4 = post_s(Params, addtoken=True)
         #---
         if 'Success' in r4.text or "redirectcreated" in r4.text:
             pywikibot.output('<<lightgreen>>** true .. ' + '[[' + to + ']] ' )
-            pywikibot.output( 'تم بنجاح... time.sleep(%d) ' % 7 )
-            if nosleep :
-                time.sleep(7)
+            pywikibot.output( 'Save True... time.sleep(%d) ' % 7 )
+            if nosleep :    time.sleep(7)
             return True
         elif "Please wait some time and try again" in r4.text or "ratelimited" in r4.text:
             pywikibot.output(r4.text)
@@ -705,9 +661,6 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True ):
     #---
     params = {
         "action": "query",
-        "format": "json",
-        "utf8": 1,
-        
         "generator": "categorymembers",
         "gcmtitle": enlink,
         "gcmprop": "title",
@@ -913,12 +866,10 @@ def GetPageText(title , redirects = False):
     #---
     params = {
         "action": "parse",
-        "format": "json",
         #"prop": "wikitext|sections",
         "prop": "wikitext",
         "page": title,
         #"redirects": 1,
-        "utf8": 1,
         #"normalize": 1,
     }
     #---
@@ -941,12 +892,10 @@ def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
     #---
     params = {
         "action": "query",
-        "format": "json",
         "list": "recentchanges",
         #"rcdir": "newer",
         "rcnamespace": namespace,
         "rclimit": limit,
-        "utf8": 1,
         "rctype": "new"
     }
     #---
@@ -982,14 +931,11 @@ def Get_page_links( title , namespace = "0" , limit = "max" ):
     #---
     params = {
         "action": "query",
-        "format": "json",
         "prop": "links",
         "titles": title,
         "plnamespace": namespace,
         "pllimit": limit,
         "converttitles": 1,
-        "utf8": 1,
-        "bot": 1,
     }
     #---
     #if apfilterredir in [ 'redirects' , 'all' , 'nonredirects' ] : params['apfilterredir'] = apfilterredir
@@ -1028,7 +974,6 @@ def Get_template_pages( title, namespace = "*", limit = "max" ):
     #---
     params = {
         "action": "query",
-        "format": "json",
         "prop": "info",
         "titles": title,
         "generator": "transcludedin",
@@ -1070,13 +1015,11 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
     #---
     params = {
         "action": "query",
-        "format": "json",
         "list": "allpages",
         #"apfrom": start,
         "apnamespace": namespace,
         "aplimit": limit,
         "apfilterredir": "nonredirects",
-        "utf8": 1,
     }
     #---
     if apfilterredir in ['redirects', 'all', 'nonredirects']: params['apfilterredir'] = apfilterredir
@@ -1126,7 +1069,7 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
 def get_section(title, level):
     pywikibot.output(f'get_section title:"{title}", level:"{level}"')
     #---
-    params = {"action": "parse", "format": "json", "page": title, "prop": "wikitext", "section": level }
+    params = {"action": "parse", "page": title, "prop": "wikitext", "section": level }
     #---
     json1 = post_s(params)
     #---
@@ -1142,14 +1085,11 @@ def Get_UserContribs( user , limit="max", namespace = "*" , ucshow = "" ):
     #---
     params = {
         "action": "query",
-        "format": "json",
         "list": "usercontribs",
         "ucdir": "older",
         "ucnamespace": namespace,
         "uclimit": limit,
         "ucuser": user,
-        "utf8": 1,
-        "bot": 1,
         "ucprop": "title"
         #"ucshow": "new"
     }
@@ -1182,13 +1122,10 @@ def Search( valu , lang="", family='', ns="", offset='', srlimit = "max" , RETUR
     #srlimit = "max"
     params = {
         "action": "query",
-        "format": "json",
         "list": "search",
-        "utf8": 1,
         "srsearch": valu,
         "srnamespace": 0,
         "srlimit": srlimit,
-        #"token": SS["r3_token"]
     }
     #---
     nsvalue = ns
@@ -1210,7 +1147,7 @@ def Search( valu , lang="", family='', ns="", offset='', srlimit = "max" , RETUR
     if offset != "" :
         params["sroffset"] = offset
     #---
-    json1 = post_s( params )
+    json1 = post_s( params, addtoken=True)
     if "query" in json1 and "search" in json1['query']:
         for pag in json1['query']['search']:
             tit = pag["title"]

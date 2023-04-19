@@ -11,34 +11,42 @@ print_test = {1:False}
 #---
 Main_s = {1:requests.Session()}
 #---
-User_tables = { "username" : "", "password" : ""}
+User_tables = {"mdwiki":{}, "wikidata":{}, "wikipedia":{}, "nccommons":{}}
 #---
 ar_lag = { 1 : 3 }
 #---
 import inspect
+#---
 def warn_err(err):
     err = str(err)
     nn = inspect.stack()[1][3]
     return f'\ndef {nn}(): {err}'
 #---
+login_lang = { 1 : True }
+#---
 class Login():
     def __init__(self, lang, family='wikipedia'):
         self.lang = lang
-        self.username = User_tables['username']
-        self.password = User_tables['password']
+        self.family   = family
+        #---
+        if not self.family in User_tables: User_tables[self.family] = {}
+        #---
+        self.username = User_tables[self.family]['username']
+        self.password = User_tables[self.family]['password']
         #---
         self.Bot_or_himo = ''
-        if User_tables['username'].find("bot") == -1:  self.Bot_or_himo = 1
+        if self.username.find("bot") == -1:  self.Bot_or_himo = 1
         #---
-        self.not_loged   = True
-        self.family   = family
         self.endpoint = 'https://' + f'{self.lang}.{self.family}.org/w/api.php'
         self.r3_token = ''
         #---
     #---
     def Log_to_wiki(self):
+        return True
         #---
-        self.not_loged = False
+    def Log_to_wiki_1(self):
+        #---
+        login_lang[1] = self.lang
         #---
         Main_s[1] = requests.Session()
         printe.output( "newapi/page.py: Log_to_wiki %s," % self.endpoint)
@@ -79,9 +87,15 @@ class Login():
                 pywikibot.output( 'CRITICAL:' )
                 return False
         #---
+        reason = r22.get('login', {}).get('reason', '')
+        #---
         if r22.get('login', {}).get('result', '').lower() != 'success':
             pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
             warn(warn_err('Exception:' + str(r22)), UserWarning)
+            #---
+            if reason == "Incorrect username or password entered. Please try again.":
+                pywikibot.output(f'user:{self.username}, pass:{self.password}')
+            #---
             pywikibot.output( 'CRITICAL:' )
             return False
         else:
@@ -101,7 +115,10 @@ class Login():
             #---
             return False
     #---
-    def post(self, params, Type='get', addtoken=False):
+    def post(self, params, Type='get', addtoken=False, CSRF=True):
+        #---
+        if login_lang[1] != self.lang:
+            self.Log_to_wiki_1()
         #---
         params['format'] = 'json'
         params['utf8']   = 1
@@ -117,7 +134,7 @@ class Login():
                 warn(warn_err('self.r3_token == "" '), UserWarning)
             params["token"] = self.r3_token
         #---
-        if self.family == "wikipedia" and params.get("summary") and User_tables["username"].find("bot") == -1 :
+        if self.family == "wikipedia" and params.get("summary") and self.username.find("bot") == -1 :
             params["summary"] = ""
         #---
         if 'workibrahem' in sys.argv: params["summary"] = ""
@@ -155,12 +172,13 @@ class Login():
             #---
             # printe.output(Invalid)
             #---
-            if Invalid == "Invalid CSRF token." :
+            if Invalid == "Invalid CSRF token." and CSRF:
                 pywikibot.output('<<lightred>> ** error "Invalid CSRF token.". ')
                 #---
+                self.r3_token = ''
                 self.Log_to_wiki()
                 #---
-                return self.post(params, Type=Type, addtoken=addtoken)
+                return self.post(params, Type=Type, addtoken=addtoken, CSRF=False)
         #---
         if 'printdata' in sys.argv:
             # printe.output( json.dumps(data,ensure_ascii=False) )

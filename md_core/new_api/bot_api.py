@@ -6,7 +6,9 @@ from newapi.page import NEW_API
 # json1    = api_new.post_params(params)
 # pages    = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 # search   = api_new.Search(value, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
-# newpages = api_new.Get_Newpages(limit="max", namespace="0", rcstart="", user='')
+# newpages = api_new.Get_Newpages(limit="max", namespace="0", rcstart="", user='', three_houers=False)
+# usercont = api_new.UserContribs(user, limit="max", namespace="*", ucshow="")
+# l_links  = api_new.Get_langlinks_for_list(titles, targtsitecode="", numbes=50)
 '''
 #---
 '''
@@ -22,7 +24,9 @@ if login_done_lang[1] != code:
     api_new.Login_to_wiki()
 '''
 #---
-import pywikibot
+import pywikibot		 
+import datetime
+from datetime import timedelta
 from new_api import printe
 #---
 change_codes = {
@@ -72,7 +76,7 @@ class NEW_API():
             abusefilter = error.get("abusefilter","")
             description = abusefilter.get('description','')
             printe.output('<<lightred>> ** abusefilter-disallowed: %s ' % description )
-            if description == 'تأخير البوتات 3 ساعات' :
+            if description in ['تأخير البوتات 3 ساعات', 'تأخير البوتات 3 ساعات- 3 من 3', 'تأخير البوتات 3 ساعات- 1 من 3', 'تأخير البوتات 3 ساعات- 2 من 3'] :
                 return False
             return description
         #---
@@ -244,9 +248,15 @@ class NEW_API():
         #---
         return results
     #---
-    def Get_Newpages(self, limit="max", namespace="0", rcstart="", user=''):
+    def Get_Newpages(self, limit="max", namespace="0", rcstart="", user='', three_houers=False):
         #---
         rccontinue = "x"
+        #---
+        if three_houers:
+            dd = datetime.datetime.utcnow() - timedelta(hours = 3)
+            #---
+            rcstart = dd.strftime('%Y-%m-%dT%H:%M:00.000Z')
+            #---
         #---
         params = {
             "action": "query",
@@ -291,6 +301,101 @@ class NEW_API():
         #---
         pywikibot.output( 'bot_api.Get_Newpages find "%d" result. s' % len(Main_table) )
         #---
+        if three_houers:
+            arsite = pywikibot.Site('ar', "wikipedia")
+            #---
+            Main_table = [ pywikibot.Page(arsite, x ) for x in Main_table ]
+            #---
+        #---
         return Main_table
     #---
+    def UserContribs(self, user, limit="max", namespace="*", ucshow=""):
+        #---
+        params = {
+            "action": "query",
+            "format": "json",
+            "list": "usercontribs",
+            "ucdir": "older",
+            "ucnamespace": namespace,
+            "uclimit": limit,
+            "ucuser": user,
+            "utf8": 1,
+            "bot": 1,
+            "ucprop": "title"
+        }
+        #---
+        if ucshow != "":    params["ucshow"] = ucshow
+        #---
+        json1 = self.post_params(params)
+        #---
+        if not json1 or json1 == {}:
+            pywikibot.output("<<lightred>> error when Find_pages_exists_or_not")
+            return []
+        #---
+        usercontribs = json1.get("query", {}).get("usercontribs", [])
+        #---
+        results = [ x[ "title" ] for x in usercontribs ]
+        #---
+        return results
+    #---
+    def Get_langlinks_for_list(self, titles, targtsitecode="", numbes=50):
+        #---
+        printe.output( 'bot_api.Get_langlinks_for_list for "%d pages"' %  len(titles) )
+        #---
+        if targtsitecode.endswith("wiki") : targtsitecode = targtsitecode[:-4]
+        #---
+        if self.lang != 'ar' :
+            numbes = 100
+        #---
+        find_targtsitecode = 0
+        #---
+        normalized = {}
+        #---
+        table = {}
+        #---
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "langlinks",
+            #"redirects": 1,
+            'lllimit': "max",
+            "utf8": 1,
+            #"normalize": 1
+        }
+        #---
+        if targtsitecode != "" :
+            params["lllang"] = targtsitecode
+            printe.output('params["lllang"] = %s' % targtsitecode )
+        #---
+        for i in range(0, len(titles), numbes):
+            titles_1 = titles[i:i+numbes]
+            #---
+            params["titles"] = "|".join(titles_1)
+            #---
+            json1 = self.post_params(params)
+            #---
+            if not json1 or json1 == {} : continue
+            #---
+            norma = json1.get("query", {}).get("normalized", {})
+            for red in norma:
+                normalized[red["to"]] = red["from"]
+            #---
+            query_pages = json1.get("query", {}).get("pages", {})
+            for page, kk in query_pages.items():
+                if "title" in kk:
+                    titlle = kk.get("title", "")
+                    titlle = normalized.get(titlle, titlle )
+                    #---
+                    table[titlle] = {}
+                    #---
+                    for lang in kk.get('langlinks',[]):
+                        table[titlle][lang['lang']] = lang['*']
+                        #---
+                        if lang['lang'] == targtsitecode:
+                            find_targtsitecode += 1
+                    #---
+        #---
+        printe.output('bot_api.Get_langlinks_for_list find "%d" in table,find_targtsitecode:%s:%d' % ( len(table), targtsitecode,find_targtsitecode) )
+        #---
+        return table
 #---

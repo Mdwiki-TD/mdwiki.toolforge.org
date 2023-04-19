@@ -3,6 +3,13 @@
 write code to read page in en.wikipedia.org using API, then create list with all links in the page.
 title: WikiProjectMed:List/Prior
 links like [[example]]
+
+python3 ./core/pwb.py prior/p3 s1
+python3 ./core/pwb.py prior/p3 s2
+python3 ./core/pwb.py prior/p3 s3
+python3 ./core/pwb.py prior/p3 s4
+
+python3 ./core/pwb.py prior/p3 test
 '''
 import sys
 from collections import namedtuple
@@ -11,45 +18,49 @@ import re
 import pywikibot
 import json
 import urllib.parse
-import requests
 import wikitextparser
 import codecs
-from mdpy import mdwiki_api
+#---
 from mdpy import printe
+#---
+from new_api.mdwiki_page import MainPage as md_MainPage
+'''
+page      = md_MainPage(title, 'www', family='mdwiki')
+text        = page.get_text()
+'''
+#---
+from new_api.wiki_page import MainPage, change_codes
+#---
+from prior import get_them
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-project += '/md_core/prior/json/'
+project_json = f'{project}/md_core/prior/json/'
 #---
 def main_links():
     title = "WikiProjectMed:List/Prior"
-    text  = mdwiki_api.GetPageText(title)
-    links = mdwiki_api.Get_page_links(title, namespace="*", limit="max")
-    # print(links)
     #---
-    links = [ x['title'] for s, x in links['links'].items() if x['ns'] == 0 ]
+    page    = md_MainPage(title, 'www', family='mdwiki')
+    text    = page.get_text()
+    #---
+    links   = page.page_links()
+    #---
+    links = [ x['title'] for x in links if x['ns'] == 0 ]
     #---
     # log all links to file
-    # codecs.open(project + 'links.json', 'w', encoding='utf-8').write(json.dumps(links))
+    # codecs.open(project_json + 'links.json', 'w', encoding='utf-8').write(json.dumps(links))
     #---
     pywikibot.output(f'{len(links)} links found')
     #---
     return links
 #---
-from new_api.wiki_page import MainPage, change_codes
-#---
-# if not os.path.exists(project + 'allen2.json'): codecs.open(project + 'allen2.json', 'w', encoding='utf-8').write(json.dumps({}))
-#---
-# all = json.loads(codecs.open(project + 'allen2.json', 'r', encoding='utf-8').read())
 all = {}
-#---
-from prior import get_them
 #---
 def work_in_en_page(title):
     #---
-    if not title in all : 
+    if not title in all:
         all[title] = {'extlinks':[], 'langs':{}, 'refsname':[]}
     #---
     all[title]['en'] = title
@@ -78,7 +89,10 @@ def work_in_en_page(title):
     all[title]['extlinks'] = extlinks
     all[title]['refsname'] = refsname
     #---
-    pywikibot.output(f'p0/{len(langlinks)}:\ten\t\t{len(extlinks)} extlinks, {len(refsname)} refsname')
+    lenex = str(len(extlinks)).ljust(4)
+    lenre = str(len(refsname)).ljust(4)
+    #---
+    pywikibot.output(f'p0/{len(langlinks)}:\ten\t\t{lenex} extlinks, {lenre} refsname')
     #---
     n = 0
     #---
@@ -103,24 +117,59 @@ def work_in_en_page(title):
         tata['extlinks'] = extlinks1
         tata['refsname'] = refsname1
         #---
-        pywikibot.output(f'p{n}/{len(langlinks)}:\t{lang}\t\t{len(tata["extlinks"])} extlinks, {len(tata["refsname"])} refsname')
+        #---
+        lenex = str(len(tata["extlinks"])).ljust(4)
+        lenre = str(len(tata["refsname"])).ljust(4)
+        #---
+        pywikibot.output(f'\tp{n}/{len(langlinks)}:\t{lang.ljust(20)}\t{lenex} extlinks, {lenre} refsname..')
         #---
         all[title]['langs'][lang] = tata
         #---
     #---
 #---
-def startn():
+def work_in_links(links, main_File):
     #---
-    if 'test' in sys.argv:  
-        # links = ["Angular cheilitis", "Bad breath", "Leukoplakia", "Periodontal disease", "Tonsil stones", "Tooth decay"]
-        links = ["Bronchiectasis"]
-    else:
-        links = main_links()
+    n = 0
+    #---
+    for x in links:
+        n += 1
+        #---
+        pap = f'p {n}/{len(links)}: {x}'
+        #---
+        pywikibot.output(pap)
+        #---
+        work_in_en_page(x)
+        #---
+        # log every 30 pages
+        if n % 30 == 0:
+            codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(all))
+    #---
+#---
+def start_test():
+    #---
+    links = ["Cardiac arrest", "Angular cheilitis", "Bad breath", "Leukoplakia", "Periodontal disease", "Tonsil stones", "Tooth decay"]
     # start work in all links
     #---
     links.sort()
     #---
-    main_File = project + 'allennew_2.json'
+    main_File = project_json + 'test.json'
+    #---
+    # python3 ./core/pwb.py prior/p3 test
+    #---
+    work_in_links(links, main_File)
+    #---
+    codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(all))
+    #---
+    return all
+#---
+def start_all():
+    #---
+    links = main_links()
+    # start work in all links
+    #---
+    links.sort()
+    #---
+    main_File = project_json + 'allennew_2.json'
     #---
     if len(links) > 300:
         links_Tab = {}
@@ -134,23 +183,18 @@ def startn():
         #---
         # for x in links_Tab: print(len(links_Tab[x]))
         #---
-        if 's1' in sys.argv:    main_File, links = project + 'new_1.json', links_Tab[1]
-        if 's2' in sys.argv:    main_File, links = project + 'new_2.json', links_Tab[2]
-        if 's3' in sys.argv:    main_File, links = project + 'new_3.json', links_Tab[3]
-        if 's4' in sys.argv:    main_File, links = project + 'new_4.json', links_Tab[4]
+        if   's1' in sys.argv:    main_File, links = project_json + 'new_1.json', links_Tab[1]
+        elif 's2' in sys.argv:    main_File, links = project_json + 'new_2.json', links_Tab[2]
+        elif 's3' in sys.argv:    main_File, links = project_json + 'new_3.json', links_Tab[3]
+        elif 's4' in sys.argv:    main_File, links = project_json + 'new_4.json', links_Tab[4]
+        else :                    main_File, links = project_json + 'new_1.json', links
     #---
-    # if 
-    n = 0
-    for x in links:
-        n += 1
-        pap = f'p {n}/{len(links)}: {x}'
-        pywikibot.output(pap)
-        work_in_en_page(x)
-        # log every 30 pages
-        if n % 30 == 0:
-            codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(all))
+    work_in_links(links, main_File)
     #---
     codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(all))
 #---
 if __name__ == '__main__':
-    startn()
+    if 'test' in sys.argv:
+        start_test()
+    else:
+        start_all()

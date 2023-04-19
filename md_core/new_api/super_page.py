@@ -130,7 +130,7 @@ class MainPage():
         #---
         self.log = login_def(self.lang, family=self.family)
         #---
-        if self.lang != "" and self.log.not_loged and self.lang != not_loged_m[1]:
+        if self.lang != "" and self.lang != not_loged_m[1]:
             #---
             self.log.Log_to_wiki()
             #---
@@ -609,7 +609,7 @@ class MainPage():
             abusefilter = error.get("abusefilter","")
             description = abusefilter.get('description','')
             printe.output('<<lightred>> ** abusefilter-disallowed: %s ' % description )
-            if description == 'تأخير البوتات 3 ساعات' :
+            if description in ['تأخير البوتات 3 ساعات', 'تأخير البوتات 3 ساعات- 3 من 3', 'تأخير البوتات 3 ساعات- 1 من 3', 'تأخير البوتات 3 ساعات- 2 من 3'] :
                 return False
             return description
         #---
