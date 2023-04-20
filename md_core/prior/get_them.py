@@ -43,8 +43,9 @@ def url_parser(url):
     #---
     for q in queries:
         if '=' not in q: continue
-        k, v = q.split('=')
+        k, sep, v = q.partition('=')
         queries1[k] = v
+        # https://webcache.googleusercontent.com/search?hl=fr&q=cache:https://books.google.fr/books?id=faunzyqrhtgc&pg=pa47&vq=pancréas+mucoviscidose&dq=physiologie+humaine&source=gbs_search_r&cad=0_1&sig=564mkm4lqqdqy18ukodcuyffamm
     #---
     elements = {
         'scheme': parts.scheme,
@@ -87,11 +88,16 @@ def filter_urls(links):
             x = re.sub(r'^https://[\w]+\.archive\.is/[\d]+/', '', x)
         x = x.replace('//www.', '//').replace('http://', 'https://')
         #---
+        if 'googleusercontent' in x:
+            x = re.sub(r'^https://.*?googleusercontent.*?http', 'http', x)
+        #---
+        x = re.sub(r'^http.*?https://books', 'https://books', x)
+        #---
         # https://books.google.ca/books?id=JaOoXdSlT9sC&pg=PA11
         if 'books.google' in x and not 'books' in sys.argv:
             #---
             prased = url_parser(x)
-            # {'scheme': 'https', 'netloc': 'books.google.ca', 'path': '/books', 'params': '', 'query': 'id=JaOoXdSlT9sC&pg=PA11', 'fragment': '', 'directories': ['books'], 'queries': {'id': 'JaOoXdSlT9sC', 'pg': 'PA11'}}
+            # {'scheme': 'https', 'netloc': 'books.google.ca', 'path': '/books', 'queries': {'id': 'JaOoXdSlT9sC', 'pg': 'PA11'}}
             #---
             x = re.sub(prased['netloc'], 'books.google.com', x)
             book_id = prased['queries'].get('id', '')
@@ -115,13 +121,14 @@ class work_in_one_lang_link(object):
     def __init__(self, lang, title):
         self.lang = change_codes.get(lang) or lang
         #---
-
-        #---
         self.title = title
         self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
         self.text = ''
+        self.section0 = ''
+        self.lead = {'extlinks': [], 'refsname': {}}
         self.extlinks = []
-        self.refsnames = []
+        self.refsname = {}
+        self.contents_all = {}
         #---
         self.session = requests.Session()
         #---
@@ -132,8 +139,14 @@ class work_in_one_lang_link(object):
         #---
         self.get_extlinks()
         #---
-        self.get_ref_names()
-        
+        parsed = wikitextparser.parse(self.text)
+        tags   = parsed.get_tags()
+        #---
+        self.refsname = self.get_ref_names(tags)
+        #---
+        if self.lang == 'en':
+            self.get_lead()
+        #---
     def post_to_json(self, params):
         json1 = {}
         #---
@@ -145,12 +158,9 @@ class work_in_one_lang_link(object):
         #---
         return json1
 
-    def get_ref_names(self):
+    def get_ref_names(self, tags):
         #---
-        parsed = wikitextparser.parse(self.text)
-        tags = parsed.get_tags()
-        #---
-        _tags_ = []
+        _tags_ = {}
         #---
         for x in tags:
             if x.name != 'ref': continue
@@ -160,11 +170,19 @@ class work_in_one_lang_link(object):
             #---
             if name == '' : continue
             #---
-            if not name in _tags_:  _tags_.append(name)
+            contents = x.contents
+            #---
+            if contents != '' :
+                self.contents_all[name] = str(x)
+            #---
+            if re.sub(r'[:\d\s]+', '', name) == '': continue
+            #---
+            if not name in _tags_:  _tags_[name] = 0
+            #---
+            _tags_[name] += 1
         #---
-        self.refsnames = _tags_
-    
-    #---
+        return _tags_
+   
     def get_text(self):
         params = { "action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         #---
@@ -173,7 +191,6 @@ class work_in_one_lang_link(object):
         self.text = json1.get('parse',{}).get('wikitext',{}).get('*','')
         #---
     
-    #---
     def get_extlinks(self):
         params = {
             "action": "query",
@@ -204,27 +221,95 @@ class work_in_one_lang_link(object):
         #---
         links = [ x['url'] for x in links ]
         #---
-        liste1 = filter_urls(links)
+        # remove duplicates
+        liste1 = list(set(links))
+        #---
+        liste1.sort()
+        #---
+        if not 'nofilter' in sys.argv:
+            liste1 = filter_urls(liste1)
         #---
         self.extlinks = liste1
+        #---
+ 
+    def get_lead(self):
+        #---
+        parsed = wikitextparser.parse(self.text)
+        #---
+        section0 = parsed.get_sections(level=0)[0].contents
+        self.section0 = section0
+        #---
+        section0_pa = wikitextparser.parse(self.section0)
+        #---
+        tags0   = section0_pa.get_tags()
+        #---
+        self.make_new_text(tags0)
+        #---
+        # printe.showDiff(section0, self.section0)
+        #---
+        self.lead['refsname'] = self.get_ref_names(tags0)
+        self.lead['extlinks']  = self.get_lead_extlinks()
+        #---
+
+    def get_lead_extlinks(self):
+        params = {
+            "action": "parse",
+            "format": "json",
+            "title": self.title,
+            "text": self.section0,
+            "prop": "externallinks",
+            "utf8": 1,
+            "formatversion": "2"
+        }
+        #---
+        json1 = self.post_to_json(params)
+        #---
+        # printe.output(json1)
+        #---
+        links = json1.get('parse',{}).get('externallinks',[])
+        #---
+        # remove duplicates
+        liste1 = list(set(links))
+        #---
+        liste1.sort()
+        #---
+        if not 'nofilter' in sys.argv:
+            liste1 = filter_urls(liste1)
+        #---
+        return liste1
+        #---
+ 
+    def make_new_text(self, tags):
+        #---
+        for x in tags:
+            if x.name != 'ref': continue
+            #---
+            name = x.attrs.get('name', '').replace('/', '').lower().strip()
+            if name == '' : continue
+            #---
+            contents = x.contents
+            #---
+            new_co = self.contents_all.get(name, '')
+            #---
+            if contents == '' and new_co != '':
+                self.section0 = self.section0.replace(str(x), new_co)
         #---
 #---
 if __name__ == '__main__':
     #---
-    t = work_in_one_lang_link('or', 'ଓଠକୋଣ_ପ୍ରଦାହ')
+    url = "https://webcache.googleusercontent.com/search?hl=fr&q=cache:https://books.google.fr/books?id=faunzyqrhtgc&pg=pa47&vq=pancréas+mucoviscidose&dq=physiologie+humaine&source=gbs_search_r&cad=0_1&sig=564mkm4lqqdqy18ukodcuyffamm"
+    # df = url_parser(url)
+    # print(df)
+    # sys.exit()
+    #---
+    t = work_in_one_lang_link('en', 'Tonsil_stones')
+    # print
     orex = t.extlinks
     print(f'orex: {len(orex)}')
-    print("\n".join(orex))
     #---
-    print('------------------------')
+    refsname = t.refsname
+    print(f'refsname: {len(refsname)}')
+    print(refsname)
     #---
-    t2 = work_in_one_lang_link('en', 'Angular_cheilitis')
-    enex = t2.extlinks
-    print(f'enex: {len(enex)}')
-    print("\n".join(enex))
-    #---
-    print('------------------------')
-    #---
-    new = [ x for x in orex if x in enex ]
-    print(f'new: {len(new)}')
-    #---
+    lead = t.lead
+    print(f'lead: {lead}')

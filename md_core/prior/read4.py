@@ -22,7 +22,8 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/md_core/prior'
 #---
-project_json = f'{project}/md_core/prior/json/'
+project_json = f'{project}/json'
+project_jsonnew = f'{project}/jsonnew/'
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 '''
@@ -34,10 +35,14 @@ text        = page.get_text()
 save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 '''
 #---
-def work_test(all=''):
+def work_test(all, allen):
     #---
-    if all == '':
-        all = json.loads(codecs.open(project_json + '/test.json', 'r', encoding='utf-8').read())
+    for a, tab in allen.items():
+        if a in all:
+            all[a]['extlinks'] = tab['extlinks']
+            all[a]['refsname'] = tab['refsname']
+            all[a]['lead']     = tab['lead']
+
     #---
     filetitle = f'{project}/log_test.txt'
     #---
@@ -45,15 +50,14 @@ def work_test(all=''):
     #---
     text = text.replace("height:580px;", "")
     #---
-    codecs.open(filetitle, 'w', encoding='utf-8').write(text)
-    #---
     pywikibot.output(f'{len(all)} links found')
     #---
     pywikibot.output(f'<<lightyellow>> text loged to {filetitle}')
     #---
     title = 'User:Mr. Ibrahem/prior/test'
-    #---
+    #--- 
     page      = md_MainPage(title, 'www', family='mdwiki')
+    oldtext      = page.get_text()
     #---
     page.save(newtext=text, summary='update', nocreate=0, minor='')
     #---
@@ -61,13 +65,31 @@ def work_test(all=''):
 #---
 def work_all():
     #---
-    #if os.path.exists(project_json + '/new_1.json'):
-    all1 = json.loads(codecs.open(project_json + '/new_1.json', 'r', encoding='utf-8').read())
-    all2 = json.loads(codecs.open(project_json + '/new_2.json', 'r', encoding='utf-8').read())
-    all3 = json.loads(codecs.open(project_json + '/new_3.json', 'r', encoding='utf-8').read())
-    all4 = json.loads(codecs.open(project_json + '/new_4.json', 'r', encoding='utf-8').read())
+    all = {}
+    allen = {}
     #---
-    all = {**all1, **all2, **all3, **all4}
+    # get all json file inside dir project_jsonnew
+    # Loop through each file in the directory
+    for filename in os.listdir(project_jsonnew):
+        # Check if the file is a JSON file
+        if filename.endswith('.json'):
+            # Open the file and load the JSON data
+            filename2 = os.path.join(project_jsonnew, filename)
+            #---
+            print(f'filename: {filename2}..')
+            #---
+            data = json.load(open(filename2, 'r'))
+            #---
+            if filename.startswith('en_'):
+                allen = {**allen, **data}
+            else:
+                all   = {**all, **data}
+    #---
+    for a, tab in allen.items():
+        if a in all:
+            all[a]['extlinks'] = tab['extlinks']
+            all[a]['refsname'] = tab['refsname']
+            all[a]['lead']     = tab['lead']
     #---
     print(f'new all len:{len(all)}')
     #---
@@ -111,32 +133,34 @@ def work_all():
         #---
         # print(wikilinks)
         #---
-        _all_ = { a : all[a] for a in wikilinks if a in all and not a in Done }
+        _all_   = { a : all[a] for a in wikilinks if a in all }
         #---
         lrnn = len(_all_.keys())
         #---
         print(f'section:({t}), \t\twikilinks: {lrnn}')
         #---
-        Done.extend(_all_.keys())
-        #---
         text = f'''=={t} ({lrnn})==\n'''
-        #---
-        text += text_bot.make_text(_all_)
-        #---
-        filetitle = f'{project}/log/{t}.txt'
-        #---
-        codecs.open(filetitle, 'w', encoding='utf-8').write(text)
         #---
         ttt = f'User:Mr. Ibrahem/prior/{t}'
         #---
         mmm_links.append(ttt)
         #---
-        page_x      = md_MainPage(ttt, 'www', family='mdwiki')
-        page_x.save(newtext=text, summary='update', nocreate=0)
-        # break
+        text += text_bot.make_text(_all_, ttt=t)
+        #---
+        filetitle = f'{project}/log/{t}.txt'
+        #---
+        if not 'dontsave' in sys.argv:
+            codecs.open(filetitle, 'w', encoding='utf-8').write(text)
+            #---
+            page_x      = md_MainPage(ttt, 'www', family='mdwiki')
+            page_x.save(newtext=text, summary='update', nocreate=0)
+            # break
     #---
-    # n_text = "\n".join([ f'* [[{x}]]' for x in mmm_links])
+    page_x      = md_MainPage('User:Mr. Ibrahem/prior', 'www', family='mdwiki')
     #---
+    t_sec = text_bot.get_t_sections()
+    #---
+    page_x.save(newtext=t_sec, summary='update', nocreate=0)
 #---
 if __name__ == '__main__':
     if 'test' in sys.argv:
