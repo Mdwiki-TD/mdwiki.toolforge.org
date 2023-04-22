@@ -295,21 +295,187 @@ class work_in_one_lang_link(object):
                 self.section0 = self.section0.replace(str(x), new_co)
         #---
 #---
+class get_old(object):
+
+    def __init__(self, title):
+        #---
+        self.lang = 'en'
+        self.title = title
+        self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
+        self.oldtext = ''
+        self.text = ''
+        self.section0 = ''
+        self.lead = {'extlinks': [], 'refsname': {}}
+        self.extlinks = []
+        self.refsname = {}
+        self.contents_all = {}
+        #---
+        self.session = requests.Session()
+        #---
+        self.start()
+
+    def start(self):
+        self.get_oldtext()
+        #---
+        parsed = wikitextparser.parse(self.oldtext)
+        tags   = parsed.get_tags()
+        #---
+        self.refsname = self.get_ref_names(tags)
+        #---
+        self.extlinks = self.get_extlinks_from_text(self.oldtext)
+        #---
+        self.get_lead()
+        #---
+    def post_to_json(self, params):
+        json1 = {}
+        #---
+        try:
+            req = self.session.post(self.url, data=params)
+            json1 = req.json()
+        except Exception as e:
+            printe.output(f'except: lang:{self.lang} {e}')
+        #---
+        return json1
+
+    def get_ref_names(self, tags):
+        #---
+        _tags_ = {}
+        #---
+        for x in tags:
+            if x.name != 'ref': continue
+            #---
+            attrs = x.attrs
+            name = attrs.get('name', '').replace('/', '').lower().strip()
+            #---
+            if name == '' : continue
+            #---
+            contents = x.contents
+            #---
+            if contents != '' :
+                self.contents_all[name] = str(x)
+            #---
+            if re.sub(r'[:\d\s]+', '', name) == '': continue
+            #---
+            if not name in _tags_:  _tags_[name] = 0
+            #---
+            _tags_[name] += 1
+        #---
+        return _tags_
+   
+    def get_oldtext(self):
+        params = { "action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
+        #---
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "revisions",
+            "titles": self.title,
+            "formatversion": "2",
+            "rvprop": "timestamp|content",
+            "rvslots": "*",
+            "rvlimit": "1",
+            "rvstart": "2020-05-30T22:00:00.000Z",
+            "rvdir": "older"
+        }
+        #---
+        json1 = self.post_to_json(params)
+        #---
+        revisions = json1.get('query',{}).get('pages',[{}])[0].get('revisions',[])[0]
+        self.timestamp = revisions.get('timestamp','')
+        print(f'timestamp: {self.timestamp}')
+        self.oldtext = revisions.get('slots',{}).get('main',{}).get('content','')
+        #---
+    
+    def get_lead(self):
+        #---
+        parsed = wikitextparser.parse(self.oldtext)
+        #---
+        section0 = parsed.get_sections(level=0)[0].contents
+        self.section0 = section0
+        #---
+        section0_pa = wikitextparser.parse(self.section0)
+        #---
+        tags0   = section0_pa.get_tags()
+        #---
+        self.make_new_text(tags0)
+        #---
+        # printe.showDiff(section0, self.section0)
+        #---
+        self.lead['refsname'] = self.get_ref_names(tags0)
+        self.lead['extlinks']  = self.get_extlinks_from_text(self.section0)
+        #---
+
+    def get_extlinks_from_text(self, text):
+        params = {
+            "action": "parse",
+            "format": "json",
+            "title": self.title,
+            "text": text,
+            "prop": "externallinks",
+            "utf8": 1,
+            "formatversion": "2"
+        }
+        #---
+        json1 = self.post_to_json(params)
+        #---
+        # printe.output(json1)
+        #---
+        links = json1.get('parse',{}).get('externallinks',[])
+        #---
+        # remove duplicates
+        liste1 = list(set(links))
+        #---
+        liste1.sort()
+        #---
+        if not 'nofilter' in sys.argv:
+            liste1 = filter_urls(liste1)
+        #---
+        return liste1
+        #---
+ 
+    def make_new_text(self, tags):
+        #---
+        for x in tags:
+            if x.name != 'ref': continue
+            #---
+            name = x.attrs.get('name', '').replace('/', '').lower().strip()
+            if name == '' : continue
+            #---
+            contents = x.contents
+            #---
+            new_co = self.contents_all.get(name, '')
+            #---
+            if contents == '' and new_co != '':
+                self.section0 = self.section0.replace(str(x), new_co)
+        #---
+#---
 if __name__ == '__main__':
     #---
-    url = "https://webcache.googleusercontent.com/search?hl=fr&q=cache:https://books.google.fr/books?id=faunzyqrhtgc&pg=pa47&vq=pancréas+mucoviscidose&dq=physiologie+humaine&source=gbs_search_r&cad=0_1&sig=564mkm4lqqdqy18ukodcuyffamm"
-    # df = url_parser(url)
-    # print(df)
-    # sys.exit()
-    #---
-    t = work_in_one_lang_link('en', 'Tonsil_stones')
+    t = work_in_one_lang_link('en', 'Deep_vein_thrombosis')
+    old = get_old('Deep_vein_thrombosis')
     # print
     orex = t.extlinks
+    oldex = old.extlinks
     print(f'orex: {len(orex)}')
+    print(f'oldex: {len(oldex)}')
+    printe.showDiff("\n".join(orex), "\n".join(oldex))
+    #---
+    print('=============')
     #---
     refsname = t.refsname
+    oldrefsname = old.refsname
     print(f'refsname: {len(refsname)}')
-    print(refsname)
+    print(f'oldrefsname: {len(oldrefsname)}')
+    printe.showDiff("\n".join(refsname), "\n".join(oldrefsname))
+    #---
+    print('=============')
     #---
     lead = t.lead
-    print(f'lead: {lead}')
+    oldlead = old.lead
+    for x in ['extlinks', 'refsname']:
+        print('=============')
+        #---
+        print(f'{x}: {len(lead[x])}')
+        print(f'old{x}: {len(oldlead[x])}')
+        printe.showDiff("\n".join(lead[x]), "\n".join(oldlead[x]))
+    #---

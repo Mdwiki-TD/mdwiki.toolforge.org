@@ -72,9 +72,7 @@ def advance_work_en(title, title2, page):
     #---
     text = tat.text
     #---
-    allen[title]['lead'] = {}
-    allen[title]['lead']['extlinks'] = tat.lead['extlinks']
-    allen[title]['lead']['refsname'] = tat.lead['refsname']
+    allen[title]['lead'] = tat.lead
     #---
     extlinks = tat.extlinks
     refsname = tat.refsname
@@ -90,6 +88,21 @@ def advance_work_en(title, title2, page):
     #---
     printe.output(f'p0/\ten\t\t{lenex} extlinks, {lenre} refsname')
     printe.output(f'p0/\ten\t\t{lenex_lead} lead_extlinks, {lenre_lead} lead_refsname')
+    #---
+    old = get_them.get_old(title)
+    allen[title]['old'] = {}
+    allen[title]['old']['extlinks'] = old.extlinks
+    allen[title]['old']['refsname'] = old.refsname
+    allen[title]['old']['lead'] = old.lead
+    #---
+    lenex1 = str(len(old.extlinks)).ljust(4)
+    lenre1 = str(len(old.refsname)).ljust(4)
+    #---
+    lenex_lead1 = str(len(old.lead['extlinks'])).ljust(4)
+    lenre_lead1 = str(len(old.lead['refsname'])).ljust(4)
+    #---
+    printe.output(f'p0/\told\t\t{lenex1} extlinks, {lenre1} refsname')
+    printe.output(f'p0/\told\t\t{lenex_lead1} lead_extlinks, {lenre_lead1} lead_refsname')
     #---
 #---
 def work_in_en_page(title):

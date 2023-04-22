@@ -80,22 +80,22 @@ def get_t_sections():
     # Return the completed table as a string
     return text
 #---
-def make_color(extlinks, refsname, p_ext, p_names, lead_extlinks, lead_refsname):
+def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_refsname):
     #---
     _sa_11 = False
     _sa_22 = False
     #---
-    # 1 match the extlinks
-    _sa_1, same1 = match_p(extlinks, p_ext)
+    # 1 match the en_extlinks
+    _sa_1, same1 = match_p(en_extlinks, p_ext)
     #---
-    # 2 match the refsname
-    _sa_2, same2 = match_p(refsname, p_names)
+    # 2 match the en_refsname
+    _sa_2, same2 = match_p(en_refsname, p_names)
     #---
     if not _sa_1 and not _sa_2 and not 'nolead' in sys.argv:
-        # 3 match the lead extlinks
+        # 3 match the lead_extlinks
         _sa_11, same11 = match_p(lead_extlinks, p_ext)
         #---
-        # 4 match the lead refsname
+        # 4 match the lead_refsname
         _sa_22, same22 = match_p(lead_refsname, p_names)
     #---
     if _sa_1 or _sa_2 or _sa_11 or _sa_22:
@@ -104,9 +104,9 @@ def make_color(extlinks, refsname, p_ext, p_names, lead_extlinks, lead_refsname)
         color = 'red'
         #---
         for x, count in p_names.items():
-            print(f'{x}: {count}')
-            if x.lower() in lead_refsname:
-                if count > 10:
+            # print(f'{x}: {count}')
+            if x.lower() in lead_refsname or x.lower() in en_refsname:
+                if count > 8:
                     color = 'green'
                     same2 = count
                     print(f'ref {x}, count:{count}....')
@@ -165,12 +165,12 @@ def make_text(allo, ttt=''):
     #---
     for en, ta in allo.items():
         #---
-        extlinks  = [ x.lower() for x in ta['extlinks'] ]
+        en_extlinks  = [ x.lower() for x in ta['extlinks'] ]
         #---
-        # if not 'nofilter' in sys.argv:  extlinks  = get_them.filter_urls(extlinks)
+        # if not 'nofilter' in sys.argv:  en_extlinks  = get_them.filter_urls(en_extlinks)
         #---
-        refsname  = [ x.lower() for x in ta['refsname'].keys() ]
-        # refsname  = ta['refsname']
+        en_refsname  = [ x.lower() for x in ta['refsname'].keys() ]
+        # en_refsname  = ta['refsname']
         #---
         lead = ta['lead']
         #---
@@ -212,7 +212,32 @@ def make_text(allo, ttt=''):
             #---
             if l in langs:
                 #---
-                color_tab = make_color(extlinks, refsname, p_ext, p_names, lead_extlinks, lead_refsname)
+                color_tab = make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_refsname)
+                #---
+                if color_tab['color'] == 'red' and ta.get('old', {}) != {}:
+                    #---
+                    old = ta['old']
+                    #---
+                    old_lead = old['lead']
+                    #---
+                    # en_extlinks  = [ x.lower() for x in old['extlinks'] ]
+                    # en_refsname  = [ x.lower() for x in old['refsname'].keys() ]
+                    # lead_refsname = [ x.lower() for x in old_lead['refsname'].keys() ]
+                    # lead_extlinks = [ x.lower() for x in old_lead['extlinks'] ]
+                    #---
+                    en_extlinks.extend([ x.lower() for x in old['extlinks'] ])
+                    en_extlinks = list(set(en_extlinks))
+                    #---
+                    en_refsname.extend([ x.lower() for x in old['refsname'].keys() ])
+                    en_refsname = list(set(en_refsname))
+                    #---
+                    lead_refsname.extend([ x.lower() for x in old_lead['refsname'].keys() ])
+                    lead_refsname = list(set(lead_refsname))
+                    #---
+                    lead_extlinks.extend([ x.lower() for x in old_lead['extlinks'] ])
+                    lead_extlinks = list(set(lead_extlinks))
+                    #---
+                    color_tab = make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_refsname)
                 #---
                 same1 = color_tab['same1']
                 same2 = color_tab['same2']
@@ -242,7 +267,7 @@ def make_text(allo, ttt=''):
 |-
 ! {n}
 ! style="position: sticky;left: 0;" | [[:en:{en}|{en}]]
-! {len(extlinks)}/{len(refsname)}
+! {len(en_extlinks)}/{len(en_refsname)}
 ! {len(lead_extlinks)}/{len(lead_refsname)}
 {lang_text}
 '''

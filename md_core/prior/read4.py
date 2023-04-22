@@ -47,6 +47,8 @@ def work_test(all, allen):
             all[a]['extlinks'] = tab['extlinks']
             all[a]['refsname'] = tab['refsname']
             all[a]['lead']     = tab['lead']
+            all[a]['old']     = tab.get('old', {})
+            
 
     # Create a file title for the log file
     filetitle = f'{project}/log_test.txt'
@@ -106,6 +108,7 @@ def work_all():
             all[a]['extlinks'] = tab['extlinks']
             all[a]['refsname'] = tab['refsname']
             all[a]['lead']     = tab['lead']
+            all[a]['old']      = tab.get('old', {})
     #---
     print(f'new all len:{len(all)}')
     #---
