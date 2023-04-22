@@ -117,6 +117,9 @@ class Login():
             Main_s['token'] = r3_token
             printe.output(f'<<green>> r3_token: {self.r3_token}')
         except Exception as e:
+            _Except_ions_ = [
+                '''('Connection aborted.', OSError("(104, 'ECONNRESET')"))''',
+            ]
             pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
             warn(warn_err('Exception:' + str(e)), UserWarning)
             pywikibot.output( 'CRITICAL:' )

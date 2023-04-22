@@ -538,7 +538,7 @@ class MainPage():
         #---
         if self.text == '' : self.text = self.get_text()
         #---
-        self.can_be_edit = True#botEdit.botMayEdit( False, text= self.text, title_page=self.title, botjob=script)
+        self.can_be_edit = botEdit.botMayEdit( False, text= self.text, title_page=self.title, botjob=script)
         #---
         return self.can_be_edit
 

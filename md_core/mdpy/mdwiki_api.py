@@ -374,7 +374,7 @@ def page_put_new(NewText,summary,title,time_sleep="",family="",lang="",minor="",
         Invalid = r4.get("error",{}).get("info",'')
     #---
     if 'Success' in str(r4):
-        pywikibot.output(f'<<lightgreen>> ** true .. ' + '[[mdwiki:{title}]]   time.sleep({tts}) ')
+        pywikibot.output('<<lightgreen>> ** true .. ' + f'[[mdwiki:{title}]]   time.sleep({tts}) ')
         pywikibot.output( 'Save True.. time.sleep(%d) ' % tts)
         time.sleep(tts)
         if return_table:

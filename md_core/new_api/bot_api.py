@@ -248,9 +248,7 @@ class NEW_API():
         #---
         return results
     #---
-    def Get_Newpages(self, limit="max", namespace="0", rcstart="", user='', three_houers=False):
-        #---
-        rccontinue = "x"
+    def Get_Newpages(self, limit=5000, namespace="0", rcstart="", user='', three_houers=False):
         #---
         if three_houers:
             dd = datetime.datetime.utcnow() - timedelta(hours = 3)
@@ -264,7 +262,7 @@ class NEW_API():
             "list": "recentchanges",
             #"rcdir": "newer",
             "rcnamespace": namespace,
-            "rclimit": limit,
+            "rclimit": 'max',
             "utf8": 1,
             "rctype": "new"
         }
@@ -276,11 +274,18 @@ class NEW_API():
         #---
         numb = 0
         #---
+        if limit.isdigit(): 
+            limit = int(limit)
+        else:
+            limit = 5000
+        #---
+        rccontinue = "x"
+        #---
         while rccontinue != '':
             #---
             numb += 1
             #---
-            printe.output(f'Get_All_pages {numb}, rccontinue:{rccontinue}..')
+            printe.output(f'Get_All_pages {numb}, rccontinue:{rccontinue}, all :{len(Main_table)}..')
             #---
             if rccontinue != 'x' : params['rccontinue'] = rccontinue
             #---
@@ -298,6 +303,9 @@ class NEW_API():
                 }
             #---
             Main_table.extend( [ x[ "title" ] for x in newp ] )
+            #---
+            if limit <= len(Main_table) and len(Main_table) > 1: break
+            #---
         #---
         printe.output( 'bot_api.Get_Newpages find "%d" result. s' % len(Main_table) )
         #---
