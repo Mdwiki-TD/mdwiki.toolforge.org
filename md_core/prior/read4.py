@@ -37,31 +37,43 @@ save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 '''
 #---
 def work_test(all, allen):
-    #---
+    # This function takes in two dictionaries as input, 'all' and 'allen'.
+
+    # Loop through each key-value pair in 'allen' dictionary.
     for a, tab in allen.items():
+        # If the current key in 'allen' dictionary also exists in 'all' dictionary,
+        # then update some specific values with the corresponding values in 'allen' dictionary.
         if a in all:
             all[a]['extlinks'] = tab['extlinks']
             all[a]['refsname'] = tab['refsname']
             all[a]['lead']     = tab['lead']
 
-    #---
+    # Create a file title for the log file
     filetitle = f'{project}/log_test.txt'
-    #---
+
+    # Call a function 'make_text' with 'all' dictionary as input and store the output in 'text' variable.
     text = text_bot.make_text(all)
-    #---
+
+    # Remove a specific string from 'text' variable.
     text = text.replace("height:580px;", "")
-    #---
+
+    # Print the number of links found in 'all' dictionary.
     printe.output(f'{len(all)} links found')
-    #---
+
+    # Print a message stating where the log file was saved.
     printe.output(f'<<lightyellow>> text loged to {filetitle}')
-    #---
+
+    # Define a page title and create an object of 'md_MainPage' class with some arguments.
     title = 'User:Mr. Ibrahem/prior/test'
-    #--- 
-    page      = md_MainPage(title, 'www', family='mdwiki')
-    oldtext      = page.get_text()
-    #---
+    page  = md_MainPage(title, 'www', family='mdwiki')
+
+    # Get the current text of the page.
+    oldtext = page.get_text()
+
+    # Save the updated 'text' to the page with some additional parameters.
     page.save(newtext=text, summary='update', nocreate=0, minor='')
-    #---
+
+    # Return the updated 'text' variable.
     return text
 #---
 def work_all():

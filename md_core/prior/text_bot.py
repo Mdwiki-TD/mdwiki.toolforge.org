@@ -14,21 +14,30 @@ text_main = '''
 !'''
 #---
 def match_p(refs, p_ref):
-    #---
-    same = [ x for x in p_ref if x in refs ]
-    len_same = int(len(same))
-    #---
-    len_refs = int(len(refs))
-    #---
-    if len_same < 1: return False, len_same
-    #---
-    if 9 > len_same < ((len_refs/2)-1): return False, len_same
-    #---
+    # Find all the elements that are common between `p_ref` and `refs`
+    same = [x for x in p_ref if x in refs]
+
+    len_same = len(same)
+    len_refs = len(refs)
+
+    # If there are no common elements between `p_ref` and `refs`, return False and the length of `same`
+    if len_same < 1:    return False, len_same
+
+    # If the length of `same` is less than 9 or less than half the length of `refs` minus 1,
+    # return False and the length of `same`
+    if 9 > len_same < ((len_refs/2)-1): 
+        return False, len_same
+
+    # Otherwise, return True and the length of `same`
     return True, len_same
 #---
 t_sections = {}
 #---
 def get_t_sections():
+    # This function generates a wikitext table of statistics for different sections
+    # The table has the following columns: section, en, all langlinks, green, red
+
+    # Initialize the table with headings for each column
     text = '''
 {| class="wikitable sortable"
 |- 
@@ -37,32 +46,38 @@ def get_t_sections():
 ! all langlinks
 ! green
 ! red
-|-
+|- 
 '''
-    #---
+
+    # Initialize variables to keep track of the total values for each column
     all_en = 0
     all_all = 0
     all_green = 0
     all_red = 0
-    #---
+
+    # Loop over each section and add a row to the table with statistics for that section
     for k, tt in t_sections.items():
-        #---
+        # Calculate the total number of green and red links for this section
         all = tt['green'] + tt['red']
-        #---
+
+        # Add the values for this section to the total values for each column
         all_en += tt['en']
         all_all += all
         all_green += tt['green']
         all_red += tt['red']
-        #---
+
+        # Add a row to the table with statistics for this section
         text += f'! [[User:Mr. Ibrahem/prior/{k}|{k}]]\n'
         text += '| ' + str(tt['en']) + '\n'
         text += '| ' + str(all) + '\n'
         text += '| ' + str(tt['green']) + '\n'
         text += '| ' + str(tt['red']) + '\n'
         text += '|-\n'
-    #---
+
+    # Add a final row to the table with the total values for each column
     text += f'''! total\n! {all_en}\n! {all_all}\n! {all_green}\n! {all_red}\n''' + '|}'
-    #---
+
+    # Return the completed table as a string
     return text
 #---
 def make_color(extlinks, refsname, p_ext, p_names, lead_extlinks, lead_refsname):
