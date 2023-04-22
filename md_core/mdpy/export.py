@@ -10,7 +10,7 @@
 import json
 import urllib
 import codecs
-#---
+from mdpy import printe
 import pywikibot
 #---
 import re
@@ -28,7 +28,7 @@ for arg in sys_argv:
     arg, sep, value = arg.partition(':')
     #---
     if arg == "-lasi" or arg == "lasi" and value.isdigit():
-        pywikibot.output( '<<lightyellow>> change La_si[1] from "%d" to %s' % (La_si[1],value) )
+        printe.output( '<<lightyellow>> change La_si[1] from "%d" to %s' % (La_si[1],value) )
         #---
         La_si[1] = int(value)
         #---
@@ -59,16 +59,16 @@ def export_en_history( title ) :
         xmldata = himoBOT3.get_Export_xml( title )
         #---
     #---
-    pywikibot.output( '<<lightyellow>> len of history == %d ' % len(xmldata) )
+    printe.output( '<<lightyellow>> len of history == %d ' % len(xmldata) )
     #---
     last = '''
     </page>
 </mediawiki>'''
     first = xmldata.split('<revision>')[0]
     #if 'teest' in sys.argv: 
-        #pywikibot.output( 'first' )
-        #pywikibot.output( first )
-        #pywikibot.output( 'first' )
+        #printe.output( 'first' )
+        #printe.output( first )
+        #printe.output( 'first' )
     #---
     # 16282189
     #---
@@ -77,9 +77,9 @@ def export_en_history( title ) :
     revisione = xmldata.replace(first,'').split('</page>')[0].split('</revision>')
     revisions = [ x + '</revision>' for x in revisione if x.strip().startswith('<revision>') ]
     if 'teest' in sys.argv: 
-        pywikibot.output( revisions )
+        printe.output( revisions )
     #---
-    pywikibot.output( '<<lightyellow>> > title:"%s" has %d revisions' % ( title , len(xmldata.split('<revision>')) ) )
+    printe.output( '<<lightyellow>> > title:"%s" has %d revisions' % ( title , len(xmldata.split('<revision>')) ) )
     #---
     #---
     title2 = title.replace(':','-').replace('/','-')
@@ -129,8 +129,8 @@ def export_en_history( title ) :
             FILE_PATHS.append( path2 )           
             #---
         #---
-        pywikibot.output( ' split revisions to %d files..' % len(FILE_PATHS) )
-        pywikibot.output( FILE_PATHS )
+        printe.output( ' split revisions to %d files..' % len(FILE_PATHS) )
+        printe.output( FILE_PATHS )
         return FILE_PATHS
         #---
     else:
@@ -139,7 +139,7 @@ def export_en_history( title ) :
             ooo.write( xmldata )
         ooo.close()
         #---
-        pywikibot.output( ' revisions in one file.' )
+        printe.output( ' revisions in one file.' )
         #---
         return FILE_PATH
 #---
@@ -160,11 +160,11 @@ def export( title ) :
     gg = Session.post( url = urll , data = paramse )
     xmldata = gg.text
     #---
-    pywikibot.output( '<<lightyellow>> len of history == %d ' % len(xmldata) )
+    printe.output( '<<lightyellow>> len of history == %d ' % len(xmldata) )
     #---
     revisions = xmldata.split('</revision>')
     #---
-    pywikibot.output( '<<lightyellow>> > title:"%s" has %d revisions' % ( title , len(xmldata.split('<revision>')) ) )
+    printe.output( '<<lightyellow>> > title:"%s" has %d revisions' % ( title , len(xmldata.split('<revision>')) ) )
     #---
     title2 = title.replace(':','-').replace('/','-')
     #---
@@ -173,7 +173,7 @@ def export( title ) :
         ooo.write( xmldata )
     ooo.close()
     #---
-    #pywikibot.output( ' revisions in one file.' )
+    #printe.output( ' revisions in one file.' )
     #---
     return FILE_PATH
 #---

@@ -40,7 +40,7 @@ if not os.path.isdir('/mnt/nfs/labstore-secondary-tools-project/'): can_use_sql_
 #---
 def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_dict=False):
     #---
-    pywikibot.output('start sql_connect_pymysql:')
+    print('start sql_connect_pymysql:')
     #---
     args = {
         'host':     host,
@@ -109,9 +109,9 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
 def make_sql_connect( query, db='', host='', update=False, Return=[], return_dict=False):
     #---
     if query == '' : 
-        pywikibot.output("query == ''")
+        print("query == ''")
         return Return
     #---
-    pywikibot.output('<<lightyellow>> newsql::')
+    print('<<lightyellow>> newsql::')
     return sql_connect_pymysql( query, db=db, host=host, update=update, Return=Return, return_dict=return_dict)
 #---

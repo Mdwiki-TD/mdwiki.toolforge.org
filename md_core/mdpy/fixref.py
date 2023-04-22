@@ -36,6 +36,7 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 #---
+from mdpy import printe
 from mdpy import mdwiki_api
 from mdpy import txtlib2
 #---
@@ -50,8 +51,8 @@ def add_new_Line( text ) :
         params = temp['params']
         template = temp['item']
         #---
-        pywikibot.output( "----------------------------------------------------------------" )
-        pywikibot.output( "template (%s) is :" % name )
+        printe.output( "----------------------------------------------------------------" )
+        printe.output( "template (%s) is :" % name )
         #---
         newtemp = template
         #---
@@ -62,7 +63,7 @@ def add_new_Line( text ) :
             value = params[x]
             #---
             if value.find( '%s' ) != -1 :
-                pywikibot.output('**<<lightred>> value(%s).find(%s) != -1 ' % ( value , '%s' ) )
+                printe.output('**<<lightred>> value(%s).find(%s) != -1 ' % ( value , '%s' ) )
                 continue
             #---
             value = str(value)
@@ -87,8 +88,8 @@ def remove_new_Line( text ) :
         #---
         name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
         #---
-        pywikibot.output( "----------------------------------------------------------------" )
-        pywikibot.output( "template (%s) is :" % namestrip )
+        printe.output( "----------------------------------------------------------------" )
+        printe.output( "template (%s) is :" % namestrip )
         #---
         newtemp = template
         #---
@@ -102,7 +103,7 @@ def remove_new_Line( text ) :
             value = params[x]
             #---
             if value.find( '%s' ) != -1 :
-                pywikibot.output('**<<lightred>> value(%s).find(%s) != -1 ' % ( value , '%s' ) )
+                printe.output('**<<lightred>> value(%s).find(%s) != -1 ' % ( value , '%s' ) )
                 continue
             #---
             value = str(value)
@@ -131,7 +132,7 @@ def fix_ref_template( text ) :
         #---
         content = match.group('content')
         if not content.strip():
-            # pywikibot.output( "no content" )
+            # printe.output( "no content" )
             continue
         #---
         content = content.strip()
@@ -165,7 +166,7 @@ def work( title ):
         #---
         mdwiki_api.page_put(oldtext=text, newtext=new_text, summary=summary, title=title, returntrue=False, diff=True)
     else:
-        pywikibot.output( 'no changes.')
+        printe.output( 'no changes.')
     #---
 def main():
     #---

@@ -37,24 +37,7 @@ from mdpy import py_tools
 #---
 #---
 from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#---
+from mdpy import printe
 import requests
 Session = requests.Session()
 #---
@@ -105,7 +88,7 @@ def get_red( title ):
     for x in pages:
         title = pages[x].get('title','')
         redirectsn = pages[x].get('redirects',[])
-        pywikibot.output( redirectsn )
+        printe.output( redirectsn )
         if pages[x]["title"] == title : 
             for io in redirectsn:
                 if not io["title"] in list: list.append( io["title"] )
@@ -116,20 +99,20 @@ to_make = {}
 #---
 def work( title , num , lenth ):
     #---
-    pywikibot.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d title:"%s".' % ( num , lenth , title ) )
+    printe.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d title:"%s".' % ( num , lenth , title ) )
     #---
     exists = mdwiki_api.Find_pages_exists_or_not( [title] )
     #---
     for tit , o in exists.items() :
         if o == False and tit.lower() == title.lower() :
-            pywikibot.output( " page:%s not exists in mdwiki." % title )
+            printe.output( " page:%s not exists in mdwiki." % title )
             return ""
     #---
     if num < offset[1]:
        return ""
     #---
     redirects = get_red( title )
-    pywikibot.output( redirects )
+    printe.output( redirects )
     #---
     text = '#redirect [[%s]]' % title
     sus = 'Redirected page to [[%s]]' % title
@@ -152,15 +135,15 @@ def work( title , num , lenth ):
             for iof in listr :
                 if tit2.startswith(iof) :
                     okay = False
-                    pywikibot.output( " tit2.startswith('%s') " % iof )
+                    printe.output( " tit2.startswith('%s') " % iof )
             #---
             if okay:
                 mdwiki_api.create_Page( text , sus , tit , False , family = "mdwiki" , sleep = 1)
             #---
         else:
-            pywikibot.output( "page n:%d, title:'%s' already in mdwiki.org.." % (num,tit) )
+            printe.output( "page n:%d, title:'%s' already in mdwiki.org.." % (num,tit) )
     #---
- #   pywikibot.output("sleep 5 s")
+ #   printe.output("sleep 5 s")
 #    time.sleep(5)
     #---
 #---
@@ -171,7 +154,7 @@ for arg in sys_argv:
         offset[1] = int(value)
 #---
 def main():
-    pywikibot.output( '*<<lightred>> > main:')
+    printe.output( '*<<lightred>> > main:')
     #---
     # python3 red.py -page:Allopurinol
     # python3 red.py -page:Activated_charcoal_\(medication\)

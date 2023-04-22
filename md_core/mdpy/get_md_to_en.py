@@ -35,6 +35,7 @@ project += '/public_html/Translation_Dashboard/Tables/'
 #---
 from mdpy import catdepth2
 from mdpy import wiki_api
+from mdpy import printe
 #---
 medwiki_to_enwiki_conflic = {}
 medwiki_to_enwiki = {}
@@ -43,12 +44,12 @@ sames = []
 #---
 def check():
     #---
-    pywikibot.output('Get cat pages from cat : RTT' )
+    printe.output('Get cat pages from cat : RTT' )
     #---
     # Listo = mdwiki_api.subcatquery( 'RTT', depth = '1', ns = '0' )
     Listo = catdepth2.make_cash_to_cats(return_all_pages=True)
     #---
-    pywikibot.output('len of cat pages: %d' % len(Listo) )
+    printe.output('len of cat pages: %d' % len(Listo) )
     #---
     number = 0
     #---
@@ -109,12 +110,12 @@ def check():
                 if 'missing' in tab : 
                     missing_in_enwiki.append(title)
                 else:
-                    #pywikibot.output('<<lightyellow>> title["%s"] sames' % title )
+                    #printe.output('<<lightyellow>> title["%s"] sames' % title )
                     sames.append(title)
             #---
         else:
-            pywikibot.output( "<<lightred>> check.py no jsone" )
-            pywikibot.output( jsone )
+            printe.output( "<<lightred>> check.py no jsone" )
+            printe.output( jsone )
         #---
         #break
         #---
@@ -123,12 +124,12 @@ def check():
     for fromm, to in medwiki_to_enwiki.items():
         numb += 1
         faf = '["%s"]' % fromm
-        pywikibot.output('en titles %d from_to%s = "%s"' % (numb, faf.ljust(30), to ) )
+        printe.output('en titles %d from_to%s = "%s"' % (numb, faf.ljust(30), to ) )
     #---
     numb = 0
     for mis in missing_in_enwiki:
         numb += 1
-        pywikibot.output('<<lightyellow>> %d title:%s missing_in_enwiki' % (numb, mis.ljust(25) ) )
+        printe.output('<<lightyellow>> %d title:%s missing_in_enwiki' % (numb, mis.ljust(25) ) )
     #---
     numb = 0
     #---
@@ -136,12 +137,12 @@ def check():
         numb += 1
         faf = '["%s"]' % md
         fen = '["%s"]' % en
-        pywikibot.output('<<lightred>> %d page%s redirect to enwiki%s, and they both in mdwiki cat.' % ( numb, faf.ljust(30), fen.ljust(30) ) )
+        printe.output('<<lightred>> %d page%s redirect to enwiki%s, and they both in mdwiki cat.' % ( numb, faf.ljust(30), fen.ljust(30) ) )
     #---
-    pywikibot.output('<<lightgreen>> len of medwiki_to_enwiki:%d' % ( len(medwiki_to_enwiki) ) )
-    pywikibot.output('<<lightgreen>> len of missing_in_enwiki:%d' % ( len(missing_in_enwiki) ) )
-    pywikibot.output('<<lightgreen>> len of medwiki_to_enwiki_conflic:%d' % ( len(medwiki_to_enwiki_conflic) ) )
-    pywikibot.output('<<lightgreen>> len of sames:%d' % ( len(sames) ) )
+    printe.output('<<lightgreen>> len of medwiki_to_enwiki:%d' % ( len(medwiki_to_enwiki) ) )
+    printe.output('<<lightgreen>> len of missing_in_enwiki:%d' % ( len(missing_in_enwiki) ) )
+    printe.output('<<lightgreen>> len of medwiki_to_enwiki_conflic:%d' % ( len(medwiki_to_enwiki_conflic) ) )
+    printe.output('<<lightgreen>> len of sames:%d' % ( len(sames) ) )
     #---
     # الكتابة إلى الملفات
     json.dump( medwiki_to_enwiki, open( project + 'medwiki_to_enwiki.json', 'w' ) )

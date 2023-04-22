@@ -23,6 +23,7 @@ import time as tttime
 import datetime
 from datetime import datetime
 #---
+from mdpy import printe
 from mdpy import py_tools
 # py_tools.Decode_bytes(x)
 #---
@@ -83,12 +84,12 @@ def make_labsdb_dbs_p(wiki):
 #---
 def Make_sql_many_rows(queries, wiki="", printqua=False, return_dict=False):
     #---
-    pywikibot.output(f"wiki_sql.py Make_sql_many_rows wiki '{wiki}'")
+    printe.output(f"wiki_sql.py Make_sql_many_rows wiki '{wiki}'")
     #---
     host, dbs_p = make_labsdb_dbs_p(wiki)
     #---
     if printqua or "printsql" in sys.argv:
-        pywikibot.output( queries )
+        printe.output( queries )
     #---
     if not GET_SQL():
         return []
@@ -100,7 +101,7 @@ def Make_sql_many_rows(queries, wiki="", printqua=False, return_dict=False):
     #---
     delta = int(final - start)
     #---
-    pywikibot.output(f'wiki_sql.py Make_sql_many_rows len(encats) = "{len(rows)}", in {delta} seconds')
+    printe.output(f'wiki_sql.py Make_sql_many_rows len(encats) = "{len(rows)}", in {delta} seconds')
     #---
     return rows
 #---

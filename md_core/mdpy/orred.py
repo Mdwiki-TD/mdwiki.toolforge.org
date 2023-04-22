@@ -30,6 +30,7 @@ from pywikibot import config
 from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
+from mdpy import printe
 from mdpy import wpref
 # wpref.submitAPI( params , lang = 'or' , returnjson = False )
 #---
@@ -68,7 +69,7 @@ def Find_pages_exists_or_not( liste , apiurl = '' ) :
 #---
 def create_redirect( target, mdtitle ):
     #---
-    pywikibot.output( '----------\n*<<lightyellow>> >target:"%s".' % target )
+    printe.output( '----------\n*<<lightyellow>> >target:"%s".' % target )
     #---
     exists = Find_pages_exists_or_not( [target,mdtitle] , apiurl = or_url )
     #---
@@ -77,7 +78,7 @@ def create_redirect( target, mdtitle ):
     for tit , o in exists.items() :
         if o == False:
             if tit.lower() == target.lower() :
-                pywikibot.output( " target:%s not exists in orwiki." % target )
+                printe.output( " target:%s not exists in orwiki." % target )
                 return ""
             elif tit.lower() == mdtitle.lower() :
                 Worrk = True
@@ -100,9 +101,9 @@ def create_redirect( target, mdtitle ):
         uu = wpref.submitAPI( params, lang = 'or')
         #---
         if 'Success' in uu :
-            pywikibot.output('<<lightgreen>>** true .. [[%s]] ' % mdtitle )
+            printe.output('<<lightgreen>>** true .. [[%s]] ' % mdtitle )
         else:
-            pywikibot.output( uu )
+            printe.output( uu )
 #---
 def dodo_sql():
     #---

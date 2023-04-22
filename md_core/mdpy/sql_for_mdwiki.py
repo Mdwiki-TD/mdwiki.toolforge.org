@@ -55,7 +55,7 @@ if 'localhost' in sys.argv or project.find('/mnt/') == -1:
 #---
 def sql_connect_pymysql(query, return_dict=False):
     #---
-    pywikibot.output('start sql_connect_pymysql:')
+    print('start sql_connect_pymysql:')
     #---
     args = { x: v for x,v in main_args.items()}
     #---
@@ -128,14 +128,14 @@ def Decode_bytes(x):
 def mdwiki_sql(query, return_dict=False, **kwargs):
     #---
     if not can_use_sql_db[1] :
-        pywikibot.output('no mysql')
+        print('no mysql')
         return {}
     #---
     if query == '' :
-        pywikibot.output("query == ''")
+        print("query == ''")
         return {}
     #---
-    pywikibot.output('<<lightyellow>> newsql::')
+    print('<<lightyellow>> newsql::')
     return sql_connect_pymysql( query, return_dict=return_dict)
     #---
 #---

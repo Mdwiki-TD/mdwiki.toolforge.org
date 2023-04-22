@@ -27,6 +27,7 @@ import sys
 import pywikibot
 #---
 from mdpy import mdwiki_api
+from mdpy import printe
 from mdcount.links import get_valid_Links
 #---
 from mdcount import lead
@@ -53,7 +54,7 @@ def get_word_files():
     #---
     words_n = json.loads(codecs.open(json_file[0], "r", encoding="utf-8").read())
     #---
-    pywikibot.output('len of words_n:%d' % len(words_n.keys()) )
+    printe.output('len of words_n:%d' % len(words_n.keys()) )
     #---
 #---
 get_word_files()
@@ -61,7 +62,7 @@ get_word_files()
 def log(file, table):
     json.dump(table, open(file, 'w'), sort_keys=True)
     #---
-    pywikibot.output('<<lightgreen>> %d lines to %s' % ( len(table) , file ) )
+    printe.output('<<lightgreen>> %d lines to %s' % ( len(table) , file ) )
 #---
 Nore = { 1 : False }
 for arg in sys.argv:
@@ -83,8 +84,8 @@ def mmain():
         #---
         n += 1
         #---
-        pywikibot.output('------------------' )
-        pywikibot.output('page %d from %d, x:%s' % ( n, len(kkk[1]), x ) )
+        printe.output('------------------' )
+        printe.output('page %d from %d, x:%s' % ( n, len(kkk[1]), x ) )
         #---
         if n >= limit :     break
         #---
@@ -94,8 +95,8 @@ def mmain():
         # leadword = lead.count_lead(x)
         leadword, pageword = lead.count_all(title='', text=text)
         #---
-        pywikibot.output('\t\t pageword:%d' % pageword )
-        pywikibot.output('\t\t leadword:%d' % leadword )
+        printe.output('\t\t pageword:%d' % pageword )
+        printe.output('\t\t leadword:%d' % leadword )
         #---
         all_words_n[x] = pageword
         words_n[x] = leadword

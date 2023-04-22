@@ -25,7 +25,7 @@ sys.dont_write_bytecode = True
 from mdpy import sql_for_mdwiki
 #---
 from mdpy import py_tools
-
+from mdpy import printe
 #---
 project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
@@ -190,24 +190,24 @@ def get_qids():
             
             if not q in qids_list_already:
                 toadd += 1
-                pywikibot.output('<<lightyellow>>' + ll.strip() )
+                printe.output('<<lightyellow>>' + ll.strip() )
                 to_add[x] = q
             else:
                 tat += ll
         else:
             no += ll
     #---
-    pywikibot.output('===================' )
+    printe.output('===================' )
     if tat != '':
-        pywikibot.output('<<lightred>> flase qids: ' )
-        pywikibot.output(tat)
-        pywikibot.output('===================' )
+        printe.output('<<lightred>> flase qids: ' )
+        printe.output(tat)
+        printe.output('===================' )
     #---
-    pywikibot.output('===================' )
-    pywikibot.output('<<lightred>>no qids:' )
-    pywikibot.output( no )
+    printe.output('===================' )
+    printe.output('<<lightred>>no qids:' )
+    printe.output( no )
     #---
-    pywikibot.output('find qid to %d from %d pages. ' % ( toadd, len(noqids)))
+    printe.output('find qid to %d from %d pages. ' % ( toadd, len(noqids)))
     #---
     if 'addthem' in sys.argv and toadd > 0:
         add_them_new(to_add)

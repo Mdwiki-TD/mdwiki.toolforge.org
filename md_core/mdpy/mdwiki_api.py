@@ -52,6 +52,7 @@ maxlag = 3
 ar_lag = { 1 : maxlag }
 #---
 from mdpy import user_account_new
+from mdpy import printe
 #---
 account = {
     'u' : user_account_new.my_username,     #user_account_new.bot_username
@@ -127,7 +128,7 @@ def post_all( params, addtoken=False, **kwargs ):
 #---
 def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
     #---
-    pywikibot.output( "mdwiki/mdpy/mdwiki_api.py: log to %s.%s.org user:%s" % (lang,family , account['u'] )    )
+    printe.output( "mdwiki/mdpy/mdwiki_api.py: log to %s.%s.org user:%s" % (lang,family , account['u'] )    )
     SS["family"] = family
     SS["lang"] = lang
     SS["url"] = 'https://' + '%s.%s.org/w/api.php' % (lang , family)
@@ -154,7 +155,7 @@ def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
         if r22['login']['result'] != 'Success':
             pywikibot.output(r22['login']['reason'])
         else:
-            pywikibot.output('mdwiki_api.py login Success')
+            printe.output('mdwiki_api.py login Success')
     else:
         pywikibot.output('mdwiki_api.py login error')
         return False

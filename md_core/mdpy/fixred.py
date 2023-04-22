@@ -28,6 +28,7 @@ import urllib.parse
 sys_argv = sys.argv or []
 #---
 from mdpy import mdwiki_api
+from mdpy import printe
 #---
 #import requests
 #Session = requests.Session()
@@ -43,8 +44,8 @@ print( 'len of redirects_pages %d ' % len( redirects_pages ) )
 #---
 nonredirects = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'nonredirects' )
 #nonredirects = []
-pywikibot.output( 'len of nonredirects %d ' % len( nonredirects ) )
-#pywikibot.output( str(nonredirects) )
+printe.output( 'len of nonredirects %d ' % len( nonredirects ) )
+#printe.output( str(nonredirects) )
 #---
 #fatosha = codecs.open( 'mdwiki/date_before_20200701.txt' , "r", encoding="utf-8").read()
 #fatosha = [ x.replace('[[','').split(']]')[0].strip() for x in fatosha.split('\n') ]
@@ -70,7 +71,7 @@ def find_redirects(links):
             if str(ns) == '0' :
                 list.append( x )
             else:
-                pywikibot.output( 'ns:' + str(ns) )
+                printe.output( 'ns:' + str(ns) )
     #---
     oldlen = len(from_to.items())
     #---
@@ -82,7 +83,7 @@ def find_redirects(links):
         #---
         newlist = list2[numbb]
         #---
-        #pywikibot.output(newlist)
+        #printe.output(newlist)
         #---
         line = "|".join( newlist )
         params = {
@@ -107,13 +108,13 @@ def find_redirects(links):
             for nor in normal:
                 normalized[nor["to"]] = nor["from"]
                 normalized_numb += 1
-                #pywikibot.output('normalized["%s"] = "%s"' % ( nor["to"] , nor["from"] ) )
+                #printe.output('normalized["%s"] = "%s"' % ( nor["to"] , nor["from"] ) )
             #---
             # "redirects": [{"from": "Acetylsalicylic acid","to": "Aspirin"}]
             Redirects = query.get( "redirects" , [] )
             for red in Redirects:
                 from_to[red["from"]] = red["to"]
-                #pywikibot.output('from_to["%s"] = "%s"' % ( red["from"] , red["to"] ) )
+                #printe.output('from_to["%s"] = "%s"' % ( red["from"] , red["to"] ) )
             #---
             # "pages": { "4195": {"pageid": 4195,"ns": 0,"title": "Aspirin","redirects": [{"pageid": 4953,"ns": 0,"title": "Acetylsalicylic acid"}]} }
             pages = query.get( "pages" , {} )
@@ -123,16 +124,16 @@ def find_redirects(links):
                 tab = pages[page]
                 for pa in tab.get('redirects',[]):
                     from_to[pa[ "title" ]] = tab[ "title" ]
-                    #pywikibot.output('<<lightyellow>> from_to["%s"] = "%s"' % ( pa["title"] , tab["title"] ) )
+                    #printe.output('<<lightyellow>> from_to["%s"] = "%s"' % ( pa["title"] , tab["title"] ) )
             #---
         else:
-            pywikibot.output( " no jsone" )
+            printe.output( " no jsone" )
     #---
     newlen = len(from_to.items())
     nn = int(newlen) - int(oldlen)
     #---
-    pywikibot.output( "def find_redirects: find %d lenth" % nn )
-    #pywikibot.output( "def find_redirects: find %d for normalized" % normalized_numb )
+    printe.output( "def find_redirects: find %d lenth" % nn )
+    #printe.output( "def find_redirects: find %d for normalized" % normalized_numb )
 #---
 def replace_links2( text , oldlink , newlink ):
     #---
@@ -140,7 +141,7 @@ def replace_links2( text , oldlink , newlink ):
     #---
     while text.find( '[[%s]]' % oldlink ) != -1 or text.find( '[[%s|' % oldlink ) != -1 or text.find( '[[%s]]' % oldlink2 ) != -1 or text.find( '[[%s|' % oldlink2 ) != -1 :
             #---
-            pywikibot.output("text.replace( '[[%s]]' , '[[%s|%s]]' )" % ( oldlink , newlink , oldlink )  )
+            printe.output("text.replace( '[[%s]]' , '[[%s|%s]]' )" % ( oldlink , newlink , oldlink )  )
             #---
             text = text.replace( '[[%s]]' % oldlink , '[[%s|%s]]' % ( newlink , oldlink ) )
             text = text.replace( '[[%s|' % oldlink , '[[%s|' % newlink )
@@ -165,10 +166,10 @@ def treat_page( title ):
     #---
     # "normalized": [{"from": "tetracyclines","to": "Tetracyclines"}]
     normal = links.get( "normalized" , [] )
-    pywikibot.output('find %d normalized..' % len(normal) )
+    printe.output('find %d normalized..' % len(normal) )
     for nor in normal:
         normalized[nor["to"]] = nor["from"]
-        pywikibot.output('normalized["%s"] = "%s"' % ( nor["to"] , nor["from"] ) )
+        printe.output('normalized["%s"] = "%s"' % ( nor["to"] , nor["from"] ) )
     #---
     newtext = text
     #i = None
@@ -200,9 +201,9 @@ def treat_page( title ):
         #else:
         elif tit not in nonredirects :
             if tit2 != tit : 
-                pywikibot.output('<<lightred>> tit:["%s"] and tit:["%s"] not in from_to' % ( tit , tit2 ) )
+                printe.output('<<lightred>> tit:["%s"] and tit:["%s"] not in from_to' % ( tit , tit2 ) )
             #else:
-                #pywikibot.output('<<lightred>> tit:["%s"] not in from_to' % tit )
+                #printe.output('<<lightred>> tit:["%s"] not in from_to' % tit )
             #---
     #---
     mdwiki_api.page_put(oldtext=text, newtext=newtext, summary='Fix redirects', title=title, returntrue=False, diff=True)

@@ -30,25 +30,7 @@ import urllib.parse
 #---
 #---
 from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#---
+from mdpy import printe#---
 #import requests
 #Session = requests.Session()
 #---
@@ -76,7 +58,7 @@ def fix_dup(From,To):
     #---
 #---
 def main():
-    pywikibot.output( '*<<lightred>> > main:')
+    printe.output( '*<<lightred>> > main:')
     #---
     # python3 dup.py -page:Allopurinol
     # python3 dup.py -page:Activated_charcoal_\(medication\)
@@ -109,7 +91,7 @@ def main():
     for title in redirects:
         nu += 1
         From = title['from']
-        pywikibot.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d From:"%s".' % ( nu , len(redirects) , From ) )
+        printe.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d From:"%s".' % ( nu , len(redirects) , From ) )
         To = title['to']
         if To in from_to:
             fix_dup(From,To)

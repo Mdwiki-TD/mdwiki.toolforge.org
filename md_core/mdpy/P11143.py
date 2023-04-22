@@ -16,6 +16,7 @@ import os
 import json
 import time
 from mdpy import py_tools
+from mdpy import printe
 #---
 sys.argv.append('workhimo')
 #---
@@ -123,20 +124,20 @@ def duplict():
         if not q in va_tab[va]: 
             va_tab[va].append(q)
     #---
-    pywikibot.output(f'<<lightyellow>> len of va_tab: {len(va_tab)}')
+    printe.output(f'<<lightyellow>> len of va_tab: {len(va_tab)}')
     #---
     for va, qs in va_tab.items():
         if len(qs) > 1:
             print(f'va:{va}, qs:{qs}')
     #---
-    pywikibot.output(f'<<lightyellow>> duplict() end...')
+    printe.output(f'<<lightyellow>> duplict() end...')
 #---
 duplict()
 #---
 if len(new_qids) > 0:
     print('len of new_qids: ' + str(len(new_qids)))
     print("\n".join( [f'{k}:{v}' for k, v in new_qids.items()]))
-    pywikibot.output(f'<<lightyellow>> add "addq" to sys.argv to add them to qids' )
+    printe.output(f'<<lightyellow>> add "addq" to sys.argv to add them to qids' )
     if 'addq' in sys.argv:
         newtitles = { title : qid for qid, title in new_qids.items() }
         sql_for_mdwiki.add_titles_to_qids(newtitles)

@@ -13,6 +13,7 @@ python3 ./core/pwb.py mdpy/cashwd
 import json
 import codecs
 from warnings import warn
+from mdpy import printe
 import pywikibot
 import os
 import sys
@@ -100,7 +101,7 @@ def get_qids_sitelinks( qidslist ):
         #---
         params_wd["ids"] = '|'.join( qids )
         #---
-        pywikibot.output('<<lightgreen>> done:%d from %d, get sitelinks for %d qids.' % ( len(all_entities), len(qidslist), len(qids) ) )
+        printe.output('<<lightgreen>> done:%d from %d, get sitelinks for %d qids.' % ( len(all_entities), len(qidslist), len(qids) ) )
         #---
         json1 = wikidataapi.post( params_wd , apiurl = 'https://www.wikidata.org/w/api.php' )
         #---
@@ -173,7 +174,7 @@ def get_qids_sitelinks( qidslist ):
 #---
 def cash_wd():
     #---
-    pywikibot.output('<<lightgreen>> cash_wd' )
+    printe.output('<<lightgreen>> cash_wd' )
     #---
     mdwiki_pages = mdwiki_api.subcatquery('RTT', depth='3', ns='all')
     #---
@@ -182,7 +183,7 @@ def cash_wd():
         if not dd.startswith("User:") and not dd.startswith("Category:") :
             titles.append(dd)
     #---
-    pywikibot.output('<<lightgreen>> len of mdwiki_api.subcatquery:RTT:%d.' % len(titles) )
+    printe.output('<<lightgreen>> len of mdwiki_api.subcatquery:RTT:%d.' % len(titles) )
     #---
     qids_list = {}
     #---
@@ -205,7 +206,7 @@ def cash_wd():
     # json.dump( table_to_log, open( Dashboard_path + '/Tables/qid_redirects_missing.json' , 'w') )
     #---
     for site, liste in main_table_sites.items():
-        # pywikibot.output('<<lightblue>> main_table_sites:%s, len:%d.' % (site, len(liste)) )
+        # printe.output('<<lightblue>> main_table_sites:%s, len:%d.' % (site, len(liste)) )
         #---
         # remove duplicates
         liste = list(set(liste))
@@ -216,12 +217,12 @@ def cash_wd():
         json_file = f'{Dashboard_path}/cash_exists/{site}.json'
         #---
         if not os.path.exists( json_file ):
-            pywikibot.output(f'.... <<lightred>> file:"{site}.json not exists ....')
+            printe.output(f'.... <<lightred>> file:"{site}.json not exists ....')
         #---
         # dump liste to json_file
         try:
             json.dump( liste, codecs.open( json_file, 'w', encoding="utf-8"), ensure_ascii=False, indent=4 )
-            pywikibot.output('<<lightgreenn>>dump to cash_exists/%s.json done..' % site )
+            printe.output('<<lightgreenn>>dump to cash_exists/%s.json done..' % site )
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
             warn('Exception:' + str(e), UserWarning)
@@ -238,35 +239,35 @@ def cash_wd():
     #---
     noqids1 = [ x for x in noqids if not x in en_to_md.other_qids_json ]
     #---
-    pywikibot.output("xxxxxxxx\n noqids1:" )
+    printe.output("xxxxxxxx\n noqids1:" )
     numb = 0
     for f in noqids1:
         numb += 1
-        pywikibot.output('<<lightblue>> %d mdtitle:%s not in mdwiki_to_qid.' % (numb, f.ljust(40)) )
+        printe.output('<<lightblue>> %d mdtitle:%s not in mdwiki_to_qid.' % (numb, f.ljust(40)) )
     #---
-    pywikibot.output("xxxxxxxx\n noqids2:" )
+    printe.output("xxxxxxxx\n noqids2:" )
     numb = 0
     noqids2 = [ x for x in noqids if x in en_to_md.other_qids_json ]
     for f in noqids2:
         numb += 1
-        pywikibot.output('<<lightyellow>> %d mdtitle:%s empty in other_qids_json.' % (numb, f.ljust(40)) )
+        printe.output('<<lightyellow>> %d mdtitle:%s empty in other_qids_json.' % (numb, f.ljust(40)) )
     #---
     # redirects_qids
     # mis_qids
     #---
     for old_q, new_q in redirects_qids.items():
-        pywikibot.output('<<lightblue>> redirects_qids:%s -> %s.' % (old_q.ljust(15), new_q) )
+        printe.output('<<lightblue>> redirects_qids:%s -> %s.' % (old_q.ljust(15), new_q) )
     #---
     for qd in mis_qids:
-        pywikibot.output('<<lightblue>> missing_qids:%s.' % qd )
+        printe.output('<<lightblue>> missing_qids:%s.' % qd )
     #--- 
-    pywikibot.output(' len of noqids1:         %d' % len(noqids1) )
-    pywikibot.output(' len of noqids2:         %d' % len(noqids2) )
-    pywikibot.output(' len of redirects_qids:  %d' % len(redirects_qids.keys()) )
-    pywikibot.output(' len of missing_qids:    %d' % len(mis_qids) )
+    printe.output(' len of noqids1:         %d' % len(noqids1) )
+    printe.output(' len of noqids2:         %d' % len(noqids2) )
+    printe.output(' len of redirects_qids:  %d' % len(redirects_qids.keys()) )
+    printe.output(' len of missing_qids:    %d' % len(mis_qids) )
     #---
     json.dump(missing, open( Dashboard_path + '/Tables/missing.json', 'w'))
-    pywikibot.output(' log to missing.json true.... ' )
+    printe.output(' log to missing.json true.... ' )
     #---
 #---
 if __name__ == '__main__':

@@ -109,14 +109,14 @@ class NEW_API():
             #---
             done += len(titles)
             #---
-            pywikibot.output(f"Find_pages_exists_or_not : {done}/{len(liste)}")
+            printe.output(f"Find_pages_exists_or_not : {done}/{len(liste)}")
             #---
             params = { "action": "query", "titles": "|".join(titles), "formatversion" : 2 }
             #---
             json1 = self.post_params(params)
             #---
             if not json1 or json1 == {}:
-                pywikibot.output("<<lightred>> error when Find_pages_exists_or_not")
+                printe.output("<<lightred>> error when Find_pages_exists_or_not")
                 return table
             #---
             query = json1.get("query", {})
@@ -142,13 +142,13 @@ class NEW_API():
                     else:
                         exists += 1
         #---
-        pywikibot.output(f"Find_pages_exists_or_not : missing:{missing}, exists: {exists}")
+        printe.output(f"Find_pages_exists_or_not : missing:{missing}, exists: {exists}")
         #---
         return table
     #---
     def Get_All_pages(self, start='', namespace="0", limit="max", apfilterredir='', limit_all=0):
         #---
-        pywikibot.output(f'Get_All_pages for start:{start}, limit:{limit},namespace:{namespace},apfilterredir:{apfilterredir}')
+        printe.output(f'Get_All_pages for start:{start}, limit:{limit},namespace:{namespace},apfilterredir:{apfilterredir}')
         #---
         numb = 0
         #---
@@ -173,7 +173,7 @@ class NEW_API():
             #---
             numb += 1
             #---
-            pywikibot.output(f'Get_All_pages {numb}, apcontinue:{apcontinue}..')
+            printe.output(f'Get_All_pages {numb}, apcontinue:{apcontinue}..')
             #---
             if apcontinue != 'x' : params['apcontinue'] = apcontinue
             #---
@@ -184,24 +184,24 @@ class NEW_API():
             apcontinue = json1.get( "continue" , {} ).get( "apcontinue" , '' )
             #---
             newp = json1.get("query", {}).get("allpages", [])
-            pywikibot.output( "<<lightpurple>> --- Get_All_pages : find %d pages." % len(newp) )
+            printe.output( "<<lightpurple>> --- Get_All_pages : find %d pages." % len(newp) )
             #---
             for x in newp:
                 if not x[ "title" ] in Main_table : 
                     Main_table.append(x["title"])
             #---
-            pywikibot.output( "len of Main_table %d." % len(Main_table) )
+            printe.output( "len of Main_table %d." % len(Main_table) )
             #---
             if limit_all > 0 and len(Main_table) > limit_all : 
                 apcontinue = '' 
-                pywikibot.output( "<<lightgreen>> limit_all > len(Main_table) " )
+                printe.output( "<<lightgreen>> limit_all > len(Main_table) " )
                 break
             #---
         #---
         if numb > 0 and apcontinue == '' : 
-            pywikibot.output( "<<lightgreen>> apcontinue == '' " )
+            printe.output( "<<lightgreen>> apcontinue == '' " )
         #---
-        pywikibot.output( "bot_api.py Get_All_pages : find %d pages." % len(Main_table) )
+        printe.output( "bot_api.py Get_All_pages : find %d pages." % len(Main_table) )
         #---
         return Main_table
     #---
@@ -209,7 +209,7 @@ class NEW_API():
         #---
         results = []
         #---
-        pywikibot.output( 'bot_api.Search for "%s",ns:%s' % (valu, ns) )
+        printe.output( 'bot_api.Search for "%s",ns:%s' % (valu, ns) )
         #---
         if srlimit == "":   srlimit = "max"
         #---
@@ -233,7 +233,7 @@ class NEW_API():
         json1 = self.post_params(params)
         #---
         if not json1 or json1 == {}:
-            pywikibot.output("<<lightred>> error when Find_pages_exists_or_not")
+            printe.output("<<lightred>> error when Find_pages_exists_or_not")
             return results
         #---
         search = json1.get("query", {}).get("search", [])
@@ -244,7 +244,7 @@ class NEW_API():
             else:
                 results.append( pag["title"] )
         #---
-        pywikibot.output( 'bot_api.Search find "%d" result. s' % len(results) )
+        printe.output( 'bot_api.Search find "%d" result. s' % len(results) )
         #---
         return results
     #---
@@ -280,7 +280,7 @@ class NEW_API():
             #---
             numb += 1
             #---
-            pywikibot.output(f'Get_All_pages {numb}, rccontinue:{rccontinue}..')
+            printe.output(f'Get_All_pages {numb}, rccontinue:{rccontinue}..')
             #---
             if rccontinue != 'x' : params['rccontinue'] = rccontinue
             #---
@@ -299,7 +299,7 @@ class NEW_API():
             #---
             Main_table.extend( [ x[ "title" ] for x in newp ] )
         #---
-        pywikibot.output( 'bot_api.Get_Newpages find "%d" result. s' % len(Main_table) )
+        printe.output( 'bot_api.Get_Newpages find "%d" result. s' % len(Main_table) )
         #---
         if three_houers:
             arsite = pywikibot.Site('ar', "wikipedia")
@@ -329,7 +329,7 @@ class NEW_API():
         json1 = self.post_params(params)
         #---
         if not json1 or json1 == {}:
-            pywikibot.output("<<lightred>> error when Find_pages_exists_or_not")
+            printe.output("<<lightred>> error when Find_pages_exists_or_not")
             return []
         #---
         usercontribs = json1.get("query", {}).get("usercontribs", [])

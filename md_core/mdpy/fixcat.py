@@ -23,7 +23,7 @@ from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
 from mdpy import mdwiki_api
-
+from mdpy import printe
 #---
 cat_for_pages = {}
 #---
@@ -56,9 +56,9 @@ def get_cats_and_pages():
         #---
     #---
     for cat, len in catlen.items():
-        pywikibot.output(f'cat: {cat} , len: {len}')
+        printe.output(f'cat: {cat} , len: {len}')
     #---
-    pywikibot.output(f'<<lightyellow>> RTT_dpl: {RTT_dpl}')
+    printe.output(f'<<lightyellow>> RTT_dpl: {RTT_dpl}')
 #---
 get_cats_and_pages()
 #---
@@ -82,13 +82,13 @@ def get_pages_with_no_cat():
         #---
         quanew = f"""UPDATE pages SET cat = '{cat}' WHERE title = {tit2};"""
         #---
-        pywikibot.output('=======================')
-        pywikibot.output(quanew)
+        printe.output('=======================')
+        printe.output(quanew)
         #---
         if not 'dont' in sys.argv:
             qu = sql_for_mdwiki.mdwiki_sql(quanew, update = True)
             #---
-            pywikibot.output(qu)
+            printe.output(qu)
 #---
 if __name__ == '__main__':
     get_pages_with_no_cat()

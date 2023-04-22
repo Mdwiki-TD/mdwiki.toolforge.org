@@ -25,11 +25,7 @@ import datetime
 from datetime import timedelta
 #---
 from mdpy import wiki_api
-
-
-
-
-
+from mdpy import printe
 #---
 #---
 from en_to_md import enwiki_to_mdwiki, mdwiki_to_enwiki
@@ -57,7 +53,7 @@ def get_RTT():
     #---
     RTT = Table['list']
     #---
-    pywikibot.output('len of RTT: %d' % len(RTT) )
+    printe.output('len of RTT: %d' % len(RTT) )
     #---
     return RTT
 #---
@@ -82,9 +78,9 @@ def get_RTT2():
             RTT.append(mdtitle)
             if mdtitle != en : diff += 1
         else:
-            pywikibot.output(f'mdtitle:{mdtitle} or en:{en} == ""')
+            printe.output(f'mdtitle:{mdtitle} or en:{en} == ""')
     #---
-    pywikibot.output(f'len of RTT:{len(RTT)}, len of qids:{len(qids.keys())}, diff:{diff}')
+    printe.output(f'len of RTT:{len(RTT)}, len of qids:{len(qids.keys())}, diff:{diff}')
     #---
     return RTT
 #---
@@ -108,7 +104,7 @@ def main():
     #---
     enviews = wiki_api.get_views_with_rest_v1('en', en_keys, date_start=d_start, date_end=d_end)
     #---
-    pywikibot.output(f'len of enviews: {len(enviews.keys())}')
+    printe.output(f'len of enviews: {len(enviews.keys())}')
     #---
     no_views = 0
     #---
@@ -127,7 +123,7 @@ def main():
         #---
         n_views[k] = view['all']
     #---
-    pywikibot.output(f'no_views:{no_views},\t len of n_views: {len(n_views.keys())}')
+    printe.output(f'no_views:{no_views},\t len of n_views: {len(n_views.keys())}')
     #---
     with open( enwiki_pageviews, 'w') as outfile:
         json.dump( n_views, outfile, sort_keys = True, indent=4)

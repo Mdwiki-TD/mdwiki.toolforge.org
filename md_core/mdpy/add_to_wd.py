@@ -30,7 +30,7 @@ from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
 from mdpy import wiki_api
-
+from mdpy import printe
 #---
 from mdpy import mdwiki_api
 
@@ -79,8 +79,8 @@ wikidataurl = "https://www.wikidata.org/w/api.php"
 #---
 def work_with_2_qids(oldq, new_q):
     #---
-    pywikibot.output("=============================")
-    pywikibot.output("start:work_with_2_qids: oldq:%s, new_q:%s" % (oldq,new_q))
+    printe.output("=============================")
+    printe.output("start:work_with_2_qids: oldq:%s, new_q:%s" % (oldq,new_q))
     #---
     fas = wikidataapi.Get_sitelinks_From_Qid( oldq ) 
     #{'sitelinks': {'enwiki': 'User:Mr. Ibrahem/Baricitinib', 'orwiki': 'ବାରିସିଟିନିବ'}, 'q': 'Q112331510'}
@@ -89,32 +89,32 @@ def work_with_2_qids(oldq, new_q):
     #---
     len_sites = len(false_sitelinks)
     #---
-    pywikibot.output( '<<lightblue>> len_sites %s' % len_sites )
+    printe.output( '<<lightblue>> len_sites %s' % len_sites )
     #---
-    pywikibot.output( false_sitelinks )
+    printe.output( false_sitelinks )
     #---
     en = false_sitelinks.get('enwiki','')
     #---
     if en.startswith('User:Mr. Ibrahem'):
-        pywikibot.output( '<<lightblue>> remove sitelink %s' % en )
+        printe.output( '<<lightblue>> remove sitelink %s' % en )
         remove = wikidataapi.post( {"action":"wbsetsitelink","id":oldq,"linksite":"enwiki"}, apiurl=wikidataurl, token = True)
         if 'success' in remove:
             len_sites -= 1
-            pywikibot.output('<<lightgreen>> **remove sitelink true.' )
+            printe.output('<<lightgreen>> **remove sitelink true.' )
         else:
-            pywikibot.output('<<lightred>> **remove sitelink false.' )
-            pywikibot.output( remove )
+            printe.output('<<lightred>> **remove sitelink false.' )
+            printe.output( remove )
         #---
         remove2 = wikidataapi.post( {"action": "wbsetlabel","id": oldq,"language": "en","value": ""}, apiurl=wikidataurl, token = True)
         if 'success' in remove2:
             len_sites -= 1
-            pywikibot.output('<<lightgreen>> **remove2 label true.' )
+            printe.output('<<lightgreen>> **remove2 label true.' )
         else:
-            pywikibot.output('<<lightred>> **remove2 label false.' )
-            pywikibot.output( remove2 )
+            printe.output('<<lightred>> **remove2 label false.' )
+            printe.output( remove2 )
     #---
     if len_sites == 1 or len_sites == 0:
-        pywikibot.output( '<<lightblue>> merge qids')
+        printe.output( '<<lightblue>> merge qids')
         mer = wikidataapi.WD_Merge( oldq, new_q )
         return mer
     #---
@@ -139,7 +139,7 @@ def add_wd(qid, enlink, lang, target):
     #---
     ss = wikidataapi.post( params, apiurl=wikidataurl, token = True)
     #---
-    pywikibot.output(ss)
+    printe.output(ss)
     #---
     if ss and "success" in ss : return True
     #---
@@ -192,9 +192,9 @@ def Add_to_wikidata(mdtitle, lang, target, user):
             lang  = lang, 
             user  = py_tools.make_cod(user)
         )
-        pywikibot.output('**************')
-        pywikibot.output(done_qua)
-        pywikibot.output('**************')
+        printe.output('**************')
+        printe.output(done_qua)
+        printe.output('**************')
         vfg = sql_for_mdwiki.mdwiki_sql(done_qua, update=True)
     #---
     tat = mdwiki_api.GetPageText(mdtitle)
@@ -233,8 +233,8 @@ def add_tab_to_wd(table):
             #---
             number += 1
             #---
-            pywikibot.output( '=========================' )
-            pywikibot.output( '<<lightgreen>>p %d/%d: mdtitle:%s,lang:%s,target:%s' % ( number, len(tab), mdtitle, lang, target)  )
+            printe.output( '=========================' )
+            printe.output( '<<lightgreen>>p %d/%d: mdtitle:%s,lang:%s,target:%s' % ( number, len(tab), mdtitle, lang, target)  )
             #---
             Add_to_wikidata( mdtitle, lang, target, user)
 #---

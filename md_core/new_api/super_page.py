@@ -7,8 +7,11 @@ import json
 import sys
 import wikitextparser
 #---
+# from new_api import botEdit
+from new_api import txtlib
+from new_api import printe
+#---
 """
-
 from new_api.mdwiki_page import MainPage
 '''
 page      = MainPage(title, 'ar', family='wikipedia')
@@ -44,9 +47,6 @@ purge       = page.purge()
 
 """
 #---
-# from new_api import botEdit
-from new_api import txtlib
-from new_api import printe
 # ingr = txtlib.extract_templates_and_params(text)
 # for temp in ingr: name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
 #---
@@ -533,6 +533,9 @@ class MainPage():
         return new_tags
 
     def can_edit(self, script=''):
+        #---
+        if self.family != 'wikipedia': return True
+        #---
         if self.text == '' : self.text = self.get_text()
         #---
         self.can_be_edit = True#botEdit.botMayEdit( False, text= self.text, title_page=self.title, botjob=script)

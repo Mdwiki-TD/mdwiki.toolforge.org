@@ -36,6 +36,7 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 # start of mdwiki_api.py file
 from mdpy import mdwiki_api
+from mdpy import printe
 #---
 all_ref = {}
 lead_ref = {}
@@ -122,14 +123,14 @@ def count_refs( title ):
     #---
     lead_ref[title] = lead_c
     #---
-    pywikibot.output('<<lightgreen>> all:%d \t lead:%d' % ( all_c, lead_c ) )
+    printe.output('<<lightgreen>> all:%d \t lead:%d' % ( all_c, lead_c ) )
 #---
 def logaa(file,table):
     with open( file, 'w') as outfile:
         json.dump( table, outfile, sort_keys = True, indent=4)
     outfile.close()
     #---
-    pywikibot.output('<<lightgreen>> %d lines to %s' % ( len(table), file ) )
+    printe.output('<<lightgreen>> %d lines to %s' % ( len(table), file ) )
 #---
 def from_sql():
     #---
@@ -141,7 +142,7 @@ def from_sql():
     #---
     titles = [ x for x in titles2 if not x in list_ma[1] ]
     #---
-    pywikibot.output( '<<lightyellow>> sql: find %d titles, %d to work. ' % (len(titles2), len(titles)) )
+    printe.output( '<<lightyellow>> sql: find %d titles, %d to work. ' % (len(titles2), len(titles)) )
     return titles
 #---
 def get_links():
@@ -180,7 +181,7 @@ def mai():
         #---
         if numb >= limit :  break
         #---
-        pywikibot.output(' p %d from %d: for %s:' % (numb, len(vaild_links[1]), x) )
+        printe.output(' p %d from %d: for %s:' % (numb, len(vaild_links[1]), x) )
         #---
         count_refs(x)
         #---

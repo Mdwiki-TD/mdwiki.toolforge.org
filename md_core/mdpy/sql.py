@@ -24,6 +24,7 @@ from mdpy import add_to_wd
 # add_to_wd.add_tab_to_wd(New_Table_by_lang)
 #---
 from mdpy import py_tools
+from mdpy import printe
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
@@ -86,20 +87,20 @@ def add_to_mdwiki_sql(table):
                 SELECT {mdtit}, '{word}', 'lead', '{cat}', '{lang}', '{add_date}', {user2}, '{pupdate}', {tar}, '{add_date}'
                 WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title={mdtit} AND lang='{lang}' AND user={user2} );''';
             #---
-            pywikibot.output('______ \\/\\/\\/ _______')
+            printe.output('______ \\/\\/\\/ _______')
             # find if to update or to insert
             if mdtitle in tata:
-                pywikibot.output(f'to update: title:{mdtitle}, user:{user} ')
+                printe.output(f'to update: title:{mdtitle}, user:{user} ')
                 uuu = update_qua
             else:
-                pywikibot.output(f'to insert: title:{mdtitle}, user:{user} ')
+                printe.output(f'to insert: title:{mdtitle}, user:{user} ')
                 uuu = insert_qua
             #---
-            pywikibot.output(uuu)
+            printe.output(uuu)
             #---
             qu = sql_for_mdwiki.mdwiki_sql(uuu, update = True, Prints = False)
             #---
-            pywikibot.output(qu)
+            printe.output(qu)
 #---
 tit_user_lang = {}
 #---
@@ -122,7 +123,7 @@ def dodo_sql():
     #---
     que += ' ;'
     #---
-    pywikibot.output( que )
+    printe.output( que )
     #---
     sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
     #---
@@ -167,7 +168,7 @@ def dodo_sql():
             lineout = 'done. <<lightgreen>> target:%s for mdtit:%s, user:%s'
             laloly = lineout % ( target.ljust(40), mdtitle.ljust(30), user)
             #---
-            # pywikibot.output(laloly)
+            # printe.output(laloly)
             #---
             len_done_target += 1
             #---
@@ -178,9 +179,9 @@ def dodo_sql():
             targets_done[lang][target] = { "user" : user , "target" : target }
             targets_done[lang][target2] = { "user" : user , "target" : target }
     #---
-    pywikibot.output( '<<lightyellow>> find %d with target, and %s without in mdwiki database. ' % ( len_done_target , len_no_target ) )
+    printe.output( '<<lightyellow>> find %d with target, and %s without in mdwiki database. ' % ( len_done_target , len_no_target ) )
     #---
-    if 'print' in sys.argv: pywikibot.output(Langs_to_title_and_user)
+    if 'print' in sys.argv: printe.output(Langs_to_title_and_user)
     #---
     tttime.sleep(3)
 #---
@@ -249,8 +250,8 @@ def main():
         #---
         numb_lang += 1
         #---
-        pywikibot.output( ' \\/\\/\\/\\/\\/ ')
-        pywikibot.output( 'mdwiki/mdpy/sql.py: %d Lang from %s : "%s"' % (numb_lang, lnn, lange) )
+        printe.output( ' \\/\\/\\/\\/\\/ ')
+        printe.output( 'mdwiki/mdpy/sql.py: %d Lang from %s : "%s"' % (numb_lang, lnn, lange) )
         #---
         result = {}
         #---
@@ -261,19 +262,19 @@ def main():
         qua += '\n;'
         #---
         if lange in sskip :
-            pywikibot.output( 'skip lang:%s' % lange)
+            printe.output( 'skip lang:%s' % lange)
         else:
             if 'printquery' in sys.argv: print(qua)
             result = wiki_sql.Make_sql_many_rows( qua, wiki = str(lange))
         #---
         if result != {}:
-            pywikibot.output( 'sql.py len(result) = "{}"'.format( len( result ) ) )
+            printe.output( 'sql.py len(result) = "{}"'.format( len( result ) ) )
             #---
             texddt = '\n'
             #--- 
             for list in result:
                 #---
-                #pywikibot.output( list )
+                #printe.output( list )
                 target   = py_tools.Decode_bytes(list[0]) 
                 co_text  = py_tools.Decode_bytes(list[1])
                 user     = py_tools.Decode_bytes(list[2])
@@ -320,7 +321,7 @@ def main():
                 #---
                 if namespace != '0' :
                     if 'ns' in sys.argv and tul_target == '' and cattest:
-                        pywikibot.output( laloly )
+                        printe.output( laloly )
                     continue
                 #---
                 # للتأكد من الصفحات غير المنشورة
@@ -328,13 +329,13 @@ def main():
                     #---
                     if tul_target != '':
                         if tul_target == target:
-                            pywikibot.output(f'target already in, {target}')
+                            printe.output(f'target already in, {target}')
                         else:
-                            pywikibot.output(f'puplished target: {tul_target} != target to add: {target}')
+                            printe.output(f'puplished target: {tul_target} != target to add: {target}')
                     else:
                         New_Table_by_lang[lange][md_title] = Taba2
                         n += 1
-                        pywikibot.output( laloly )
+                        printe.output( laloly )
                 #---
         #---
         add_to_wd.add_tab_to_wd( { lange : New_Table_by_lang[lange] } )

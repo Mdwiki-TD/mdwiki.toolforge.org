@@ -1,3 +1,11 @@
+#---
+# from newapi import super_login
+# super_login.User_tables['wikipedia'] = User_tables
+#---
+# bot   = Login(lang, family='wikipedia')
+# login = bot.Log_to_wiki()
+# json1 = bot.post(params, Type='post', addtoken=False)
+#---
 import sys
 import os
 import pywikibot
@@ -145,22 +153,33 @@ class Login():
         #---
         params["formatversion"] = params.get("formatversion") or "1"
         #---
-        url = self.endpoint + '?' + urllib.parse.urlencode(params)
+        url_o_print = self.endpoint + '?' + urllib.parse.urlencode(params)
+        url_o_print = url_o_print.replace('&format=json', '')
+        #---
         if print_test[1] or 'printurl' in sys.argv:
-            printe.output(url.replace('&format=json', ''))
+            printe.output(url_o_print)
         #---
         data = {}
         #---
         try:
             response = Main_s[1].post(self.endpoint, data=params)
         except Exception as e:
-            printe.output(e)
+            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+            warn(warn_err('Exception:' + str(e)), UserWarning)
+            pywikibot.output( 'CRITICAL:' )
             return {}
         #---
         try:
             data = response.json()
         except Exception as e:
-            printe.output(e)
+            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+            warn(warn_err('Exception:' + str(e)), UserWarning)
+            #---
+            pywikibot.output(url_o_print)
+            if str(e) == 'Expecting value: line 1 column 1 (char 0)':
+                pywikibot.output(params)
+            #---
+            pywikibot.output( 'CRITICAL:' )
         #---
         error = data.get("error",{})
         #---

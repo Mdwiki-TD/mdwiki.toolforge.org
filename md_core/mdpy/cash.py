@@ -27,6 +27,7 @@ if not os.path.isdir(project): project = '/mdwiki'
 from mdpy import wikidataapi
 from mdpy import wiki_api
 #---
+from mdpy import printe
 from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
@@ -114,7 +115,7 @@ def get_qids():
         if q != '':
             if not q in qids_already:
                 toadd += 1
-                pywikibot.output('<<lightyellow>>' + ll.strip() )
+                printe.output('<<lightyellow>>' + ll.strip() )
                 to_add[x] = q
             else:
                 to_add_text += ll
@@ -122,20 +123,20 @@ def get_qids():
             no += ll
             no_qids.append(x)
     #---
-    pywikibot.output('===================' )
+    printe.output('===================' )
     if to_add_text != '':
-        pywikibot.output('<<lightred>> flase qids: ' )
-        pywikibot.output(to_add_text)
-        pywikibot.output('===================' )
+        printe.output('<<lightred>> flase qids: ' )
+        printe.output(to_add_text)
+        printe.output('===================' )
     #---
-    pywikibot.output('===================' )
-    pywikibot.output('<<lightred>>no qids:' )
-    pywikibot.output( no )
+    printe.output('===================' )
+    printe.output('<<lightred>>no qids:' )
+    printe.output( no )
     #---
     if 'createq' in sys.argv:
         create_qids(no_qids)
     #---
-    pywikibot.output('find qid to %d from %d pages. ' % ( toadd, len(noqids)))
+    printe.output('find qid to %d from %d pages. ' % ( toadd, len(noqids)))
     #---
     if 'addthem' in sys.argv and toadd > 0:
         add_them(to_add)

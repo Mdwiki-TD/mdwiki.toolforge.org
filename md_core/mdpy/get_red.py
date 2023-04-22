@@ -31,6 +31,7 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
 from mdpy import py_tools
 from mdpy import en_to_md
+from mdpy import printe
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
@@ -79,7 +80,7 @@ def get_pages():
                 # استبدال
                 rep += 1
                 #---
-                pywikibot.output('<<lightyellow>>' + ll.strip() )
+                printe.output('<<lightyellow>>' + ll.strip() )
                 #---
                 to_del.append(old_title)
                 to_add[new_title] = r_q
@@ -94,22 +95,22 @@ def get_pages():
                 to_del.append(old_title)
                 del mdwiki_to_qid[old_title]
     #---
-    pywikibot.output('===================' )
+    printe.output('===================' )
     if tat != '':
-        pywikibot.output('<<lightred>> redirects: ' )
-        pywikibot.output(tat)
-        pywikibot.output('===================' )
+        printe.output('<<lightred>> redirects: ' )
+        printe.output(tat)
+        printe.output('===================' )
     #---
-    pywikibot.output('replace %d pages. ' % rep)
-    pywikibot.output('remove %d pages. ' % remo)
+    printe.output('replace %d pages. ' % rep)
+    printe.output('remove %d pages. ' % remo)
     #---
     if len(to_del) > 0:
-        pywikibot.output('delete %d pages. ' % len(to_del))
-        pywikibot.output(to_del)
+        printe.output('delete %d pages. ' % len(to_del))
+        printe.output(to_del)
     #---
     if len(to_add) > 0:
-        pywikibot.output('add %d pages. ' % len(to_add))
-        pywikibot.output(to_add)
+        printe.output('add %d pages. ' % len(to_add))
+        printe.output(to_add)
     #---
     if 'fix' in sys.argv:
         back_up = json.load(open(project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json'))

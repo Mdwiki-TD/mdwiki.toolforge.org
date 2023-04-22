@@ -20,11 +20,12 @@ import pywikibot
 import re
 import sys
 #---
-sys_argv = sys.argv or []
-pywikibot.output(sys_argv)
-#---
+from mdpy import printe
 from mdpy import mdwiki_api
 from TDpynew import mdd
+#---
+sys_argv = sys.argv or []
+printe.output(sys_argv)
 #---
 def treat_page( title, textn ):
     #---
@@ -98,7 +99,7 @@ def main():
     #---
     for title in ttab:
         numb += 1
-        pywikibot.output( '<<lightyellow>> tit:%d / %d\t title: %s.' % ( numb , len(ttab) , title )  )
+        printe.output( '<<lightyellow>> tit:%d / %d\t title: %s.' % ( numb , len(ttab) , title )  )
         text = mdwiki_api.GetPageText(title)
         treat_page( title , text )
     #---

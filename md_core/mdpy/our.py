@@ -18,7 +18,7 @@ import sys
 sys_argv = sys.argv or []
 #---
 from mdpy import txtlib2
-#---
+from mdpy import printe
 from mdpy import mdwiki_api
 #---
 import os
@@ -90,7 +90,7 @@ def work( title ):
         if sa:
             vav = mdwiki_api.page_put_new( newtext, 'fix ourworldindatamirror template.', title ) 
     #---
-    pywikibot.output( pas )
+    printe.output( pas )
 #---
 from pywikibot.comms import http
 #---
@@ -109,7 +109,7 @@ def check_urls(urls):
         req = http.fetch( url )
         #---
         if 500 <= req.status_code < 600:
-            pywikibot.output( '<<lightred>> received {0} status from {1}'.format(req.uri, req.status_code) )
+            printe.output( '<<lightred>> received {0} status from {1}'.format(req.uri, req.status_code) )
             errors[u] = True
         #---
 def make_log(dad):
@@ -160,7 +160,7 @@ def main():
         for page in list:
             num += 1
             #---
-            pywikibot.output(f'<<lightyellow>> work {num}/{len(list)} page: {page}')
+            printe.output(f'<<lightyellow>> work {num}/{len(list)} page: {page}')
             #---
             work( page )
             #---

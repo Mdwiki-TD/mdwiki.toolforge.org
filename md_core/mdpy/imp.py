@@ -20,6 +20,7 @@ import pywikibot
 #---
 import re
 import string
+from mdpy import printe
 #import datetime 
 #import dateutil.parser
 #import time
@@ -67,14 +68,14 @@ save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 #---
 def work( title , num , lenth  , From = '' ):
     #---
-    pywikibot.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d title:"%s".' % ( num , lenth , title ) )
+    printe.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d title:"%s".' % ( num , lenth , title ) )
     #---
     if num < offset[1]: return ""
     #---
     page      = MainPage(title, 'www', family='mdwiki')
     exists    = page.exists()
     if not exists:
-        pywikibot.output( " page:%s not exists in mdwiki." % title )
+        printe.output( " page:%s not exists in mdwiki." % title )
         return ""
     #---
     # if page.isRedirect() :  return
@@ -85,7 +86,7 @@ def work( title , num , lenth  , From = '' ):
     ing = mdwiki_api.import_page( title )
     #---
     if text and text != "":
-       pywikibot.output( ing )
+       printe.output( ing )
     #---
     ing_js = {}
     try:
@@ -95,7 +96,7 @@ def work( title , num , lenth  , From = '' ):
     #---
     done = ing_js.get("import",[])[0].get("revisions",0)
     #---
-    pywikibot.output( "<<lightgreen>> imported %d revisions" % done )
+    printe.output( "<<lightgreen>> imported %d revisions" % done )
     #---
     if done > 0 : 
         #---
@@ -114,7 +115,7 @@ for arg in sys_argv:
         offset[1] = int(value)
 #---
 def main():
-    pywikibot.output( '*<<lightred>> > main:')
+    printe.output( '*<<lightred>> > main:')
     #---
     # python3 imp.py -page:Crohn's_disease
     # python imp.py -newpages:1000

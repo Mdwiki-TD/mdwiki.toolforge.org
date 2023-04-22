@@ -21,6 +21,7 @@ def match_p(refs, p_ref):
     len_refs = int(len(refs))
     #---
     if len_same < 1: return False, len_same
+    #---
     if 9 > len_same < ((len_refs/2)-1): return False, len_same
     #---
     return True, len_same
@@ -63,6 +64,43 @@ def get_t_sections():
     text += f'''! total\n! {all_en}\n! {all_all}\n! {all_green}\n! {all_red}\n''' + '|}'
     #---
     return text
+#---
+def make_color(extlinks, refsname, p_ext, p_names, lead_extlinks, lead_refsname):
+    #---
+    _sa_11 = False
+    _sa_22 = False
+    #---
+    # 1 match the extlinks
+    _sa_1, same1 = match_p(extlinks, p_ext)
+    #---
+    # 2 match the refsname
+    _sa_2, same2 = match_p(refsname, p_names)
+    #---
+    if not _sa_1 and not _sa_2 and not 'nolead' in sys.argv:
+        # 3 match the lead extlinks
+        _sa_11, same11 = match_p(lead_extlinks, p_ext)
+        #---
+        # 4 match the lead refsname
+        _sa_22, same22 = match_p(lead_refsname, p_names)
+    #---
+    if _sa_1 or _sa_2 or _sa_11 or _sa_22:
+        color = 'green'
+    else:
+        color = 'red'
+        #---
+        for x, count in p_names.items():
+            print(f'{x}: {count}')
+            if x.lower() in lead_refsname:
+                if count > 10:
+                    color = 'green'
+                    same2 = count
+                    print(f'ref {x}, count:{count}....')
+                    break
+        #---
+    #---
+    tab = {'same1':same1, 'same2':same2, 'color':color}
+    #---
+    return tab
 #---
 def make_text(allo, ttt=''):
     # create wikitable from json
@@ -117,16 +155,20 @@ def make_text(allo, ttt=''):
         # if not 'nofilter' in sys.argv:  extlinks  = get_them.filter_urls(extlinks)
         #---
         refsname  = [ x.lower() for x in ta['refsname'].keys() ]
+        # refsname  = ta['refsname']
         #---
         lead = ta['lead']
+        #---
         lead_refsname = [ x.lower() for x in lead['refsname'].keys() ]
+        # lead_refsname = lead['refsname']
+        #---
         lead_extlinks = [ x.lower() for x in lead['extlinks'] ]
         #---
         en    = ta.get('en', en)
         langs = ta['langs']
         #---
         if len(langs) == 0 :
-            pywikibot.output(f'{en}: no langs.....')
+            print(f'{en}: no langs.....')
         #---
         n += 1
         #---
@@ -143,37 +185,33 @@ def make_text(allo, ttt=''):
             #---
             tit     = langs.get(l, {}).get('title', '')
             #---
-            p_ref   = langs.get(l, {}).get('extlinks', [])
-            p_ref = [ x.lower() for x in p_ref ]
+            p_ext   = langs.get(l, {}).get('extlinks', [])
+            p_ext = [ x.lower() for x in p_ext ]
             #---
-            # if not 'nofilter' in sys.argv:  p_ref  = get_them.filter_urls(p_ref)
+            # if not 'nofilter' in sys.argv:  p_ext  = get_them.filter_urls(p_ext)
             #---
             p_names = langs.get(l, {}).get('refsname', {})
-            p_names = [ x.lower() for x in p_names ]
+            # p_names = [ x.lower() for x in p_names ]
             #---
             tito = '|'
             #---
             if l in langs:
                 #---
-                color = '#fcc0c0'   # red
+                color_tab = make_color(extlinks, refsname, p_ext, p_names, lead_extlinks, lead_refsname)
                 #---
-                _sa_11 = False
-                _sa_22 = False
+                same1 = color_tab['same1']
+                same2 = color_tab['same2']
+                color = color_tab['color']
                 #---
-                _sa_1, same1 = match_p(extlinks, p_ref)
-                _sa_2, same2 = match_p(refsname, p_names)
-                #---
-                if not _sa_1 and not _sa_2 and not 'newnew' in sys.argv:
-                    _sa_11, same11 = match_p(lead_extlinks, p_ref)
-                    _sa_22, same22 = match_p(lead_refsname, p_names)
-                #---
-                if _sa_1 or _sa_2 or _sa_11 or _sa_22:
+                if color == 'green':
                     color = '#c0fcc0'   # green
                     langs_green_red[l]['green'] += 1
                     all_green += 1
                 else:
                     langs_green_red[l]['red'] += 1
                     all_red += 1
+                    color = '#fcc0c0'   # red
+                    #---
                 #---
                 same = f'{same1}/{same2}'
                 #---  

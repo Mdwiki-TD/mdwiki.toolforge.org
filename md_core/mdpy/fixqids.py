@@ -18,6 +18,7 @@ import sys
 #---
 from mdpy import wikidataapi
 #---
+from mdpy import printe
 from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
@@ -31,7 +32,7 @@ def fix_redirects():
     #---
     # python3 ./core/pwb.py mdpy/fixqids redirects
     #---
-    pywikibot.output(f'<<lightyellow>> start fix_redirects()')
+    printe.output(f'<<lightyellow>> start fix_redirects()')
     #---
     new_list = list(qs_list.keys())
     #---
@@ -39,12 +40,12 @@ def fix_redirects():
     #---
     reds = wikidataapi.get_redirects(new_list)
     #---
-    pywikibot.output(f'len of redirects: {len(reds)}')
+    printe.output(f'len of redirects: {len(reds)}')
     #---
     for old_q, new_q in reds.items():
         numb += 1
         #---
-        pywikibot.output(f'<<lightblue>> {numb}, old_q: {old_q}, new_q: {new_q}')
+        printe.output(f'<<lightblue>> {numb}, old_q: {old_q}, new_q: {new_q}')
         #---
         qua = f'update qids set qid = "{new_q}" where qid = "{old_q}"'
         #---
@@ -52,8 +53,8 @@ def fix_redirects():
             # python3 ./core/pwb.py mdpy/cashwd redirects fix
             sql_for_mdwiki.mdwiki_sql(qua, update=True)
         else:
-            pywikibot.output(qua)
-            pywikibot.output('add "fix" to sys.argv to fix them..')
+            printe.output(qua)
+            printe.output('add "fix" to sys.argv to fix them..')
 #---
 from mdpy import catdepth2
 #---
@@ -68,7 +69,7 @@ def check_title(title):
 #---
 def add_to_qids():
     #---
-    pywikibot.output(f'<<lightyellow>> start add_to_qids()')
+    printe.output(f'<<lightyellow>> start add_to_qids()')
     #---
     all_pages = catdepth2.make_cash_to_cats(return_all_pages=True)
     #---
@@ -78,7 +79,7 @@ def add_to_qids():
     #---
     new_list = { title : '' for title in all_pages if title not in all_in }
     #---
-    pywikibot.output(f'len of new_list: {len(new_list)}')
+    printe.output(f'len of new_list: {len(new_list)}')
     #---
     sql_for_mdwiki.add_titles_to_qids(new_list, add_empty_qid=True)
 #---

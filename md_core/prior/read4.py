@@ -24,6 +24,7 @@ project += '/md_core/prior'
 #---
 project_json = f'{project}/json'
 project_jsonnew = f'{project}/jsonnew/'
+project_jsonnewen = f'{project}/jsonnewen/'
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 '''
@@ -50,9 +51,9 @@ def work_test(all, allen):
     #---
     text = text.replace("height:580px;", "")
     #---
-    pywikibot.output(f'{len(all)} links found')
+    printe.output(f'{len(all)} links found')
     #---
-    pywikibot.output(f'<<lightyellow>> text loged to {filetitle}')
+    printe.output(f'<<lightyellow>> text loged to {filetitle}')
     #---
     title = 'User:Mr. Ibrahem/prior/test'
     #--- 
@@ -66,24 +67,27 @@ def work_test(all, allen):
 def work_all():
     #---
     all = {}
-    allen = {}
     #---
     # get all json file inside dir project_jsonnew
-    # Loop through each file in the directory
     for filename in os.listdir(project_jsonnew):
-        # Check if the file is a JSON file
         if filename.endswith('.json'):
-            # Open the file and load the JSON data
             filename2 = os.path.join(project_jsonnew, filename)
             #---
             print(f'filename: {filename2}..')
             #---
             data = json.load(open(filename2, 'r'))
+            all   = {**all, **data}
+    #---
+    allen = {}
+    for filename in os.listdir(project_jsonnewen):
+        if filename.endswith('.json'):
+            filename2 = os.path.join(project_jsonnewen, filename)
             #---
-            if filename.startswith('en_'):
-                allen = {**allen, **data}
-            else:
-                all   = {**all, **data}
+            print(f'filename: {filename2}..')
+            #---
+            data = json.load(open(filename2, 'r'))
+            #---
+            allen = {**allen, **data}
     #---
     for a, tab in allen.items():
         if a in all:

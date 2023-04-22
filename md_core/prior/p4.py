@@ -34,6 +34,7 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 project_json = f'{project}/md_core/prior/json/'
 project_jsonnew = f'{project}/md_core/prior/jsonnew/'
+project_jsonnewen = f'{project}/md_core/prior/jsonnewen/'
 #---
 def main_links():
     title = "WikiProjectMed:List/Prior"
@@ -49,7 +50,7 @@ def main_links():
     #---
     links = [ replaces.get(x['title'], x['title']) for x in links if x['ns'] == 0 ]
     #---
-    pywikibot.output(f'{len(links)} links found')
+    printe.output(f'{len(links)} links found')
     #---
     return links
 #---
@@ -87,8 +88,8 @@ def advance_work_en(title, title2, page):
     lenex_lead = str(len(tat.lead['extlinks'])).ljust(4)
     lenre_lead = str(len(tat.lead['refsname'])).ljust(4)
     #---
-    pywikibot.output(f'p0/\ten\t\t{lenex} extlinks, {lenre} refsname')
-    pywikibot.output(f'p0/\ten\t\t{lenex_lead} lead_extlinks, {lenre_lead} lead_refsname')
+    printe.output(f'p0/\ten\t\t{lenex} extlinks, {lenre} refsname')
+    printe.output(f'p0/\ten\t\t{lenex_lead} lead_extlinks, {lenre_lead} lead_refsname')
     #---
 #---
 def work_in_en_page(title):
@@ -117,11 +118,11 @@ def work_in_en_page(title):
     #---
     langlinks = page.get_langlinks()
     #---
-    pywikibot.output(f"langlinks: {len(langlinks)}")
+    printe.output(f"langlinks: {len(langlinks)}")
     #---
     advance_work_en(title, title2, page)
     #---
-    pywikibot.output(f'p0 langlinks: {len(langlinks)}')
+    printe.output(f'p0 langlinks: {len(langlinks)}')
     #---
     if 'enonly' in sys.argv:
         return
@@ -152,27 +153,32 @@ def work_in_en_page(title):
         lenex = str(len(tata["extlinks"])).ljust(4)
         lenre = str(len(tata["refsname"])).ljust(4)
         #---
-        pywikibot.output(f'\tp{n}/{len(langlinks)}:\t{lang.ljust(20)}\t{lenex} extlinks, {lenre} refsname..')
+        printe.output(f'\tp{n}/{len(langlinks)}:\t{lang.ljust(20)}\t{lenex} extlinks, {lenre} refsname..')
         #---
         all[title]['langs'][lang] = tata
         #---
     #---
 #---
+n_al = 0
+#---
 def work_in_links(links, main_File, main_File_en, Log=True):
+    #---
+    global n_al
     #---
     n = 0
     #---
     for x in links:
+        n_al += 1
         n += 1
         #---
         pap = f'p {n}/{len(links)}: {x}'
         #---
-        pywikibot.output(pap)
+        printe.output(pap)
         #---
         work_in_en_page(x)
         #---
         # log every 30 pages
-        if Log and n % 30 == 0:
+        if Log and n_al % 30 == 0:
             log_all(main_File)
     #---
     if Log:
@@ -211,6 +217,16 @@ def start_all():
     if len(links) > 300:
         links_Tab = {}
         #---
+        n = 0
+        #---
+        for i in range(0, len(links), 100):
+            n += 1
+            titles = links[i:i+100]
+            links_Tab[str(n)] = titles
+            print(f'jsub -N s{n} python3 ./core/pwb.py prior/p4 -s:{n}')
+            #---
+        #---
+        '''
         # split links to 10 lists
         sub_list_len = len(links) // 10 # طول كل قائمة فرعية
         sub_lists = [links[i:i+sub_list_len] for i in range(0, len(links), sub_list_len)] # تقسيم القائمة الأساسية إلى قوائم فرعية
@@ -218,6 +234,7 @@ def start_all():
         for i in range(len(sub_lists)):
             links_Tab[str(i+1)] = sub_lists[i]
             print(f'jsub -N s{i+1} python3 ./core/pwb.py prior/p4 -s:{i+1}')
+        '''
         #---
         valu = ''
         #---
@@ -230,7 +247,7 @@ def start_all():
         if valu in links_Tab:
             links = links_Tab[valu]
             main_File    = project_jsonnew + f'{valu}.json'
-            main_File_en = project_jsonnew + f'en_{valu}.json'
+            main_File_en = project_jsonnewen + f'en_{valu}.json'
             print(f'list number:{valu} len of it: {len(links)}')
         else:
             print(f'list number:{valu} not found')

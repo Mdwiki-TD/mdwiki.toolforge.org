@@ -19,8 +19,8 @@ import string
 import sys
 import os
 import time
-
 #---
+from mdpy import printe
 from mdpy import wiki_sql
 
 # wiki_sql.GET_SQL()
@@ -62,7 +62,7 @@ def dodo_sql():
     #---
     que += "\n;"
     #---
-    pywikibot.output(que)
+    printe.output(que)
     #---
     sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
     #---
@@ -84,7 +84,7 @@ def dodo_sql():
         # targets_done[lang][py_tools.ec_de_code(target , 'encode')] = { "user" : user , "target" : target, "mdtitle" : title }
         targets_done[lang][target] = {"user": user, "target": target, "mdtitle": title}
     #---
-    pywikibot.output("<<lightyellow>> find %d with target, and %s without "% (len_done_target, len_no_target))
+    printe.output("<<lightyellow>> find %d with target, and %s without "% (len_done_target, len_no_target))
 #---
 wd_tt = {}
 #---
@@ -111,19 +111,19 @@ def do_it_sql(lange, targets):
         #---
         query = query % (",".join(ase))
         #---
-        # pywikibot.output('--------------------')
+        # printe.output('--------------------')
         #---
         result = wiki_sql.Make_sql_many_rows(query, wiki=str(lange))
         #---
         res_len = len(result)
         #---
         if res_len == len(t_list):
-            pywikibot.output("<<lightgreen>> len(result) == len(t_list) 100.")
+            printe.output("<<lightgreen>> len(result) == len(t_list) 100.")
         #---
         result_n = []
         #---
         if result:
-            pywikibot.output('recheck.py len(result) = "{}"'.format(res_len))
+            printe.output('recheck.py len(result) = "{}"'.format(res_len))
             #---
             for liste in result:
                 #---
@@ -139,12 +139,12 @@ def do_it_sql(lange, targets):
         #---
         if res_len < len(t_list):
             diff = len(t_list) - res_len
-            # pywikibot.output( query )
+            # printe.output( query )
             itemdiff = [t for t in t_list if t.strip() != "" and t not in result_n]
             len_missing = len(itemdiff)
             if len_missing > 0:
-                pywikibot.output("recheck.py %d missing from %d" % (diff, len(t_list)))
-                pywikibot.output("recheck.py missing:(%d):%s" % (len_missing, ",".join(itemdiff)))
+                printe.output("recheck.py %d missing from %d" % (diff, len(t_list)))
+                printe.output("recheck.py missing:(%d):%s" % (len_missing, ",".join(itemdiff)))
         #---
 #---
 def do_it_api(lange, targets):
@@ -195,18 +195,18 @@ def do_it_api(lange, targets):
             qid = qids.get(target, "")
             if qid == "":
                 noqid += 1
-                # pywikibot.output('<<lightred>> %d qid is empty for "%s"' % ( noqid , target ) )
+                # printe.output('<<lightred>> %d qid is empty for "%s"' % ( noqid , target ) )
             #---
             md_title = targets.get(target, {}).get("mdtitle", "")
             if md_title == "":
                 nomd += 1
-                # pywikibot.output( '<<lightred>> %d md_title is empty for "%s"' % ( nomd, target ) )
+                # printe.output( '<<lightred>> %d md_title is empty for "%s"' % ( nomd, target ) )
             #---
             wd_tt[target] = {"mdtitle": md_title, "lang": lange, "qid": qid}
     #---
-    pywikibot.output("<<lightyellow>> noqid %d" % noqid)
-    pywikibot.output("<<lightyellow>> nomd  %d" % nomd)
-    pywikibot.output("<<lightyellow>> withqid %d" % withqid)
+    printe.output("<<lightyellow>> noqid %d" % noqid)
+    printe.output("<<lightyellow>> nomd  %d" % nomd)
+    printe.output("<<lightyellow>> withqid %d" % withqid)
     #---
     # return asde
 #---
@@ -214,8 +214,8 @@ numb_lang = 0
 for lange in targets_done:
     #---
     numb_lang += 1
-    # pywikibot.output( ' ================================ ')
-    # pywikibot.output( 'mdwiki/mdpy/sql.py: %d Lang : "%s"' % (numb_lang,lange) )
+    # printe.output( ' ================================ ')
+    # printe.output( 'mdwiki/mdpy/sql.py: %d Lang : "%s"' % (numb_lang,lange) )
     #---
     # if "sql" in sys.argv:
     do_it_sql(lange, targets_done[lange])
@@ -244,37 +244,37 @@ for target in wd_tt:
     #---
     line22 = "%s:%s:%s" % (lang, target, qid_target)
     #---
-    # pywikibot.output( 'recheck: target:%s, lang:%s' % (target,lang) )
+    # printe.output( 'recheck: target:%s, lang:%s' % (target,lang) )
     #---
     if qid_mdwiki == "" and qid_2 == "":
-        # pywikibot.output( '<<lightred>> qid_mdwiki is empty for mdtitle:%s' % mdtitle )
+        # printe.output( '<<lightred>> qid_mdwiki is empty for mdtitle:%s' % mdtitle )
         mdwiki_empty_qids[mdtitle] = (lang, target, qid_target)
         continue
     #---
     if qid_target == "":
         empty_qid_target.append("%s,qid_mdwiki:%s" % (line22, qid_mdwiki))
-        # pywikibot.output( '<<lightred>> qid_target is empty> target:%s' % dsd )
+        # printe.output( '<<lightred>> qid_target is empty> target:%s' % dsd )
         continue
     #---
     if qid_mdwiki == "" and qid_2 != "":
         mdtitle = tit2
         qid_mdwiki = qid_2
-        pywikibot.output(f"<<lightyellow>> mdtitle: ({mdtitle}), tit2: ({tit2})")
-        pywikibot.output(f"<<lightyellow>> qid_mdwiki for mdtitle is empty, but qid_2 for tit2 is not empty")
+        printe.output(f"<<lightyellow>> mdtitle: ({mdtitle}), tit2: ({tit2})")
+        printe.output(f"<<lightyellow>> qid_mdwiki for mdtitle is empty, but qid_2 for tit2 is not empty")
     #---
     if qid_target == qid_mdwiki:
         continue
     #---
-    # pywikibot.output( '<<lightred>> qid_target != qid_mdwiki' )
+    # printe.output( '<<lightred>> qid_target != qid_mdwiki' )
     #---
     qids_to_merge[qid_target] = { "wd_qid": qid_mdwiki, "md_title": mdtitle, "lang": lang }
 #---
-pywikibot.output('len(qids_to_merge) = "{}"'.format(len(qids_to_merge)))
+printe.output('len(qids_to_merge) = "{}"'.format(len(qids_to_merge)))
 #---
 def work_with_2_qids(oldq, new_q):
     #---
-    pywikibot.output("=============================")
-    pywikibot.output("start:work_with_2_qids: oldq:%s, new_q:%s" % (oldq, new_q))
+    printe.output("=============================")
+    printe.output("start:work_with_2_qids: oldq:%s, new_q:%s" % (oldq, new_q))
     #---
     fas = wikidataapi.Get_sitelinks_From_Qid(oldq)
     # {'sitelinks': {'enwiki': 'User:Mr. Ibrahem/Baricitinib', 'orwiki': 'ବାରିସିଟିନିବ'}, 'q': 'Q112331510'}
@@ -283,41 +283,41 @@ def work_with_2_qids(oldq, new_q):
     #---
     len_sites = len(false_sitelinks)
     #---
-    pywikibot.output("<<lightblue>> len_sites %s" % len_sites)
+    printe.output("<<lightblue>> len_sites %s" % len_sites)
     #---
-    pywikibot.output(false_sitelinks)
+    printe.output(false_sitelinks)
     #---
     en = false_sitelinks.get("enwiki", "")
     #---
     if en.startswith("User:Mr. Ibrahem"):
-        pywikibot.output("<<lightblue>> remove sitelink %s" % en)
+        printe.output("<<lightblue>> remove sitelink %s" % en)
         remove = wikidataapi.post({"action": "wbsetsitelink", "id": oldq, "linksite": "enwiki"}, apiurl=wikidataurl, token=True)
         if "success" in remove:
             len_sites -= 1
-            pywikibot.output("<<lightgreen>> **remove sitelink true.")
+            printe.output("<<lightgreen>> **remove sitelink true.")
         else:
-            pywikibot.output("<<lightred>> **remove sitelink false.")
-            pywikibot.output(remove)
+            printe.output("<<lightred>> **remove sitelink false.")
+            printe.output(remove)
         #---
         remove2 = wikidataapi.Labels_API(oldq, '', 'en', remove=True)
         #---
         if remove2:
             len_sites -= 1
-            pywikibot.output("<<lightgreen>> **remove2 label true.")
+            printe.output("<<lightgreen>> **remove2 label true.")
         else:
-            pywikibot.output("<<lightred>> **remove2 label false.")
+            printe.output("<<lightred>> **remove2 label false.")
     #---
     if len_sites == 1 or len_sites == 0:
-        pywikibot.output("<<lightblue>> merge qids")
+        printe.output("<<lightblue>> merge qids")
         wikidataapi.WD_Merge(oldq, new_q)
     #---
-    pywikibot.output(" work_with_2_qids ends.........")
-    pywikibot.output("=============================")
+    printe.output(" work_with_2_qids ends.........")
+    printe.output("=============================")
 #---
 for oldq, tab in qids_to_merge.items():
     new_q = tab["wd_qid"]
     md_title = tab["md_title"]
-    pywikibot.output("<<lightblue>> oldq:%s, new_q:%s,md_title:%s" % (oldq, new_q, md_title))
+    printe.output("<<lightblue>> oldq:%s, new_q:%s,md_title:%s" % (oldq, new_q, md_title))
     #---
     work_with_2_qids(oldq, new_q)
     #---
@@ -334,8 +334,8 @@ newtabs = wikidataapi.wbsearchentities("User:Mr. Ibrahem", "en")
 #---
 numb = 0
 #---
-pywikibot.output("work with newtabs: ")
-pywikibot.output('len(newtabs) = "{}"'.format(len(newtabs)))
+printe.output("work with newtabs: ")
+printe.output('len(newtabs) = "{}"'.format(len(newtabs)))
 #---
 for oldqid, tab in newtabs.items():
     #---
@@ -362,17 +362,17 @@ for oldqid, tab in newtabs.items():
     #---
     work_with_2_qids(oldqid, qid2)
 #---
-pywikibot.output("<<lightblue>> mdwiki_empty_qids:")
+printe.output("<<lightblue>> mdwiki_empty_qids:")
 to_add = {}
 #---
 for mdm in mdwiki_empty_qids:
     lang, target, qid_target = mdwiki_empty_qids[mdm]
-    pywikibot.output(f"<<lightred>> no qid for md_title:{mdm}> {lang}: {target}, qid: {qid_target}")
+    printe.output(f"<<lightred>> no qid for md_title:{mdm}> {lang}: {target}, qid: {qid_target}")
     to_add[mdm] = qid_target
 #---
-pywikibot.output("<<lightblue>> empty_qid_target:")
+printe.output("<<lightblue>> empty_qid_target:")
 for lal in empty_qid_target:
-    pywikibot.output("<<lightred>> qid_target is empty> target:%s" % lal)
+    printe.output("<<lightred>> qid_target is empty> target:%s" % lal)
 #---
 if "addthem" in sys.argv:
     sql_for_mdwiki.add_titles_to_qids(to_add)

@@ -17,6 +17,7 @@ import sys
 import pywikibot
 from mdpy import sql_for_mdwiki
 #---
+from mdpy import printe
 from mdpy import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
@@ -112,10 +113,10 @@ for qu in UPDATE:
     if len(texts) % 50 == 0 or n == len(UPDATE):
         tt = "\n".join(texts)
         #---
-        pywikibot.output('====')
-        pywikibot.output('%d run sql for %s lines.' % (n, len(texts) ) )
+        printe.output('====')
+        printe.output('%d run sql for %s lines.' % (n, len(texts) ) )
         #---
-        pywikibot.output(tt)
+        printe.output(tt)
         #---
         vfg = sql_for_mdwiki.mdwiki_sql(tt, update=True, Prints=True)
         #---
@@ -127,14 +128,14 @@ if INSERT != []:
     insert_line = ',\n'.join(INSERT)
     #---
     qu = 'INSERT INTO words (w_title, w_lead_words, w_all_words) values\n' + insert_line
-    pywikibot.output(qu)
+    printe.output(qu)
     vfg = sql_for_mdwiki.mdwiki_sql(qu, update=True, Prints=True)
 #---
-pywikibot.output(f'len lead_words from file: {len(lead_words)}')
-pywikibot.output(f'len all_words from file: {len(all_words)}')
+printe.output(f'len lead_words from file: {len(lead_words)}')
+printe.output(f'len all_words from file: {len(all_words)}')
 #---
-pywikibot.output(f'len sql titles: {len(in_sql_lead)}')
-pywikibot.output(f'pages with same values in sql and file: {same}')
+printe.output(f'len sql titles: {len(in_sql_lead)}')
+printe.output(f'pages with same values in sql and file: {same}')
 #---
 codecs.open(project + '/md_core/mdcount/words.txt', "w", encoding="utf-8").write("\n".join(all_textx))
 #---
