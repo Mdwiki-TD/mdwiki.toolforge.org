@@ -27,7 +27,11 @@ if login_done_lang[1] != code:
 import pywikibot		 
 import datetime
 from datetime import timedelta
-from new_api import printe
+#---
+if __file__.find('mdwiki') == -1:
+    from API import printe
+else:
+    from new_api import printe
 #---
 change_codes = {
     "nb" : "no",

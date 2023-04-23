@@ -209,7 +209,7 @@ def create_Page(text, title, summary="create page"):
     #---
     if success:
         pywikibot.output("** true ..  %s : [[%s]] " % (SS["family"], title))
-        pywikibot.output("تم بنجاح... time.sleep(%d) " % time_sleep)
+        pywikibot.output("Done True... time.sleep(%d) " % time_sleep)
         time.sleep(time_sleep)
         return True
     elif error != {}:

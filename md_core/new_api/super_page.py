@@ -7,14 +7,25 @@ import json
 import sys
 import wikitextparser
 #---
-# from new_api import botEdit
-from new_api import txtlib
-from new_api import printe
+#---
+if __file__.find('mdwiki') == -1:
+    from API import botEdit
+    from API import txtlib
+    from API import printe
+else:
+    # from new_api import botEdit
+    from new_api import txtlib
+    from new_api import printe
 #---
 """
-from new_api.mdwiki_page import MainPage
-'''
+#---
+from newapi.page import MainPage
 page      = MainPage(title, 'ar', family='wikipedia')
+#---
+from new_api.mdwiki_page import MainPage
+page      = MainPage(title, 'www', family='mdwiki')
+#---
+'''
 exists    = page.exists()
 if not exists: return
 #---
@@ -671,7 +682,7 @@ class MainPage():
             self.text = newtext
             self.user = ''
             printe.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]] ' % (self.lang, self.family, self.title)  )
-            printe.output( 'تم بنجاح... time.sleep() ')
+            printe.output( 'Done True... time.sleep() ')
             #---
             if 'printpop' in sys.argv:
                 print(pop)
@@ -726,7 +737,7 @@ class MainPage():
             self.text = text
             #---
             printe.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]] ' % (self.lang, self.family, self.title)  )
-            printe.output( 'تم بنجاح... time.sleep() ')
+            printe.output( 'Done True... time.sleep() ')
             #---
             self.pageid = edit.get('pageid')   or self.pageid
             self.revid  = edit.get('newrevid') or self.revid

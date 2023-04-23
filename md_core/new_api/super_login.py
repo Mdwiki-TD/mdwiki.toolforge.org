@@ -13,7 +13,11 @@ import urllib
 import requests
 import urllib.parse
 from warnings import warn
-from new_api import printe
+#---
+if __file__.find('mdwiki') == -1:
+    from API import printe
+else:
+    from new_api import printe
 #---
 print_test = {1:False}
 #---
