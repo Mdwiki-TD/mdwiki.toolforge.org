@@ -374,13 +374,13 @@ class get_old(object):
             "rvprop": "timestamp|content",
             "rvslots": "*",
             "rvlimit": "1",
-            "rvstart": "2020-05-30T22:00:00.000Z",
+            "rvstart": "2020-05-31T22:00:00.000Z",
             "rvdir": "older"
         }
         #---
         json1 = self.post_to_json(params)
         #---
-        revisions = json1.get('query',{}).get('pages',[{}])[0].get('revisions',[])[0]
+        revisions = json1.get('query', {}).get('pages', [{}])[0].get('revisions', [{}])[0]
         self.timestamp = revisions.get('timestamp','')
         print(f'timestamp: {self.timestamp}')
         self.oldtext = revisions.get('slots',{}).get('main',{}).get('content','')

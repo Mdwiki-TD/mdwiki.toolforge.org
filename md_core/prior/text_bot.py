@@ -50,34 +50,47 @@ def get_t_sections():
 '''
 
     # Initialize variables to keep track of the total values for each column
-    all_en = 0
-    all_all = 0
-    all_green = 0
-    all_red = 0
+    allen = 0
+    allall = 0
+    allgreen = 0
+    allred = 0
 
     # Loop over each section and add a row to the table with statistics for that section
     for k, tt in t_sections.items():
         # Calculate the total number of green and red links for this section
-        all = tt['green'] + tt['red']
+        green = tt['green']
+        red = tt['red']
+        en = tt['en']
+        #---
+        all = green + red
+        allall += all
 
+        # percentage from all
+        g_p = round((green / all) * 100, 2)
+        #---
+        r_p = round((red / all) * 100, 2)
+        #---
         # Add the values for this section to the total values for each column
-        all_en += tt['en']
-        all_all += all
-        all_green += tt['green']
-        all_red += tt['red']
+        allen += en
+        allgreen += green
+        allred += red
 
         # Add a row to the table with statistics for this section
         text += f'! [[User:Mr. Ibrahem/prior/{k}|{k}]]\n'
-        text += '| ' + str(tt['en']) + '\n'
-        text += '| ' + str(all) + '\n'
-        text += '| ' + str(tt['green']) + '\n'
-        text += '| ' + str(tt['red']) + '\n'
+        text += f'| {en:,}\n'
+        text += f'| {all:,}\n'
+        text += f'| {green:,} ({g_p}%) \n'
+        text += f'| {red:,} ({r_p}%) \n'
         text += '|-\n'
-
+    #---
     # Add a final row to the table with the total values for each column
-    text += f'''! total\n! {all_en}\n! {all_all}\n! {all_green}\n! {all_red}\n''' + '|}'
-
-    # Return the completed table as a string
+    green_p = round((allgreen / allall) * 100, 2)
+    red_p   = round((allred / allall) * 100, 2)
+    #---
+    text += f'! total\n! {allen:,}\n! {allall:,}\n! {allgreen:,} ({green_p}%)\n! {allred:,} ({red_p}%)'
+    #---
+    text += '\n|}'
+    #---
     return text
 #---
 def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_refsname):
@@ -160,23 +173,18 @@ def make_text(allo, ttt=''):
     #---
     all_green = 0
     all_red = 0
+    all_langlinks = 0
     #---
     langs_green_red = {}
     #---
     for en, ta in allo.items():
         #---
         en_extlinks  = [ x.lower() for x in ta['extlinks'] ]
-        #---
-        # if not 'nofilter' in sys.argv:  en_extlinks  = get_them.filter_urls(en_extlinks)
-        #---
         en_refsname  = [ x.lower() for x in ta['refsname'].keys() ]
-        # en_refsname  = ta['refsname']
         #---
         lead = ta['lead']
         #---
         lead_refsname = [ x.lower() for x in lead['refsname'].keys() ]
-        # lead_refsname = lead['refsname']
-        #---
         lead_extlinks = [ x.lower() for x in lead['extlinks'] ]
         #---
         en    = ta.get('en', en)
@@ -187,14 +195,11 @@ def make_text(allo, ttt=''):
         #---
         n += 1
         #---
-        # print(f'a {n}/{len(allo)}:')
-        #---
         if n > 100 and 'limit100' in sys.argv: break
         #---
         lang_text = ''
         #---
         for l in langs_keys:
-        #for l, ta in langs_keys_2:
             #---
             if not l in langs_green_red: langs_green_red[l] = {'red' : 0, 'green' : 0}
             #---
@@ -203,33 +208,29 @@ def make_text(allo, ttt=''):
             p_ext   = langs.get(l, {}).get('extlinks', [])
             p_ext = [ x.lower() for x in p_ext ]
             #---
-            # if not 'nofilter' in sys.argv:  p_ext  = get_them.filter_urls(p_ext)
-            #---
             p_names = langs.get(l, {}).get('refsname', {})
-            # p_names = [ x.lower() for x in p_names ]
             #---
             tito = '|'
             #---
             if l in langs:
                 #---
+                all_langlinks += 1
+                #---
                 color_tab = make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_refsname)
                 #---
-                if color_tab['color'] == 'red' and ta.get('old', {}) != {}:
+                color = color_tab['color']
+                #---
+                if color == 'red' and ta.get('old', {}) != {}:
                     #---
                     old = ta['old']
                     #---
                     old_lead = old['lead']
                     #---
-                    # en_extlinks  = [ x.lower() for x in old['extlinks'] ]
-                    # en_refsname  = [ x.lower() for x in old['refsname'].keys() ]
-                    # lead_refsname = [ x.lower() for x in old_lead['refsname'].keys() ]
-                    # lead_extlinks = [ x.lower() for x in old_lead['extlinks'] ]
-                    #---
                     en_extlinks.extend([ x.lower() for x in old['extlinks'] ])
-                    en_extlinks = list(set(en_extlinks))
+                    en_extlinks   = list(set(en_extlinks))
                     #---
                     en_refsname.extend([ x.lower() for x in old['refsname'].keys() ])
-                    en_refsname = list(set(en_refsname))
+                    en_refsname   = list(set(en_refsname))
                     #---
                     lead_refsname.extend([ x.lower() for x in old_lead['refsname'].keys() ])
                     lead_refsname = list(set(lead_refsname))
@@ -238,10 +239,23 @@ def make_text(allo, ttt=''):
                     lead_extlinks = list(set(lead_extlinks))
                     #---
                     color_tab = make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_refsname)
+                    #---
+                    color = color_tab['color']
+                    #---
+                    if color == 'red':
+                        #---
+                        en_extlinks_o   = [ x.lower() for x in old['extlinks'] ]
+                        en_refsname_o   = [ x.lower() for x in old['refsname'].keys() ]
+                        lead_refsname_o = [ x.lower() for x in old_lead['refsname'].keys() ]
+                        lead_extlinks_o = [ x.lower() for x in old_lead['extlinks'] ]
+                        #---
+                        color_tab2 = make_color(en_extlinks_o, en_refsname_o, p_ext, p_names, lead_extlinks_o, lead_refsname_o)
+                        #---
+                        color = color_tab2['color']
+                        #---
                 #---
                 same1 = color_tab['same1']
                 same2 = color_tab['same2']
-                color = color_tab['color']
                 #---
                 if color == 'green':
                     color = '#c0fcc0'   # green
@@ -304,17 +318,23 @@ def make_text(allo, ttt=''):
 |- style="position: sticky;top: 0; z-index: 2;"
 ! style="position: sticky;top: 0;left: 0;" | red
 | {red_line}
-'''
+''' + '\n|}\n</div>'
+    #---
+    lrnn = len(allo.keys())
     #---
     faf = f'''
-* all_red: {all_red}
-* all_green: {all_green}
+* all langlinks: {all_langlinks}
+* all green: {all_green} ({round((all_green / all_langlinks) * 100, 2)}%)
+* all red: {all_red} ({round((all_red / all_langlinks) * 100, 2)}%)
+
+{te_langs}
+=={ttt} ({lrnn})==
 '''
     #---
     t_sections[ttt]['green'] = all_green
     t_sections[ttt]['red']   = all_red
     #---
-    text = faf + "\n" + te_langs + "\n|}\n</div>\n" + text
+    text = faf + text
     #---
     return text
 #---

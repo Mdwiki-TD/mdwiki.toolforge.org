@@ -1,5 +1,4 @@
 '''
-
 write code to read page in en.wikipedia.org using API, then create list with all links in the page.
 title: WikiProjectMed:List/Prior
 links like [[example]]
@@ -48,7 +47,6 @@ def work_test(all, allen):
             all[a]['refsname'] = tab['refsname']
             all[a]['lead']     = tab['lead']
             all[a]['old']     = tab.get('old', {})
-            
 
     # Create a file title for the log file
     filetitle = f'{project}/log_test.txt'
@@ -78,9 +76,9 @@ def work_test(all, allen):
     # Return the updated 'text' variable.
     return text
 #---
-def work_all():
-    #---
-    all = {}
+def get_all_json():
+    all   = {}
+    allen = {}
     #---
     # get all json file inside dir project_jsonnew
     for filename in os.listdir(project_jsonnew):
@@ -92,7 +90,6 @@ def work_all():
             data = json.load(open(filename2, 'r'))
             all   = {**all, **data}
     #---
-    allen = {}
     for filename in os.listdir(project_jsonnewen):
         if filename.endswith('.json'):
             filename2 = os.path.join(project_jsonnewen, filename)
@@ -112,72 +109,78 @@ def work_all():
     #---
     print(f'new all len:{len(all)}')
     #---
-    title = "WikiProjectMed:List/Prior"
-    #---
-    page      = md_MainPage(title, 'www', family='mdwiki')
-    #---
-    text        = page.get_text()
-    #---
-    # get text sections use wikitextparser
-    #---
-    parser = wikitextparser.parse(text)
-    sections = parser.get_sections(include_subsections=False)
-    # print(sections)
-    #---
-    all_wikilinks = parser.wikilinks
-    print(f'all_wikilinks: {len(all_wikilinks)}')
-    #---
-    Done = []
-    #---
-    mmm_links = []
-    #---
-    for s in sections:
+    return all
+#---
+class WorkAll:
+    def __init__(self):
+        self.title = "WikiProjectMed:List/Prior"
         #---
-        t = s.title
-        c = s.contents
+        self.all = get_all_json()
         #---
-        if c == None or t == None: continue
+        self.page = md_MainPage(self.title, 'www', family='mdwiki')
+        self.text = self.page.get_text()
         #---
-        # parser2 = wikitextparser.parse(c)
-        # wikilinks = parser2.wikilinks
-        wikilinks = s.wikilinks
+        self.parser = wikitextparser.parse(self.text)
         #---
-        wikilinks = [str(x.title) for x in wikilinks]
+        print(f'all_wikilinks: {len(self.parser.wikilinks)}')
         #---
-        if len(wikilinks) == 0 : continue
+        self.sections = self.parser.get_sections(include_subsections=False)
         #---
-        t = t.replace('/', '-')
-        # print(t)
-        # print(len(c))
+        
+    def run(self):
         #---
-        # print(wikilinks)
-        #---
-        _all_   = { a : all[a] for a in wikilinks if a in all }
-        #---
-        lrnn = len(_all_.keys())
-        #---
-        print(f'section:({t}), \t\twikilinks: {lrnn}')
-        #---
-        text = f'''=={t} ({lrnn})==\n'''
-        #---
-        ttt = f'User:Mr. Ibrahem/prior/{t}'
-        #---
-        mmm_links.append(ttt)
-        #---
-        text += text_bot.make_text(_all_, ttt=t)
-        #---
-        filetitle = f'{project}/log/{t}.txt'
-        #---
-        if not 'dontsave' in sys.argv:
-            codecs.open(filetitle, 'w', encoding='utf-8').write(text)
+        for s in self.sections:
             #---
-            page_x      = md_MainPage(ttt, 'www', family='mdwiki')
-            page_x.save(newtext=text, summary='update', nocreate=0)
-            # break
+            t = s.title
+            c = s.contents
+            #---
+            if c is None or t is None: continue
+            #---
+            # parser2 = wikitextparser.parse(c)
+            # wikilinks = parser2.wikilinks
+            wikilinks = s.wikilinks
+            #---
+            wikilinks = [str(x.title) for x in wikilinks]
+            #---
+            if len(wikilinks) == 0: continue
+            #---
+            t = t.replace('/', '-')
+            # print(t)
+            # print(len(c))
+            #---
+            # print(wikilinks)
+            #---
+            _all_ = {a: self.all[a] for a in wikilinks if a in self.all}   
+            #---
+            lrnn = len(_all_.keys())
+            #---
+            print(f'section:({t}), \t\twikilinks: {lrnn}')
+            #---
+            text = text_bot.make_text(_all_, ttt=t)
+            #---
+            ttt = f'User:Mr. Ibrahem/prior/{t}'
+            #---
+            filetitle = f'{project}/log/{t}.txt'
+            #---
+            if 'dontsave' not in sys.argv:
+                codecs.open(filetitle, 'w', encoding='utf-8').write(text)
+                #---
+                page_x = md_MainPage(ttt, 'www', family='mdwiki')
+                #---
+                page_x_text = page_x.get_text()
+                #---
+                page_x.save(newtext=text, summary='update', nocreate=0)
+        #---
     #---
-    page_x      = md_MainPage('User:Mr. Ibrahem/prior', 'www', family='mdwiki')
+#---
+def work_all():
     #---
-    t_sec = text_bot.get_t_sections()
+    bot = WorkAll()
+    bot.run()
+    #---
+    page_x  = md_MainPage('User:Mr. Ibrahem/prior', 'www', family='mdwiki')
+    #---
+    t_sec   = text_bot.get_t_sections()
     #---
     page_x.save(newtext=t_sec, summary='update', nocreate=0)
 #---

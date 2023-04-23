@@ -59,7 +59,7 @@ allen = {}
 #---
 def log_all(main_File):
     #---
-    if 'enonly' in sys.argv: return
+    if 'enonly' in sys.argv or 'newenonly' in sys.argv: return
     #---
     codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(all))
 #---
@@ -131,18 +131,16 @@ def work_in_en_page(title):
     #---
     langlinks = page.get_langlinks()
     #---
-    printe.output(f"langlinks: {len(langlinks)}")
+    printe.output(f"<<blue>> en:{title}, \n\tlanglinks: {len(langlinks)}")
     #---
     advance_work_en(title, title2, page)
     #---
-    printe.output(f'p0 langlinks: {len(langlinks)}')
-    #---
-    if 'enonly' in sys.argv:
+    if 'enonly' in sys.argv or 'newenonly' in sys.argv:
         return
     #---
     n = 0
     #---
-    # if 'test' in sys.argv: print(xss)
+    # if 'test' in sys.argv: printe.output(xss)
     #---
     for lang, tit in langlinks.items():
         #---
@@ -177,8 +175,21 @@ n_al = 0
 def work_in_links(links, main_File, main_File_en, Log=True):
     #---
     global n_al
+    global allen, all
     #---
     n = 0
+    #---
+    en_in = {}
+    #---
+    basefilename = os.path.basename(main_File_en)
+    #---
+    if os.path.exists(main_File_en):
+        en_in = json.load(open(main_File_en, encoding='utf-8'))
+        allen = en_in
+        printe.output(f'<<green>> There are {len(en_in)} en title in file: {basefilename}, from {len(links)} links...')
+    #---
+    if os.path.exists(main_File):
+        all = json.load(open(main_File, encoding='utf-8'))
     #---
     for x in links:
         n_al += 1
@@ -187,6 +198,19 @@ def work_in_links(links, main_File, main_File_en, Log=True):
         pap = f'p {n}/{len(links)}: {x}'
         #---
         printe.output(pap)
+        #---
+        if 'newenonly' in sys.argv:
+            if x in en_in and en_in[x] != {}:
+                #---
+                ext = en_in[x].get('extlinks', [])
+                ref = en_in[x].get('refsname', [])
+                lead_ex = en_in[x].get('lead', {}).get('extlinks', [])
+                lead_re = en_in[x].get('lead', {}).get('refsname', [])
+                #---
+                if len(ext) > 0 and len(ref) > 0 and len(lead_ex) > 0 and len(lead_re) > 0:
+                    #---
+                    printe.output(f'<<lightyellow>> en {x} already in {basefilename}, skip..........')
+                    continue
         #---
         work_in_en_page(x)
         #---
@@ -227,49 +251,54 @@ def start_all():
     main_File = project_json + 'allennew_2.json'
     main_File_en = project_json + 'en_allennew_2.json'
     #---
-    if len(links) > 300:
-        links_Tab = {}
+    tanko = {}
+    #---
+    n = 0
+    #---
+    for i in range(0, len(links), 100):
+        n += 1
         #---
-        n = 0
+        titles = links[i:i+100]
         #---
-        for i in range(0, len(links), 100):
-            n += 1
-            titles = links[i:i+100]
-            links_Tab[str(n)] = titles
-            print(f'jsub -N s{n} python3 ./core/pwb.py prior/p4 -s:{n}')
-            #---
+        main_File    = project_jsonnew + f'{n}.json'
+        main_File_en = project_jsonnewen + f'en_{n}.json'
         #---
-        '''
-        # split links to 10 lists
-        sub_list_len = len(links) // 10 # طول كل قائمة فرعية
-        sub_lists = [links[i:i+sub_list_len] for i in range(0, len(links), sub_list_len)] # تقسيم القائمة الأساسية إلى قوائم فرعية
+        tanko[str(n)] = {'file':main_File, 'file_en':main_File_en, 'links':titles}
         #---
-        for i in range(len(sub_lists)):
-            links_Tab[str(i+1)] = sub_lists[i]
-            print(f'jsub -N s{i+1} python3 ./core/pwb.py prior/p4 -s:{i+1}')
-        '''
+        printe.output(f'jsub -N s{n} python3 ./core/pwb.py prior/p4 -s:{n}')
         #---
-        valu = ''
+    #---
+    valu = ''
+    #---
+    for arg in sys.argv:
+        arg, sep, value = arg.partition(':')
+        if arg == '-s' and value != '':
+            valu = value
+            break
+    #---
+    if valu in tanko:
+        printe.output(f'list number:{valu} found')
         #---
-        for arg in sys.argv:
-            arg, sep, value = arg.partition(':')
-            if arg == '-s' and value != '':
-                valu = value
-                break
+        tanko = { valu: tanko[valu] }
+    else:
+        printe.output(f'list number:{valu} not found.')
         #---
-        if valu in links_Tab:
-            links = links_Tab[valu]
-            main_File    = project_jsonnew + f'{valu}.json'
-            main_File_en = project_jsonnewen + f'en_{valu}.json'
-            print(f'list number:{valu} len of it: {len(links)}')
-        else:
-            print(f'list number:{valu} not found')
+        if not 'all' in sys.argv:
+            printe.output(f'Add "all" to sys.argv to work in all.. \n sys.exit()')
             sys.exit()
     #---
-    work_in_links(links, main_File, main_File_en)
-    #---
-    log_all(main_File)
-    log_allen(main_File_en)
+    for x, tab in tanko.items():
+        valu = x
+        links = tab['links']
+        main_File    = tab['file']
+        main_File_en = tab['file_en']
+        #---
+        printe.output(f'list number:{valu} len of it: {len(links)}')
+        #---
+        work_in_links(links, main_File, main_File_en)
+        #---
+        log_all(main_File)
+        log_allen(main_File_en)
 #---
 if __name__ == '__main__':
     if 'test' in sys.argv:

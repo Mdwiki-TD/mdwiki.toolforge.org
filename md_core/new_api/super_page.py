@@ -577,9 +577,15 @@ class MainPage():
         if 'ask' in sys.argv and not Save_Edit_Pages[1] or print_test[1]:
             #---
             if not "nodiff" in sys.argv and not nodiff:
-                printe.showDiff(self.text, self.newtext)
+                if len(self.newtext) < 3000 and len(self.text) < 3000:
+                    printe.showDiff(self.text, self.newtext)
+                else:
+                    printe.output('showDiff error..')
+                    printe.output('diference in bytes: %s' % (len(self.newtext) - len(self.text)))
+                    printe.output(f'length of text: {len(self.text)}, length of newtext: {len(self.newtext)}')
             #---
             printe.output(Edit_summary_line[1] % self.summary )
+            #---
             sa = pywikibot.input('<<lightyellow>>page.py: Do you want to accept these changes? (yes, no): for page %s:%s user:%s'  % (self.lang, self.title, self.username ))
             #---
             if sa == "a":
