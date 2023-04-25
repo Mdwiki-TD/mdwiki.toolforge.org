@@ -9,6 +9,7 @@ from newapi.page import NEW_API
 # newpages = api_new.Get_Newpages(limit="max", namespace="0", rcstart="", user='', three_houers=False)
 # usercont = api_new.UserContribs(user, limit="max", namespace="*", ucshow="")
 # l_links  = api_new.Get_langlinks_for_list(titles, targtsitecode="", numbes=50)
+# text_w   = api_new.expandtemplates(text)
 '''
 #---
 '''
@@ -410,4 +411,19 @@ class NEW_API():
         printe.output('bot_api.Get_langlinks_for_list find "%d" in table,find_targtsitecode:%s:%d' % ( len(table), targtsitecode,find_targtsitecode) )
         #---
         return table
+    def expandtemplates(self, text):
+        #---
+        params = {
+            "action": "expandtemplates",
+            "format": "json",
+            "text": text,
+            "prop": "wikitext",
+            "formatversion": "2"
+        }
+        #---
+        data = self.post_params(params)
+        #---
+        newtext = data.get("expandtemplates", {}).get("wikitext") or text
+        #---
+        return newtext
 #---

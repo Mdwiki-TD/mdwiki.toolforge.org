@@ -23,15 +23,16 @@ def match_p(refs, p_ref):
     # If there are no common elements between `p_ref` and `refs`, return False and the length of `same`
     if len_same < 1:    return False, len_same
 
-    # If the length of `same` is less than 9 or less than half the length of `refs` minus 1,
+    # If the length of `same` is less than 8 or less than half the length of `refs` minus 1,
     # return False and the length of `same`
-    if 9 > len_same < ((len_refs/2)-1): 
+    if 8 > len_same < ((len_refs/2)-1): 
         return False, len_same
 
     # Otherwise, return True and the length of `same`
     return True, len_same
 #---
 t_sections = {}
+all_langs_states = {}
 #---
 def get_t_sections():
     # This function generates a wikitext table of statistics for different sections
@@ -90,6 +91,48 @@ def get_t_sections():
     text += f'! total\n! {allen:,}\n! {allall:,}\n! {allgreen:,} ({green_p}%)\n! {allred:,} ({red_p}%)'
     #---
     text += '\n|}'
+    #---
+    te_langs = '''
+== All languages ==
+<div style="width:100%;overflow-x:auto; overflow-y:auto">
+{| class="wikitable sortable" style="width:100%;"
+|- style="position: sticky;top: 0; z-index: 2;"
+! style="position: sticky;top: 0;left: 0;" | key
+!'''
+#---
+    te_langs += " !! ".join(all_langs_states.keys())
+    #---
+    all_line = ''
+    green_line = ''
+    red_line   = ''
+    #---
+    for l, ta in all_langs_states.items():
+        #---
+        all_o = ta["green"] + ta["red"]
+        #---
+        all_line += f'{all_o:,} || '
+        #---
+        green_line += f'{ta["green"]:,} || '
+        #---
+        red_line   += f'{ta["red"]:,} || '
+    #---
+    te_langs = f'''
+{te_langs}
+
+|- style="position: sticky;top: 0; z-index: 2;"
+! style="position: sticky;top: 0;left: 0;" | All
+| {all_line}
+
+|- style="position: sticky;top: 0; z-index: 2;"
+! style="position: sticky;top: 0;left: 0;" | Green
+| {green_line}
+
+|- style="position: sticky;top: 0; z-index: 2;"
+! style="position: sticky;top: 0;left: 0;" | Red
+| {red_line}
+''' + '\n|}\n</div>'
+    #---
+    text += te_langs
     #---
     return text
 #---
@@ -201,6 +244,7 @@ def make_text(allo, ttt=''):
         #---
         for l in langs_keys:
             #---
+            if not l in all_langs_states: all_langs_states[l] = {'red' : 0, 'green' : 0}
             if not l in langs_green_red: langs_green_red[l] = {'red' : 0, 'green' : 0}
             #---
             tit     = langs.get(l, {}).get('title', '')
@@ -260,16 +304,18 @@ def make_text(allo, ttt=''):
                 if color == 'green':
                     color = '#c0fcc0'   # green
                     langs_green_red[l]['green'] += 1
+                    all_langs_states[l]['green'] += 1
                     all_green += 1
                 else:
                     langs_green_red[l]['red'] += 1
+                    all_langs_states[l]['red'] += 1
                     all_red += 1
                     color = '#fcc0c0'   # red
                     #---
                 #---
                 same = f'{same1}/{same2}'
                 #---  
-                tito = f'[[:{l}:{tit}|{same}]]'
+                tito = f'[[:w:{l}:{tit}|{same}]]'
                 #---
                 tito = f'| style="background-color:{color}" | {tito}'
             #---

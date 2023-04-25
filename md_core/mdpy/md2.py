@@ -22,14 +22,14 @@ import sys
 #---
 from mdpy import printe
 from mdpy import mdwiki_api
-from TDpynew import mdd
+from medUpdater import med
 #---
 sys_argv = sys.argv or []
 printe.output(sys_argv)
 #---
 def treat_page( title, textn ):
     #---
-    newtext = mdd.work( title , returntext = True , text_O = textn )
+    newtext = med.work( title , returntext = True , text_O = textn )
     #---
     if 'test' in sys_argv: 
         pywikibot.showDiff( textn , newtext )

@@ -85,15 +85,6 @@ def log_to_enwiki() :
     #---
     session["token"] = token
 #---
-def ec_de_code( tt , type ):
-    fao = tt
-    if type == 'encode' :
-        #fao = encode_arabic(tt)
-        fao = urllib.parse.quote(tt)
-    elif type == 'decode' :
-        fao = urllib.parse.unquote(tt)
-    return fao
-#---
 def submit_to_enwiki( params ):
     #---
     log_to_enwiki()
@@ -130,27 +121,23 @@ def put(title,text):
     }
     #---
     js = submit_to_enwiki( dataa )
-    #r4 = session.post( api_url , data = dataa )
-    #--- 
-    #print(js)
-    #--- 
-    # {'edit': {'new': '', 'result': 'Success'
-    # {'edit': {'result': 'Success'
+    #---
     if 'Success' in str(js):
         print('true')
     else:
-        #print('false')
         print(str(js))
 #---
 def work( title ):
     #---
-    title = ec_de_code(title , 'decode')
+    title = urllib.parse.unquote(title)
     #---
     if 'test' in sys_argv: print(title)
     #---
     params2 = {"action": "parse","format": "json","page": title ,"prop": "wikitext"}
+    #---
     json2 = mdapi.submitAPI(params2)
-    alltext = json2.get("parse",{}).get("wikitext",{}).get("*",'')
+    #---
+    alltext = json2.get("parse", {}).get("wikitext", {}).get("*", '')
     #---
     first = ''
     #---
@@ -159,7 +146,7 @@ def work( title ):
     else:
         params = {"action": "parse","format": "json","page": title ,"prop": "wikitext","section": "0" }
         json1 = mdapi.submitAPI(params)
-        first = json1.get("parse",{}).get("wikitext",{}).get("*",'')
+        first = json1.get("parse", {}).get("wikitext", {}).get("*", '')
     #---
     text = first
     #---
@@ -167,7 +154,6 @@ def work( title ):
         #text += '\n==References==\n<references />\n[[en:%s]]' % title
         text += '\n==References==\n<references />'
     #---
-    #if 'fixref' in sys_argv: 
     text = ref.fix_ref( text, alltext )
     #---
     text = text.replace('[[Category:','[[:Category:')

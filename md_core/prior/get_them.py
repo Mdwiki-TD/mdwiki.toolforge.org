@@ -144,6 +144,8 @@ class work_in_one_lang_link(object):
         #---
         self.refsname = self.get_ref_names(tags)
         #---
+        self.get_expended()
+        #---
         if self.lang == 'en':
             self.get_lead()
         #---
@@ -157,6 +159,38 @@ class work_in_one_lang_link(object):
             printe.output(f'except: lang:{self.lang} {e}')
         #---
         return json1
+
+    def expandtemplates(self, text):
+        #---
+        params = {
+            "action": "expandtemplates",
+            "format": "json",
+            "text": text,
+            "prop": "wikitext",
+            "formatversion": "2"
+        }
+        #---
+        data = self.post_to_json(params)
+        #---
+        newtext = data.get("expandtemplates", {}).get("wikitext") or text
+        #---
+        return newtext
+    #---
+    def get_expended(self):
+        #---
+        text_pp = self.expandtemplates(self.text)
+        parsed  = wikitextparser.parse(text_pp)
+        tags    = parsed.get_tags()
+        #---
+        refsn   = self.get_ref_names(tags)
+        #---
+        refsn   = {k: v for k, v in refsn.items() if not k in self.refsname}
+        #---
+        if len(refsn) > 0:
+            printe.output(f' new refsn: {len(refsn)}')
+            printe.output(refsn)
+            #---
+            self.refsname.update(refsn)
 
     def get_ref_names(self, tags):
         #---
@@ -324,6 +358,8 @@ class get_old(object):
         #---
         self.extlinks = self.get_extlinks_from_text(self.oldtext)
         #---
+        self.get_expended()
+        #---
         self.get_lead()
         #---
     def post_to_json(self, params):
@@ -337,6 +373,38 @@ class get_old(object):
         #---
         return json1
 
+    def expandtemplates(self, text):
+        #---
+        params = {
+            "action": "expandtemplates",
+            "format": "json",
+            "text": text,
+            "prop": "wikitext",
+            "formatversion": "2"
+        }
+        #---
+        data = self.post_to_json(params)
+        #---
+        newtext = data.get("expandtemplates", {}).get("wikitext") or text
+        #---
+        return newtext
+    #---
+    def get_expended(self):
+        #---
+        text_pp = self.expandtemplates(self.oldtext)
+        parsed  = wikitextparser.parse(text_pp)
+        tags    = parsed.get_tags()
+        #---
+        refsn   = self.get_ref_names(tags)
+        #---
+        refsn   = {k: v for k, v in refsn.items() if not k in self.refsname}
+        #---
+        if len(refsn) > 0:
+            printe.output(f' new refsn: {len(refsn)}')
+            printe.output(refsn)
+            #---
+            self.refsname.update(refsn)
+            
     def get_ref_names(self, tags):
         #---
         _tags_ = {}
@@ -450,6 +518,9 @@ class get_old(object):
         #---
 #---
 if __name__ == '__main__':
+    #---
+    t = work_in_one_lang_link('he', 'עששת')
+    sys.exit()
     #---
     t = work_in_one_lang_link('en', 'Deep_vein_thrombosis')
     old = get_old('Deep_vein_thrombosis')
