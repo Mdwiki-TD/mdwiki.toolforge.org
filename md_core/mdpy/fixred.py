@@ -146,10 +146,10 @@ def replace_links2( text , oldlink , newlink ):
             text = text.replace( '[[%s]]' % oldlink , '[[%s|%s]]' % ( newlink , oldlink ) )
             text = text.replace( '[[%s|' % oldlink , '[[%s|' % newlink )
             #---
-            text = re.sub('\[\[%s(\|\]\])' % oldlink , '[[%s\g<1>' % newlink , text , flags = re.IGNORECASE )
+            text = re.sub('\[\[%s(\|\]\])' % oldlink , '[[%s\g<1>' % newlink , text, flags=re.IGNORECASE )
             #---
             if oldlink != oldlink2 :
-                text = re.sub('\[\[%s(\|\]\])' % oldlink2 , '[[%s\g<1>' % newlink , text , flags = re.IGNORECASE )
+                text = re.sub('\[\[%s(\|\]\])' % oldlink2 , '[[%s\g<1>' % newlink , text, flags=re.IGNORECASE )
                 text = text.replace( '[[%s]]' % oldlink2 , '[[%s|%s]]' % ( newlink , oldlink2 ) )
                 text = text.replace( '[[%s|' % oldlink2 , '[[%s|' % newlink )
     #---

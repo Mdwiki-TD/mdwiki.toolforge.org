@@ -75,7 +75,7 @@ def merge_references(text):
         #---
         params = Match.group('params')
         #print(f"{params=}")
-        Group = re.search(group_r, params, re.IGNORECASE | re.DOTALL)
+        Group = re.search(group_r, params, re.IGNORECASE|re.DOTALL)
         if Group:
             Group = Group.group('group')
         #---
@@ -142,7 +142,7 @@ def DuplicateReferences(text):
             continue
         #---
         params = Match.group('params')
-        Group = re.search(group_r, params, re.IGNORECASE | re.DOTALL)
+        Group = re.search(group_r, params, re.IGNORECASE|re.DOTALL)
         if Group:
             Group = Group.group('group')
         #---

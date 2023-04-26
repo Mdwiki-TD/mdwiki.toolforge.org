@@ -74,7 +74,7 @@ list_ma[1] = [ x for x in list_fu if (x in all_ref and x in lead_ref) ]
 #---
 def count_ref_from_text( text, get_short = False ):
     #---
-    short_ref = re.compile( r'<ref\s*name\s*\=\s*(?P<name>[^>]*)\s*\/\s*>', re.IGNORECASE | re.DOTALL)
+    short_ref = re.compile( r'<ref\s*name\s*\=\s*(?P<name>[^>]*)\s*\/\s*>', re.IGNORECASE|re.DOTALL)
     #---
     ref_list = []
     #---
@@ -87,7 +87,7 @@ def count_ref_from_text( text, get_short = False ):
                 if not name.strip() in ref_list : ref_list.append(name.strip())
     #---      
     # refreg = re.compile(r'(<ref[^>]*>[^<>]+</ref>|<ref[^>]*\/\s*>)')
-    refreg = re.compile( r'(?i)<ref(?P<name>[^>/]*)>(?P<content>.*?)</ref>', re.IGNORECASE | re.DOTALL)
+    refreg = re.compile( r'(?i)<ref(?P<name>[^>/]*)>(?P<content>.*?)</ref>', re.IGNORECASE|re.DOTALL)
     #---      
     for m in refreg.finditer(text):
         # content = m.group('content')

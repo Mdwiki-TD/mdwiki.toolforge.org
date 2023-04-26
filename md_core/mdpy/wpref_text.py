@@ -66,7 +66,7 @@ def pt_months(text):
         #---
         ref2 = ref
         #---
-        maa = re.compile(regexline, flags= re.IGNORECASE).finditer(ref)
+        maa = re.compile(regexline, flags=re.IGNORECASE).finditer(ref)
         for match in maa:
             old = match.group()
             param = match.group('param')

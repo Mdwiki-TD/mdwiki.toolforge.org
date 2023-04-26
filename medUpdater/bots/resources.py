@@ -7,7 +7,10 @@ import re
 import codecs
 import os
 #---
-from medUpdater.bots.Remove        import remove_cite_web, portal_remove
+try:
+    from medUpdater.bots.Remove        import remove_cite_web, portal_remove
+except:
+    from bots.Remove        import remove_cite_web, portal_remove
 #---
 import sys
 #---
@@ -85,7 +88,7 @@ def add_resources(new_text, drug_resources, resources_params):
     for pa in page_identifier_params :
         #---
         if not pa in resources_params :
-            to_add += "| %s = %s\n" % ( pa , page_identifier_params[pa] )
+            to_add += "| %s = %s\n" % ( pa , page_identifier_params[pa].strip() )
         #---
     #---
     to_add = to_add.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
@@ -94,9 +97,9 @@ def add_resources(new_text, drug_resources, resources_params):
     #---
     dng = "\=\=\s*External links\s*\=\=\s*\*\s*\{\{cite web\s*\|\s*\|\s*url\s*\=\s*https\:\/\/druginfo.*?\}\}"
     #---
-    External = re.search( dng , new_text , flags = re.IGNORECASE )
-    External2 = re.search( r"(\=\=\s*External links\s*\=\=)", new_text , flags = re.IGNORECASE )
-    External3 = re.search( r"(\{\{reflist\}\})", new_text , flags = re.IGNORECASE )
+    External = re.search( dng , new_text, flags=re.IGNORECASE)
+    External2 = re.search( r"(\=\=\s*External links\s*\=\=)", new_text, flags=re.IGNORECASE)
+    External3 = re.search( r"(\{\{reflist\}\})", new_text, flags=re.IGNORECASE)
     #---
     line = ""
     #---
@@ -105,8 +108,8 @@ def add_resources(new_text, drug_resources, resources_params):
         #---
         if new_drug_resources.strip().endswith("}}") :
             new_drug_resources = new_drug_resources[:-2]
-            line = new_drug_resources + "\n"+ to_add.strip() + "\n}}"
-            new_text = new_text.replace( drug_resources , line )
+            line = new_drug_resources.strip() + "\n" + to_add.strip() + "\n}}"
+            new_text = new_text.replace( drug_resources , line)
     #---
     else:
         new_line = "{{drug resources\n\n<!--Identifiers-->\n" + to_add.strip() + "\n}}"
@@ -159,7 +162,7 @@ def move_resources(text, title, lkj='', lkj2=''):
             drugbox_params = params
             #---
             for param in drugbox_params :
-                val = re.sub( lkj, "", params[param] , flags = re.IGNORECASE )
+                val = re.sub( lkj, "", params[param], flags=re.IGNORECASE)
                 #---
                 val = val.split("\n\n\n<!--")[0].split("\n\n<!--")[0].split("\n<!--")[0]
                 #---
@@ -169,7 +172,7 @@ def move_resources(text, title, lkj='', lkj2=''):
     drugbox_new = drugbox
     #---
     # remove identifiers from {{drugbox|
-    drugbox_new = re.sub(r"<!--\s*Identifiers\s*-->","",drugbox_new , flags = re.IGNORECASE )
+    drugbox_new = re.sub(r"<!--\s*Identifiers\s*-->","",drugbox_new, flags=re.IGNORECASE)
     #---
     for pa in page_identifier_params :
         #---
@@ -182,7 +185,7 @@ def move_resources(text, title, lkj='', lkj2=''):
         drugbox_new = drugbox_new.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
         drugbox_new = drugbox_new.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
     #---
-    drugbox_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', drugbox_new, flags = re.DOTALL | re.MULTILINE)
+    drugbox_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', drugbox_new, flags=re.DOTALL|re.MULTILINE)
     #---
     new_text = new_text.replace( drugbox , drugbox_new )
     #---

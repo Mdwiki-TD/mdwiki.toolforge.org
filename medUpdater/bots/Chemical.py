@@ -107,7 +107,7 @@ def add_Chemical_data( temptext, boxtable ) :
     #---
     for x in merpatams:
         #---
-        finde1 = re.search( rf"(\|\s*{x}\s*\=\s*)", temptext_new, flags = re.IGNORECASE )
+        finde1 = re.search( rf"(\|\s*{x}\s*\=\s*)", temptext_new, flags=re.IGNORECASE)
         #---
         if finde1:
             tt = finde1.group(1)
@@ -119,8 +119,8 @@ def add_Chemical_data( temptext, boxtable ) :
             else:
                 printn( "*+temptext_new find (%s) == -1 ." % str([faf]) )
     #---
-    temptext_new = re.sub(r"(<!--\s*Chemical data\s*-->)", "", temptext_new , flags = re.IGNORECASE )
-    temptext_new = re.sub(r"(<!--\s*Chemical and physical data\s*-->)", "", temptext_new , flags = re.IGNORECASE )
+    temptext_new = re.sub(r"(<!--\s*Chemical data\s*-->)", "", temptext_new, flags=re.IGNORECASE)
+    temptext_new = re.sub(r"(<!--\s*Chemical and physical data\s*-->)", "", temptext_new, flags=re.IGNORECASE)
     #---
     new_param_sorted = "\n<!-- Chemical and physical data -->\n" + new_param_sorted + "\n}}"
     #---

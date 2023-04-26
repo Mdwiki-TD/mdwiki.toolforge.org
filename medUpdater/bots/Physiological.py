@@ -33,7 +33,7 @@ def add_data( temptext, boxtable, params=[], tato="", finde="") :
         new_val = ""
         if x in boxtable :
             addr += "| %s = %s\n" % ( x , boxtable[x] )
-        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced , flags = re.IGNORECASE )
+        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced, flags=re.IGNORECASE)
         if finde1:
             tt = finde1.group(1)
             faf = tt + boxtable.get(x,"").strip()
@@ -41,9 +41,9 @@ def add_data( temptext, boxtable, params=[], tato="", finde="") :
             if new_temp_replaced.find(faf) != -1 :
                 new_temp_replaced = new_temp_replaced.replace( faf , new_val )#jjjj
     #---
-    new_temp_replaced = re.sub(r"(<!--\s*%s\s*-->)" % tato, "", new_temp_replaced , flags = re.IGNORECASE )
+    new_temp_replaced = re.sub(r"(<!--\s*%s\s*-->)" % tato, "", new_temp_replaced, flags=re.IGNORECASE)
     #---
-    before = re.search( r"(<!--\s*%s\s*-->)" % finde , new_temp_replaced , flags = re.IGNORECASE )
+    before = re.search( r"(<!--\s*%s\s*-->)" % finde , new_temp_replaced, flags=re.IGNORECASE)
     #---
     bd = ""
     if before :

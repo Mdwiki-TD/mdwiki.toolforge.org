@@ -25,7 +25,7 @@ def add_External_links( temptext , boxtable, lkj='') :
     pa = [ "MedlinePlus", "NLM" ] #"Drugs.com",
     #---
     #---
-    f4f = re.search( r"(<!--\s*Clinical data\s*-->)(\s*|)(\|\s*Drugs\.com\s*\=\s*\*\!\*Drugs\*\!\*)", new_temp_replaced , flags = re.IGNORECASE )
+    f4f = re.search( r"(<!--\s*Clinical data\s*-->)(\s*|)(\|\s*Drugs\.com\s*\=\s*\*\!\*Drugs\*\!\*)", new_temp_replaced, flags=re.IGNORECASE)
     if f4f:
         new_temp_replaced = new_temp_replaced.replace( f4f.group(1) + f4f.group(2) + f4f.group(3) , f4f.group(3) + f4f.group(2) + f4f.group(1)  )
     #---
@@ -36,7 +36,7 @@ def add_External_links( temptext , boxtable, lkj='') :
             if re.match( lkj , boxtable[x].strip() ) :
                 new_val = boxtable[x]
 
-        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced , flags = re.IGNORECASE )
+        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced, flags=re.IGNORECASE)
         if finde1:
             tt = finde1.group(1)
             new_temp_replaced = new_temp_replaced.replace( tt + boxtable.get(x,"").strip() , new_val  )#jjjj
@@ -44,7 +44,7 @@ def add_External_links( temptext , boxtable, lkj='') :
     new_temp_replaced = re.sub(r"(<!--\s*External links\s*-->)", "", new_temp_replaced )
     #---
     put_er = ""
-    findp = re.search( r"(\|\s*Drugs\.com\s*\=\s*\*\!\*Drugs\*\!\*)", new_temp_replaced , flags = re.IGNORECASE )
+    findp = re.search( r"(\|\s*Drugs\.com\s*\=\s*\*\!\*Drugs\*\!\*)", new_temp_replaced, flags=re.IGNORECASE)
     if findp:
         put_er = findp.group(1)
     #---
@@ -57,13 +57,13 @@ def add_External_links( temptext , boxtable, lkj='') :
     # 2021
     if new_temptext == temptext :
         test = new_temptext
-        test = re.sub(r"(<!--\s*External links\s*-->)", "", test , flags = re.IGNORECASE )
+        test = re.sub(r"(<!--\s*External links\s*-->)", "", test, flags=re.IGNORECASE)
         #---
         if new_temptext == test :
             #---
             # القالب لا يحتوي على <!-- External links --> 
             #---
-            new_temptext = re.sub(r"(\|\s*MedlinePlus\s*\=)", "\n<!--External links-->\n\g<1>", new_temptext , flags = re.IGNORECASE )
+            new_temptext = re.sub(r"(\|\s*MedlinePlus\s*\=)", "\n<!--External links-->\n\g<1>", new_temptext, flags=re.IGNORECASE)
             #---
     #---
     return new_temptext

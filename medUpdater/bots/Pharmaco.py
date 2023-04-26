@@ -29,7 +29,7 @@ def add_Pharmacokinetic_data( temptext , boxtable ) :
         if x in boxtable :
             new_param_sorted += "| %s = %s\n" % ( x , boxtable[x] )
         #---
-        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced , flags = re.IGNORECASE )
+        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced, flags=re.IGNORECASE)
         #---
         if finde1:
             tt = finde1.group(1)
@@ -39,10 +39,10 @@ def add_Pharmacokinetic_data( temptext , boxtable ) :
             else:
                 printn( "*+new_temp_replaced find (%s) == -1 ." % str([faf]) )
     #---
-    new_temp_replaced = re.sub(r"(<!--\s*Pharmacokinetic data\s*-->)", "", new_temp_replaced , flags = re.IGNORECASE )
+    new_temp_replaced = re.sub(r"(<!--\s*Pharmacokinetic data\s*-->)", "", new_temp_replaced, flags=re.IGNORECASE)
     #---
-    before = re.search( r"(<!--\s*Chemical data\s*-->)", new_temp_replaced , flags = re.IGNORECASE )
-    before2 = re.search( r"(<!--\s*Chemical and physical data\s*-->)", new_temp_replaced , flags = re.IGNORECASE )
+    before = re.search( r"(<!--\s*Chemical data\s*-->)", new_temp_replaced, flags=re.IGNORECASE)
+    before2 = re.search( r"(<!--\s*Chemical and physical data\s*-->)", new_temp_replaced, flags=re.IGNORECASE)
     #---
     bd = ""
     if before :

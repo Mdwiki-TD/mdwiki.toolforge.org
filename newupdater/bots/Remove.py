@@ -4,6 +4,7 @@
 #---
 import re
 import sys
+sys.dont_write_bytecode = True
 #---
 printn_t = {1:False}
 #---
@@ -16,7 +17,7 @@ def remove_cite_web( text, resources_get_NLM, line, title ):
     #---
     title2 = re.escape(title)
     #---
-    ioireg = r"(\*\s*\{\{\s*cite web\s*\|\s*url\s*\=\s*https\:\/\/druginfo\.nlm\.nih\.gov\/drugportal\/name\/%s\s*\|\s*publisher\s*\=\s*U\.S\. National Library of Medicine\s*\|\s*work\s*\=\s*Drug Information Portal\s*\|\s*title\s*\=\s*%s\s*\}\})" % (title2 , title2)
+    ioireg = r"(\*\s*{{\s*cite web\s*\|\s*url\s*=\s*https\:\/\/druginfo\.nlm\.nih\.gov\/drugportal\/(?:name|category)\/%s\s*\|\s*publisher\s*=\s*U\.S\. National Library of Medicine\s*\|\s*work\s*=\s*Drug Information Portal\s*\|\s*title\s*=\s*%s\s*}})" % (title2, title2)
     #---
     vavo = re.search( ioireg, new_text, flags=re.IGNORECASE)
     if vavo :

@@ -48,7 +48,7 @@ def work( title ):
     text        = page.get_text()
     # <templatestyles src="Owid/styles.css"/><ourworldindatamirror>cumulative-covid-cases-region</ourworldindatamirror>
     #---
-    regref = re.compile( r'<templatestyles\s*src="Owid/styles.css"\s*/\s*>\s*<ourworldindatamirror>(?P<content>.*?)</ourworldindatamirror>' , re.IGNORECASE | re.DOTALL)
+    regref = re.compile( r'<templatestyles\s*src="Owid/styles.css"\s*/\s*>\s*<ourworldindatamirror>(?P<content>.*?)</ourworldindatamirror>' , re.IGNORECASE|re.DOTALL)
     #---
     newtext = text
     #---

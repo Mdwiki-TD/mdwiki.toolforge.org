@@ -4,7 +4,7 @@
 
 """
 #---
-Clinical_params = [ 
+Clinical_params = [
     "class",  
     "uses", 
     "side effects", 
@@ -78,7 +78,7 @@ def add_Clinical( temptext, boxtable_strip , Names_section ) :
         elif x.strip() in param_to_add :
             addr += "| %s = %s\n" % ( x , placeholders.get(x,"") )
         #---
-        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced , flags = re.IGNORECASE )
+        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced, flags=re.IGNORECASE)
         if finde1:
             tt = finde1.group(1)
             new_temp_replaced = new_temp_replaced.replace( tt + old_val.strip() , new_val ) #jjjj
@@ -87,7 +87,7 @@ def add_Clinical( temptext, boxtable_strip , Names_section ) :
     if addr != "" and addr.find("defined_daily_dose") == -1 and new_temp_replaced.find("defined_daily_dose") == -1 :
         addr += "| defined_daily_dose = \n"
     #---
-    section = re.search( r"(<!--\s*Clinical data\s*-->)", new_temp_replaced , flags = re.IGNORECASE )
+    section = re.search( r"(<!--\s*Clinical data\s*-->)", new_temp_replaced, flags=re.IGNORECASE)
     if addr != "":
         if section:
             aff = section.group(1)

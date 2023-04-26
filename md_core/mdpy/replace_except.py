@@ -17,7 +17,7 @@ NESTED_TEMPLATE_REGEX = re.compile(r"""
 }}
 |
 (?P<unhandled_depth>{{\s*[^{\|#0-9][^{\|#]*?\s* [^{]* {{ .* }})
-""", re.VERBOSE | re.DOTALL)
+""", re.VERBOSE|re.DOTALL)
 
 FILE_LINK_REGEX = r"""
     \[\[\s*

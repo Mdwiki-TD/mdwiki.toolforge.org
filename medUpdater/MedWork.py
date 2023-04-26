@@ -36,9 +36,9 @@ project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
 #---
 if not os.path.isdir(project): project = "/mdwiki"
 #---
-lkj = r"<!--\s*(Monoclonal antibody data|External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->"
+lkj = r"<!--\s*(Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->"
 #---
-lkj2 = r"(<!--\s*(?:Monoclonal antibody data|External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*-->)"
+lkj2 = r"(<!--\s*(?:Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->)"
 #---
 def aligns(text):
     #---
@@ -97,12 +97,16 @@ def work_on_text(title, text):
     #---
     drug_box_new = drugbox
     #---
-    drug_box_new = re.sub(r"<!--\s*Identifiers\s*-->","", drug_box_new, flags = re.IGNORECASE )
+    drug_box_new = re.sub(r"<!--\s*Identifiers\s*-->","", drug_box_new, flags=re.IGNORECASE)
     #---
     Names_section = ""
     #--- 
     # add names section
-    drug_box_new , Names_section = add_Names(drug_box_new, drugbox_params)
+    drug_box_new, Names_section = add_Names(drug_box_new, drugbox_params)
+    #---
+    Names_section = "<!-- Names -->\n" + re.sub(lkj2, '', Names_section)
+    #---
+    printn(f'Names_section: {Names_section}')
     #---
     # add Clinical data
     drug_box_new = add_Clinical(drug_box_new, drugbox_params , Names_section)
@@ -128,13 +132,15 @@ def work_on_text(title, text):
     #---
     drug_box_new = aligns(drug_box_new)
     #---
-    drug_box_new = re.sub(rf'\s*{lkj2}\s*', "\n\n\g<1>\n", drug_box_new, flags = re.DOTALL)
+    drug_box_new = re.sub(rf'\s*{lkj2}\s*', "\n\n\g<1>\n", drug_box_new, flags=re.DOTALL)
     #---
-    drug_box_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', drug_box_new, flags = re.DOTALL | re.MULTILINE)
+    drug_box_new = re.sub(f'{lkj}', "<!-- \g<1> -->", drug_box_new)
+    #---
+    drug_box_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', drug_box_new, flags=re.DOTALL|re.MULTILINE)
     #---
     new_text = new_text.replace(drugbox, drug_box_new)
     #---
-    new_text = re.sub(r"\{\{drug resources\s*\<\!", "{{drug resources\n<!", new_text , flags = re.IGNORECASE )
+    new_text = re.sub(r"\{\{drug resources\s*\<\!", "{{drug resources\n<!", new_text, flags=re.IGNORECASE)
     #---
     return new_text
 #---

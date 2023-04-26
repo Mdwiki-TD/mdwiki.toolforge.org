@@ -11,13 +11,14 @@ import json
 import codecs
 import re
 import sys
+sys.dont_write_bytecode = True
 import os
 #---
 import requests
 import urllib
 import urllib.parse
 #---
-import MedWork
+import MedWorkNew
 #---
 from_toolforge = True
 #---
@@ -25,11 +26,11 @@ def print_new(s):
     if not from_toolforge:
         printe.output(s)
 #---
-if not "from_toolforge" in sys.argv and not "ch" in sys.argv:
+if not "from_toolforge" in sys.argv:
     from_toolforge = False
     import printe
 #---
-MedWork.printn = print_new
+MedWorkNew.printn = print_new
 #---
 project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
 #---
@@ -137,7 +138,7 @@ def get_new_text(title, text=''):
     if not rea: return text, newtext
     #---
     if newtext != "":
-        newtext = MedWork.work_on_text(title, newtext)
+        newtext = MedWorkNew.work_on_text(title, newtext)
     #---
     return text, newtext
 #---
@@ -148,19 +149,20 @@ def work_on_title(title, returntext=False, text_O=""):
     #---
     text, new_text = get_new_text(title, text=text_O)
     #---
-    if not "ch" in sys.argv :
+    if not "from_toolforge" in sys.argv :
         print(new_text)
         return
     #---
     if not 'xx' in sys.argv:
+        #---
         if text.strip() == "" or new_text.strip() == "":
-            print("notext")
-            return
-        elif '' == new_text :
             print("notext")
             return
         elif text == new_text :
             print("no changes")
+            return
+        elif new_text == '' :
+            print("notext")
             return
         elif "save" in sys.argv:
             return page_put(new_text, title)
@@ -171,7 +173,7 @@ def work_on_title(title, returntext=False, text_O=""):
     if 'xx' in sys.argv: title2 = 'xx'
     #---
     try:
-        filename = project + "/public_html/updatercash/" + title2 + ".txt"
+        filename = project + "/public_html/updatercash/" + title2 + "_1.txt"
         #---
         codecs.open( filename, "w", encoding="utf-8").write( new_text ) 
         #---

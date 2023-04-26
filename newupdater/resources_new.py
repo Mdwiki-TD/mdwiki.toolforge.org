@@ -4,21 +4,15 @@
 #---
 import re
 import sys
-# from .. import txtlib2
+sys.dont_write_bytecode = True
 import codecs
 import os
 import wikitextparser as wtp
 #---
-from medUpdater.bots.Remove        import remove_cite_web, portal_remove
+from bots.Remove        import remove_cite_web, portal_remove
 #---
 printn_t = {1:False}
 #---
-def extract_templates_and_params(text): 
-    try:
-        from medUpdater import txtlib2
-        return txtlib2.extract_templates_and_params(text)
-    except:
-        return {}
 #---
 def printn(s):
     if printn_t[1] or 'test' in sys.argv: print(s)
@@ -78,14 +72,16 @@ identifiers_params = [
 #---
 page_identifier_params = {}
 #---
-def add_resources(new_text, drug_resources, resources_params):
+def add_resources(new_text, drug_resources):
     #---
     to_add = ''
     #---
+    if page_identifier_params == {} :
+        return new_text, ''
+    #---
     for pa in page_identifier_params :
         #---
-        if not pa in resources_params :
-            to_add += "| %s = %s\n" % ( pa , page_identifier_params[pa] )
+        to_add += "| %s = %s\n" % ( pa , page_identifier_params[pa] )
         #---
     #---
     to_add = to_add.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
@@ -132,9 +128,9 @@ def add_resources(new_text, drug_resources, resources_params):
     #---
     return new_text, line
 #---
-_lkj_ = r"<!--\s*(Monoclonal antibody data|External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->"
+_lkj_ = r"<!--\s*(Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->"
 #---
-_lkj2_ = r"(<!--\s*(?:Monoclonal antibody data|External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*-->)"
+_lkj2_ = r"(<!--\s*(?:Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->)"
 #---
 def move_resources(text, title, lkj=_lkj_, lkj2=_lkj2_):
     #---
@@ -235,8 +231,9 @@ def move_resources(text, title, lkj=_lkj_, lkj2=_lkj2_):
         #---
     else:
         #---
-        # نقل المعرفات لأسفل
-        new_text, line = add_resources(new_text, drug_resources, resources_params)
+        if page_identifier_params != {}:
+            # نقل المعرفات لأسفل
+            new_text, line = add_resources(new_text, drug_resources)
         #---
     resources_get_NLM = False
     #---
@@ -251,12 +248,3 @@ def move_resources(text, title, lkj=_lkj_, lkj2=_lkj2_):
     #---
     return new_text
 #---
-if __name__ == "__main__" :
-    # python3 pwb.py medUpdater/bots/resources
-    printn_t[1] = True
-    import pywikibot
-    diro = os.path.dirname(os.path.abspath(__file__))
-    text = codecs.open(os.path.join(diro, "resources.txt") , "r", "utf-8").read()
-    newtext = move_resources(text, '')
-    codecs.open(os.path.join(diro, "resources_new.txt") , "w", "utf-8").write(newtext)
-    pywikibot.showDiff(text, newtext)
