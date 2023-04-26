@@ -1,25 +1,15 @@
-
 """
 <!-- Names-->
-"pronounce",
-"pronounce_ref",
-"pronounce_comment",
-"tradename",
-"synonyms",
-"AAN",
-"BAN",
-"JAN",
-"USAN",
-"IUPAC_name",
 #---
 """
 #---
 import re
+import sys
 #---
 printn_t = {1:False}
 #---
 def printn(s):
-    if printn_t[1]: print(s)
+    if printn_t[1] or 'test' in sys.argv: print(s)
 #---
 def add_Names(temptext, boxtable) :
     #---
@@ -29,20 +19,34 @@ def add_Names(temptext, boxtable) :
     Names_section = ""
     params_to_add = [ "pronounce", "tradename", "synonyms", "IUPAC_name" ]
     #---
-    for xe in params_to_add :
-        new_valr = ""
+    names_params = [
+        "pronounce",
+        "pronounce_ref",
+        "pronounce_comment",
+        "tradename",
+        "synonyms",
+        "INN",
+        "AAN",
+        "BAN",
+        "JAN",
+        "USAN",
+        "IUPAC_name",
+    ]
+    #---
+    for xe in names_params:
         #---
-        Names_section += "| %s = %s\n" % ( xe , boxtable.get(xe,"").strip() )
+        if xe in boxtable or xe in params_to_add:
+            Names_section += "| %s = %s\n" % ( xe, boxtable.get(xe,"").strip() )
+        #---
         finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % xe , new_temp_replaced , flags = re.IGNORECASE )
+        #---
         if finde1:
             ttr = finde1.group(1)
+            #---
             goo = ttr + boxtable.get(xe,"").strip()
-            if new_temp_replaced.find( goo ) != -1 :
-                new_temp_replaced = new_temp_replaced.replace( goo , new_valr )#jjjj
-            elif new_temp_replaced.find( goo.strip() ) != -1 :
-                new_temp_replaced = new_temp_replaced.replace( goo.strip() , new_valr )#jjjj
-            else:
-                printn( "*new_temp_replaced find (%s) == -1 ." % str([goo]) )
+            #---
+            new_temp_replaced = new_temp_replaced.replace( goo , '')
+            new_temp_replaced = new_temp_replaced.replace( goo.strip() , '')
         else:
             printn( "*no finde1 for %s" % xe )
     #---
@@ -58,12 +62,12 @@ def add_Names(temptext, boxtable) :
         put_under = findp.group(1)
     #---
     after_Names = ""#<!-- Names -->
-    er_Nam = re.search( r"(\<\!\-\-\s*Names\s*\-\-\>)", new_temp_replaced , flags = re.IGNORECASE )
+    er_Nam = re.search( r"(<!--\s*Names\s*-->)", new_temp_replaced , flags = re.IGNORECASE )
     if er_Nam:
         after_Names = er_Nam.group(1)
     #---
     put_before = ""#<!-- Clinical data -->
-    before = re.search( r"(\<\!\-\-\s*Clinical data\s*\-\-\>)", new_temp_replaced , flags = re.IGNORECASE )
+    before = re.search( r"(<!--\s*Clinical data\s*-->)", new_temp_replaced , flags = re.IGNORECASE )
     if before:
         put_before = before.group(1)
     #---
@@ -76,13 +80,13 @@ def add_Names(temptext, boxtable) :
         elif put_before != "" :
             printn( "put_before != ''" )
             beff = "<!--Names-->\n" + Names_section + "\n" + put_before
-            new_temp_replaced = re.sub(r"(\<\!\-\-\s*Names\s*\-\-\>)", "", new_temp_replaced , flags = re.IGNORECASE )
+            new_temp_replaced = re.sub(r"(<!--\s*Names\s*-->)", "", new_temp_replaced , flags = re.IGNORECASE )
             new_temptext = new_temp_replaced.replace( put_before , beff , 1  )
             
         elif put_under != "" :
             printn( "put_under != ''" )
             unde = put_under + "\n<!--Names-->\n" + Names_section
-            new_temp_replaced = re.sub(r"(\<\!\-\-\s*Names\s*\-\-\>)", "", new_temp_replaced , flags = re.IGNORECASE )
+            new_temp_replaced = re.sub(r"(<!--\s*Names\s*-->)", "", new_temp_replaced , flags = re.IGNORECASE )
             new_temptext = new_temp_replaced.replace( put_under , unde  , 1 )
     #---
     if Names_section == "<!--Names-->\n" :

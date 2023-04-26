@@ -1,14 +1,14 @@
-
 """
-
+<!-- External links -->
 """
 #---
 import re
+import sys
 #---
 printn_t = {1:False}
 #---
 def printn(s):
-    if printn_t[1]: print(s)
+    if printn_t[1] or 'test' in sys.argv: print(s)
 #---
 def add_External_links( temptext , boxtable, lkj='') :
     #---
@@ -19,13 +19,13 @@ def add_External_links( temptext , boxtable, lkj='') :
     dud_line = "*!*Drugs*!*"
     #---
     if Drugs.strip() != "" and new_temp_replaced.find(Drugs.strip()) != -1 :
-        new_temp_replaced = new_temp_replaced.replace( Drugs.strip() , dud_line   )#jjjj
+        new_temp_replaced = new_temp_replaced.replace( Drugs.strip() , dud_line )#jjjj
     #---
     addr = ""
-    pa = [ "MedlinePlus" ] #"Drugs.com",
+    pa = [ "MedlinePlus", "NLM" ] #"Drugs.com",
     #---
     #---
-    f4f = re.search( r"(\<\!\-\-\s*Clinical data\s*\-\-\>)(\s*|)(\|\s*Drugs\.com\s*\=\s*\*\!\*Drugs\*\!\*)", new_temp_replaced , flags = re.IGNORECASE )
+    f4f = re.search( r"(<!--\s*Clinical data\s*-->)(\s*|)(\|\s*Drugs\.com\s*\=\s*\*\!\*Drugs\*\!\*)", new_temp_replaced , flags = re.IGNORECASE )
     if f4f:
         new_temp_replaced = new_temp_replaced.replace( f4f.group(1) + f4f.group(2) + f4f.group(3) , f4f.group(3) + f4f.group(2) + f4f.group(1)  )
     #---
@@ -41,7 +41,7 @@ def add_External_links( temptext , boxtable, lkj='') :
             tt = finde1.group(1)
             new_temp_replaced = new_temp_replaced.replace( tt + boxtable.get(x,"").strip() , new_val  )#jjjj
     #---
-    new_temp_replaced = re.sub(r"(\<\!\-\-\s*External links\s*\-\-\>)", "", new_temp_replaced )
+    new_temp_replaced = re.sub(r"(<!--\s*External links\s*-->)", "", new_temp_replaced )
     #---
     put_er = ""
     findp = re.search( r"(\|\s*Drugs\.com\s*\=\s*\*\!\*Drugs\*\!\*)", new_temp_replaced , flags = re.IGNORECASE )
@@ -57,7 +57,7 @@ def add_External_links( temptext , boxtable, lkj='') :
     # 2021
     if new_temptext == temptext :
         test = new_temptext
-        test = re.sub(r"(\<\!\-\-\s*External links\s*\-\-\>)", "", test , flags = re.IGNORECASE )
+        test = re.sub(r"(<!--\s*External links\s*-->)", "", test , flags = re.IGNORECASE )
         #---
         if new_temptext == test :
             #---

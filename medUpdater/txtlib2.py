@@ -63,6 +63,7 @@ def extract_templates_and_params(text):
         name = template.name.strip()
         #---
         if parser_name == 'wikitextparser':
+            name = str(template.normal_name()).strip()
             pa_item = template.string
         else:
             pa_item = template.__str__()

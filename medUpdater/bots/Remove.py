@@ -1,14 +1,14 @@
-
 """
 
 """
 #---
 import re
+import sys
 #---
 printn_t = {1:False}
 #---
 def printn(s):
-    if printn_t[1]: print(s)
+    if printn_t[1] or 'test' in sys.argv: print(s)
 #---
 def remove_cite_web( text, resources_get_NLM, line, title ):
     new_text = text

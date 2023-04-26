@@ -24,7 +24,7 @@ def print_new(s):
     if not from_toolforge:
         printe.output(s)
 #---
-if not "from_toolforge" in sys.argv:
+if not "from_toolforge" in sys.argv and not "ch" in sys.argv:
     from_toolforge = False
     import printe
 #---

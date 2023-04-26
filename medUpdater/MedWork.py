@@ -1,10 +1,7 @@
 #!/usr/bin/env python
-
 """
-#!/usr/bin/python
 python3 pwb.py medUpdater/med -page:Aspirin ask 
-
-python pwb.py medUpdater/med -page:Aspirin ask
+python3 pwb.py medUpdater/med -page:Retinol ask 
 
 """
 #
@@ -14,17 +11,23 @@ python pwb.py medUpdater/med -page:Aspirin ask
 import re
 import sys
 import os
+import codecs
 #---
 import txtlib2
 #---
-from bots.Remove import remove_cite_web, portal_remove
-from bots.identifier import add_Identifiers
-from bots.data_legal import add_Legal_data
-from bots.names import add_Names
-from bots.Chemical import add_Chemical_data
-from bots.Clinical import add_Clinical
+from bots import resources
+# if __name__ == "__main__":  from bots import resources_new as resources
+#---
+resources.extract_templates_and_params = txtlib2.extract_templates_and_params
+#---
+from bots.data_legal    import add_Legal_data
+from bots.names         import add_Names
+from bots.Chemical      import add_Chemical_data, formola_params
+from bots.Clinical      import add_Clinical
 from bots.Physiological import Physiological_data
-from bots.External import add_External_links
+from bots.Pharmaco      import add_Pharmacokinetic_data
+from bots.External      import add_External_links
+from bots.old_params    import rename_params
 #---
 def printn(s):
     return
@@ -33,113 +36,9 @@ project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
 #---
 if not os.path.isdir(project): project = "/mdwiki"
 #---
-lkj = r"\<\!\-\-\s*(External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*\=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*\-\-\>"
+lkj = r"<!--\s*(Monoclonal antibody data|External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->"
 #---
-lkj2 = r"(\<\!\-\-\s*(?:External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*\=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*\-\-\>)"
-#---
-identifiers = [
-    "CAS_number",
-    "CAS_supplemental",
-    "CAS_number_Ref",
-    "CAS_number2",
-    "CAS_supplemental2",
-    "CAS_number2_Ref",
-    "PubChem",
-    "PubChem2",
-    "PubChemSubstance",
-    "PubChemSubstance2",
-    "IUPHAR_ligand",
-    "IUPHAR_ligand2",
-    "DrugBank",
-    "DrugBank_Ref",
-    "DrugBank2",
-    "DrugBank2_Ref",
-    "ChemSpiderID",
-    "ChemSpiderID_Ref",
-    "ChemSpiderID2",
-    "ChemSpiderID2_Ref",
-    "UNII",
-    "UNII_Ref",
-    "UNIIRef",
-    "UNII2",
-    "UNII2_Ref",
-    "KEGG",
-    "KEGG_Ref",
-    "KEGG2",
-    "KEGG2_Ref",
-    "ChEBI",
-    "ChEBI_Ref",
-    "ChEBI2",
-    "ChEBI2_Ref",
-    "ChEMBL",
-    "ChEMBL_Ref",
-    "ChEMBL2",
-    "ChEMBL2_Ref",
-    "NIAID_ChemDB",
-    "NIAID_ChemDB2",
-    #"type",
-    "PDB_ligand",
-    "PDB_ligand2",
-    "DTXSID",
-    "DTXSID2",
-    "ATCvet",
-    "ATC_prefix",
-    "ATC_suffix",
-    "ATC_supplemental",
-    "ATC_prefix2",
-    "ATC_suffix2",
-    "ATC_supplemental2",
-    ]
-#----
-def add_Pharmacokinetic_data( temptext , boxtable ) :
-    temptext_new = temptext
-    new_temp_replaced = temptext
-    #---
-    lic = [
-        "bioavailability", 
-        "protein_bound", 
-        "metabolism", 
-        "metabolites", 
-        "elimination_half-life", 
-        "excretion"
-        ]
-    #---
-    new_param_sorted = ""
-    #---
-    for x in lic :
-        new_val = ""
-        if x in boxtable :
-            new_param_sorted += "| %s = %s\n" % ( x , boxtable[x] )
-        #---
-        finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % x , new_temp_replaced , flags = re.IGNORECASE )
-        #---
-        if finde1:
-            tt = finde1.group(1)
-            faf = tt + boxtable.get(x,"").strip()
-            if new_temp_replaced.find(faf) != -1 :
-                new_temp_replaced = new_temp_replaced.replace( faf , new_val )#jjjj
-            else:
-                printn( "*+new_temp_replaced find (%s) == -1 ." % str([faf]) )
-    #---
-    new_temp_replaced = re.sub(r"(\<\!\-\-\s*Pharmacokinetic data\s*\-\-\>)", "", new_temp_replaced , flags = re.IGNORECASE )
-    #---
-    before = re.search( r"(\<\!\-\-\s*Chemical data\s*\-\-\>)", new_temp_replaced , flags = re.IGNORECASE )
-    before2 = re.search( r"(\<\!\-\-\s*Chemical and physical data\s*\-\-\>)", new_temp_replaced , flags = re.IGNORECASE )
-    #---
-    bd = ""
-    if before :
-        bd = before.group(1)
-    elif before2 :
-        bd = before2.group(1)
-    #---
-    if bd != "" and new_temp_replaced.find(bd) != -1 and new_param_sorted != "" :
-        new_param_sorted = "\n\n<!-- Pharmacokinetic data -->\n" + new_param_sorted
-        #---
-        unde = new_param_sorted + "\n" + bd.strip()
-        #---
-        temptext_new = new_temp_replaced.replace( bd , unde  , 1 )
-    #---
-    return temptext_new
+lkj2 = r"(<!--\s*(?:Monoclonal antibody data|External links|Names|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*-->)"
 #---
 def aligns(text):
     #---
@@ -156,185 +55,104 @@ def aligns(text):
         #---
     #---
     for p in params:
-        newparam = '| %s=' % p.ljust(18)
-        newtext = re.sub(r'\s*(\|\s*%s\s*\=\s)' % p.strip(), '\n' + newparam, newtext)
+        #---
+        if p.strip() in formola_params: continue
+        #---
+        newparam = '| %s' % p.ljust(18) + '='
+        newtext = re.sub(r'\s*(\|\s*%s\s*\=\s*)' % p.strip(), '\n' + newparam, newtext)
     #---
     for param in params:
+        #---
+        if param.strip() in formola_params: continue
+        #---
         newtext = re.sub(r'\s*(\|\s*%s\s*\=)' % param.strip(), '\n\g<1>', newtext)
     #---
     newtext = re.sub(r'\s*\}\}\s*$', '\n}}', newtext)
     #---
     return newtext
 #---
-def add_to_add(new_text, drug_resources, to_add):
-    #---
-    line = ""
-    #---
-    to_add = to_add.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
-    to_add = to_add.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
-    to_add = to_add.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
-    #---
-    dng = "\=\=\s*External links\s*\=\=\s*\*\s*\{\{cite web\s*\|\s*\|\s*url\s*\=\s*https\:\/\/druginfo.*?\}\}"
-    #---
-    External = re.search( dng , new_text , flags = re.IGNORECASE )
-    External2 = re.search( r"(\=\=\s*External links\s*\=\=)", new_text , flags = re.IGNORECASE )
-    External3 = re.search( r"(\{\{reflist\}\})", new_text , flags = re.IGNORECASE )
-    #---
-    if drug_resources != "" :
-        new_drug_resources = drug_resources
-        #---
-        if new_drug_resources.strip().endswith("}}") :
-            new_drug_resources = new_drug_resources[:-2]
-            line = new_drug_resources + "\n"+ to_add.strip() + "\n}}"
-            new_text = new_text.replace( drug_resources , line )
-    #---
-    else:
-        new_line = "{{drug resources\n\n<!--Identifiers-->\n" + to_add.strip() + "\n}}"
-        tt = ""
-        to = ""
-        #---
-        if External:
-            tt = External.group(1)
-        elif External2:
-            tt = External2.group(1)
-        #---
-        elif External3:
-            to = External3.group(1)
-        #---
-        if tt != "":
-            new_text = new_text.replace(tt ,  tt + "\n" + new_line )
-        #---
-        elif to != "":
-            new_text = new_text.replace(to ,  to + "\n== External links ==\n" + new_line )
-        #---
-        else:
-            new_text = new_text + "\n\n== External links ==\n" + new_line
-    #---
-    return new_text, line
-#---
 def work_on_text(title, text):
     #---
-    drug_resources = ""
-    drugbox = ""
+    new_text = text
     #---
-    resources_params = {}
-    identifier_params = {}
+    new_text = resources.move_resources(new_text, title, lkj=lkj, lkj2=lkj2)
+    #---
+    drugbox = ""
     #---
     drugbox_params = {}
     #---
-    ingr = txtlib2.extract_templates_and_params(text)
+    ingr = txtlib2.extract_templates_and_params(new_text)
     #---
     for temp in ingr:
         #---
         namestrip, params, txt = temp["namestrip"], temp["params"], temp["item"]
         #---
-        if namestrip.lower() in [ "drug resources" ] and drug_resources == "":
-            drug_resources = txt
-            for pap in params :
-                resources_params[pap.strip()] = params[pap]
-        #--- 
-        if namestrip.lower() in [ "drugbox","infobox drug" ] and drugbox == "" :
+        if namestrip.lower() in ["drugbox", "infobox drug"] and drugbox == "" :
             drugbox = txt
             #---
-            for param in params :
-                val = re.sub( lkj, "", params[param] , flags = re.IGNORECASE )
-                #---
-                val = val.split("\n\n\n\<\!\-\-")[0].split("\n\n\<\!\-\-")[0].split("\n\<\!\-\-")[0]
-                #---
-                drugbox_params[param.strip()] = val
-                if param.strip() in identifiers:
-                    identifier_params[param.strip()] = val
+            drugbox_params = params
+            #---
         elif namestrip.lower() in [ "infobox medical condition (new)","infobox medical condition" ] :
             printn( "*find temp:[%s]." % namestrip )
     #---
-    to_add = ""
-    for pa in identifier_params :
-        if not pa in resources_params :
-            to_add += "| %s = %s\n" % ( pa , identifier_params[pa] )
+    drug_box_new = drugbox
     #---
-    #text3 = text.split("'''%s" % title)[0]
-    idi_sect = ""
-    #---
-    new_text = text
-    #---
-    drugbox_new = drugbox
+    drug_box_new = re.sub(r"<!--\s*Identifiers\s*-->","", drug_box_new, flags = re.IGNORECASE )
     #---
     Names_section = ""
     #--- 
-    #if "names" in sys.argv or sys.argv:#xyz
-    # إضافة قسم Names
+    # add names section
+    drug_box_new , Names_section = add_Names(drug_box_new, drugbox_params)
     #---
-    if drugbox != "" : 
-        drugbox_new , Names_section = add_Names(drugbox_new, drugbox_params )
-        finde13 = re.search( r"(\<\!\-\-\s*Identifiers\s*\-\-\>)", drugbox )
-        if finde13:
-            dd = finde13.group(1)
-            idi_sect = drugbox.split(dd)[1].split("<!--Chemical data")[0].split("<!-- Chemical data")[0]
-            idi_sect = idi_sect.split("<!-- Definition and medical uses -->")[0]
-        #---
-        # remove identifiers from {{drugbox|
-        drugbox_new = re.sub(r"\<\!\-\-\s*Identifiers\s*\-\-\>","",drugbox_new , flags = re.IGNORECASE )
-        for par in identifier_params :
-            finde1 = re.search( r"(\|\s*%s\s*\=\s*)" % par , drugbox_new )
-            if finde1:
-                tt = finde1.group(1)
-                new_val = ""
-                if re.match( lkj , identifier_params[par].strip() ) :
-                    new_val = identifier_params[par]
-                drugbox_new = drugbox_new.replace( tt + identifier_params[par].strip() , new_val )
-        #---
-        drugbox_new = drugbox_new.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
-        drugbox_new = drugbox_new.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
-        drugbox_new = drugbox_new.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
+    # add Clinical data
+    drug_box_new = add_Clinical(drug_box_new, drugbox_params , Names_section)
     #---
-    drugbox_new = Physiological_data(drugbox_new, drugbox_params)
+    # add Physiological data section
+    drug_box_new = Physiological_data(drug_box_new, drugbox_params)
     #---
-    # إضافة External links
-    drugbox_new = add_External_links(drugbox_new, drugbox_params, lkj=lkj)
+    # add External links
+    drug_box_new = add_External_links(drug_box_new, drugbox_params, lkj=lkj)
     #---
-    # إضافة Legal data
-    drugbox_new = add_Legal_data(drugbox_new, drugbox_params )
+    # add Legal data
+    drug_box_new = add_Legal_data(drug_box_new, drugbox_params)
     #---
-    # إضافة Clinical data
-    drugbox_new = add_Clinical(drugbox_new, drugbox_params , Names_section )
+    # add Pharmacokinetic data
+    drug_box_new = add_Pharmacokinetic_data(drug_box_new, drugbox_params)
     #---
-    # إضافة Pharmacokinetic data
-    drugbox_new = add_Pharmacokinetic_data(drugbox_new, drugbox_params )
+    # add Chemical data
+    drug_box_new = add_Chemical_data(drug_box_new, drugbox_params)
     #---
-    # إضافة Chemical data
-    drugbox_new = add_Chemical_data(drugbox_new, drugbox_params )
     #---
-    if drugbox != drugbox_new :
-        #---
-        drugbox_new = drugbox_new.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
-        drugbox_new = drugbox_new.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
-        drugbox_new = drugbox_new.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
+    drug_box_new = drug_box_new.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
+    drug_box_new = drug_box_new.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
     #---
-    drugbox_new = re.sub(r"\s*" + lkj2, "\n\n\g<1>", drugbox_new , flags = re.IGNORECASE | re.DOTALL )
+    drug_box_new = aligns(drug_box_new)
     #---
-    if drugbox != drugbox_new :
-        #---
-        drugbox_new = aligns(drugbox_new)
-        #---
-        new_text = new_text.replace( drugbox, drugbox_new )
+    drug_box_new = re.sub(rf'\s*{lkj2}\s*', "\n\n\g<1>\n", drug_box_new, flags = re.DOTALL)
     #---
-    line = ''
+    drug_box_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', drug_box_new, flags = re.DOTALL | re.MULTILINE)
     #---
-    # نقل المعرفات لأسفل
-    if to_add.strip() != "" :
-        new_text, line = add_to_add(new_text, drug_resources, to_add)
+    new_text = new_text.replace(drugbox, drug_box_new)
     #---
-    resources_get_NLM = False
-    #---
-    if 'NLM' in resources_params :
-        resources_get_NLM = resources_params['NLM']
-    #---
-    # إزالة استشهاد خاطىء
-    new_text = remove_cite_web( new_text , resources_get_NLM , line , title )
     new_text = re.sub(r"\{\{drug resources\s*\<\!", "{{drug resources\n<!", new_text , flags = re.IGNORECASE )
-    #---
-    # إزالة شريط البوابات
-    new_text = portal_remove( new_text)
     #---
     return new_text
 #---
+def test():
+    #---
+    # python3 pwb.py medUpdater/MedWork
+    import pywikibot
+    #---
+    dir = os.path.dirname(os.path.abspath(__file__))
+    #---
+    text = codecs.open(os.path.join(dir, "bots/resources.txt"), "r", "utf-8").read()
+    newtext = work_on_text("test", text)
+    #---
+    pywikibot.showDiff(text, newtext)
+    #---
+    codecs.open(os.path.join(dir, "bots/resources_new.txt"), "w", "utf-8").write(newtext)
+    #---
+#---
+if __name__ == "__main__":
+    #---
+    test()

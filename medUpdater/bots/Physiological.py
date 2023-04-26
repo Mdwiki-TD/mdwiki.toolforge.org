@@ -1,36 +1,28 @@
-
 """
-
-<!--Physiological data -->
-
-"source_tissues",
-"target_tissues",
-"receptors",
-"agonists",
-"antagonists",
-"precursor",
-"biosynthesis",
-"metabolism",
-"source_tissues",
-"target_tissues",
-"receptors",
-"agonists",
-"antagonists",
-"precursor",
-"biosynthesis",
-"metabolism",
-
+<!-- Physiological data -->
 """
 #---
+Physiological_params = [
+    "source_tissues",
+    "target_tissues",
+    "receptors",
+    "agonists",
+    "antagonists",
+    "precursor",
+    "biosynthesis",
+    "sources",
+    "targets",
+]
+#---
 import re
+import sys
 #---
 printn_t = {1:False}
 #---
 def printn(s):
-    if printn_t[1]: print(s)
+    if printn_t[1] or 'test' in sys.argv: print(s)
 #---
 def add_data( temptext, boxtable, params=[], tato="", finde="") :
-    #print( " add_data...." ) 
     temptext_new = temptext
     new_temp_replaced = temptext
     #---
@@ -49,9 +41,9 @@ def add_data( temptext, boxtable, params=[], tato="", finde="") :
             if new_temp_replaced.find(faf) != -1 :
                 new_temp_replaced = new_temp_replaced.replace( faf , new_val )#jjjj
     #---
-    new_temp_replaced = re.sub(r"(\<\!\-\-\s*%s\s*\-\-\>)" % tato, "", new_temp_replaced , flags = re.IGNORECASE )
+    new_temp_replaced = re.sub(r"(<!--\s*%s\s*-->)" % tato, "", new_temp_replaced , flags = re.IGNORECASE )
     #---
-    before = re.search( r"(\<\!\-\-\s*%s\s*\-\-\>)" % finde , new_temp_replaced , flags = re.IGNORECASE )
+    before = re.search( r"(<!--\s*%s\s*-->)" % finde , new_temp_replaced , flags = re.IGNORECASE )
     #---
     bd = ""
     if before :
@@ -68,9 +60,8 @@ def Physiological_data(drugbox_new, drugbox_params) :
     #---
     tagnr = "Legal status"
     taton = "Physiological data"
-    fng = ["source_tissues","target_tissues","receptors","agonists","antagonists","precursor","biosynthesis"]#,"metabolism"]
     #---
-    drugbox_new = add_data(drugbox_new, drugbox_params , params = fng, tato = taton, finde = tagnr )
+    drugbox_new = add_data(drugbox_new, drugbox_params , params = Physiological_params, tato = taton, finde = tagnr )
     #---
     return drugbox_new
 #---

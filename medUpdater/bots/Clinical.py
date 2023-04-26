@@ -1,36 +1,42 @@
 
 """
-
 <!-- Clinical data-->
-
-"class",
-"uses",
-"side effects",
-"interactions",
-"dependency_liability",
-"addiction_liability",
-"pregnancy_AU",
-"pregnancy_AU_comment",
-"pregnancy_US",
-"pregnancy_US_comment",
-"PLLR",
-"pregnancy_category",
-"breastfeeding",
-"routes_of_administration",
-"onset",
-"duration_of_action",
-"defined_daily_dose",
-"typical_dose",
-"duration",
 
 """
 #---
+Clinical_params = [ 
+    "class",  
+    "uses", 
+    "side effects", 
+    "side effect", 
+    "side_effects", 
+    "side_effect", 
+    "interactions", 
+    "pregnancy_AU", 
+    "pregnancy_AU_comment", 
+    "pregnancy_US", 
+    "pregnancy_US_comment", 
+    "pregnancy_category", 
+    "breastfeeding", 
+    "PLLR", 
+    "routes_of_administration", 
+    "onset", 
+    "duration_of_action", 
+    "defined_daily_dose",
+    "typical_dose",
+    "dependency_liability",
+    "addiction_liability",
+    "duration",
+    ]
+#---
+#---
 import re
+import sys
 #---
 printn_t = {1:False}
 #---
 def printn(s):
-    if printn_t[1]: print(s)
+    if printn_t[1] or 'test' in sys.argv: print(s)
 #---
 placeholders = {
     "uses":"<!-- primary uses -->",
@@ -40,32 +46,12 @@ placeholders = {
 #---
 def add_Clinical( temptext, boxtable_strip , Names_section ) :
     #---
+    boxtable_strip = { x.strip() : y for x, y in boxtable_strip.items() }
+    #---
     new_temptext = temptext
     new_temp_replaced = temptext
     #---
     aff = ""
-    lic = [ 
-        "class",  
-        "uses", 
-        "side effects", 
-        "side effect", 
-        "side_effects", 
-        "side_effect", 
-        "interactions", 
-        "pregnancy_AU", 
-        "pregnancy_AU_comment", 
-        "pregnancy_US", 
-        "pregnancy_US_comment", 
-        "pregnancy_category", 
-        "breastfeeding", 
-        "PLLR", 
-        "routes_of_administration", 
-        "onset", 
-        "duration_of_action", 
-        "defined_daily_dose",
-        "typical_dose"
-        ]
-    #---
     param_to_add = [ 
         "class",
         "uses",
@@ -80,8 +66,8 @@ def add_Clinical( temptext, boxtable_strip , Names_section ) :
     #---
     addr = ""
     #---
-    for x in lic :
-        new_val = ""#
+    for x in Clinical_params :
+        new_val = ""
         #---
         old_val = boxtable_strip.get(x.strip(), "")
         #---
@@ -101,7 +87,7 @@ def add_Clinical( temptext, boxtable_strip , Names_section ) :
     if addr != "" and addr.find("defined_daily_dose") == -1 and new_temp_replaced.find("defined_daily_dose") == -1 :
         addr += "| defined_daily_dose = \n"
     #---
-    section = re.search( r"(\<\!\-\-\s*Clinical data\s*\-\-\>)", new_temp_replaced , flags = re.IGNORECASE )
+    section = re.search( r"(<!--\s*Clinical data\s*-->)", new_temp_replaced , flags = re.IGNORECASE )
     if addr != "":
         if section:
             aff = section.group(1)
