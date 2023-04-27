@@ -222,6 +222,7 @@ def move_resources(text, title, lkj=_lkj_, lkj2=_lkj2_):
                 resources_temp.set_arg(f' {param} ', f'{value}\n', preserve_spacing=False)
         #---
         resources_new = resources_temp.string
+        # resources_new = resources_temp.pformat()
         #---
         printn(f'resources_new = {resources_new}')
         #---

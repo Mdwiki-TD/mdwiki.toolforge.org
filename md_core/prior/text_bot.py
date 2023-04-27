@@ -368,6 +368,8 @@ def make_text(allo, ttt=''):
     #---
     lrnn = len(allo.keys())
     #---
+    if all_langlinks == 0: all_langlinks = 1
+    #---
     faf = f'''
 * all langlinks: {all_langlinks}
 * all green: {all_green} ({round((all_green / all_langlinks) * 100, 2)}%)
