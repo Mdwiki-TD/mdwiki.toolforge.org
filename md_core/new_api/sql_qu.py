@@ -34,41 +34,43 @@ print(f'<<lightyellow>> pymysql_version: {pymysql_version}')
 db_username = config.db_username
 db_password = config.db_password
 #---
+if config.db_connect_file is None:
+    credentials = {
+        'user': db_username,
+        'password': db_password
+    }
+else:
+    credentials = {'read_default_file': config.db_connect_file}
+#---
 can_use_sql_db  = { 1 : True }
 #---
 if not os.path.isdir('/mnt/nfs/labstore-secondary-tools-project/'): can_use_sql_db[1] = False
 #---
 def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_dict=False):
     #---
-    print('start sql_connect_pymysql:')
+    pywikibot.output('start sql_connect_pymysql:')
     #---
-    args = {
+    Typee = pymysql.cursors.Cursor
+    if return_dict:
+        Typee = pymysql.cursors.DictCursor
+    #---
+    args2 = {
         'host':     host,
-        'user':     db_username,
-        'passwd':   db_password,
         'db':       db,
         'charset':  'utf8mb4',
+        'cursorclass': Typee,
         'use_unicode': True,
+        'autocommit': True,
     }
     #---
     params = None
     #---
     # connect to the database server without error
     #---
-    Typee = pymysql.cursors.Cursor
-    if return_dict:
-        Typee = pymysql.cursors.DictCursor
-    #---
     try:
-        connection = pymysql.connect(
-            host=args['host'],
-            user=args['user'],
-            password=args['passwd'],
-            db=args['db'],
-            charset=args['charset'],
-            cursorclass=Typee,
-            autocommit=True
-            )
+        #connection = pymysql.connect( host=args['host'], user=args['user'], password=args['passwd'], db=args['db'], charset=args['charset'], cursorclass=Typee, autocommit=True )
+        
+        connection = pymysql.connect(**args2, **credentials)
 
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )

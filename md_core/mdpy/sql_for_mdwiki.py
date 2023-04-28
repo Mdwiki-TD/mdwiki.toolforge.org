@@ -38,20 +38,29 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 #---
 if not os.path.isdir(project):  project = '/mdwiki'
 #---
+db_username = config.db_username
+db_password = config.db_password
+#---
+if config.db_connect_file is None:
+    credentials = {
+        'user': db_username,
+        'password': db_password
+    }
+else:
+    credentials = {'read_default_file': config.db_connect_file}
+#---
 main_args = {
     'host':     'tools.db.svc.wikimedia.cloud',
-    'user':     config.db_username,
-    'passwd':   config.db_password,
-    'db':       config.db_username + '__mdwiki',
+    'db':       's54732__mdwiki',
     'charset':  'utf8mb4',
     'use_unicode': True,
-}
+    'autocommit': True
+    }
 #---
 if 'localhost' in sys.argv or project.find('/mnt/') == -1:
     main_args['host'] = '127.0.0.1'
-    main_args['user'] = 'root'
-    main_args['passwd']  = 'root11'
     main_args['db']   = 'mdwiki'
+    credentials = {'user': 'root','password': 'root11'}
 #---
 def sql_connect_pymysql(query, return_dict=False):
     #---
@@ -67,17 +76,11 @@ def sql_connect_pymysql(query, return_dict=False):
     if return_dict:
         Typee = pymysql.cursors.DictCursor
     #---
+    args['cursorclass'] = Typee
+    #---
     try:
-        connection = pymysql.connect(
-            host=args['host'],
-            user=args['user'],
-            password=args['passwd'],
-            db=args['db'],
-            charset=args['charset'],
-            cursorclass=Typee,
-            autocommit=True
-            )
-
+        connection = pymysql.connect(**args, **credentials)
+        
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
         warn('Exception:' + str(e), UserWarning)
