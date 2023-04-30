@@ -18,10 +18,10 @@ function print_head() {
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
 	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
 	//---
-    echo "
+	echo <<<HTML
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<script src='$hoste/ajax/libs/jquery/3.6.1/jquery.min.js'></script>
-		
+
 		<script src='$hoste/ajax/libs/popper.js/1.16.1/umd/popper.min.js'></script>
 		<!--
 		<script src='$hoste/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.min.js'></script>
@@ -33,8 +33,10 @@ function print_head() {
 		<script src='$hoste/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js'></script>
 		<link href='$hoste/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css' rel='stylesheet' type='text/css'>
-        <link href='Translation_Dashboard/dashboard_new1.css' rel='stylesheet'>
-		";
+		<link href='Translation_Dashboard/dashboard_new1.css' rel='stylesheet'>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css'/>
+	HTML;
 };
 //---
 function add_quotes($str) {

@@ -5,10 +5,10 @@
     <div class="card-body">
 <?php
 //---
-$from       = $_REQUEST['from'];
-$title      = $_REQUEST['title'];
-$titlelist  = $_REQUEST['titlelist'];
-$code       = $_REQUEST['code'];
+$from       = $_REQUEST['from'] ?? '';
+$title      = $_REQUEST['title'] ?? '';
+$titlelist  = $_REQUEST['titlelist'] ?? '';
+$code       = $_REQUEST['code'] ?? '';
 //---
 $err = '';
 //---
@@ -18,57 +18,55 @@ if ( $code != 'James#99' && $code != 'james#99' && $code != '') {
 //---
 if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' && $code != 'james#99' ) ) {
     //---
-    $title = $_REQUEST['title']; 
-    //---
-    echo "
-    <form action='import-history.php' method='POST'>
-        <div class='container'>
+    echo <<<HTML
+        <form action='import-history.php' method='POST'>
             <div class='container'>
-                <div class='row'>
-                    <div class='col-lg-12'>
-                        <div class='form-group'>
-                            <div class='input-group mb-3'>
-                                <div class='input-group-prepend'>
-                                    <span class='input-group-text'>Title:</span>
+                <div class='container'>
+                    <div class='row'>
+                        <div class='col-lg-12'>
+                            <div class='form-group'>
+                                <div class='input-group mb-3'>
+                                    <div class='input-group-prepend'>
+                                        <span class='input-group-text'>Title:</span>
+                                    </div>
+                                    <input class='form-control' type='text' id='title' name='title' value='$title'/>
                                 </div>
-                                <input class='form-control' type='text' name='title' value='$title'/>
                             </div>
                         </div>
-                    </div>
-                    <div class='col-lg-12'>
-                        <h3 class='aligncenter'>or</h3>
-                    </div>
-                    <div class='col-lg-12'>
-                        <div class='form-group'>
-                            <div class='input-group mb-3'>
-                                <div class='input-group-prepend'>
-                                    <span class='input-group-text'>List of titles:</span>
+                        <div class='col-lg-12'>
+                            <h3 class='aligncenter'>or</h3>
+                        </div>
+                        <div class='col-lg-12'>
+                            <div class='form-group'>
+                                <div class='input-group mb-3'>
+                                    <div class='input-group-prepend'>
+                                        <span class='input-group-text'>List of titles:</span>
+                                    </div>
+                                    <textarea class='form-control' cols='20' rows='7' id='titlelist' name='titlelist'>$titlelist</textarea>
                                 </div>
-                                <textarea class='form-control' cols='20' rows='7' id='titlelist' name='titlelist'>$titlelist</textarea>
                             </div>
                         </div>
-                    </div>
-                    <div class='col-lg-12'>
-                        <div class='form-group'>
-                            <div class='input-group mb-3'>
-                                <div class='input-group-prepend'>
-                                    <span class='input-group-text'>Code:</span>
+                        <div class='col-lg-12'>
+                            <div class='form-group'>
+                                <div class='input-group mb-3'>
+                                    <div class='input-group-prepend'>
+                                        <span class='input-group-text'>Code:</span>
+                                    </div>
+                                    <input class='form-control' type='text' name='code' value='$code' required/>
+                                    $err
                                 </div>
-                                <input class='form-control' type='text' name='code' value='$code' required/>
-                                $err
                             </div>
                         </div>
-                    </div>
-                    <div class='col-lg-12'>
-                        <h4 class='aligncenter'>
-                            <input class='btn btn-primary' type='submit' value='send'>
-                        </h4>
+                        <div class='col-lg-12'>
+                            <h4 class='aligncenter'>
+                                <input class='btn btn-primary' type='submit' value='send'>
+                            </h4>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-      ";
+        </form>
+    HTML;
     //---
 //---
 } else {
@@ -121,6 +119,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
     }
 //---
+echo "</div>";
+//---
+require('foter.php');
 ?>
-</div>
-<?php require('foter.php'); ?>

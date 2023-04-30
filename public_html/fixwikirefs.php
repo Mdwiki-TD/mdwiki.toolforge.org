@@ -22,7 +22,7 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
                                 <div class='input-group-prepend'>
                                     <span class='input-group-text'>Title</span>
                                 </div>
-                                <input class='form-control' type='text' name='title' value=<?php echo add_quotes($title); ?> required/>
+                                <input class='form-control' type='text' id='title' name='title' value=<?php echo add_quotes($title); ?> required/>
                             </div>
                             <div class='input-group mb-3'>
                                 <div class='input-group-prepend'>

@@ -56,3 +56,4 @@ md_core/prior/old/**
 md_core/prior/en_old.py
 md_core/prior/.pylintrc
 .pylintrc
+public_html/td_test/**

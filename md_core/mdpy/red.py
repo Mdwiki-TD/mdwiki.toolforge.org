@@ -91,6 +91,8 @@ def get_red( title ):
         printe.output( redirectsn )
         if pages[x]["title"] == title : 
             for io in redirectsn:
+                if io["ns"] != 0: continue
+                #---
                 if not io["title"] in list: list.append( io["title"] )
     #---
     return list

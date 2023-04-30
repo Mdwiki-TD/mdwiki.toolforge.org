@@ -202,7 +202,7 @@ class Login():
                 pywikibot.output('<<lightred>> ** error "Invalid CSRF token.". ')
                 #---
                 self.r3_token = ''
-                self.Log_to_wiki()
+                self.Log_to_wiki_1()
                 #---
                 return self.post(params, Type=Type, addtoken=addtoken, CSRF=False)
         #---

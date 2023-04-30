@@ -1,6 +1,9 @@
 import pywikibot
 from prior import get_them
 import sys
+import json
+import os
+import codecs
 #---
 text_main = '''
 <div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">
@@ -173,6 +176,17 @@ def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_ref
     #---
     return tab
 #---
+all_pages_states = {}
+#---
+def log_all_pages_states():
+    Dir = os.path.dirname(os.path.abspath(__file__))
+    file = f'{Dir}/all_pages_states.json'
+    #---
+    json.dump(all_pages_states, codecs.open(file, 'w', encoding='utf-8'))
+    #---
+#---
+log_all_pages_states()
+#---
 def make_text(allo, ttt=''):
     # create wikitable from json
     #---
@@ -236,6 +250,8 @@ def make_text(allo, ttt=''):
         if len(langs) == 0 :
             print(f'{en}: no langs.....')
         #---
+        if not en in all_pages_states: all_pages_states[en] = {}
+        #---
         n += 1
         #---
         if n > 100 and 'limit100' in sys.argv: break
@@ -248,6 +264,8 @@ def make_text(allo, ttt=''):
             if not l in langs_green_red: langs_green_red[l] = {'red' : 0, 'green' : 0}
             #---
             tit     = langs.get(l, {}).get('title', '')
+            #---
+            all_pages_states[en][l] = {'color' : '', 'title' : tit}
             #---
             p_ext   = langs.get(l, {}).get('extlinks', [])
             p_ext = [ x.lower() for x in p_ext ]
@@ -300,6 +318,8 @@ def make_text(allo, ttt=''):
                 #---
                 same1 = color_tab['same1']
                 same2 = color_tab['same2']
+                #---
+                all_pages_states[en][l]['color'] = color
                 #---
                 if color == 'green':
                     color = '#c0fcc0'   # green

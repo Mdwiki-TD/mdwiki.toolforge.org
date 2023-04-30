@@ -5,11 +5,11 @@
     <div class="card-body">
 <?php
 //---
-$title = $_GET['title'];
+$title = $_REQUEST['title'] ?? '';
 //---
 if ($title == '') {
     //---
-    echo "
+    echo <<<HTML
 		<form action='fixred.php' method='GET'>
 			<div class='container'>
 				<div class='container'>
@@ -22,7 +22,7 @@ if ($title == '') {
 								<div class='input-group-prepend'>
 									<span class='input-group-text'>Title</span>
 								</div>
-								<input class='form-control' type='text' name='title' value='$title' required/>
+								<input class='form-control' type='text' id='title' name='title' value='$title' required/>
 							</div>
 						</div>
 						<div class='col-lg-12'>
@@ -34,7 +34,7 @@ if ($title == '') {
 				</div>
 			</div>
 		</form>
-    ";
+	HTML;
     //---
 } else {
     //---

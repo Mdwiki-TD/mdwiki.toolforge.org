@@ -5,8 +5,8 @@
     <div class="card-body">
 <?php
 //---
-$start = $_REQUEST['start'];
-$test = $_REQUEST['test'];
+$start = $_REQUEST['start'] ?? '';
+$test = $_REQUEST['test'] ?? '';
 //---
 if ($start == '') {
     echo "

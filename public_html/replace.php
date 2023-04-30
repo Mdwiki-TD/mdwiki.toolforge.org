@@ -5,12 +5,12 @@
     <div class="card-body">
 <?php
 //---
-$listtype   = $_REQUEST['listtype'];
-$test       = $_REQUEST['test'] ?? $_REQUEST['test'];
-$find       = $_REQUEST['find'];
-$replace    = $_REQUEST['replace'];
-$number     = $_REQUEST['number'] ?? "";
-$code       = $_REQUEST['code'];
+$listtype   = $_REQUEST['listtype'] ?? '';
+$test       = $_REQUEST['test'] ?? '';
+$find       = $_REQUEST['find'] ?? '';
+$replace    = $_REQUEST['replace'] ?? '';
+$number     = $_REQUEST['number'] ?? '';
+$code       = $_REQUEST['code'] ?? '';
 //---
 function Get_Value() {
     //---

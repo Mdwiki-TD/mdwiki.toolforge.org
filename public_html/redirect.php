@@ -5,8 +5,8 @@
     <div class="card-body">
 <?php
 //---
-$title      = $_REQUEST['title'];
-$titlelist  = $_REQUEST['titlelist'];
+$title      = $_REQUEST['title'] ?? '';
+$titlelist  = $_REQUEST['titlelist'] ?? '';
 //---
 function Get_Value() {
     //---
@@ -23,7 +23,7 @@ function Get_Value() {
                                 <div class='input-group-prepend'>
                                     <span class='input-group-text'>Title:</span>
                                 </div>
-                                <input class='form-control' type='text' name='title' value='$title'/>
+                                <input class='form-control' type='text' id='title' name='title' value='$title'/>
                             </div>
                         </div>
                     </div>
