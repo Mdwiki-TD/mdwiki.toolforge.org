@@ -279,8 +279,9 @@ class NEW_API():
         #---
         numb = 0
         #---
-        if limit.isdigit(): 
+        if limit.isdigit():
             limit = int(limit)
+            params['rclimit'] = limit
         else:
             limit = 5000
         #---
