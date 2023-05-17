@@ -58,3 +58,5 @@ md_core/prior/.pylintrc
 .pylintrc
 public_html/td_test/**
 public_html/gmail1/vendor/**
+public_html/gmail1/quickstart.py
+public_html/gmail1/mail.py
