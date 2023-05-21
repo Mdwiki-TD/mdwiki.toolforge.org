@@ -31,7 +31,7 @@ from mdpy import printe
 from en_to_md import enwiki_to_mdwiki, mdwiki_to_enwiki
 #---
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---

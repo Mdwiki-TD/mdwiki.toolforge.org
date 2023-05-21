@@ -41,7 +41,7 @@ for q in sql_for_mdwiki.mdwiki_sql(que, return_dict=True):
     in_sql_lead[w_title] = w_lead_words
     in_sql_all[w_title] = w_all_words
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 project_tables = project + '/public_html/Translation_Dashboard/Tables'

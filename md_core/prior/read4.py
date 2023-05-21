@@ -15,7 +15,7 @@ import codecs
 from mdpy import printe
 from prior import text_bot
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---

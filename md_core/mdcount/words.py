@@ -42,7 +42,7 @@ def get_word_files():
     #---
     global json_file, words_n, all_words_n
     #---
-    project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+    project = '/data/project/mdwiki/'
     #---
     if not os.path.isdir(project): project = '/mdwiki'
     #---

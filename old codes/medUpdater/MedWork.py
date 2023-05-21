@@ -32,7 +32,7 @@ from bots.old_params    import rename_params
 def printn(s):
     return
 #---
-project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
+project = "/data/project/mdwiki/"
 #---
 if not os.path.isdir(project): project = "/mdwiki"
 #---

@@ -21,7 +21,7 @@ else:
 printa = { 1 : False}
 #---
 import os
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---

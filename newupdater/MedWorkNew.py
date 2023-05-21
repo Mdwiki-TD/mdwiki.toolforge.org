@@ -23,7 +23,7 @@ from mv_section import move_External_links_section
 def printn(s):
     return
 #---
-project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
+project = "/data/project/mdwiki/"
 #---
 if not os.path.isdir(project): project = "/mdwiki"
 #---

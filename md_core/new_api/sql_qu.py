@@ -44,7 +44,11 @@ else:
 #---
 can_use_sql_db  = { 1 : True }
 #---
-if not os.path.isdir('/mnt/nfs/labstore-secondary-tools-project/'): can_use_sql_db[1] = False
+dir1 = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/'
+dir1 = '/data/project/mdwiki/'
+#---
+if not os.path.isdir(dir1) and not os.path.isdir(dir2) : 
+    can_use_sql_db[1] = False
 #---
 def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_dict=False):
     #---

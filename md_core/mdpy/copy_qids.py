@@ -41,7 +41,7 @@ len_qids_not_empty = len( [ x for x in in_qids if in_qids[x] != '' ] )
 print(f'len_qids_empty = {len_qids_empty}')
 print(f'len_qids_not_empty = {len_qids_not_empty}')
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 from mdpy import en_to_md

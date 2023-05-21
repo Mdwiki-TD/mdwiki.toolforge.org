@@ -15,7 +15,7 @@ import sys
 numbers = { 1 : 20000 , 'done' : 0 }
 #---
 import os
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---

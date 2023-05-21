@@ -11,7 +11,7 @@ lgpass_enwiki   = user_account_new.lgpass_enwiki
 import os
 import configparser
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---

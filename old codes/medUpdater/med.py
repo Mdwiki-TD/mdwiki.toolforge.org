@@ -31,7 +31,7 @@ if not "from_toolforge" in sys.argv and not "ch" in sys.argv:
 #---
 MedWork.printn = print_new
 #---
-project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
+project = "/data/project/mdwiki/"
 #---
 if not os.path.isdir(project): project = "/mdwiki"
 #---

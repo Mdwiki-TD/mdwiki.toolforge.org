@@ -28,7 +28,7 @@ from new_api.wiki_page import MainPage, change_codes
 #---
 from prior import get_them
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---

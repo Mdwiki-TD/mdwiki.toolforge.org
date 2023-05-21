@@ -26,7 +26,7 @@ Day_History = datetime.now().strftime("%Y-%m-%d")
 sys_argv = sys.argv or []
 #---
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 from mdpy import py_tools

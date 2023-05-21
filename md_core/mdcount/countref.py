@@ -31,7 +31,7 @@ except:
 from mdpy import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 # start of mdwiki_api.py file

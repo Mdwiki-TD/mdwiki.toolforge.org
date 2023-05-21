@@ -34,7 +34,7 @@ if py_v.endswith('.None'): py_v = py_v[:-len('.None')]
 pymysql_version = pkg_resources.parse_version(py_v)
 print(f'<<lightyellow>> pymysql_version: {pymysql_version}')
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project):  project = '/mdwiki'
 #---
@@ -57,7 +57,7 @@ main_args = {
     'autocommit': True
     }
 #---
-if 'localhost' in sys.argv or project.find('/mnt/') == -1:
+if 'localhost' in sys.argv or project == '/mdwiki':
     main_args['host'] = '127.0.0.1'
     main_args['db']   = 'mdwiki'
     credentials = {'user': 'root','password': 'root11'}

@@ -19,7 +19,7 @@ import codecs
 import configparser
 import requests
 #---
-project = "/mnt/nfs/labstore-secondary-tools-project/mdwiki"
+project = "/data/project/mdwiki/"
 #---
 if not os.path.isdir(project):  project = "I:/mdwiki"
 #---

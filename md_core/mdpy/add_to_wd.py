@@ -35,7 +35,7 @@ from mdpy import printe
 from mdpy import mdwiki_api
 
 #---
-project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
+project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
