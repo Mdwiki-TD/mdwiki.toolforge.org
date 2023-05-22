@@ -53,11 +53,11 @@ def auth_ready(tweet, link=None):
         print(data.get('id',''))
         return True
 #---
+project = '/data/project/mdwiki'
 #---
-project = '/data/project/mdwiki/'
-#---
-if not os.path.isdir(project): project = '/mdwiki'
-#---
+if not os.path.isdir(project): 
+    print(f'{project} is not dir')
+    project = '/mdwiki'
 #---
 def auth(tweet, link=None):
     #---
@@ -91,9 +91,7 @@ def do_api(params):
     return {}
 #---
 title = 'WikiProjectMed:List'
-project = '/data/project/mdwiki/'
 #---
-if not os.path.isdir(project): project = '/mdwiki'
 json_file = project + '/md_core/tw/done.json'
 #---
 def get_links():
@@ -105,7 +103,7 @@ def get_links():
     level = False
     for x in sections:
         lline = x['line'].strip().lower()
-        if lline == 'conditions':
+        if lline == 'conditions 500':
             level = x["index"]
             break
     #---
@@ -113,8 +111,6 @@ def get_links():
     #---
     if level:
         level = str(level)
-        #---
-        print(level)
         #---
         uxu = do_api({"action": "parse", "page": title, "prop": "sections|wikitext", "section": level })
         #---
@@ -129,24 +125,29 @@ def get_links():
         sal = sa.findall(m2.group(0))
         if not sal:
             itemu = m2.group(1).split('|')[0].strip()
+            if itemu.lower().strip() in ['xx', 'x'] : continue
             vaild_links.append( itemu )
     #---
     vaild_links = list(set(vaild_links))
     #---
     print('len of vaild_links: %d' % len(vaild_links) )
     #---
+    if 'XX' in vaild_links:
+        vaild_links.remove('XX')
+    #---
     return vaild_links
 #---
 def get_done():
     #---
-    #---
     jsj = []
     #---
-    #---
     if not os.path.exists(json_file):
+        print(f'create new file {json_file}')
         with codecs.open(json_file, "w", encoding="utf-8") as ffe:
             json.dump(['XX'], ffe)
         ffe.close()
+        return jsj
+    #---
     # load json file
     with open(json_file) as f:
         jsj = json.load(f)
@@ -164,7 +165,13 @@ def get_one_link(done, links):
 #---
 def start_md():
     done    = get_done()
+    #---
+    print(f'len of done: {len(done)}')
+    #---
     links   = get_links()
+    #---
+    print(f'len of links: {len(links)}')
+    #---
     if set(links) == set(done): done = ['XX']
     #---
     links = list(set(links) - set(done) )
@@ -180,6 +187,10 @@ def start_md():
     article = link.replace("_", " ")
     link = 'https://mdwiki.org/wiki/' + link.replace(" ", "_")
     tweet = f'''Today article is: {article}\n{link}'''
+    #---
+    print(f'tweet: {tweet}')
+    #---
+    if 'notw' in sys.argv: return
     #---
     u = auth(tweet, link=link)
     #---
