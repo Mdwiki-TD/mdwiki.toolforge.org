@@ -58,13 +58,16 @@ def work_on_text(title, text):
     new_text     = re.sub(r"\{\{(Infobox drug|Drugbox|drug resources)\s*\<\!", "{{\g<1>\n<!", new_text, flags=re.IGNORECASE)
     #---
     bot2     = move_External_links_section(new_text)
+    #---
     new_text     = bot2.get_new_text()
+    #---
+    new_text = re.sub(r'\n\s*\[\[Category', '\n[[Category', new_text, flags=re.DOTALL | re.MULTILINE)
     #---
     return new_text
 #---
 def test():
     #---
-    # python3 pwb.py medUpdater/MedWorkNew
+    # python3 pwb.py newupdater/MedWorkNew
     import pywikibot
     #---
     dir = os.path.dirname(os.path.abspath(__file__))

@@ -100,7 +100,7 @@ if (empty($msg)) {
 };
 //---
 $email_to   = $_REQUEST['email_to'] ?? '';
-$email_from = $_REQUEST['email_from'] ?? '';
+$email_from = $_REQUEST['email_from'] ?? 'mdwiki.org@gmail.com';
 $msg_title  = $_REQUEST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
 //---
 $ccme       = isset($_REQUEST['ccme']) ? 1 : 0;
@@ -135,7 +135,7 @@ $msg1 = <<<HTML
 HTML;
 //---
 function createEmail() {
-    global $email_from, $email_to, $msg_title, $msg1;
+    global $email_from, $email_to, $msg_title, $msg1, $ccme, $cc_to;
     $email = "From: WikiProjectMed<$email_from>\r\n";
     $email .= "To: $email_to\r\n";
     //---
@@ -147,6 +147,7 @@ function createEmail() {
     $email .= "MIME-Version: 1.0\r\n";
     $email .= "Content-Type: text/html; charset=utf-8\r\n";
     $email .= "\r\n";
+    echo($email);
     $email .= $msg1;
     return $email;
 }

@@ -124,6 +124,9 @@ class move_External_links_section:
         
         #---
     def get_new_text(self):
+        #---
+        self.new_text = re.sub(r'\n\s*\[\[Category', '\n[[Category', self.new_text, flags=re.DOTALL | re.MULTILINE)
+        #---
         return self.new_text
     
 #---
