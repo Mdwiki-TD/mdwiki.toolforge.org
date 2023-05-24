@@ -103,6 +103,9 @@ $email_to   = $_REQUEST['email_to'] ?? '';
 $email_from = $_REQUEST['email_from'] ?? '';
 $msg_title  = $_REQUEST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
 //---
+$ccme       = isset($_REQUEST['ccme']) ? 1 : 0;
+$cc_to      = $_REQUEST['cc_to'] ?? '';
+//---
 $msg1 = <<<HTML
     <!DOCTYPE html>
     <html lang='en' dir='ltr' style='
@@ -110,7 +113,6 @@ $msg1 = <<<HTML
             line-height: 1.15;
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;'>
-
         <head>
             <title>Translation Dashboard</title>
         </head>
@@ -136,6 +138,11 @@ function createEmail() {
     global $email_from, $email_to, $msg_title, $msg1;
     $email = "From: WikiProjectMed<$email_from>\r\n";
     $email .= "To: $email_to\r\n";
+    //---
+    if ($ccme == 1 && $cc_to != '') {
+        $email .= "Cc: $cc_to\r\n";
+    }
+    //---
     $email .= "Subject: $msg_title\r\n";
     $email .= "MIME-Version: 1.0\r\n";
     $email .= "Content-Type: text/html; charset=utf-8\r\n";
