@@ -8,11 +8,13 @@
 #---
 import sys
 import os
-import pywikibot
-import urllib
+import json
 import requests
+import urllib
 import urllib.parse
+import traceback
 from warnings import warn
+import pywikibot
 #---
 if __file__.find('mdwiki') == -1:
     from API import printe
@@ -55,7 +57,66 @@ class Login():
     #---
     def Log_to_wiki(self):
         return True
+    #---
+    def make_response(self, params):
         #---
+        url_o_print = self.endpoint + '?' + urllib.parse.urlencode(params)
+        url_o_print = url_o_print.replace('&format=json', '')
+        #---
+        if print_test[1] or 'printurl' in sys.argv:
+            printe.output(url_o_print)
+        #---
+        # handle errors
+        try:
+            req0 = Main_s[1].post(self.endpoint, data=params)
+            # req0.raise_for_status()
+        except Exception as e:
+            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+            pywikibot.output(traceback.format_exc())
+            pywikibot.output( 'CRITICAL:' )
+            return {}
+        #---
+        data = {}
+        text = ''
+        #---
+        try:
+            data = req0.json()
+            return data
+        except Exception as e:
+            text = str(req0.text).strip()
+            if not text.startswith('{') or not text.endswith('}'):
+                pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+                pywikibot.output(f'error:{e}')
+                pywikibot.output(traceback.format_exc())
+                #---
+                pywikibot.output(url_o_print)
+                #---
+                if str(e) == 'Expecting value: line 1 column 1 (char 0)':
+                    pywikibot.output(params)
+                #---
+                pywikibot.output( 'CRITICAL:' )
+                return {}
+        #---
+        if text == '': return {}
+        #---
+        try:
+            data = json.loads(text)
+            return data
+        except Exception as e:
+            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+            pywikibot.output(f'error:{e} when json.loads(response.text)')
+            pywikibot.output(traceback.format_exc())
+            #---
+            pywikibot.output(url_o_print)
+            #---
+            if str(e) == 'Expecting value: line 1 column 1 (char 0)':
+                pywikibot.output(params)
+            #---
+            pywikibot.output( 'CRITICAL:' )
+            return {}
+        #---
+        return {}
+    #---
     def Log_to_wiki_1(self):
         #---
         login_lang[1] = self.lang
@@ -63,45 +124,31 @@ class Login():
         Main_s[1] = requests.Session()
         printe.output( "newapi/page.py: Log_to_wiki %s," % self.endpoint)
         #---
-        r2_params = {
-            'format': 'json',
-            'action': 'login',
-            'lgname': self.username,
-            'lgpassword': self.password,
-            'lgtoken' : ''
-            }
+        r2_params = { 'format': 'json', 'action': 'login', 'lgname': self.username, 'lgpassword': self.password, 'lgtoken' : ''}
         #---
         printe.output( "newapi/page.py: log to %s.%s.org user:%s" % (self.lang, self.family, self.username )  )
         #---
         r1_params = { 'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
         #---
-        try:
-            r11 = Main_s[1].post(self.endpoint, data=r1_params)
-            r11.raise_for_status()
-            r2_params['lgtoken'] = r11.json()['query']['tokens']['logintoken']
-        except Exception as e:
-            # WARNING: /data/project/himo/core/newapi/page.py:101: UserWarning: Exception:502 Server Error: Server Hangup for url: https://ar.wikipedia.org/w/api.php
-            #---
-            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-            warn(warn_err('Exception:' + str(e)), UserWarning)
-            pywikibot.output( 'CRITICAL:' )
-            return False
+        # WARNING: /data/project/himo/core/newapi/page.py:101: UserWarning: Exception:502 Server Error: Server Hangup for url: https://ar.wikipedia.org/w/api.php
+        #---
+        r11 = self.make_response(r1_params)
+        #---
+        r2_params['lgtoken'] = r11.get('query', {}).get('tokens', {}).get('logintoken', '')
         #---
         r22 = {}
         #---
-        if r2_params['lgtoken'] != '':
-            try:
-                uu  = Main_s[1].post(self.endpoint, data=r2_params)
-                r22 = uu.json()
-            except Exception as e:
-                pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-                warn(warn_err('Exception:' + str(e)), UserWarning)
-                pywikibot.output( 'CRITICAL:' )
-                return False
+        if r2_params['lgtoken'] == '':
+            return False
         #---
-        reason = r22.get('login', {}).get('reason', '')
+        r22 = self.make_response(r2_params)
         #---
-        if r22.get('login', {}).get('result', '').lower() != 'success':
+        if r22 == {}: return False
+        #---
+        reason  = r22.get('login', {}).get('reason', '')
+        success = r22.get('login', {}).get('result', '').lower()
+        #---
+        if success != 'success':
             pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
             warn(warn_err('Exception:' + str(r22)), UserWarning)
             #---
@@ -110,25 +157,26 @@ class Login():
             #---
             pywikibot.output( 'CRITICAL:' )
             return False
-        else:
-            printe.output(f'<<green>> {__file__} login Success')
         #---
-        try:
-            # get edit token
-            r33 = Main_s[1].post(self.endpoint, data={'format': 'json', 'action': 'query', 'meta': 'tokens' })
-            r3_token = r33.json()['query']['tokens']['csrftoken']
-            self.r3_token = r3_token
-            Main_s['token'] = r3_token
-            printe.output(f'<<green>> r3_token: {self.r3_token}')
-        except Exception as e:
+        printe.output(f'<<green>> {__file__} login Success')
+        #---
+        r3_params = {'format': 'json', 'action': 'query', 'meta': 'tokens' }
+        #---
+        r33 = self.make_response(r3_params)
+        #---
+        if r33 == {}: 
             _Except_ions_ = [
                 '''('Connection aborted.', OSError("(104, 'ECONNRESET')"))''',
             ]
-            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-            warn(warn_err('Exception:' + str(e)), UserWarning)
-            pywikibot.output( 'CRITICAL:' )
-            #---
             return False
+        #---
+        r3_token = r33.get('query', {}).get('tokens', {}).get('csrftoken', '')
+        #---
+        self.r3_token = r3_token
+        #---
+        Main_s['token'] = r3_token
+        printe.output(f'<<green>> r3_token: {self.r3_token}')
+        #---
     #---
     def post(self, params, Type='get', addtoken=False, CSRF=True):
         #---
@@ -160,33 +208,9 @@ class Login():
         #---
         params["formatversion"] = params.get("formatversion") or "1"
         #---
-        url_o_print = self.endpoint + '?' + urllib.parse.urlencode(params)
-        url_o_print = url_o_print.replace('&format=json', '')
+        data = self.make_response(params)
         #---
-        if print_test[1] or 'printurl' in sys.argv:
-            printe.output(url_o_print)
-        #---
-        data = {}
-        #---
-        try:
-            response = Main_s[1].post(self.endpoint, data=params)
-        except Exception as e:
-            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-            warn(warn_err('Exception:' + str(e)), UserWarning)
-            pywikibot.output( 'CRITICAL:' )
-            return {}
-        #---
-        try:
-            data = response.json()
-        except Exception as e:
-            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-            warn(warn_err('Exception:' + str(e)), UserWarning)
-            #---
-            pywikibot.output(url_o_print)
-            if str(e) == 'Expecting value: line 1 column 1 (char 0)':
-                pywikibot.output(params)
-            #---
-            pywikibot.output( 'CRITICAL:' )
+        if data == {}:  return {}
         #---
         error = data.get("error",{})
         #---
