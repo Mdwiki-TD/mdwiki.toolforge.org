@@ -13,7 +13,7 @@ file = f'{Dir}/views_mdwiki_langs.json'
 if not os.path.exists(file):
     with open(file, 'w') as f:  json.dump({}, f)
 #---
-data = json.load(codecs.open(file, 'r', 'utf-8'))
+ViewsData = json.load(codecs.open(file, 'r', 'utf-8'))
 #---
 _data = { 
     "mdtitle" : {
@@ -22,27 +22,48 @@ _data = {
     }
 }
 #---
-all_views_by_mdtitle = {}
-count_views_by_lang    = {}
+views_by_mdtitle_langs = {}
+count_views_by_mdtitle = {}
+#---
+count_views_by_lang  = {}
 views_by_lang        = {}
 #---
 def makeviews():
-    global _data_, all_views_by_mdtitle, count_views_by_lang, views_by_lang
     #---
-    for mdtitle, langs in _data_.items():
-        #---
-        all_views_by_mdtitle[mdtitle] = {}
-        #---
+    """
+    This function iterates through the `_data_` dictionary and updates the
+    `count_views_by_mdtitle`, `count_views_by_lang`, and `views_by_lang`
+    dictionaries with the corresponding view counts for each markdown file and
+    language.
+    """
+    global ViewsData, views_by_mdtitle_langs, count_views_by_mdtitle, count_views_by_lang, views_by_lang
+
+    # Iterate through each markdown file and language in `ViewsData`
+    for mdtitle, langs in ViewsData.items():
+
+        # Create a dictionary to store the view counts for a given markdown file
+        views_by_mdtitle_langs[mdtitle] = {}
+        count_views_by_mdtitle[mdtitle] = 0
+
+        # Iterate through each language for a given markdown file
         for lang, v in langs.items():
-            if not lang in views_by_lang:   views_by_lang[lang] = {}
-            #---
-            if not lang in count_views_by_lang:   count_views_by_lang[lang] = 0
-            #---
-            all_views_by_mdtitle[mdtitle][lang] = v['views']
-            #---
-            views_by_lang[lang][v['title']] = v['views']
-            #---
+
+            views_by_mdtitle_langs[mdtitle][lang] = v['views']
+
+            # Add the view count
+            count_views_by_mdtitle[mdtitle] += v['views']
+
+            # If the language doesn't exist in `count_views_by_lang`, add it
+            if not lang in count_views_by_lang: count_views_by_lang[lang] = 0
+
+            # Increment the total view count for the given language
             count_views_by_lang[lang] += v['views']
+
+            # If the language doesn't exist in `views_by_lang`, add it
+            if not lang in views_by_lang:   views_by_lang[lang] = {}
+
+            # Add the view count
+            views_by_lang[lang][v['title']] = v['views']
 #---
 makeviews()
 #---

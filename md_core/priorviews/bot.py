@@ -1,4 +1,8 @@
+"""
 
+python3 ./core8/pwb.py priorviews/bot test
+
+"""
 import sys
 import pywikibot
 import json

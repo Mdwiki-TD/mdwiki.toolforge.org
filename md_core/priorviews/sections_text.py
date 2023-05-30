@@ -13,11 +13,15 @@ text_v = '''
 |- style="position: sticky;top: 0; z-index: 2;"
 ! n
 ! style="position: sticky;top: 0;left: 0;" | title
+! style="position: sticky;top: 0;left: 0;" | Views
 !'''
 #---
 from priorviews import views
 #---
-all_view_by_lang = views.views_by_lang
+# views.views_by_mdtitle_langs
+# views.count_views_by_mdtitle
+# views.count_views_by_lang
+# views.views_by_lang
 #---
 def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
     """
@@ -34,7 +38,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
         title = langlinks.get(l, {}).get('title', '')
 
         # Get the view count for the current language and title, or 0 if not found
-        view = all_view_by_lang.get(l, {}).get(title, 0)
+        view = views.views_by_lang.get(l, {}).get(title, 0)
 
         # Create a formatted string with the view count for the current language and title
         tt = f' || {view} '
@@ -80,11 +84,21 @@ def make_text(section, links):
         # Call make_lang_text to create the language text for this row.
         lang_text = make_lang_text(mdtitle, langlinks, langs_keys)
 
+        mdtitle_views = views.count_views_by_mdtitle.get(mdtitle, 0)
+
         # Create the table row with the language text and the row number.
-        l_text = f'''|-\n! {n}\n! style="position: sticky;left: 0;" | [[{mdtitle}]]\n| {lang_text}'''
+        l_text = f'|-\n'
+        l_text = f'! {n}\n'
+        l_text = f'! style="position: sticky;left: 0;" | [[{mdtitle}]]\n'
+        l_text = f'! style="position: sticky;left: 0;" | {mdtitle_views}\n'
+        l_text = f'{lang_text}'
 
         # Add the row to the text variable.
         text += l_text
+
+    # total views by language
+    text += '\n|-\n| style="position: sticky;left: 0;" | Total Views\n'
+    text += '!' + "!!".join([ str(views.count_views_by_lang.get(l, 0)) for l in langs_keys ])
 
     # Add the closing table tag and div tag to the text variable.
     text += '\n|}\n</div>'

@@ -1,11 +1,14 @@
+"""
 
+from priorviews.links_by_section import sections_to_views
+
+"""
 import sys
 import pywikibot
 import json
 import os
 import codecs
 #---
-from priorviews.links_by_section import sections_to_views
 from priorviews.sections_links import get_sectios_links
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
