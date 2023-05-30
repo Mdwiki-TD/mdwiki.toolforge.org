@@ -5,6 +5,9 @@ import json
 import os
 import codecs
 #---
+from priorviews.links_by_section import sections_to_views
+from priorviews.sections_links import get_sectios_links
+#---
 Dir = os.path.dirname(os.path.abspath(__file__))
 file = f'{Dir}/all_pages_states.json'
 #---
@@ -14,16 +17,13 @@ mdtitles_lang_title = {}
 #---
 for mdtitle, langs in data.items():
     #---
-    newlangs = { lang : v['title'] for lang, v in langs.items() if v['title'] != '' and v['color'] == 'green' }
+    newlangs = {lang: v['title'] for lang, v in langs.items() if v['title'] != '' and v['color'] == 'green'}
     #---
     mdtitles_lang_title[mdtitle] = newlangs
 #---
 print(newlangs)
 #---
 print(f'len of mdtitles_lang_title: {len(mdtitles_lang_title)}')
-#---
-from priorviews.sections_links import get_sectios_links
-from priorviews.links_by_section import sections_to_views
 #---
 sections_links = get_sectios_links()
 #---
@@ -34,7 +34,7 @@ links_done = []
 # split lists by sections
 for section, links in sections_links.items():
     #---
-    sec_links = { x : tab for x, tab in mdtitles_lang_title.items() if x in links }
+    sec_links = {x: tab for x, tab in mdtitles_lang_title.items() if x in links}
     #---
     links_done.extend(sec_links.keys())
     #---
