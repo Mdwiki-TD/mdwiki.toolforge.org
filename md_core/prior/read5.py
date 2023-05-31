@@ -3,7 +3,8 @@ write code to read page in en.wikipedia.org using API, then create list with all
 title: WikiProjectMed:List/Prior
 links like [[example]]
 
-python3.10 ./core8/pwb.py prior/read5 dontsave 2050
+python3 ./core8/pwb.py prior/read5 dontsave 2050
+python3 ./core8/pwb.py prior/read5 dontsave logall
 
 '''
 import sys
@@ -88,7 +89,7 @@ def get_all_json():
         if filename.endswith('.json'):
             filename2 = os.path.join(project_jsonnew, filename)
             #---
-            print(f'filename: {filename2}..')
+            printe.output(f'filename: {filename2}..')
             #---
             data = json.load(open(filename2, 'r'))
             all   = {**all, **data}
@@ -97,7 +98,7 @@ def get_all_json():
         if filename.endswith('.json'):
             filename2 = os.path.join(project_jsonnewen, filename)
             #---
-            print(f'filename: {filename2}..')
+            printe.output(f'filename: {filename2}..')
             #---
             data = json.load(open(filename2, 'r'))
             #---
@@ -110,7 +111,7 @@ def get_all_json():
             all[a]['lead']     = tab['lead']
             all[a]['old']      = tab.get('old', {})
     #---
-    print(f'new all len:{len(all)}')
+    printe.output(f'new all len:{len(all)}')
     #---
     return all
 #---
@@ -129,7 +130,7 @@ class WorkAll:
         #---
         self.parser = wikitextparser.parse(self.text)
         #---
-        print(f'all_wikilinks: {len(self.parser.wikilinks)}')
+        printe.output(f'all_wikilinks: {len(self.parser.wikilinks)}')
         #---
         self.sections = self.parser.get_sections(include_subsections=False)
         #---
@@ -190,7 +191,7 @@ class WorkAll:
         for t, _all_ in self.all_sections.items():
             lrnn = len(_all_.keys())
             #---
-            print(f'section:({t}), \t\twikilinks: {lrnn}')
+            printe.output(f'<<lightyellow>> section:({t}), \t\twikilinks: {lrnn}')
             #---
             ttt = f'User:Mr. Ibrahem/prior/{t}'
             #---

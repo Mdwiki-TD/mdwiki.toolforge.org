@@ -1,4 +1,17 @@
+'''
 
+#---
+from priorviews import views
+#---
+# views.views_by_mdtitle_langs
+# views.count_views_by_mdtitle
+# views.count_views_by_lang
+# views.views_by_lang
+#---
+
+python3 ./core8/pwb.py priorviews/views
+
+'''
 import sys
 import pywikibot
 import json
@@ -66,4 +79,10 @@ def makeviews():
             views_by_lang[lang][v['title']] = v['views']
 #---
 makeviews()
+#---
+if __name__ == '__main__':
+    print(f'len of views_by_mdtitle_langs: {len(views_by_mdtitle_langs)}')
+    print(f'len of count_views_by_mdtitle: {len(count_views_by_mdtitle)}')
+    print(f'len of count_views_by_lang: {len(count_views_by_lang)}')
+    print(f'len of views_by_lang: {len(views_by_lang)}')
 #---

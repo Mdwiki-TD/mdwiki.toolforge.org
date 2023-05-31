@@ -4,6 +4,7 @@ import sys
 import json
 import os
 import codecs
+from mdpy import printe
 #---
 text_main = '''
 <div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">
@@ -182,7 +183,9 @@ def log_all_pages_states():
     Dir = os.path.dirname(os.path.abspath(__file__))
     file = f'{Dir}/all_pages_states.json'
     #---
-    json.dump(all_pages_states, codecs.open(file, 'w', encoding='utf-8'))
+    if all_pages_states != {}:
+        printe.output(f'<<lightyellow>> log_all_pages_states(): lenth: {len(all_pages_states.keys())}')
+        json.dump(all_pages_states, codecs.open(file, 'w', encoding='utf-8'))
     #---
 #---
 log_all_pages_states()
@@ -223,8 +226,20 @@ def make_text(allo, ttt=''):
     #---
     text       = text_main
     #---
-    text += " !! ".join(langs_keys)
-    #text += " !! ".join([x for x, ta in langs_keys_2])
+    # Add the language keys to text separated by '!!'.
+    # text += " !! ".join(langs_keys)
+    
+    def format_x(x):
+        if len(x) < 4: return x
+        #---
+        x2 = x.replace('-', '')
+        x2 = x2[:3]
+        #---
+        return "{{abbr|" + f"{x2}|{x}" + "}}"
+        
+    langs_keys_text = " !! ".join([format_x(x) for x in langs_keys])
+    text += f" {langs_keys_text}"
+
     #---
     n = 0
     #---

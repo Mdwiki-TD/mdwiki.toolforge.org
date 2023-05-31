@@ -503,7 +503,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
         #---
         pa = urllib.parse.quote( page )
         #---
-        url = 'https:' + '//wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' + langcode + '.wikipedia/all-access/all-agents/' + pa.replace('/','%2F') + '/daily/' + date_start + '00/' + date_end + '00'
+        url = 'https:' + '//wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' + langcode + '.wikipedia/all-access/all-agents/' + pa.replace('/','%2F') + '/monthly/' + date_start + '00/' + date_end + '00'
         #---
         if "printurl" in sys.argv or printurl : 
             pywikibot.output('printboturl:\t\t' + url)

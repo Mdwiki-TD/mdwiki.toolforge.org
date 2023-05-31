@@ -1,6 +1,8 @@
 '''
 
-from priorviews.sections_links import get_sectios_links
+from priorviews.sections_links import get_section_links
+
+python3 ./core8/pwb.py priorviews/sections_links
 
 '''
 import sys
@@ -50,9 +52,9 @@ class Sectios_links:
         self.sections = self.parser.get_sections(include_subsections=False)
 
         # Create an empty dictionary to store all sections of the page
-        self.all_sections = {}
+        self.SectionsToLinks = {}
 
-    def get_sectios_links(self):
+    def run(self):
         """
         Generate links for each section in the given wiki page.
         """
@@ -80,11 +82,8 @@ class Sectios_links:
             # Replace any forward slashes in the section title with hyphens
             t = t.replace('/', '-')
 
-            # Get all the sections for the wikilinks that are in the 'all' dict
-            _all_ = {a: self.all[a] for a in wikilinks if a in self.all}
-
             # Add the section and its links to the all_sections dict
-            self.all_sections[t] = _all_
+            self.SectionsToLinks[t] = wikilinks
 #---
 def get_section_links():
     """
@@ -93,14 +92,18 @@ def get_section_links():
     # Instantiate an object of the Sectios_links class.
     bot = Sectios_links()
 
-    # Retrieve the links to the sections using the get_sectios_links method of the bot object.
-    secs_links = bot.get_sectios_links()
+    bot.run()
+
+    # Retrieve the links to the sections
+    secs_links = bot.SectionsToLinks
 
     # Return the list of links to the sections.
     return secs_links
 #---
 if __name__ == '__main__':
-    if 'test' in sys.argv:
-        work_test()
-    else:
-        work_all()
+    ll = get_section_links()
+    for s, ls in ll.items():
+        print(f'section: {s}')
+        print(f'len of links: {len(ls)}')
+        if len(ls) < 10:
+            print(ls)
