@@ -71,11 +71,9 @@ def get_v(links):
         printe.output(f'<<yellow>> title: {m}/{lena} get_v {mdtitle}')
         #---
         leno = len(langs.keys())
-        o    = 0
         #---
         for lang, title in langs.items():
             #---
-            o += 1
             N_g += 1
             #---
             viws_in = ViewsData[mdtitle].get(lang, 0)
@@ -84,7 +82,7 @@ def get_v(links):
             #---
             viws = api_views(title, lang)
             #---
-            print(f'title {o}/{leno}: {title} - {lang} - {viws}')
+            print(f'title {N_g}/{leno}: {title} - {lang} - {viws}')
             if viws is None: continue
             #---
             if viws_in != 0 and viws == 0: continue
