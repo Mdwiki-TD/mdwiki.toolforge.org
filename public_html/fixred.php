@@ -38,7 +38,7 @@ if ($title == '') {
     //---
 } else {
     //---
-    $python3 = "jsub -N fixred python3 ./core/pwb.py mdpy/fixred -page2:" . rawurlencode($title) . ' save' ;
+    $python3 = "jsub -N fixred python3 ./core8/pwb.py mdpy/fixred -page2:" . rawurlencode($title) . ' save' ;
     //---
     if (isset($_REQUEST['test'])) print $python3;
     //---

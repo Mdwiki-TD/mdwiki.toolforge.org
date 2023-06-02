@@ -105,7 +105,7 @@ function worknew($find, $replace, $number) {
     }
     //---
     // python3 /data/project/mdwiki/mdpy/replace1.py -rand:84230289 ask newlist
-    $jsub = 'python3 /data/project/mdwiki/core/pwb.py mdpy/replace1 -rand:' . $nn . ' -number:' . $number ;
+    $jsub = 'python3 /data/project/mdwiki/core8/pwb.py mdpy/replace1 -rand:' . $nn . ' -number:' . $number ;
     //---
     if ($listtype == 'newlist') {
         $jsub .= ' newlist';

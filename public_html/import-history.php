@@ -5,6 +5,7 @@
     <div class="card-body">
 <?php
 //---
+$test       = $_REQUEST['test'] ?? '';
 $from       = $_REQUEST['from'] ?? '';
 $title      = $_REQUEST['title'] ?? '';
 $titlelist  = $_REQUEST['titlelist'] ?? '';
@@ -78,21 +79,17 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     $jsub = 'python3 ';
     //---
     if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' ) { 
-        $dir = '/data/project/mdwiki/core'; 
+        $dir = '/data/project/mdwiki/core8'; 
         $jsub = 'jsub -N history python3 ';
         $filee = '/data/project/mdwiki/public_html/texts/importlist.txt';
     };
     //---
-    $python3 = " $dir/pwb.py mdpy/imp -page2:" . rawurlencode($title) . ' save' ;
-    //---
-    //if ( $code == 'James' ) {
+    $python3 = " $dir/pwb.py mdpy/imp -page:" . rawurlencode($title) . ' save' ;
     //---
     echo "<span style='font-size:15pt;color:green'>";
-    //echo 'Hi, James:<br>';
-    echo "";
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     if ($title != '') {
-        $python3 = " $dir/pwb.py mdpy/imp -page2:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save' ;
+        $python3 = " $dir/pwb.py mdpy/imp -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save' ;
         //---
         if ($from == '') {
             echo 'The Bot will import ' . rawurldecode($title) . ' history in seconds.';
@@ -112,6 +109,8 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         //---
     };
     echo '</span>';
+    //---
+	if ($test != '') echo $jsub . $python3;
     //---
     echo "<br>";
     $result = shell_exec($jsub . $python3);

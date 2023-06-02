@@ -63,7 +63,7 @@ if ($number == '' && $titlelist == '') {
 } elseif ($number != '' or $titlelist != '') {
     //$nn = '';
     //---
-    $dir = '/data/project/mdwiki/core'; 
+    $dir = '/data/project/mdwiki/core8'; 
     $jsub = '';
     //---
     $nn = rand();

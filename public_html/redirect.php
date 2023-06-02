@@ -63,7 +63,7 @@ function worknew() {
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     //---
     //$dir = '';  
-    $dir = '/data/project/mdwiki/core'; 
+    $dir = '/data/project/mdwiki/core8'; 
     $filee = 'texts/redirectlist.txt';
     $jsub = '';
     //---

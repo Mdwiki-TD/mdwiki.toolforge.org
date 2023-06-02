@@ -88,13 +88,15 @@ def work( title , num , lenth  , From = '' ):
     if text and text != "":
        printe.output( ing )
     #---
+    if "test" in sys.argv: printe.output( ing )
+    #---
     ing_js = {}
     try:
         ing_js = json.loads(ing)
     except:
         print("")
     #---
-    done = ing_js.get("import",[])[0].get("revisions",0)
+    done = ing_js.get("import", [{}])[0].get("revisions", 0)
     #---
     printe.output( "<<lightgreen>> imported %d revisions" % done )
     #---
