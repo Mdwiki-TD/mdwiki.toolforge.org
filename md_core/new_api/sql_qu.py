@@ -18,6 +18,7 @@ import os
 #---
 import pywikibot
 from warnings import warn
+import traceback
 import string
 sys.dont_write_bytecode = True
 #---
@@ -25,11 +26,13 @@ import pymysql
 import pymysql.cursors
 import pkg_resources
 #---
+from new_api import printe
+#---
 py_v = pymysql.__version__
 if py_v.endswith('.None'): py_v = py_v[:-len('.None')]
 #---
 pymysql_version = pkg_resources.parse_version(py_v)
-print(f'<<lightyellow>> pymysql_version: {pymysql_version}')
+# printe.output(f'<<lightyellow>> pymysql_version: {pymysql_version}')
 #---
 db_username = config.db_username
 db_password = config.db_password
@@ -52,7 +55,7 @@ if not os.path.isdir(dir1) and not os.path.isdir(dir2) :
 #---
 def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_dict=False):
     #---
-    print('start sql_connect_pymysql:')
+    printe.output('start sql_connect_pymysql:')
     #---
     Typee = pymysql.cursors.Cursor
     if return_dict:
@@ -72,13 +75,11 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
     # connect to the database server without error
     #---
     try:
-        #connection = pymysql.connect( host=args['host'], user=args['user'], password=args['passwd'], db=args['db'], charset=args['charset'], cursorclass=Typee, autocommit=True )
-        
         connection = pymysql.connect(**args2, **credentials)
 
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc()) #warn('Exception:' + str(e), UserWarning)
         pywikibot.output( 'CRITICAL:' )
         return Return
     #---
@@ -94,7 +95,7 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
 
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc()) #warn('Exception:' + str(e), UserWarning)
             pywikibot.output( 'CRITICAL:' )
             return Return
         #---
@@ -105,19 +106,39 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
 
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc()) #warn('Exception:' + str(e), UserWarning)
             pywikibot.output( 'CRITICAL:' )
             return Return
         #---
         # yield from cursor
         return results
 #---
+def resolve_bytes(rows):
+    decoded_rows = []
+    #---
+    for row in rows:
+        decoded_row = {}
+        for key, value in row.items():
+            if isinstance(value, bytes):
+                decoded_row[key] = value.decode('utf-8')  # Assuming UTF-8 encoding
+            else:
+                decoded_row[key] = value
+        decoded_rows.append(decoded_row)
+    #---
+    return decoded_rows
+#---
 def make_sql_connect( query, db='', host='', update=False, Return=[], return_dict=False):
     #---
     if query == '' : 
-        print("query == ''")
+        printe.output("query == ''")
         return Return
     #---
-    print('<<lightyellow>> newsql::')
-    return sql_connect_pymysql( query, db=db, host=host, update=update, Return=Return, return_dict=return_dict)
+    printe.output('<<lightyellow>> newsql::')
+    #---
+    rows = sql_connect_pymysql( query, db=db, host=host, update=update, Return=Return, return_dict=return_dict)
+    #---
+    if return_dict:
+        rows = resolve_bytes(rows)
+    #---
+    return rows
 #---
