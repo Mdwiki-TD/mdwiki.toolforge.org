@@ -11,9 +11,9 @@ import codecs
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
 #---
-from priorviews.links_by_section import sects_links_langlinks
-from priorviews import sections_text
-from priorviews import views
+from priorviews.lists.links_by_section import sects_links_langlinks
+from priorviews.bots import sections_text
+from priorviews.lists import views 
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 '''
@@ -38,7 +38,7 @@ te_langs = '''
 '''
 #---
 #---
-from priorviews import words
+from priorviews.lists import words 
 # words.words_by_lang
 # words.count_words_by_lang
 #---

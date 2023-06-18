@@ -1,7 +1,7 @@
 '''
 
 #---
-from priorviews import views
+from priorviews.lists import views 
 #---
 # views.views_by_mdtitle_langs
 # views.count_views_by_mdtitle
@@ -85,6 +85,9 @@ def makeviews():
                 views_by_lang[lang][v['title'].lower()] = _views
 #---
 makeviews()
+#---
+# dump count_views_by_lang to json file
+with codecs.open(f'{Dir}/count_views_by_lang.json', 'w', 'utf-8') as f:  json.dump(count_views_by_lang, f)
 #---
 if __name__ == '__main__':
     print(f'len of views_by_mdtitle_langs: {len(views_by_mdtitle_langs)}')

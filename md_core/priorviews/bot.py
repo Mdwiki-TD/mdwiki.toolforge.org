@@ -11,9 +11,9 @@ import codecs
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
 #---
-from priorviews.links_by_section import sects_links_langlinks
-from priorviews import sections_text
-from priorviews import views
+from priorviews.lists.links_by_section import sects_links_langlinks
+from priorviews.bots import sections_text
+from priorviews.lists import views 
 from priorviews import by_lang
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
@@ -83,8 +83,6 @@ else:
     text        = page.get_text()
     save_page   = page.save(newtext=newtext, summary='update', nocreate=1, minor='')
 
-# dump views.count_views_by_lang to json file
-with codecs.open(f'{Dir}/count_views_by_lang.json', 'w', 'utf-8') as f:  json.dump(views.count_views_by_lang, f)
 #---
 
 #---

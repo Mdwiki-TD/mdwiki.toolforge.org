@@ -1,7 +1,7 @@
 '''
 
 #---
-from priorviews import translators
+from priorviews.lists import translators 
 # translators.tra_by_lang
 # translators.counts_by_translator
 #---

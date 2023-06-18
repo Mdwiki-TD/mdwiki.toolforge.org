@@ -82,8 +82,11 @@ else:
 diffe.output( f" <<lightblue>> work on path : {path}\n"  * 3)
 #---
 tools = [ "himo", "sanaa", "suha", "yemen", "lyan", "mdwiki" ]
-uow = "/data/project/%s"
+uow = "/%s"
 mytool = 'tools.himo'
+#---
+print(f'g_path: {g_path}')
+#---
 for tool in tools:
     if g_path.find( uow % tool ) != -1 :
         mytool = 'tools.%s' % tool 

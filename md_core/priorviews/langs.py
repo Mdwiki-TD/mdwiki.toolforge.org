@@ -14,10 +14,10 @@ Dir = os.path.dirname(os.path.abspath(__file__))
 #---
 from mdpy import printe
 #---
-from priorviews.links_by_section import sects_links_langlinks, links_by_lang
-from priorviews import views
-from priorviews import translators
-from priorviews import words
+from priorviews.lists.links_by_section import sects_links_langlinks, links_by_lang
+from priorviews.lists import views 
+from priorviews.lists import translators 
+from priorviews.lists import words 
 from priorviews.bots import helps
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage

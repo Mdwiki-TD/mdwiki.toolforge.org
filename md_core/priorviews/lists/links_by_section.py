@@ -1,6 +1,6 @@
 """
 
-from priorviews.links_by_section import sects_links_langlinks
+from priorviews.lists.links_by_section import sects_links_langlinks
 
 python3 ./core8/pwb.py priorviews/links_by_section
 
@@ -12,7 +12,7 @@ import os
 import codecs
 from mdpy import printe
 #---
-from priorviews.sections_links import get_section_links
+from priorviews.bots.sections_links import get_section_links
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
 _Dir_ = os.path.dirname(Dir)

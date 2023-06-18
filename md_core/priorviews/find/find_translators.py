@@ -20,13 +20,14 @@ from priorviews.bots import get_author
 TEST = False
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
+Dir2 = os.path.dirname(Dir)
 #---
-file = f'{Dir}/translators_mdwiki_langs.json'
+file = f'{Dir2}/lists/translators_mdwiki_langs.json'
 #---
 if not os.path.exists(file):
     with open(file, 'w') as f:  json.dump({}, f)
 #---
-from priorviews.links_by_section import links_by_lang
+from priorviews.lists.links_by_section import links_by_lang
 #---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 #---

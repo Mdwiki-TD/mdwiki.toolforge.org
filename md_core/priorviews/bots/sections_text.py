@@ -1,6 +1,6 @@
 '''
 
-from priorviews import sections_text #make_text(section, links)
+from priorviews.bots import sections_text #make_text(section, links)
 
 python3 ./core8/pwb.py priorviews/sections_text
 
@@ -25,7 +25,7 @@ text_v = '''
 ! Views
 !'''
 #---
-from priorviews import views
+from priorviews.lists import views 
 from priorviews.bots import helps#views_url(title, lang, view)
 #---
 # views.views_by_mdtitle_langs
