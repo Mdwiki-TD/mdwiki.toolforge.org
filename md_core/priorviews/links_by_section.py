@@ -51,6 +51,16 @@ for section, links in sections_links.items():
     #---
     sects_links_langlinks[section] = sec_links
 #---
+links_by_lang = {}
+#---
+# make text for each section
+for section, links in sects_links_langlinks.items():
+    #---
+    for md, langs in links.items():
+        for lang, title in langs.items():
+            if not lang in links_by_lang: links_by_lang[lang] = []
+            links_by_lang[lang].append(title)
+#---
 printe.output(f'<<lightgreen>> len of sects_links_langlinks: {len(sects_links_langlinks)}')
 #---
 links_done = list(set(links_done))
@@ -71,11 +81,11 @@ print(f'least section: {least_section}')
 # print lenth of least_section in sects_links_langlinks
 print(f'lenth of least_section: {len(sects_links_langlinks[least_section])}')
 #---
+#---
 sects_links_langlinks = sects_links_langlinks.copy()
 #---
 if 'test' in sys.argv:
     sects_links_langlinks = { least_section : sects_links_langlinks[least_section] }
-#---
 #---
 if __name__ == '__main__':
     ll = sects_links_langlinks

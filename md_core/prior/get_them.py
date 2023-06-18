@@ -7,6 +7,7 @@ import re
 import json
 import urllib.parse
 from urllib.parse import urlparse
+from urllib.parse import urlencode
 import requests
 import wikitextparser
 import codecs
@@ -331,9 +332,9 @@ class work_in_one_lang_link(object):
 #---
 class get_old(object):
 
-    def __init__(self, title):
+    def __init__(self, title, lang="en"):
         #---
-        self.lang = 'en'
+        self.lang = lang
         self.title = title
         self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
         self.oldtext = ''
@@ -364,6 +365,11 @@ class get_old(object):
         #---
     def post_to_json(self, params):
         json1 = {}
+        #---
+        unurl = f"{self.url}?{urlencode(params)}"
+        #---
+        if "printurl" in sys.argv and not "text" in params:
+            printe.output(f"get_old:\t\t{unurl}")
         #---
         try:
             req = self.session.post(self.url, data=params)
@@ -442,6 +448,7 @@ class get_old(object):
             "rvprop": "timestamp|content",
             "rvslots": "*",
             "rvlimit": "1",
+            "redirects": 1,
             "rvstart": "2020-05-31T22:00:00.000Z",
             "rvdir": "older"
         }

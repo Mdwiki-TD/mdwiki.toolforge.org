@@ -26,13 +26,18 @@ text_v = '''
 !'''
 #---
 from priorviews import views
+from priorviews.bots import helps#views_url(title, lang, view)
 #---
 # views.views_by_mdtitle_langs
 # views.count_views_by_mdtitle
 # views.count_views_by_lang
 # views.views_by_lang
 #---
-def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
+section_langs_views = {}
+all_section_views = 0
+#---
+def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
+    if not section in section_langs_views: section_langs_views[section] = {}
     """
     Returns a formatted string containing view counts for all available languages.
     """
@@ -48,14 +53,19 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
     # Loop through all available languages in the sorted order
     for l in langs_keys_sorted:
         u += 1
-
+        if not l in section_langs_views[section]: section_langs_views[section][l] = 0
         view = ''
 
         # Get the title of the current language, or an empty string if not found
         title    = langlinks.get(l, '')
         if title != '':
             # Get the view count for the current language and title, or 0 if not found
-            view = views.views_by_lang.get(l, {}).get(title, 0)
+            view = views.views_by_lang.get(l, {}).get(title.lower(), 0)
+            section_langs_views[section][l] += view
+            #---
+            view = helps.views_url(title, l, view)
+            #---
+            '''
             params = {
                 'project': f"{l}.wikipedia.org",
                 'platform': 'all-access',
@@ -70,7 +80,9 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
             params = urlencode(params)
             url_views = f"https://pageviews.wmcloud.org/?{params}"
 
-            view = f'[{url_views} {view}]'
+            view = f'[{url_views} {view:,}]'
+            '''
+            #---
             if 'test1' in sys.argv:
                 view = f'[[:w:{l}:{title}|a]] {view}'
         # Create a formatted string with the view count for the current language and title
@@ -90,7 +102,8 @@ def make_text(section, links):
     """
     Generate formatted text from given section and links.
     """
-
+    global all_section_views, section_langs_views
+    section_langs_views[section] = {}
     # Create an empty list to store language keys.
     langs_keys = []
 
@@ -116,7 +129,8 @@ def make_text(section, links):
         x2 = x2[:3]
         #---
         return "{{abbr|" + f"{x2}|{x}" + "}}"
-        
+    def fo_n(x):
+        return f'{x:,}'
     langs_keys_text = " !! ".join([format_x(x) for x in langs_keys])
     text += f" {langs_keys_text}"
 
@@ -125,35 +139,41 @@ def make_text(section, links):
     if 'test' in sys.argv:
         print(langs_keys)
 
+    section_views = 0
+    
     # Loop through the dictionary of links.
     for mdtitle, langlinks in links.items():
         n += 1
 
         # Call make_lang_text to create the language text for this row.
-        lang_text = make_lang_text(mdtitle, langlinks, langs_keys)
+        lang_text = make_lang_text(mdtitle, langlinks, langs_keys, section)
 
         mdtitle_views = views.count_views_by_mdtitle.get(mdtitle, 0)
 
+        section_views += mdtitle_views
         # Create the table row with the language text and the row number.
         l_text = '\n|-\n'
         l_text += f'! {n}\n'
         l_text += f'! style="position: sticky;left: 0;" | [[{mdtitle}]]\n'
-        l_text += f'! {mdtitle_views}\n'
+        l_text += f'! {mdtitle_views:,}\n'
         l_text += f'| {lang_text}'
 
         # Add the row to the text variable.
         text += l_text
 
+    all_section_views += section_views
     # total views by language
     text += '\n|-\n'
-    text += '! !! style="position: sticky;left: 0;colspan:2;" | Total views !! \n'
-    text += '! ' + " !! ".join([ str(views.count_views_by_lang.get(l, 0)) for l in langs_keys ])
+    text += f'! !! style="position: sticky;left: 0;colspan:2;" | Total views !! {section_views:,} \n'
+    text += '! ' + " !! ".join([ str(fo_n(section_langs_views[section].get(l, 0))) for l in langs_keys ])
+    # text += '! ' + " !! ".join([ str(views.count_views_by_lang.get(l, 0)) for l in langs_keys ])
 
     # Add the closing table tag and div tag to the text variable.
     text += '\n|}\n</div>'
 
     # Create the final formatted text with the section header, number of links, and the table.
-    faf = f'=={section} ({len(links)})==\n{text}'
+    faf = f'* views: {section_views:,}\n'
+    faf += f'=={section} ({len(links)})==\n{text}'
 
     # Return the final formatted text.
     return faf

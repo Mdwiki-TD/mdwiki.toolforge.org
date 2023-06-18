@@ -150,7 +150,7 @@ def add_wd(qid, enlink, lang, target):
     error = ss.get('error',{}).get('code',{})
     #---
     if str(ss).find('wikibase-validator-sitelink-conflict') != -1:
-        qii = re.match('.*\"\>(Q\d+)\<\/a.*' , str(ss) ) 
+        qii = re.match(r'.*\"\>(Q\d+)\<\/a.*' , str(ss) ) 
         #---
         if qii : 
             qid2 = qii.group(1)

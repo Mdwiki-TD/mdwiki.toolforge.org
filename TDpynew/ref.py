@@ -47,7 +47,7 @@ def fix_ref(first, alltext) :
         refe = g.group()
         #---
         name = g.group(2).strip()
-        name = re.sub( "\s*\"$" , "" , name)
+        name = re.sub(r"\s*\"$" , "" , name)
         name = name.strip()
         #---
         outputnew('--------------------------')

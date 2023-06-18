@@ -91,7 +91,7 @@ def main():
             nn = value
         #---
         if arg == "-number" and value.isdigit():
-            # if re.match( '^(\d|\d+)$' , value.strip() ) :
+            # if re.match(r'^(\d|\d+)$' , value.strip() ) :
             numbers[1] = int(value)
     #---
     print(nn)

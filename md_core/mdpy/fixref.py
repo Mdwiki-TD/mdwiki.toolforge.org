@@ -56,7 +56,7 @@ def add_new_Line( text ) :
         #---
         newtemp = template
         #---
-        newtemp = re.sub( '(\{\{\s*%s)\s*(\|)' % re.escape(name) , '\g<1>\n\g<2>' , newtemp )
+        newtemp = re.sub(r'(\{\{\s*%s)\s*(\|)' % re.escape(name) , '\g<1>\n\g<2>' , newtemp )
         #---
         for x in params:
             #---
@@ -69,7 +69,7 @@ def add_new_Line( text ) :
             value = str(value)
             value = re.escape(value)
             x = re.escape(x)
-            newtemp = re.sub("\|\s*(%s)\s*\=\s*(%s)\s*" % (x,value) , "| \g<1> = \g<2>" , newtemp, flags=re.IGNORECASE )
+            newtemp = re.sub(r"\|\s*(%s)\s*\=\s*(%s)\s*" % (x,value) , "| \g<1> = \g<2>" , newtemp, flags=re.IGNORECASE )
         #---
         # newtemp = re.sub(r'[\r\n]{4,}([!|])', r'\r\n\1', newtemp)
         # newtemp = re.sub(r'[\r\n]{3,}([!|])', r'\r\n\1', newtemp)
@@ -93,8 +93,8 @@ def remove_new_Line( text ) :
         #---
         newtemp = template
         #---
-        newtemp = re.sub( '(\{\{\s*%s\s*)\n*(\|)' % re.escape(namestrip) , '\g<1>\g<2>' , newtemp )
-        newtemp = re.sub( '\n\s*\|', '|' , newtemp, flags=re.DOTALL)
+        newtemp = re.sub(r'(\{\{\s*%s\s*)\n*(\|)' % re.escape(namestrip) , '\g<1>\g<2>' , newtemp )
+        newtemp = re.sub(r'\n\s*\|', '|' , newtemp, flags=re.DOTALL)
         #---
         params1 = {}
         #---
@@ -109,7 +109,7 @@ def remove_new_Line( text ) :
             value = str(value)
             value = re.escape(value)
             x = re.escape(x)
-            newtemp = re.sub("(\|\s*%s\s*\=\s*)(%s)\s*" % (x,value) , "\g<1>\g<2>" , newtemp, flags=re.DOTALL)
+            newtemp = re.sub(r"(\|\s*%s\s*\=\s*)(%s)\s*" % (x,value) , "\g<1>\g<2>" , newtemp, flags=re.DOTALL)
         #---
         newtemp = re.sub(r'\n\s*\}\}\s*$', '}}', newtemp)
         #---

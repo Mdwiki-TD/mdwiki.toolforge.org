@@ -1,0 +1,125 @@
+# sql backup
+
+- name: yaml-backup
+  command: "$HOME/databasebackup.sh"
+  schedule: '11 1 * * *'
+  image: tf-python39
+  emails: onfailure
+
+- name: days7-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
+  schedule: '1 1 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: enpv-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/enwiki_views"
+  schedule: '11 1 * * 1'
+  image: python3.9
+  emails: onfailure
+
+- name: twitter-job-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
+  schedule: '21 2 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: sqly-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sql"
+  schedule: '11 */6 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: recheck-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
+  schedule: '11 */6 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: wpreff-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/wpref"
+  schedule: '10 */6 * * *'
+  image: python3.9
+  emails: onfailure
+
+# create medwiki_to_enwiki.json
+- name: check-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/get_md_to_en"
+  schedule: '12 2 * * *'
+  image: python3.9
+  emails: onfailure
+
+# make views
+- name: views-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sqlviews 2023"
+  schedule: '15 5 * * *'
+  image: python3.9
+  emails: onfailure
+
+# important
+- name: getas-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/getas"
+  schedule: '12 2 * * *'
+  image: python3.9
+  emails: onfailure
+
+# words
+- name: words-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/words"
+  schedule: '10 3 * * *'
+  image: python3.9
+  emails: onfailure
+
+# Find the Wikidata qid for items without qid from English
+- name: findqids-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/cash addthem"
+  schedule: '40 1,6,12,18 * * *'
+  image: python3.9
+  emails: onfailure
+
+# Create temporary files with lists of existing articles for all languages
+- name: cashwd-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/cashwd"
+  schedule: '10 1,6,12,18 * * *'
+  image: python3.9
+  emails: onfailure
+
+# Generate categories files such as RTT.json
+- name: catdepth2-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/catdepth2 newlist"
+  schedule: '30 1,6,12,18 * * *'
+  image: python3.9
+  emails: onfailure
+
+# Fix Wikidata item conversions and add articles to qids spreadsheet
+- name: fixqids-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fixqids"
+  schedule: '45 2,7,13,19 * * *'
+  image: python3.9
+  emails: onfailure
+
+# countref
+- name: countref1-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/countref newpages"
+  schedule: '30 3 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: countref2-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/countref sql"
+  schedule: '40 3 * * *'
+  image: python3.9
+  emails: onfailure
+
+# find old pages
+- name: io-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/io"
+  schedule: '55 21 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: listo-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/listo"
+  schedule: '55 21 * * *'
+  image: python3.9
+  emails: onfailure

@@ -236,7 +236,7 @@ def main():
         for pupdate, title_list in tab.items():
             start = '20210401'
             #---
-            rem = re.match( '^(?P<y>\d\d\d\d)-(?P<m>\d\d)-(?P<d>\d\d)$' , pupdate)
+            rem = re.match(r'^(?P<y>\d\d\d\d)-(?P<m>\d\d)-(?P<d>\d\d)$' , pupdate)
             #---
             if rem:
                 start = rem.group('y') + rem.group('m') + rem.group('d')

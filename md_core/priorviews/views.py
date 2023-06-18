@@ -38,6 +38,7 @@ _data = {
 views_by_mdtitle_langs = {}
 count_views_by_mdtitle = {}
 #---
+count_tra_by_lang    = {}
 count_views_by_lang  = {}
 views_by_lang        = {}
 #---
@@ -61,22 +62,27 @@ def makeviews():
         # Iterate through each language for a given markdown file
         for lang, v in langs.items():
 
-            views_by_mdtitle_langs[mdtitle][lang] = v['views']
+            _views = int(v['views'])
+            views_by_mdtitle_langs[mdtitle][lang] = _views
 
             # Add the view count
-            count_views_by_mdtitle[mdtitle] += v['views']
+            count_views_by_mdtitle[mdtitle] += _views
+
+            if not lang in count_tra_by_lang: count_tra_by_lang[lang] = 0
 
             # If the language doesn't exist in `count_views_by_lang`, add it
             if not lang in count_views_by_lang: count_views_by_lang[lang] = 0
 
-            # Increment the total view count for the given language
-            count_views_by_lang[lang] += v['views']
-
             # If the language doesn't exist in `views_by_lang`, add it
             if not lang in views_by_lang:   views_by_lang[lang] = {}
+            
+            if not v['title'].lower() in views_by_lang[lang]:
+                # Increment the total view count for the given language
+                count_views_by_lang[lang] += _views
+                count_tra_by_lang[lang] += 1
 
-            # Add the view count
-            views_by_lang[lang][v['title']] = v['views']
+                # Add the view count
+                views_by_lang[lang][v['title'].lower()] = _views
 #---
 makeviews()
 #---

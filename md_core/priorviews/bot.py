@@ -9,15 +9,82 @@ import json
 import os
 import codecs
 #---
+Dir = os.path.dirname(os.path.abspath(__file__))
+#---
 from priorviews.links_by_section import sects_links_langlinks
 from priorviews import sections_text
+from priorviews import views
+from priorviews import by_lang
+#---
+from new_api.mdwiki_page import MainPage as md_MainPage
+'''
+page      = md_MainPage(title, 'www', family='mdwiki')
+exists    = page.exists()
+if not exists: return
+#---
+text        = page.get_text()
+save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
+'''
+#---
+titles = []
+titles_1 = []
 #---
 # make text for each section
 for section, links in sects_links_langlinks.items():
     #---
-    text = sections_text.make_text(section, links)
+    ntext = sections_text.make_text(section, links)
     #---
-    print(text)
+    if 'test' in sys.argv:
+        print(ntext)
     #---
+    title = f'User:Mr. Ibrahem/priorviews/{section}'
+    #---
+    titles_1.append(section)
+    titles.append(title)
+    #---
+    if 'write' in sys.argv:
+        page      = md_MainPage(title, 'www', family='mdwiki')
+        exists    = page.exists()
+        if not exists:
+            create = page.Create(text=ntext, summary='update')
+        else:
+            #---
+            text        = page.get_text()
+            save_page   = page.save(newtext=ntext, summary='update', nocreate=1, minor='')
 
-    
+#---
+all_section_views = sections_text.all_section_views - by_lang.en_views
+print(f'<<lightgreen>> all_section_views: {all_section_views:,}')
+#---
+newtext  = ''
+newtext += f'; (Views from July 2015 to June 2023).\n'
+newtext += f'* Enwiki: ([[WikiProjectMed:List/Prior|1338 articles]]):\n'
+newtext += f'** Total views: {by_lang.en_views:,}\n'
+
+newtext += f'* Translations: {by_lang.total_tra:,}:\n'
+
+total_langs = len(views.count_views_by_lang) - 1
+newtext += f'** Total languages: {total_langs:,}\n'
+newtext += f'** Total views: {by_lang.total_views:,}\n'
+newtext += f'** Total words: {by_lang.total_wrds:,}\n'
+#---
+newtext += '\n* [[User:Mr. Ibrahem/priorviews/bylang|Views and Words by language]]'
+newtext += '\n\n==Views by section==\n\n'
+newtext += '* Views by section and language and title:\n'
+#---
+newtext += '\n'.join([f'** [[User:Mr. Ibrahem/priorviews/{t}|{t}]]' for t in titles_1])
+#---
+page      = md_MainPage('User:Mr. Ibrahem/priorviews', 'www', family='mdwiki')
+exists    = page.exists()
+if not exists:
+    create = page.Create(text=newtext, summary='update')
+else:
+    #---
+    text        = page.get_text()
+    save_page   = page.save(newtext=newtext, summary='update', nocreate=1, minor='')
+
+# dump views.count_views_by_lang to json file
+with codecs.open(f'{Dir}/count_views_by_lang.json', 'w', 'utf-8') as f:  json.dump(views.count_views_by_lang, f)
+#---
+
+#---

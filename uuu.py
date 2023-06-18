@@ -135,16 +135,16 @@ def fix_py(filepath):
     #---
     # jjson
     if text.lower().find('jjson') != -1 :
-        text = re.sub( 'import json as JJson' , '' , text , flags=re.IGNORECASE )
+        text = re.sub(r'import json as JJson' , '' , text , flags=re.IGNORECASE )
         if text.lower().find('jjson') == -1 : 
             write(oldtext,text,filepath)
             oldtext = text
     #---
     # from pywikibot import pagegenerators
     if text.lower().find('from pywikibot import pagegenerators') != -1 :
-        text = re.sub( '\n#*\s*from pywikibot import pagegenerators\n' , '\n' , text , flags=re.IGNORECASE )
+        text = re.sub(r'\n#*\s*from pywikibot import pagegenerators\n' , '\n' , text , flags=re.IGNORECASE )
         #---
-        text = re.sub( '#\s*([\w\d\-_])+\s*\=\s*pagegenerators\..*?\n' , '\n' , text , flags=re.IGNORECASE )
+        text = re.sub(r'#\s*([\w\d\-_])+\s*\=\s*pagegenerators\..*?\n' , '\n' , text , flags=re.IGNORECASE )
         #---
         if text.lower().find('pagegenerators') == -1 :   
             write(oldtext,text,filepath)
@@ -153,9 +153,9 @@ def fix_py(filepath):
     # from\s*pywikibot\.bot\s*import\s*\(\s*SingleSiteBot\s*,\s*ExistingPageBot\s*,\s*NoRedirectPageBot\s*,\s*AutomaticTWSummaryBot\s*\)
     # from pywikibot.bot import (SingleSiteBot, ExistingPageBot, NoRedirectPageBot, AutomaticTWSummaryBot)
     #---
-    text = re.sub( 'from\s*pywikibot\.bot\s*import\s*\(\s*SingleSiteBot\s*,\s*ExistingPageBot\s*,\s*NoRedirectPageBot\s*,\s*AutomaticTWSummaryBot\s*\)' , '\n' , text , flags=re.IGNORECASE )
+    text = re.sub(r'from\s*pywikibot\.bot\s*import\s*\(\s*SingleSiteBot\s*,\s*ExistingPageBot\s*,\s*NoRedirectPageBot\s*,\s*AutomaticTWSummaryBot\s*\)' , '\n' , text , flags=re.IGNORECASE )
     #---
-    test = re.sub( '(SingleSiteBot|ExistingPageBot|NoRedirectPageBot|AutomaticTWSummaryBot)' , '\n', text, flags=re.IGNORECASE )
+    test = re.sub(r'(SingleSiteBot|ExistingPageBot|NoRedirectPageBot|AutomaticTWSummaryBot)' , '\n', text, flags=re.IGNORECASE )
     #---
     if test == text : 
         write(oldtext,text,filepath)
@@ -165,7 +165,7 @@ def fix_py(filepath):
     #---
     # from pywikibot.tools import issue_deprecation_warning
     if text.lower().find('issue_deprecation_warning') != -1 :
-        text = re.sub( '\n#*\s*from pywikibot\.tools\s*import\s*issue_deprecation_warning\s*\n' , '\n' , text , flags=re.IGNORECASE )
+        text = re.sub(r'\n#*\s*from pywikibot\.tools\s*import\s*issue_deprecation_warning\s*\n' , '\n' , text , flags=re.IGNORECASE )
         #---
         if text.lower().find('pagegenerators') == -1 :   
             write(oldtext,text,filepath)
@@ -173,7 +173,7 @@ def fix_py(filepath):
     #---
     # from __future__ import absolute_import, unicode_literals
     if text.lower().find('absolute_import') != -1 or text.lower().find('unicode_literals') != -1 :
-        text = re.sub( '\n#*\s*from\s+__future__\s+import\s+absolute_import\s*\,\s*unicode_literals\s*\n' , '\n' , text , flags=re.IGNORECASE )
+        text = re.sub(r'\n#*\s*from\s+__future__\s+import\s+absolute_import\s*\,\s*unicode_literals\s*\n' , '\n' , text , flags=re.IGNORECASE )
         #---
         if text.lower().find('unicode_literals') == -1 and text.lower().find('unicode_literals') == -1 : 
             write(oldtext,text,filepath)
@@ -255,7 +255,7 @@ def fix_py3(filepath):
     # jjson
     if 'CRITICAL' in sys.argv and text.find('CRITICAL') != -1 :
         #---
-        text = re.sub( "pywikibot\.output\(\s*(f'\s*<<\w+>>|f'\s*)(\s*\{__file__\}\s*Exception:\s*'\s*\+\s*str\(\w+\))\s*\)", 
+        text = re.sub(r"pywikibot\.output\(\s*(f'\s*<<\w+>>|f'\s*)(\s*\{__file__\}\s*Exception:\s*'\s*\+\s*str\(\w+\))\s*\)", 
             "warn(\g<1>\g<2>, UserWarning)", text , flags=re.IGNORECASE )
         #---
         if text.find('UserWarning') != -1 :

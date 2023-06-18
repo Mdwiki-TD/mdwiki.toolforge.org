@@ -214,7 +214,7 @@ def get_links():
     vaild_links = []
     #---
     for m2 in link_regex.finditer(section_text):
-        sa = re.compile('\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE )
+        sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE )
         sal = sa.findall(m2.group(0))
         if not sal:
             itemu = m2.group(1).split('|')[0].strip()

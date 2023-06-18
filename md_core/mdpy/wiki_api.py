@@ -169,7 +169,7 @@ def submitAPI( params, apiurl='', returnjson=False ):
     #---
     log( apiurl )
     #---
-    encode_params = encode_params = apit.encode_url(params)
+    encode_params = apit.encode_url(params)
     url = f'{apiurl}?{encode_params}'
     #---
     if "printurl" in sys.argv : 
@@ -574,7 +574,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
 #---
 if __name__ == '__main__':
     # get_views_with_rest_v1('ar', ['yemen', 'صنعاء'], date_start='20040101', date_end='20300101')
-    # get_views_with_rest_v1('ar', ['yemen', 'صنعاء'], date_start='20040101', date_end='20300101')
+    get_views_with_rest_v1('ar', ['yemen', 'صنعاء'], date_start='20040101', date_end='20300101')
     ux = get_page_views(['yemen', 'صنعاء'], site='ar', days = 30)
     pywikibot.output(ux)
 #---

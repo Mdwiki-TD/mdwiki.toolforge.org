@@ -70,9 +70,14 @@ def get_v(links):
         #---
         printe.output(f'<<yellow>> title: {m}/{lena} get_v {mdtitle}')
         #---
+        if "en" in sys.argv:
+            langs['en'] = mdtitle
+        #---
         leno = len(langs.keys())
         #---
         for lang, title in langs.items():
+            #---
+            if lang != "en" and "en" in sys.argv: continue
             #---
             N_g += 1
             #---

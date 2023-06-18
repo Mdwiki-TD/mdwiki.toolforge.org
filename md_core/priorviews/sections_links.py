@@ -54,6 +54,8 @@ class Sectios_links:
         # Create an empty dictionary to store all sections of the page
         self.SectionsToLinks = {}
 
+        self.titles_done = []
+
     def run(self):
         """
         Generate links for each section in the given wiki page.
@@ -70,7 +72,14 @@ class Sectios_links:
 
             # Get the wikilinks for the section and convert them to strings
             wikilinks = s.wikilinks
-            wikilinks = [str(x.title) for x in wikilinks]
+            
+            wikilinks = [str(x.title) for x in wikilinks if not str(x.title).lower() in self.titles_done]
+
+            # remove duplicts
+            wikilinks = list(set(wikilinks))
+
+            # expend self.titles_done
+            self.titles_done.extend([x.lower() for x in wikilinks])
 
             # Replace any links with their corresponding values in the replaces dict
             wikilinks = [replaces.get(x, x) for x in wikilinks]
@@ -101,9 +110,24 @@ def get_section_links():
     return secs_links
 #---
 if __name__ == '__main__':
+    all_links = {}
+    #---
     ll = get_section_links()
+    #---
     for s, ls in ll.items():
         print(f'section: {s}')
         print(f'len of links: {len(ls)}')
         if len(ls) < 10:
             print(ls)
+        #---
+        for link in ls:
+            if not link.lower() in all_links: all_links[link.lower()] = []
+            if not s in all_links[link.lower()]: all_links[link.lower()].append(s)
+    #---
+    printe.output('<<red>>---------------')
+    #---
+    for x, v in all_links.items():
+        if len(v) > 1:
+            sections = ", ".join(v)
+            print(f'link: ({x}) in {len(v)} sections: {sections}')
+    #---

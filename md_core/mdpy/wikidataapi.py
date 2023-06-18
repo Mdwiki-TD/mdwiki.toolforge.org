@@ -259,8 +259,8 @@ def Get_sitelinks_From_Qid( q ):
 #---
 def WD_Merge( q1, q2):
     #---
-    q11 = re.sub('Q' , '' , q1)
-    q22 = re.sub('Q' , '' , q2)
+    q11 = re.sub(r'Q' , '' , q1)
+    q22 = re.sub(r'Q' , '' , q2)
     #---
     if q11.isdigit() and q22.isdigit():
         #---
@@ -333,7 +333,7 @@ def Labels_API(Qid, label, lang, remove=False):
     if req:
         text = str(req)
         if ('using the same description text' in text) and ('associated with language code' in text):
-            item2 = re.search('(Q\d+)', str(req["error"]['info'])).group(1)
+            item2 = re.search(r'(Q\d+)', str(req["error"]['info'])).group(1)
             outbotnew('<<lightred>>API: same label item: ' + item2 )
             #---
             #outbot(text, fi = out, NoWait = nowait)
