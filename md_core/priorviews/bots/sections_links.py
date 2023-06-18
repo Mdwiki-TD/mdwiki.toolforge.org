@@ -15,7 +15,6 @@ import wikitextparser
 import codecs
 #---
 from mdpy import printe
-from prior import text_bot
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 '''
