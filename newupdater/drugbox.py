@@ -19,7 +19,7 @@ class TextProcessor:
     def __init__(self, text):
         self.text = text
         self.new_text = text
-        
+
         self.drugbox_params = {}
         self.all_drugbox_params = {}
         self.olddrugbox = ""
@@ -29,13 +29,13 @@ class TextProcessor:
         self.params_done_lowers = []
         #---
         self.run()
-    
+
     def get_new_temp(self):
         return self.newdrugbox
-    
+
     def get_old_temp(self):
         return self.olddrugbox
-    
+
     def get_txt_params(self, text):
         #---
         txt = ''
@@ -61,7 +61,7 @@ class TextProcessor:
                 break
         #---
         return txt, params
-    
+
     def run(self):
         #---
         self.olddrugbox, self.drugbox_params = self.get_txt_params(self.text)
@@ -85,7 +85,7 @@ class TextProcessor:
         text = '\n\n' + section
         #---
         self.newdrugbox += text
-    
+
     def get_combo(self):
         #---
         combo_titles = {
@@ -214,7 +214,7 @@ class TextProcessor:
         #---
         return sec_text
         #---
-    
+
     def new_temp(self):
         #---
         self.newdrugbox = '{{' + self.drugbox_title

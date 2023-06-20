@@ -28,13 +28,13 @@ def remove_cite_web( text, resources_get_NLM, line, title ):
             new_text = new_text.replace( line, line2 )
             if line != line2 and new_text.find(line2) != -1 :
                 new_text = new_text.replace( vas, "" )             # حذف قالب الاستشهاد
-        
+
         # الوسيط غير موجود في القالب
         elif new_text.find("{{drug resources") != -1 :
             new_text = re.sub(r"\{\{drug resources", "{{drug resources\n<!--External links-->\n| NLM = {{PAGENAME}}", new_text, flags=re.IGNORECASE)
             if new_text.find("| NLM = {{PAGENAME}}") != -1 :
                 new_text = new_text.replace( vas, "" )                 # حذف قالب الاستشهاد
-            
+
             elif External2 and External2.group(1) != "" :
                 ttuy = External2.group(1)
                 drug_Line = "\n{{drug resources\n<!--External links-->\n| NLM = {{PAGENAME}}\n}}"

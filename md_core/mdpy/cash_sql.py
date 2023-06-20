@@ -6,13 +6,11 @@
 
 python3 pwb.py mdpy/cash_sql
 
-
 """
 #
 # (C) Ibrahem Qasim, 2022
 #
 #
-
 
 import re
 import json
@@ -22,9 +20,9 @@ import os
 import sys
 sys.dont_write_bytecode = True
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 #---
-from mdpy import py_tools
+from mdpy.bots import py_tools
 from mdpy import printe
 #---
 project = '/data/project/mdwiki/'
@@ -35,7 +33,7 @@ noqids1 = []
 with open(project + '/public_html/Translation_Dashboard/Tables/noqids.json', 'r') as f:
     noqids1 = json.load(f)
 #---
-from mdpy import wiki_api
+from mdpy.bots import wiki_api
 
 #---
 noqids = []
@@ -187,7 +185,7 @@ def get_qids():
     for x, q in new_title_qid.items():
         ll = f'"{q}":"{x}",\n'
         if q != '':
-            
+
             if not q in qids_list_already:
                 toadd += 1
                 printe.output('<<lightyellow>>' + ll.strip() )

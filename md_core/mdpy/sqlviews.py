@@ -16,14 +16,14 @@ import re
 import pywikibot
 import sys
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #===
 #---
-from mdpy import wiki_api
+from mdpy.bots import wiki_api
 #===
 #---
-from mdpy import py_tools
+from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)

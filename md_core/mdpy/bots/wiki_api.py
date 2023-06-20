@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 #---
-from mdpy import wiki_api
+from mdpy.bots import wiki_api
 # wiki_api.Get_page_qids(sitecode, titles)
 # wiki_api.submitAPI( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
 # wiki_api.submitAPI_token( params, apiurl = 'https://' + 'www.wikidata.org/w/api.php', returnjson = False )
@@ -33,7 +33,7 @@ import string
 #import time
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 import urllib
 import urllib.request
@@ -56,7 +56,8 @@ Url_To_login = { 1 : '', 'not' : True }
 login_done = { 1 : False }
 #---
 #---
-from mdpy import user_account_new
+from mdpy import printe
+from mdpy.bots import user_account_new
 #---
 lgname     = user_account_new.bot_username     #user_account_new.my_username
 lgpassword = user_account_new.bot_password     #user_account_new.my_password      #user_account_new.mdwiki_pass
@@ -70,7 +71,7 @@ def log( api_urle ) :
     #---
     session[1] = requests.Session()
     #---
-    #if api_urle != session["url"]: pywikibot.output( "wiki_api.py: log to %s. user:%s" % (api_urle, username)  )
+    #if api_urle != session["url"]: printe.output( "wiki_api.py: log to %s. user:%s" % (api_urle, username)  )
     #---
     session["url"] = api_urle
     #---
@@ -152,7 +153,7 @@ def submitAPI_token( params, apiurl='', returnjson = False ):
     #---    
     if returnjson : return r4
     #---    
-    #if r4.text.find('</body></html>') == -1 : pywikibot.output(r4.text)
+    #if r4.text.find('</body></html>') == -1 : printe.output(r4.text)
     #---    
     try:
         json1 = json.loads( r4.text )
@@ -174,7 +175,7 @@ def submitAPI( params, apiurl='', returnjson=False ):
     #---
     if "printurl" in sys.argv : 
         url2 = url.replace("&format=json","").replace("?format=json","?")
-        pywikibot.output('printboturl:\t\t' + url2)
+        printe.output('printboturl:\t\t' + url2)
     #---
     json1 = {}
     #---
@@ -184,7 +185,7 @@ def submitAPI( params, apiurl='', returnjson=False ):
     #---    
     if returnjson : return r4
     #---    
-    #if r4.text.find('</body></html>') == -1 : pywikibot.output(r4.text)
+    #if r4.text.find('</body></html>') == -1 : printe.output(r4.text)
     #---
     try:
         json1 = json.loads( r4.text )
@@ -306,7 +307,7 @@ def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, 
     #---
     if site.strip() == "" : site = "en"
     #---
-    pywikibot.output('Getpageassessments for "%s:%s pages."' % ( site, len(titles.split('|')) ) )
+    printe.output('Getpageassessments for "%s:%s pages."' % ( site, len(titles.split('|')) ) )
     Tables = { 
         #"stub" : False , 
         }
@@ -342,7 +343,7 @@ def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, 
         Tables[titley] = tayo
         #---
         if "missing" in tayo:
-            pywikibot.output( "<<lightred>> page:%s is missing"  % titley )
+            printe.output( "<<lightred>> page:%s is missing"  % titley )
             Tables[titley] = { 'missing' : True }
     #---
     redirects = query.get("redirects", [])
@@ -355,7 +356,7 @@ def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, 
     return Tables
 #---
 def GetPageText(title, lang, redirects=False):
-    #pywikibot.output( '**GetarPageText: ')
+    #printe.output( '**GetarPageText: ')
     #---
     params = {
         "action": "parse",
@@ -375,11 +376,11 @@ def GetPageText(title, lang, redirects=False):
     if json1: 
         text = json1.get('parse',{}).get('wikitext',{}).get('*','')
     else:
-        pywikibot.output('no parse in json1:' )
-        pywikibot.output(json1)
+        printe.output('no parse in json1:' )
+        printe.output(json1)
     #---
     if text == "" :
-        pywikibot.output('page %s text == "".' % title )
+        printe.output('page %s text == "".' % title )
     #---
     return text
 #---
@@ -411,7 +412,7 @@ def _get_page_views_(titles, site='en', days = 30):
     for number, titles_1 in List.items() :
         if len(titles_1) < 1 : continue
         #---
-        pywikibot.output('<<lightgreen>> views:%d, done:%d from %d titles.' % ( len(Main_table.keys()), done, len(titles) ) )
+        printe.output('<<lightgreen>> views:%d, done:%d from %d titles.' % ( len(Main_table.keys()), done, len(titles) ) )
         #---
         params['titles'] = "|".join(titles_1)
         #---
@@ -440,7 +441,7 @@ def _get_page_views_(titles, site='en', days = 30):
             title2 = redirects.get(title)
             #---
             if title2:
-                pywikibot.output(f'page: {title} redirect to {title2}')
+                printe.output(f'page: {title} redirect to {title2}')
                 title = title2
             #---
             if "missing" in kk: 
@@ -466,7 +467,7 @@ def _get_page_views_(titles, site='en', days = 30):
     #---
     len_no_pv = len(no_pv)
     #---
-    pywikibot.output(f'get_page_views: no_pv:{len_no_pv}')
+    printe.output(f'get_page_views: no_pv:{len_no_pv}')
     #---
     return Main_table, no_pv
 #---
@@ -506,11 +507,11 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
         url = 'https:' + '//wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' + langcode + '.wikipedia/all-access/all-agents/' + pa.replace('/','%2F') + '/monthly/' + date_start + '00/' + date_end + '00'
         #---
         if "printurl" in sys.argv or printurl : 
-            pywikibot.output('printboturl:\t\t' + url)
+            printe.output('printboturl:\t\t' + url)
         #---
         if printstr:
-            pywikibot.output('-------------------')
-            pywikibot.output( 'a %d/%d page:%s' % (numb, len(titles), page) )
+            printe.output('-------------------')
+            printe.output( 'a %d/%d page:%s' % (numb, len(titles), page) )
         #---
         req = http.fetch( url )
         #req = requests.Session().get( url )
@@ -518,8 +519,8 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
         st = req.status_code
         #---
         if 500 <= st < 600:
-            pywikibot.output( 'received {0} status from {1}'.format(st, req.url) )
-            pywikibot.output( url )
+            printe.output( 'received {0} status from {1}'.format(st, req.url) )
+            printe.output( url )
         #---
         data = {}
         try:
@@ -567,7 +568,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
                     txt += f', {year}: {y_tab["all"]}'
             #---
             if printstr:
-                pywikibot.output( txt )
+                printe.output( txt )
             #---
     #---
     return numbers
@@ -576,5 +577,5 @@ if __name__ == '__main__':
     # get_views_with_rest_v1('ar', ['yemen', 'صنعاء'], date_start='20040101', date_end='20300101')
     get_views_with_rest_v1('ar', ['yemen', 'صنعاء'], date_start='20040101', date_end='20300101')
     ux = get_page_views(['yemen', 'صنعاء'], site='ar', days = 30)
-    pywikibot.output(ux)
+    printe.output(ux)
 #---

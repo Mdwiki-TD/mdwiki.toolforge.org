@@ -60,11 +60,11 @@ class NEW_API():
         self.endpoint = f'https://{lang}.{family}.org/w/api.php'
         #---
         self.log = login_def(self.lang, family=self.family)
-        
+
     def Login_to_wiki(self):
         #---
         self.log.Log_to_wiki()
-    
+
     def handel_err(self, error, function):
         #---
         # {'error': {'code': 'articleexists', 'info': 'The article you tried to create has been created already.', '*': 'See https://ar.wikipedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}, 'servedby': 'mw1425'}
@@ -98,7 +98,7 @@ class NEW_API():
 
     def post_params(self, params):
         return self.log.post(params)
-    
+
     def Find_pages_exists_or_not(self, liste):
         #---
         normalized = {}

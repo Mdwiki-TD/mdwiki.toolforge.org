@@ -25,7 +25,7 @@ sys.dont_write_bytecode = True
 #---
 '''
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 # mdwiki_api.post(params)
 # mdwiki_api.wordcount(title, srlimit='30')
 # mdwiki_api.purge(title)
@@ -51,7 +51,7 @@ from mdpy import mdwiki_api
 maxlag = 3
 ar_lag = { 1 : maxlag }
 #---
-from mdpy import user_account_new
+from mdpy.bots import user_account_new
 from mdpy import printe
 #---
 account = {
@@ -667,16 +667,16 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True ):
         "gcmprop": "title",
         "gcmtype": "page|subcat",
         "gcmlimit": "max",
-        
+
         "redirects": 1,
         #"prop": "templates",
         #"tllimit": "max",
-        
+
         #"lllang": langcode,
         #"lllimit": "max",
     }
     #---
-    #if not "tempapi" in sys_argv :
+    #if not "tempapi" in sys.argv :
         #params["prop"] = "templates"
         #params["tllimit"] = "max"
     #---
@@ -851,7 +851,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False, without_lang="",
     final = time.time()
     delta = int(final - start)
     #---
-    #if "printresult" in sys_argv: printe.output(result_table)
+    #if "printresult" in sys.argv: printe.output(result_table)
     #---
     printe.output('<<lightblue>>catdepth.py: find %d pages(%s) in %s:%s, depth:%d in %d seconds' % (len(result_table),str(ns),'',title,depth,delta ) )
     #---

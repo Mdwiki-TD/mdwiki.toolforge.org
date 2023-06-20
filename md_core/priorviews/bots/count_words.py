@@ -85,7 +85,7 @@ class InOldText(object):
         #---
         # print(f'count_text: {lenth}')
         self.words = lenth
-        
+
     def post_to_json(self, params):
         json1 = {}
         #---
@@ -126,7 +126,7 @@ class InOldText(object):
         # print(f'timestamp: {self.timestamp}')
         self.oldtext = revisions.get('slots',{}).get('main',{}).get('content','')
         #---
-    
+
     def get_newtext(self):
         params = { "action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "redirects": 1, "utf8": 1, "formatversion": "2"}
         #---
@@ -134,7 +134,7 @@ class InOldText(object):
         #---
         self.newtext = json1.get('parse',{}).get('wikitext','')
         #---
-    
+
     def Words(self):
         printe.output(f'\t\twords: {self.words}')
         return self.words

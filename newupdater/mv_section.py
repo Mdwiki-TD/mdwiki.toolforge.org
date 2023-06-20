@@ -25,7 +25,7 @@ class move_External_links_section:
         self.last_sec = ''
         #---
         self.run()
-    
+
     def run(self):
         #---
         self.get_sects()
@@ -121,14 +121,14 @@ class move_External_links_section:
 
                 #---
             #---
-        
+
         #---
     def get_new_text(self):
         #---
         self.new_text = re.sub(r'\n\s*\[\[Category', '\n[[Category', self.new_text, flags=re.DOTALL | re.MULTILINE)
         #---
         return self.new_text
-    
+
 #---
 if __name__ == "__main__":
     # python3 pwb.py newupdater/mv_section Alcohol_septal_ablation

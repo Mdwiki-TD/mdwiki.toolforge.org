@@ -3,9 +3,7 @@
 """
 بوت قواعد البيانات
 
-python3 pwb.py mdpy/sql justsql break
-python3 pwb.py mdpy/sql justsql
-python3 pwb.py mdpy/sql
+python3 core8/pwb.py mdpy/wddone
 
 """
 #
@@ -13,10 +11,10 @@ python3 pwb.py mdpy/sql
 #
 #
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # from sql import *
 #---
-from mdpy import py_tools
+from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)

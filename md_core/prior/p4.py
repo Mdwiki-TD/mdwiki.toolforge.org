@@ -4,7 +4,7 @@ write code to read page in en.wikipedia.org using API, then create list with all
 title: WikiProjectMed:List/Prior
 links like [[example]]
 
-python3 ./core/pwb.py prior/p4 test
+python3 core8/pwb.py prior/p4 test
 '''
 import sys
 from collections import namedtuple
@@ -232,7 +232,7 @@ def start_test(links=[]):
     main_File    = project_json + 'test.json'
     main_File_en = project_json + 'en_test.json'
     #---
-    # python3 ./core/pwb.py prior/p4 test
+    # python3 core8/pwb.py prior/p4 test
     #---
     work_in_links(links, main_File, main_File_en, Log=False)
     #---
@@ -265,7 +265,7 @@ def start_all():
         #---
         tanko[str(n)] = {'file':main_File, 'file_en':main_File_en, 'links':titles}
         #---
-        printe.output(f'jsub -N s{n} python3 ./core/pwb.py prior/p4 -s:{n}')
+        printe.output(f'jsub -N s{n} python3 core8/pwb.py prior/p4 -s:{n}')
         #---
     #---
     valu = ''

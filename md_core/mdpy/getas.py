@@ -10,7 +10,6 @@ python3 pwb.py /data/project/mdwiki/mdpy/getas
 
 python3 pwb.py mdpy/getas newpages
 
-
 """
 #
 # (C) Ibrahem Qasim, 2022
@@ -20,9 +19,9 @@ import json
 import codecs
 import os
 import sys
-sys_argv = sys.argv or []
+
 import pywikibot
-from mdpy import catdepth2
+from mdpy.bots import catdepth2
 #---
 #---
 from mdpy import printe
@@ -56,7 +55,7 @@ len_old = len(old_assessments)
 #---
 assessments = { x : z for x, z in old_assessments.items() }
 #---
-if 'newpages' in sys_argv:#vaild_links
+if 'newpages' in sys.argv:#vaild_links
     vaild_links2 = vaild_links
     vaild_links = [ xp for xp in vaild_links2 if (not xp in old_assessments or old_assessments.get(xp) in ["Unknown",""]) ]
     #---
@@ -64,14 +63,12 @@ if 'newpages' in sys_argv:#vaild_links
     #--- 
 #---
 Nore = { 1 : False }
-for arg in sys_argv:
+for arg in sys.argv:
     if arg in [ 'new' , 'listnew' , 'less100' , 'more400' ] :
         Nore[1] = True
 #--- 
 #---
-from mdpy import wiki_api
-
-
+from mdpy.bots import wiki_api
 
 #---
 #---
@@ -94,7 +91,7 @@ def split_list_to_numbers( lll ):
     #---
     return List   
 #---
-from en_to_md import *#mdwiki_to_enwiki#enwiki_to_mdwiki
+from mdpy.bots.en_to_md import *#mdwiki_to_enwiki#enwiki_to_mdwiki
 #---
 def log():
     with open( json_file[0] , 'w') as outfile:
@@ -135,12 +132,12 @@ def mmain():
     #---
     kkk = { 1 : vaild_links }
     #---
-    if not 'new' in sys_argv:
+    if not 'new' in sys.argv:
         #kkk = [ x for x in vaild_links if not x in old_assessments ]
         kkk[1] = []
         for x in vaild_links :
             x2 = x[0].upper() + x[1:]
-            #if not x in old_assessments or 'listnew' in sys_argv:
+            #if not x in old_assessments or 'listnew' in sys.argv:
             kkk[1].append( x2 )
     #---
     ll = split_list_to_numbers(kkk[1])

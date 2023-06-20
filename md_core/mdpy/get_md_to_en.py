@@ -2,10 +2,7 @@
 
 """
 
-python pwb.py mdwiki/mdpy/check
-
-
-python3 pwb.py mdpy/check
+python3 core8/pwb.py mdpy/get_md_to_en nodump
 
 """
 #
@@ -33,8 +30,8 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/public_html/Translation_Dashboard/Tables/'
 #---
-from mdpy import catdepth2
-from mdpy import wiki_api
+from mdpy.bots import catdepth2
+from mdpy.bots import wiki_api
 from mdpy import printe
 #---
 medwiki_to_enwiki_conflic = {}
@@ -144,12 +141,14 @@ def check():
     printe.output('<<lightgreen>> len of medwiki_to_enwiki_conflic:%d' % ( len(medwiki_to_enwiki_conflic) ) )
     printe.output('<<lightgreen>> len of sames:%d' % ( len(sames) ) )
     #---
-    # الكتابة إلى الملفات
-    json.dump( medwiki_to_enwiki, open( project + 'medwiki_to_enwiki.json', 'w' ) )
-    #---
-    json.dump( missing_in_enwiki, open( project + 'missing_in_enwiki.json', 'w' ) )
-    #---
-    json.dump( sames, open( project + 'sames.json', 'w' ) )
+    if not 'nodump' in sys.argv:
+        
+        # الكتابة إلى الملفات
+        json.dump( medwiki_to_enwiki, open( project + 'medwiki_to_enwiki.json', 'w' ) )
+        #---
+        json.dump( missing_in_enwiki, open( project + 'missing_in_enwiki.json', 'w' ) )
+        #---
+        json.dump( sames, open( project + 'sames.json', 'w' ) )
 #---
 if __name__ == '__main__':
     check()

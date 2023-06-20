@@ -4,9 +4,9 @@ import re
 import string
 import pywikibot
 #---
-from mdpy import catdepth2
-from mdpy import mdwiki_api
-from mdpy import sql_for_mdwiki
+from mdpy.bots import catdepth2
+from mdpy.bots import mdwiki_api
+from mdpy.bots import sql_for_mdwiki
 from mdpy import printe
 #---
 link_regex = re.compile(r'\[\[(.*?)\]\]')

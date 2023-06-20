@@ -40,7 +40,7 @@ def auth_ready(tweet, link=None):
     #---
     # print(dir(api))
     #---
-    
+
     #---
     #t = api.search_recent_tweets(tweet)
     t = api.create_tweet(text=tweet, media_ids=['1582864493234851846'])

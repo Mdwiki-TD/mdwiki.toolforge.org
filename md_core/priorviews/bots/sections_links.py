@@ -71,7 +71,7 @@ class Sectios_links:
 
             # Get the wikilinks for the section and convert them to strings
             wikilinks = s.wikilinks
-            
+
             wikilinks = [str(x.title) for x in wikilinks if not str(x.title).lower() in self.titles_done]
 
             # remove duplicts

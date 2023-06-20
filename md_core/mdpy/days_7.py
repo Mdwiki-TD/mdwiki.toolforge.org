@@ -7,7 +7,7 @@ python3 pwb.py mdpy/days_7
 # (C) Ibrahem Qasim, 2023
 #
 #
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
 qua = '''

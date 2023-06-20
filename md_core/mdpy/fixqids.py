@@ -16,10 +16,10 @@ import pywikibot
 import os
 import sys
 #---
-from mdpy import wikidataapi
+from mdpy.bots import wikidataapi
 #---
 from mdpy import printe
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
@@ -30,7 +30,7 @@ qs_list = { q : title for title, q in mdlist.items() if q != '' }
 #---
 def fix_redirects():
     #---
-    # python3 ./core/pwb.py mdpy/fixqids redirects
+    # python3 core8/pwb.py mdpy/fixqids redirects
     #---
     printe.output(f'<<lightyellow>> start fix_redirects()')
     #---
@@ -50,13 +50,13 @@ def fix_redirects():
         qua = f'update qids set qid = "{new_q}" where qid = "{old_q}"'
         #---
         if 'fix' in sys.argv:
-            # python3 ./core/pwb.py mdpy/cashwd redirects fix
+            # python3 core8/pwb.py mdpy/cashwd redirects fix
             sql_for_mdwiki.mdwiki_sql(qua, update=True)
         else:
             printe.output(qua)
             printe.output('add "fix" to sys.argv to fix them..')
 #---
-from mdpy import catdepth2
+from mdpy.bots import catdepth2
 #---
 def check_title(title):
     #---

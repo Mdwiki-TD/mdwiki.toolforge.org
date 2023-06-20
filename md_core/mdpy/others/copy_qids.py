@@ -18,14 +18,14 @@ import json
 import sys
 import pywikibot
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
 #---
 # from sql import *
 #---
-from mdpy import py_tools
+from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
@@ -44,7 +44,7 @@ print(f'len_qids_not_empty = {len_qids_not_empty}')
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-from mdpy import en_to_md
+from mdpy.bots import en_to_md
 # en_to_md.mdtitle_to_qid
 qids_list = en_to_md.mdtitle_to_qid
 #---

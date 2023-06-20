@@ -14,7 +14,7 @@ import datetime
 from datetime import timedelta
 #---
 from mdpy import printe
-from mdpy import wiki_api
+from mdpy.bots import wiki_api
 #---
 from priorviews.bots import count_words
 #---

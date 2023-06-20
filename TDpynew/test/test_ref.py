@@ -118,4 +118,3 @@ ff = ff.replace('<ref', '\n<ref')
 new = fix_ref( ff , all )
 pywikibot.showDiff( ff , new )
 #---
-

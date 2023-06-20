@@ -153,7 +153,7 @@ class MainPage():
     #---
     def post_params(self, params, addtoken=False):
         return self.log.post(params, addtoken=addtoken)
-    
+
     def get_text(self, redirects=False):
         params = {
             "action": "query",

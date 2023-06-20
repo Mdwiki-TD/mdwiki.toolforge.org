@@ -140,7 +140,7 @@ def make_text(section, links):
         print(langs_keys)
 
     section_views = 0
-    
+
     # Loop through the dictionary of links.
     for mdtitle, langlinks in links.items():
         n += 1

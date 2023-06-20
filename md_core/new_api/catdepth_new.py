@@ -37,13 +37,13 @@ class CategoryDepth:
 
     def Login_to_wiki(self):
         self.log.Log_to_wiki()
-    
+
     def post_params(self, params):
         return self.log.post(params, addtoken=True)
-    
+
     def make_params(self):
         params = { "action": "query", "format": "json", "utf8": 1, "generator": "categorymembers", "gcmprop": "title", "prop": [], "gcmtype": "page|subcat", "gcmlimit": "max", "formatversion": "1", "gcmsort": "timestamp", "gcmdir": "newer" }
-        
+
         if self.tempyes != []:
             params["prop"].append("templates")
             params["tllimit"] = "max"
@@ -120,7 +120,7 @@ class CategoryDepth:
             if langs == "":	    return
 
         self.result_table[x] = tab
-    
+
     def _subcatquery_(self):
         #---
         tablemember = self.get_cat(self.title)

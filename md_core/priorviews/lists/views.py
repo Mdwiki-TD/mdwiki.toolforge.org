@@ -75,7 +75,7 @@ def makeviews():
 
             # If the language doesn't exist in `views_by_lang`, add it
             if not lang in views_by_lang:   views_by_lang[lang] = {}
-            
+
             if not v['title'].lower() in views_by_lang[lang]:
                 # Increment the total view count for the given language
                 count_views_by_lang[lang] += _views

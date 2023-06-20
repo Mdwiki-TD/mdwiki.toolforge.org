@@ -69,4 +69,3 @@ if __name__ == '__main__':
         new = fix_ref( ff , all )
         pywikibot.showDiff( ff , new )
 #---
-

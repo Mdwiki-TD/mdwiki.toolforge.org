@@ -21,17 +21,17 @@ import re
 import sys
 #---
 from mdpy import printe
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 from medUpdater import med
 #---
-sys_argv = sys.argv or []
-printe.output(sys_argv)
+
+printe.output(sys.argv)
 #---
 def treat_page( title, textn ):
     #---
     newtext = med.work( title , returntext = True , text_O = textn )
     #---
-    if 'test' in sys_argv: 
+    if 'test' in sys.argv: 
         pywikibot.showDiff( textn , newtext )
         return ''
     #---
@@ -64,7 +64,7 @@ def treat_page( title, textn ):
 | onset = 
 | duration_of_action = 
 | defined_daily_dose = is not established<ref name=who/>
- 
+
 | MedlinePlus = a696011
 | pregnancy_category =  
 | legal_AU = S4
@@ -84,7 +84,7 @@ def main():
     # python3 pwb.py md2 -page:Abacavir/lamivudine
     # python3 pwb.py md2 -page:Hyoscine_butylbromide
     #---
-    for arg in sys_argv:
+    for arg in sys.argv:
         arg, sep, value = arg.partition(':')
         #---
         if arg == "-page" : 
@@ -104,9 +104,9 @@ def main():
         treat_page( title , text )
     #---
     # python pwb.py md2 test
-    if 'test' in sys_argv:
+    if 'test' in sys.argv:
         treat_page( 'nana' , test_text )
-        
+
 #---
 if __name__ == '__main__':
     main()

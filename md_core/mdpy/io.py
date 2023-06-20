@@ -26,7 +26,7 @@ import pywikibot
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 #---
 NewList = {}
 #---

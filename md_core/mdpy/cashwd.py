@@ -2,7 +2,7 @@
 # -*- coding: utf-8  -*-
 #   himo
 """
-python3 ./core/pwb.py mdpy/cashwd
+python3 core8/pwb.py mdpy/cashwd
 
 """
 #
@@ -21,7 +21,7 @@ import datetime
 from datetime import datetime
 Day_History = datetime.now().strftime("%Y-%m-%d")
 #---
-sys_argv = sys.argv or []
+
 #---
 project = '/data/project/mdwiki/'
 #---
@@ -29,16 +29,16 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 Dashboard_path = project + '/public_html/Translation_Dashboard'
 #---
-from mdpy import wikidataapi
-from mdpy import py_tools
-from mdpy import mdwiki_api
+from mdpy.bots import wikidataapi
+from mdpy.bots import py_tools
+from mdpy.bots import mdwiki_api
 #---
-from mdpy import en_to_md
+from mdpy.bots import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)

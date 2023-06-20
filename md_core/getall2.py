@@ -51,7 +51,6 @@ def get_text(file_path):
 	#---
 	# find out what encoding the file is
 	#---
-	
 	#---
 	# find out what encoding the file is
 	#---

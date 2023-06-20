@@ -72,7 +72,6 @@ def ignore_case(string: str) -> str:
         '[{}{}]'.format(c, s) if c != s else c
         for s, c in zip(string, string.swapcase()))
 
-
 def _tag_pattern(tag_name: str) -> str:
     """Return a tag pattern for the given tag name."""
     return (
@@ -80,7 +79,6 @@ def _tag_pattern(tag_name: str) -> str:
         r'[\s\S]*?'  # contents
         r'</{0}\s*>'  # end tag
         .format(ignore_case(tag_name)))
-
 
 def _create_default_regexes() -> None:
     """Fill (and possibly overwrite) _regex_cache with default regexes."""
@@ -133,11 +131,9 @@ def _create_default_regexes() -> None:
         'template': NESTED_TEMPLATE_REGEX,
     })
 
-
 def _tag_regex(tag_name: str):
     """Return a compiled tag regex for the given tag name."""
     return re.compile(_tag_pattern(tag_name))
-
 
 def _get_regexes(keys, site):
     """Fetch compiled regexes."""
@@ -187,7 +183,6 @@ def _get_regexes(keys, site):
             result.append(_tag_regex('ce'))
 
     return result
-
 
 def replaceExcept(text: str, old, new, exceptions: list,
                   caseInsensitive: bool = False, allowoverlap: bool = False,
@@ -276,4 +271,3 @@ def replaceExcept(text: str, old, new, exceptions: list,
             replaced += 1
     text = text[:markerpos] + marker + text[markerpos:]
     return text
-

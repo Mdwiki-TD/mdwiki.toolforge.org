@@ -228,7 +228,7 @@ def make_text(allo, ttt=''):
     #---
     # Add the language keys to text separated by '!!'.
     # text += " !! ".join(langs_keys)
-    
+
     def format_x(x):
         if len(x) < 4: return x
         #---
@@ -236,7 +236,7 @@ def make_text(allo, ttt=''):
         x2 = x2[:3]
         #---
         return "{{abbr|" + f"{x2}|{x}" + "}}"
-        
+
     langs_keys_text = " !! ".join([format_x(x) for x in langs_keys])
     text += f" {langs_keys_text}"
 

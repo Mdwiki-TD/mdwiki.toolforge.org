@@ -15,11 +15,11 @@ import pywikibot
 import re
 import string
 import sys
-sys_argv = sys.argv or []
+
 #---
-from mdpy import txtlib2
+from mdpy.bots import txtlib2
 from mdpy import printe
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 #---
 import os
 project = '/data/project/mdwiki/'

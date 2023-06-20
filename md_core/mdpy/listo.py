@@ -10,7 +10,7 @@ python mdwiki/mdpy/listo.py save
 
 python3 /data/project/mdwiki/md_core/mdpy/listo.py save
 
-python3 /data/project/mdwiki/core/pwb.py mdpy/listo save
+python3 core8/pwb.py mdpy/listo save
 
 """
 #
@@ -32,7 +32,7 @@ import time
 #menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 
 #---
@@ -41,23 +41,7 @@ import urllib.request
 import urllib.parse
 #---
 #---
-from mdpy import mdwiki_api
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+from mdpy.bots import mdwiki_api
 
 #---
 #import requests
@@ -66,7 +50,7 @@ from mdpy import mdwiki_api
 #---
 limit_m = { 1 : 0 }
 #---
-for arg in sys_argv:
+for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     #---
     if arg.lower() == 'li' or arg.lower() == '-li' and value.isdigit():

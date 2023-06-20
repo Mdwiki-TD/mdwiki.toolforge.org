@@ -19,8 +19,6 @@ import re
 import os
 import sys
 #---
-sys_argv = sys.argv or []
-#---
 print_pywikibot = { 1 : False }
 try:
     import pywikibot
@@ -28,14 +26,14 @@ try:
 except:
     print_pywikibot[1] = False
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 # start of mdwiki_api.py file
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 from mdpy import printe
 #---
 all_ref = {}
@@ -46,7 +44,7 @@ list_ma = { 1 : [] }
 file_all  = project + '/public_html/Translation_Dashboard/Tables/all_refcount.json'
 file_lead = project + '/public_html/Translation_Dashboard/Tables/lead_refcount.json'
 #---
-from mdpy import catdepth2
+from mdpy.bots import catdepth2
 #---
 def Decode_bytes(x):
     if type(x) == bytes:
@@ -152,7 +150,7 @@ def get_links():
     if 'sql' in sys.argv:
         lale = from_sql()
     #---
-    if 'newpages' in sys_argv:
+    if 'newpages' in sys.argv:
         lale = [ x for x in lale if ( not x in list_ma[1] )]
     #---
     return lale

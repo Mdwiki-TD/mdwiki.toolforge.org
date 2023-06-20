@@ -12,7 +12,7 @@ import json
 import re
 import string
 import sys
-sys_argv = sys.argv or []
+
 #---
 numbers = { 1 : 20000 , 'done' : 0 }
 #---

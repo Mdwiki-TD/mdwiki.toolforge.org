@@ -17,14 +17,14 @@ import re
 import string
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 import requests
 Session = requests.Session()
 #---
 La_si = { 1 : 2500000 }
 #---
-for arg in sys_argv:
+for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     #---
     if arg == "-lasi" or arg == "lasi" and value.isdigit():
@@ -90,9 +90,9 @@ def export_en_history( title ) :
     #---
     numbdone = []
     #---
-    
+
     #---
-    if len(xmldata) > La_si[1] and not 'nosplit' in sys_argv : 
+    if len(xmldata) > La_si[1] and not 'nosplit' in sys.argv : 
         #while done == False :
         for rev in revisions :
             #---
@@ -178,9 +178,9 @@ def export( title ) :
     return FILE_PATH
 #---
 if __name__ == "__main__":
-    if 'teest' in sys_argv:
+    if 'teest' in sys.argv:
         export_en_history( 'fafa' )
-    elif len(sys_argv) > 1 : 
-        export( sys_argv[1] )
-        #export_en_history( sys_argv[1] )
+    elif len(sys.argv) > 1 : 
+        export( sys.argv[1] )
+        #export_en_history( sys.argv[1] )
 #---

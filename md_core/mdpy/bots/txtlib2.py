@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #---*- coding: utf-8 -*-
 """
-from mdpy import txtlib2
+from mdpy.bots import txtlib2
 # ingr = txtlib2.extract_templates_and_params(text)
 # for temp in ingr: name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
 """
@@ -14,9 +14,6 @@ import sys
 sys.dont_write_bytecode = True
 #---
 import os
-u_path = '/data/project/mdwiki/core/'
-if os.path.exists(u_path):
-    sys.path.append(os.path.abspath(u_path))
 #---
 try:
     import wikitextparser

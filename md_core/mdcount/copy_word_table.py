@@ -15,10 +15,10 @@ import os
 import json
 import sys
 import pywikibot
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 #---
 from mdpy import printe
-from mdpy import py_tools
+from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 # py_tools.make_cod(string)
@@ -81,7 +81,7 @@ for tit in na_list:
     #---
     qua = f"""INSERT INTO words (w_title, w_lead_words, w_all_words) SELECT {title2}, {lead}, {All}
     WHERE NOT EXISTS ( SELECT 1 FROM words  WHERE w_title = {title2} );
-    
+
     UPDATE words SET w_lead_words = {lead}, w_all_words = {All} WHERE w_title = {title2};
     """
     #---

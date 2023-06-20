@@ -94,7 +94,7 @@ class FindAuthor(object):
                         self.author = r.get('user', '')
                         return
         #---
-    
+
     def Author(self):
         printe.output(f'\t\t Author: {self.author}')
         return self.author

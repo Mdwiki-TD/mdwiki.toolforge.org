@@ -24,19 +24,19 @@ import time
 #menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 import urllib
 import urllib.request
 import urllib.parse
 #---
 #---
-from mdpy import py_tools
+from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 #---
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 from mdpy import printe
 import requests
 Session = requests.Session()
@@ -149,7 +149,7 @@ def work( title , num , lenth ):
 #    time.sleep(5)
     #---
 #---
-for arg in sys_argv:
+for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     #---
     if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
@@ -180,7 +180,7 @@ def main():
     namespaces = '0'
     newpages = ''
     #---
-    for arg in sys_argv:
+    for arg in sys.argv:
         arg, sep, value = arg.partition(':')
         #---
         arg = arg.lower()

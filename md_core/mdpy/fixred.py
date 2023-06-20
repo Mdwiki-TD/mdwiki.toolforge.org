@@ -4,7 +4,7 @@
 
 إيجاد التحويلات واصلاحها
 
-python3 fixred.py test 
+python3 pwb.py mdpy/fixred
 
 """
 #
@@ -25,9 +25,9 @@ import urllib
 import urllib.request
 import urllib.parse
 #---
-sys_argv = sys.argv or []
+
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 from mdpy import printe
 #---
 #import requests
@@ -36,7 +36,7 @@ from mdpy import printe
 NewList = {}
 #---
 def printtest(s):
-    if 'test' in sys_argv: 
+    if 'test' in sys.argv: 
         print( s )
 #---
 redirects_pages = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'redirects' )
@@ -56,7 +56,7 @@ printe.output( 'len of nonredirects %d ' % len( nonredirects ) )
 from_to = {}
 normalized = {}
 #---
-from mdpy import py_tools
+from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
 #---
@@ -217,7 +217,7 @@ def main():
     # python  fixred.py test -page:User:Mr._Ibrahem/sandbox
     # python3 fixred.py test -page:Tetracycline_antibiotics
     #---
-    for arg in sys_argv:
+    for arg in sys.argv:
         arg, sep, value = arg.partition(':')
         #---
         if arg == "-page2" or arg == "page2" : 

@@ -29,4 +29,3 @@ def views_url(title, lang, view):
 
     view = f'[{url_views} {view:,}]'
     return view
-                

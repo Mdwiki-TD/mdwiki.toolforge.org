@@ -21,7 +21,7 @@ import itertools
 from contextlib import suppress
 #---
 # from pywikibot.textlib import replaceExcept
-from replace_except import replaceExcept
+from mdpy.bots.replace_except import replaceExcept
 #---
 #---
 PYTHON_VERSION = sys.version_info[:3]

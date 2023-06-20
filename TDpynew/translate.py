@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 
-
-
 """
 #
 # (C) Ibrahem Qasim, 2022
@@ -15,7 +13,7 @@ import re
 import string
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 import urllib
 import urllib.request
@@ -72,7 +70,7 @@ def log_to_enwiki() :
         'lgpassword': lgpass_enwiki,
         'lgtoken': r1.json()['query']['tokens']['logintoken'],
     })
-    
+
     r3 = session[1].get(api_urle, params={
         'format': 'json',
         'action': 'query',
@@ -131,7 +129,7 @@ def work( title ):
     #---
     title = urllib.parse.unquote(title)
     #---
-    if 'test' in sys_argv: print(title)
+    if 'test' in sys.argv: print(title)
     #---
     params2 = {"action": "parse","format": "json","page": title ,"prop": "wikitext"}
     #---
@@ -177,7 +175,5 @@ if title != '' :
     work( title )
     #print(a)
 #---
-
-
 
 #---

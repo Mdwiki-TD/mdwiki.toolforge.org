@@ -24,12 +24,12 @@ import sys
 import os
 import json
 import time
-from mdpy import py_tools
+from mdpy.bots import py_tools
 #---
 '''
 
 #---
-from mdpy import en_to_md
+from mdpy.bots import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
@@ -37,7 +37,7 @@ from mdpy import en_to_md
 
 '''
 #---
-sys_argv = sys.argv or []
+
 #---
 enwiki_to_mdwiki = {}
 mdwiki_to_enwiki = {}
@@ -46,7 +46,7 @@ mdwiki_to_enwiki = {}
 #---
 other_qids_json = {}
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 #---
 mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 #---

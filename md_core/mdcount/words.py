@@ -4,14 +4,14 @@
 
 إنشاء قائمة بعدد الكلمات
 
-python3 /data/project/mdwiki/core/pwb.py /data/project/mdwiki/mdpy/words newlist
-python3 pwb.py /data/project/mdwiki/mdpy/words newpages
-python3 pwb.py /data/project/mdwiki/mdpy/words listnew
+python3 core8/pwb.py mdpy/words newlist
+python3 core8/pwb.py mdpy/words newpages
+python3 core8/pwb.py mdpy/words listnew
 
-python3 pwb.py /data/project/mdwiki/mdpy/words more400
+python3 core8/pwb.py mdpy/words more400
 
-python3 pwb.py /data/project/mdwiki/mdpy/words less100
-python3 ./core/pwb.py ./mdpy/words sql
+python3 core8/pwb.py mdpy/words less100
+python3 core8/pwb.py mdpy/words sql
 
 """
 #
@@ -26,7 +26,7 @@ import sys
 #---
 import pywikibot
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 from mdpy import printe
 from mdcount.links import get_valid_Links
 #---

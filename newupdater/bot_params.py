@@ -221,7 +221,7 @@ all_params['chemical'] = all_formola_params + [
 
 	"SMILES",
 	"SMILES2",
-	
+
 	"StdInChI",
 	"StdInChI_Ref",
 	"StdInChI_comment",
@@ -234,7 +234,7 @@ all_params['chemical'] = all_formola_params + [
 
 	"StdInChIKey2",
 	"StdInChIKey2_Ref",
-	
+
 	"Jmol",
 	"Jmol2",
 

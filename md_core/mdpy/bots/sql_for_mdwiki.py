@@ -14,7 +14,7 @@ import os
 #--- 
 '''
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # pages = sql_for_mdwiki.get_all_pages()
@@ -80,7 +80,7 @@ def sql_connect_pymysql(query, return_dict=False):
     #---
     try:
         connection = pymysql.connect(**args, **credentials)
-        
+
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
         warn('Exception:' + str(e), UserWarning)

@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
-
 """
 
 إنشاء تحويلات من العنوان الإنجليزي
 إلى العنوان المحلي
 في orwiki
+
+python3 core8/pwb.py mdpy/orred
 
 """
 #
@@ -20,14 +21,14 @@ import string
 import time
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 import urllib
 import urllib.request
 import urllib.parse
 from pywikibot import config
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 #---
 from mdpy import printe
@@ -67,9 +68,7 @@ def Find_pages_exists_or_not( liste , apiurl = '' ) :
         #---
     return table
 #---
-def create_redirect( target, mdtitle ):
-    #---
-    printe.output( '----------\n*<<lightyellow>> >target:"%s".' % target )
+def create_redirect( target, mdtitle):
     #---
     exists = Find_pages_exists_or_not( [target,mdtitle] , apiurl = or_url )
     #---
@@ -116,11 +115,16 @@ and lang = "or"
     #---
     sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
     #---
+    n = 0
+    #---
     for tab in sq :
+        n += 1
         mdtitle  = tab['title']
         target   = tab['target']
         #---
-        create_redirect( target , mdtitle )
+        printe.output(f'----------\n*<<lightyellow>> p{n}/{len(sq)} >target:"{target}".')
+        #---
+        create_redirect( target , mdtitle)
 #---
 # python3 pwb.py mdpy/orred
 #---

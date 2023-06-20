@@ -6,7 +6,6 @@
 
 python3 pwb.py mdpy/cash
 
-
 """
 #
 # (C) Ibrahem Qasim, 2023
@@ -24,11 +23,11 @@ sys.dont_write_bytecode = True
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-from mdpy import wikidataapi
-from mdpy import wiki_api
+from mdpy.bots import wikidataapi
+from mdpy.bots import wiki_api
 #---
 from mdpy import printe
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)

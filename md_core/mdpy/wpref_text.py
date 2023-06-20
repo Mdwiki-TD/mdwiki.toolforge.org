@@ -11,12 +11,12 @@ from wpref_text import fix_page
 import re
 import sys
 sys.dont_write_bytecode = True
-from Duplicatenew2 import DuplicateReferences
+from mdpy.bots.Duplicatenew2 import DuplicateReferences
 #---
 if 'returnfile' in sys.argv:
     import txtlib2
 else:
-    from mdpy import txtlib2
+    from mdpy.bots import txtlib2
 #---
 printa = { 1 : False}
 #---

@@ -20,7 +20,7 @@ import string
 #import time
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 import urllib
 import urllib.request

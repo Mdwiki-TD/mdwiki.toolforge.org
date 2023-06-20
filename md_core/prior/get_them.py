@@ -58,7 +58,7 @@ def url_parser(url):
         'directories': directories,
         'queries': queries1,
     }
-    
+
     return elements
 #---
 def filter_urls(links):
@@ -217,7 +217,7 @@ class work_in_one_lang_link(object):
             _tags_[name] += 1
         #---
         return _tags_
-   
+
     def get_text(self):
         params = { "action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         #---
@@ -225,7 +225,7 @@ class work_in_one_lang_link(object):
         #---
         self.text = json1.get('parse',{}).get('wikitext',{}).get('*','')
         #---
-    
+
     def get_extlinks(self):
         params = {
             "action": "query",
@@ -266,7 +266,7 @@ class work_in_one_lang_link(object):
         #---
         self.extlinks = liste1
         #---
- 
+
     def get_lead(self):
         #---
         parsed = wikitextparser.parse(self.text)
@@ -313,7 +313,7 @@ class work_in_one_lang_link(object):
         #---
         return liste1
         #---
- 
+
     def make_new_text(self, tags):
         #---
         for x in tags:
@@ -410,7 +410,7 @@ class get_old(object):
             printe.output(refsn)
             #---
             self.refsname.update(refsn)
-            
+
     def get_ref_names(self, tags):
         #---
         _tags_ = {}
@@ -435,7 +435,7 @@ class get_old(object):
             _tags_[name] += 1
         #---
         return _tags_
-   
+
     def get_oldtext(self):
         params = { "action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         #---
@@ -460,7 +460,7 @@ class get_old(object):
         print(f'timestamp: {self.timestamp}')
         self.oldtext = revisions.get('slots',{}).get('main',{}).get('content','')
         #---
-    
+
     def get_lead(self):
         #---
         parsed = wikitextparser.parse(self.oldtext)
@@ -507,7 +507,7 @@ class get_old(object):
         #---
         return liste1
         #---
- 
+
     def make_new_text(self, tags):
         #---
         for x in tags:

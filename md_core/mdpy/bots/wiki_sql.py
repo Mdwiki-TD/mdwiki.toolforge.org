@@ -3,7 +3,7 @@
 """
 بوت قواعد البيانات
 #---
-from mdpy import wiki_sql
+from mdpy.bots import wiki_sql
 #---
 # result = wiki_sql.sql_new(qua)
 #---

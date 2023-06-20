@@ -126,7 +126,7 @@ class WorkAll:
         #---
         self.sections = self.parser.get_sections(include_subsections=False)
         #---
-        
+
     def run(self):
         #---
         for s in self.sections:

@@ -4,10 +4,7 @@
 
 page views bot
 
-python pwb.py mdwiki/mdpy/sqlviewsm localhost ar limit5
-
 python3 pwb.py mdpy/enwiki_views
-
 
 """
 #
@@ -24,13 +21,11 @@ import sys
 import datetime
 from datetime import timedelta
 #---
-from mdpy import wiki_api
+from mdpy.bots import wiki_api
 from mdpy import printe
 #---
-#---
-from en_to_md import enwiki_to_mdwiki, mdwiki_to_enwiki
-#---
-#---
+from mdpy.bots.en_to_md import enwiki_to_mdwiki, mdwiki_to_enwiki
+#--
 project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'

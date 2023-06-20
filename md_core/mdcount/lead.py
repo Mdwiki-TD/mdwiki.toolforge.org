@@ -5,7 +5,7 @@ import string
 import pywikibot
 import wikitextparser as wtp
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 #---
 def count_text(text):
     #---

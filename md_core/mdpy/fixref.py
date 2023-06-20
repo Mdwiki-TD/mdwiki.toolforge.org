@@ -4,7 +4,7 @@
 
 Change refs to newlines
 
-python3 pwb.py mdpy/fixref
+python3 core8/pwb.py mdpy/fixref
 
 """
 #
@@ -27,7 +27,7 @@ import string
 import sys
 import os
 #---
-sys_argv = sys.argv or []
+
 #---
 import urllib
 #---
@@ -37,8 +37,8 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 #---
 from mdpy import printe
-from mdpy import mdwiki_api
-from mdpy import txtlib2
+from mdpy.bots import mdwiki_api
+from mdpy.bots import txtlib2
 #---
 thenumbers = { 1 : 20000 , 'done' : 0 }
 #---
@@ -153,7 +153,7 @@ def fix_ref_template( text ) :
 def work( title ):
     #---
     Ask = False
-    if 'ask' in sys_argv: Ask = True
+    if 'ask' in sys.argv: Ask = True
     #---
     text = mdwiki_api.GetPageText( title )
     #---
@@ -170,9 +170,9 @@ def work( title ):
     #---
 def main():
     #---
-    list = []
+    List = []
     #---
-    for arg in sys_argv:
+    for arg in sys.argv:
         arg, sep, value = arg.partition(':')
         #---
         if arg == '-number' and value.isdigit():
@@ -180,18 +180,18 @@ def main():
         #---
         if arg == '-file':
             text = codecs.open(project + '/public_html/find/%s' % value.strip() , 'r', 'utf8').read()
-            list = [ x.strip() for x in text.split('\n') if x.strip() != '' ]
+            List = [ x.strip() for x in text.split('\n') if x.strip() != '' ]
         #---
         if arg == 'allpages':
-            list = mdwiki_api.Get_All_pages( '' )
+            List = mdwiki_api.Get_All_pages( '' )
         #---
         # python pwb.py mdwiki/mdpy/fixref -page:Histrelin ask
         if arg == '-page':
-            list = [ value ]
+            List = [ value ]
         #---
     #---
     num = 0
-    for title in list:
+    for title in List:
         num += 1
         #---
         if thenumbers['done'] >= thenumbers[1] : 
@@ -261,7 +261,7 @@ There are few treatments which increase prolactin levels in humans. Treatment di
     pywikibot.showDiff( text , newtext )
 #---
 if __name__ == "__main__":
-    if 'test' in sys_argv:
+    if 'test' in sys.argv:
         test()
     else:
         main()

@@ -3,8 +3,6 @@
 python3 uuu.py owner nodirs path:core only:py
 python3 uuu.py owner nodirs path:public_html only:php
 
-python3 ./cora/pwb.py ./core/master/uuu
-
 python3 uuu.py owner nodirs path:public_html
 
 python3 uuu.py fixpy nodirs path:new/master_18-11-22
@@ -164,7 +162,7 @@ def fix_py(filepath):
         write(oldtext,text,filepath)
         oldtext = text
     #---
-    
+
     #---
     # from pywikibot.tools import issue_deprecation_warning
     if text.lower().find('issue_deprecation_warning') != -1 :
@@ -181,7 +179,7 @@ def fix_py(filepath):
         if text.lower().find('unicode_literals') == -1 and text.lower().find('unicode_literals') == -1 : 
             write(oldtext,text,filepath)
     #---
-    
+
 #---
 def fix_py2(filepath):
     oldtext = open(filepath, 'r', encoding='utf-8').read()
@@ -266,7 +264,7 @@ def fix_py3(filepath):
                 text = text.replace( "import pywikibot", "from warnings import warn\nimport pywikibot", 1)
                 if text.find('from warnings import warn') == -1 :
                     text = "from warnings import warn\n" + text
-                    
+
             write(oldtext,text,filepath)
             oldtext = text
     #---

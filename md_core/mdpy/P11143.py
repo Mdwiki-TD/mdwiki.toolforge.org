@@ -2,7 +2,7 @@
 
 """
 
-python3 ./core/pwb.py mdpy/P11143
+python3 core8/pwb.py mdpy/P11143
 
 """
 #
@@ -15,15 +15,15 @@ import pywikibot
 import os
 import json
 import time
-from mdpy import py_tools
+from mdpy.bots import py_tools
 from mdpy import printe
 #---
 sys.argv.append('workhimo')
 #---
-from mdpy import wikidataapi
+from mdpy.bots import wikidataapi
 wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
@@ -55,13 +55,6 @@ for wd in wdlist:
 #---
 print(f'len of in_wd: {len(in_wd)}')
 #---
-newlist = { q: tt for q, tt in qids.items() if q not in in_wd.keys() }
-#---
-print('len of newlist: ' + str(len(newlist)))
-print("\n".join( [f'{k}:{v}' for k, v in newlist.items()]))
-#---
-print('add "add" to sys.argv to add them?' )
-#---
 def add_missing():
     #---
     n = 0
@@ -70,6 +63,16 @@ def add_missing():
         n += 1
         print(f'q {n} from {len(newlist)}')
         wikidataapi.Claim_API_str(q, 'P11143', value)
+#---
+newlist = { q: tt for q, tt in qids.items() if q not in in_wd.keys() }
+#---
+print('len of newlist: ' + str(len(newlist)))
+#---
+if len(newlist) > 0:
+    #---
+    print("\n".join( [f'{k}:{v}' for k, v in newlist.items()]))
+    #---
+    print('add "add" to sys.argv to add them?' )
 #---
 if 'add' in sys.argv:
     add_missing()

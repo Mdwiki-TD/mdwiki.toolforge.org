@@ -3,8 +3,7 @@
 #   himo
 """ 
 
-python3 ./core/pwb.py mdpy/get_red
-
+python3 core8/pwb.py mdpy/get_red
 
 """
 #
@@ -23,14 +22,14 @@ import datetime
 from datetime import datetime
 Day_History = datetime.now().strftime("%Y-%m-%d")
 #---
-sys_argv = sys.argv or []
+
 #---
 #---
 project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
-from mdpy import py_tools
-from mdpy import en_to_md
+from mdpy.bots import py_tools
+from mdpy.bots import en_to_md
 from mdpy import printe
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
@@ -38,7 +37,7 @@ from mdpy import printe
 #---
 mdwiki_to_qid = en_to_md.mdtitle_to_qid
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 #---
 def get_pages():
     #---

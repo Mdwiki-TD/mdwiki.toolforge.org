@@ -1,23 +1,22 @@
 '''
-python3.10 ./core/pwb.py prior/add_old new
+python3.10 core8/pwb.py prior/add_old new
 
-python3.10 ./core/pwb.py prior/add_old
+python3.10 core8/pwb.py prior/add_old
 
-
-python3 ./core/pwb.py prior/add_old new  -file:en_1.json
-python3 ./core/pwb.py prior/add_old new  -file:en_2.json
-python3 ./core/pwb.py prior/add_old new  -file:en_3.json
-python3 ./core/pwb.py prior/add_old new  -file:en_4.json
-python3 ./core/pwb.py prior/add_old new  -file:en_5.json
-python3 ./core/pwb.py prior/add_old new  -file:en_6.json
-python3 ./core/pwb.py prior/add_old new  -file:en_7.json
-python3 ./core/pwb.py prior/add_old new  -file:en_8.json
-python3 ./core/pwb.py prior/add_old new  -file:en_9.json
-python3 ./core/pwb.py prior/add_old new  -file:en_10.json
-python3 ./core/pwb.py prior/add_old new  -file:en_11.json
-python3 ./core/pwb.py prior/add_old new  -file:en_12.json
-python3 ./core/pwb.py prior/add_old new  -file:en_13.json
-python3 ./core/pwb.py prior/add_old new  -file:en_14.json
+python3 core8/pwb.py prior/add_old new  -file:en_1.json
+python3 core8/pwb.py prior/add_old new  -file:en_2.json
+python3 core8/pwb.py prior/add_old new  -file:en_3.json
+python3 core8/pwb.py prior/add_old new  -file:en_4.json
+python3 core8/pwb.py prior/add_old new  -file:en_5.json
+python3 core8/pwb.py prior/add_old new  -file:en_6.json
+python3 core8/pwb.py prior/add_old new  -file:en_7.json
+python3 core8/pwb.py prior/add_old new  -file:en_8.json
+python3 core8/pwb.py prior/add_old new  -file:en_9.json
+python3 core8/pwb.py prior/add_old new  -file:en_10.json
+python3 core8/pwb.py prior/add_old new  -file:en_11.json
+python3 core8/pwb.py prior/add_old new  -file:en_12.json
+python3 core8/pwb.py prior/add_old new  -file:en_13.json
+python3 core8/pwb.py prior/add_old new  -file:en_14.json
 '''
 import sys
 import os
@@ -46,7 +45,7 @@ class PriorAddOld:
             if filename.endswith('.json'):
                 p += 1
                 self.all_file.append(filename)
-                print(f'jsub -N p{p} python3 ./core/pwb.py prior/add_old -file:{filename}')
+                print(f'jsub -N p{p} python3 core8/pwb.py prior/add_old -file:{filename}')
         #---
         file_to = ''
         #---

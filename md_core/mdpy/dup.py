@@ -22,21 +22,21 @@ import string
 #from datetime import datetime, date
 import sys
 #---
-sys_argv = sys.argv or []
+
 #---
 import urllib
 import urllib.request
 import urllib.parse
 #---
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 from mdpy import printe#---
 #import requests
 #Session = requests.Session()
 #---
 offset = { 1 : 0 }
 #---
-for arg in sys_argv:
+for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     #---
     if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
@@ -96,17 +96,7 @@ def main():
         if To in from_to:
             fix_dup(From,To)
     #---
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 #---
 # python dup.py
 #---

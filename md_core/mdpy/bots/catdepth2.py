@@ -5,7 +5,6 @@
 
 python3 pwb.py mdpy/catdepth2
 
-
 """
 #
 # (C) Ibrahem Qasim, 2022
@@ -23,20 +22,19 @@ import os
 import sys
 import datetime
 from datetime import datetime
-Day_History = datetime.now().strftime("%Y-%m-%d")
 #---
-sys_argv = sys.argv or []
+Day_History = datetime.now().strftime("%Y-%m-%d")
 #---
 project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-from mdpy import sql_for_mdwiki
+from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 #---
 def Get_cat(enlink, print_url = False ): 
     #---
@@ -51,22 +49,22 @@ def Get_cat(enlink, print_url = False ):
         "action": "query",
         "format": "json",
         "utf8": 1,
-        
+
         "generator": "categorymembers",
         "gcmtitle": enlink,
         "gcmprop": "title",
         "gcmtype": "page|subcat",
         "gcmlimit": "max",
-        
+
         "redirects": 1,
         #"prop": "templates",
         #"tllimit": "max",
-        
+
         #"lllang": langcode,
         #"lllimit": "max",
     }
     #---
-    #if not "tempapi" in sys_argv :
+    #if not "tempapi" in sys.argv :
         #params["prop"] = "templates"
         #params["tllimit"] = "max"
     #---all
@@ -164,7 +162,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     #---
     if type(depth) != int and depth.isdigit():  depth = int(depth)
     #---
-    if 'newlist' in sys_argv: print('lenof main cat:%d' % len(result_table) )
+    if 'newlist' in sys.argv: print('lenof main cat:%d' % len(result_table) )
     #---
     depth_done = 0
     #--- 
@@ -194,7 +192,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     final = time.time()
     delta = int(final - start)
     #---
-    #if "printresult" in sys_argv: print(result_table)
+    #if "printresult" in sys.argv: print(result_table)
     #---
     if 'newlist' in sys.argv:
         print('<<lightblue>>catdepth.py: find %d pages(ns:%s) in %s, depth:%d, subcat:%d in %d seconds' % (len(result_table), str(ns), title, depth,len(cat_done), delta ) )
@@ -232,9 +230,9 @@ def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ):
     Table = {}
     if textn != '' : Table = json.loads( textn )
     #---
-    if str(Table.get('Day_History','')) != str(Day_History) or 'newlist' in sys_argv or len(Table['list']) < 1500 :
+    if str(Table.get('Day_History','')) != str(Day_History) or 'newlist' in sys.argv or len(Table['list']) < 1500 :
         #---
-        if 'print' in sys_argv: print('get new catmembers')
+        if 'print' in sys.argv: print('get new catmembers')
         #---
         Listo = subcatquery( cat , depth = depth , ns = ns , limit = limit , test = test )
         Table = {}
@@ -246,7 +244,7 @@ def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ):
         json.dump(Table, open( filename , 'w'))
         #---
     #---
-    if 'print' in sys_argv: print('len of list:%d' % len(Table['list']) )
+    if 'print' in sys.argv: print('len of list:%d' % len(Table['list']) )
     #---
     return Table
 #---

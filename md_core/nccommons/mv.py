@@ -19,7 +19,7 @@ project = "/data/project/mdwiki/"
 #---
 if not os.path.isdir(project):  project = "I:/mdwiki"
 #---
-from mdpy import mdwiki_api
+from mdpy.bots import mdwiki_api
 #---
 cats = json.load(codecs.open(f'{project}/md_core/nccommons/mv.json', 'r', 'utf-8'))
 #---
