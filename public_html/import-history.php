@@ -1,9 +1,13 @@
-<?php require ('header.php'); ?>
+<?PHP
+//---
+require('header.php');
+//---
+echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Import history from enwiki</h3>
     </div>
     <div class="card-body">
-<?php
+HTML;
 //---
 $test       = $_REQUEST['test'] ?? '';
 $from       = $_REQUEST['from'] ?? '';
@@ -69,51 +73,41 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         </form>
     HTML;
     //---
-//---
 } else {
-//---
     //---
-    $dir = '/mdwiki';  
+    $jsub = 'jsub -N history $HOME/local/bin/python3 core8/pwb.py mdpy/imp ';
     //---
-    $filee = '/mdwiki/public_html/texts/importlist.txt';
-    $jsub = 'python3 ';
+    $text = "";
     //---
-    if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' ) { 
-        $dir = '/data/project/mdwiki/core8'; 
-        $jsub = 'jsub -N history python3 ';
-        $filee = '/data/project/mdwiki/public_html/texts/importlist.txt';
-    };
-    //---
-    $python3 = " $dir/pwb.py mdpy/imp -page:" . rawurlencode($title) . ' save' ;
-    //---
-    echo "<span style='font-size:15pt;color:green'>";
-    echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     if ($title != '') {
-        $python3 = " $dir/pwb.py mdpy/imp -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save' ;
+        $jsub .= " -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save' ;
         //---
-        if ($from == '') {
-            echo 'The Bot will import ' . rawurldecode($title) . ' history in seconds.';
-        } else {
-            echo 'The Bot will import ' . rawurldecode($title) . ' history from (' . rawurldecode($from) . ') in seconds.';
-        };
+        $text .= 'The Bot will import ' . rawurldecode($title) . ' history';
+        //---
+        if ($from != '') $text .= ' from (' . rawurldecode($from) . ') in seconds.';
+        //---
+        $text .= ' in seconds.';
         //---
     } else {
         //---
-        $myfile = fopen( 'importlist.txt' , "w");
+        $filee = '/data/project/mdwiki/public_html/texts/importlist.txt';
+        //---
+        $myfile = fopen($filee, "w");
         fwrite($myfile , $titlelist);
         fclose($myfile);
         //---
-        $python3 = " $dir/pwb.py mdpy/imp -file:" . $filee . ' save' ;
+        $jsub .= " -file:" . $filee . ' save' ;
         //---
-        echo 'The Bot will import history for titles in the list in seconds.';
+        $text .= 'The Bot will import history for titles in the list in seconds.';
         //---
     };
-    echo '</span>';
+    $text = "<span style='font-size:15pt;color:green'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$text</span>";
     //---
-	if ($test != '') echo $jsub . $python3;
+	if ($test != '') echo $jsub;
     //---
     echo "<br>";
-    $result = shell_exec($jsub . $python3);
+    //---
+    $result = shell_exec($jsub);
     print $result;
     //---
     }
@@ -121,4 +115,5 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
 echo "</div>";
 //---
 require('foter.php');
+//---
 ?>

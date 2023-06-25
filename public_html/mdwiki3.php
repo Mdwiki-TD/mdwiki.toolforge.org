@@ -66,7 +66,7 @@ function get_results($title) {
     //---
     $sa = ($save != '') ? ' save' : '';
     //---
-    $ccc = "python3.10 $dir/newupdater/med.py $title2 from_toolforge $sa"; 
+    $ccc = "python3 $dir/newupdater/med.py $title2 from_toolforge $sa"; 
     //---
     if ( $_SERVER['SERVER_NAME'] != 'mdwiki.toolforge.org' or isset($_GET['test']) ) { 
         echo "<span style='font-size: 18px;'>$ccc</span>

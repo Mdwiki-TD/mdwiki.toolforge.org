@@ -96,17 +96,10 @@ def remove_new_Line( text ) :
         newtemp = re.sub(r'(\{\{\s*%s\s*)\n*(\|)' % re.escape(namestrip) , '\g<1>\g<2>' , newtemp )
         newtemp = re.sub(r'\n\s*\|', '|' , newtemp, flags=re.DOTALL)
         #---
-        params1 = {}
-        #---
-        for x in params1:
+        for x in params:
             #---
             value = params[x]
             #---
-            if value.find( '%s' ) != -1 :
-                printe.output('**<<lightred>> value(%s).find(%s) != -1 ' % ( value , '%s' ) )
-                continue
-            #---
-            value = str(value)
             value = re.escape(value)
             x = re.escape(x)
             newtemp = re.sub(r"(\|\s*%s\s*\=\s*)(%s)\s*" % (x,value) , "\g<1>\g<2>" , newtemp, flags=re.DOTALL)
