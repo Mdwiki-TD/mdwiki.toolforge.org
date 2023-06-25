@@ -179,7 +179,7 @@ def main():
             List = mdwiki_api.Get_All_pages( '' )
         #---
         # python pwb.py mdwiki/mdpy/fixref -page:Histrelin ask
-        if arg == '-page':
+        if arg in ['-page', '-title']:
             List = [ value ]
         #---
     #---
@@ -187,9 +187,8 @@ def main():
     for title in List:
         num += 1
         #---
-        if thenumbers['done'] >= thenumbers[1] : 
+        if thenumbers['done'] >= thenumbers[1] and len(List) > 1:
             break
-        #---
         work( title ) 
     #---
 # python pwb.py mdwiki/mdpy/fixref test

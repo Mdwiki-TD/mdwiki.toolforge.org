@@ -11,12 +11,6 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
 //---
-function writee($file,$text) {
-	$myfile = fopen( 'find/' . $file, "w");
-	fwrite($myfile , $text);
-	fclose($myfile);
-	}
-//---
 function make_form() {
 	//---
 	global $titlelist, $number, $test;
@@ -83,7 +77,11 @@ if ($number != '' or $titlelist != '') {
 			$jsub .= " -title:$title";
 		} else {
 			$filename = $nn . '_fix_ref_list.txt';
-			writee( $filename , $titlelist );
+			//---
+			$myfile = fopen('find/' . $filename, "w");
+			fwrite($myfile , $titlelist);
+			fclose($myfile);
+			//---
 			$jsub .= " -file:$filename";
 			//---
 		}
