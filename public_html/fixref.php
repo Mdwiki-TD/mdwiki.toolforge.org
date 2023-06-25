@@ -11,7 +11,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
 //---
-function make_form($titlelist = '', $number = '', $test = '') {
+function make_form($titlelist, $number, $test) {
 	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 	//---
 	echo <<<HTML
@@ -53,11 +53,11 @@ HTML;
 }
 //---
 if ($number == '' && $titlelist == '') {
-	make_form($titlelist=$titlelist, $number=$number, $test=$test);
+	make_form($titlelist, $number, $test);
 } else {
 	//---
 	$nn = rand();
-	$jsub = "jsub -N fixref$nn " . ' $HOME/local/bin/python3 core8/pwb.py mdpy/fixref';
+	$jsub = "jsub -N fixref$nn /data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixref";
 	//---
 	$titlelist = trim($titlelist);
 	//---

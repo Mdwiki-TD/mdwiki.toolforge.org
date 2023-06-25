@@ -75,7 +75,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
 } else {
     //---
-    $jsub = 'jsub -N history $HOME/local/bin/python3 core8/pwb.py mdpy/imp ';
+    $jsub = 'jsub -N historyy /data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/imp ';
     //---
     $text = "";
     //---

@@ -1,6 +1,6 @@
 
 import pywikibot
-from mdpy.fixref import fix_ref_template
+from mdpy.fixref_text_new import fix_ref_template
 #---
 # python3 pwb.py mdpy/fixreftest
 #---
