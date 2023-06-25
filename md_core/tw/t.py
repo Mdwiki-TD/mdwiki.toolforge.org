@@ -103,7 +103,7 @@ def get_links():
     level = False
     for x in sections:
         lline = x['line'].strip().lower()
-        if lline == 'conditions 500':
+        if lline == 'conditions':
             level = x["index"]
             break
     #---

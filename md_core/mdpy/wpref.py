@@ -37,7 +37,7 @@ else:
     import pywikibot
     import printe
     #---
-    import sql_for_mdwiki
+    from mdpy.bots import sql_for_mdwiki
     # sql_for_mdwiki.mdwiki_sql(query , update = False)
     from mdpy.wpref_text import fix_page
 #---
