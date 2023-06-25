@@ -1,5 +1,5 @@
 <?php 
-require ('header.php');
+require 'header.php';
 echo <<<HTML
 	<div class="card-header aligncenter" style="font-weight:bold;">
 		<h3>Normalize references (mdwiki).</h3>
@@ -11,10 +11,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
 //---
-function make_form() {
-	//---
-	global $titlelist, $number, $test;
-	//---
+function make_form($titlelist = '', $number = '', $test = '') {
 	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 	//---
 	echo <<<HTML
@@ -53,27 +50,24 @@ function make_form() {
 		</div>
 	</form>
 HTML;
-};
+}
 //---
 if ($number == '' && $titlelist == '') {
-	make_form();
-};
-//---
-if ($number != '' or $titlelist != '') {
+	make_form($titlelist=$titlelist, $number=$number, $test=$test);
+} else {
 	//---
 	$nn = rand();
 	$jsub = "jsub -N fixref$nn " . ' $HOME/local/bin/python3 core8/pwb.py mdpy/fixref';
 	//---
-	// trim $titlelist
 	$titlelist = trim($titlelist);
 	//---
-	// split py lines
-	$lines = explode("\n", $titlelist);
-	// if lenth of lines == 1 then
-	//---
-	if ( $titlelist != '' ) {
-		if ( count($lines) == 1 ) {
-			$title= $lines[0];
+	if ($titlelist != '') {
+		// split py lines
+		$lines = explode("\n", $titlelist);
+		// if lenth of lines == 1 then
+		//---
+		if (count($lines) == 1) {
+			$title = $lines[0];
 			$jsub .= " -title:$title";
 		} else {
 			$filename = $nn . '_fix_ref_list.txt';
@@ -85,9 +79,9 @@ if ($number != '' or $titlelist != '') {
 			$jsub .= " -file:$filename";
 			//---
 		}
-	} elseif ( $number != '' ) {
-		$jsub .= " allpages -number:" . $number;
-	};
+	} elseif ($number != '') {
+		$jsub .= " allpages -number:$number";
+	}
 	//---
 	echo "<h4 style='color:green'>The bot will start in seconds.</h4>";
 	//---
@@ -95,9 +89,7 @@ if ($number != '' or $titlelist != '') {
 	//---
 	$result = shell_exec($jsub);
 	print $result;
-	};
+}
 //---
 echo "</div>";
-//---
-require('foter.php');
-?>
+require 'foter.php';
