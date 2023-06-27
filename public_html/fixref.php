@@ -1,5 +1,6 @@
 <?php 
 require 'header.php';
+
 echo <<<HTML
 	<div class="card-header aligncenter" style="font-weight:bold;">
 		<h3>Normalize references (mdwiki).</h3>
@@ -57,7 +58,7 @@ if ($number == '' && $titlelist == '') {
 } else {
 	//---
 	$nn = rand();
-	$jsub = "jsub -N fixref$nn /data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixref";
+	$jsub = "jsub -N fixref$nn /data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixref/start";
 	//---
 	$titlelist = trim($titlelist);
 	//---

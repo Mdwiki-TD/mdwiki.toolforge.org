@@ -20,11 +20,11 @@ if not os.path.isdir(project): project = '/mdwiki'
 # ---
 from mdpy import printe
 from mdpy.bots import mdwiki_api
-from mdpy.bots import txtlib2
+from mdpy.bots import catdepth2
 # ---
 thenumbers = { 1 : 20000 , 'done' : 0 }
 # ---
-from mdpy.fixref_text_new import fix_ref_template
+from mdpy.fixref.fixref_text_new import fix_ref_template
 # ---
 def work( title ):
     # ---
@@ -33,9 +33,9 @@ def work( title ):
     # ---
     text = mdwiki_api.GetPageText( title )
     # ---
-    new_text = fix_ref_template( text )
-    # ---
     summary = 'Normalize references'
+    # ---
+    new_text, summary = fix_ref_template(text, returnsummary=True)
     # ---
     if new_text != text :
         thenumbers['done'] += 1
@@ -59,9 +59,13 @@ def main():
             List = [ x.strip() for x in text.split('\n') if x.strip() != '' ]
         # ---
         if arg == 'allpages':
-            List = mdwiki_api.Get_All_pages( '' )
+            List = mdwiki_api.Get_All_pages('')
         # ---
-        # python pwb.py mdwiki/mdpy/fixref -page:Histrelin ask
+        # python pwb.py mdpy/fixref/start -cat:CS1_errors:_deprecated_parameters ask
+        if arg == '-cat':
+            List = catdepth2.subcatquery(value, depth='0', ns='0')
+        # ---
+        # python pwb.py mdpy/fixref/start -page:Histrelin ask
         if arg in ['-page', '-title']:
             List = [ value ]
         # ---

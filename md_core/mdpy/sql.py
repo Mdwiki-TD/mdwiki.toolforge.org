@@ -42,7 +42,7 @@ project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 cat_for_pages = {}
-from fixcat import cat_for_pages
+from mdpy.others.fixcat import cat_for_pages
 #---
 Lang_usr_mdtitle = {}
 targets_done = {}
