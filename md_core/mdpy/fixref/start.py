@@ -14,36 +14,44 @@ import pywikibot
 import re
 import sys
 import os
+
+from mdpy.fixref.fixref_text_new import fix_ref_template
+from mdpy.bots import catdepth2
+from mdpy.bots import mdwiki_api
+from mdpy import printe
+
 project = '/data/project/mdwiki/'
 # ---
-if not os.path.isdir(project): project = '/mdwiki'
+if not os.path.isdir(project):
+    project = '/mdwiki'
 # ---
-from mdpy import printe
-from mdpy.bots import mdwiki_api
-from mdpy.bots import catdepth2
 # ---
-thenumbers = { 1 : 20000 , 'done' : 0 }
+thenumbers = {1: 20000, 'done': 0}
 # ---
-from mdpy.fixref.fixref_text_new import fix_ref_template
 # ---
-def work( title ):
+
+
+def work(title):
     # ---
     Ask = False
-    if 'ask' in sys.argv: Ask = True
+    if 'ask' in sys.argv:
+        Ask = True
     # ---
-    text = mdwiki_api.GetPageText( title )
+    text = mdwiki_api.GetPageText(title)
     # ---
     summary = 'Normalize references'
     # ---
     new_text, summary = fix_ref_template(text, returnsummary=True)
     # ---
-    if new_text != text :
+    if new_text != text:
         thenumbers['done'] += 1
         # ---
         mdwiki_api.page_put(oldtext=text, newtext=new_text, summary=summary, title=title, returntrue=False, diff=True)
     else:
-        printe.output( 'no changes.')
+        printe.output('no changes.')
     # ---
+
+
 def main():
     # ---
     List = []
@@ -55,8 +63,8 @@ def main():
             thenumbers[1] = int(value)
         # ---
         if arg == '-file':
-            text = codecs.open(project + '/public_html/find/%s' % value.strip() , 'r', 'utf8').read()
-            List = [ x.strip() for x in text.split('\n') if x.strip() != '' ]
+            text = codecs.open(project + '/public_html/find/%s' % value.strip(), 'r', 'utf8').read()
+            List = [x.strip() for x in text.split('\n') if x.strip() != '']
         # ---
         if arg == 'allpages':
             List = mdwiki_api.Get_All_pages('')
@@ -67,7 +75,7 @@ def main():
         # ---
         # python pwb.py mdpy/fixref/start -page:Histrelin ask
         if arg in ['-page', '-title']:
-            List = [ value ]
+            List = [value]
         # ---
     # ---
     num = 0
@@ -76,7 +84,8 @@ def main():
         # ---
         if thenumbers['done'] >= thenumbers[1] and len(List) > 1:
             break
-        work( title ) 
+        work(title)
+
     # ---
 # ---
 if __name__ == "__main__":

@@ -9,18 +9,19 @@ from mdpy.bots import make_title_bot
 #
 # (C) Ibrahem Qasim, 2023
 #
+import json
+import urllib.parse
+import re
+import traceback
 import sys
 sys.dont_write_bytecode = True
-import traceback
-import pywikibot
 from pywikibot import comms
-import re
-import urllib.parse
-import json
+from mdpy.bots import open_url
 from mdpy import printe
-#---
+import pywikibot
+# ---
 Title_cash = {}
-#---
+# ---
 globalbadtitles = r"""
 # is
 (test|
@@ -60,53 +61,60 @@ globalbadtitles = r"""
         )\W*$
 )
 """
-#---
-from mdpy.bots import open_url
+# ---
 # open_url.getURL(url)
 # open_url.open_json_url(url)
-#---
+# ---
+
+
 def make_title(url):
     url = url.strip()
     url2 = ""
-    #---
-    if url in Title_cash:   return Title_cash[url]
-    #---
+    # ---
+    if url in Title_cash:
+        return Title_cash[url]
+    # ---
     Title_cash[url] = ''
-    #---
-    if url.strip() == "" : 
-        pywikibot.output( "<<lightred>> make_title url = '' return False" )
+    # ---
+    if url.strip() == "":
+        pywikibot.output("<<lightred>> make_title url = '' return False")
         return {}
-    #---
+    # ---
     url2 = urllib.parse.quote(url)
-    #---
-    url2 = url2.replace('/','%2F')
-    url2 = url2.replace(':','%3A')
-    url2 = url2.replace('&','%26')
-    url2 = url2.replace('#','%23')
-    #---
-    urlr = 'https://' + 'en.wikipedia.org/api/rest_v1/data/citation/mediawiki-basefields/' + url2 
-    #---
-    _json1_ = [{"key":"JSJVMKE6","version":0,"itemType":"webpage","creators":[],"tags":[],"title":"NCATS Inxight: Drugs — OXITRIPTAN","url":"https://drugs.ncats.io/drug/C1LJO185Q9","abstractNote":"Chemical","language":"en","accessDate":"2019-12-02","shortTitle":"NCATS Inxight","websiteTitle":"drugs.ncats.io"}]
-    #---
-    json1 = open_url.open_json_url(url)
-    #---
-    if not json1 or json1 == {} : return ''
-    #---
+    # ---
+    url2 = url2.replace('/', '%2F')
+    url2 = url2.replace(':', '%3A')
+    url2 = url2.replace('&', '%26')
+    url2 = url2.replace('#', '%23')
+    # ---
+    urlr = 'https://' + 'en.wikipedia.org/api/rest_v1/data/citation/mediawiki-basefields/' + url2
+    # ---
+    _json1_ = [{"key": "JSJVMKE6", "version": 0, "itemType": "webpage", "creators": [], "tags":[], "title":"NCATS Inxight: Drugs — OXITRIPTAN", "url":"https://drugs.ncats.io/drug/C1LJO185Q9", "abstractNote":"Chemical", "language":"en", "accessDate":"2019-12-02", "shortTitle":"NCATS Inxight", "websiteTitle":"drugs.ncats.io"}]
+    # ---
+    json1 = open_url.open_json_url(urlr)
+    # ---
+    if not json1 or json1 == {}:
+        return ''
+    # ---
     results = json1
-    #---
-    if type(json1) == list :
+    # ---
+    if type(json1) == list:
         results = json1[0]
-    #---
+    # ---
     title = results.get('title', '')
-    #---
-    if title == '' : return ''
-    #---
+    # ---
+    if title == '':
+        return ''
+    # ---
     titleBlackList = re.compile(globalbadtitles, re.I | re.S | re.X)
-    #---
+    # ---
     if titleBlackList.match(title):
         printe.output(f'<<lightred>> WARNING<<default>> {url} : ''Blacklisted title ({title})')
-    #---
+    # ---
     Title_cash[url] = title
-    #---
+    # ---
+    if title != '':
+        printe.output(f'<<lightgreen>> make_title_bot: newtitle: ({title})')
+    # ---
     return title
-#---
+# ---

@@ -9,9 +9,6 @@ from mdpy.bots import open_url
 #
 # (C) Ibrahem Qasim, 2023
 #
-from mdpy import printe
-from pywikibot import comms
-import pywikibot
 import traceback
 import json
 import re
@@ -21,6 +18,9 @@ import requests
 import sys
 sys.dont_write_bytecode = True
 # ---
+from mdpy import printe
+from pywikibot import comms
+import pywikibot
 # ---
 
 
@@ -75,12 +75,16 @@ def open_json_url(url, maxsleeps=0, **kwargs):
     bot = classgetURL(url)
     js_text = bot.open_it()
     # ---
+    if js_text.find('<!DOCTYPE html>') != -1 or js_text.find('<!doctype html>') != -1:
+        printe.output(f'<<red>> open_json_url: url: {url} returns <!DOCTYPE html>!!')
+        return {}
+    # ---
     try:
         json1 = json.loads(js_text)
         return json1
     except Exception as e:
-        pywikibot.output("Traceback (most recent call last):")
         pywikibot.output(traceback.format_exc())
+        printe.output(js_text)
         pywikibot.output(" CRITICAL:")
         return {}
     # ---
