@@ -1,5 +1,6 @@
 
 import re
+import sys
 
 import wikitextparser as wtp
 from mdpy.bots import make_title_bot
@@ -19,7 +20,7 @@ def change_lay_source(temp):
         "source": ['laysource', 'lay-source']
     }
     # ---
-    new_tab = {"url", "title", "date", "source"}
+    new_tab = {"url": "", "title": "", "date": "", "source": ""}
     # ---
     for x, ys in tab.items():
         for param in ys:
@@ -44,6 +45,34 @@ def change_lay_source(temp):
         lay_temp = "* {{lay source" + lay_temp + "}}"
     # ---
     return lay_temp, temp
+
+
+def add_title(temp):
+    title = ''
+    url = ''
+    # ---
+    title_arg = temp.get_arg('title')
+    # ---
+    if title_arg:
+        title = str(title_arg.value).strip()
+    # ---
+    if temp.has_arg('url'):
+        url = temp.get_arg('url').value
+    # ---
+    if title != '' or url == '':
+        return temp
+    # ---
+    title = make_title_bot.make_title(url)
+    # ---
+    if title == '':
+        return temp
+    # ---
+    if title_arg:
+        title_arg.value = title
+    else:
+        temp.set_arg('title', title)
+    # ---
+    return temp
 
 
 def fix_ref_template(text, returnsummary=False):
@@ -71,9 +100,12 @@ def fix_ref_template(text, returnsummary=False):
             # ---
             laysource, temp = change_lay_source(temp)
             # ---
+            temp = add_title(temp)
+            # ---
             temp_new = temp.string
             # ---
-            temp_new = re.sub(r'\n', '', temp_new, flags=re.DOTALL)
+            if not 'newline' in sys.argv:
+                temp_new = re.sub(r'\n', '', temp_new, flags=re.DOTALL)
             # ---
             if laysource != '':
                 temp_new = temp_new + "\n" + laysource

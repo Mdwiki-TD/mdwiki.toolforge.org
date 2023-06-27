@@ -61,18 +61,10 @@ text = """
 text = '''
 <ref>{{cite journal 
 | vauthors = Grant JE, Kim SW, Odlaug BL 
-| title = A double-blind, placebo-controlled study of the opiate antagonist, naltrexone, in the treatment of kleptomania 
-| journal = Biological Psychiatry 
-| volume = 65 
-| issue = 7 
-| pages = 600–6 
-| date = April 2009 
-| pmid = 19217077 
-| doi = 10.1016/j.biopsych.2008.11.022 
-| s2cid = 22992128 
-| laydate = 3 April 2009 
-| layurl = https://www.sciencedaily.com/releases/2009/04/090401101900.htm 
-| laysource = Science Daily
+| url =  https://pubmed.ncbi.nlm.nih.gov/19217077/
+| lay-date = 3 April 2009 
+| lay-url = https://www.sciencedaily.com/releases/2009/04/090401101900.htm 
+| lay-source = Science Daily
 }}</ref>
 '''
 # ---
