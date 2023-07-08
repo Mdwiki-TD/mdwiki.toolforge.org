@@ -26,7 +26,7 @@ if login_done_lang[1] != code:
     api_new.Login_to_wiki()
 '''
 #---
-import pywikibot		 
+import pywikibot
 import datetime
 from datetime import timedelta
 #---
@@ -100,6 +100,36 @@ class NEW_API():
     def post_params(self, params):
         return self.log.post(params)
 
+    def post_continue(self, params, action, _p_, p_empty):
+        #---
+        continue_params = {}
+        #---
+        results = p_empty
+        #---
+        while continue_params != {} or len(results) == 0:
+            #---
+            if continue_params:
+                params = {**params, **continue_params}
+            #---
+            json1 = self.post_params(params)
+            #---
+            if not json1 or json1 == {}:    break
+            #---
+            continue_params = json1.get("continue", {})
+            #---
+            data = json1.get(action, {}).get(_p_, p_empty)
+            #---
+            if not data: break
+            #---
+            printe.output(f'post_continue, len:{len(data)}, all: {len(results)}')
+            #---
+            if isinstance(results, list):
+                results.extend(data)
+            else:
+                results = {**results, **data}
+        #---
+        return results
+    
     def Find_pages_exists_or_not(self, liste):
         #---
         normalized = {}
@@ -213,8 +243,6 @@ class NEW_API():
     #---
     def Search(self, valu, ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
         #---
-        results = []
-        #---
         printe.output( 'bot_api.Search for "%s",ns:%s' % (valu, ns) )
         #---
         if srlimit == "":   srlimit = "max"
@@ -236,13 +264,9 @@ class NEW_API():
         #---
         if offset != "" :   params["sroffset"] = offset
         #---
-        json1 = self.post_params(params)
+        search = self.post_continue(params, "query", "search", [])
         #---
-        if not json1 or json1 == {}:
-            printe.output("<<lightred>> error when Find_pages_exists_or_not")
-            return results
-        #---
-        search = json1.get("query", {}).get("search", [])
+        results = []
         #---
         for pag in search:
             if RETURN_dict:
@@ -250,7 +274,7 @@ class NEW_API():
             else:
                 results.append( pag["title"] )
         #---
-        printe.output( 'bot_api.Search find "%d" result. s' % len(results) )
+        printe.output(f'bot_api.Search find "{len(search)}" all result: {len(results)}' )
         #---
         return results
     #---
@@ -298,7 +322,7 @@ class NEW_API():
             #---
             json1 = self.post_params(params)
             #---
-            if not json1 or json1 == {}:    return Main_table
+            if not json1 or json1 == {}:    break
             #---
             newp = json1.get("query", {}).get("recentchanges", {})
             #---
@@ -309,7 +333,7 @@ class NEW_API():
                 "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"
                 }
             #---
-            Main_table.extend( [ x[ "title" ] for x in newp ] )
+            Main_table.extend( [ x["title"] for x in newp ] )
             #---
             if limit <= len(Main_table) and len(Main_table) > 1: break
             #---
@@ -339,17 +363,12 @@ class NEW_API():
             "ucprop": "title"
         }
         #---
-        if ucshow != "":    params["ucshow"] = ucshow
+        if ucshow != "":
+            params["ucshow"] = ucshow
         #---
-        json1 = self.post_params(params)
+        results = self.post_continue(params, "query", "usercontribs", [])
         #---
-        if not json1 or json1 == {}:
-            printe.output("<<lightred>> error when Find_pages_exists_or_not")
-            return []
-        #---
-        usercontribs = json1.get("query", {}).get("usercontribs", [])
-        #---
-        results = [ x[ "title" ] for x in usercontribs ]
+        results = [ x[ "title" ] for x in results ]
         #---
         return results
     #---
@@ -460,7 +479,6 @@ class NEW_API():
         #---
         return textnew
     #---
-
     def get_extlinks(self, title):
         params = {
             "action": "query",
@@ -472,16 +490,20 @@ class NEW_API():
             "ellimit": "max"
             }
         #---
-        elcontinue = 'x'
+        continue_params = {}
         #---
-        links = []
+        results = []
         #---
-        while elcontinue != '':
+        while continue_params != {} or results == []:
             #---
-            if elcontinue not in ['x', '']:
-                params['elcontinue'] = elcontinue
+            if continue_params:
+                params = {**params, **continue_params}
             #---
             json1 = self.post_params(params)
+            #---
+            if not json1 or json1 == {}:    break
+            #---
+            continue_params = json1.get("continue", {})
             #---
             elcontinue = json1.get('continue', {}).get('elcontinue', '')
             #---

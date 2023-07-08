@@ -276,22 +276,23 @@ class MainPage():
         #---
         xs = {'batchcomplete': True, 'query': {'pages': [{'pageid': 151314, 'ns': 10, 'title': 'قالب:أوب',
 
-        'categories': [
-            {'ns': 14, 'title': 'تصنيف:قوالب تستخدم أنماط القوالب', 'sortkey': '', 'sortkeyprefix': '', 'hidden': False}, 
-            {'ns': 14, 'title': 'تصنيف:cc', 'sortkey': 'v', 'sortkeyprefix': 'أوب', 'hidden': True}
-            ],
+            'categories': [
+                {'ns': 14, 'title': 'تصنيف:قوالب تستخدم أنماط القوالب', 'sortkey': '', 'sortkeyprefix': '', 'hidden': False}, 
+                {'ns': 14, 'title': 'تصنيف:cc', 'sortkey': 'v', 'sortkeyprefix': 'أوب', 'hidden': True}
+                ],
 
-        'langlinks': [{'lang': 'bh', 'title': 'टेम्पलेट:AWB'}], 
+            'langlinks': [{'lang': 'bh', 'title': 'टेम्पलेट:AWB'}], 
 
-        'templates': [{'ns': 10, 'title': 'قالب:No redirect'}], 
+            'templates': [{'ns': 10, 'title': 'قالب:No redirect'}], 
 
-        'linkshere': [{'pageid': 308641, 'ns': 10, 'title': 'قالب:AWB', 'redirect': True}], 
+            'linkshere': [{'pageid': 308641, 'ns': 10, 'title': 'قالب:AWB', 'redirect': True}], 
 
-        'iwlinks': [{'prefix': 'd', 'title': 'Q4063270'}], 
+            'iwlinks': [{'prefix': 'd', 'title': 'Q4063270'}], 
 
-        'contentmodel': 'wikitext', 'pagelanguage': 'ar', 'pagelanguagehtmlcode': 'ar', 'pagelanguagedir': 'rtl', 'touched': '2023-03-05T22:10:23Z', 'lastrevid': 61388266, 'length': 3477
+            'contentmodel': 'wikitext', 'pagelanguage': 'ar', 'pagelanguagehtmlcode': 'ar', 'pagelanguagedir': 'rtl', 'touched': '2023-03-05T22:10:23Z', 'lastrevid': 61388266, 'length': 3477
+            }
+            ]}
         }
-        ]}}
         #---
         ta = data.get("query", {}).get("pages", [{}])[0]
         #---
@@ -339,6 +340,36 @@ class MainPage():
         #---
         self.info['done'] = True
 
+    def post_continue(self, params, action, _p_, p_empty):
+        #---
+        continue_params = {}
+        #---
+        results = p_empty
+        #---
+        while continue_params != {} or len(results) == 0:
+            #---
+            if continue_params:
+                params = {**params, **continue_params}
+            #---
+            json1 = self.post_params(params)
+            #---
+            if not json1 or json1 == {}:    break
+            #---
+            continue_params = json1.get("continue", {})
+            #---
+            data = json1.get(action, {}).get(_p_, p_empty)
+            #---
+            if not data: break
+            #---
+            printe.output(f'post_continue, len:{len(data)}, all: {len(results)}')
+            #---
+            if isinstance(results, list):
+                results.extend(data)
+            else:
+                results = {**results, **data}
+        #---
+        return results
+    
     def page_backlinks(self, ns=0):
         params = {
             "action": "query",
@@ -353,7 +384,6 @@ class MainPage():
             "formatversion": "2",
             "gblredirect": 1
         }
-        data = self.post_params(params)
         #---
         x = {
             'batchcomplete': True,
@@ -368,7 +398,10 @@ class MainPage():
                     ]
         }}
         #---
-        pages = data.get("query", {}).get("pages", [])
+        # data = self.post_params(params)
+        # pages = data.get("query", {}).get("pages", [])
+        #---
+        pages = self.post_continue(params, 'query', 'pages', [])
         #---
         back_links = [ x for x in pages if x['title'] != self.title]
         #---
@@ -383,11 +416,14 @@ class MainPage():
             "formatversion": "2",
             "page": self.title
         }
-        data = self.post_params(params)
+        # data = self.post_params(params)
+        # data = data.get('parse', {}).get('links', [])
+        #---
+        data = self.post_continue(params, 'parse', 'links', [])
         #---
         # [{'ns': 14, 'title': 'تصنيف:مقالات بحاجة لشريط بوابات', 'exists': True}, {'ns': 14, 'title': 'تصنيف:مقالات بحاجة لصندوق معلومات', 'exists': False}]
         #---
-        self.links = data.get('parse', {}).get('links', [])
+        self.links = data
         #---
         return self.links
 

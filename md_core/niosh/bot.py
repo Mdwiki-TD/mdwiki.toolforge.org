@@ -23,7 +23,7 @@ if not os.path.isfile(file_json):
 api_new = NEW_API('en', family='wikipedia')
 # ---
 value = 'insource:"cdc.gov/niosh/"'
-search = api_new.Search(value, ns="0", offset='', srlimit="max", RETURN_dict=False, addparams={})
+search = api_new.Search(value, ns="0", offset='', srlimit="", RETURN_dict=False, addparams={})
 # ---
 toto = {}
 # ---

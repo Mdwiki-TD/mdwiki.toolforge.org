@@ -46,14 +46,12 @@ def test():
     text = page.get_text()
     print(text)
     #---
-    page2 = MainPage("Category:Yemen", 'en', family='wikipedia')
+    page2 = MainPage("Yemen", 'en', family='wikipedia')
     #---
-    text2 = page2.get_text()
-    print(text2)
     #---
-    # ex = page.page_backlinks()
-    # print(f'---------------------------')
-    # print(f'page_backlinks:{ex}')
+    ex = page.page_backlinks()
+    print(f'---------------------------')
+    print(f'page_backlinks:{ex}')
     #---
     # hidden_categories= page.get_hidden_categories()
     # print(f'---------------------------')
