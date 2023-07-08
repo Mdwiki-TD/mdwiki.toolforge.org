@@ -113,6 +113,16 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
         # yield from cursor
         return results
 #---
+def decode_value( value ):
+    try:
+        value = value.decode('utf-8')  # Assuming UTF-8 encoding
+    except:
+        try:
+            value = str(value)
+        except:
+            return ''
+    return value
+#---
 def resolve_bytes(rows):
     decoded_rows = []
     #---
@@ -120,9 +130,8 @@ def resolve_bytes(rows):
         decoded_row = {}
         for key, value in row.items():
             if isinstance(value, bytes):
-                decoded_row[key] = value.decode('utf-8')  # Assuming UTF-8 encoding
-            else:
-                decoded_row[key] = value
+                value = decode_value(value)
+            decoded_row[key] = value
         decoded_rows.append(decoded_row)
     #---
     return decoded_rows

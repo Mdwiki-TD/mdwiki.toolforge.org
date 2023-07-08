@@ -24,20 +24,7 @@ from mdpy.bots import wiki_api
 #===
 #---
 from mdpy.bots import py_tools
-# py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
-# py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
-# py_tools.Decode_bytes(x)
-# py_tools.quoteurl(fao)
-# py_tools.
-# py_tools.
-#===
-#---
 from mdpy import printe
-# printe.output('<<red>>red')
-# printe.showDiff(text, newtext)
-#---
-#===
 already_in_sql = {}
 #---
 Lang_to_targets = {}
@@ -243,9 +230,13 @@ def main():
             #---
             lenlist = len(title_list)
             #---
+            printe.output(f'---' )
             printe.output(f'<<lightyellow>> get pageviews for {lenlist} pages, date_start:{start}' )
             #---
-            numbers = wiki_api.get_views_with_rest_v1(lange, title_list, date_start=start, date_end='20300101', printurl=False, printstr=False)
+            if lenlist < 5:
+                printe.output(", ".join(title_list))
+            #---
+            numbers = wiki_api.get_views_with_rest_v1(lange, title_list, date_start=start, date_end='20300101', printurl=False, printstr=False, Type='daily')
             #---
             numbs = {**numbs, **numbers}
         #---

@@ -24,6 +24,7 @@ else:
 print_test = {1:False}
 #---
 Main_s = {1:requests.Session()}
+tokens_by_lang = {}
 #---
 User_tables = {"mdwiki":{}, "wikidata":{}, "wikipedia":{}, "nccommons":{}}
 #---
@@ -174,7 +175,7 @@ class Login():
         #---
         self.r3_token = r3_token
         #---
-        Main_s['token'] = r3_token
+        tokens_by_lang[self.lang] = r3_token
         printe.output(f'<<green>> r3_token: {self.r3_token}')
         #---
     #---
@@ -191,7 +192,9 @@ class Login():
         if 'minor' in params and params['minor'] == '' : params['minor'] = self.Bot_or_himo
         #---
         if addtoken or params["action"] in ["edit", "create"]:
-            if self.r3_token == '': self.r3_token = Main_s.get('token', '')
+            if self.r3_token == '': 
+                self.r3_token = tokens_by_lang.get(self.lang, '')
+
             if self.r3_token == '':
                 warn(warn_err('self.r3_token == "" '), UserWarning)
                 warn(warn_err('self.r3_token == "" '), UserWarning)

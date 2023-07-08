@@ -53,6 +53,7 @@ main_args = {
     'host':     'tools.db.svc.wikimedia.cloud',
     'db':       's54732__mdwiki',
     'charset':  'utf8mb4',
+    # 'collation':  'utf8_general_ci',
     'use_unicode': True,
     'autocommit': True
     }
@@ -78,6 +79,7 @@ def sql_connect_pymysql(query, return_dict=False):
     #---
     args['cursorclass'] = Typee
     #---
+    connection = pymysql.connect(**args, **credentials)
     try:
         connection = pymysql.connect(**args, **credentials)
 
@@ -213,6 +215,7 @@ def add_titles_to_qids(tab, add_empty_qid=False):
 def tests():
     #---
     # test_get_all_qids
+    '''
     qua = ' select DISTINCT * from pages where lang ="zh" limit 100;'
     #---
     qids = sql_connect_pymysql(qua)
@@ -229,6 +232,7 @@ def tests():
     zz = update_qid('test11', 'xxx')
     print(f'update: {zz}')
     #---
+    '''
     # return
     # test_get_all_pages
     # pages = mdwiki_sql(' select DISTINCT * from pages limit 10;', return_dict=True)

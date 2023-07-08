@@ -17,14 +17,15 @@ import codecs
 from mdpy import printe
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
-'''
-page      = md_MainPage(title, 'www', family='mdwiki')
-exists    = page.exists()
-if not exists: return
 #---
-text        = page.get_text()
-save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
-'''
+Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = os.path.dirname(Dir)
+#---
+sect_file = f'{Dir}/lists/secs_links.json'
+if not os.path.exists(sect_file):
+    with open(sect_file, 'w') as f:  json.dump({}, f)
+#---
+old = json.load(codecs.open(sect_file, 'r', 'utf-8'))
 #---
 replaces = {
     "Syncope" : "Syncope (medicine)",
@@ -93,19 +94,31 @@ class Sectios_links:
             # Add the section and its links to the all_sections dict
             self.SectionsToLinks[t] = wikilinks
 #---
-def get_section_links():
+def dump_secs_links(secs_links):
+    #---
+    global sect_file
+    #---
+    if secs_links != {}:
+        printe.output(f'<<lightyellow>> secs_links(): lenth: {len(secs_links.keys())}')
+        json.dump(secs_links, codecs.open(sect_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
+#---
+def get_section_links(new=False):
     """
     Retrieves the links to the sections from the Sectios_links bot.
-    """
+    """    
+    if new or len(old) == 0:
     # Instantiate an object of the Sectios_links class.
-    bot = Sectios_links()
+        bot = Sectios_links()
 
-    bot.run()
+        bot.run()
 
-    # Retrieve the links to the sections
-    secs_links = bot.SectionsToLinks
-
-    # Return the list of links to the sections.
+        # Retrieve the links to the sections
+        secs_links = bot.SectionsToLinks
+        
+        dump_secs_links(secs_links)
+    else:
+        secs_links = old
+    #---
     return secs_links
 #---
 if __name__ == '__main__':

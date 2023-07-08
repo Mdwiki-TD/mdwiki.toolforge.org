@@ -486,9 +486,14 @@ def get_page_views(titles, site='en', days = 30):
     #---
     return views
 #---
-def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20300101', printurl=False, printstr=False):
+def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20300101', printurl=False, printstr=False, Type=''):
     #---
     numbers = {}
+    #---
+    _Type = 'monthly'
+    #---
+    if Type in ["daily", "monthly"]:
+        _Type = Type
     #---
     numb = 0
     #---
@@ -504,7 +509,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
         #---
         pa = urllib.parse.quote( page )
         #---
-        url = 'https:' + '//wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' + langcode + '.wikipedia/all-access/all-agents/' + pa.replace('/','%2F') + '/monthly/' + date_start + '00/' + date_end + '00'
+        url = 'https:' + '//wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' + langcode + '.wikipedia/all-access/all-agents/' + pa.replace('/','%2F') + '/' + _Type +'/' + date_start + '00/' + date_end + '00'
         #---
         if "printurl" in sys.argv or printurl : 
             printe.output('printboturl:\t\t' + url)
@@ -518,8 +523,8 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
         #---
         st = req.status_code
         #---
-        if 500 <= st < 600:
-            printe.output( 'received {0} status from {1}'.format(st, req.url) )
+        if 500 <= st < 600 or st == 404:
+            printe.output( f'received {st} status from:' )
             printe.output( url )
         #---
         data = {}

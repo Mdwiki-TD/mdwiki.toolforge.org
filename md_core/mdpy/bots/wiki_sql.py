@@ -5,7 +5,7 @@
 #---
 from mdpy.bots import wiki_sql
 #---
-# result = wiki_sql.sql_new(qua)
+# result = wiki_sql.sql_new(qua, wiki)
 #---
 """
 #

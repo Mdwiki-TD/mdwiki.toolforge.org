@@ -23,7 +23,8 @@ def views_url(title, lang, view):
     }
     d_end   = datetime.datetime.utcnow() - timedelta(days = 1)
     d_end   = d_end.strftime('%Y-%m-%d')
-    params['end'] = d_end
+    # params['end'] = d_end
+    params['end'] = "2023-06-01"
     params = urlencode(params)
     url_views = f"https://pageviews.wmcloud.org/?{params}"
 

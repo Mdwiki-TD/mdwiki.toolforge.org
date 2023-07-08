@@ -9,10 +9,8 @@ import re
 import sys
 sys.dont_write_bytecode = True
 #---
-printn_t = {1:False}
-#---
 def printn(s):
-    if printn_t[1] or 'test' in sys.argv: print(s)
+    return
 #---
 def rename_params(temptext) :
     #---
@@ -76,7 +74,7 @@ if __name__ == "__main__" :
     # python3 pwb.py medUpdater/bots/old_params
     #---
     import pywikibot
-    printn_t[1] = True
+    printn = print
     o = '''
 {{drugbox
 |side effects=test

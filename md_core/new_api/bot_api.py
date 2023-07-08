@@ -10,6 +10,7 @@ from newapi.page import NEW_API
 # usercont = api_new.UserContribs(user, limit="max", namespace="*", ucshow="")
 # l_links  = api_new.Get_langlinks_for_list(titles, targtsitecode="", numbes=50)
 # text_w   = api_new.expandtemplates(text)
+# subst    = api_new.Prase_Text('{{subst:page_name}}', title)
 '''
 #---
 '''
@@ -412,6 +413,7 @@ class NEW_API():
         printe.output('bot_api.Get_langlinks_for_list find "%d" in table,find_targtsitecode:%s:%d' % ( len(table), targtsitecode,find_targtsitecode) )
         #---
         return table
+    #---
     def expandtemplates(self, text):
         #---
         params = {
@@ -424,7 +426,75 @@ class NEW_API():
         #---
         data = self.post_params(params)
         #---
+        if not data or data == {} : return text
+        #---
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         #---
         return newtext
-#---
+    #---
+    def Prase_Text(self, line, title):
+        #---
+        params = {
+            "action": "parse",
+            "prop": "wikitext",
+            "text": line,
+            "title": title,
+            "pst": 1,
+            "contentmodel": "wikitext",
+            "utf8": 1,
+            "formatversion": "2"
+        }
+        #---
+        _data_ = {"parse": {"title": "كريس فروم","pageid": 2639244,
+                "wikitext": "{{subst:user:Mr._Ibrahem/line2|Q76|P31}}",
+                "psttext": "\"Q76\":{\n\"P31\":\"إنسان\"\n\n\n\n\n},"
+        }}
+        #---
+        data = self.post_params(params)
+        #---
+        if not data or data == {} : return ""
+        #---
+        textnew = data.get("parse", {}).get("psttext", "")
+        #---
+        textnew = textnew.replace("\\n\\n", "")
+        #---
+        return textnew
+    #---
+
+    def get_extlinks(self, title):
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "extlinks", 
+            "titles": title, 
+            "formatversion": "2", 
+            "utf8": 1, 
+            "ellimit": "max"
+            }
+        #---
+        elcontinue = 'x'
+        #---
+        links = []
+        #---
+        while elcontinue != '':
+            #---
+            if elcontinue not in ['x', '']:
+                params['elcontinue'] = elcontinue
+            #---
+            json1 = self.post_params(params)
+            #---
+            elcontinue = json1.get('continue', {}).get('elcontinue', '')
+            #---
+            linkso = json1.get('query',{}).get('pages',[{}])[0].get('extlinks',[])
+            #---
+            links.extend(linkso)
+        #---
+        links = [ x['url'] for x in links ]
+        #---
+        # remove duplicates
+        liste1 = list(set(links))
+        #---
+        liste1.sort()
+        #---
+        return liste1
+        #---

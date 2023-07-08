@@ -1,6 +1,6 @@
 '''
 
-write code to read page in en.wikipedia.org using API, then create list with all links in the page.
+write code to read page in en.wikipedia.org using API, then create list with All links in the page.
 title: WikiProjectMed:List/Prior
 links like [[example]]
 
@@ -32,9 +32,8 @@ project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
 #---
-project_json = f'{project}/md_core/prior/json/'
-project_jsonnew = f'{project}/md_core/prior/jsonnew/'
-project_jsonnewen = f'{project}/md_core/prior/jsonnewen/'
+project_js_new = f'{project}/md_core/prior/json_langs/'
+project_js_newen = f'{project}/md_core/prior/json_en/'
 #---
 def main_links():
     title = "WikiProjectMed:List/Prior"
@@ -54,14 +53,14 @@ def main_links():
     #---
     return links
 #---
-all = {}
+All = {}
 allen = {}
 #---
 def log_all(main_File):
     #---
     if 'enonly' in sys.argv or 'newenonly' in sys.argv: return
     #---
-    codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(all))
+    codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(All))
 #---
 def log_allen(main_File):
     codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(allen))
@@ -107,8 +106,8 @@ def advance_work_en(title, title2, page):
 #---
 def work_in_en_page(title):
     #---
-    if not title in all:
-        all[title] = {'langs':{}}
+    if not title in All:
+        All[title] = {'langs':{}}
     #---
     if not title in allen:
         allen[title] = {
@@ -166,7 +165,7 @@ def work_in_en_page(title):
         #---
         printe.output(f'\tp{n}/{len(langlinks)}:\t{lang.ljust(20)}\t{lenex} extlinks, {lenre} refsname..')
         #---
-        all[title]['langs'][lang] = tata
+        All[title]['langs'][lang] = tata
         #---
     #---
 #---
@@ -175,7 +174,7 @@ n_al = 0
 def work_in_links(links, main_File, main_File_en, Log=True):
     #---
     global n_al
-    global allen, all
+    global allen, All
     #---
     n = 0
     #---
@@ -189,7 +188,7 @@ def work_in_links(links, main_File, main_File_en, Log=True):
         printe.output(f'<<green>> There are {len(en_in)} en title in file: {basefilename}, from {len(links)} links...')
     #---
     if os.path.exists(main_File):
-        all = json.load(open(main_File, encoding='utf-8'))
+        All = json.load(open(main_File, encoding='utf-8'))
     #---
     for x in links:
         n_al += 1
@@ -221,35 +220,12 @@ def work_in_links(links, main_File, main_File_en, Log=True):
     if Log:
         log_allen(main_File_en)
 #---
-def start_test(links=[]):
-    #---
-    if links == []:
-        links = ["Syncope (medicine)"]
-    # start work in all links
-    #---
-    # links.sort()
-    #---
-    main_File    = project_json + 'test.json'
-    main_File_en = project_json + 'en_test.json'
-    #---
-    # python3 core8/pwb.py prior/p4 test
-    #---
-    work_in_links(links, main_File, main_File_en, Log=False)
-    #---
-    # log_all(main_File)
-    # log_allen(main_File_en)
-    #---
-    return all, allen
-#---
 def start_all():
     #---
     links = main_links()
-    # start work in all links
+    # start work in All links
     #---
     links.sort()
-    #---
-    main_File = project_json + 'allennew_2.json'
-    main_File_en = project_json + 'en_allennew_2.json'
     #---
     tanko = {}
     #---
@@ -260,8 +236,8 @@ def start_all():
         #---
         titles = links[i:i+100]
         #---
-        main_File    = project_jsonnew + f'{n}.json'
-        main_File_en = project_jsonnewen + f'en_{n}.json'
+        main_File    = project_js_new + f'{n}.json'
+        main_File_en = project_js_newen + f'en_{n}.json'
         #---
         tanko[str(n)] = {'file':main_File, 'file_en':main_File_en, 'links':titles}
         #---
@@ -283,8 +259,8 @@ def start_all():
     else:
         printe.output(f'list number:{valu} not found.')
         #---
-        if not 'all' in sys.argv:
-            printe.output(f'Add "all" to sys.argv to work in all.. \n sys.exit()')
+        if not 'All' in sys.argv:
+            printe.output(f'Add "All" to sys.argv to work in All.. \n sys.exit()')
             sys.exit()
     #---
     for x, tab in tanko.items():
@@ -301,7 +277,4 @@ def start_all():
         log_allen(main_File_en)
 #---
 if __name__ == '__main__':
-    if 'test' in sys.argv:
-        start_test()
-    else:
-        start_all()
+    start_all()

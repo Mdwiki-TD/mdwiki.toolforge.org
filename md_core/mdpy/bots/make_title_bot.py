@@ -103,7 +103,7 @@ def make_title(url):
     # ---
     title = results.get('title', '')
     # ---
-    if title == '':
+    if title == '' or title.strip().lower() == 'not found.':
         return ''
     # ---
     titleBlackList = re.compile(globalbadtitles, re.I | re.S | re.X)

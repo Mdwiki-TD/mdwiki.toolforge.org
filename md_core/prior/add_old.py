@@ -1,4 +1,10 @@
 '''
+بوت لإضافة 
+جدول old
+إلى جميع ملفات جسون في
+مجلد json_en
+
+
 python3.10 core8/pwb.py prior/add_old new
 
 python3.10 core8/pwb.py prior/add_old
@@ -32,7 +38,7 @@ project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/md_core/prior'
-project_jsonnew = f'{project}/jsonnewen/'
+project_js_new = f'{project}/json_en/'
 #---
 class PriorAddOld:
 
@@ -41,7 +47,7 @@ class PriorAddOld:
 
     def run(self):
         p = 0
-        for filename in os.listdir(project_jsonnew):
+        for filename in os.listdir(project_js_new):
             if filename.endswith('.json'):
                 p += 1
                 self.all_file.append(filename)
@@ -63,7 +69,7 @@ class PriorAddOld:
             return
         #---
         for filename in self.all_file:
-            filename = os.path.join(project_jsonnew, filename)
+            filename = os.path.join(project_js_new, filename)
             #---
             print(f'filename: {filename}..')
             #---

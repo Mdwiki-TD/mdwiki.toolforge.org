@@ -123,7 +123,7 @@ class move_External_links_section:
             #---
 
         #---
-    def get_new_text(self):
+    def make_new_txt(self):
         #---
         self.new_text = re.sub(r'\n\s*\[\[Category', '\n[[Category', self.new_text, flags=re.DOTALL | re.MULTILINE)
         #---
@@ -140,13 +140,14 @@ if __name__ == "__main__":
     from newupdater.med import GetPageText
     #---
     text = GetPageText(sys.argv[1])
-    # text = codecs.open(Dir+ "/section.txt", "r", "utf-8").read()
     #---
-    codecs.open(Dir+ "/section.txt", "w", "utf-8").write(text)
+    # text = codecs.open(Dir+ "/texts/section.txt", "r", "utf-8").read()
+    #---
+    codecs.open(Dir+ "/texts/section.txt", "w", "utf-8").write(text)
     #---
     bot = move_External_links_section(str(text))
     #---
-    new_text = bot.get_new_text()
+    new_text = bot.make_new_txt()
     #---
     pywikibot.showDiff(text, new_text)
-    codecs.open(Dir+ "/secnew.txt", "w", "utf-8").write(new_text)
+    codecs.open(Dir+ "/texts/secnew.txt", "w", "utf-8").write(new_text)

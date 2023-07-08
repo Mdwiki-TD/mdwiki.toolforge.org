@@ -1,5 +1,5 @@
 '''
-write code to read page in en.wikipedia.org using API, then create list with all links in the page.
+write code to read page in en.wikipedia.org using API, then create list with All links in the page.
 title: WikiProjectMed:List/Prior
 links like [[example]]
 
@@ -26,8 +26,8 @@ if not os.path.isdir(project): project = '/mdwiki'
 project += '/md_core/prior'
 #---
 project_json      = f'{project}/json'
-project_jsonnew   = f'{project}/jsonnew/'
-project_jsonnewen = f'{project}/jsonnewen/'
+project_js_new   = f'{project}/json_langs/'
+project_js_newen = f'{project}/json_en/'
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 '''
@@ -39,30 +39,30 @@ text        = page.get_text()
 save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 '''
 #---
-def work_test(all, allen):
-    # This function takes in two dictionaries as input, 'all' and 'allen'.
+def work_test(All, allen):
+    # This function takes in two dictionaries as input, 'All' and 'allen'.
 
     # Loop through each key-value pair in 'allen' dictionary.
     for a, tab in allen.items():
-        # If the current key in 'allen' dictionary also exists in 'all' dictionary,
+        # If the current key in 'allen' dictionary also exists in 'All' dictionary,
         # then update some specific values with the corresponding values in 'allen' dictionary.
-        if a in all:
-            all[a]['extlinks'] = tab['extlinks']
-            all[a]['refsname'] = tab['refsname']
-            all[a]['lead']     = tab['lead']
-            all[a]['old']     = tab.get('old', {})
+        if a in All:
+            All[a]['extlinks'] = tab['extlinks']
+            All[a]['refsname'] = tab['refsname']
+            All[a]['lead']     = tab['lead']
+            All[a]['old']     = tab.get('old', {})
 
     # Create a file title for the log file
     filetitle = f'{project}/log_test.txt'
 
-    # Call a function 'make_text' with 'all' dictionary as input and store the output in 'text' variable.
-    text = text_bot.make_text(all)
+    # Call a function 'make_text' with 'All' dictionary as input and store the output in 'text' variable.
+    text = text_bot.make_text(All)
 
     # Remove a specific string from 'text' variable.
     text = text.replace("height:580px;", "")
 
-    # Print the number of links found in 'all' dictionary.
-    printe.output(f'{len(all)} links found')
+    # Print the number of links found in 'All' dictionary.
+    printe.output(f'{len(All)} links found')
 
     # Print a message stating where the log file was saved.
     printe.output(f'<<lightyellow>> text loged to {filetitle}')
@@ -81,22 +81,22 @@ def work_test(all, allen):
     return text
 #---
 def get_all_json():
-    all   = {}
+    All   = {}
     allen = {}
     #---
-    # get all json file inside dir project_jsonnew
-    for filename in os.listdir(project_jsonnew):
+    # get All json file inside dir project_js_new
+    for filename in os.listdir(project_js_new):
         if filename.endswith('.json'):
-            filename2 = os.path.join(project_jsonnew, filename)
+            filename2 = os.path.join(project_js_new, filename)
             #---
             printe.output(f'filename: {filename2}..')
             #---
             data = json.load(open(filename2, 'r'))
-            all   = {**all, **data}
+            All   = {**All, **data}
     #---
-    for filename in os.listdir(project_jsonnewen):
+    for filename in os.listdir(project_js_newen):
         if filename.endswith('.json'):
-            filename2 = os.path.join(project_jsonnewen, filename)
+            filename2 = os.path.join(project_js_newen, filename)
             #---
             printe.output(f'filename: {filename2}..')
             #---
@@ -105,15 +105,15 @@ def get_all_json():
             allen = {**allen, **data}
     #---
     for a, tab in allen.items():
-        if a in all:
-            all[a]['extlinks'] = tab['extlinks']
-            all[a]['refsname'] = tab['refsname']
-            all[a]['lead']     = tab['lead']
-            all[a]['old']      = tab.get('old', {})
+        if a in All:
+            All[a]['extlinks'] = tab['extlinks']
+            All[a]['refsname'] = tab['refsname']
+            All[a]['lead']     = tab['lead']
+            All[a]['old']      = tab.get('old', {})
     #---
-    printe.output(f'new all len:{len(all)}')
+    printe.output(f'new All len:{len(All)}')
     #---
-    return all
+    return All
 #---
 replaces = {
     "Syncope" : "Syncope (medicine)",
@@ -123,7 +123,7 @@ class WorkAll:
     def __init__(self):
         self.title = "WikiProjectMed:List/Prior"
         #---
-        self.all = get_all_json()
+        self.All = get_all_json()
         #---
         self.page = md_MainPage(self.title, 'www', family='mdwiki')
         self.text = self.page.get_text()
@@ -156,7 +156,7 @@ class WorkAll:
             #---
             t = t.replace('/', '-')
             #---
-            _all_ = {a: self.all[a] for a in wikilinks if a in self.all}
+            _all_ = {a: self.All[a] for a in wikilinks if a in self.All}
             #---
             if len(_all_) < 150:
                 self.all_sections[t] = _all_
@@ -230,7 +230,7 @@ def work_all():
     if 'logall' in sys.argv:
         text_bot.log_all_pages_states()
     else:
-        printe.output(f'<<lightyellow>> add "logall" to args to log all pages links green/red..')
+        printe.output(f'<<lightyellow>> add "logall" to args to log All pages links green/red..')
     #---
 #---
 if __name__ == '__main__':

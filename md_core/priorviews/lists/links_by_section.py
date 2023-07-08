@@ -15,7 +15,9 @@ from mdpy import printe
 from priorviews.bots.sections_links import get_section_links
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
-_Dir_ = os.path.dirname(Dir)
+# get the dir 2 levels back
+
+_Dir_ = os.path.dirname(os.path.dirname(Dir))
 file = f'{_Dir_}/prior/all_pages_states.json'
 #---
 data = json.load(codecs.open(file, 'r', 'utf-8'))

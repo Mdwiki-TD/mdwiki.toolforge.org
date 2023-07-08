@@ -1,12 +1,12 @@
 from warnings import warn
+import traceback
 import pywikibot
 import urllib
 import requests
 import os
 import json
 import sys
-import wikitextparser
-#---
+import wikitextparser as wtp
 #---
 if __file__.find('mdwiki') == -1:
     from API import botEdit
@@ -33,6 +33,7 @@ page_edit = page.can_edit()
 if not page_edit: return
 #---
 if page.isRedirect() :  return
+if page.isDisambiguation() :  return
 # target = page.get_redirect_target()
 #---
 text        = page.get_text()
@@ -44,15 +45,18 @@ wiki_links  = page.get_wiki_links_from_text()
 refs        = page.Get_tags(tag='ref')# for x in ref: name, contents = x.name, x.contents
 words       = page.get_words()
 templates   = page.get_templates()
+temps_API   = page.get_templates_API()
 save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 create      = page.Create(text='', summary='')
 #---
+extlinks    = page.get_extlinks()
 back_links  = page.page_backlinks()
 text_html   = page.get_text_html()
 hidden_categories= page.get_hidden_categories()
 flagged     = page.is_flagged()
 timestamp   = page.get_timestamp()
 user        = page.get_user()
+userinfo    = page.get_userinfo() # "id", "name", "groups"
 purge       = page.purge()
 '''
 
@@ -101,9 +105,11 @@ class MainPage():
         self.family = family
         self.endpoint = f'https://{lang}.{family}.org/w/api.php'
         #---
+        self.userinfo = []
         self.username = ''
         self.Exists = ''
         self.is_redirect = ''
+        self.is_Disambig = False
         self.flagged = ''
         self.can_be_edit = False
         #---
@@ -119,6 +125,7 @@ class MainPage():
         self.user = ""
         #---
         self.back_links = []
+        self.extlinks   = []
         self.links = []
         self.iwlinks = []
         self.links_here = []
@@ -131,6 +138,7 @@ class MainPage():
         #---
         self.langlinks = {}
         self.templates = {}
+        self.templates_API = {}
 
         self.r3_token = ''
         self.summary = ''
@@ -318,6 +326,12 @@ class MainPage():
             #---
             self.langlinks = { ta["lang"]: ta.get("*") or ta.get("title") for ta in ta.get('langlinks', []) }
         #---
+        if ta.get('templates', []) != []:
+            #---
+            # 'templates': [{'ns': 10, 'title': 'قالب:No redirect'}],
+            #---
+            self.templates_API = [ ta["title"] for ta in ta.get('templates', []) ]
+        #---
         # "linkshere": [{"pageid": 189150,"ns": 0,"title": "طواف فرنسا"}, {"pageid": 308641,"ns": 10,"title": "قالب:AWB","redirect": ""}]
         self.links_here = ta.get('linkshere', [])
         #---
@@ -440,6 +454,45 @@ class MainPage():
         #---
         return self.words
 
+    def get_extlinks(self):
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "extlinks", 
+            "titles": self.title, 
+            "formatversion": "2", 
+            "utf8": 1, 
+            "ellimit": "max"
+            }
+        #---
+        elcontinue = 'x'
+        #---
+        links = []
+        #---
+        while elcontinue != '':
+            #---
+            if elcontinue not in ['x', '']:
+                params['elcontinue'] = elcontinue
+            #---
+            json1 = self.post_params(params)
+            #---
+            elcontinue = json1.get('continue', {}).get('elcontinue', '')
+            #---
+            linkso = json1.get('query',{}).get('pages',[{}])[0].get('extlinks',[])
+            #---
+            links.extend(linkso)
+        #---
+        links = [ x['url'] for x in links ]
+        #---
+        # remove duplicates
+        liste1 = list(set(links))
+        #---
+        liste1.sort()
+        #---
+        self.extlinks = liste1
+        return liste1
+        #---
+
     def purge(self):
         #---
         params = {
@@ -481,6 +534,16 @@ class MainPage():
         #---
         return self.is_redirect
     #---
+    def isDisambiguation(self):
+        #---
+        # if the title ends with '(توضيح)' or '(disambiguation)'
+        self.is_Disambig = self.title.endswith('(توضيح)') or self.title.endswith('(disambiguation)')
+        #---
+        if self.is_Disambig:
+            printe.output( f'<<lightred>> page "{self.title}" is Disambiguation / توضيح')
+        #---
+        return self.is_Disambig
+    #---
     def get_categories(self, with_hidden=False):
         #---
         # if self.categories == {}: self.get_infos()
@@ -503,6 +566,12 @@ class MainPage():
         #---
         return self.langlinks
 
+    def get_templates_API(self):
+        #---
+        if not self.info['done']: self.get_infos()
+        #---
+        return self.templates_API
+
     def get_links_here(self):
         #---
         if not self.info['done']: self.get_infos()
@@ -512,7 +581,7 @@ class MainPage():
     def get_wiki_links_from_text(self):
         if self.text == '' : self.text = self.get_text()
         #---        
-        parsed = wikitextparser.parse(self.text)
+        parsed = wtp.parse(self.text)
         wikilinks = parsed.wikilinks
         #---
         printe.output(f'wikilinks:{str(wikilinks)}')
@@ -527,7 +596,7 @@ class MainPage():
         #---
         self.text = self.text.replace('<ref>', '<ref name="ss">', 1)
         #---
-        parsed = wikitextparser.parse(self.text)
+        parsed = wtp.parse(self.text)
         tags = parsed.get_tags()
         #---
         # printe.output(f'tags:{str(tags)}')
@@ -566,7 +635,7 @@ class MainPage():
     def exists(self):
         if self.Exists == '' : self.get_text()
         if not self.Exists:
-            printe.output( f'page "{self.title}" not exists' )
+            printe.output( f'page "{self.title}" not exists in {self.lang}:{self.family}' )
         return self.Exists
 
     def namespace(self):
@@ -576,6 +645,25 @@ class MainPage():
     def get_user(self):
         if self.user == '' : self.get_text()
         return self.user
+
+    def get_userinfo(self):
+        if self.userinfo == [] :
+            params = {
+                "action": "query",
+                "format": "json",
+                "list": "users",
+                "formatversion": "2",
+                "usprop": "groups",
+                "ususers": self.user
+            }
+            #---
+            data = self.post_params(params)
+            #---
+            _userinfo_ = { "id": 229481, "name": "Mr. Ibrahem", "groups": [ "editor", "reviewer", "rollbacker", "*", "user", "autoconfirmed" ] }
+            #---
+            self.userinfo = data.get("query", {}).get("users", [{}])[0]
+        #---
+        return self.userinfo
 
     def get_templates(self):
         if self.text == '' : self.text = self.get_text()
@@ -588,7 +676,7 @@ class MainPage():
         if 'ask' in sys.argv and not Save_Edit_Pages[1] or print_test[1]:
             #---
             if not "nodiff" in sys.argv and not nodiff:
-                if len(self.newtext) < 3000 and len(self.text) < 3000:
+                if len(self.newtext) < 70000 and len(self.text) < 70000 or 'diff' in sys.argv:
                     printe.showDiff(self.text, self.newtext)
                 else:
                     printe.output('showDiff error..')
@@ -619,8 +707,8 @@ class MainPage():
         err_info = error.get('info', '')
         #---
         tt = f'<<lightred>>{function} ERROR: <<defaut>>code:{err_code}.'
-        # printe.output(tt)
-        warn(warn_err(tt), UserWarning)
+        printe.output(tt)
+        # warn(warn_err(tt), UserWarning)
         #---["protectedpage", 'تأخير البوتات 3 ساعات', False]
         if err_code == "abusefilter-disallowed":
             #---

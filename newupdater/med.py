@@ -133,10 +133,6 @@ def get_new_text(title, text=''):
     #---
     newtext = text
     #---
-    rea = re.search(r"{{(Infobox drug|Drugbox)", text, flags=re.IGNORECASE)
-    #---
-    if not rea: return text, newtext
-    #---
     if newtext != "":
         newtext = MedWorkNew.work_on_text(title, newtext)
     #---
