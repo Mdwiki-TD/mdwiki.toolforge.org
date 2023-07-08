@@ -11,9 +11,8 @@ import pywikibot
 import wikitextparser
 import codecs
 # ---
-from new_api.mdwiki_page import MainPage
-from new_api.page import NEW_API
 from mdpy import printe
+from new_api.wiki_page import MainPage, NEW_API
 # ---
 Dir = os.path.dirname(os.path.abspath(__file__))
 # ---
@@ -23,16 +22,15 @@ if not os.path.isfile(file_json):
 # ---
 api_new = NEW_API('en', family='wikipedia')
 # ---
-# ---
 value = 'insource:"cdc.gov/niosh/"'
 search = api_new.Search(value, ns="0", offset='', srlimit="max", RETURN_dict=False, addparams={})
 # ---
 toto = {}
 # ---
 for x in search:
-    page = MainPage(title, 'en', family='wikipedia')
+    page = MainPage(x, 'en', family='wikipedia')
     extlinks = page.get_extlinks()
-    toto[title] = extlinks
+    toto[x] = extlinks
 # ---
 json.dump(toto, codecs.open(file_json, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
 # ---

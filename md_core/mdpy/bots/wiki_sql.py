@@ -35,49 +35,19 @@ can_use_sql_db = sql_qu.can_use_sql_db
 #---
 def GET_SQL():
     return can_use_sql_db[1]
-#---        
-content_lang_map = {
-    "be-x-old" : "be-tarask",
-    "be_x_old" : "be-tarask",
-    "bh" : "bho",
-    "crh" : "chr-latn",
-    "no" : "nb",
-    "als"   :   "gsw",
-    "bat-smg"   :   "sgs",
-    "cbk-zam"   :   "cbk",
-    "eml"   :   "egl",
-    "fiu-vro"   :   "vro",
-    "map-bms"   :   "jv-x-bms",
-    "nrm"   :   "nrf",
-    "roa-rup"   :   "rup",
-    "roa-tara"  :   "nap-x-tara",
-    "simple"    :   "en-simple",
-    "zh-classical"  :   "lzh",
-    "zh-min-nan"    :   "nan",
-    "zh-yue"    :   "yue",
-}
 #---
-def make_labsdb_dbs_p(wiki):
+def make_labsdb_dbs_p(wiki):#host, dbs_p = make_labsdb_dbs_p('ar')
     #---
-    lang = wiki
+    if wiki.endswith('wiki') : wiki = wiki[:-4]
     #---
-    if lang.endswith('wiki') : lang = lang[:-4]
-    #---
-    if lang in content_lang_map:
-        wiki = content_lang_map[lang]
+    wiki = wiki.replace("-", "_")
     #---
     wiki = f"{wiki}wiki"
     dbs = wiki
     #---
-    host = "%s.analytics.db.svc.wikimedia.cloud" % wiki
+    host = f"{wiki}.analytics.db.svc.wikimedia.cloud"
     #---
     dbs_p = dbs + '_p'
-    #---
-    # _host_    =   config.db_hostname_format.format(wiki)
-    # if host != _host_:  pywikibot.output(f'<<lightyellow>>host:{host} != _host:{_host_}')
-    #---
-    # _dbs_p_   =   config.db_name_format.format(wiki) + '_p'
-    # if dbs_p != _dbs_p_:    pywikibot.output(f'dbs_p:{dbs_p} != _dbs_p:{_dbs_p_}')
     #---
     return host, dbs_p
 #---
