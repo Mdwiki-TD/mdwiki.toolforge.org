@@ -27,8 +27,12 @@ search = api_new.Search(value, ns="0", offset='', srlimit="", RETURN_dict=False,
 # ---
 toto = {}
 # ---
+n = 0
+nn = len(search)
+# ---
 for x in search:
     page = MainPage(x, 'en', family='wikipedia')
+    print(f'p:{n}/{nn}, title:{x}, get_extlinks:')
     extlinks = page.get_extlinks()
     toto[x] = extlinks
 # ---
