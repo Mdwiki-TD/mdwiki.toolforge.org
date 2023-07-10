@@ -19,9 +19,10 @@ from mdpy.bots import sql_for_mdwiki
 #---
 from mdpy import printe
 from mdpy.bots import py_tools
+from pymysql.converters import escape_string
+
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
 # py_tools.Decode_bytes(x)
 # py_tools.
 # py_tools.
@@ -77,18 +78,18 @@ for tit in na_list:
     #---
     num += 1
     #---
-    title2 = py_tools.make_cod(tit)
+    title2 = escape_string(tit)
     #---
-    qua = f"""INSERT INTO words (w_title, w_lead_words, w_all_words) SELECT {title2}, {lead}, {All}
+    qua = f"""INSERT INTO words (w_title, w_lead_words, w_all_words) SELECT '{title2}', {lead}, {All}
     WHERE NOT EXISTS ( SELECT 1 FROM words  WHERE w_title = {title2} );
 
-    UPDATE words SET w_lead_words = {lead}, w_all_words = {All} WHERE w_title = {title2};
+    UPDATE words SET w_lead_words = {lead}, w_all_words = {All} WHERE w_title = '{title2}';
     """
     #---
-    qua_update = f"""UPDATE words SET w_lead_words = {lead}, w_all_words = {All} WHERE w_title = {title2};"""
+    qua_update = f"""UPDATE words SET w_lead_words = {lead}, w_all_words = {All} WHERE w_title = '{title2}';"""
     #---
     if not tit in in_sql_lead:
-        qua_new = f"""({title2}, {lead}, {All})"""
+        qua_new = f"""('{title2}', {lead}, {All})"""
         #---
         INSERT.append(qua_new)
     else:

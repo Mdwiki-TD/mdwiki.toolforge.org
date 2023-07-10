@@ -21,8 +21,8 @@ from mdpy.bots import sql_for_mdwiki
 #===
 #---
 from mdpy.bots import wiki_api
-#===
-#---
+from pymysql.converters import escape_string
+
 from mdpy.bots import py_tools
 from mdpy import printe
 already_in_sql = {}
@@ -53,9 +53,9 @@ def update_2023(lang, table):
             print_test(f'page:{target} has same views.. skip')
             continue
         #---
-        tar2 = py_tools.make_cod(target)
+        tar2 = escape_string(target)
         #---
-        qua = f""" UPDATE views SET countall = '{all}', count2023 = '{n_2023}' WHERE target = {tar2} AND lang = '{lang}'; """
+        qua = f"UPDATE views SET countall = '{all}', count2023 = '{n_2023}' WHERE target = '{tar2}' AND lang = '{lang}'; "
         #---
         print(qua)
         #---
@@ -86,10 +86,10 @@ def update_in_sql(lang, table):
             print_test(f'page:{target} has same views.. skip')
             continue
         #---
-        tar2 = py_tools.make_cod(target)
+        tar2 = escape_string(target)
         #---
         qua = f""" UPDATE views SET countall = '{all}', count2021 = '{n_2021}', count2022 = '{n_2022}', count2023 = '{n_2023}'
-        WHERE target = {tar2} AND lang = '{lang}';
+        WHERE target = '{tar2}' AND lang = '{lang}';
         """
         #---
         print(qua)
@@ -110,12 +110,12 @@ def insert_to_sql(lang, table):
         n_2022 = tab.get('2022',{}).get('all',0)
         n_2023 = tab.get('2023',{}).get('all',0)
         #---
-        tar2 = py_tools.make_cod(target)
+        tar2 = escape_string(target)
         #---
-        # qu = f''' ({tar2}, '{all}', '{n_2021}', '{n_2022}', '{n_2023}', '{lang}') '''
+        # qu = f''' ('{tar2}', '{all}', '{n_2021}', '{n_2022}', '{n_2023}', '{lang}') '''
         qu = f'''INSERT INTO views (target, countall, count2021, count2022, count2023, lang)
-        select {tar2}, '{all}', '{n_2021}', '{n_2022}', '{n_2023}', '{lang}'
-        WHERE NOT EXISTS (SELECT 1 FROM views WHERE target = {tar2} AND lang = '{lang}');
+        select '{tar2}', '{all}', '{n_2021}', '{n_2022}', '{n_2023}', '{lang}'
+        WHERE NOT EXISTS (SELECT 1 FROM views WHERE target = '{tar2}' AND lang = '{lang}');
         '''
         #---
         print('INSERT:')

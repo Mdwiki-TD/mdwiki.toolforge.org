@@ -16,7 +16,8 @@ import sys
 from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
+from pymysql.converters import escape_string
+
 # py_tools.Decode_bytes(x)
 #---
 from mdpy.bots import sql_for_mdwiki
@@ -78,9 +79,9 @@ def get_pages_with_no_cat():
     #---
     for tit, cat in add_cat.items():
         #---
-        tit2 = py_tools.make_cod(tit)    
+        tit2 = escape_string(tit)    
         #---
-        quanew = f"""UPDATE pages SET cat = '{cat}' WHERE title = {tit2};"""
+        quanew = f"""UPDATE pages SET cat = '{cat}' WHERE title = '{tit2}';"""
         #---
         printe.output('=======================')
         printe.output(quanew)

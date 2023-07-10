@@ -27,7 +27,8 @@ can_use_sql_db = { 1 : True }
 import pymysql
 import pymysql.cursors
 import pkg_resources
-#---
+from pymysql.converters import escape_string
+
 py_v = pymysql.__version__
 if py_v.endswith('.None'): py_v = py_v[:-len('.None')]
 #---
@@ -119,13 +120,6 @@ def sql_connect_pymysql(query, return_dict=False):
         # yield from cursor
         return results
 #---
-def make_cod(string):
-    lie = "'%s'" % string
-    #---
-    if string.find("'") != -1 : lie = '"%s"' % string
-    #---
-    return lie
-#---
 def Decode_bytes(x):
     if type(x) == bytes:    x = x.decode("utf-8")
     return x
@@ -165,14 +159,16 @@ def get_all_pages():
     return pages
 #---
 def add_qid(title, qid):
-    qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = make_cod(title))
+    title2 = escape_string(title)
+    qua = f"""INSERT INTO qids (title, qid) SELECT '{title2}', '{qid}';"""
     #---
     print(f'add_qid()  title:{title}, qid:{qid}')
     #---
     return mdwiki_sql(qua, return_dict=True)
 #---
 def update_qid(title, qid):
-    qua = """UPDATE qids set qid = '{qid}' where title = {title};""".format(qid=qid, title = make_cod(title))
+    title2 = escape_string(title)
+    qua = """UPDATE qids set qid = '{qid}' where title = '{title2}';"""
     #---
     print(f'update_qid()  title:{title}, qid:{qid}')
     #---

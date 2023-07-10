@@ -19,7 +19,8 @@ import pywikibot
 import string
 import sys
 import time as tttime
-#---
+from pymysql.converters import escape_string
+
 from mdpy.bots import add_to_wd
 # add_to_wd.add_tab_to_wd(New_Table_by_lang)
 #---
@@ -27,7 +28,7 @@ from mdpy.bots import py_tools
 from mdpy import printe
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
+# escape_string(string)
 # py_tools.Decode_bytes(x)
 #---
 from mdpy.bots import wiki_sql
@@ -66,9 +67,9 @@ def add_to_mdwiki_sql(table):
             #---
             cat     = cat_for_pages.get(mdtitle, '')
             #---
-            mdtit   = py_tools.make_cod(mdtitle)
-            user2   = py_tools.make_cod(user)
-            tar     = py_tools.make_cod(target)
+            mdtit   = escape_string(mdtitle)
+            user2   = escape_string(user)
+            tar     = escape_string(target)
             word    = 0
             #---
             if str(namespace) != '0': continue
@@ -80,12 +81,12 @@ def add_to_mdwiki_sql(table):
             #date now format like 2023-01-01
             add_date = tttime.strftime("%Y-%m-%d")
             #---
-            update_qua = f'''UPDATE pages SET target={tar}, pupdate="{pupdate}", add_date="{add_date}" WHERE user={user2} AND title={mdtit} AND lang="{lang}";''';
+            update_qua = f'''UPDATE pages SET target='{tar}', pupdate="{pupdate}", add_date="{add_date}" WHERE user='{user2}' AND title='{mdtit}' AND lang="{lang}";''';
             #---
             insert_qua = f'''
                 INSERT INTO pages (title, word, translate_type, cat, lang, date, user, pupdate, target, add_date)
-                SELECT {mdtit}, '{word}', 'lead', '{cat}', '{lang}', '{add_date}', {user2}, '{pupdate}', {tar}, '{add_date}'
-                WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title={mdtit} AND lang='{lang}' AND user={user2} );''';
+                SELECT '{mdtit}', '{word}', 'lead', '{cat}', '{lang}', '{add_date}', '{user2}', '{pupdate}', '{tar}', '{add_date}'
+                WHERE NOT EXISTS (SELECT 1 FROM pages WHERE title='{mdtit}' AND lang='{lang}' AND user='{user2}' );''';
             #---
             printe.output('______ \\/\\/\\/ _______')
             # find if to update or to insert

@@ -33,10 +33,11 @@ from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.add_titles_to_qids(tab)
 #---
 from mdpy.bots import py_tools
+from pymysql.converters import escape_string
 
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
+# escape_string(string)
 # py_tools.Decode_bytes( x )
 #---
 from mdpy.bots import wikidataapi
@@ -96,20 +97,20 @@ def do_it_sql(lange, targets):
     #---
     for nu, t_list in all_list.items():
         #---
-        query = """
-        select DISTINCT p.page_title, pp.pp_value
-        from page p, page_props pp 
-        where p.page_id = pp.pp_page
-        and pp.pp_propname='wikibase_item'
-        and p.page_namespace = 0
-        and p.page_title in (%s)
-        ;"""
-        #---
-        ase = [py_tools.make_cod(t.strip().replace(" ", "_")) for t in t_list if t.strip() != ""]
+        ase = [escape_string(t.strip().replace(" ", "_")) for t in t_list if t.strip() != ""]
         #---
         if ase == []:   continue
         #---
-        query = query % (",".join(ase))
+        laly = "'" + "', '".join(ase) + "'"
+        #---
+        query = f"""
+            select DISTINCT p.page_title, pp.pp_value
+            from page p, page_props pp 
+            where p.page_id = pp.pp_page
+            and pp.pp_propname='wikibase_item'
+            and p.page_namespace = 0
+            and p.page_title in ({laly})
+            ;"""
         #---
         # printe.output('--------------------')
         #---

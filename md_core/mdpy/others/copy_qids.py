@@ -28,7 +28,8 @@ from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
+from pymysql.converters import escape_string
+
 # py_tools.Decode_bytes(x)
 #---
 in_qids = sql_for_mdwiki.get_all_qids()
@@ -59,11 +60,11 @@ for title, qid in qids_list.items():
     #---
     qid_in = in_qids.get(title,'')
     #---
-    # qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}' WHERE NOT EXISTS ( SELECT 1 FROM qids q2 WHERE q2.title = {title});""".format(qid=qid, title = py_tools.make_cod(title))
-    qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = py_tools.make_cod(title))
+    title2 = escape_string(title)
+    qua = f"""INSERT INTO qids (title, qid) SELECT '{title2}', '{qid}';"""
     #---
     if title in in_qids:
-        qua = """UPDATE qids set qid = '{qid}' where title = {title};""".format(qid=qid, title = py_tools.make_cod(title))
+        qua = f"""UPDATE qids set qid = '{qid}' where title = '{title2}';"""
         if qid == qid_in:
             qua = ''
     #---

@@ -20,7 +20,6 @@ import pywikibot
 from mdpy.bots import py_tools
 # py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
 # py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
 # py_tools.Decode_bytes(x)
 # py_tools.quoteurl(fao)
 # py_tools.
@@ -89,17 +88,4 @@ def ec_de_code( tt , type ):
     elif type == 'decode' :
         fao = urllib.parse.unquote(tt)
     return fao
-#---
-#---
-def make_cod(string):
-    lie = "'%s'" % string
-    #---
-    if string.find("'") != -1 :
-        lie = '"%s"' % string
-    #---
-    return lie
-#---
-
-#---
-
 #---

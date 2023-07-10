@@ -15,16 +15,17 @@ from mdpy import printe
 from new_api.wiki_page import MainPage, NEW_API
 # ---
 Dir = os.path.dirname(os.path.abspath(__file__))
+Dir2 = os.path.dirname(Dir)
 # ---
-file_json1 = f"{Dir}/jsons/extlinks.json"
+file_json1 = f"{Dir2}/jsons/extlinks.json"
 # ---
 if not os.path.isfile(file_json1):
     json.dump({}, codecs.open(file_json1, 'w', encoding='utf-8'))
 
 toto = json.load(codecs.open(file_json1, 'r', encoding='utf-8'))
 # ---
-file_json2 = f"{Dir}/jsons/niosh.json"
-file_all_links = f"{Dir}/jsons/all_links.json"
+file_json2 = f"{Dir2}/jsons/niosh.json"
+file_all_links = f"{Dir2}/jsons/all_links.json"
 # ---
 if not os.path.isfile(file_json2):
     json.dump({}, codecs.open(file_json2, 'w', encoding='utf-8'))

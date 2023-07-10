@@ -23,7 +23,8 @@ import sys
 #---
 from mdpy.bots import py_tools
 # py_tools.ec_de_code( tt , type )
-# py_tools.make_cod(string)
+from pymysql.converters import escape_string
+
 # py_tools.Decode_bytes(x)
 #---
 from mdpy.bots import sql_for_mdwiki
@@ -177,21 +178,20 @@ def Add_to_wikidata(mdtitle, lang, target, user):
     #---
     if ss == True :
         #---
-        done_qua = """
-        INSERT INTO wddone (mdtitle, target, lang, user)
-        SELECT {mdtit}, {tar}, '{lang}', {user}
-        WHERE NOT EXISTS (SELECT 1
-            FROM wddone 
-                WHERE mdtitle = {mdtit}
-                AND target = {tar}
+        mdtit = escape_string(mdtitle)
+        tar   = escape_string(target)
+        user  = escape_string(user)
+        #---
+        done_qua = f"""
+            INSERT INTO wddone (mdtitle, target, lang, user)
+            SELECT '{mdtit}', '{tar}', '{lang}', '{user}'
+            WHERE NOT EXISTS (SELECT 1 FROM wddone 
+                WHERE mdtitle = '{mdtit}'
+                AND target = '{tar}'
                 AND lang = '{lang}'
-                AND user = {user}
-                )""".format(
-            mdtit = py_tools.make_cod(mdtitle), 
-            tar   = py_tools.make_cod(target), 
-            lang  = lang, 
-            user  = py_tools.make_cod(user)
-        )
+                AND user = '{user}'
+            )"""
+        #---
         printe.output('**************')
         printe.output(done_qua)
         printe.output('**************')

@@ -21,7 +21,8 @@ import sys
 sys.dont_write_bytecode = True
 #---
 from mdpy.bots import sql_for_mdwiki
-#---
+from pymysql.converters import escape_string
+
 from mdpy.bots import py_tools
 from mdpy import printe
 #---
@@ -64,15 +65,14 @@ def add_them(table):
     #---
     for title, qid in table.items():
         #---
-        title2 = py_tools.make_cod(title)
+        title2 = escape_string(title)
         #---
         qid_in = title_to_qid_in_sql.get(title,'')
         #---
-        # qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}' WHERE NOT EXISTS ( SELECT 1 FROM qids q2 WHERE q2.title = {title});""".format(qid=qid, title = title2)
-        qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = title2)
+        qua = f"""INSERT INTO qids (title, qid) SELECT '{title2}', '{qid}';"""
         #---
         if title in title_to_qid_in_sql:
-            qua = """UPDATE qids set qid = '{qid}' where title = {title};""".format(qid=qid, title = title2)
+            qua = f"""UPDATE qids set qid = '{qid}' where title = '{title2}';"""
             if qid == qid_in:
                 qua = ''
         #---
@@ -106,12 +106,12 @@ def add_them_new(table):
         #---
         qid_in = title_to_qid_in_sql.get(title,'')
         #---
-        title2 = py_tools.make_cod(title)
+        title2 = escape_string(title)
         #---
-        qua = """INSERT INTO qids (title, qid) SELECT {title}, '{qid}';""".format(qid=qid, title = title2)
+        qua = f"""INSERT INTO qids (title, qid) SELECT '{title2}', '{qid}';"""
         #---
         if title in title_to_qid_in_sql:
-            qua = """UPDATE qids set qid = '{qid}' where title = {title};""".format(qid=qid, title = title2)
+            qua = f"""UPDATE qids set qid = '{qid}' where title = '{title2}';"""
             if qid == qid_in:
                 qua = ''
             else:

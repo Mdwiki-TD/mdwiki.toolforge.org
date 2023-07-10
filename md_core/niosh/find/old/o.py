@@ -13,8 +13,9 @@ import codecs
 from mdpy import printe
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
+Dir2 = os.path.dirname(Dir)
 #---
-project_js_newen = f'{Dir}/json_en/'
+project_js_newen = f'{Dir2}/json_en/'
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 
