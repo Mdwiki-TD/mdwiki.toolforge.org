@@ -140,7 +140,6 @@ class MainPage():
         self.templates = {}
         self.templates_API = {}
 
-        self.r3_token = ''
         self.summary = ''
         self.words = 0
         self.length = 0
@@ -155,7 +154,6 @@ class MainPage():
             #---
             not_loged_m[1] = self.lang
             #---
-            self.r3_token = self.log.r3_token
             self.username = self.log.username
             #---
     #---
@@ -291,8 +289,7 @@ class MainPage():
 
             'contentmodel': 'wikitext', 'pagelanguage': 'ar', 'pagelanguagehtmlcode': 'ar', 'pagelanguagedir': 'rtl', 'touched': '2023-03-05T22:10:23Z', 'lastrevid': 61388266, 'length': 3477
             }
-            ]}
-        }
+        ]}}
         #---
         ta = data.get("query", {}).get("pages", [{}])[0]
         #---

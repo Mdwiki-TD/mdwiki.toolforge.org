@@ -23,9 +23,6 @@ else:
 #---
 print_test = {1:False}
 #---
-Main_s = {1:requests.Session()}
-tokens_by_lang = {}
-#---
 User_tables = {"mdwiki":{}, "wikidata":{}, "wikipedia":{}, "nccommons":{}}
 #---
 ar_lag = { 1 : 3 }
@@ -55,6 +52,7 @@ class Login():
         self.endpoint = 'https://' + f'{self.lang}.{self.family}.org/w/api.php'
         self.r3_token = ''
         #---
+        self.season = requests.Session()
     #---
     def Log_to_wiki(self):
         return True
@@ -69,7 +67,7 @@ class Login():
         #---
         # handle errors
         try:
-            req0 = Main_s[1].post(self.endpoint, data=params)
+            req0 = self.season.post(self.endpoint, data=params)
             # req0.raise_for_status()
         except Exception as e:
             pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
@@ -122,8 +120,15 @@ class Login():
         #---
         login_lang[1] = self.lang
         #---
-        Main_s[1] = requests.Session()
-        printe.output( "newapi/page.py: Log_to_wiki %s," % self.endpoint)
+        colors = {
+            "ar" : "yellow",
+            "en" : "lightpurple"
+            }
+        #---
+        color = colors.get(self.lang, '')
+        #---
+        self.season = requests.Session()
+        printe.output(f"<<{color}>> newapi/page.py: Log_to_wiki {self.endpoint}")
         #---
         r2_params = { 'format': 'json', 'action': 'login', 'lgname': self.username, 'lgpassword': self.password, 'lgtoken' : ''}
         #---
@@ -175,13 +180,16 @@ class Login():
         #---
         self.r3_token = r3_token
         #---
-        tokens_by_lang[self.lang] = r3_token
         printe.output(f'<<green>> r3_token: {self.r3_token}')
         #---
     #---
     def post(self, params, Type='get', addtoken=False, CSRF=True):
         #---
-        if login_lang[1] != self.lang:
+        # if login_lang[1] != self.lang:
+            # printe.output(f'<<red>> login_lang[1]: {login_lang[1]} != self.lang:{self.lang}')
+            # self.Log_to_wiki_1()
+        #---
+        if self.r3_token == '':
             self.Log_to_wiki_1()
         #---
         params['format'] = 'json'
@@ -193,9 +201,6 @@ class Login():
         #---
         if addtoken or params["action"] in ["edit", "create"]:
             if self.r3_token == '': 
-                self.r3_token = tokens_by_lang.get(self.lang, '')
-
-            if self.r3_token == '':
                 warn(warn_err('self.r3_token == "" '), UserWarning)
                 warn(warn_err('self.r3_token == "" '), UserWarning)
             params["token"] = self.r3_token
@@ -226,7 +231,7 @@ class Login():
             # printe.output(Invalid)
             #---
             if Invalid == "Invalid CSRF token." and CSRF:
-                pywikibot.output('<<lightred>> ** error "Invalid CSRF token.". ')
+                pywikibot.output(f'<<lightred>> ** error "Invalid CSRF token.".\n{self.r3_token} ')
                 #---
                 self.r3_token = ''
                 self.Log_to_wiki_1()
