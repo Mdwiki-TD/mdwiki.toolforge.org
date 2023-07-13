@@ -23,7 +23,7 @@ from mdpy.bots import wiki_api
 import json
 import codecs
 #---
-from warnings import warn
+import traceback
 import pywikibot
 #---
 import re
@@ -159,7 +159,7 @@ def submitAPI_token( params, apiurl='', returnjson = False ):
         json1 = json.loads( r4.text )
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         return {}        
     #---
@@ -191,7 +191,7 @@ def submitAPI( params, apiurl='', returnjson=False ):
         json1 = json.loads( r4.text )
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         return {}        
     #---
@@ -533,7 +533,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
             pywikibot.output(req.text)
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
         #---
         if not data or data == {}:

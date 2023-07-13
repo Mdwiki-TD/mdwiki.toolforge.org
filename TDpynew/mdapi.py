@@ -10,7 +10,7 @@
 import json
 import codecs
 #---
-from warnings import warn
+import traceback
 #import pywikibot
 #---
 import re
@@ -109,7 +109,7 @@ def submitAPI( params, type = 'get'):
     except Exception as e:
         if print_pywikibot[1]:
             pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
         return {}
     #---

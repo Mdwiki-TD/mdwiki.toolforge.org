@@ -11,7 +11,7 @@
 #
 #--- 
 
-from warnings import warn
+import traceback
 #import pywikibot
 import re
 import time
@@ -157,7 +157,7 @@ def post( params , apiurl='', token = True):
         jsone = r4.json()
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( params )
         pywikibot.output( 'CRITICAL:' )
         return {}
@@ -499,7 +499,7 @@ def open_url(url, return_json = False):
         req = urllib.request.urlopen(url)
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
     #---
     if not req:
@@ -511,7 +511,7 @@ def open_url(url, return_json = False):
         html = req.read().strip().decode('utf-8')
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         return result 
     #---

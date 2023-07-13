@@ -79,7 +79,7 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
 
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        pywikibot.output(traceback.format_exc()) #warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         return Return
     #---
@@ -95,7 +95,7 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
 
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
-            pywikibot.output(traceback.format_exc()) #warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
             return Return
         #---
@@ -106,7 +106,7 @@ def sql_connect_pymysql( query, db='', host='', update=False, Return=[], return_
 
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
-            pywikibot.output(traceback.format_exc()) #warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
             return Return
         #---

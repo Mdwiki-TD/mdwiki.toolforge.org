@@ -15,7 +15,7 @@ import re
 import os
 import codecs
 import json
-from warnings import warn
+import traceback
 import pywikibot
 import sys
 import datetime
@@ -39,7 +39,7 @@ def get_RTT():
         textn = codecs.open( filename, "r", encoding="utf-8").read() 
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn(f'<<lightred>> {__file__} Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         textn = ''
     #---

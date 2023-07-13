@@ -12,7 +12,7 @@ import codecs
 import unicodedata
 import sys
 import urllib
-from warnings import warn
+import traceback
 import pywikibot
 #---
 '''
@@ -61,7 +61,7 @@ def quoteurl(fao):
         fao = urllib.parse.quote(fao)
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
     #---
     if endash:

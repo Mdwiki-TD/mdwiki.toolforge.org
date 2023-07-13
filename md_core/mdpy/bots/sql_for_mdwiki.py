@@ -7,7 +7,7 @@ python3 pwb.py mdpy/sql_for_mdwiki
 #
 #
 from pywikibot import config
-from warnings import warn
+import traceback
 import pywikibot
 import sys
 import os
@@ -86,7 +86,7 @@ def sql_connect_pymysql(query, return_dict=False):
 
     except Exception as e:
         pywikibot.output( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         return []
     #---
@@ -102,7 +102,7 @@ def sql_connect_pymysql(query, return_dict=False):
 
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
             return []
         #---
@@ -113,7 +113,7 @@ def sql_connect_pymysql(query, return_dict=False):
 
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
             return []
         #---
