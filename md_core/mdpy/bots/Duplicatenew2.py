@@ -4,7 +4,7 @@
 
 تجميع المراجع المتشابهة
 
-python pwb.py mdwiki/mdpy/Duplicatenew.py
+python pwb.py mdwiki/mdpy/Duplicatenew2.py
 
 """
 #
@@ -15,14 +15,13 @@ python pwb.py mdwiki/mdpy/Duplicatenew.py
 import codecs
 import re
 import sys
-# import pywikibot
-#---
 import itertools
 from contextlib import suppress
 #---
-# from pywikibot.textlib import replaceExcept
-from mdpy.bots.replace_except import replaceExcept
-#---
+try:
+    from mdpy.bots.replace_except import replaceExcept
+except ImportError:
+    from bots.replace_except import replaceExcept
 #---
 PYTHON_VERSION = sys.version_info[:3]
 if PYTHON_VERSION >= (3, 9):

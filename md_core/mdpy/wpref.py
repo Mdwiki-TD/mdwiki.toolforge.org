@@ -15,11 +15,12 @@ python3 pwb.py mdpy/wpref ask
 
 """
 #
-# (C) Ibrahem Qasim, 2022
+# (C) Ibrahem Qasim, 2023
 #
 #
 import re
 import json
+import traceback
 import codecs
 import string
 import urllib
@@ -33,12 +34,10 @@ import requests
 if 'returnfile' in sys.argv:
     from wpref_text import fix_page
 else:
-    from warnings import warn
     import pywikibot
     import printe
     #---
     from mdpy.bots import sql_for_mdwiki
-    # sql_for_mdwiki.mdwiki_sql(query , update = False)
     from mdpy.wpref_text import fix_page
 #---
 SS = { "token" : '' }
@@ -97,7 +96,7 @@ def make_ref_done_list():
     except Exception as e:
         if not 'returnfile' in sys.argv:
             pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
     #---
     reffixed_List = [ x.strip() for x in reffixed.split('\n') if x.strip() != '' ]
@@ -439,7 +438,7 @@ def maine():
         except Exception as e:
             if not 'returnfile' in sys.argv:
                 pywikibot.output( 'Traceback (most recent call last):' )
-                warn('Exception:' + str(e), UserWarning)
+                pywikibot.output(traceback.format_exc())
                 pywikibot.output( 'CRITICAL:' )
             filename = project + '/public_html/wprefcash/title2.txt'
             with codecs.open( filename, "w", encoding="utf-8") as gf: 

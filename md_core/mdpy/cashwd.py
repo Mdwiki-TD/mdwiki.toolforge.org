@@ -16,6 +16,7 @@ from warnings import warn
 from mdpy import printe
 import pywikibot
 import os
+import traceback
 import sys
 import datetime
 from datetime import datetime
@@ -225,7 +226,7 @@ def cash_wd():
             printe.output('<<lightgreenn>>dump to cash_exists/%s.json done..' % site )
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
             continue
     #---

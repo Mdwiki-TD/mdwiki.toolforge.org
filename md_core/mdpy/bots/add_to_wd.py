@@ -22,10 +22,10 @@ import string
 import sys
 #---
 from mdpy.bots import py_tools
-# py_tools.ec_de_code( tt , type )
+
 from pymysql.converters import escape_string
 
-# py_tools.Decode_bytes(x)
+
 #---
 from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)

@@ -26,10 +26,10 @@ from mdpy.bots import add_to_wd
 #---
 from mdpy.bots import py_tools
 from mdpy import printe
-# py_tools.split_lists_to_numbers( lise , maxnumber = 100 )
-# py_tools.ec_de_code( tt , type )
+
+
 # escape_string(string)
-# py_tools.Decode_bytes(x)
+
 #---
 from mdpy.bots import wiki_sql
 # wiki_sql.GET_SQL()

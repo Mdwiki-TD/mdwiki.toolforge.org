@@ -10,6 +10,7 @@
 #--- 
 #import pywikibot
 import re
+import traceback
 import json as JJson
 from warnings import warn
 import time
@@ -81,7 +82,7 @@ def get_status(req):
         return st
     except Exception as e:
         pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         st = req.status
         return st
@@ -102,7 +103,7 @@ def post_all( params, addtoken=False, **kwargs ):
         r4 = SS["ss"].post( SS["url"], data = params)
     except Exception as e:
         pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         return {}
     #---
@@ -111,7 +112,7 @@ def post_all( params, addtoken=False, **kwargs ):
         jsone = r4.json()
     except Exception as e:
         pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( r4.text )
         pywikibot.output( 'CRITICAL:' )
         if 'Exception' in sys.argv:
@@ -143,7 +144,7 @@ def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
         r11.raise_for_status()
     except Exception as e:
         pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         pywikibot.output( 'CRITICAL:' )
         return False
     #---
@@ -320,7 +321,7 @@ def import_history( FILE_PATH , title ):
                 printe.output('<<lightgreen>> ** true .. . ' )
         except Exception as e:
             pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
-            warn('Exception:' + str(e), UserWarning)
+            pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
             r4 = {}
         #---

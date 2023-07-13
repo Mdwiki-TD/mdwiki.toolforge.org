@@ -5,25 +5,23 @@ from wpref_text import fix_page
 # fix_page(text, title)
 """
 #
-# (C) Ibrahem Qasim, 2022
+# (C) Ibrahem Qasim, 2023
 #
 #
 import re
+import os
 import sys
 sys.dont_write_bytecode = True
-from mdpy.bots.Duplicatenew2 import DuplicateReferences
 #---
 if 'returnfile' in sys.argv:
-    import txtlib2
+    from bots.Duplicatenew2 import DuplicateReferences
+    from bots import txtlib2
 else:
+    from mdpy.bots.Duplicatenew2 import DuplicateReferences
     from mdpy.bots import txtlib2
 #---
 printa = { 1 : False}
 #---
-import os
-project = '/data/project/mdwiki/'
-#---
-if not os.path.isdir(project): project = '/mdwiki'
 #---
 def printn(s):
     if printa[1] or not 'returnfile' in sys.argv:

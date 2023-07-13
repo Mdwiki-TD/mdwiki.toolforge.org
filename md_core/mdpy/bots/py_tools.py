@@ -22,11 +22,31 @@ from mdpy.bots import py_tools
 # py_tools.ec_de_code( tt , type )
 # py_tools.Decode_bytes(x)
 # py_tools.quoteurl(fao)
-# py_tools.
-# py_tools.
 #---
-
 '''
+#---
+PYTHON_VERSION = sys.version_info[:3]
+if PYTHON_VERSION >= (3, 9):
+    removeprefix = str.removeprefix  # type: ignore[attr-defined]
+    removesuffix = str.removesuffix  # type: ignore[attr-defined]
+else:
+    def removeprefix(string: str, prefix: str) -> str:
+        """Remove prefix from a string or return a copy otherwise.
+
+        .. versionadded:: 5.4
+        """
+        if string.startswith(prefix):
+            return string[len(prefix):]
+        return string
+
+    def removesuffix(string: str, suffix: str) -> str:
+        """Remove prefix from a string or return a copy otherwise.
+
+        .. versionadded:: 5.4
+        """
+        if string.endswith(suffix):
+            return string[:-len(suffix)]
+        return string
 #---
 def quoteurl(fao):
     endash = False
@@ -48,7 +68,6 @@ def quoteurl(fao):
         fao = fao.replace("ioioioioio" , "%E2%80%93")
     #---
     return fao
-#---
 #---
 def Decode_bytes(x):
     if type(x) == bytes:    x = x.decode("utf-8")

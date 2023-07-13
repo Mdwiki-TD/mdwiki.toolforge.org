@@ -223,7 +223,7 @@ def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ):
         textn = codecs.open( filename, "r", encoding="utf-8").read() 
     except Exception as e:
         print( 'Traceback (most recent call last):' )
-        warn('Exception:' + str(e), UserWarning)
+        pywikibot.output(traceback.format_exc())
         print( 'CRITICAL:' )
         textn = ''
     #---
