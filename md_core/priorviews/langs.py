@@ -28,6 +28,7 @@ from priorviews.lists import creators
 # creators.Creators_by_lang_title
 # creators.counts_creators_by_lang
 #---
+translators_all = {}
 #---
 def make_lang_textso(lang):
     #---
@@ -103,14 +104,18 @@ def make_lang_textso(lang):
                     # Assign the formatted date to _time_
                     _time_ = formatted_date
                 #---
-                if ar_tra != '':
-                    ar_tra = f"[[w:{lang}:User:{ar_tra}|{ar_tra}]]"
-                    #---
-                    if not ar_tra in authors: authors[ar_tra] = 0
-                    #---
-                    authors[ar_tra] += 1
+                wi_tra = ar_tra
                 #---
-                secs_texts += f"| {n} || [[{x}]] || [[w:{lang}:{ar}|{ar}]] || {view_u} || {arwords} || {ar_tra} || {_cr_} || {_time_}\n"
+                if ar_tra != '':
+                    wi_tra = f"[[w:{lang}:User:{ar_tra}|{ar_tra}]]"
+                    #---
+                    if not wi_tra in authors: authors[wi_tra] = 0
+                    if not ar_tra in translators_all: translators_all[ar_tra] = 0
+                    #---
+                    translators_all[ar_tra] += 1
+                    authors[wi_tra] += 1
+                #---
+                secs_texts += f"| {n} || [[{x}]] || [[w:{lang}:{ar}|{ar}]] || {view_u} || {arwords} || {wi_tra} || {_cr_} || {_time_}\n"
             #---
             secs_texts += "|}\n"
     #---
@@ -137,15 +142,32 @@ def work(lang):
     #---
     newtext = make_lang_textso(lang)
     #---
+    if 'write' not in sys.argv: return
+    #---
     page      = md_MainPage(f'User:Mr. Ibrahem/priorviews/bylang/{lang}', 'www', family='mdwiki')
     exists    = page.exists()
+    text        = page.get_text()
     if not exists:
         create = page.Create(text=newtext, summary='update')
-    else:
+    elif text != newtext:
         #---
-        text        = page.get_text()
         save_page   = page.save(newtext=newtext, summary='update', nocreate=1, minor='')
     #---
+    #---
+#---
+def work_all():
+    # sort translators_all by count
+    translators_a = { x: v for x, v in sorted(translators_all.items(), key=lambda item: item[1], reverse=True)}
+    text = '* '
+    text += "\n*".join( [ f"[[w::User:{x}|{x}]]: {v}" for x, v in translators_a.items()])
+    page      = md_MainPage(f'User:Mr. Ibrahem/priorviews/translators', 'www', family='mdwiki')
+    exists    = page.exists()
+    oldtext        = page.get_text()
+    if not exists:
+        create = page.Create(text=text, summary='update')
+    elif oldtext != text:
+        #---
+        save_page   = page.save(newtext=text, summary='update', nocreate=1, minor='')
 #---
 if __name__ == "__main__":
     langs = links_by_lang.keys()
@@ -164,3 +186,6 @@ if __name__ == "__main__":
         printe.output(f'<<yellow>> {n}/{lenn} langs.py lang: {lang}')
         #---
         work(lang)
+    #---
+    work_all()
+    #---

@@ -18,7 +18,7 @@ Dir = os.path.dirname(os.path.abspath(__file__))
 # get the dir 2 levels back
 
 _Dir_ = os.path.dirname(os.path.dirname(Dir))
-file = f'{_Dir_}/prior/all_pages_states.json'
+file = f'{_Dir_}/priorviews/lists/all_pages_states.json'
 #---
 data = json.load(codecs.open(file, 'r', 'utf-8'))
 #---

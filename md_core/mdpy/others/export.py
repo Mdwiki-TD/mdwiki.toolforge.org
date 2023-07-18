@@ -92,7 +92,7 @@ def export_en_history( title ) :
     #---
 
     #---
-    if len(xmldata) > La_si[1] and not 'nosplit' in sys.argv : 
+    if len(xmldata) > La_si[1] and 'nosplit' not in sys.argv : 
         #while done == False :
         for rev in revisions :
             #---

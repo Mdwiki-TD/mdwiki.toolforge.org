@@ -104,7 +104,7 @@ def fix_ref_template(text, returnsummary=False):
             # ---
             temp_new = temp.string
             # ---
-            if not 'newline' in sys.argv:
+            if 'newline' not in sys.argv:
                 temp_new = re.sub(r'\n', '', temp_new, flags=re.DOTALL)
             # ---
             if laysource != '':

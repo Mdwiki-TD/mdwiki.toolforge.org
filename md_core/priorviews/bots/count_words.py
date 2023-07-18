@@ -91,7 +91,7 @@ class InOldText(object):
         #---
         unurl = f"{self.url}?{urlencode(params)}"
         #---
-        if "printurl" in sys.argv and not "text" in params:
+        if "printurl" in sys.argv and "text" not in params:
             printe.output(f"get_old:\t\t{unurl}")
         #---
         try:

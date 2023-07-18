@@ -26,7 +26,7 @@ def print_new(s):
     if not from_toolforge:
         printe.output(s)
 #---
-if not "from_toolforge" in sys.argv:
+if "from_toolforge" not in sys.argv:
     from_toolforge = False
     import printe
 #---
@@ -145,11 +145,11 @@ def work_on_title(title, returntext=False, text_O=""):
     #---
     text, new_text = get_new_text(title, text=text_O)
     #---
-    if not "from_toolforge" in sys.argv :
+    if "from_toolforge" not in sys.argv :
         print(new_text)
         return
     #---
-    if not 'xx' in sys.argv:
+    if 'xx' not in sys.argv:
         #---
         if text.strip() == "" or new_text.strip() == "":
             print("notext")

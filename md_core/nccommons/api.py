@@ -186,7 +186,7 @@ def create_Page(text, title, summary="create page"):
         "token": SS["r3_token"],
     }
     #---
-    if not Save_all[1] and ("ask" in sys.argv and not "save" in sys.argv):
+    if not Save_all[1] and ("ask" in sys.argv and "save" not in sys.argv):
         pywikibot.output(text)
         sa = py_input( '<<lightyellow>> nccommons/com.py: create:"%s" page ? ([y]es, [N]o):user:%s' % (title, r2_params["lgname"]) )
         #---

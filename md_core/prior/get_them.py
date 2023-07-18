@@ -95,7 +95,7 @@ def filter_urls(links):
         x = re.sub(r'^http.*?https://books', 'https://books', x)
         #---
         # https://books.google.ca/books?id=JaOoXdSlT9sC&pg=PA11
-        if 'books.google' in x and not 'books' in sys.argv:
+        if 'books.google' in x and 'books' not in sys.argv:
             #---
             prased = url_parser(x)
             # {'scheme': 'https', 'netloc': 'books.google.ca', 'path': '/books', 'queries': {'id': 'JaOoXdSlT9sC', 'pg': 'PA11'}}
@@ -261,7 +261,7 @@ class work_in_one_lang_link(object):
         #---
         liste1.sort()
         #---
-        if not 'nofilter' in sys.argv:
+        if 'nofilter' not in sys.argv:
             liste1 = filter_urls(liste1)
         #---
         self.extlinks = liste1
@@ -308,7 +308,7 @@ class work_in_one_lang_link(object):
         #---
         liste1.sort()
         #---
-        if not 'nofilter' in sys.argv:
+        if 'nofilter' not in sys.argv:
             liste1 = filter_urls(liste1)
         #---
         return liste1
@@ -368,7 +368,7 @@ class get_old(object):
         #---
         unurl = f"{self.url}?{urlencode(params)}"
         #---
-        if "printurl" in sys.argv and not "text" in params:
+        if "printurl" in sys.argv and "text" not in params:
             printe.output(f"get_old:\t\t{unurl}")
         #---
         try:
@@ -502,7 +502,7 @@ class get_old(object):
         #---
         liste1.sort()
         #---
-        if not 'nofilter' in sys.argv:
+        if 'nofilter' not in sys.argv:
             liste1 = filter_urls(liste1)
         #---
         return liste1

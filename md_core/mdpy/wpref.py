@@ -72,7 +72,7 @@ if os.path.isfile(fixwikirefs):
     # print(f'fixwikirefs:{fixwikirefs} not file...')
 #---
 def print_s(s):
-    if not 'returnfile' in sys.argv:
+    if 'returnfile' not in sys.argv:
         printe.output(s)
 #---
 def ec_de_code( tt , type ):
@@ -94,7 +94,7 @@ def make_ref_done_list():
             reffixed = mama.read()
         mama.close()
     except Exception as e:
-        if not 'returnfile' in sys.argv:
+        if 'returnfile' not in sys.argv:
             pywikibot.output( 'Traceback (most recent call last):' )
             pywikibot.output(traceback.format_exc())
             pywikibot.output( 'CRITICAL:' )
@@ -334,7 +334,7 @@ def work_one_lang(list, lang):
     #---
     newlist = list
     #---
-    if not 'lala' in sys.argv:
+    if 'lala' not in sys.argv:
         newlist = [ x for x in list if not f"{lang}:{x}" in reffixed_List ]
         dd = int(len(list)) - int(len(newlist))
         print( "already in reffixed_List :%d" % dd )
@@ -350,7 +350,7 @@ def work_one_lang(list, lang):
         number += 1
         print_s( '<<lightyellow>> %d from %d, page: %s' % (number,len(newlist),lio) )
         #---
-        if lio in reffixed_List and not 'lala' in sys.argv:
+        if lio in reffixed_List and 'lala' not in sys.argv:
             print_s( '<<lightred>>\talready in reffixed_List.' )
             continue
         #---
@@ -436,7 +436,7 @@ def maine():
             print(filename)
             #---
         except Exception as e:
-            if not 'returnfile' in sys.argv:
+            if 'returnfile' not in sys.argv:
                 pywikibot.output( 'Traceback (most recent call last):' )
                 pywikibot.output(traceback.format_exc())
                 pywikibot.output( 'CRITICAL:' )
@@ -472,7 +472,7 @@ def maine():
     for lang in newtable:
         work_one_lang( newtable[lang] , lang )
     #---
-    if not 'returnfile' in sys.argv:
+    if 'returnfile' not in sys.argv:
         print_s( 'find %s pages in missingtitles' % len(missingtitles) )
         for x, lang in missingtitles.items():
             print_s( 'lang: %s, title: %s' % (lang, x) )

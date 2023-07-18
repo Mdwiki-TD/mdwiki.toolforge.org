@@ -151,7 +151,7 @@ def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_ref
     # 2 match the en_refsname
     _sa_2, same2 = match_p(en_refsname, p_names)
     #---
-    if not _sa_1 and not _sa_2 and not 'nolead' in sys.argv:
+    if not _sa_1 and not _sa_2 and 'nolead' not in sys.argv:
         # 3 match the lead_extlinks
         _sa_11, same11 = match_p(lead_extlinks, p_ext)
         #---

@@ -58,7 +58,7 @@ for arg in sys.argv:
 #---
 redirects_pages = []
 #---
-if not 'nored' in sys.argv:
+if 'nored' not in sys.argv:
     redirects_pages = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'redirects', limit_all = limit_m[1] )
 #---
 dones = []

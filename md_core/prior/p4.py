@@ -259,7 +259,7 @@ def start_all():
     else:
         printe.output(f'list number:{valu} not found.')
         #---
-        if not 'All' in sys.argv:
+        if 'All' not in sys.argv:
             printe.output(f'Add "All" to sys.argv to work in All.. \n sys.exit()')
             sys.exit()
     #---

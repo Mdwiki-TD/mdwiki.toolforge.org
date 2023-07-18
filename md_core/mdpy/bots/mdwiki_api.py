@@ -403,7 +403,7 @@ Save_2040 = { 1 : False }
 #---
 def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, diff=True):
     #---
-    if not Save_2020[1] and "ask" in sys.argv and not "save" in sys.argv :
+    if not Save_2020[1] and "ask" in sys.argv and "save" not in sys.argv :
         if diff:
             try:
                 pywikibot.showDiff(oldtext, newtext)
@@ -461,7 +461,7 @@ def Add_To_Head(prependtext , summary , title, Ask, minor = "" ):
         printe.output(' Add_To_Head for Page %s:' % title )
         #printe.output(prependtext)
         faso = False
-        if Ask or "ask" in sys.argv and not "save" in sys.argv:
+        if Ask or "ask" in sys.argv and "save" not in sys.argv:
         #if Ask:
             #pywikibot.showDiff( "" , prependtext )
             sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Head of page "%s" ? ([y]es, [N]o):'  % title)
@@ -484,7 +484,7 @@ def Add_To_Bottom(appendtext , summary , title, Ask , family="", minor = "" ):
         printe.output(' Add_To_Bottom for Page %s:' % title )
         printe.output( appendtext)
         faso = False
-        if Ask or "ask" in sys.argv and not "save" in sys.argv:
+        if Ask or "ask" in sys.argv and "save" not in sys.argv:
         #if Ask:
             sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Bottom of page "%s" ? ([y]es, [N]o):' % title)
             if sa in yes_answer:
@@ -526,8 +526,8 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
     sa = {"error":{"code":"articleexists","info":"The article you tried to create has been created already.","*":"See https://ar.wikipedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes."},"servedby":"mw1284"}
     Faco = False
     #---
-    if not Save_2040[1] and ( ask or "ask" in sys.argv and not "save" in sys.argv ) :
-    #if ask or "ask" in sys.argv and not "save" in sys.argv:
+    if not Save_2040[1] and ( ask or "ask" in sys.argv and "save" not in sys.argv ) :
+    #if ask or "ask" in sys.argv and "save" not in sys.argv:
     #if ask:
         #pywikibot.showDiff("" , text)
         if printtext:
@@ -677,7 +677,7 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True ):
         #"lllimit": "max",
     }
     #---
-    #if not "tempapi" in sys.argv :
+    #if "tempapi" not in sys.argv :
         #params["prop"] = "templates"
         #params["tllimit"] = "max"
     #---

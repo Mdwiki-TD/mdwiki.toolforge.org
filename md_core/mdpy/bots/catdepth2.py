@@ -64,7 +64,7 @@ def Get_cat(enlink, print_url = False ):
         #"lllimit": "max",
     }
     #---
-    #if not "tempapi" in sys.argv :
+    #if "tempapi" not in sys.argv :
         #params["prop"] = "templates"
         #params["tllimit"] = "max"
     #---all

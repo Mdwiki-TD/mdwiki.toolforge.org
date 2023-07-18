@@ -132,7 +132,7 @@ def mmain():
     #---
     kkk = { 1 : vaild_links }
     #---
-    if not 'new' in sys.argv:
+    if 'new' not in sys.argv:
         #kkk = [ x for x in vaild_links if not x in old_assessments ]
         kkk[1] = []
         for x in vaild_links :

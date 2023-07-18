@@ -59,7 +59,7 @@ def update_2023(lang, table):
         #---
         print(qua)
         #---
-        if not 'nosql' in sys.argv:
+        if 'nosql' not in sys.argv:
             qu = sql_for_mdwiki.mdwiki_sql(qua, update=True)
             #---
             printe.output("<<lightyellow>>sqlviewsm.py mdwiki_sql result:" + str(qu) )
@@ -94,7 +94,7 @@ def update_in_sql(lang, table):
         #---
         print(qua)
         #---
-        if not 'nosql' in sys.argv:
+        if 'nosql' not in sys.argv:
             qu = sql_for_mdwiki.mdwiki_sql(qua, update=True)
             #---
             printe.output("<<lightyellow>>sqlviewsm.py mdwiki_sql result:" + str(qu) )
@@ -131,7 +131,7 @@ def insert_to_sql(lang, table):
         #---
         print(qua)
         #---
-        if not 'nosql' in sys.argv:
+        if 'nosql' not in sys.argv:
             qu = sql_for_mdwiki.mdwiki_sql(qua, update=True)
             #---
             printe.output("<<lightyellow>>sqlviewsm.py mdwiki_sql result:" + str(qu) )

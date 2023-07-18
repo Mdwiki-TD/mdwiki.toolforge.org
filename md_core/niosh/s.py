@@ -15,7 +15,8 @@ from mdpy import printe
 # ---
 Dir = os.path.dirname(os.path.abspath(__file__))
 Dird = f"{Dir}/downloads/"
-cite_file = f"{Dird}/cite_all_links.json"
+Dird_js = f"{Dir}/downloads_js/"
+cite_file = f"{Dird_js}/cite_all_links.json"
 # ---
 
 nas_rep = {
@@ -27,7 +28,7 @@ nas_rep = {
 }
 cite_all_links = {}
 def work_in_file(filename):
-    filename2 = os.path.join(Dird, filename)
+    filename2 = os.path.join(Dird_js, filename)
     # ---
     text = codecs.open(filename2, 'r', encoding='utf-8').read()
     # ---
@@ -82,7 +83,5 @@ for filename in os.listdir(Dird):
         # ---
         work_in_file(filename)
         # break
-#---
-cite_file = f"{Dird}/cite_all_links.json"
 #---
 json.dump(cite_all_links, codecs.open(cite_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)

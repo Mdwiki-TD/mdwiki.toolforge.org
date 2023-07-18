@@ -1,10 +1,12 @@
 
 rename_chem_params = {
     # "Reference":		"",
+    "ATCCode_prefix": "ATC_prefix",
+    "ATCCode_suffix": "ATC_suffix",
     "Name":		"drug_name",
     "IUPACName":		"IUPAC_name",
     # "SystematicName":		"",
-    # "OtherNames":		"",
+    "OtherNames":		"synonyms",
     # "data page pagename":		"",
     # "Abbreviations":		"",
 

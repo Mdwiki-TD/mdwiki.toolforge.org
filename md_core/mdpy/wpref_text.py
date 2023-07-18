@@ -16,82 +16,17 @@ sys.dont_write_bytecode = True
 if 'returnfile' in sys.argv:
     from bots.Duplicatenew2 import DuplicateReferences
     from bots import txtlib2
+    from wp_ref_bots.fix_pt_months import pt_months
 else:
     from mdpy.bots.Duplicatenew2 import DuplicateReferences
     from mdpy.bots import txtlib2
+    from mdpy.wp_ref_bots.fix_pt_months import pt_months
 #---
 printa = { 1 : False}
 #---
-#---
 def printn(s):
-    if printa[1] or not 'returnfile' in sys.argv:
+    if printa[1] or 'returnfile' not in sys.argv:
         print(s)
-#---
-def pt_months(text):
-    # translate months from english to Português
-    months = {
-        'January': 'janeiro',
-        'February': 'fevereiro',
-        'March': 'março',
-        'April': 'abril',
-        'May': 'maio',
-        'June': 'junho',
-        'July': 'julho',
-        'August': 'agosto',
-        'September': 'setembro',
-        'October': 'outubro',
-        'November': 'novembro',
-        'December': 'dezembro',
-    }
-    #---
-    months_lower = { k.lower(): v for k, v in months.items() }
-    #---
-    months_line = "|".join(months.keys())
-    #---
-    # regex to find text like =19 September 2022 or =September 2022
-    regexline = r'(?i)(?P<param>\|\s*\w+\s*\=\s*)(?P<d>\d{1,2} |)(?P<m>%s) (?P<y>\d{4})(?![^\|\}\s])' % months_line
-    #---
-    printn(regexline)
-    #---
-    # Match references
-    REFS = re.compile( r'(?is)(?P<pap><ref[^>\/]*>)(?P<ref>.*?<\/ref>)')
-    #---
-    for Match in REFS.finditer(text):
-        pap = Match.group('pap')
-        ref = Match.group('ref')
-        #---
-        if not ref.strip(): continue
-        #---
-        ref2 = ref
-        #---
-        maa = re.compile(regexline, flags=re.IGNORECASE).finditer(ref)
-        for match in maa:
-            old = match.group()
-            param = match.group('param')
-            d = match.group('d')
-            m = match.group('m')
-            y = match.group('y')
-            #---
-            pt_m = months_lower.get(m.lower(), '')
-            #---
-            if pt_m == '': continue
-            #---
-            if d != '': pt_m = f'de {pt_m}'
-            #---
-            oldval = f"{param}{d}{m} {y}"
-            printn(f"oldval: {oldval}")
-            # printn(f"old   : {old}")
-            #---
-            newval = f"{param}{d}{pt_m} de {y}"
-            #---
-            printn(f"newval: {newval}")
-            ref2 = ref2.replace(oldval, newval)
-        #---
-        if ref2 != ref:
-            text = text.replace( pap + ref, pap + ref2 )
-        #---
-    #---
-    return text
 #---
 def add_lang_en(text, lang=''):
     #---
@@ -120,7 +55,7 @@ def add_lang_en(text, lang=''):
 #---
 def remove_False_code(text):
     #---
-    if not 'newcite' in sys.argv:
+    if 'newcite' not in sys.argv:
         return text
     #---
     # }}<cite class="citation journal cs1" data-ve-ignore="true" id="CITEREFSmithLopezSilberman2020">Smith, N; Lopez, RA; Silberman, M (January 2020). "Distributive Shock". [[PMID (identifier)|PMID]]&nbsp;[//pubmed.ncbi.nlm.nih.gov/29261964 29261964].</cite><span data-ve-ignore="true"> </span><span class="cs1-hidden-error citation-comment" data-ve-ignore="true"><code class="cs1-code"><nowiki>{{</nowiki>[[Template:cite journal|cite journal]]<nowiki>}}</nowiki></code>: </span><span class="cs1-hidden-error citation-comment" data-ve-ignore="true">Cite journal requires <code class="cs1-code">&#124;journal=</code> ([[Help:CS1 errors#missing_periodical|help]])</span></ref>

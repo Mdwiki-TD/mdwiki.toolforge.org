@@ -20,6 +20,7 @@ import urllib.request
 import urllib.parse
 import requests
 #---
+import text_changes
 import ref
 # ref.fix_ref( first , alltext )
 #---
@@ -153,6 +154,8 @@ def work( title ):
         text += '\n==References==\n<references />'
     #---
     text = ref.fix_ref( text, alltext )
+    #---
+    text = text_changes.work( text )
     #---
     text = text.replace('[[Category:','[[:Category:')
     #---

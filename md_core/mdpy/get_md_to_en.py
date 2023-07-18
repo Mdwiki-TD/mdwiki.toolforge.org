@@ -141,7 +141,7 @@ def check():
     printe.output('<<lightgreen>> len of medwiki_to_enwiki_conflic:%d' % ( len(medwiki_to_enwiki_conflic) ) )
     printe.output('<<lightgreen>> len of sames:%d' % ( len(sames) ) )
     #---
-    if not 'nodump' in sys.argv:
+    if 'nodump' not in sys.argv:
         
         # الكتابة إلى الملفات
         json.dump( medwiki_to_enwiki, open( project + 'medwiki_to_enwiki.json', 'w' ) )

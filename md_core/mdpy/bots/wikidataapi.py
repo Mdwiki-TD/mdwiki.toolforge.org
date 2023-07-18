@@ -227,7 +227,7 @@ def Get_sitelinks_From_Qid( q ):
     if json1:
         if 'success' in json1 and json1['success'] == 1:
             if 'entities' in json1:
-                if not "-1" in json1['entities']:
+                if "-1" not in json1['entities']:
                     qli = [x for x in json1['entities'].keys() ]
                     q2 = qli[0]
                     #---
@@ -576,7 +576,7 @@ def wbsearchentities(search, language):
         printe.output( ' wbsearchentities no req ' )
         return False
     #---
-    if not 'success' in req:
+    if 'success' not in req:
         printe.output('<<lightred>> wbsearchentities: ' + str(req))
         return False
     #---

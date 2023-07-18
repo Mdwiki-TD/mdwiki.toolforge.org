@@ -448,7 +448,7 @@ def _get_page_views_(titles, site='en', days = 30):
                 Main_table[title] = 0
                 continue
             #---
-            if not 'pageviews' in kk:
+            if 'pageviews' not in kk:
                 no_pv.append(title)
                 continue
             #---

@@ -86,7 +86,7 @@ def get_pages_with_no_cat():
         printe.output('=======================')
         printe.output(quanew)
         #---
-        if not 'dont' in sys.argv:
+        if 'dont' not in sys.argv:
             qu = sql_for_mdwiki.mdwiki_sql(quanew, update = True)
             #---
             printe.output(qu)

@@ -25,6 +25,9 @@ print_test = {1:False}
 #---
 User_tables = {"mdwiki":{}, "wikidata":{}, "wikipedia":{}, "nccommons":{}}
 #---
+tokens_by_lang  = {}
+seasons_by_lang = {}
+#---
 ar_lag = { 1 : 3 }
 #---
 import inspect
@@ -52,7 +55,13 @@ class Login():
         self.endpoint = 'https://' + f'{self.lang}.{self.family}.org/w/api.php'
         self.r3_token = ''
         #---
-        self.season = requests.Session()
+        if not self.lang in tokens_by_lang:
+            tokens_by_lang[self.lang] = ''
+        #---
+        if not self.lang in seasons_by_lang:
+            seasons_by_lang[self.lang] = requests.Session()
+        #---
+        # self.season = requests.Session()
     #---
     def Log_to_wiki(self):
         return True
@@ -65,9 +74,12 @@ class Login():
         if print_test[1] or 'printurl' in sys.argv:
             printe.output(url_o_print)
         #---
+        if not self.lang in seasons_by_lang:
+            seasons_by_lang[self.lang] = requests.Session()
+        #---
         # handle errors
         try:
-            req0 = self.season.post(self.endpoint, data=params)
+            req0 = seasons_by_lang[self.lang].post(self.endpoint, data=params)
             # req0.raise_for_status()
         except Exception as e:
             pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
@@ -127,7 +139,7 @@ class Login():
         #---
         color = colors.get(self.lang, '')
         #---
-        self.season = requests.Session()
+        # self.season = requests.Session()
         printe.output(f"<<{color}>> newapi/page.py: Log_to_wiki {self.endpoint}")
         #---
         r2_params = { 'format': 'json', 'action': 'login', 'lgname': self.username, 'lgpassword': self.password, 'lgtoken' : ''}
@@ -180,6 +192,8 @@ class Login():
         #---
         self.r3_token = r3_token
         #---
+        tokens_by_lang[self.lang] = r3_token
+        #---
         printe.output(f'<<green>> r3_token: {self.r3_token}')
         #---
     #---
@@ -188,6 +202,9 @@ class Login():
         # if login_lang[1] != self.lang:
             # printe.output(f'<<red>> login_lang[1]: {login_lang[1]} != self.lang:{self.lang}')
             # self.Log_to_wiki_1()
+        #---
+        if self.r3_token == '':
+            self.r3_token = tokens_by_lang.get(self.lang)
         #---
         if self.r3_token == '':
             self.Log_to_wiki_1()

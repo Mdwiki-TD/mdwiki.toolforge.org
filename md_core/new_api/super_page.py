@@ -19,11 +19,11 @@ else:
 #---
 """
 #---
-from newapi.page import MainPage
-page      = MainPage(title, 'ar', family='wikipedia')
-#---
 from new_api.mdwiki_page import MainPage
 page      = MainPage(title, 'www', family='mdwiki')
+#---
+from newapi.page import MainPage
+page      = MainPage(title, 'ar', family='wikipedia')
 #---
 '''
 exists    = page.exists()
@@ -105,7 +105,7 @@ class MainPage():
         self.family = family
         self.endpoint = f'https://{lang}.{family}.org/w/api.php'
         #---
-        self.userinfo = []
+        self.userinfo = {}
         self.username = ''
         self.Exists = ''
         self.is_redirect = ''
@@ -680,7 +680,7 @@ class MainPage():
         return self.user
 
     def get_userinfo(self):
-        if self.userinfo == [] :
+        if len(self.userinfo) == 0:
             params = {
                 "action": "query",
                 "format": "json",
@@ -694,7 +694,10 @@ class MainPage():
             #---
             _userinfo_ = { "id": 229481, "name": "Mr. Ibrahem", "groups": [ "editor", "reviewer", "rollbacker", "*", "user", "autoconfirmed" ] }
             #---
-            self.userinfo = data.get("query", {}).get("users", [{}])[0]
+            ff = data.get("query", {}).get("users", [{}])
+            #---
+            if ff:
+                self.userinfo = ff[0]
         #---
         return self.userinfo
 
@@ -708,7 +711,7 @@ class MainPage():
         #---
         if 'ask' in sys.argv and not Save_Edit_Pages[1] or print_test[1]:
             #---
-            if not "nodiff" in sys.argv and not nodiff:
+            if "nodiff" not in sys.argv and not nodiff:
                 if len(self.newtext) < 70000 and len(self.text) < 70000 or 'diff' in sys.argv:
                     printe.showDiff(self.text, self.newtext)
                 else:

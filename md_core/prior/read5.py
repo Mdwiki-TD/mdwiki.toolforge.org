@@ -199,7 +199,7 @@ class WorkAll:
             #---
             text = text_bot.make_text(_all_, ttt=t)
             #---
-            if not 'dontsave' in sys.argv:
+            if 'dontsave' not in sys.argv:
                 codecs.open(filetitle, 'w', encoding='utf-8').write(text)
                 #---
                 page_x = md_MainPage(ttt, 'www', family='mdwiki')
@@ -222,7 +222,7 @@ def work_all():
     #---
     page_x  = md_MainPage('User:Mr. Ibrahem/prior', 'www', family='mdwiki')
     #---
-    if not 'dontsave' in sys.argv:
+    if 'dontsave' not in sys.argv:
         t_sec   = text_bot.get_t_sections()
         #---
         page_x.save(newtext=t_sec, summary='update', nocreate=0)
