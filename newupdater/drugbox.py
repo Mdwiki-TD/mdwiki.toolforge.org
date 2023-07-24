@@ -1,7 +1,6 @@
-
 import re
 import sys
-sys.dont_write_bytecode = True
+
 import os
 import codecs
 import wikitextparser as wtp
@@ -47,7 +46,7 @@ class TextProcessor:
             name = str(template.normal_name()).strip()
             #---
             if name.lower() in ["infobox medical condition (new)", "infobox medical condition"]:
-                printn("*find temp:[%s]." % name)
+                printn(f"*find temp:[{name}].")
                 continue
             #---
             if name.lower() in ["drugbox", "infobox drug"]:

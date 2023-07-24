@@ -77,15 +77,15 @@ def create_redirect( target, mdtitle):
     for tit , o in exists.items() :
         if o == False:
             if tit.lower() == target.lower() :
-                printe.output( " target:%s not exists in orwiki." % target )
+                printe.output( f" target:{target} not exists in orwiki." )
                 return ""
             elif tit.lower() == mdtitle.lower() :
                 Worrk = True
     #---
     if Worrk :
         #---
-        text = '#redirect [[%s]]' % target
-        sus = 'Redirected page to [[%s]]' % target
+        text = f'#redirect [[{target}]]'
+        sus = f'Redirected page to [[{target}]]'
         params = {
             "action": "edit",
             "format": "json",
@@ -100,7 +100,7 @@ def create_redirect( target, mdtitle):
         uu = wpref.submitAPI( params, lang = 'or')
         #---
         if 'Success' in uu :
-            printe.output('<<lightgreen>>** true .. [[%s]] ' % mdtitle )
+            printe.output(f'<<lightgreen>>** true .. [[{mdtitle}]] ' )
         else:
             printe.output( uu )
 #---

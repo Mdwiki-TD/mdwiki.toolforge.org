@@ -40,11 +40,11 @@ def printtest(s):
         print( s )
 #---
 redirects_pages = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'redirects' )
-print( 'len of redirects_pages %d ' % len( redirects_pages ) )
+print( f'len of redirects_pages {len(redirects_pages)} ' )
 #---
 nonredirects = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'nonredirects' )
 #nonredirects = []
-printe.output( 'len of nonredirects %d ' % len( nonredirects ) )
+printe.output( f'len of nonredirects {len(nonredirects)} ' )
 #printe.output( str(nonredirects) )
 #---
 #fatosha = codecs.open( 'mdwiki/date_before_20200701.txt' , "r", encoding="utf-8").read()
@@ -139,19 +139,19 @@ def replace_links2( text , oldlink , newlink ):
     #---
     oldlink2 = normalized.get( oldlink , oldlink )
     #---
-    while text.find( '[[%s]]' % oldlink ) != -1 or text.find( '[[%s|' % oldlink ) != -1 or text.find( '[[%s]]' % oldlink2 ) != -1 or text.find( '[[%s|' % oldlink2 ) != -1 :
+    while text.find( f'[[{oldlink}]]' ) != -1 or text.find( f'[[{oldlink}|' ) != -1 or text.find( f'[[{oldlink2}]]' ) != -1 or text.find( f'[[{oldlink2}|' ) != -1 :
             #---
-            printe.output("text.replace( '[[%s]]' , '[[%s|%s]]' )" % ( oldlink , newlink , oldlink )  )
+            printe.output(f"text.replace( '[[{oldlink}]]' , '[[{newlink}|{oldlink}]]' )"  )
             #---
-            text = text.replace( '[[%s]]' % oldlink , '[[%s|%s]]' % ( newlink , oldlink ) )
-            text = text.replace( '[[%s|' % oldlink , '[[%s|' % newlink )
+            text = text.replace( f'[[{oldlink}]]' , f'[[{newlink}|{oldlink}]]' )
+            text = text.replace( f'[[{oldlink}|' , f'[[{newlink}|' )
             #---
-            text = re.sub(r'\[\[%s(\|\]\])' % oldlink , '[[%s\g<1>' % newlink , text, flags=re.IGNORECASE )
+            text = re.sub(r'\[\[%s(\|\]\])' % oldlink , r'[[%s\g<1>' % newlink , text, flags=re.IGNORECASE )
             #---
             if oldlink != oldlink2 :
-                text = re.sub(r'\[\[%s(\|\]\])' % oldlink2 , '[[%s\g<1>' % newlink , text, flags=re.IGNORECASE )
-                text = text.replace( '[[%s]]' % oldlink2 , '[[%s|%s]]' % ( newlink , oldlink2 ) )
-                text = text.replace( '[[%s|' % oldlink2 , '[[%s|' % newlink )
+                text = re.sub(r'\[\[%s(\|\]\])' % oldlink2 , r'[[%s\g<1>' % newlink , text, flags=re.IGNORECASE )
+                text = text.replace( f'[[{oldlink2}]]' , f'[[{newlink}|{oldlink2}]]' )
+                text = text.replace( f'[[{oldlink2}|' , f'[[{newlink}|' )
     #---
     return text
 #---
@@ -166,10 +166,10 @@ def treat_page( title ):
     #---
     # "normalized": [{"from": "tetracyclines","to": "Tetracyclines"}]
     normal = links.get( "normalized" , [] )
-    printe.output('find %d normalized..' % len(normal) )
+    printe.output(f'find {len(normal)} normalized..' )
     for nor in normal:
         normalized[nor["to"]] = nor["from"]
-        printe.output('normalized["%s"] = "%s"' % ( nor["to"] , nor["from"] ) )
+        printe.output(f"normalized[\"{nor['to']}\"] = \"{nor['from']}\"" )
     #---
     newtext = text
     #i = None
@@ -201,7 +201,7 @@ def treat_page( title ):
         #else:
         elif tit not in nonredirects :
             if tit2 != tit : 
-                printe.output('<<lightred>> tit:["%s"] and tit:["%s"] not in from_to' % ( tit , tit2 ) )
+                printe.output(f'<<lightred>> tit:["{tit}"] and tit:["{tit2}"] not in from_to' )
             #else:
                 #printe.output('<<lightred>> tit:["%s"] not in from_to' % tit )
             #---

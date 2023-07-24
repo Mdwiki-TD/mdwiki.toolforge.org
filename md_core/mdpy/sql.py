@@ -120,7 +120,7 @@ def dodo_sql():
     #---
     que = 'select title, user, lang, target from pages '
     #---
-    if lang_o != '' : que += ' where lang = "%s"' % lang_o
+    if lang_o != '' : que += f' where lang = "{lang_o}"'
     #---
     que += ' ;'
     #---
@@ -263,13 +263,13 @@ def main():
         qua += '\n;'
         #---
         if lange in sskip :
-            printe.output( 'skip lang:%s' % lange)
+            printe.output( f'skip lang:{lange}')
         else:
             if 'printquery' in sys.argv: print(qua)
             result = wiki_sql.Make_sql_many_rows( qua, wiki = str(lange))
         #---
         if result != {}:
-            printe.output( 'sql.py len(result) = "{}"'.format( len( result ) ) )
+            printe.output( f'sql.py len(result) = "{len( result )}"' )
             #---
             texddt = '\n'
             #--- 
@@ -286,7 +286,7 @@ def main():
                 namespace = str(namespace)
                 #---
                 pupdate  = pupdate[:8]
-                pupdate  = re.sub(r'^(\d\d\d\d)(\d\d)(\d\d)$', '\g<1>-\g<2>-\g<3>', pupdate)
+                pupdate  = re.sub(r'^(\d\d\d\d)(\d\d)(\d\d)$', r'\g<1>-\g<2>-\g<3>', pupdate)
                 #---
                 md_title = co_text.replace("_" , " ")
                 #---

@@ -73,7 +73,7 @@ class PriorAddOld:
             #---
             print(f'filename: {filename}..')
             #---
-            data = json.load(open(filename, 'r'))
+            data = json.load(open(filename))
             #---
             data_new = data
             #---

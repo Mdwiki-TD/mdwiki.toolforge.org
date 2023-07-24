@@ -42,7 +42,7 @@ for lang, titles in CreatorsData.items():
         TD     = tab["TD"]
         #---
         # if actor match IP address : skip
-        if re.match("^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$", actor): continue
+        if re.match(r"^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$", actor): continue
         # ---
         if not actor in counts_creators_by_lang[lang] : counts_creators_by_lang[lang][actor] = 0
         counts_creators_by_lang[lang][actor] += 1

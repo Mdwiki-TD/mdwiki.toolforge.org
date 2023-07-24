@@ -144,7 +144,7 @@ class Login():
         #---
         r2_params = { 'format': 'json', 'action': 'login', 'lgname': self.username, 'lgpassword': self.password, 'lgtoken' : ''}
         #---
-        printe.output( "newapi/page.py: log to %s.%s.org user:%s" % (self.lang, self.family, self.username )  )
+        printe.output( f"newapi/page.py: log to {self.lang}.{self.family}.org user:{self.username}"  )
         #---
         r1_params = { 'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
         #---

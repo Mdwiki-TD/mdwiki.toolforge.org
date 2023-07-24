@@ -26,7 +26,7 @@ import string
 import urllib
 import os
 import sys
-sys.dont_write_bytecode = True
+
 import requests
 #---
 # newtext = fix_page(text,title, move_dots= move_dot[1], infobox = False)
@@ -109,7 +109,7 @@ def log( lang ) :
     #---
     if login_done[1] == lang : return ''
     #---
-    api_urle = 'https://%s.wikipedia.org/w/api.php' % lang
+    api_urle = f'https://{lang}.wikipedia.org/w/api.php'
     #---
     Url_To_login[1] = api_urle
     #---
@@ -151,7 +151,7 @@ def log( lang ) :
         print_s(r2.json()['login']['reason'])
         #raise RuntimeError(r2.json()['login']['reason'])
     else:
-        print_s('wpref.py login Success to %s.wikipedia.org' % lang)
+        print_s(f'wpref.py login Success to {lang}.wikipedia.org')
         login_done[1] = lang
     #---
     #if r2.json()['login']['result'] != 'Success': print(r2.json()['login']['reason'])
@@ -246,7 +246,7 @@ def GetPageText(title, lang='', Print = True):
     text = parse.get('wikitext', {}).get('*','')
     #---
     if text == "" :
-        if Print: print_s('page %s text == "".' % title )
+        if Print: print_s(f'page {title} text == "".' )
     #---
     return text
 #---
@@ -259,8 +259,8 @@ def page_put(oldtext, NewText, summary, title, lang):
     if "ask" in sys.argv and not ask_a[1]:
         pywikibot.showDiff(oldtext , NewText)
         #---
-        print_s(' -Edit summary: %s:' % summary )
-        sa = pywikibot.input('<<lightyellow>>mdwiki/wpref.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page (%s:%s)' % (lang , title))
+        print_s(f' -Edit summary: {summary}:' )
+        sa = pywikibot.input(f'<<lightyellow>>mdwiki/wpref.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page ({lang}:{title})')
         #---
         if sa == "a" or sa == "all":
             ask_a[1] = True
@@ -295,7 +295,7 @@ def page_put(oldtext, NewText, summary, title, lang):
         print_s("error when json loads r4.text")
     #---
     if 'Success' in r4.text:
-        print_s('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]]' % (session["lang"] , session["family"] ,title)  )
+        print_s('<<lightgreen>> ** true .. ' + f"[[{session['lang']}:{session['family']}:{title}]]"  )
         return True
     #---
     else:
@@ -330,7 +330,7 @@ def fix_page_here(text, title, langcode):
 #---
 def work_one_lang(list, lang):
     #---
-    print_s( '<<lightblue>> work on lang: %s.wikipedia......................' % lang )
+    print_s( f'<<lightblue>> work on lang: {lang}.wikipedia......................' )
     #---
     newlist = list
     #---
@@ -346,7 +346,7 @@ def work_one_lang(list, lang):
     #---
     for title in newlist:
         #---
-        lio = '%s:%s' % (lang, title)
+        lio = f'{lang}:{title}'
         number += 1
         print_s( '<<lightyellow>> %d from %d, page: %s' % (number,len(newlist),lio) )
         #---
@@ -454,9 +454,9 @@ def maine():
         que = 'select lang, target from pages where target != "" and lang != "" and lang != "ar";'
         #---
         if nolange != '' : 
-            que = que.replace ( 'and lang != ""' , 'and lang != "%s"' % nolange )
+            que = que.replace ( 'and lang != ""' , f'and lang != "{nolange}"' )
         elif lange != '' :
-            que = 'select lang, target from pages where target != "" and lang = "%s";' % lange
+            que = f'select lang, target from pages where target != "" and lang = "{lange}";'
         #---
         print_s(que)
         #---
@@ -473,9 +473,9 @@ def maine():
         work_one_lang( newtable[lang] , lang )
     #---
     if 'returnfile' not in sys.argv:
-        print_s( 'find %s pages in missingtitles' % len(missingtitles) )
+        print_s( f'find {len(missingtitles)} pages in missingtitles' )
         for x, lang in missingtitles.items():
-            print_s( 'lang: %s, title: %s' % (lang, x) )
+            print_s( f'lang: {lang}, title: {x}' )
     #---
     #---
 #---

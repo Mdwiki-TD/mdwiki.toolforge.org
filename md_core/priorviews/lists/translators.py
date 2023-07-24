@@ -34,6 +34,12 @@ for lang, titles in tra_by_lang.items():
     if not lang in counts_by_translator: counts_by_translator[lang] = {}
     #---
     for title, user in titles.items():
+        #---
+        # skip user match ip address
+        if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', user): continue
+        # skip user match ip address like: 2001:569:F867:EE00:1540:D99D:3F7:3EAE
+        if re.match(r'^(?:(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|::(?:[A-Fa-f0-9]{1,4}:){0,5}[A-Fa-f0-9]{1,4}|(?:[A-Fa-f0-9]{1,4}:){1,2}:|:(?::[A-Fa-f0-9]{1,4}){1,6}|(?:[A-Fa-f0-9]{1,4}:){1,6}:|:(?::[A-Fa-f0-9]{1,4}){1,7}|(?:[A-Fa-f0-9]{1,4}:){1,7}:|:(?::[A-Fa-f0-9]{1,4}){1,8}|(?:[A-Fa-f0-9]{1,4}:){1,8}:)$', user): continue
+        #---
         if not user in counts_by_translator[lang] : counts_by_translator[lang][user] = 0
         counts_by_translator[lang][user] += 1
 #---

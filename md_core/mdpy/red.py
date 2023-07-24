@@ -107,7 +107,7 @@ def work( title , num , lenth ):
     #---
     for tit , o in exists.items() :
         if o == False and tit.lower() == title.lower() :
-            printe.output( " page:%s not exists in mdwiki." % title )
+            printe.output( f" page:{title} not exists in mdwiki." )
             return ""
     #---
     if num < offset[1]:
@@ -116,8 +116,8 @@ def work( title , num , lenth ):
     redirects = get_red( title )
     printe.output( redirects )
     #---
-    text = '#redirect [[%s]]' % title
-    sus = 'Redirected page to [[%s]]' % title
+    text = f'#redirect [[{title}]]'
+    sus = f'Redirected page to [[{title}]]'
     #---
     ing = mdwiki_api.Find_pages_exists_or_not( redirects )
     #---
@@ -137,7 +137,7 @@ def work( title , num , lenth ):
             for iof in listr :
                 if tit2.startswith(iof) :
                     okay = False
-                    printe.output( " tit2.startswith('%s') " % iof )
+                    printe.output( f" tit2.startswith('{iof}') " )
             #---
             if okay:
                 mdwiki_api.create_Page( text , sus , tit , False , family = "mdwiki" , sleep = 1)

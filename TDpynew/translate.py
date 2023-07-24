@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 """
@@ -43,6 +42,10 @@ Url_To_login = { 1 : '' , 'not' : True }
 #---
 login_done = { 1 : False }
 #---
+def print_py(s):
+    if sys.stdin.isatty():
+        print(s)
+#---
 def log_to_enwiki() :
     #---
     if login_done[1] : return ''
@@ -80,6 +83,8 @@ def log_to_enwiki() :
     #---
     token = r3.json()['query']['tokens']['csrftoken']
     #---
+    print_py(f'token:{token}')
+    #---
     login_done[1] = True
     #---
     session["token"] = token
@@ -96,7 +101,7 @@ def submit_to_enwiki( params ):
         r4 = session[1].post(session["url"], data=params)
         json1 = json.loads( r4.text )
     except Exception as e:
-        # pywikibot.output( "arAPI: post_ss error: %s" % e )
+        print_py(f"post_ss error: {e}")
         return {}
     #---
     return json1
@@ -130,6 +135,8 @@ def work( title ):
     #---
     title = urllib.parse.unquote(title)
     #---
+    print_py(f'title:{title}')
+    #---
     if 'test' in sys.argv: print(title)
     #---
     params2 = {"action": "parse","format": "json","page": title ,"prop": "wikitext"}
@@ -149,6 +156,10 @@ def work( title ):
     #---
     text = first
     #---
+    if text == '' :
+        print_py('no text')
+        return "notext"
+    #---
     if not wholearticle[1]:
         #text += '\n==References==\n<references />\n[[en:%s]]' % title
         text += '\n==References==\n<references />'
@@ -159,7 +170,9 @@ def work( title ):
     #---
     text = text.replace('[[Category:','[[:Category:')
     #---
-    if text == '' : return "no text"
+    if text == '' : 
+        print_py('no text')
+        return "notext"
     #---
     return put(title,text)
     #---

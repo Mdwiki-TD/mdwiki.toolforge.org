@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 إنشاء قائمة بعدد المراجع
@@ -128,7 +127,7 @@ def logaa(file,table):
         json.dump( table, outfile, sort_keys = True, indent=4)
     outfile.close()
     #---
-    printe.output('<<lightgreen>> %d lines to %s' % ( len(table), file ) )
+    printe.output(f'<<lightgreen>> {len(table)} lines to {file}' )
 #---
 def from_sql():
     #---
@@ -140,7 +139,7 @@ def from_sql():
     #---
     titles = [ x for x in titles2 if not x in list_ma[1] ]
     #---
-    printe.output( '<<lightyellow>> sql: find %d titles, %d to work. ' % (len(titles2), len(titles)) )
+    printe.output( f'<<lightyellow>> sql: find {len(titles2)} titles, {len(titles)} to work. ' )
     return titles
 #---
 def get_links():

@@ -557,7 +557,7 @@ class MainPage():
             if title2 == ti and 'purged' in t:
                 return True
             if "missing" in t:
-                printe.output( 'page "%s" missing' % t['title'] )
+                printe.output( f"page \"{t['title']}\" missing" )
                 return "missing"
         return False
 
@@ -716,12 +716,12 @@ class MainPage():
                     printe.showDiff(self.text, self.newtext)
                 else:
                     printe.output('showDiff error..')
-                    printe.output('diference in bytes: %s' % (len(self.newtext) - len(self.text)))
+                    printe.output(f'diference in bytes: {len(self.newtext) - len(self.text)}')
                     printe.output(f'length of text: {len(self.text)}, length of newtext: {len(self.newtext)}')
             #---
             printe.output(Edit_summary_line[1] % self.summary )
             #---
-            sa = pywikibot.input('<<lightyellow>>page.py: Do you want to accept these changes? (yes, no): for page %s:%s user:%s'  % (self.lang, self.title, self.username ))
+            sa = pywikibot.input(f'<<lightyellow>>page.py: Do you want to accept these changes? (yes, no): for page {self.lang}:{self.title} user:{self.username}')
             #---
             if sa == "a":
                 printe.output('<<lightgreen>> ---------------------------------' )
@@ -752,7 +752,7 @@ class MainPage():
             #---
             abusefilter = error.get("abusefilter","")
             description = abusefilter.get('description','')
-            printe.output('<<lightred>> ** abusefilter-disallowed: %s ' % description )
+            printe.output(f'<<lightred>> ** abusefilter-disallowed: {description} ' )
             if description in ['تأخير البوتات 3 ساعات', 'تأخير البوتات 3 ساعات- 3 من 3', 'تأخير البوتات 3 ساعات- 1 من 3', 'تأخير البوتات 3 ساعات- 2 من 3'] :
                 return False
             return description
@@ -805,7 +805,7 @@ class MainPage():
         if result.lower() == 'success':
             self.text = newtext
             self.user = ''
-            printe.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]] ' % (self.lang, self.family, self.title)  )
+            printe.output('<<lightgreen>> ** true .. ' + f'[[{self.lang}:{self.family}:{self.title}]] '  )
             printe.output( 'Done True... time.sleep() ')
             #---
             if 'printpop' in sys.argv:
@@ -860,7 +860,7 @@ class MainPage():
             #---
             self.text = text
             #---
-            printe.output('<<lightgreen>> ** true .. ' + '[[%s:%s:%s]] ' % (self.lang, self.family, self.title)  )
+            printe.output('<<lightgreen>> ** true .. ' + f'[[{self.lang}:{self.family}:{self.title}]] '  )
             printe.output( 'Done True... time.sleep() ')
             #---
             self.pageid = edit.get('pageid')   or self.pageid

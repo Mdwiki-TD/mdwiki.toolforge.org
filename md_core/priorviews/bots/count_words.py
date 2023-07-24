@@ -22,7 +22,7 @@ tt = count_words.get_words(title, lang)
 #---
 '''
 #---
-class InOldText(object):
+class InOldText:
 
     def __init__(self, title, lang="en"):
         #---

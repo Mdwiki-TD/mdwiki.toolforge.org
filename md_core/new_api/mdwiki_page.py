@@ -1,4 +1,3 @@
-
 # from new_api.mdwiki_page import MainPage as md_MainPage
 '''
 page      = md_MainPage(title, 'www', family='mdwiki')

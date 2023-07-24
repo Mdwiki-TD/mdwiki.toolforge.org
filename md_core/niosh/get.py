@@ -22,9 +22,9 @@ Dird_js = f"{Dir}/downloads_js/"
 cite_file = f"{Dird_js}/cite_all_links.json"
 both_file = f"{Dir}/jsons/both.json"
 # ---
-data = json.load(open(cite_file, 'r'))
+data = json.load(open(cite_file))
 # ---
-boths = json.load(open(both_file, 'r'))
+boths = json.load(open(both_file))
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
 # ---

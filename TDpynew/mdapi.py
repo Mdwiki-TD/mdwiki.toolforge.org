@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 """
@@ -83,7 +82,7 @@ def start_sea():
             pywikibot.output( r22.json() )
             pywikibot.output( 'CRITICAL:' )
     else:
-        printt( "<<lightgreen>> mdwiki/TDpynew/mdapi.py: log to %s user:%s Success... " % (SS["url"], username ) )
+        printt( f"<<lightgreen>> mdwiki/TDpynew/mdapi.py: log to {SS['url']} user:{username} Success... " )
     #---
     # get edit token
     SS["r33"] = SS["ss"].get(SS["url"], params={

@@ -22,7 +22,7 @@ import unicodedata
 import requests
 #---
 import sys
-sys.dont_write_bytecode = True
+
 #---
 '''
 #---
@@ -122,17 +122,17 @@ def post_all( params, addtoken=False, **kwargs ):
     if r4:
         status = get_status(r4)
         if status != 200:
-            pywikibot.output( " mdAPI: post_s error: %s" % r4.text )
+            pywikibot.output( f" mdAPI: post_s error: {r4.text}" )
             return {}
     #---
     return jsone
 #---
 def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
     #---
-    printe.output( "mdwiki/mdpy/mdwiki_api.py: log to %s.%s.org user:%s" % (lang,family , account['u'] )    )
+    printe.output( f"mdwiki/mdpy/mdwiki_api.py: log to {lang}.{family}.org user:{account['u']}"    )
     SS["family"] = family
     SS["lang"] = lang
-    SS["url"] = 'https://' + '%s.%s.org/w/api.php' % (lang , family)
+    SS["url"] = 'https://' + f'{lang}.{family}.org/w/api.php'
     SS["ss"] = requests.Session()
     #---
     r1_params = { 'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
@@ -169,10 +169,10 @@ def Log_to_wiki(family = 'mdwiki' , lang = "www" ):
             'meta': 'tokens',
         })
     except Exception as e:
-        pywikibot.output( "mdwiki_api.py: Log_to_wiki error: %s" % e )
+        pywikibot.output( f"mdwiki_api.py: Log_to_wiki error: {e}" )
         return False
     #---
-    SS["url"] = 'https://' + '%s.%s.org/w/api.php' % (lang , family)
+    SS["url"] = 'https://' + f'{lang}.{family}.org/w/api.php'
     #---
     SS["r3_token"] = SS["r33"].json()['query']['tokens']['csrftoken']
     #---
@@ -242,7 +242,7 @@ def outbot(text2):
 #---
 def import_history2( FILE_PATH , title ):
     #---
-    printe.output('<<lightpurple>> import_history for page:%s:' % title )
+    printe.output(f'<<lightpurple>> import_history for page:{title}:' )
     #---
     if login_not_done[1]:   Log_to_wiki("mdwiki" , lang = "www" )
     #---
@@ -268,7 +268,7 @@ def import_history2( FILE_PATH , title ):
         NewList = FILE_PATH
     #---
     for fff in NewList:
-        printe.output(' file:"%s"' % fff )
+        printe.output(f' file:"{fff}"' )
         FILE = {'xml':('file.xml', open( fff ))}
         #DATA = R.json()
         #print(DATA)
@@ -284,7 +284,7 @@ def import_history2( FILE_PATH , title ):
 #---
 def import_history( FILE_PATH , title ):
     #---
-    printe.output('<<lightpurple>> import_history for page:%s:' % title )
+    printe.output(f'<<lightpurple>> import_history for page:{title}:' )
     #---
     if login_not_done[1]:   Log_to_wiki("mdwiki" , lang = "www" )
     #---
@@ -309,7 +309,7 @@ def import_history( FILE_PATH , title ):
         NewList = FILE_PATH
     #---
     for fff in NewList:
-        printe.output(' file:"%s"' % fff )
+        printe.output(f' file:"{fff}"' )
         FILE = {'xml':('file.xml', open(fff))}
         #DATA = R.json()
         #print(DATA)
@@ -350,7 +350,7 @@ def import_page( title ) :
 #---
 def page_put_new(NewText,summary,title,time_sleep="",family="",lang="",minor="",nocreate=1,tags="",returntrue=False,return_table=False):
     #---
-    printe.output(' page_put %s:' % title )
+    printe.output(f' page_put {title}:' )
     #---
     pparams = {
         "action": "edit",
@@ -409,8 +409,8 @@ def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family
                 pywikibot.showDiff(oldtext, newtext)
             except:
                 printe.output( ' -mdwiki cant showDiff' )
-        printe.output(' -Edit summary: %s:' % summary )
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s:%s.org user:%s'  %(lang,title,account['u'] ))
+        printe.output(f' -Edit summary: {summary}:' )
+        sa = py_input(f"<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page {lang}:{title}.org user:{account['u']}")
         #---
         if sa == "a":
             printe.output('<<lightgreen>> ---------------------------------' )
@@ -448,7 +448,7 @@ def Add_To_Bottom2(aptext , summary , title, poss="", family="", minor = "" ):
         r4 = post_s(Paramso, addtoken=True)
         #---
         if 'Success' in r4:
-            printe.output('<<lightgreen>>** true .. %s : [[%s]] '    % (SS["family"] , title) )
+            printe.output(f"<<lightgreen>>** true .. {SS['family']} : [[{title}]] " )
             printe.output( 'Save True... time.sleep(%d) ' % timesleep)
         else:
             outbot(r4)
@@ -458,13 +458,13 @@ def Add_To_Bottom2(aptext , summary , title, poss="", family="", minor = "" ):
 def Add_To_Head(prependtext , summary , title, Ask, minor = "" ):
     if title.strip() != "" : 
         #---
-        printe.output(' Add_To_Head for Page %s:' % title )
+        printe.output(f' Add_To_Head for Page {title}:' )
         #printe.output(prependtext)
         faso = False
         if Ask or "ask" in sys.argv and "save" not in sys.argv:
         #if Ask:
             #pywikibot.showDiff( "" , prependtext )
-            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Head of page "%s" ? ([y]es, [N]o):'  % title)
+            sa = py_input(f'<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Head of page "{title}" ? ([y]es, [N]o):')
             if sa in yes_answer:
                 faso = True
                 Add_To_Bottom2(prependtext , summary , title, poss = "Head", minor = minor )
@@ -481,12 +481,12 @@ def Add_To_Head(prependtext , summary , title, Ask, minor = "" ):
 def Add_To_Bottom(appendtext , summary , title, Ask , family="", minor = "" ):
     if title.strip() != "" : 
         #---
-        printe.output(' Add_To_Bottom for Page %s:' % title )
+        printe.output(f' Add_To_Bottom for Page {title}:' )
         printe.output( appendtext)
         faso = False
         if Ask or "ask" in sys.argv and "save" not in sys.argv:
         #if Ask:
-            sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Bottom of page "%s" ? ([y]es, [N]o):' % title)
+            sa = py_input(f'<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Add_To_Bottom of page "{title}" ? ([y]es, [N]o):')
             if sa in yes_answer:
                 faso = True
                 Add_To_Bottom2(appendtext , summary , title, family = family, minor = minor )
@@ -501,7 +501,7 @@ def Add_To_Bottom(appendtext , summary , title, Ask , family="", minor = "" ):
         printe.output('** Add_To_Bottom ..  title == ""' )
 #---
 def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="", minor = "", printtext=True ):
-    printe.output(' create Page %s:' % title )
+    printe.output(f' create Page {title}:' )
     time_sleep = timesleep
     #---
     if title.startswith("نقاش القالب:") and  title.endswith("/ملعب"):
@@ -533,7 +533,7 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
         if printtext:
             printe.output( "<<lightgreen>> " + text)
         printe.output( " summary: " + summary)
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create %s:"%s" page ? ([y]es, [N]o):user:%s' % (family,title,account['u']))
+        sa = py_input(f"<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: create {family}:\"{title}\" page ? ([y]es, [N]o):user:{account['u']}")
         if sa.strip() in yes_answer:
             #---
             if sa.strip() == "a":
@@ -568,14 +568,14 @@ def create_Page(text , summary , title , ask, sleep=0, family="", duplicate4="",
             outbot(r4)
             return False
     #---a
-    printe.output( "<<lightred>> end of create_Page def return False title:(%s)" % title )
+    printe.output( f"<<lightred>> end of create_Page def return False title:({title})" )
     printe.output(r4)
     #---a
     return False
 #---
 def move(From , to , reason , lang = 'ar'  , nosleep = False ):
     #---
-    printe.output('<<lightyellow>> ** move .. [[%s:%s]] to [[%s]] ' % (lang , From , to) )
+    printe.output(f'<<lightyellow>> ** move .. [[{lang}:{From}]] to [[{to}]] ' )
     Params = {
         "action": "move",
         "from": From,
@@ -583,16 +583,16 @@ def move(From , to , reason , lang = 'ar'  , nosleep = False ):
         "movetalk": 1,
     }
     #---
-    printe.output(' -Edit reason: %s:' % reason )
+    printe.output(f' -Edit reason: {reason}:' )
     #---
     if From == to:
-        printe.output('<<lightred>>** From == to %s ' % to )
+        printe.output(f'<<lightred>>** From == to {to} ' )
         return False
     #---
     JustMove = True
     #---
     if not Save_2020[1] and "ask" in sys.argv :
-        sa = py_input('<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you move page:[[%s:%s]] to [[%s]]? ([y]es, [N]o, [a]ll): user:%s' % (lang,From,to,account['u'] ))
+        sa = py_input(f"<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you move page:[[{lang}:{From}]] to [[{to}]]? ([y]es, [N]o, [a]ll): user:{account['u']}")
         #---
         if sa == "a":
             printe.output('<<lightgreen>> ---------------------------------' )
@@ -701,7 +701,7 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True ):
     #printe.output('<<lightblue>> API_CALLS %d   for %s' % (API_CALLS[1],enlink) )
     #---
     if print_url or "printurl" in sys.argv:
-        lis = [ "{}={}".format( x , y ) for x,y in params.items() ]
+        lis = [ f"{x}={y}" for x,y in params.items() ]
         url = "api.php?" + "&".join( lis )
         printe.output(url)
     #----
@@ -757,9 +757,9 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True ):
     #---
     subcats = [ x for x in table if str(table[x]['ns']) == "14" ]
     #---
-    printe.output( '<<lightgreen>> Getcat: find %d subcat:%s' % ( len(subcats) , ",".join(subcats) ) )
+    printe.output( f"<<lightgreen>> Getcat: find {len(subcats)} subcat:{','.join(subcats)}" )
     #---
-    printe.output( '<<lightyellow>> cat:%s has:%d pages.' % ( enlink , len(table) ) )
+    printe.output( f'<<lightyellow>> cat:{enlink} has:{len(table)} pages.' )
     #---
     return table
 #---
@@ -818,7 +818,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False, without_lang="",
         #---
         for cat in new_list:
             #---
-            printe.output('get pages from subcat:%s' % cat )
+            printe.output(f'get pages from subcat:{cat}' )
             #---
             if not cat in cat_done:
                 cat_done.append(cat)
@@ -886,7 +886,7 @@ def GetPageText(title , redirects = False):
         printe.output(json1)
     #---
     if text == "" :
-        printe.output('page %s text == "".' % title )
+        printe.output(f'page {title} text == "".' )
     #---
     return text
 #---
@@ -929,7 +929,7 @@ def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
 #---
 def Get_page_links( title , namespace = "0" , limit = "max" ):
     #---
-    printe.output( 'Get_page_links for title:"%s", limit:"%s",namespace:"%s"' % ( title , limit , namespace ) )
+    printe.output( f'Get_page_links for title:"{title}", limit:"{limit}",namespace:"{namespace}"' )
     #---
     params = {
         "action": "query",
@@ -961,7 +961,7 @@ def Get_page_links( title , namespace = "0" , limit = "max" ):
     else:
         printe.output( "mdwiki_api.py no json1" )
     #---
-    printe.output( "mdwiki_api.py Get_page_links : find %d pages." % len(Main_table['links']) )
+    printe.output( f"mdwiki_api.py Get_page_links : find {len(Main_table['links'])} pages." )
     #---
     return Main_table
 #---
@@ -972,7 +972,7 @@ def Get_page_links_2(title):
 #---
 def Get_template_pages( title, namespace = "*", limit = "max" ):
     #---
-    printe.output( 'Get_template_pages for template:"%s", limit:"%s",namespace:"%s"' % ( title, limit, namespace ) )
+    printe.output( f'Get_template_pages for template:"{title}", limit:"{limit}",namespace:"{namespace}"' )
     #---
     params = {
         "action": "query",
@@ -1002,10 +1002,10 @@ def Get_template_pages( title, namespace = "*", limit = "max" ):
         for _, tab in pages.items():
             Main_table.append( tab[ "title" ] )
         #---
-        printe.output('len of Main_table:%d.' % (len(Main_table)) )
+        printe.output(f'len of Main_table:{len(Main_table)}.' )
         #---
     #---
-    printe.output( "mdwiki_api.py Get_template_pages : find %d pages." % len(Main_table) )
+    printe.output( f"mdwiki_api.py Get_template_pages : find {len(Main_table)} pages." )
     #---
     return Main_table
 #---
@@ -1047,13 +1047,13 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
         apcontinue = json1.get( "continue" , {} ).get( "apcontinue" , '' )
         #---
         newp = json1.get("query", {}).get("allpages", [])
-        printe.output( "<<lightpurple>> --- Get_All_pages : find %d pages." % len(newp) )
+        printe.output( f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages." )
         #---
         for x in newp:
             if not x[ "title" ] in Main_table : 
                 Main_table.append(x["title"])
         #---
-        printe.output( "len of Main_table %d." % len(Main_table) )
+        printe.output( f"len of Main_table {len(Main_table)}." )
         #---
         if limit_all > 0 and len(Main_table) > limit_all : 
             apcontinue = '' 
@@ -1064,7 +1064,7 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
     if numb > 0 and apcontinue == '' : 
         printe.output( "<<lightgreen>> apcontinue == '' " )
     #---
-    printe.output( "mdwiki_api.py Get_All_pages : find %d pages." % len(Main_table) )
+    printe.output( f"mdwiki_api.py Get_All_pages : find {len(Main_table)} pages." )
     #---
     return Main_table
 #---
@@ -1083,7 +1083,7 @@ def get_section(title, level):
 #---
 def Get_UserContribs( user , limit="max", namespace = "*" , ucshow = "" ):
     #---
-    printe.output('Get_UserContribs for user:"%s", limit:"%s"' % ( user , limit ) )
+    printe.output(f'Get_UserContribs for user:"{user}", limit:"{limit}"' )
     #---
     params = {
         "action": "query",
@@ -1108,7 +1108,7 @@ def Get_UserContribs( user , limit="max", namespace = "*" , ucshow = "" ):
         #---
         Main_table = [ x[ "title" ] for x in newp ]
     #---
-    printe.output( "mdwiki_api.py Get_Newpages : find %d pages." % len(Main_table) )
+    printe.output( f"mdwiki_api.py Get_Newpages : find {len(Main_table)} pages." )
     #---
     return Main_table
 #---
@@ -1116,7 +1116,7 @@ def Search( valu , lang="", family='', ns="", offset='', srlimit = "max" , RETUR
     #---
     Lidy = []
     #---
-    printe.output( 'mdwiki_api.Search for "%s",ns:%s' % (valu,ns) )
+    printe.output( f'mdwiki_api.Search for "{valu}",ns:{ns}' )
     #---
     if srlimit == "":
         srlimit = "max"
@@ -1159,7 +1159,7 @@ def Search( valu , lang="", family='', ns="", offset='', srlimit = "max" , RETUR
                 Lidy.append( tit )
     #---
     #if Lidy == []:  
-    printe.output( 'mdwiki_api.Search find "%d" result. s' % len(Lidy) )
+    printe.output( f'mdwiki_api.Search find "{len(Lidy)}" result. s' )
     #---
     return Lidy
 #---

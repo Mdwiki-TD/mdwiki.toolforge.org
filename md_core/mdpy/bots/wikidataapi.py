@@ -91,7 +91,7 @@ def Log_to_wiki(url = ''):
     #---
     if not login_not_done[1] : return ''
     #---
-    printe.output( "wikidataapi.py: log to %s user:%s" % (url, r2_params['lgname'] )  )
+    printe.output( f"wikidataapi.py: log to {url} user:{r2_params['lgname']}"  )
     SS["url"] = url
     SS["ss"] = requests.Session()
     #---
@@ -164,7 +164,7 @@ def post( params , apiurl='', token = True):
     #---
     status = get_status(r4)
     if status != 200:
-        pywikibot.output( "<<lightred>> wikidataapi.py: post error status: %s" % str(status) )
+        pywikibot.output( f"<<lightred>> wikidataapi.py: post error status: {str(status)}" )
         return {}
     #---
     return jsone
@@ -195,8 +195,11 @@ def QS_New_API(data2):
     CREATE = 'CREATE||'
     for ss in data2.get("sitelinks",{}):
         dd = data2.get("sitelinks",{})
-        CREATE += 'LAST|S%s|"%s"||' % ( dd[ss]["site"] , dd[ss]["title"]  )
-        CREATE += 'LAST|L%s|"%s"||' % ( dd[ss]["site"].replace("wiki","") , dd[ss]["title"]  )
+        tit = dd[ss]["title"]
+        wik = dd[ss]["site"]
+        wik2 = dd[ss]["site"].replace("wiki","")
+        CREATE += f'LAST|S{wik}|"{tit}"||'
+        CREATE += f'LAST|L{wik2}|"{tit}"||'
     #---
     claims = data2.get("claims",{})
     for Claim in claims:
@@ -204,7 +207,7 @@ def QS_New_API(data2):
             value = P['mainsnak']["datavalue"].get("value",{}).get("id","")
             #value = P["datavalue"].get("value",{}).get("id","")
             if value != "":
-                CREATE += 'LAST|%s|%s||' % ( P['mainsnak']["property"] , value )
+                CREATE += f"LAST|{P['mainsnak']['property']}|{value}||"
     #---
     CREATE = CREATE + "XX"
     CREATE = CREATE.replace("||XX","")
@@ -262,7 +265,7 @@ def WD_Merge( q1, q2):
         From = q2
         To = q1
     #---
-    printe.output('from %s to %s ' % (From , To) )
+    printe.output(f'from {From} to {To} ' )
     #---
     params = {
         "action": "wbmergeitems",
@@ -307,7 +310,7 @@ def Labels_API(Qid, label, lang, remove=False):
         return False
     #---
     # save the edit
-    out = '%s label:"%s"@%s.' % ( Qid , lang , label )
+    out = f'{Qid} label:"{lang}"@{label}.'
     #---
     params = {
         "action": "wbsetlabel",
@@ -519,7 +522,7 @@ def open_url(url, return_json = False):
     try:
         jsontab = json.loads(html)
     except Exception as e:
-        pywikibot.output( ' open_url: Exception %s ' % e )
+        pywikibot.output( f' open_url: Exception {e} ' )
         return result 
     #---
     return jsontab
@@ -556,7 +559,7 @@ def sparql_generator_url(quary, printq = False, add_date = True):
                             s[vv] = ''
                     qlist.append(s)
     #---
-    printe.output('#sparql_generator_url:<<lightgreen>> %d items found. %s' % ( len(qlist) , menet))
+    printe.output(f'#sparql_generator_url:<<lightgreen>> {len(qlist)} items found. {menet}')
     return qlist
 #---
 def wbsearchentities(search, language):

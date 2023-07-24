@@ -23,7 +23,7 @@ import re
 import json
 # from new_api import printe
 import sys
-sys.dont_write_bytecode = True
+
 try:
     import wikitextparser
 except ImportError:

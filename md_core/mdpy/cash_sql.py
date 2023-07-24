@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8  -*-
 #   himo
 """ 
 إيجاد معرف ويكيداتا للعناصر بدون معرف
@@ -18,7 +17,7 @@ import pywikibot
 import codecs
 import os
 import sys
-sys.dont_write_bytecode = True
+
 #---
 from mdpy.bots import sql_for_mdwiki
 from pymysql.converters import escape_string
@@ -31,7 +30,7 @@ if not os.path.isdir(project): project = '/mdwiki'
 #---
 noqids1 = []
 #---
-with open(project + '/public_html/Translation_Dashboard/Tables/noqids.json', 'r') as f:
+with open(project + '/public_html/Translation_Dashboard/Tables/noqids.json') as f:
     noqids1 = json.load(f)
 #---
 from mdpy.bots import wiki_api
@@ -117,7 +116,7 @@ def add_them_new(table):
             else:
                 UPDATE.append(qua)
         else:
-            INSERT.append("""({title}, '{qid}')""".format(qid=qid, title = title2))
+            INSERT.append(f"""({title2}, '{qid}')""")
         #---
         if qua != '' : 
             num += 1

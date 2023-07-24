@@ -91,7 +91,7 @@ def get_all_json():
             #---
             printe.output(f'filename: {filename2}..')
             #---
-            data = json.load(open(filename2, 'r'))
+            data = json.load(open(filename2))
             All   = {**All, **data}
     #---
     for filename in os.listdir(project_js_newen):
@@ -100,7 +100,7 @@ def get_all_json():
             #---
             printe.output(f'filename: {filename2}..')
             #---
-            data = json.load(open(filename2, 'r'))
+            data = json.load(open(filename2))
             #---
             allen = {**allen, **data}
     #---

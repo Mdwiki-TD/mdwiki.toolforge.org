@@ -12,7 +12,7 @@ for root, dirs, files in os.walk(folder_path):
             print("path:", file_path)
 
             # قراءة الملف كـ JSON
-            with open(file_path, 'r') as file:
+            with open(file_path) as file:
                 json_data = file.read()
 
             # طباعة حجم الملف قبل التعديل

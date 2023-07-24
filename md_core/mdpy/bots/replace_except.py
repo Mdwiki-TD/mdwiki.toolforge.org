@@ -69,7 +69,7 @@ def ignore_case(string: str) -> str:
        `_ignore_case` becomes a public method
     """
     return ''.join(
-        '[{}{}]'.format(c, s) if c != s else c
+        f'[{c}{s}]' if c != s else c
         for s, c in zip(string, string.swapcase()))
 
 def _tag_pattern(tag_name: str) -> str:
@@ -154,8 +154,7 @@ def _get_regexes(keys, site):
             if isinstance(_regex_cache[exc], tuple):
                 if not site and exc in ('interwiki', 'property', 'invoke',
                                         'category', 'file'):
-                    raise ValueError("Site cannot be None for the '{}' regex"
-                                     .format(exc))
+                    raise ValueError(f"Site cannot be None for the '{exc}' regex")
 
                 if (exc, site) not in _regex_cache:
                     re_text, re_var = _regex_cache[exc]
@@ -253,7 +252,7 @@ def replaceExcept(text: str, old, new, exceptions: list,
                         replacement += new[last:group_match.start()]
                         replacement += match.group(group_id) or ''
                     except IndexError:
-                        raise IndexError('Invalid group reference: {}\n Groups found: {}'.format(group_id, match.groups()))
+                        raise IndexError(f'Invalid group reference: {group_id}\n Groups found: {match.groups()}')
                     last = group_match.end()
                 replacement += new[last:]
 

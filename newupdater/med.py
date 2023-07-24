@@ -11,7 +11,7 @@ import json
 import codecs
 import re
 import sys
-sys.dont_write_bytecode = True
+
 import os
 #---
 import requests

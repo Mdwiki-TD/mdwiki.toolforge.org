@@ -1,7 +1,6 @@
-
 import re
 import sys
-sys.dont_write_bytecode = True
+
 import os
 import codecs
 import wikitextparser

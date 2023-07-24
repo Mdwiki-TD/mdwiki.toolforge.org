@@ -1,4 +1,3 @@
-
 from ref import fix_ref
 import pywikibot
 #---

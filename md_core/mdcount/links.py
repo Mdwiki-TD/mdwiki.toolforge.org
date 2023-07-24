@@ -25,12 +25,12 @@ def get_valid_Links(words_tab):
         vav2 = vav
         vav = [ t for t in vav2 if (not t in words_tab or words_tab[t] < 50) ]
         #---
-        printe.output( 'Category-members:%d, New-members:%d' % ( len(vav2), len(vav) ) )
+        printe.output( f'Category-members:{len(vav2)}, New-members:{len(vav)}' )
     #---
     elif 'sql' in sys.argv:
         vav2 = sql_for_mdwiki.get_all_pages()
         vav = [ t for t in vav2 if (not t in words_tab or words_tab[t] < 50) ]
-        printe.output('ALL SQL LINKS:%d, to work:%d' % (len(vav2), len(vav) ) )
+        printe.output(f'ALL SQL LINKS:{len(vav2)}, to work:{len(vav)}' )
     #---
     elif 'oldway' in sys.argv:
         ptext = mdwiki_api.GetPageText( 'WikiProjectMed:List' )
@@ -60,7 +60,7 @@ def get_valid_Links(words_tab):
         if x.startswith('Category:') :
             vav.remove(x)
     #---
-    printe.output('len of vaild_links: %d' % len(vav) )
+    printe.output(f'len of vaild_links: {len(vav)}' )
     #---
     return vav
 #---

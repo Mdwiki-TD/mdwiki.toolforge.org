@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 اصلاح المراجع في ميدويكي
 
@@ -40,8 +39,8 @@ def fix_ref(first, alltext) :
         if name3 != '' :
             refs[name3] = refec
             outputnew('--------------------------')
-            outputnew('name\t:%s' % name3)
-            outputnew('ref\t:%s' % refec)
+            outputnew(f'name\t:{name3}')
+            outputnew(f'ref\t:{refec}')
     #---
     for g in ref_short.finditer(first):
         refe = g.group()
@@ -51,8 +50,8 @@ def fix_ref(first, alltext) :
         name = name.strip()
         #---
         outputnew('--------------------------')
-        outputnew('name\t:%s' % name)
-        outputnew('ref\t:%s' % refe)
+        outputnew(f'name\t:{name}')
+        outputnew(f'ref\t:{refe}')
         #---
         rr = refs.get(name, False)
         if name != '' and rr:

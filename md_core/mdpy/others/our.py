@@ -83,7 +83,7 @@ def work( title ):
         if 'ask' in sys.argv:
             sa = False
             pywikibot.showDiff(text, newtext)
-            sas = pywikibot.input('<<lightyellow>>API: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page %s' % title)
+            sas = pywikibot.input(f'<<lightyellow>>API: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page {title}')
             if sas in ['', 'y']:
                 sa = True
         #---
@@ -109,7 +109,7 @@ def check_urls(urls):
         req = http.fetch( url )
         #---
         if 500 <= req.status_code < 600:
-            printe.output( '<<lightred>> received {0} status from {1}'.format(req.uri, req.status_code) )
+            printe.output( f'<<lightred>> received {req.uri} status from {req.status_code}' )
             errors[u] = True
         #---
 def make_log(dad):
@@ -123,14 +123,14 @@ def make_log(dad):
     text_error = ''
     #---
     for x, va in sorts:
-        ta = '\n== %s ==\n' % x#.replace('https://ourworldindata.org/grapher/','')
+        ta = f'\n== {x} ==\n'#.replace('https://ourworldindata.org/grapher/','')
         #---
         vav = errors.get(x, False)
         #---
         ta += 'used %d times.\n' % va
         #---
         if x.find('https') == -1 :
-            ta += '[https://owidm.wmcloud.org/grapher/%s %s]' % (x.replace(' ','%20'), x)
+            ta += f"[https://owidm.wmcloud.org/grapher/{x.replace(' ', '%20')} {x}]"
         else:
             ta += x
         #---
@@ -169,7 +169,7 @@ def main():
         with open(project + '/md_core/mdpy/our.json', 'w') as f: json.dump(values, f)
         #---
     else:
-        with open(project + '/md_core/mdpy/our.json', 'r') as f:  values = json.load(f)
+        with open(project + '/md_core/mdpy/our.json') as f:  values = json.load(f)
     #---
     make_log(values)
     #---

@@ -11,7 +11,7 @@ from wpref_text import fix_page
 import re
 import os
 import sys
-sys.dont_write_bytecode = True
+
 #---
 if 'returnfile' in sys.argv:
     from bots.Duplicatenew2 import DuplicateReferences
@@ -107,7 +107,7 @@ def Expend_Infobox(text, title, section_0):
         if newtext.find('==') != -1:
             section_0 = newtext.split('==')[0]
         else:
-            tagg = "'''%s'''1" % title
+            tagg = f"'''{title}'''1"
             if newtext.find(tagg) != -1:
                 section_0 = newtext.split(tagg)[0]
             else:
@@ -156,7 +156,7 @@ def Expend_Infobox(text, title, section_0):
         #---
         for param in main_temp['params']:
             # new_temp = re.sub(r'\s*(\|\s*%s\s*\=)' % param, '\n\g<1>', new_temp)
-            newparam = '| %s=' % param.ljust(16)
+            newparam = f'| {param.ljust(16)}='
             new_temp = re.sub(r'\s*(\|\s*%s\s*\=)' % param, '\n' + newparam, new_temp)
         #---
         new_temp = re.sub(r'\s*\}\}\s*$', '\n}}', new_temp)

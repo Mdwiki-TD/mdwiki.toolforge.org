@@ -81,7 +81,7 @@ class NEW_API():
             #---
             abusefilter = error.get("abusefilter","")
             description = abusefilter.get('description','')
-            printe.output('<<lightred>> ** abusefilter-disallowed: %s ' % description )
+            printe.output(f'<<lightred>> ** abusefilter-disallowed: {description} ' )
             if description in ['تأخير البوتات 3 ساعات', 'تأخير البوتات 3 ساعات- 3 من 3', 'تأخير البوتات 3 ساعات- 1 من 3', 'تأخير البوتات 3 ساعات- 2 من 3'] :
                 return False
             return description
@@ -220,13 +220,13 @@ class NEW_API():
             apcontinue = json1.get( "continue" , {} ).get( "apcontinue" , '' )
             #---
             newp = json1.get("query", {}).get("allpages", [])
-            printe.output( "<<lightpurple>> --- Get_All_pages : find %d pages." % len(newp) )
+            printe.output( f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages." )
             #---
             for x in newp:
                 if not x[ "title" ] in Main_table : 
                     Main_table.append(x["title"])
             #---
-            printe.output( "len of Main_table %d." % len(Main_table) )
+            printe.output( f"len of Main_table {len(Main_table)}." )
             #---
             if limit_all > 0 and len(Main_table) > limit_all : 
                 apcontinue = '' 
@@ -237,13 +237,13 @@ class NEW_API():
         if numb > 0 and apcontinue == '' : 
             printe.output( "<<lightgreen>> apcontinue == '' " )
         #---
-        printe.output( "bot_api.py Get_All_pages : find %d pages." % len(Main_table) )
+        printe.output( f"bot_api.py Get_All_pages : find {len(Main_table)} pages." )
         #---
         return Main_table
     #---
     def Search(self, valu, ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
         #---
-        printe.output( 'bot_api.Search for "%s",ns:%s' % (valu, ns) )
+        printe.output( f'bot_api.Search for "{valu}",ns:{ns}' )
         #---
         if srlimit == "":   srlimit = "max"
         #---
@@ -338,7 +338,7 @@ class NEW_API():
             if limit <= len(Main_table) and len(Main_table) > 1: break
             #---
         #---
-        printe.output( 'bot_api.Get_Newpages find "%d" result. s' % len(Main_table) )
+        printe.output( f'bot_api.Get_Newpages find "{len(Main_table)}" result. s' )
         #---
         if three_houers:
             arsite = pywikibot.Site('ar', "wikipedia")
@@ -374,7 +374,7 @@ class NEW_API():
     #---
     def Get_langlinks_for_list(self, titles, targtsitecode="", numbes=50):
         #---
-        printe.output( 'bot_api.Get_langlinks_for_list for "%d pages"' %  len(titles) )
+        printe.output( f'bot_api.Get_langlinks_for_list for "{len(titles)} pages"' )
         #---
         if targtsitecode.endswith("wiki") : targtsitecode = targtsitecode[:-4]
         #---
@@ -399,7 +399,7 @@ class NEW_API():
         #---
         if targtsitecode != "" :
             params["lllang"] = targtsitecode
-            printe.output('params["lllang"] = %s' % targtsitecode )
+            printe.output(f'params["lllang"] = {targtsitecode}' )
         #---
         for i in range(0, len(titles), numbes):
             titles_1 = titles[i:i+numbes]

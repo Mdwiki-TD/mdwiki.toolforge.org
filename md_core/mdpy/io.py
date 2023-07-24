@@ -40,7 +40,7 @@ if 'test' in sys.argv: listo = listo[:100]
 #---
 if '200' in sys.argv: listo = listo[:200]
 #---
-print('len of listo: %d' % len(listo) )
+print(f'len of listo: {len(listo)}' )
 #---
 def get_timestamp(titles):
     #---
@@ -76,7 +76,7 @@ get_timestamp(listo)
 laly = [ [int( io.split('T')[0].replace('-','') ) , x ] for x  , io in NewList.items() ] 
 laly.sort( reverse = True )
 #---
-print( 'has %d pages. ' % len(laly) )
+print( f'has {len(laly)} pages. ' )
 #---
 new = [ [ z , g ] for z,g in laly if z > 20200701 ] 
 new.sort( reverse = True )
@@ -84,16 +84,16 @@ new.sort( reverse = True )
 old = [ [ z , g ] for z,g in laly if z < 20200701 ] 
 old.sort( reverse = True )
 #---
-print( 'we have %d pages with date < 20200701. ' % len(old) )
-print( 'we have %d pages with date > 20200701. ' % len(new) )
+print( f'we have {len(old)} pages with date < 20200701. ' )
+print( f'we have {len(new)} pages with date > 20200701. ' )
 #---
-masha = '\n'.join( [ "%s" % s for d,s in new ] )
+masha = '\n'.join( [ f"{s}" for d,s in new ] )
 #---
 with codecs.open( f'{Dir}/date_after_20200701.txt' , "w", encoding="utf-8") as logfil3e:
     logfil3e.write( masha )
 logfil3e.close()
 #---
-masha3 = '\n'.join( [ "%s" % ss for ds,ss in old ] )
+masha3 = '\n'.join( [ f"{ss}" for ds,ss in old ] )
 #---
 with codecs.open( f'{Dir}/date_before_20200701.txt' , "w", encoding="utf-8") as ooo:
     ooo.write( masha3 )

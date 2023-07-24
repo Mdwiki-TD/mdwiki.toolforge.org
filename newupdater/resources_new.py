@@ -4,7 +4,7 @@
 #---
 import re
 import sys
-sys.dont_write_bytecode = True
+
 import codecs
 import os
 import wikitextparser as wtp
@@ -28,14 +28,14 @@ def add_resources(new_text, drug_resources):
     #---
     for pa in page_identifier_params :
         #---
-        to_add += "| %s = %s\n" % ( pa , page_identifier_params[pa] )
+        to_add += f"| {pa} = {page_identifier_params[pa]}\n"
         #---
     #---
     to_add = to_add.replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n").replace("\n\n\n","\n")
     to_add = to_add.replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|").replace("\n\n|","\n|")
     to_add = to_add.replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<").replace("\n\n<","\n<")
     #---
-    dng = "\=\=\s*External links\s*\=\=\s*\*\s*\{\{cite web\s*\|\s*\|\s*url\s*\=\s*https\:\/\/druginfo.*?\}\}"
+    dng = r"\=\=\s*External links\s*\=\=\s*\*\s*\{\{cite web\s*\|\s*\|\s*url\s*\=\s*https\:\/\/druginfo.*?\}\}"
     #---
     External = re.search( dng , new_text, flags=re.IGNORECASE)
     External2 = re.search( r"(\=\=\s*External links\s*\=\=)", new_text, flags=re.IGNORECASE)

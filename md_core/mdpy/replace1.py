@@ -62,7 +62,7 @@ def work(title, Find, Replace, nn):
     #---
     revid = page.revid
     #---
-    sus = 'replace %s [[toolforge:mdwiki/qdel.php?job=replace%s|(stop)]] ' % (nn,nn)
+    sus = f'replace {nn} [[toolforge:mdwiki/qdel.php?job=replace{nn}|(stop)]] '
     #---
     save_page   = page.save(newtext=new_text, summary=sus)
     #---
@@ -96,9 +96,9 @@ def main():
     #---
     print(nn)
     #---
-    find = codecs.open(public_html + '/find/%s_find.txt' % nn , 'r', 'utf8').read()
+    find = codecs.open(public_html + f'/find/{nn}_find.txt' , 'r', 'utf8').read()
     #---
-    replace = codecs.open(public_html + '/find/%s_replace.txt' % nn , 'r', 'utf8').read()
+    replace = codecs.open(public_html + f'/find/{nn}_replace.txt' , 'r', 'utf8').read()
     #---
     if replace.strip() == "empty" : replace = ""
     #---
@@ -107,11 +107,11 @@ def main():
         replace = ', '
         nn = 0
     #---
-    file_name[1] = public_html + '/find/log/%s.txt' % nn
+    file_name[1] = public_html + f'/find/log/{nn}.txt'
     #---
     codecs.open(file_name[1], 'w', encoding="utf-8").write('')
     #---
-    file_name[2] = public_html + '/find/log/%s-text.txt' % nn
+    file_name[2] = public_html + f'/find/log/{nn}-text.txt'
     #---
     if 'newlist' in sys.argv:
         Add_pa = {"srsort": "just_match" , "srwhat": "text"}
@@ -121,7 +121,7 @@ def main():
         titles = api_new.Get_All_pages()
         #---
     #---
-    text = "start work in %d pages." % len(titles)
+    text = f"start work in {len(titles)} pages."
     line = "<span style='font-size:12px'>" + text + "</span>"
     codecs.open(file_name[2], 'w', encoding="utf-8").write(line)
     #---

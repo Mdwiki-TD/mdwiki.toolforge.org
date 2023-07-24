@@ -1,4 +1,3 @@
-
 """
 from bots.old_params import rename_params
 """
@@ -7,7 +6,7 @@ import wikitextparser as wtp
 #---
 import re
 import sys
-sys.dont_write_bytecode = True
+
 #---
 def printn(s):
     return
@@ -41,7 +40,7 @@ def rename_params(temptext) :
         if str(name).lower() in temps_okay:
             _temps_.append(temp)
         else:
-            printn( "*+name (%s) not in temps_okay ." % str([name]) )
+            printn( f"*+name ({str([name])}) not in temps_okay ." )
         #---
     #---
     if len(_temps_) == 0: 
@@ -52,7 +51,7 @@ def rename_params(temptext) :
         old_temp = temp.string
         #---
         if new_temptext.find(old_temp) == -1 :
-            printn( "*+new_temptext find (%s) == -1 ." % str([old_temp]) )
+            printn( f"*+new_temptext find ({str([old_temp])}) == -1 ." )
             continue
         #---
         # Replace the old parameter with the new parameter

@@ -31,7 +31,7 @@ def isv(comment):
     #---
     return False
 #---
-class FindAuthor(object):
+class FindAuthor:
 
     def __init__(self, title, lang="en"):
         #---

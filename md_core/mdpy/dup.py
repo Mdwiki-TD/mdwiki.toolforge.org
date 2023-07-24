@@ -50,10 +50,10 @@ def fix_dup(From,To):
     targetPage = To
     if To in from_to: To = from_to[To]
     #---
-    newtext = '#REDIRECT [[%s]]' % To
+    newtext = f'#REDIRECT [[{To}]]'
     #---
     oldtext = mdwiki_api.GetPageText(From)
-    sus = 'fix duplicate redirect to [[%s]]' % To
+    sus = f'fix duplicate redirect to [[{To}]]'
     mdwiki_api.page_put(oldtext=oldtext, newtext=newtext, summary=sus, title=From, returntrue=False, diff=True)
     #---
 #---

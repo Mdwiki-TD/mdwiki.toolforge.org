@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 إنشاء قائمة بعدد الكلمات
@@ -54,7 +53,7 @@ def get_word_files():
     #---
     words_n = json.loads(codecs.open(json_file[0], "r", encoding="utf-8").read())
     #---
-    printe.output('len of words_n:%d' % len(words_n.keys()) )
+    printe.output(f'len of words_n:{len(words_n.keys())}' )
     #---
 #---
 get_word_files()
@@ -62,7 +61,7 @@ get_word_files()
 def log(file, table):
     json.dump(table, open(file, 'w'), sort_keys=True)
     #---
-    printe.output('<<lightgreen>> %d lines to %s' % ( len(table) , file ) )
+    printe.output(f'<<lightgreen>> {len(table)} lines to {file}' )
 #---
 Nore = { 1 : False }
 for arg in sys.argv:

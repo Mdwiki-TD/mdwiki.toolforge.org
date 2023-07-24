@@ -63,7 +63,7 @@ def main():
             thenumbers[1] = int(value)
         # ---
         if arg == '-file':
-            text = codecs.open(project + '/public_html/find/%s' % value.strip(), 'r', 'utf8').read()
+            text = codecs.open(project + f'/public_html/find/{value.strip()}', 'r', 'utf8').read()
             List = [x.strip() for x in text.split('\n') if x.strip() != '']
         # ---
         if arg == 'allpages':

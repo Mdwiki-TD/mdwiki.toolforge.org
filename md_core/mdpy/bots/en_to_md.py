@@ -62,7 +62,7 @@ def make_mdwiki_list():
     #---
     # read the file without errors
     try:
-        lala = open( ffile , "r", encoding="utf-8-sig").read()
+        lala = open( ffile , encoding="utf-8-sig").read()
     except Exception as e:
         print(e)
     #---

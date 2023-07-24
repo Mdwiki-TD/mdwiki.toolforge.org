@@ -204,7 +204,7 @@ def DuplicateReferences(text):
     #---
     # Fix references
     for groupname, references in found_refs.items():
-        group = 'group="{}" '.format(groupname) if groupname else ''
+        group = f'group="{groupname}" ' if groupname else ''
         #---
         for ref, v in references.items():
             if len(v[1]) == 1 and not v[3]:
@@ -213,21 +213,21 @@ def DuplicateReferences(text):
             name = v[0]
             #---
             if not name:
-                name = '"{}{}"'.format(autogen, next(free_number))
+                name = f'"{autogen}{next(free_number)}"'
             elif v[2]:
-                name = '"{}"'.format(name)
+                name = f'"{name}"'
             #---
-            named = '<ref {}name={}>{}</ref>'.format(group, name, ref)
+            named = f'<ref {group}name={name}>{ref}</ref>'
             text = text.replace(v[1][0], named, 1)
             #---
             # replace multiple identical references with repeated ref
-            repeated_ref = '<ref {}name={} />'.format(group, name)
+            repeated_ref = f'<ref {group}name={name} />'
             #---
             sas = v[1][1:]
             # print(f"v[1]: {v[1]}")
             # print(f"sas : {sas}")
             #---
-            iui = r'<ref\s+{}name\s*=\s*{}\s*\/\>'.format(group, name)
+            iui = fr'<ref\s+{group}name\s*=\s*{name}\s*\/\>'
             iui_to_named[iui] = named
             #---
             for ref in v[1][1:]:
@@ -242,12 +242,12 @@ def DuplicateReferences(text):
         # TODO : Support ref groups
         name = v[0]
         if v[1]:
-            name = '"{}"'.format(name)
+            name = f'"{name}"'
         #---
         text = re.sub(
             r'<ref name\s*=\s*(?P<quote>["\']?)\s*{}\s*(?P=quote)\s*/>'
             .format(ref),
-            '<ref name={} />'.format(name), text)
+            f'<ref name={name} />', text)
     #---
     #iui_to_named = {}
     for iui, named in iui_to_named.items():

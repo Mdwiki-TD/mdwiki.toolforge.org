@@ -1,10 +1,9 @@
-
 import wikitextparser as wtp
 import os
 import codecs
 import re
 import sys
-sys.dont_write_bytecode = True
+
 # ---
 Dir = os.path.dirname(os.path.abspath(__file__))
 # ---

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8  -*-
 #   himo
 """ 
 
@@ -162,7 +161,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     #---
     if type(depth) != int and depth.isdigit():  depth = int(depth)
     #---
-    if 'newlist' in sys.argv: print('lenof main cat:%d' % len(result_table) )
+    if 'newlist' in sys.argv: print(f'lenof main cat:{len(result_table)}' )
     #---
     depth_done = 0
     #--- 
@@ -197,7 +196,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     if 'newlist' in sys.argv:
         print('<<lightblue>>catdepth.py: find %d pages(ns:%s) in %s, depth:%d, subcat:%d in %d seconds' % (len(result_table), str(ns), title, depth,len(cat_done), delta ) )
         if len(cat_done) > 0 :
-            print('subcats:%s' % ', '.join(cat_done))
+            print(f"subcats:{', '.join(cat_done)}")
     #---
     result_tab = list( result_table.keys() )
     #---
@@ -205,7 +204,7 @@ def subcatquery( title, depth=0, ns="all", limit=0, test=False ):
     return result_tab
 #---
 def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ): 
-    filename = project + '/public_html/Translation_Dashboard/cats_cash/%s.json' % cat
+    filename = project + f'/public_html/Translation_Dashboard/cats_cash/{cat}.json'
     #---
     if cat == 'RTT' : depth = 2
     #---
@@ -244,7 +243,7 @@ def subcatquery2( cat, depth = 0, ns="all", limit=0 , test=False ):
         json.dump(Table, open( filename , 'w'))
         #---
     #---
-    if 'print' in sys.argv: print('len of list:%d' % len(Table['list']) )
+    if 'print' in sys.argv: print(f"len of list:{len(Table['list'])}" )
     #---
     return Table
 #---

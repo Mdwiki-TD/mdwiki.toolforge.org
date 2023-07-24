@@ -16,7 +16,7 @@ import codecs
 import time
 import requests
 import sys
-sys.dont_write_bytecode = True
+
 # ---
 from mdpy import printe
 from pywikibot import comms
@@ -42,7 +42,7 @@ class classgetURL:
             req = requests.get(self.url)
             # ---
             if 500 <= req.status_code < 600:
-                printe.output('received {0} status from {1}'.format(req.status_code, req.url))
+                printe.output(f'received {req.status_code} status from {req.url}')
                 self.html = ''
             else:
                 # ---

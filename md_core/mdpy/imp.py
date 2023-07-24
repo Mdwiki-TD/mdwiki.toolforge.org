@@ -74,7 +74,7 @@ def work( title , num , lenth  , From = '' ):
     page      = MainPage(title, 'www', family='mdwiki')
     exists    = page.exists()
     if not exists:
-        printe.output( " page:%s not exists in mdwiki." % title )
+        printe.output( f" page:{title} not exists in mdwiki." )
         return ""
     #---
     # if page.isRedirect() :  return

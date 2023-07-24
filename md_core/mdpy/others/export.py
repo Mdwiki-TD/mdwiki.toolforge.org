@@ -59,7 +59,7 @@ def export_en_history( title ) :
         xmldata = himoBOT3.get_Export_xml( title )
         #---
     #---
-    printe.output( '<<lightyellow>> len of history == %d ' % len(xmldata) )
+    printe.output( f'<<lightyellow>> len of history == {len(xmldata)} ' )
     #---
     last = '''
     </page>
@@ -79,7 +79,7 @@ def export_en_history( title ) :
     if 'teest' in sys.argv: 
         printe.output( revisions )
     #---
-    printe.output( '<<lightyellow>> > title:"%s" has %d revisions' % ( title , len(xmldata.split('<revision>')) ) )
+    printe.output( f"<<lightyellow>> > title:\"{title}\" has {len(xmldata.split('<revision>'))} revisions" )
     #---
     #---
     title2 = title.replace(':','-').replace('/','-')
@@ -129,12 +129,12 @@ def export_en_history( title ) :
             FILE_PATHS.append( path2 )           
             #---
         #---
-        printe.output( ' split revisions to %d files..' % len(FILE_PATHS) )
+        printe.output( f' split revisions to {len(FILE_PATHS)} files..' )
         printe.output( FILE_PATHS )
         return FILE_PATHS
         #---
     else:
-        FILE_PATH = 'mdwiki/xml/%s.xml' % title2
+        FILE_PATH = f'mdwiki/xml/{title2}.xml'
         with codecs.open( FILE_PATH , "w", encoding="utf-8") as ooo:
             ooo.write( xmldata )
         ooo.close()
@@ -160,15 +160,15 @@ def export( title ) :
     gg = Session.post( url = urll , data = paramse )
     xmldata = gg.text
     #---
-    printe.output( '<<lightyellow>> len of history == %d ' % len(xmldata) )
+    printe.output( f'<<lightyellow>> len of history == {len(xmldata)} ' )
     #---
     revisions = xmldata.split('</revision>')
     #---
-    printe.output( '<<lightyellow>> > title:"%s" has %d revisions' % ( title , len(xmldata.split('<revision>')) ) )
+    printe.output( f"<<lightyellow>> > title:\"{title}\" has {len(xmldata.split('<revision>'))} revisions" )
     #---
     title2 = title.replace(':','-').replace('/','-')
     #---
-    FILE_PATH = 'mdwiki/xml/%s.xml' % title2
+    FILE_PATH = f'mdwiki/xml/{title2}.xml'
     with codecs.open( FILE_PATH , "w", encoding="utf-8") as ooo:
         ooo.write( xmldata )
     ooo.close()

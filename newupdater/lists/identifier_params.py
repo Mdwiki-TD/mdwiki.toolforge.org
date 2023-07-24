@@ -1,4 +1,3 @@
-
 identifiers_params = [
     "CAS_number",
     "CAS_supplemental",

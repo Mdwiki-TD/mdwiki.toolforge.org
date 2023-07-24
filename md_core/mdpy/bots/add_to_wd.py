@@ -81,7 +81,7 @@ wikidataurl = "https://www.wikidata.org/w/api.php"
 def work_with_2_qids(oldq, new_q):
     #---
     printe.output("=============================")
-    printe.output("start:work_with_2_qids: oldq:%s, new_q:%s" % (oldq,new_q))
+    printe.output(f"start:work_with_2_qids: oldq:{oldq}, new_q:{new_q}")
     #---
     fas = wikidataapi.Get_sitelinks_From_Qid( oldq ) 
     #{'sitelinks': {'enwiki': 'User:Mr. Ibrahem/Baricitinib', 'orwiki': 'ବାରିସିଟିନିବ'}, 'q': 'Q112331510'}
@@ -90,14 +90,14 @@ def work_with_2_qids(oldq, new_q):
     #---
     len_sites = len(false_sitelinks)
     #---
-    printe.output( '<<lightblue>> len_sites %s' % len_sites )
+    printe.output( f'<<lightblue>> len_sites {len_sites}' )
     #---
     printe.output( false_sitelinks )
     #---
     en = false_sitelinks.get('enwiki','')
     #---
     if en.startswith('User:Mr. Ibrahem'):
-        printe.output( '<<lightblue>> remove sitelink %s' % en )
+        printe.output( f'<<lightblue>> remove sitelink {en}' )
         remove = wikidataapi.post( {"action":"wbsetsitelink","id":oldq,"linksite":"enwiki"}, apiurl=wikidataurl, token = True)
         if 'success' in remove:
             len_sites -= 1
@@ -199,11 +199,11 @@ def Add_to_wikidata(mdtitle, lang, target, user):
     #---
     tat = mdwiki_api.GetPageText(mdtitle)
     #---
-    lalas = '[[%s:' % lang
+    lalas = f'[[{lang}:'
     #---
-    line = '[[%s:%s]]' % ( lang,target )
+    line = f'[[{lang}:{target}]]'
     if tat != '' and tat.find( line ) == -1 and tat.find( lalas ) == -1 : 
-        mdwiki_api.Add_To_Bottom( '\n' + line , 'add link to %s' % line , mdtitle , False )
+        mdwiki_api.Add_To_Bottom( '\n' + line , f'add link to {line}' , mdtitle , False )
     #---
     if lang == "or":
         orred.create_redirect( target, mdtitle )

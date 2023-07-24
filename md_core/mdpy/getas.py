@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 إنشاء قائمة بالاهمية من الانجليزية
@@ -35,7 +34,7 @@ printe.output('Get vaild_links from cat : RTT' )
 tabe = catdepth2.subcatquery2( 'RTT', depth = '2', ns = '0' )
 vaild_links = tabe['list']
 #---
-printe.output('len of vaild_links: %d' % len(vaild_links) )
+printe.output(f'len of vaild_links: {len(vaild_links)}' )
 #---
 json_file = { 0 : '' }
 json_file[0] = project + '/public_html/Translation_Dashboard/Tables/assessments.json'
@@ -47,7 +46,7 @@ with codecs.open( json_file[0] , "r", encoding="utf-8-sig") as listt:
     lala = listt.read()
 listt.close()
 #---
-printe.output( 'file_name:%s' % json_file[0] )
+printe.output( f'file_name:{json_file[0]}' )
 fa = str(lala)
 if fa != '' : old_assessments = json.loads(fa)
 #---
@@ -59,7 +58,7 @@ if 'newpages' in sys.argv:#vaild_links
     vaild_links2 = vaild_links
     vaild_links = [ xp for xp in vaild_links2 if (not xp in old_assessments or old_assessments.get(xp) in ["Unknown",""]) ]
     #---
-    printe.output( 'Category-members:%d,New-members:%d' % ( len(vaild_links2) , len(vaild_links) ) )
+    printe.output( f'Category-members:{len(vaild_links2)},New-members:{len(vaild_links)}' )
     #--- 
 #---
 Nore = { 1 : False }
@@ -98,7 +97,7 @@ def log():
         json.dump( assessments, outfile, sort_keys = True )
     outfile.close()
     #---
-    printe.output('<<lightgreen>> %d lines to %s' % ( len(assessments) , json_file[0] ) )
+    printe.output(f'<<lightgreen>> {len(assessments)} lines to {json_file[0]}' )
     printe.output('<<lightgreen>> len old assessments %d' % len_old )
 #---
 def work_for_list(list):

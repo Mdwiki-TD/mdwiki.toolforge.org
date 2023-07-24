@@ -137,7 +137,7 @@ def Expend_Infoboxs(new_text, temp_name, temp_params, dups):
             for x in temp_params:
                 value = params.get(x, '').strip()
                 # ---
-                newparam = '| %s' % x.ljust(16)
+                newparam = f'| {x.ljust(16)}'
                 new_temp += f"{newparam}= {value}\n"
                 # ---
             new_temp += "}}"

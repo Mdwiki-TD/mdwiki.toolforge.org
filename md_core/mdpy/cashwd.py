@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8  -*-
 #   himo
 """
 python3 core8/pwb.py mdpy/cashwd
@@ -102,7 +101,7 @@ def get_qids_sitelinks( qidslist ):
         #---
         params_wd["ids"] = '|'.join( qids )
         #---
-        printe.output('<<lightgreen>> done:%d from %d, get sitelinks for %d qids.' % ( len(all_entities), len(qidslist), len(qids) ) )
+        printe.output(f'<<lightgreen>> done:{len(all_entities)} from {len(qidslist)}, get sitelinks for {len(qids)} qids.' )
         #---
         json1 = wikidataapi.post( params_wd , apiurl = 'https://www.wikidata.org/w/api.php' )
         #---
@@ -184,7 +183,7 @@ def cash_wd():
         if not dd.startswith("User:") and not dd.startswith("Category:") :
             titles.append(dd)
     #---
-    printe.output('<<lightgreen>> len of mdwiki_api.subcatquery:RTT:%d.' % len(titles) )
+    printe.output(f'<<lightgreen>> len of mdwiki_api.subcatquery:RTT:{len(titles)}.' )
     #---
     qids_list = {}
     #---
@@ -223,7 +222,7 @@ def cash_wd():
         # dump liste to json_file
         try:
             json.dump( liste, codecs.open( json_file, 'w', encoding="utf-8"), ensure_ascii=False, indent=4 )
-            printe.output('<<lightgreenn>>dump to cash_exists/%s.json done..' % site )
+            printe.output(f'<<lightgreenn>>dump to cash_exists/{site}.json done..' )
         except Exception as e:
             pywikibot.output( 'Traceback (most recent call last):' )
             pywikibot.output(traceback.format_exc())
@@ -257,15 +256,15 @@ def cash_wd():
     # mis_qids
     #---
     for old_q, new_q in redirects_qids.items():
-        printe.output('<<lightblue>> redirects_qids:%s -> %s.' % (old_q.ljust(15), new_q) )
+        printe.output(f'<<lightblue>> redirects_qids:{old_q.ljust(15)} -> {new_q}.' )
     #---
     for qd in mis_qids:
-        printe.output('<<lightblue>> missing_qids:%s.' % qd )
+        printe.output(f'<<lightblue>> missing_qids:{qd}.' )
     #--- 
-    printe.output(' len of noqids1:         %d' % len(noqids1) )
-    printe.output(' len of noqids2:         %d' % len(noqids2) )
-    printe.output(' len of redirects_qids:  %d' % len(redirects_qids.keys()) )
-    printe.output(' len of missing_qids:    %d' % len(mis_qids) )
+    printe.output(f' len of noqids1:         {len(noqids1)}' )
+    printe.output(f' len of noqids2:         {len(noqids2)}' )
+    printe.output(f' len of redirects_qids:  {len(redirects_qids.keys())}' )
+    printe.output(f' len of missing_qids:    {len(mis_qids)}' )
     #---
     json.dump(missing, open( Dashboard_path + '/Tables/missing.json', 'w'))
     printe.output(' log to missing.json true.... ' )

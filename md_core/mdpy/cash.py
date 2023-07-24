@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8  -*-
 #   himo
 """ 
 إيجاد معرف ويكيداتا للعناصر بدون معرف
@@ -18,7 +17,7 @@ import codecs
 import os
 import stat
 import sys
-sys.dont_write_bytecode = True
+
 #---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project): project = '/mdwiki'

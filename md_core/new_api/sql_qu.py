@@ -20,7 +20,7 @@ import pywikibot
 from warnings import warn
 import traceback
 import string
-sys.dont_write_bytecode = True
+
 #---
 import pymysql
 import pymysql.cursors

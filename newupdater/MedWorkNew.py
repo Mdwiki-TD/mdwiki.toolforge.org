@@ -23,7 +23,7 @@ import drugbox    #drugbox.TextProcessor
 import resources_new
 import chembox  # fix_Chembox
 #---
-sys.dont_write_bytecode = True
+
 # ---
 def printn(s):
     return

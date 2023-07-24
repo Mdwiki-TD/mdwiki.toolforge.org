@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 @WikiProjectMed
@@ -222,7 +221,7 @@ def get_links():
     #---
     vaild_links = list(set(vaild_links))
     #---
-    print('len of vaild_links: %d' % len(vaild_links) )
+    print(f'len of vaild_links: {len(vaild_links)}' )
     #---
     return vaild_links
 #---
@@ -258,7 +257,7 @@ def start_md():
     #---
     links = list(set(links) - set(done) )
     #---
-    print('lenth of links: %d links:' % len(links))
+    print(f'lenth of links: {len(links)} links:')
     #---
     if len(links) == 0 :
         print('close')

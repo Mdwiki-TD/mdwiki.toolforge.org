@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 page views bot
@@ -48,7 +47,7 @@ def get_RTT():
     #---
     RTT = Table['list']
     #---
-    printe.output('len of RTT: %d' % len(RTT) )
+    printe.output(f'len of RTT: {len(RTT)}' )
     #---
     return RTT
 #---

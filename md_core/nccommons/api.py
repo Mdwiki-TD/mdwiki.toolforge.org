@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 """
@@ -64,7 +63,7 @@ def Log_to_wiki(family="nccommons", lang="www"):
     r22 = SS["ss"].post(SS["url"], data=r2_params)
     #---
     if r22.json()["login"]["result"] != "Success":
-        pywikibot.output("nccommons/com.py: login failed, reason: %s" % r22.json()["login"]["reason"])
+        pywikibot.output(f"nccommons/com.py: login failed, reason: {r22.json()['login']['reason']}")
         #sys.exit(1)
         SS["login_not_done"] = True
         return False
@@ -149,13 +148,13 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
         apcontinue = json1.get( "continue" , {} ).get( "apcontinue" , '' )
         #---
         newp = json1.get("query", {}).get("allpages", [])
-        pywikibot.output( "<<lightpurple>> --- Get_All_pages : find %d pages." % len(newp) )
+        pywikibot.output( f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages." )
         #---
         for x in newp:
             if not x[ "title" ] in Main_table : 
                 Main_table.append(x["title"])
         #---
-        pywikibot.output( "len of Main_table %d." % len(Main_table) )
+        pywikibot.output( f"len of Main_table {len(Main_table)}." )
         #---
         if limit_all > 0 and len(Main_table) > limit_all : 
             apcontinue = '' 
@@ -166,14 +165,14 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
     if numb > 0 and apcontinue == '' : 
         pywikibot.output( "<<lightgreen>> apcontinue == '' " )
     #---
-    pywikibot.output( "mdwiki_api.py Get_All_pages : find %d pages." % len(Main_table) )
+    pywikibot.output( f"mdwiki_api.py Get_All_pages : find {len(Main_table)} pages." )
     #---
     return Main_table
 #---
 Save_all = {1: False}
 #---
 def create_Page(text, title, summary="create page"):
-    pywikibot.output(" create Page %s:" % title)
+    pywikibot.output(f" create Page {title}:")
     time_sleep = 0
     #---
     params = {
@@ -188,7 +187,7 @@ def create_Page(text, title, summary="create page"):
     #---
     if not Save_all[1] and ("ask" in sys.argv and "save" not in sys.argv):
         pywikibot.output(text)
-        sa = py_input( '<<lightyellow>> nccommons/com.py: create:"%s" page ? ([y]es, [N]o):user:%s' % (title, r2_params["lgname"]) )
+        sa = py_input( f"<<lightyellow>> nccommons/com.py: create:\"{title}\" page ? ([y]es, [N]o):user:{r2_params['lgname']}" )
         #---
         if not sa.strip() in yes_answer:
             pywikibot.output("<<lightred>> wrong answer")
@@ -208,7 +207,7 @@ def create_Page(text, title, summary="create page"):
     error_code = result.get("error", {}).get("code", '')
     #---
     if success:
-        pywikibot.output("** true ..  %s : [[%s]] " % (SS["family"], title))
+        pywikibot.output(f"** true ..  {SS['family']} : [[{title}]] ")
         pywikibot.output("Done True... time.sleep(%d) " % time_sleep)
         time.sleep(time_sleep)
         return True

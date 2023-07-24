@@ -46,7 +46,7 @@ def check():
     # Listo = mdwiki_api.subcatquery( 'RTT', depth = '1', ns = '0' )
     Listo = catdepth2.make_cash_to_cats(return_all_pages=True)
     #---
-    printe.output('len of cat pages: %d' % len(Listo) )
+    printe.output(f'len of cat pages: {len(Listo)}' )
     #---
     number = 0
     #---
@@ -120,7 +120,7 @@ def check():
     numb = 0
     for fromm, to in medwiki_to_enwiki.items():
         numb += 1
-        faf = '["%s"]' % fromm
+        faf = f'["{fromm}"]'
         printe.output('en titles %d from_to%s = "%s"' % (numb, faf.ljust(30), to ) )
     #---
     numb = 0
@@ -132,14 +132,14 @@ def check():
     #---
     for md, en in medwiki_to_enwiki_conflic.items():
         numb += 1
-        faf = '["%s"]' % md
-        fen = '["%s"]' % en
+        faf = f'["{md}"]'
+        fen = f'["{en}"]'
         printe.output('<<lightred>> %d page%s redirect to enwiki%s, and they both in mdwiki cat.' % ( numb, faf.ljust(30), fen.ljust(30) ) )
     #---
-    printe.output('<<lightgreen>> len of medwiki_to_enwiki:%d' % ( len(medwiki_to_enwiki) ) )
-    printe.output('<<lightgreen>> len of missing_in_enwiki:%d' % ( len(missing_in_enwiki) ) )
-    printe.output('<<lightgreen>> len of medwiki_to_enwiki_conflic:%d' % ( len(medwiki_to_enwiki_conflic) ) )
-    printe.output('<<lightgreen>> len of sames:%d' % ( len(sames) ) )
+    printe.output(f'<<lightgreen>> len of medwiki_to_enwiki:{len(medwiki_to_enwiki)}' )
+    printe.output(f'<<lightgreen>> len of missing_in_enwiki:{len(missing_in_enwiki)}' )
+    printe.output(f'<<lightgreen>> len of medwiki_to_enwiki_conflic:{len(medwiki_to_enwiki_conflic)}' )
+    printe.output(f'<<lightgreen>> len of sames:{len(sames)}' )
     #---
     if 'nodump' not in sys.argv:
         

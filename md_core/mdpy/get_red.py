@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8  -*-
 #   himo
 """ 
 
@@ -17,7 +16,7 @@ import codecs
 import os
 import stat
 import sys
-sys.dont_write_bytecode = True
+
 import datetime
 from datetime import datetime
 Day_History = datetime.now().strftime("%Y-%m-%d")
@@ -51,14 +50,14 @@ def get_pages():
         #---
         asa = mdwiki_api.get_redirect(lis)
         #---
-        print('work on %d pagees.' % len(lis) )
+        print(f'work on {len(lis)} pagees.' )
         #---
         for red, target in asa.items():
             #---
             table[red] = target
             #---
     #---
-    print('len of table %d ' % len(table))
+    print(f'len of table {len(table)} ')
     #---
     tat = ''
     #---
@@ -104,11 +103,11 @@ def get_pages():
     printe.output('remove %d pages. ' % remo)
     #---
     if len(to_del) > 0:
-        printe.output('delete %d pages. ' % len(to_del))
+        printe.output(f'delete {len(to_del)} pages. ')
         printe.output(to_del)
     #---
     if len(to_add) > 0:
-        printe.output('add %d pages. ' % len(to_add))
+        printe.output(f'add {len(to_add)} pages. ')
         printe.output(to_add)
     #---
     if 'fix' in sys.argv:

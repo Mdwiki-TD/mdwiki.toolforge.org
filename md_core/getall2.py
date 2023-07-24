@@ -66,12 +66,12 @@ def get_text(file_path):
 	text = ''
 	#---
 	try:
-		text = open(file_path, 'r', encoding=enc).read()
+		text = open(file_path, encoding=enc).read()
 	except UnicodeDecodeError:
 		printe("red", "UnicodeDecodeError: %s" % file_path.replace("/", "\\"))
 		try:
 			enc = "utf-8"
-			text = open(file_path, 'r', encoding=enc).read()
+			text = open(file_path, encoding=enc).read()
 		except Exception as e:
 			printe("red", "Exception: %s" % file_path.replace("/", "\\"))
 			print(e)
@@ -108,15 +108,15 @@ for pyfile in os.listdir(drivepath):
             #---
             Def = def_.group()
             name = def_.group(1)
-            printe( "green" , "%s found in: %s" % (Def,pyfile) )
-            printe( "green" , "name:%s " % name )
+            printe( "green" , f"{Def} found in: {pyfile}" )
+            printe( "green" , f"name:{name} " )
             #---
             #shared_paths
             if not name in shared_paths:shared_paths[name] = 0
             shared_paths[name] += 1
         #---
 #---
-printe( "yellow" , "lenth of shared_paths: %d" % len(shared_paths) )
+printe( "yellow" , f"lenth of shared_paths: {len(shared_paths)}" )
 #---
 
 sort = sorted(shared_paths.items(), key=lambda x: x[1], reverse=True)

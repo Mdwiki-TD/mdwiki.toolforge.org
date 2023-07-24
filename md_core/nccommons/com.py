@@ -68,7 +68,7 @@ def make_page(x, tab):
     #---
     for _, title in gt:
         #---
-        lines += "|File:%s|\n" % title
+        lines += f"|File:{title}|\n"
     #---
     x2 = x.split("(")[0].split("-")[0].strip()
     #---

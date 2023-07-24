@@ -1,4 +1,3 @@
-
 from prior import p4
 from prior import read4
 from urllib.parse import urlparse

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 page views bot
 
@@ -140,7 +139,7 @@ def get_targets(lang_o):
     #---
     uu = ''
     #---
-    if lang_o != '' : uu = 'and lang = "%s"' % lang_o
+    if lang_o != '' : uu = f'and lang = "{lang_o}"'
     #---
     que = f'''select DISTINCT lang, target, pupdate from pages 
     where target != ""
@@ -161,12 +160,12 @@ def get_targets(lang_o):
             if not lang in Lang_to_targets :    Lang_to_targets[lang] = {}
             Lang_to_targets[lang][target] = pupdate
     #---
-    print( '<<lightyellow>> find %d to work. ' % len(sq) )
+    print( f'<<lightyellow>> find {len(sq)} to work. ' )
 #---
 def get_views_sql(lang_o):
     #---
     uu = ''
-    if lang_o != '' : uu = 'where lang = "%s"' % lang_o
+    if lang_o != '' : uu = f'where lang = "{lang_o}"'
     #---
     que11 = f'''select DISTINCT target, lang, countall, count2021, count2022, count2023
     from views

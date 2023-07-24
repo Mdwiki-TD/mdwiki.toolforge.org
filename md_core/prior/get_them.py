@@ -117,7 +117,7 @@ def filter_urls(links):
     #---
     return liste1
 #---
-class work_in_one_lang_link(object):
+class work_in_one_lang_link:
 
     def __init__(self, lang, title):
         self.lang = change_codes.get(lang) or lang
@@ -330,7 +330,7 @@ class work_in_one_lang_link(object):
                 self.section0 = self.section0.replace(str(x), new_co)
         #---
 #---
-class get_old(object):
+class get_old:
 
     def __init__(self, title, lang="en"):
         #---

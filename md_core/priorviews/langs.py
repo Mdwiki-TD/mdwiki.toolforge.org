@@ -8,6 +8,7 @@ import sys
 import pywikibot
 import json
 import os
+import re
 import datetime
 import codecs
 #---
@@ -20,6 +21,7 @@ from priorviews.lists import views
 from priorviews.lists import translators 
 from priorviews.lists import words 
 from priorviews.bots import helps
+from priorviews.bots import w_all
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 #---
@@ -81,28 +83,34 @@ def make_lang_textso(lang):
                 #---
                 lang_words += arwords
                 #---
-                ar_tra  = translators.tra_by_lang.get(lang, {}).get(ar.lower(), 0)
+                ar_tra  = translators.tra_by_lang.get(lang, {}).get(ar.lower(), '')
                 #---
                 _creator = creators.Creators_by_lang_title.get(lang, {}).get(ar, {})
                 _cr_   = _creator.get("actor", "")
                 _time_ = _creator.get("time", "")
                 TD     = _creator.get("TD")
                 #---
+                if _time_ != '':
+                    # Convert _time_ to a datetime object
+                    datetime_obj = datetime.datetime.strptime(str(_time_), '%Y%m%d%H%M%S')
+                    # Format the datetime object as "YYYY-MM-DD"
+                    year = datetime_obj.strftime('%Y')
+                    if int(year) > 2012:
+                        ar_tra = _cr_
+                    formatted_date = datetime_obj.strftime('%Y-%m-%d')
+                    # Assign the formatted date to _time_
+                    _time_x = formatted_date
+                #---
                 if TD:
                     TD_all += 1
                     ar_tra = _cr_
                     _cr_   = 'TD'
                 #---
-                if _cr_ not in ['TD', '']:
-                    _cr_ = f"[[w:{lang}:User:{_cr_}|{_cr_}]]"
+                _cr_2 = _cr_
+                _time_x = _time_
                 #---
-                if _time_ != '':
-                    # Convert _time_ to a datetime object
-                    datetime_obj = datetime.datetime.strptime(str(_time_), '%Y%m%d%H%M%S')
-                    # Format the datetime object as "YYYY-MM-DD"
-                    formatted_date = datetime_obj.strftime('%Y-%m-%d')
-                    # Assign the formatted date to _time_
-                    _time_ = formatted_date
+                if _cr_ not in ['TD', '']:
+                    _cr_2 = f"[[w:{lang}:User:{_cr_}|{_cr_}]]"
                 #---
                 wi_tra = ar_tra
                 #---
@@ -110,12 +118,15 @@ def make_lang_textso(lang):
                     wi_tra = f"[[w:{lang}:User:{ar_tra}|{ar_tra}]]"
                     #---
                     if not wi_tra in authors: authors[wi_tra] = 0
-                    if not ar_tra in translators_all: translators_all[ar_tra] = 0
+                    if not ar_tra in translators_all: translators_all[ar_tra] = {'all': 0, 'by_lang': {}}
                     #---
-                    translators_all[ar_tra] += 1
+                    if not lang in translators_all[ar_tra]['by_lang']: translators_all[ar_tra]['by_lang'][lang] = 0
+                    translators_all[ar_tra]['by_lang'][lang] += 1
+                    #---
+                    translators_all[ar_tra]['all'] += 1
                     authors[wi_tra] += 1
                 #---
-                secs_texts += f"| {n} || [[{x}]] || [[w:{lang}:{ar}|{ar}]] || {view_u} || {arwords} || {wi_tra} || {_cr_} || {_time_}\n"
+                secs_texts += f"| {n} || [[{x}]] || [[w:{lang}:{ar}|{ar}]] || {view_u} || {arwords} || {wi_tra} || {_cr_2} || {_time_x}\n"
             #---
             secs_texts += "|}\n"
     #---
@@ -125,7 +136,7 @@ def make_lang_textso(lang):
     newtext += f'* Views: {lang_views:,} (from July 2015 to June 2023)\n'
     newtext += f'* Words: {lang_words:,}\n'
     newtext += f"* articles translated by Translation Dashboard: {TD_all}"
-    newtext += f'\n'
+    newtext += '\n'
     #----
     # authors = sorted(authors.items(), key=lambda x: x[1])
     authors = { x: v for x, v in sorted(authors.items(), key=lambda item: item[1], reverse=True)}
@@ -155,20 +166,6 @@ def work(lang):
     #---
     #---
 #---
-def work_all():
-    # sort translators_all by count
-    translators_a = { x: v for x, v in sorted(translators_all.items(), key=lambda item: item[1], reverse=True)}
-    text = '* '
-    text += "\n*".join( [ f"[[w::User:{x}|{x}]]: {v}" for x, v in translators_a.items()])
-    page      = md_MainPage(f'User:Mr. Ibrahem/priorviews/translators', 'www', family='mdwiki')
-    exists    = page.exists()
-    oldtext        = page.get_text()
-    if not exists:
-        create = page.Create(text=text, summary='update')
-    elif oldtext != text:
-        #---
-        save_page   = page.save(newtext=text, summary='update', nocreate=1, minor='')
-#---
 if __name__ == "__main__":
     langs = links_by_lang.keys()
     #---
@@ -187,5 +184,5 @@ if __name__ == "__main__":
         #---
         work(lang)
     #---
-    work_all()
+    w_all.work_all(translators_all)
     #---

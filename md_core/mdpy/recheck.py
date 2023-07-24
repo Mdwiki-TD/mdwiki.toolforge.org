@@ -59,7 +59,7 @@ def dodo_sql():
     que = ''' select title,user,lang,target from pages #where target = ""'''
     #---
     if lang_o != "":
-        que += '\nwhere lang = "%s"' % lang_o
+        que += f'\nwhere lang = "{lang_o}"'
     #---
     que += "\n;"
     #---
@@ -124,7 +124,7 @@ def do_it_sql(lange, targets):
         result_n = []
         #---
         if result:
-            printe.output('recheck.py len(result) = "{}"'.format(res_len))
+            printe.output(f'recheck.py len(result) = "{res_len}"')
             #---
             for liste in result:
                 #---
@@ -179,7 +179,7 @@ def do_it_api(lange, targets):
             title2 = title
             #---
             if tab.get("to"):
-                print("{} is redirect to {}".format(tab["from"], tab["to"]))
+                print(f"{tab['from']} is redirect to {tab['to']}")
                 title2 = tab.get("to")
                 qid = qids_from_wiki.get(title2, {}).get("q", "")
                 qids[title] = qid
@@ -187,7 +187,7 @@ def do_it_api(lange, targets):
             #---
             if tab.get("q", "") != "":
                 withqid += 1
-                print("{} is qid {}".format(title, tab["q"]))
+                print(f"{title} is qid {tab['q']}")
                 qids[title] = tab.get("q", "")
             #---
         #---
@@ -243,7 +243,7 @@ for target in wd_tt:
     tit2 = en_to_md.enwiki_to_mdwiki.get(mdtitle, "")
     qid_2 = en_to_md.mdtitle_to_qid.get(tit2, "")
     #---
-    line22 = "%s:%s:%s" % (lang, target, qid_target)
+    line22 = f"{lang}:{target}:{qid_target}"
     #---
     # printe.output( 'recheck: target:%s, lang:%s' % (target,lang) )
     #---
@@ -253,7 +253,7 @@ for target in wd_tt:
         continue
     #---
     if qid_target == "":
-        empty_qid_target.append("%s,qid_mdwiki:%s" % (line22, qid_mdwiki))
+        empty_qid_target.append(f"{line22},qid_mdwiki:{qid_mdwiki}")
         # printe.output( '<<lightred>> qid_target is empty> target:%s' % dsd )
         continue
     #---
@@ -270,12 +270,12 @@ for target in wd_tt:
     #---
     qids_to_merge[qid_target] = { "wd_qid": qid_mdwiki, "md_title": mdtitle, "lang": lang }
 #---
-printe.output('len(qids_to_merge) = "{}"'.format(len(qids_to_merge)))
+printe.output(f'len(qids_to_merge) = "{len(qids_to_merge)}"')
 #---
 def work_with_2_qids(oldq, new_q):
     #---
     printe.output("=============================")
-    printe.output("start:work_with_2_qids: oldq:%s, new_q:%s" % (oldq, new_q))
+    printe.output(f"start:work_with_2_qids: oldq:{oldq}, new_q:{new_q}")
     #---
     fas = wikidataapi.Get_sitelinks_From_Qid(oldq)
     # {'sitelinks': {'enwiki': 'User:Mr. Ibrahem/Baricitinib', 'orwiki': 'ବାରିସିଟିନିବ'}, 'q': 'Q112331510'}
@@ -284,14 +284,14 @@ def work_with_2_qids(oldq, new_q):
     #---
     len_sites = len(false_sitelinks)
     #---
-    printe.output("<<lightblue>> len_sites %s" % len_sites)
+    printe.output(f"<<lightblue>> len_sites {len_sites}")
     #---
     printe.output(false_sitelinks)
     #---
     en = false_sitelinks.get("enwiki", "")
     #---
     if en.startswith("User:Mr. Ibrahem"):
-        printe.output("<<lightblue>> remove sitelink %s" % en)
+        printe.output(f"<<lightblue>> remove sitelink {en}")
         remove = wikidataapi.post({"action": "wbsetsitelink", "id": oldq, "linksite": "enwiki"}, apiurl=wikidataurl, token=True)
         if "success" in remove:
             len_sites -= 1
@@ -318,7 +318,7 @@ def work_with_2_qids(oldq, new_q):
 for oldq, tab in qids_to_merge.items():
     new_q = tab["wd_qid"]
     md_title = tab["md_title"]
-    printe.output("<<lightblue>> oldq:%s, new_q:%s,md_title:%s" % (oldq, new_q, md_title))
+    printe.output(f"<<lightblue>> oldq:{oldq}, new_q:{new_q},md_title:{md_title}")
     #---
     work_with_2_qids(oldq, new_q)
     #---
@@ -336,14 +336,14 @@ newtabs = wikidataapi.wbsearchentities("User:Mr. Ibrahem", "en")
 numb = 0
 #---
 printe.output("work with newtabs: ")
-printe.output('len(newtabs) = "{}"'.format(len(newtabs)))
+printe.output(f'len(newtabs) = "{len(newtabs)}"')
 #---
 for oldqid, tab in newtabs.items():
     #---
     en = tab.get("label", "").replace("User:Mr. Ibrahem/", "")
     #---
     numb += 1
-    print("------------------\n{}/{}".format(numb, len(newtabs)))
+    print(f"------------------\n{numb}/{len(newtabs)}")
     print(f"false qid : {oldqid}")
     print(f"en title: {en}")
     #---
@@ -373,7 +373,7 @@ for mdm in mdwiki_empty_qids:
 #---
 printe.output("<<lightblue>> empty_qid_target:")
 for lal in empty_qid_target:
-    printe.output("<<lightred>> qid_target is empty> target:%s" % lal)
+    printe.output(f"<<lightred>> qid_target is empty> target:{lal}")
 #---
 if "addthem" in sys.argv:
     sql_for_mdwiki.add_titles_to_qids(to_add)

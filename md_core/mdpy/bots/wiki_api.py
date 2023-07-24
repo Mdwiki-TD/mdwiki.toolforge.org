@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 #---
 from mdpy.bots import wiki_api
@@ -100,7 +99,7 @@ def log( api_urle ) :
         warn('Exception:' + str(r2.json()), UserWarning)
         pywikibot.output( 'CRITICAL:' )
     else:
-        pywikibot.output( "<<lightgreen>> mdwiki/mdpy/wiki_api.py: log to %s user:%s Success... " % (api_urle, lgname ) )
+        pywikibot.output( f"<<lightgreen>> mdwiki/mdpy/wiki_api.py: log to {api_urle} user:{lgname} Success... " )
     #---
     # get edit token
     r3 = session[1].get(api_urle, params={
@@ -307,7 +306,7 @@ def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, 
     #---
     if site.strip() == "" : site = "en"
     #---
-    printe.output('Getpageassessments for "%s:%s pages."' % ( site, len(titles.split('|')) ) )
+    printe.output(f"Getpageassessments for \"{site}:{len(titles.split('|'))} pages.\"" )
     Tables = { 
         #"stub" : False , 
         }
@@ -343,7 +342,7 @@ def Getpageassessments_from_wikipedia( titles, site="en", find_redirects=False, 
         Tables[titley] = tayo
         #---
         if "missing" in tayo:
-            printe.output( "<<lightred>> page:%s is missing"  % titley )
+            printe.output( f"<<lightred>> page:{titley} is missing" )
             Tables[titley] = { 'missing' : True }
     #---
     redirects = query.get("redirects", [])
@@ -380,7 +379,7 @@ def GetPageText(title, lang, redirects=False):
         printe.output(json1)
     #---
     if text == "" :
-        printe.output('page %s text == "".' % title )
+        printe.output(f'page {title} text == "".' )
     #---
     return text
 #---

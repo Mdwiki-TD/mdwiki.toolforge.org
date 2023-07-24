@@ -1,5 +1,4 @@
 #!/usr/bin/python
-#---*- coding: utf-8 -*-
 """
 from mdpy.bots import txtlib2
 # ingr = txtlib2.extract_templates_and_params(text)
@@ -11,7 +10,7 @@ from mdpy.bots import txtlib2
 #
 #---
 import sys
-sys.dont_write_bytecode = True
+
 #---
 import os
 #---

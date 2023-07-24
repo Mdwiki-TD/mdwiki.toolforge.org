@@ -77,12 +77,12 @@ for m2 in link_regex.finditer(ptext):
         itemu = m2.group(1).split('|')[0].strip()
         vaild_links.append( itemu )
 #---
-print('len of vaild_links: %d' % len(vaild_links) )
+print(f'len of vaild_links: {len(vaild_links)}' )
 #---
 for x in vaild_links:
     x1 = x
     x2 = x#.replace(x[0], x[0].upper() , 1)
-    if x1 != x2 : print('x1:%s,x2:%s' % (x1,x2) )
+    if x1 != x2 : print(f'x1:{x1},x2:{x2}' )
     if not x2 in dones: 
         dones.append( x2 )
         if x2 in redirects_pages or x1 in redirects_pages:
@@ -90,15 +90,15 @@ for x in vaild_links:
         else:
             links.append( x2 )
 #---
-print('len of re_links: %d' % len(re_links) )
-print('len of links: %d' % len(links) )
+print(f'len of re_links: {len(re_links)}' )
+print(f'len of links: {len(links)}' )
 #print(str(links))
 #---
 catpages = mdwiki_api.subcatquery( 'Category:RTT' , depth = '0' , ns = "0" )
 catpages = [ x.replace('_',' ') for x in catpages ]
 #catpages = mdwiki_api.Get_cat( 'RTT', '0' )
 #---
-print('len of catpages: %d' % len(catpages) )
+print(f'len of catpages: {len(catpages)}' )
 if 'Biceps tendon rupture' in catpages:
     print('Biceps tendon rupture in catpages')
 # print(str(catpages))
@@ -108,9 +108,9 @@ listo = [ x for x in links if not x in catpages ]
 re_listo = [ d for d in re_links if not d in catpages ]
 num = 0
 #---
-print('len of listo: %d' % len(listo) )
+print(f'len of listo: {len(listo)}' )
 #---
-lines = "\n".join( [ '# [[%s]]' % x for x in listo ] )
+lines = "\n".join( [ f'# [[{x}]]' for x in listo ] )
 text = '''Pages in [[WikiProjectMed:List]] missing [[:Category:RTT]]:
 --~~~~
 __TOC__
@@ -121,7 +121,7 @@ text += lines
 #---
 text += "\n\n== Redirects ==\n\n"
 #---
-text += "\n".join( [ '# [[%s]]' % dx for dx in re_listo ] )
+text += "\n".join( [ f'# [[{dx}]]' for dx in re_listo ] )
 #---
 print(text)
 #---

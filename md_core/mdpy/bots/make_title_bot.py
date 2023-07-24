@@ -14,7 +14,7 @@ import urllib.parse
 import re
 import traceback
 import sys
-sys.dont_write_bytecode = True
+
 from pywikibot import comms
 from mdpy.bots import open_url
 from mdpy import printe

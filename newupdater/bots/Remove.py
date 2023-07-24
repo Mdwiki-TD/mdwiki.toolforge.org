@@ -4,7 +4,7 @@
 #---
 import re
 import sys
-sys.dont_write_bytecode = True
+
 #---
 printn_t = {1:False}
 #---
