@@ -74,7 +74,7 @@ class WikiBlame:
                 continue
             # match url like https://es.wikipedia.org/w/index.php?title=Letrina_de_hoyo&amp;diff=prev&amp;oldid=87638632
             print(href)
-            search = re.search(r"oldif=(\d+)", href)
+            search = re.search(r"oldid=(\d+)", href)
             if search:
                 oldid = search.group(1)
                 self.oldids.append(oldid)
