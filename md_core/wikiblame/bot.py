@@ -26,12 +26,12 @@ class WikiBlame:
         self.base_url = "http://wikipedia.ramselehof.de/wikiblame.php"
         self.oldids = []
         self.params = {
+            "lang": "",
+            "article": "",
+            "needle": "",
             "user_lang": "en",
-            "lang": "es",
             "project": "wikipedia",
             "tld": "org",
-            "article": "Letrina+de+hoyo",
-            "needle": "Till2014",
             "skipversions": "0",
             "ignorefirst": "0",
             "limit": "1500",
