@@ -1,5 +1,4 @@
 '''
-
 #---
 from priorviews.lists import words 
 # words.words_by_lang

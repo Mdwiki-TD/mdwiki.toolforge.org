@@ -1,6 +1,6 @@
 '''
 
-python3 pwb.py priorviews/bots/gt_blame
+python3 core8/pwb.py priorviews/bots/gt_blame
 
 '''
 import sys
@@ -19,6 +19,48 @@ from wikiblame.bot import get_blame #first, result = get_blame({"lang": "es", "a
 #---
 from prior.json_langs.lists import json_langs_by_langs
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
+#---
+from prior.json_en.lists import json_en_all 
+# tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
+#---
+def match_ref_names(r, refnames, lang):
+    # dict_keys(['revid', 'parentid', 'user', 'timestamp', 'contentformat', 'contentmodel', 'content', 'comment'])
+    text_pp = r.get('content')
+    user    = r.get('user')
+    #---
+    if not text_pp: return ''
+    if not user: return ''
+    #---
+    parsed  = wikitextparser.parse(text_pp)
+    tags    = parsed.get_tags()
+    #---
+    _tags_ = {}
+    #---
+    for x in tags:
+        if x.name != 'ref': continue
+        #---
+        attrs = x.attrs
+        name = attrs.get('name', '').replace('/', '').lower().strip()
+        if name == '' : continue
+        #---
+        contents = x.contents
+        #---
+        if re.sub(r'[:\d\s]+', '', name) == '': continue
+        #---
+        if not name in _tags_:  _tags_[name] = 0
+        #---
+        _tags_[name] += 1
+    #---
+    # sort by count
+    _tags_ = {k: v for k, v in sorted(_tags_.items(), key=lambda item: item[1], reverse=True)}
+    for k, v in _tags_.items():
+        if k in refnames:
+            printe.output(f'<<green>> find: {k=} count: {v=}| main: {refnames[k]=}')
+            printe.output(f'https://{lang}.wikipedia.org/w/index.php?diff=prev&oldid={r["revid"]}')
+            return user
+    #---
+    return ''
+
 #---
 class FindInHistory:
 
@@ -93,7 +135,9 @@ class FindInHistory:
             "utf8": 1,
             "formatversion": "2",
             "rvprop": "comment|timestamp|user|content|ids",
-	        "rvdir": "newer",
+            "rvdir": "newer",
+            "rvstart": "2011-01-01T00:00:00.000Z",
+            "rvend": "2018-01-01T00:00:00.000Z",
             "rvlimit": "max"
         }
         #---
@@ -109,7 +153,7 @@ class FindInHistory:
                     continue
                 self.revisions.append(r)
     
-def search_history(title, lang, refname=[], extlinks=[]):
+def search_history(title, lang, en='', refname=[], extlinks=[]):
     #---
     tab = {"lang": lang, "article": title, "needle": ""}
     #---
@@ -119,19 +163,53 @@ def search_history(title, lang, refname=[], extlinks=[]):
         if not infos:
             return ''
         #---
+        en       = infos.get('en', '')
         refname  = infos.get('refsname')
         extlinks = infos.get('extlinks')
+    #---
+    en_refname  = []
+    en_extlinks = []
+    #---
+    if en != '':
+        tab = json_en_all.get(en, {})
+        en_refname = tab.get('refsname', [])
+        en_extlinks = tab.get('extlinks', [])
     #---
     bot = FindInHistory(title, lang, refname, extlinks)
     revisions = bot.revisions
     #---
+    # sort revisions by timestamp
+    revisions.sort(key=lambda r: r.get('timestamp', ''))
+    #---
+    lenth_before = len(revisions)
+    #---
+    # skip bots
+    revisions = [rev for rev in revisions if not rev.get('user', '').lower().endswith('bot')]
+    #---
+    bots_lenth = lenth_before - len(revisions)
+    #---
+    print(f'len of revisions: {len(revisions)}, bots_lents: {bots_lenth}')
+    #---
     for r in revisions:
-        print(r.keys())
+        # print(r.keys())
         # dict_keys(['revid', 'parentid', 'user', 'timestamp', 'contentformat', 'contentmodel', 'content', 'comment'])
         #---
-        user = r.get('user', '')
+        timestamp = r.get('timestamp', '')
+        text_pp = r.get('content')
+        user    = r.get('user')
         #---
-
+        if not text_pp: continue
+        if not user: continue
+        print(timestamp)
+        #---
+        if user.lower().endswith('bot'):
+            print(f'skip bots {user}...')
+            continue
+        #---
+        rs = match_ref_names(r, refname, lang)
+        #---
+        if rs != '':
+            return rs
     #---
     print(f'len of revisions: {len(revisions)}')
     #---

@@ -1,6 +1,7 @@
 """
 
-python3 pwb.py priorviews/find/find_creator -lang:ar
+python3 core8/pwb.py priorviews/find/find_creator new
+python3 core8/pwb.py priorviews/find/find_creator -lang:ar
 
 """
 from mdpy.bots import wiki_sql
@@ -9,6 +10,7 @@ import pywikibot
 import json
 import os
 import codecs
+from pymysql.converters import escape_string
 # ---
 from mdpy import printe
 # ---
@@ -42,7 +44,9 @@ def get_creator(links, lang):
         CreatorsData[lang] = {}
     # ---
     if "new" in sys.argv:
-        links = [ x for x in links if not x in CreatorsData[lang]]
+        links = [ x for x in links if not x in CreatorsData[lang] or CreatorsData[lang][x] == '']
+    # ---
+    print(f'lang: {lang}, links: {len(links)}')
     # ---
     if len(links) == 0 : return
     #---
@@ -50,8 +54,7 @@ def get_creator(links, lang):
     for i in range(0, len(links), 100):
         titles = [ x.replace(" ", "_") for x in links[i:i+100] ]
         #---
-        #---
-        titles = ", ".join([ f'"{x}"' for x in titles ])
+        titles = ", ".join([ f'"{escape_string(x)}"' for x in titles ])
         #---
         query = f'''select rev_timestamp, page_title, actor_name, comment_text
             from revision, actor, page, comment
@@ -66,9 +69,9 @@ def get_creator(links, lang):
         result = wiki_sql.sql_new(query, lang)
         # ---
         for x in result:
-            time_stamp = int(x["rev_timestamp"])
-            page_title = x["page_title"].replace("_", " ")
-            actor_name = x["actor_name"].replace("_", " ")
+            time_stamp   = int(x["rev_timestamp"])
+            page_title   = x["page_title"].replace("_", " ")
+            actor_name   = x["actor_name"].replace("_", " ")
             comment_text = x["comment_text"]
             # ---
             TD = False
@@ -104,9 +107,6 @@ def start():
     for lang in langkeys:
         # ---
         links = links_by_lang[lang]
-        # ---
-        print(f'lang: {lang}')
-        print(f'links: {len(links)}')
         # ---
         n += 1
         # ---

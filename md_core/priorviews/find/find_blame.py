@@ -31,9 +31,9 @@ from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", 
 links_without_translator = {}
 # ---
 for lla, titles in links_by_lang.items():
-    links_without_translator[lla] = [x for x in titles if tra_by_lang.get(lla, {}).get(x, 0) == 0]
+    links_without_translator[lla] = [x for x in titles if tra_by_lang.get(lla, {}).get(x, '') == '']
 # ---
-counts_all = 0
+COUNTS_ALL = 0
 # ---
 Dir = os.path.dirname(os.path.abspath(__file__))
 Dir2 = os.path.dirname(Dir)
@@ -57,21 +57,26 @@ def gtblame_value(title, lang):
     if not infos:
         return ''
     # ---
-    refname = infos.get('refsname', [])
+    refname  = infos.get('refsname', [])
     extlinks = infos.get('extlinks', [])
+    en       = infos.get('en', '')
     # ---
-    for ref in refname:
+    if 'history' in sys.argv:
+        ne = gt_blame.search_history(title, lang, en=en, refname=refname, extlinks=extlinks)
+        if ne:
+            return ne
+    else:
         # ---
-        printe.output(f'search for: ref: ({ref}), page: [[{lang}:{title}]]')
-        # ---
-        tab['needle'] = ref
-        # ---
-        first, result = get_blame(tab)
-        # ---
-        if first:
-            return 'creator'
-    # ---
-    # ne = gt_blame.search_history(title, lang, refname=refname, extlinks=extlinks)
+        for ref in refname:
+            # ---
+            printe.output(f'search for: ref: ({ref}), page: [[{lang}:{title}]]')
+            # ---
+            tab['needle'] = ref
+            # ---
+            first, result = get_blame(tab)
+            # ---
+            if first:
+                return 'creator'
     # ---
     return ''
 # ---
@@ -87,7 +92,7 @@ def logem():
 
 def get_b(links, lang):
     # ---
-    global new_data, counts_all
+    global new_data, COUNTS_ALL
     # ---
     if not lang in new_data:
         new_data[lang] = {}
@@ -106,22 +111,21 @@ def get_b(links, lang):
         # ---
         value_in = new_data[lang].get(title_lower, "")
         # ---
-        counts_all += 1
-        # ---
-        if 'new' in sys.argv and value_in != "":
+        if 'new' in sys.argv and title_lower in new_data[lang]:
             continue
+        # ---
+        new_data[lang][title_lower] = value_in
         # ---
         printe.output(f'<<yellow>> title: {m}/{lena} get_t {title}, value_in:{value_in}')
         # ---
         # {"time": 20140721110644, "actor": "CFCF", "comment": "Translated from [[:en:African trypanosomiasis|English]] by Somil.Mishra at [[:en:Translators Without Borders|Translators Without Borders]]", "TD": false}
         crate = lang_creators.get(title, {})
-        # ---
         page_time = crate.get("time")
         # ---
         if page_time:
             printe.output(f'<<yellow>> page_time: {page_time}')
             year = int(str(page_time)[0:4])
-            if year < 2012:
+            if year < 2012 and 'all' not in sys.argv:
                 printe.output('<<red>> skip....')
                 continue
         # ---
@@ -131,18 +135,20 @@ def get_b(links, lang):
             _value = 0
         # ---
         if _value == 'creator':
-            _value = crate["actor"]
+            _value = crate.get("actor", '')
             printe.output(f'<<green>> creator _value: {_value}')
         # ---
         if value_in != 0 and _value == 0:
             continue
         # ---
+        COUNTS_ALL += 1
+        # ---
         new_data[lang][title_lower] = _value
         # ---
-        if counts_all % 100 == 0:
+        if COUNTS_ALL % 100 == 0:
             logem()
     # ---
-    logem()
+    # logem()
     # ---
 
 
@@ -161,18 +167,14 @@ def start():
         # ---
         links = links_without_translator[la]
         # ---
-        print(f'lang: {la}')
-        print(f'links: {len(links)}')
+        print('=============================' * 2)
+        print(f'lang: {la}, links: {len(links)}')
         # ---
         n += 1
         # ---
         get_b(links, la)
-        # ---
-        if n % 20 == 0:
-            logem()
     # ---
     logem()
-
     # ---
 # ---
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 '''
 
-python3 ./core8/pwb.py priorviews/find_word -lang:ar
-python3 ./core8/pwb.py priorviews/find_word test
+python3 core8/pwb.py priorviews/find/find_word -lang:ar
+python3 core8/pwb.py priorviews/find/find_word new
 
 '''
 import sys
@@ -48,6 +48,9 @@ def get_w(links, lang):
     #---
     m = 0
     #---
+    if 'onlynew' in sys.argv:
+        links = [ x for x in links if not x in words_by_lang[lang] or words_by_lang[lang][x] == 0]
+    #---
     lena = len(links)
     #---
     for title in links:
@@ -58,9 +61,7 @@ def get_w(links, lang):
         #---
         words_in = words_by_lang[lang].get(title_lower, 0)
         #---
-        N_g += 1
-        #---
-        if 'new' in sys.argv and words_in > 50 : continue
+        if 'new' in sys.argv and words_in > 40 : continue
         #---
         printe.output(f'<<yellow>> title: {m}/{lena} get_w {title}, words_in:{words_in}')
         #---
@@ -72,10 +73,10 @@ def get_w(links, lang):
         #---
         words_by_lang[lang][title_lower] = _words
         #---
+        N_g += 1
+        #---
         if N_g % 100 == 0:
             log_words()
-    #---
-    log_words()
     #---
 #---
 def start():
@@ -100,8 +101,6 @@ def start():
         #---
         get_w(links, lang)
         #---
-        if n % 20 == 0:
-            log_words()
     #---
     log_words()
     #---

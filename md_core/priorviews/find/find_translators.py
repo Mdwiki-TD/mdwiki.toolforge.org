@@ -1,7 +1,7 @@
 '''
 
 python3 core8/pwb.py priorviews/find/find_translators
-python3 pwb.py priorviews/find/find_translators removeip
+python3 core8/pwb.py priorviews/find/find_translators removeip
 
 '''
 import sys

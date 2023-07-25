@@ -1,6 +1,8 @@
 '''
-
-from prior.json_en.lists import json_en_all
+#---
+from prior.json_en.lists import json_en_all 
+# tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
+#---
 '''
 import sys
 import os
@@ -10,7 +12,7 @@ Dir = os.path.dirname(os.path.abspath(__file__))
 # ---
 project_js_new = Dir
 # ---
-json_en_all = {}
+json_en_a = {}
 # ---
 # get All json file inside dir project_js_new
 for filename in os.listdir(project_js_new):
@@ -21,5 +23,24 @@ for filename in os.listdir(project_js_new):
         # ---
         data = json.load(open(filename2))
         # ---
-        json_en_all = {**json_en_all, **data}
+        json_en_a = {**json_en_a, **data}
 # ---
+json_en_all = {}
+# ---
+for en, tab in json_en_a.items():
+    # ---
+    extlinks = tab['extlinks']
+    refsname = tab['refsname']
+    # ---
+    if tab.get('lead'):
+        extlinks.extend(tab['lead']['extlinks'])
+        refsname.update(tab['lead']['refsname'])
+    # ---
+    if tab.get('old'):
+        extlinks.extend(tab['old']['extlinks'])
+        refsname.update(tab['old']['refsname'])
+    # ---
+    # refsname = list(set(refsname))
+    # extlinks = list(set(extlinks))
+    # ---
+    json_en_all[en] = {'extlinks': extlinks, 'refsname': refsname}

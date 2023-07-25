@@ -1,5 +1,4 @@
 '''
-
 #---
 from priorviews.lists import translators 
 # translators.tra_by_lang

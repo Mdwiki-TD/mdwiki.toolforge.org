@@ -42,6 +42,14 @@ def make_labsdb_dbs_p(wiki):#host, dbs_p = make_labsdb_dbs_p('ar')
     #---
     wiki = wiki.replace("-", "_")
     #---
+    databases = {
+        "be-x-old": "be_x_old",
+        "be_tarask": "be_x_old",
+        "be-tarask": "be_x_old",
+    }
+    #---
+    wiki = databases.get(wiki, wiki)
+    #---
     wiki = f"{wiki}wiki"
     dbs = wiki
     #---

@@ -1,5 +1,4 @@
 '''
-
 #---
 from priorviews.lists import views 
 #---

@@ -1,6 +1,6 @@
 '''
 
-python3 ./core8/pwb.py priorviews/find_views test
+python3 core8/pwb.py priorviews/find/find_views test
 
 '''
 import sys
@@ -80,9 +80,7 @@ def get_v(links):
             #---
             if lang != "en" and "en" in sys.argv: continue
             #---
-            N_g += 1
-            #---
-            viws_in = ViewsData[mdtitle].get(lang, 0)
+            viws_in = ViewsData[mdtitle].get(lang, {}).get('views', 0)
             #---
             if 'new' in sys.argv and viws_in != 0 : continue
             #---
@@ -95,10 +93,10 @@ def get_v(links):
             #---
             ViewsData[mdtitle][lang] = {"title": title, "views": viws}
             #---
+            N_g += 1
+            #---
             if N_g % 100 == 0:
                 log_views()
-    #---
-    log_views()
     #---
 #---
 def start():
@@ -114,8 +112,6 @@ def start():
         #---
         get_v(links)
         #---
-        if n % 20 == 0:
-            log_views()
     #---
     log_views()
     #---

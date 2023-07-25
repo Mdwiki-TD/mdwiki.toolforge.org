@@ -94,8 +94,6 @@ def work_all(translators_all):
     one_langs_only = {x: v for x, v in translators_a.items() if len(v['by_lang']) == 1}
     multiple_langs = {x: v for x, v in translators_a.items() if len(v['by_lang']) > 1}
     # ---
-    langs_a = make_by_lang(one_langs_only)
-    # ---
     text = f"* all articles in the report: {alllll}\n"
     text += f"* all users in the report: {all_usrs}\n==multi langs==\n"
     # ---
@@ -109,6 +107,8 @@ def work_all(translators_all):
         # ---
     # ---
     seec = '\n\n==by lang==\n\n'
+    # ---
+    langs_a = make_by_lang(one_langs_only)
     # ---
     # sort langs_a by count
     langs_a = {x: v for x, v in sorted(langs_a.items(), key=lambda item: item[1]['all'], reverse=True)}
