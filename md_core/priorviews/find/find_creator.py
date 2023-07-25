@@ -40,11 +40,17 @@ def log_Data():
 
 def get_creator(links, lang):
     # ---
-    if not lang in CreatorsData:
-        CreatorsData[lang] = {}
+    if not lang in CreatorsData:    CreatorsData[lang] = {}
     # ---
+    def valid(x, tab, empty=''):
+        i = tab.get(x) or tab.get(x.lower())
+        if not i or i == empty:
+            return True
+        return False
+    #---
     if "new" in sys.argv:
-        links = [ x for x in links if not x in CreatorsData[lang] or CreatorsData[lang][x] == '']
+        # links = [ x for x in links if not x in CreatorsData[lang] or CreatorsData[lang][x] == '']
+        links = [ x for x in links if valid(x, CreatorsData[lang]) ]
     # ---
     print(f'lang: {lang}, links: {len(links)}')
     # ---
@@ -76,7 +82,7 @@ def get_creator(links, lang):
             # ---
             TD = False
             # ---
-            if comment_text.find("|User:Mr. Ibrahem/") >= 0:
+            if comment_text.find("|User:Mr. Ibrahem/") != 0:
                 TD = True
             # ---
             print(f"time:{time_stamp}", f"title:{page_title}", f"actor:{actor_name}")

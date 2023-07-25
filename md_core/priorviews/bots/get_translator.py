@@ -1,6 +1,6 @@
 '''
 
-python3 pwb.py priorviews/bots/get_author
+python3 core8/pwb.py priorviews/bots/get_translator
 
 '''
 import sys
@@ -17,28 +17,24 @@ from mdpy import printe
 #---
 '''
 #---
-from priorviews.bots import get_author
-tt = get_author.get_au(title, lang)
+from priorviews.bots import get_translator
+# tt = get_translator.get_au(title, lang)
 #---
 '''
 #---
-def isv(comment):
-    #---
-    comment = comment.lower()
-    #---
-    if comment.find('translators without borders') != -1 :  return True
-    if comment.find('(twb)') != -1 :  return True
-    #---
-    return False
+from priorviews.bots import helps
+# v_comm = helps.isv(comment)
+# _views = helps.views_url(title, lang, view)
+# helps.is_ip(user)
 #---
-class FindAuthor:
+class FindTranslator:
 
     def __init__(self, title, lang="en"):
         #---
         self.lang = lang
         self.title = title
         self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
-        self.author = ''
+        self.translator = ''
         #---
         self.session = requests.Session()
         #---
@@ -89,20 +85,20 @@ class FindAuthor:
                 for r in revisions:
                     # print(r)
                     comment = r.get('comment', '').lower()
-                    if isv(comment):
+                    if helps.isv(comment):
                         # print(r)
-                        self.author = r.get('user', '')
+                        self.translator = r.get('user', '')
                         return
         #---
 
-    def Author(self):
-        printe.output(f'\t\t Author: {self.author}')
-        return self.author
+    def Translator(self):
+        printe.output(f'\t\t Translator: {self.translator}')
+        return self.translator
 def get_au(title, lang):
     #---
-    bot = FindAuthor(title, lang=lang)
+    bot = FindTranslator(title, lang=lang)
     #---
-    auu = bot.Author()
+    auu = bot.Translator()
     #---
     return auu
 #---

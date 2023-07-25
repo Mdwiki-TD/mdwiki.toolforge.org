@@ -20,7 +20,13 @@ from priorviews.lists.links_by_section import sects_links_langlinks, links_by_la
 from priorviews.lists import views 
 from priorviews.lists import translators 
 from priorviews.lists import words 
+#---
 from priorviews.bots import helps
+# v_comm = helps.isv(comment)
+# _views = helps.views_url(title, lang, view)
+# helps.is_ip(user)
+# helps.talk_url(lang, user, labl)
+#---
 from priorviews.bots import w_all
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
@@ -31,14 +37,6 @@ from priorviews.lists import creators
 # creators.counts_creators_by_lang
 #---
 translators_all = {}
-#---
-def talk_url(lang, user, labl):
-    old = f'[[w:{lang}:User talk:{user}|{user}]]'
-    # --
-    pas = {'title': f'User_talk:{user}', 'action': 'edit', 'section': 'new'}
-    url = f"//{lang}.wikipedia.org/w/index.php?" + urllib.parse.urlencode(pas)
-    # ---
-    return f'[{url} {labl}]'
 #---
 def authors_table(authors, lang):
     # authors_text += "\n*".join( [ f"{x}: {v}" for x, v in authors.items()])
@@ -63,7 +61,7 @@ def authors_table(authors, lang):
         # ---
         users.sort()
         # ---
-        usrs_line = ', '.join([talk_url(lang, x, x) for x in users])
+        usrs_line = ', '.join([helps.talk_url(lang, x, x) for x in users])
         # ---
         authors_text += f'\n! {cunts} \n| {usrs_line}\n|-'
         # ---

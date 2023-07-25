@@ -1,6 +1,6 @@
 """
 
-python3 pwb.py priorviews/langs -lang:ar ask
+python3 core8/pwb.py priorviews/langs -lang:ar ask
 python3 core8/pwb.py priorviews/langs -lang:ar ask
 
 """
@@ -15,16 +15,13 @@ import codecs
 # ---
 Dir = os.path.dirname(os.path.abspath(__file__))
 # ---
-
-
-def talk_url(lang, user, labl):
-    old = f'[[w:{lang}:User talk:{user}|{user}]]'
-    # --
-    pas = {'title': f'User_talk:{user}', 'action': 'edit', 'section': 'new'}
-    url = f"//{lang}.wikipedia.org/w/index.php?" + urllib.parse.urlencode(pas)
-    # ---
-    return f'[{url} {labl}]'
-
+#---
+from priorviews.bots import helps
+# v_comm = helps.isv(comment)
+# _views = helps.views_url(title, lang, view)
+# helps.is_ip(user)
+# helps.talk_url(lang, user, labl)
+#---
 
 def make_by_lang(one_langs_only):
     tab2 = {}
@@ -59,7 +56,7 @@ def sect_text(lang, userstable):
         # ---
         users.sort()
         # ---
-        usrs_line = ', '.join([talk_url(lang, x, x) for x in users])
+        usrs_line = ', '.join([helps.talk_url(lang, x, x) for x in users])
         # ---
         sc2 += f'\n! {cunts} \n| {usrs_line}\n|-'
         # ---
@@ -81,11 +78,7 @@ def work_all(translators_all):
     for x in translators_a.copy():
         # ---
         # skip user match ip address
-        if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', x):
-            del translators_a[x]
-            continue
-        # skip user match ip address like: 2001:569:F867:EE00:1540:D99D:3F7:3EAE
-        if re.match(r'^(?:(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|::(?:[A-Fa-f0-9]{1,4}:){0,5}[A-Fa-f0-9]{1,4}|(?:[A-Fa-f0-9]{1,4}:){1,2}:|:(?::[A-Fa-f0-9]{1,4}){1,6}|(?:[A-Fa-f0-9]{1,4}:){1,6}:|:(?::[A-Fa-f0-9]{1,4}){1,7}|(?:[A-Fa-f0-9]{1,4}:){1,7}:|:(?::[A-Fa-f0-9]{1,4}){1,8}|(?:[A-Fa-f0-9]{1,4}:){1,8}:)$', x):
+        if helps.is_ip(x):
             del translators_a[x]
             continue
         # ---
@@ -103,7 +96,7 @@ def work_all(translators_all):
         bylang = v['by_lang']
         # sort by lang
         bylang = {o: v for o, v in sorted(bylang.items(), key=lambda item: item[1], reverse=True)}
-        text += ", ".join([talk_url(langg, x, langg) + f": {v}" for langg, v in bylang.items()])
+        text += ", ".join([helps.talk_url(langg, x, langg) + f": {v}" for langg, v in bylang.items()])
         # ---
     # ---
     seec = '\n\n==by lang==\n\n'

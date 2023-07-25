@@ -4,14 +4,14 @@
 
 تجميع المراجع في الصفحات
 
-python3 pwb.py mdpy/wpref -lang:es ask savetofile
-python3 pwb.py mdpy/wpref -lang:or ask -page:ପାଟେଲୋଫିମୋରାଲ_ଯନ୍ତ୍ରଣା_ସିଣ୍ଡ୍ରୋମ
-python3 pwb.py mdpy/wpref -lang:or ask -page:ପୋଷ୍ଟିରିଅର_ୟୁରେଥ୍ରାଲ_ଭଲଭ ask
-python3 pwb.py mdpy/wpref -lang:or -page:user:Mr._Ibrahem/sandbox ask
+python3 core8/pwb.py mdpy/wpref -lang:es ask savetofile
+python3 core8/pwb.py mdpy/wpref -lang:or ask -page:ପାଟେଲୋଫିମୋରାଲ_ଯନ୍ତ୍ରଣା_ସିଣ୍ଡ୍ରୋମ
+python3 core8/pwb.py mdpy/wpref -lang:or ask -page:ପୋଷ୍ଟିରିଅର_ୟୁରେଥ୍ରାଲ_ଭଲଭ ask
+python3 core8/pwb.py mdpy/wpref -lang:or -page:user:Mr._Ibrahem/sandbox ask
 
-python3 pwb.py mdpy/wpref -lang:ro ask
+python3 core8/pwb.py mdpy/wpref -lang:ro ask
 
-python3 pwb.py mdpy/wpref ask
+python3 core8/pwb.py mdpy/wpref ask
 
 """
 #
@@ -480,7 +480,7 @@ def maine():
     #---
 #---
 def tests():
-    # python3 pwb.py mdpy/wpref tests
+    # python3 core8/pwb.py mdpy/wpref tests
     title = 'Utilizator:Mr._Ibrahem/teste'
     lang = 'ro'
     log( lang )

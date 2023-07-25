@@ -23,6 +23,10 @@ from prior.json_langs.lists import json_langs_by_langs
 from prior.json_en.lists import json_en_all 
 # tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
 #---
+from priorviews.bots import helps
+# v_comm = helps.isv(comment)
+# _views = helps.views_url(title, lang, view)
+#---
 def match_ref_names(r, refnames, lang):
     # dict_keys(['revid', 'parentid', 'user', 'timestamp', 'contentformat', 'contentmodel', 'content', 'comment'])
     text_pp = r.get('content')
@@ -205,6 +209,13 @@ def search_history(title, lang, en='', refname=[], extlinks=[]):
         if user.lower().endswith('bot'):
             print(f'skip bots {user}...')
             continue
+        #---
+        comment = r.get('comment')
+        if comment:
+            comment_v = helps.isv(comment)
+            if comment_v:
+                printe.output(f'<<green>> find: {comment_v=}')
+                return user
         #---
         rs = match_ref_names(r, refname, lang)
         #---

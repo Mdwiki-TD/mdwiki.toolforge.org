@@ -4,7 +4,7 @@
 
 إيجاد التحويلات واصلاحها
 
-python3 pwb.py mdpy/fixred
+python3 core8/pwb.py mdpy/fixred
 
 """
 #

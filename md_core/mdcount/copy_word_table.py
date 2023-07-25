@@ -2,7 +2,7 @@
 
 """
 
-python3 pwb.py mdcount/copy_word_table
+python3 core8/pwb.py mdcount/copy_word_table
 
 """
 #

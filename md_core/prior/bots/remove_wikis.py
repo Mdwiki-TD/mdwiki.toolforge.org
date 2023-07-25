@@ -1,5 +1,5 @@
 '''
-python3 pwb.py prior/remove_wikis
+python3 core8/pwb.py prior/remove_wikis
 '''
 import sys
 import os

@@ -3,9 +3,9 @@
 """
 بوت قواعد البيانات
 
-python3 pwb.py mdpy/sql justsql break
-python3 pwb.py mdpy/sql justsql
-python3 pwb.py mdpy/sql
+python3 core8/pwb.py mdpy/sql justsql break
+python3 core8/pwb.py mdpy/sql justsql
+python3 core8/pwb.py mdpy/sql
 
 """
 #

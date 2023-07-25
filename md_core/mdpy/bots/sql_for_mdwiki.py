@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-python3 pwb.py mdpy/sql_for_mdwiki
+python3 core8/pwb.py mdpy/sql_for_mdwiki
 """
 #
 # (C) Ibrahem Qasim, 2023

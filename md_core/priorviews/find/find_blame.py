@@ -27,7 +27,7 @@ from prior.json_langs.lists import json_langs_by_langs
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})
-# ---
+#---
 links_without_translator = {}
 # ---
 for lla, titles in links_by_lang.items():
@@ -97,6 +97,16 @@ def get_b(links, lang):
     if not lang in new_data:
         new_data[lang] = {}
     # ---
+    def valid(x, tab, empty=''):
+        i = tab.get(x) or tab.get(x.lower())
+        if not i or i == empty:
+            return True
+        return False
+    #---
+    if 'new' in sys.argv:
+        # links = [ x for x in links if not x in new_data[lang] or v[lang][x] == '']
+        links = [ x for x in links if valid(x, new_data[lang], empty='') ]
+    #---
     m = 0
     # ---
     lang_creators = creators.Creators_by_lang_title.get(lang, {})
@@ -109,9 +119,9 @@ def get_b(links, lang):
         # ---
         m += 1
         # ---
-        value_in = new_data[lang].get(title_lower, "")
+        value_in = new_data[lang].get(title_lower) or new_data[lang].get(title) or ''
         # ---
-        if 'new' in sys.argv and title_lower in new_data[lang]:
+        if 'new' in sys.argv and (title_lower in new_data[lang] or title in new_data[lang]):
             continue
         # ---
         new_data[lang][title_lower] = value_in

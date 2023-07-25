@@ -4,7 +4,7 @@ from priorviews.lists import creators
 # creators.Creators_by_lang_title
 # creators.counts_creators_by_lang
 #---
-python3 pwb.py priorviews/lists/creators
+python3 core8/pwb.py priorviews/lists/creators
 
 '''
 import sys

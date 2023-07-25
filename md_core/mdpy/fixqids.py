@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #   himo
 """
-python3 pwb.py mdpy/fixqids
+python3 core8/pwb.py mdpy/fixqids
 """
 #
 # (C) Ibrahem Qasim, 2023

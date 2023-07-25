@@ -128,7 +128,7 @@ def work():
             else:
                 print(f"page:{x} already in ns_0_pages.")
 #---
-# python3 pwb.py mdwiki/mdpy/com test
+# python3 core8/pwb.py mdwiki/mdpy/com test
 #---
 if __name__ == "__main__":
     work()

@@ -5,7 +5,7 @@
 
 python t.py test
 
-python3 pwb.py tw/t
+python3 core8/pwb.py tw/t
 
 """
 #

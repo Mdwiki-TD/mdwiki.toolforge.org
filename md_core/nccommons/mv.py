@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-python3 pwb.py nccommons/mv
+python3 core8/pwb.py nccommons/mv
 """
 #
 # (C) Ibrahem Qasim, 2023

@@ -3,7 +3,7 @@
 """ 
 إيجاد معرف ويكيداتا للعناصر بدون معرف
 
-python3 pwb.py mdpy/cash
+python3 core8/pwb.py mdpy/cash
 
 """
 #

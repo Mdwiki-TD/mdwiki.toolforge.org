@@ -66,7 +66,7 @@ def test():
     # pages   = api_new.Get_Newpages()
 #---
 if __name__ == '__main__':
-    # python3 pwb.py new_api/page
+    # python3 core8/pwb.py new_api/page
     super_page.print_test[1] = True
     super_login.print_test[1] = True
     test()

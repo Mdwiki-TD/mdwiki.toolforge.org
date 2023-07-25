@@ -1,6 +1,6 @@
 '''
 
-python3 core8/pwb.py priorviews/find/find_translators
+python3 core8/pwb.py priorviews/find/find_translators new
 python3 core8/pwb.py priorviews/find/find_translators removeip
 
 '''
@@ -16,7 +16,13 @@ from datetime import timedelta
 from mdpy import printe
 from mdpy.bots import wiki_api
 #---
-from priorviews.bots import get_author
+from priorviews.bots import get_translator
+#---
+from priorviews.bots import helps
+# v_comm = helps.isv(comment)
+# _views = helps.views_url(title, lang, view)
+# helps.is_ip(user)
+#---
 #---
 TEST = False
 #---
@@ -48,6 +54,15 @@ def get_t(links, lang):
     #---
     m = 0
     #---
+    def valid(x, tab, empty=''):
+        i = tab.get(x) or tab.get(x.lower())
+        if not i or i == empty:
+            return True
+        return False
+    #---
+    if 'onlynew' in sys.argv:
+        links = [ x for x in links if valid(x, tra_by_lang[lang]) ]
+    #---
     lena = len(links)
     #---
     for title in links:
@@ -56,26 +71,27 @@ def get_t(links, lang):
         #---
         m += 1
         #---
-        value_in = tra_by_lang[lang].get(title_lower, "")
-        #---
-        N_g += 1
+        value_in = tra_by_lang[lang].get(title_lower) or tra_by_lang[lang].get(title) or ''
         #---
         if 'new' in sys.argv and value_in != "" : continue
         #---
         printe.output(f'<<yellow>> title: {m}/{lena} get_t {title}, value_in:{value_in}')
         #---
-        _value = get_author.get_au(title, lang)
+        _value = get_translator.get_au(title, lang)
         #---
         if _value is None: _value = 0
         #---
         if value_in != 0 and _value == 0: continue
         #---
+        if helps.is_ip(_value):
+            continue
+        #---
         tra_by_lang[lang][title_lower] = _value
+        #---
+        N_g += 1
         #---
         if N_g % 100 == 0:
             logem()
-    #---
-    logem()
     #---
 #---
 def start():
@@ -100,8 +116,6 @@ def start():
         #---
         get_t(links, lang)
         #---
-        if n % 20 == 0:
-            logem()
     #---
     logem()
     #---
@@ -133,13 +147,9 @@ def removeip():
         for title, user in titles.items():
             if user == '':
                 continue
+            #---
             # skip user match ip address
-            if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', user):
-                tra_by_lang[lang][title] = ''
-                print(f' <<yellow>> skip user match ip address: {user}')
-                continue
-            # skip user match ip address like: 2001:569:F867:EE00:1540:D99D:3F7:3EAE
-            if re.match(r'^(?:(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|::(?:[A-Fa-f0-9]{1,4}:){0,5}[A-Fa-f0-9]{1,4}|(?:[A-Fa-f0-9]{1,4}:){1,2}:|:(?::[A-Fa-f0-9]{1,4}){1,6}|(?:[A-Fa-f0-9]{1,4}:){1,6}:|:(?::[A-Fa-f0-9]{1,4}){1,7}|(?:[A-Fa-f0-9]{1,4}:){1,7}:|:(?::[A-Fa-f0-9]{1,4}){1,8}|(?:[A-Fa-f0-9]{1,4}:){1,8}:)$', user):
+            if helps.is_ip(user):
                 tra_by_lang[lang][title] = ''
                 print(f' <<yellow>> skip user match ip address: {user}')
                 continue

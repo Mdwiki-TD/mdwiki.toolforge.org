@@ -5,7 +5,7 @@
 تجربة ملف mdd.py
 
 python pwb.py md2 -page:Hyoscine_butylbromide
-python3 pwb.py md2 -page:Hyoscine_butylbromide
+python3 core8/pwb.py md2 -page:Hyoscine_butylbromide
 
 """
 #
@@ -81,8 +81,8 @@ def main():
     #---
     ttab = []
     #---
-    # python3 pwb.py md2 -page:Abacavir/lamivudine
-    # python3 pwb.py md2 -page:Hyoscine_butylbromide
+    # python3 core8/pwb.py md2 -page:Abacavir/lamivudine
+    # python3 core8/pwb.py md2 -page:Hyoscine_butylbromide
     #---
     for arg in sys.argv:
         arg, sep, value = arg.partition(':')
@@ -90,7 +90,7 @@ def main():
         if arg == "-page" : 
             ttab.append(value)
         #---
-        # python3 pwb.py md2 allpages
+        # python3 core8/pwb.py md2 allpages
         # python pwb.py md2 allpages
         if arg == "allpages" : 
             ttab = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'nonredirects' )

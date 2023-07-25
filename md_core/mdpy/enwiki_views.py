@@ -3,7 +3,7 @@
 
 page views bot
 
-python3 pwb.py mdpy/enwiki_views
+python3 core8/pwb.py mdpy/enwiki_views
 
 """
 #

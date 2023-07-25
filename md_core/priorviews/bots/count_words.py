@@ -1,6 +1,6 @@
 '''
 
-python3 pwb.py priorviews/bots/count_words
+python3 core8/pwb.py priorviews/bots/count_words
 
 '''
 import sys

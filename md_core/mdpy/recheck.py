@@ -3,8 +3,8 @@
 """
 التحقق من ربط المقالات بالعنصر المناسب في ويكي بيانات
 
-python3 pwb.py mdwiki/mdpy/recheck
-python3 pwb.py mdpy/recheck
+python3 core8/pwb.py mdwiki/mdpy/recheck
+python3 core8/pwb.py mdpy/recheck
 
 """
 #

@@ -48,8 +48,15 @@ def get_w(links, lang):
     #---
     m = 0
     #---
+    def valid(x, tab, empty=''):
+        i = tab.get(x) or tab.get(x.lower())
+        if not i or i == empty:
+            return True
+        return False
+    #---
     if 'onlynew' in sys.argv:
-        links = [ x for x in links if not x in words_by_lang[lang] or words_by_lang[lang][x] == 0]
+        # links = [ x for x in links if not x in words_by_lang[lang] or words_by_lang[lang][x] == 0]
+        links = [ x for x in links if valid(x, words_by_lang[lang], empty=0) ]
     #---
     lena = len(links)
     #---

@@ -3,9 +3,9 @@
 
 إنشاء قائمة بعدد المراجع
 
-python3 pwb.py /data/project/mdwiki/mdpy/countref less100
+python3 core8/pwb.py /data/project/mdwiki/mdpy/countref less100
 
-python3 pwb.py mdpy/countref newpages
+python3 core8/pwb.py mdpy/countref newpages
 
 """
 #
@@ -164,7 +164,7 @@ def mai():
     if 'limit100' in sys.argv : limit = 100
     #---
     # python pwb.py mdwiki/public_html/Translation_Dashboard/countref test1 local -title:Testosterone_\(medication\)
-    # python3 pwb.py /data/project/mdwiki/mdpy/countref test1 -title:Testosterone_\(medication\)
+    # python3 core8/pwb.py /data/project/mdwiki/mdpy/countref test1 -title:Testosterone_\(medication\)
     #---
     for arg in sys.argv:
         arg, sep, value = arg.partition(':')
