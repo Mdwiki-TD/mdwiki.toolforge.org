@@ -1,6 +1,7 @@
 '''
 
-python3 ./core8/pwb.py priorviews/find_translators
+python3 core8/pwb.py priorviews/find/find_translators
+python3 pwb.py priorviews/find/find_translators removeip
 
 '''
 import sys
@@ -27,9 +28,9 @@ file = f'{Dir2}/lists/translators_mdwiki_langs.json'
 if not os.path.exists(file):
     with open(file, 'w') as f:  json.dump({}, f)
 #---
-from priorviews.lists.links_by_section import links_by_lang
-#---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
+#---
+from priorviews.lists.links_by_section import links_by_lang
 #---
 def logem():
     printe.output(f'<<yellow>> logem {len(tra_by_lang)} words')
@@ -125,8 +126,31 @@ def test():
                     print(n, lang, title, tra)
     #---
 #---
+def removeip():
+    #---
+    for lang in tra_by_lang.copy():
+        titles = tra_by_lang[lang]
+        for title, user in titles.items():
+            if user == '':
+                continue
+            # skip user match ip address
+            if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', user):
+                tra_by_lang[lang][title] = ''
+                print(f' <<yellow>> skip user match ip address: {user}')
+                continue
+            # skip user match ip address like: 2001:569:F867:EE00:1540:D99D:3F7:3EAE
+            if re.match(r'^(?:(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|::(?:[A-Fa-f0-9]{1,4}:){0,5}[A-Fa-f0-9]{1,4}|(?:[A-Fa-f0-9]{1,4}:){1,2}:|:(?::[A-Fa-f0-9]{1,4}){1,6}|(?:[A-Fa-f0-9]{1,4}:){1,6}:|:(?::[A-Fa-f0-9]{1,4}){1,7}|(?:[A-Fa-f0-9]{1,4}:){1,7}:|:(?::[A-Fa-f0-9]{1,4}){1,8}|(?:[A-Fa-f0-9]{1,4}:){1,8}:)$', user):
+                tra_by_lang[lang][title] = ''
+                print(f' <<yellow>> skip user match ip address: {user}')
+                continue
+    #---
+    logem()
+    #---
+#---
 if __name__ == '__main__':
-    if "test1" in sys.argv: 
+    if 'removeip' in sys.argv:
+        removeip()
+    elif "test1" in sys.argv:
         TEST = True
         test()
     else: 

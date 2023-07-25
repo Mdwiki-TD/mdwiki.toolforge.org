@@ -328,7 +328,7 @@ class NEW_API():
             #---
             rccontinue = json1.get("continue", {}).get( "rccontinue", '')
             #---
-            ccc = { 
+            ccc = {
                 "type": "new", "ns": 0, "title": "تشارلز مسيون ريمي", "pageid": 7004776, 
                 "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"
                 }
@@ -519,4 +519,22 @@ class NEW_API():
         liste1.sort()
         #---
         return liste1
+        #---
+    #---
+    def get_revisions(self, title):
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "revisions",
+            "titles": title,
+            "utf8": 1,
+            "formatversion": "2",
+            "rvprop": "comment|timestamp|user|content|ids",
+	        "rvdir": "newer",
+            "rvlimit": "max"
+        }
+        #---
+        results = self.post_continue(params, "query", "pages", [])
+        #---
+        return results
         #---

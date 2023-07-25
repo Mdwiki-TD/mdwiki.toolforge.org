@@ -5,7 +5,7 @@ from priorviews.lists import translators
 # translators.tra_by_lang
 # translators.counts_by_translator
 #---
-python3 ./core8/pwb.py priorviews/translators
+python3 pwb.py priorviews/lists/translators
 
 '''
 import sys
@@ -44,13 +44,13 @@ for lang, titles in tra_by_lang.items():
         counts_by_translator[lang][user] += 1
 #---
 if __name__ == '__main__':
-    for x, wo in counts_by_translator.items():   print(x, wo)
+    # for x, wo in counts_by_translator.items():   print(x, wo)
     #---
     print(f'len of counts_by_translator: {len(counts_by_translator)}')
     #---
     print(f'len of tra_by_lang: {len(tra_by_lang)}')
     for lang, titles in tra_by_lang.items():
-        for title, words in titles.items():
-            print(lang, title, words)
-
+        for title, user in titles.items():
+            if user != '':
+                print(f'{lang=}, {title=}, {user=}')
 #---
