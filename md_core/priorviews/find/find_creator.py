@@ -32,12 +32,9 @@ CreatorsData = json.load(codecs.open(file, 'r', 'utf-8'))
 def log_Data():
     printe.output(f'<<yellow>> log_Data {len(CreatorsData)} CreatorsData')
     # dump CreatorsData
-    with codecs.open(file, 'w', 'utf-8') as f:
-        json.dump(CreatorsData, f)
-
-    # ---
-
-
+    helps.dump_data(file, CreatorsData)
+    #---
+ADDED = 0
 def get_creator(links, lang):
     # ---
     if not lang in CreatorsData:    CreatorsData[lang] = {}
@@ -82,21 +79,24 @@ def get_creator(links, lang):
             # ---
             TD = False
             # ---
-            if comment_text.find("|User:Mr. Ibrahem/") != 0:
+            if comment_text.find("|User:Mr. Ibrahem/") != -1:
                 TD = True
             # ---
             print(f"time:{time_stamp}", f"title:{page_title}", f"actor:{actor_name}")
             # ---
             tab = {"time": time_stamp, "actor": actor_name, "comment": comment_text, "TD":TD}
             #---
+            ADDED += 1
+            #---
             CreatorsData[lang][page_title] = tab
+            # ---
+            if ADDED % 50 == 0:
+                log_Data()
             # ---
         # ---
         if "testt" in sys.argv:
             print(result)
             break
-    # ---
-    log_Data()
 
 
 def start():

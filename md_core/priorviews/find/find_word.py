@@ -16,6 +16,7 @@ from datetime import timedelta
 from mdpy import printe
 from mdpy.bots import wiki_api
 #---
+from priorviews.bots import helps
 from priorviews.bots import count_words
 #---
 TEST = False
@@ -34,9 +35,8 @@ words_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 #---
 def log_words():
     printe.output(f'<<yellow>> log_words {len(words_by_lang)} words')
-    # dump words_by_lang
-    with codecs.open(file, 'w', 'utf-8') as f:  json.dump(words_by_lang, f)
-    #---
+    helps.dump_data(file, words_by_lang)
+
 #---
 N_g = 0
 #---

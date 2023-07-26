@@ -26,12 +26,17 @@ from priorviews.lists import creators
 from prior.json_langs.lists import json_langs_by_langs
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
+from priorviews.bots import helps
+#---
 from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})
 #---
 links_without_translator = {}
 # ---
 for lla, titles in links_by_lang.items():
-    links_without_translator[lla] = [x for x in titles if tra_by_lang.get(lla, {}).get(x, '') == '']
+    links_without_translator[lla] = [
+        x for x in titles
+        if tra_by_lang.get(lla, {}).get(x, '') == '' and tra_by_lang.get(lla, {}).get(x.lower(), '') == ''
+        ]
 # ---
 COUNTS_ALL = 0
 # ---
@@ -85,10 +90,7 @@ def gtblame_value(title, lang):
 def logem():
     printe.output(f'<<yellow>> logem {len(new_data)} words')
     # dump new_data
-    with codecs.open(file, 'w', 'utf-8') as foo:
-        json.dump(new_data, foo, ensure_ascii=False)
-    # ---
-
+    helps.dump_data(file, new_data)
 
 def get_b(links, lang):
     # ---
@@ -118,6 +120,11 @@ def get_b(links, lang):
         title_lower = title.lower()
         # ---
         m += 1
+        # ---
+        COUNTS_ALL += 1
+        # ---
+        if COUNTS_ALL % 200 == 0:
+            logem()
         # ---
         value_in = new_data[lang].get(title_lower) or new_data[lang].get(title) or ''
         # ---
@@ -151,12 +158,8 @@ def get_b(links, lang):
         if value_in != 0 and _value == 0:
             continue
         # ---
-        COUNTS_ALL += 1
-        # ---
         new_data[lang][title_lower] = _value
         # ---
-        if COUNTS_ALL % 100 == 0:
-            logem()
     # ---
     # logem()
     # ---

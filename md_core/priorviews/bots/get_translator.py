@@ -84,10 +84,14 @@ class FindTranslator:
                 revisions = p.get("revisions", [])
                 for r in revisions:
                     # print(r)
+                    user = r.get('user', '')
+                    if user == '' or helps.is_ip(user):
+                        continue
+                    #---
                     comment = r.get('comment', '').lower()
                     if helps.isv(comment):
                         # print(r)
-                        self.translator = r.get('user', '')
+                        self.translator = user
                         return
         #---
 

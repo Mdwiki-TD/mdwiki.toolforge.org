@@ -14,6 +14,7 @@ from mdpy import printe
 # ---
 from priorviews.find.find_blame import new_data
 from priorviews.lists.translators import tra_by_lang
+from priorviews.bots import helps
 # ---
 Dir = os.path.dirname(os.path.abspath(__file__))
 # ---
@@ -42,7 +43,7 @@ def add_to_translators():
 
         titles_no_bots = {title: user for title, user in titles.items() if user != '' and not user.lower().endswith('bot')}
 
-        printe.output(f'<<blue>> lang:{lang} found {len(titles_bots)} bots, {len(titles_no_bots)} no bots')
+        # printe.output(f'<<blue>> lang:{lang} found {len(titles_bots)} bots, {len(titles_no_bots)} no bots')
         
         # ---
         for title, user in titles_no_bots.items():
@@ -57,10 +58,10 @@ def add_to_translators():
             if in_ == user or user.lower() in skip_users:
                 continue
             # ---
-            if in_ == '' or in_.lower() in skip_users:
+            if in_ == '' or in_.lower() in skip_users or helps.is_ip(in_):
                 new += 1
                 tra_by_lang[lang][title] = user
-                printe.output(f'<<green>> {new=} {lang=}, {title=}, {user=}')
+                printe.output(f'<<green>> {new=} {lang=}, {title=}, {user=}, old: {in_}')
             elif in_ != user:
                 dd += 1
                 printe.output(f'<<purple>> {dd=} skip, userin: {in_=}, new: {user}')
@@ -68,8 +69,9 @@ def add_to_translators():
     # ---
     file = f'{Dir}/lists/translators_mdwiki_langs.json'
     # ---
-    with codecs.open(file, 'w', 'utf-8') as zf:
-        json.dump(tra_by_lang, zf, ensure_ascii=False)  # ---
+    helps.dump_data(file, tra_by_lang)
+    # with codecs.open(file, 'w', 'utf-8') as zf: json.dump(tra_by_lang, zf, ensure_ascii=False)
+    # ---
 
 
 def sea55():
@@ -90,8 +92,8 @@ def sea55():
     # ---
     file = f'{Dir}/lists/blames.json'
     # ---
-    with open(file, 'w', encoding='utf-8') as zf:
-        json.dump(new_data, zf, ensure_ascii=False)
+    # with open(file, 'w', encoding='utf-8') as zf:   json.dump(new_data, zf, ensure_ascii=False)
+    helps.dump_data(file, new_data)
 
 
     # ---

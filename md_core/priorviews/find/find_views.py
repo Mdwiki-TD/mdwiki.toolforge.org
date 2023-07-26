@@ -14,6 +14,7 @@ from datetime import timedelta
 #---
 from mdpy import printe
 from mdpy.bots import wiki_api
+from priorviews.bots import helps
 #---
 TEST = False
 #---
@@ -32,8 +33,7 @@ ViewsData = json.load(codecs.open(file, 'r', 'utf-8'))
 def log_views():
     printe.output(f'<<yellow>> log_views {len(ViewsData)} views')
     # dump ViewsData
-    with codecs.open(file, 'w', 'utf-8') as f:  json.dump(ViewsData, f)
-    #---
+    helps.dump_data(file, ViewsData)
 #---
 def api_views(title, lang):
     #---

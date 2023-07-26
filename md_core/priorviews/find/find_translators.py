@@ -22,7 +22,7 @@ from priorviews.bots import helps
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)
-#---
+# helps.dump_data(file, data)
 #---
 TEST = False
 #---
@@ -41,8 +41,7 @@ from priorviews.lists.links_by_section import links_by_lang
 def logem():
     printe.output(f'<<yellow>> logem {len(tra_by_lang)} words')
     # dump tra_by_lang
-    with codecs.open(file, 'w', 'utf-8') as f:  json.dump(tra_by_lang, f, ensure_ascii=False)
-    #---
+    helps.dump_data(file, tra_by_lang)
 #---
 N_g = 0
 #---

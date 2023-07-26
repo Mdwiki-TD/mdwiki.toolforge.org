@@ -18,6 +18,8 @@ import os
 import re
 import codecs
 #---
+from priorviews.bots import helps
+#---
 Dir = os.path.dirname(os.path.abspath(__file__))
 #---
 file = f'{Dir}/views_mdwiki_langs.json'
@@ -86,7 +88,10 @@ def makeviews():
 makeviews()
 #---
 # dump count_views_by_lang to json file
-with codecs.open(f'{Dir}/count_views_by_lang.json', 'w', 'utf-8') as f:  json.dump(count_views_by_lang, f)
+filee = f'{Dir}/count_views_by_lang.json'
+#---
+# with codecs.open(filee, 'w', 'utf-8') as f:  json.dump(count_views_by_lang, f)
+helps.dump_data(filee, count_views_by_lang)
 #---
 if __name__ == '__main__':
     print(f'len of views_by_mdtitle_langs: {len(views_by_mdtitle_langs)}')

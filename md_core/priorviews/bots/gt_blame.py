@@ -61,6 +61,7 @@ def match_ref_names(r, refnames, lang):
         if k in refnames:
             printe.output(f'<<green>> find: {k=} count: {v=}| main: {refnames[k]=}')
             printe.output(f'https://{lang}.wikipedia.org/w/index.php?diff=prev&oldid={r["revid"]}')
+            printe.output(f'new user: {user}')
             return user
     #---
     return ''
@@ -204,7 +205,7 @@ def search_history(title, lang, en='', refname=[], extlinks=[]):
         #---
         if not text_pp: continue
         if not user: continue
-        print(timestamp)
+        # print(timestamp)
         #---
         if user.lower().endswith('bot'):
             print(f'skip bots {user}...')
@@ -222,7 +223,7 @@ def search_history(title, lang, en='', refname=[], extlinks=[]):
         if rs != '':
             return rs
     #---
-    print(f'len of revisions: {len(revisions)}')
+    # print(f'len of revisions: {len(revisions)}')
     #---
     return ''
 #---

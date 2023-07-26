@@ -5,18 +5,20 @@ from priorviews.bots import helps
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)
 # helps.talk_url(lang, user, labl)
+# helps.dump_data(file, data)
 #---
 '''
 import sys
-import pywikibot
 import json
 import os
 import re
-from urllib.parse import urlencode
 import codecs
 import datetime
+from urllib.parse import urlencode
 from datetime import timedelta
 #---
+import pywikibot
+from mdpy import printe
 Dir = os.path.dirname(os.path.abspath(__file__))
 #---
 def views_url(title, lang, view):
@@ -42,10 +44,15 @@ def isv(comment):
     #---
     comment = comment.lower()
     #---
-    if comment.find('translators without borders') != -1 :  return True
-    if comment.find('(twb)') != -1 :  return True
+    if comment.find('translators without borders') != -1 :  
+        print(f' <<yellow>> translators without borders: {comment}')
+        return True
+    if comment.find('(twb)') != -1 :  
+        print(f' <<yellow>> (twb): {comment}')
+        return True
     #---
-    if comment.find("|user:mr. ibrahem/") != 0:
+    if comment.find("|user:mr. ibrahem/") != -1:
+        print(f' <<yellow>> |user:mr. ibrahem/ {comment}')
         return True
     # ---
     return False
@@ -71,4 +78,15 @@ def talk_url(lang, user, labl):
     # ---
     return f'[{url} {labl}]'
 #---
+def dump_data(file, data):
+    try:
+        with codecs.open(file, 'w', encoding='utf-8') as f: json.dump(data, f)
+    except KeyboardInterrupt:
+        printe.output('<<red>> keyboard interrupt sys.exit()')
+        #---
+        with codecs.open(f'{file}_1', 'w', encoding='utf-8') as f: json.dump(data, f)
+        #---
+        sys.exit()
+    except Exception as e:
+        printe.output(f'<<red>> dump Error: {e}')
 #---
