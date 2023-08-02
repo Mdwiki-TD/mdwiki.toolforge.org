@@ -1,4 +1,8 @@
 <?PHP
+namespace LeadHelp;
+
+use function Functions\make_mdwiki_title;
+use function Functions\make_target_url;
 
 function make_table_lead($dd, $lang='') {
 

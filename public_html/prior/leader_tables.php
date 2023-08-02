@@ -1,6 +1,7 @@
 <?PHP
+namespace LeaderTables;
+
 include_once('tables.php');
-include_once('functions.php');
 $mainlang = $_REQUEST['lang'] ?? '';
 
 function createNumbersTable(): string {

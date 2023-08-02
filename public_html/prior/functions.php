@@ -1,4 +1,6 @@
 <?php
+namespace Functions;
+
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -47,7 +49,7 @@ function make_mdwiki_title($title)
 {
     if ($title != '') {
         $encoded_title = rawurlencode(str_replace(' ', '_', $title));
-        return "<a href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
+        return "<a target='_blank' href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
     }
     return $title;
 }

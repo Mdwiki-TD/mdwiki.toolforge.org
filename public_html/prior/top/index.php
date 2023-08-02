@@ -1,18 +1,17 @@
 <?php
+namespace TopIndex;
+
+use function Functions\makeColSm4;
+use function LeaderTables\createNumbersTable;
+use function LeaderTables\makeLangTable;
+
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
 
-require 'leader_tables.php';
-
-/**
- * Generate a string containing HTML for the category table.
- * 
- * @return string The HTML string for the category table.
- */
-function generateLeaderboardTable(): string {
+function generateLeaderboardTable(): void {
     $numbersTable = createNumbersTable();
     $numbersCol   = makeColSm4('Numbers', $numbersTable, $numb=3);
 
@@ -24,23 +23,17 @@ function generateLeaderboardTable(): string {
     $languagesTable = makeLangTable();
     $languagesCol = makeColSm4('Top Languages', $languagesTable, $numb=6);
 
-    return <<<HTML
-        <span align="center">
-            <h3>Leaderboard</h3>
-        </span>
-        <div class="row">
-            $numbersCol
-            <!-- $usersCol -->
-            $languagesCol
+    echo <<<HTML
+        <div class="container-fluid">
+            <span align="center">
+                <h3>Leaderboard</h3>
+            </span>
+            <div class="row">
+                $numbersCol
+                <!-- $usersCol -->
+                $languagesCol
+            </div>
         </div>
     HTML;
 }
-
-$leaderboardHtml = generateLeaderboardTable();
-
-echo <<<HTML
-<div class="container-fluid">
-    $leaderboardHtml
-</div>
-HTML;
 ?>

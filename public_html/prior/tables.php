@@ -1,12 +1,4 @@
 <?php
-
-/**
- * Strongly typed PHP code for processing translation statistics.
- * 
- * This code reads from a JSON file, processes translation-related statistics, 
- * and prepares lists of top translators.
- */
-
 // Only display errors and startup errors if 'test' is set in the request
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', '1');
@@ -39,6 +31,7 @@ $translations = $tab_new['translates'];
 
 // Count the number of articles (each link is an article)
 $numbers['Articles'] = count($links_by_section);
+
 
 $md_titles_to_section = [];
 foreach ($links_by_section as $key => $table) {
