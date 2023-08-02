@@ -9,6 +9,7 @@ require('header.php');
     <div class="card-body">
 		<ul>
 			<li><a href="Translation_Dashboard/index.php">Translation Dashboard</a> </li>
+			<li><a href="prior/index.php">Prior List</a> </li>
 		</ul>
 		<div class='container'>
 			<div class='row'>
