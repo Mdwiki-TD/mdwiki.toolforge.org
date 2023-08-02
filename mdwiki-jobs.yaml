@@ -78,7 +78,7 @@
 
 # Find the Wikidata qid for items without qid from English
 - name: findqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/cash addthem"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_qids addthem"
   schedule: '40 1,6,12,18 * * *'
   image: python3.9
   emails: onfailure

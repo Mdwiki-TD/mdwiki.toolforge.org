@@ -25,12 +25,7 @@ from mdpy.bots import sql_for_mdwiki
 #---
 # from sql import *
 #---
-from mdpy.bots import py_tools
-
-
 from pymysql.converters import escape_string
-
-
 #---
 in_qids = sql_for_mdwiki.get_all_qids()
 #---

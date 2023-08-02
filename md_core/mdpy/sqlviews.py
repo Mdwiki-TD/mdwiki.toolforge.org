@@ -22,7 +22,6 @@ from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import wiki_api
 from pymysql.converters import escape_string
 
-from mdpy.bots import py_tools
 from mdpy import printe
 already_in_sql = {}
 #---

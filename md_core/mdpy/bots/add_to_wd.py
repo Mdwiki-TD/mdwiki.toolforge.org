@@ -21,11 +21,7 @@ import pywikibot
 import string
 import sys
 #---
-from mdpy.bots import py_tools
-
 from pymysql.converters import escape_string
-
-
 #---
 from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)

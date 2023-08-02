@@ -27,7 +27,6 @@ Day_History = datetime.now().strftime("%Y-%m-%d")
 project = '/data/project/mdwiki/'
 #---
 if not os.path.isdir(project): project = '/mdwiki'
-from mdpy.bots import py_tools
 from mdpy.bots import en_to_md
 from mdpy import printe
 # en_to_md.mdtitle_to_qid
@@ -40,17 +39,18 @@ from mdpy.bots import mdwiki_api
 #---
 def get_pages():
     #---
-    splits = py_tools.split_lists_to_numbers( mdwiki_to_qid.keys() )
-    #---
     table = {}
     #---
     num = 0
     #---
-    for n, lis in splits.items():
+    titles = mdwiki_to_qid.keys()
+    #---
+    for i in range(0, len(titles), 100):
+        group = titles[i:i+100]
         #---
-        asa = mdwiki_api.get_redirect(lis)
+        asa = mdwiki_api.get_redirect(group)
         #---
-        print(f'work on {len(lis)} pagees.' )
+        print(f'work on {len(group)} pagees.' )
         #---
         for red, target in asa.items():
             #---

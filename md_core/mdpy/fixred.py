@@ -63,29 +63,27 @@ from mdpy.bots import py_tools
 #---
 def find_redirects(links):
     #---
-    #list = [ x for x in links if links[x].get('ns','') == '0' ]
-    list = []
+    #titles = [ x for x in links if links[x].get('ns','') == '0' ]
+    titles = []
     for x in links:
         if not x in from_to :
             ns = links[x].get('ns','')
             if str(ns) == '0' :
-                list.append( x )
+                titles.append( x )
             else:
                 printe.output( 'ns:' + str(ns) )
     #---
     oldlen = len(from_to.items())
     #---
-    list2 = py_tools.split_lists_to_numbers( list , maxnumber = 300 )
-    #---
     normalized_numb = 0
     #---
-    for numbb in list2 :
+    for i in range(0, len(titles), 300):
+        group = titles[i:i+300]
         #---
-        newlist = list2[numbb]
+        #printe.output(group)
         #---
-        #printe.output(newlist)
+        line = "|".join(group)
         #---
-        line = "|".join( newlist )
         params = {
             "action": "query",
             "format": "json",

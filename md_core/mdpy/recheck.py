@@ -93,15 +93,16 @@ dodo_sql()
 #---
 def do_it_sql(lange, targets):
     #---
-    all_list = py_tools.split_lists_to_numbers(list(targets.keys()), maxnumber=100, out=False)
+    titles = list(targets.keys())
     #---
-    for nu, t_list in all_list.items():
+    for i in range(0, len(titles), 100):
+        group = titles[i:i+100]
         #---
-        ase = [escape_string(t.strip().replace(" ", "_")) for t in t_list if t.strip() != ""]
+        ase = [escape_string(t.strip().replace(" ", "_")) for t in group if t.strip() != ""]
         #---
         if ase == []:   continue
         #---
-        laly = "'" + "', '".join(ase) + "'"
+        laly = "', '".join(ase)
         #---
         query = f"""
             select DISTINCT p.page_title, pp.pp_value
@@ -109,17 +110,15 @@ def do_it_sql(lange, targets):
             where p.page_id = pp.pp_page
             and pp.pp_propname='wikibase_item'
             and p.page_namespace = 0
-            and p.page_title in ({laly})
+            and p.page_title in ('{laly}')
             ;"""
-        #---
-        # printe.output('--------------------')
         #---
         result = wiki_sql.Make_sql_many_rows(query, wiki=str(lange))
         #---
         res_len = len(result)
         #---
-        if res_len == len(t_list):
-            printe.output("<<lightgreen>> len(result) == len(t_list) 100.")
+        if res_len == len(group):
+            printe.output("<<lightgreen>> len(result) == len(group) 100.")
         #---
         result_n = []
         #---
@@ -138,13 +137,13 @@ def do_it_sql(lange, targets):
                 #---
                 wd_tt[target] = {"mdtitle": md_title, "lang": lange, "qid": pp_value}
         #---
-        if res_len < len(t_list):
-            diff = len(t_list) - res_len
+        if res_len < len(group):
+            diff = len(group) - res_len
             # printe.output( query )
-            itemdiff = [t for t in t_list if t.strip() != "" and t not in result_n]
+            itemdiff = [t for t in group if t.strip() != "" and t not in result_n]
             len_missing = len(itemdiff)
             if len_missing > 0:
-                printe.output("recheck.py %d missing from %d" % (diff, len(t_list)))
+                printe.output("recheck.py %d missing from %d" % (diff, len(group)))
                 printe.output("recheck.py missing:(%d):%s" % (len_missing, ",".join(itemdiff)))
         #---
 #---
@@ -162,11 +161,11 @@ def do_it_api(lange, targets):
     noqid = 0
     nomd = 0
     #---
-    all_list = py_tools.split_lists_to_numbers(New_targets, maxnumber=limits, out=False)
-    #---
-    for nu, t_list in all_list.items():
+    for i in range(0, len(New_targets), limits):
+        group = New_targets[i:i+limits]
+        # ---
         # get all pages qid
-        qids_from_wiki = wiki_api.Get_page_qids(lange, t_list)
+        qids_from_wiki = wiki_api.Get_page_qids(lange, group)
         #---
         qids = {}
         for title, tab in qids_from_wiki.items():
@@ -191,7 +190,7 @@ def do_it_api(lange, targets):
                 qids[title] = tab.get("q", "")
             #---
         #---
-        for target in t_list:
+        for target in group:
             #---
             qid = qids.get(target, "")
             if qid == "":

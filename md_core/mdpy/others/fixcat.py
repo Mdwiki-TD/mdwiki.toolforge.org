@@ -13,9 +13,6 @@ python3 core8/pwb.py mdpy/fixcat
 import pywikibot
 import sys
 #---
-from mdpy.bots import py_tools
-
-
 from pymysql.converters import escape_string
 
 

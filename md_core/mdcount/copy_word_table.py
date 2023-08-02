@@ -18,15 +18,7 @@ import pywikibot
 from mdpy.bots import sql_for_mdwiki
 #---
 from mdpy import printe
-from mdpy.bots import py_tools
 from pymysql.converters import escape_string
-
-
-
-
-
-
-
 #---
 que = '''select DISTINCT w_title, w_lead_words, w_all_words from words;'''
 #---
