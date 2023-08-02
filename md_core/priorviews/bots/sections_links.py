@@ -2,7 +2,7 @@
 
 from priorviews.bots.sections_links import get_section_links
 
-python3 ./core8/pwb.py priorviews/sections_links
+python3 core8/pwb.py priorviews/sections_links
 
 '''
 import sys

@@ -3,6 +3,7 @@
 from priorviews.lists import translators 
 # translators.tra_by_lang
 # translators.counts_by_translator
+# translators.counts_by_lang
 #---
 python3 core8/pwb.py priorviews/lists/translators
 
@@ -31,19 +32,25 @@ from priorviews.bots import helps
 # helps.is_ip(user)
 #---
 counts_by_translator  = {}
+counts_by_lang        = {}
 #---
 # Iterate through each markdown file and language in `tra_by_lang`
 for lang, titles in tra_by_lang.items():
     #---
     if not lang in counts_by_translator: counts_by_translator[lang] = {}
+    if not lang in counts_by_lang: counts_by_lang[lang] = 0
     #---
     for title, user in titles.items():
+        #---
+        if user == '': continue
         #---
         # skip user match ip address
         if helps.is_ip(user): continue
         #---
         if not user in counts_by_translator[lang] : counts_by_translator[lang][user] = 0
         counts_by_translator[lang][user] += 1
+        #---
+        counts_by_lang[lang] += 1
 #---
 if __name__ == '__main__':
     # for x, wo in counts_by_translator.items():   print(x, wo)

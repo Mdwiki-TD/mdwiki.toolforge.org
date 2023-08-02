@@ -17,9 +17,15 @@ import codecs
 from priorviews.bots import helps
 #---
 Dir = os.path.dirname(os.path.abspath(__file__))
-Dir2 = os.path.dirname(Dir)
 #---
-file = f'{Dir2}/lists/creators_by_lang.json'
+file_cts = f'{Dir}/creators_as_translators.json'
+#---
+if not os.path.exists(file_cts):
+    with open(file_cts, 'w') as f:  json.dump({}, f)
+#---
+creators_as_translators = json.load(codecs.open(file_cts, 'r', 'utf-8'))
+#---
+file = f'{Dir}/creators_by_lang.json'
 #---
 if not os.path.exists(file):
     with open(file, 'w') as f:  json.dump({}, f)

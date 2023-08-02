@@ -68,7 +68,14 @@ class Login():
     #---
     def make_response(self, params):
         #---
-        url_o_print = self.endpoint + '?' + urllib.parse.urlencode(params)
+        pams2 = params.copy()
+        #---
+        for x, v in params.items():
+            if type(v) == str and len(v) > 100:
+                pams2[x] = v[:100]
+        #---
+        url_o_print = self.endpoint + '?' + urllib.parse.urlencode(pams2)
+        #---
         url_o_print = url_o_print.replace('&format=json', '')
         #---
         if print_test[1] or 'printurl' in sys.argv:

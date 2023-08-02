@@ -1,6 +1,6 @@
 """
 
-python3 ./core8/pwb.py priorviews/bot test
+python3 core8/pwb.py priorviews/bot test
 
 """
 import sys
@@ -64,13 +64,17 @@ newtext += f'** Total views: {by_lang.en_views:,}\n'
 newtext += f'* Translations: {by_lang.total_tra:,}:\n'
 
 total_langs = len(views.count_views_by_lang) - 1
-newtext += f'** Total languages: {total_langs:,}\n'
-newtext += f'** Total views: {by_lang.total_views:,}\n'
-newtext += f'** Total words: {by_lang.total_wrds:,}\n'
 #---
-newtext += '\n* [[User:Mr. Ibrahem/priorviews/bylang|Views and Words by language]]'
-newtext += '\n\n==Views by section==\n\n'
-newtext += '* Views by section and language and title:\n'
+newtext += f'''
+** Total languages: {total_langs:,}
+** Total views: {by_lang.total_views:,}
+** Total words: {by_lang.total_wrds:,}
+* [[User:Mr. Ibrahem/priorviews/bylang|Views, Words and Translators by language]]
+* [[User:Mr. Ibrahem/priorviews/translators|All translators]]
+
+==Views by section==
+* Views by section and language and title:
+'''
 #---
 newtext += '\n'.join([f'** [[User:Mr. Ibrahem/priorviews/{t}|{t}]]' for t in titles_1])
 #---

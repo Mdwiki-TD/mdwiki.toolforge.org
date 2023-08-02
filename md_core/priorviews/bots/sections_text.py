@@ -2,7 +2,7 @@
 
 from priorviews.bots import sections_text #make_text(section, links)
 
-python3 ./core8/pwb.py priorviews/sections_text
+python3 core8/pwb.py priorviews/sections_text
 
 '''
 import sys

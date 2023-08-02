@@ -79,6 +79,7 @@ def talk_url(lang, user, labl):
     return f'[{url} {labl}]'
 #---
 def dump_data(file, data):
+    printe.output(f'<<green>> dump_data() file:{file}.')
     try:
         with codecs.open(file, 'w', encoding='utf-8') as f: json.dump(data, f)
     except KeyboardInterrupt:

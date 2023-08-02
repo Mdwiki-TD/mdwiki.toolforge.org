@@ -3,7 +3,7 @@
 
 from priorviews.lists.links_by_section import sects_links_langlinks
 
-python3 ./core8/pwb.py priorviews/links_by_section
+python3 core8/pwb.py priorviews/lists/links_by_section
 
 """
 import sys
@@ -11,7 +11,7 @@ import pywikibot
 import json
 import os
 import codecs
-#---
+# ---
 from mdpy import printe
 # ---
 from priorviews.bots.sections_links import get_section_links
@@ -98,8 +98,14 @@ if 'test' in sys.argv:
 if __name__ == '__main__':
     ll = sects_links_langlinks
     # ---
+    '''
     for s, ls in ll.items():
         print(f'section: {s}')
         print(f'len of links: {len(ls)}')
         if len(ls) < 10:
             print(ls)
+    '''
+    # ---
+    # print(links_by_lang['ar'])
+    print(len(links_by_lang['ar']))
+    # ---
