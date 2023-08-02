@@ -16,7 +16,7 @@ function createNumbersTable() {
     <tbody>
     HTML;
     foreach ( $numbers as $key => $value ) {
-        //---
+        
         // skip keys 
         $skip_keys = ['Articles', 'Languages'];
         if (in_array($key, $skip_keys) && $mainlang !== '') {
@@ -24,7 +24,7 @@ function createNumbersTable() {
         }
 
         // if (in_array($key, $skip_keys) && $mainlang !== '') {
-        //---
+        
         // if type is array then count
         if (is_array($value)) {
             $value = count($value);
@@ -48,7 +48,7 @@ function createNumbersTable() {
 function makeUsersTable() {
     
     global $sql_users_tab, $Users_word_table, $Views_by_users;
-    //---
+    
     global $top_translators, $translators_views, $translators_words, $mainlang;
     
     $text = <<<HTML
@@ -102,7 +102,7 @@ function makeUsersTable() {
 function makeLangTable() {
     
     global $lang_code_to_en, $code_to_lang, $sql_Languages_tab, $all_views_by_lang;
-    //---
+    
     global $translates_by_lang;
     
     arsort($translates_by_lang);
@@ -128,7 +128,7 @@ function makeLangTable() {
         $comp  = count($table['titles']);
         $words = number_format($table['words']);
         $views = number_format($table['views']);
-        //---
+        
         if ( $comp > 0 ) {
             
             $numb ++;

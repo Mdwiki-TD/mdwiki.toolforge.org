@@ -40,7 +40,7 @@ function makeColSm4($title, $table, $numb = '4') {
     </div>
     HTML;
 };
-//---
+
 function make_mdwiki_title($title) {
     if ($title != '') {
         $encoded_title = rawurlencode(str_replace(' ', '_', $title));
@@ -48,7 +48,7 @@ function make_mdwiki_title($title) {
     }
     return $title;
 }
-//---
+
 function make_target_url($target, $lang, $name = '') {
     $display_name = ($name != '') ? $name : $target;
     if ($target != '') {
@@ -57,4 +57,3 @@ function make_target_url($target, $lang, $name = '') {
     }
     return $target;
 }
-//---

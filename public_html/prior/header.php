@@ -11,30 +11,30 @@
     <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)" />
 	<title>Prior</title>
 <?php
-//---
+
 if ($_REQUEST['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 };
-//---
+
 $testxx = isset($_REQUEST['test']) ? "1" : "";
-//---
+
 define('global_test', $testxx);
-//---
+
 include_once('functions.php');
-//---
+
 include_once('../Translation_Dashboard/login5.php');
-//---
+
 define('global_username', $username);
-//---
+
 $hoste = '';
-//---
+
 function print_head() {
 	global $hoste;
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
 	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
-	//---
+	
 	if (isset($_GET['noboot']) == '') {
 		echo <<<HTML
 		<link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
@@ -63,17 +63,17 @@ function print_head() {
 		}</style>
 		HTML;
 	};
-	//---
+	
 	echo "
 	<span id='myusername' style='display:none'>" . global_username . "</span>";
-	//---
+	
 };
-//---
+
 print_head();
-//---
+
 echo "
 </head>";
-//---
+
 $them_li = <<<HTML
 		<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
 		<svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
@@ -103,7 +103,7 @@ $them_li = <<<HTML
 		</li>
 		</ul>
 HTML;
-//---
+
 echo <<<HTML
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">

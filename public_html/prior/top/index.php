@@ -1,26 +1,26 @@
 <?PHP
-//---
+
 if (isset($_REQUEST['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
+
 require 'leader_tables.php';
-//---
+
 function print_cat_table(): string {
     global $sql_users_tab, $Articles_numbers, $Words_total, $sql_Languages_tab, $global_views;
-    //---
+    
     $numbersTable = createNumbersTable();
     $numbersCol   = makeColSm4('Numbers', $numbersTable, $numb = '3');
-    //---
+    
     // $usersTable   = makeUsersTable();
     // $usersCol     = makeColSm4('Top Translators', $usersTable, $numb = '5');
     $usersCol     = '';
 
     $languagesTable = makeLangTable();
     $languagesCol = makeColSm4('Top Languages', $languagesTable, $numb = '6');
-    //---
+    
     return <<<HTML
         <span align="center">
             <h3>Leaderboard</h3>
@@ -32,9 +32,9 @@ function print_cat_table(): string {
         </div>
     HTML;
 }
-//---
+
 $uux = print_cat_table();
-//---
+
 echo <<<HTML
 <style>
     .table>tbody>tr>td,
@@ -51,5 +51,5 @@ echo <<<HTML
     $uux
 </div>
 HTML;
-//---
+
 ?>
