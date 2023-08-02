@@ -5,7 +5,8 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 }
 
-function escape_string($unescaped_string) {
+function escape_string($unescaped_string)
+{
     // Alternative mysql_real_escape_string without mysql connection
     $replacementMap = [
         "\0" => "\\0",
@@ -24,7 +25,8 @@ function escape_string($unescaped_string) {
     return \strtr($unescaped_string, $replacementMap);
 }
 
-function makeColSm4($title, $table, $numb = '4') {
+function makeColSm4($title, $table, $numb = '4')
+{
     return <<<HTML
     <div class="col-md-$numb">
         <div class="card">
@@ -41,7 +43,8 @@ function makeColSm4($title, $table, $numb = '4') {
     HTML;
 };
 
-function make_mdwiki_title($title) {
+function make_mdwiki_title($title)
+{
     if ($title != '') {
         $encoded_title = rawurlencode(str_replace(' ', '_', $title));
         return "<a href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
@@ -49,7 +52,8 @@ function make_mdwiki_title($title) {
     return $title;
 }
 
-function make_target_url($target, $lang, $name = '') {
+function make_target_url($target, $lang, $name = '')
+{
     $display_name = ($name != '') ? $name : $target;
     if ($target != '') {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));

@@ -1,23 +1,20 @@
-<?PHP
-
+<?php
+// Import required files and functions
 require('lead_help.php');
+require('leader_tables.php');
 
-$test = $_REQUEST['test'] ?? '';
-$mainlang = $_REQUEST['lang'] ?? '';
-$mainlang = rawurldecode( str_replace ( '_' , ' ' , $mainlang ) );
-
-require 'leader_tables.php';
-
+/**
+ * Build and return an HTML string which represents a table with categories,
+ * specified by the provided language.
+ *
+ * @return string The generated HTML string.
+ */
 function print_cat_table_lang(): string {
-    
-    global $mainlang;
-    
     $numbersTable = createNumbersTable();
-    $numbersCol   = makeColSm4('Numbers', $numbersTable, $numb = '3');
-    
-    $usersTable   = makeUsersTable();
-    $usersCol     = makeColSm4('Top Translators', $usersTable, $numb = '6');
-    
+    $numbersCol = makeColSm4('Numbers', $numbersTable, $numb = '3');
+    $usersTable = makeUsersTable();
+    $usersCol   = makeColSm4('Top Translators', $usersTable, $numb = '6');
+
     return <<<HTML
         <div class="row">
             $numbersCol
@@ -26,16 +23,22 @@ function print_cat_table_lang(): string {
     HTML;
 }
 
+// Get the main language from the request or use an empty string as default
+$mainlang = $_REQUEST['lang'] ?? '';
+$mainlang = rawurldecode(str_replace('_', ' ', $mainlang));
+
+// Get the language name from the code_to_lang array or use the main language code
 $langname = $code_to_lang[$mainlang] ?? $mainlang;
 
+// Generate and sort the table of translations for the specified language
 $dd = $translates_by_lang[$mainlang]['titles'];
-
 krsort($dd);
+$tat = make_table_lead($dd, $lang = $mainlang);
 
-$tat = make_table_lead($dd, $lang=$mainlang);
+// Generate the category table HTML for the main language
+$tablex = print_cat_table_lang($mainlang);
 
-$tablex = print_cat_table_lang();
-
+// Display the HTML output
 echo <<<HTML
 <div class='row content'>
     <div class='col-md-4'></div>
@@ -50,4 +53,4 @@ $tablex
     </div>
 </div>
 HTML;
-
+?>

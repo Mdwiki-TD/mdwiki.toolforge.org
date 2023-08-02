@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark" />
-  
+
     <meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)" />
 	<title>Prior</title>
@@ -34,7 +34,7 @@ function print_head() {
 	global $hoste;
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
 	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
-	
+
 	if (isset($_GET['noboot']) == '') {
 		echo <<<HTML
 		<link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
@@ -63,10 +63,10 @@ function print_head() {
 		}</style>
 		HTML;
 	};
-	
+
 	echo "
 	<span id='myusername' style='display:none'>" . global_username . "</span>";
-	
+
 };
 
 print_head();
@@ -175,7 +175,7 @@ HTML;
 		$('#username_li').show();
 		$('#logout_btn').show();
 		$('#user_name').text(lo);
-	
+
 	} else {
 		$('#login_btn').show();
 		$('#loginli').show();
