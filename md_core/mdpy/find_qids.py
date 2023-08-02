@@ -45,9 +45,10 @@ def check_title(title):
 # ---
 qids = sql_for_mdwiki.get_all_qids()
 # ---
-qids_already = [q for title, q in qids.items() if q != '']
+# qids_already = [q for title, q in qids.items() if q != '']
+qids_already = {q: title for title, q in qids.items() if q != ''}
 # ---
-noqidsnoqids = [title for title, q in qids.items() if q == '' and check_title(title)]
+noqids = [title for title, q in qids.items() if q == '' and check_title(title)]
 # ---
 
 
@@ -111,44 +112,51 @@ def start():
     # ---
     new_title_qid = get_qids(noqids)
     # ---
-    to_add_text = ''
     no = ''
     # ---
+    false_qids = {}
+    # ---
     to_add = {}
-    no_qids = []
+    empty_qids = []
     # ---
     for x, q in new_title_qid.items():
         ll = f'"{q}":"{x}",\n'
         # ---
         if q == '':
             no += ll
-            no_qids.append(x)
+            empty_qids.append(x)
             continue
         # ---
-        if not q in qids_already:
+        if not q in list(qids_already.keys()):
             to_add[x] = q
         else:
-            to_add_text += ll
+            false_qids[x] = q
     # ---
     printe.output('===================')
-    if to_add_text != '':
-        printe.output('<<lightred>> flase qids: ')
-        printe.output(to_add_text)
-        printe.output('===================')
+    if false_qids:
+        printe.output('<<lightred>> flase qids:')
+        for x, q in false_qids.items():
+            title_in = qids_already.get(q, '')
+            # ---
+            printe.output(f'q: {q}\t new title: ({x})\t: title_in: ({title_in})..')
     # ---
     printe.output('===================')
-    printe.output('<<lightred>>no qids:')
-    printe.output(no)
+    printe.output(f'<<lightred>>no qids: {len(empty_qids)}')
+    if empty_qids:
+        printe.output(no)
+        # ---
+        printe.output('<<purple>> add "createq" to sys.argv to create new items for them?')
+        # ---
+        if 'createq' in sys.argv:
+            create_qids(empty_qids)
     # ---
-    if 'createq' in sys.argv:
-        create_qids(no_qids)
-    # ---
+    printe.output('===================')
     printe.output(f'find qid to {len(to_add)} from {len(noqids)} pages.')
     # ---
     if len(to_add) > 0:
         printe.output('<<lightyellow>>\n'.join([f'{k}\t:\t{v}' for k, v in to_add.items()]))
         # ---
-        print('add "addthem" to sys.argv to add them?')
+        printe.output('<<purple>> add "addthem" to sys.argv to add them?')
         # ---
         if 'addthem' in sys.argv:
             sql_for_mdwiki.add_titles_to_qids(to_add)
