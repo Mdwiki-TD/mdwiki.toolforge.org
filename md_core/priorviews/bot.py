@@ -7,9 +7,10 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import codecs
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 from priorviews.lists.links_by_section import sects_links_langlinks
 from priorviews.bots import sections_text

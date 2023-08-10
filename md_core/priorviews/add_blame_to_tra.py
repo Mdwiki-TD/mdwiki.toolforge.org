@@ -6,6 +6,7 @@ python3 core8/pwb.py priorviews/add_blame_to_tra
 
 import sys
 import os
+from pathlib import Path
 import re
 import json
 import codecs
@@ -16,7 +17,7 @@ from priorviews.find.find_blame import new_data
 from priorviews.lists.translators import tra_by_lang
 from priorviews.bots import helps
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 # ---
 skip_users = [
     "doc james"
@@ -75,7 +76,7 @@ def add_to_translators():
 
 
 def sea55():
-    data = json.load(open(f'{Dir}/sea55.json', 'r', encoding='utf-8'))
+    data = json.load(open(f'{Dir}/sea55.json', encoding='utf-8'))
     # ---
     n = 0
     # ---

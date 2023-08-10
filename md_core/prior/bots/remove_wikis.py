@@ -3,6 +3,7 @@ python3 core8/pwb.py prior/remove_wikis
 '''
 import sys
 import os
+from pathlib import Path
 import re
 import json
 import urllib.parse
@@ -10,7 +11,7 @@ import pywikibot
 import wikitextparser
 import codecs
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 project_js_new   = f'{Dir}/json_langs/'
 project_js_newen = f'{Dir}/json_en/'

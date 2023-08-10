@@ -8,12 +8,13 @@ from new_api.mdwiki_page import MainPage as md_MainPage
 import sys
 import json
 import os
+from pathlib import Path
 import re
 import urllib.parse
 import datetime
 import codecs
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 # ---
 #---
 from priorviews.bots import helps

@@ -6,6 +6,7 @@ python3 core8/pwb.py niosh/get write ask
 '''
 import sys
 import os
+from pathlib import Path
 import re
 import json
 import urllib.parse
@@ -15,7 +16,7 @@ import codecs
 # ---
 from mdpy import printe
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 Dird = f"{Dir}/downloads/"
 Dird_js = f"{Dir}/downloads_js/"
 #---

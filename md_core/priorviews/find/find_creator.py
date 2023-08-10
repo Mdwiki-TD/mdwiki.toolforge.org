@@ -9,6 +9,7 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import codecs
 from pymysql.converters import escape_string
 # ---
@@ -17,7 +18,7 @@ from mdpy import printe
 from priorviews.lists.links_by_section import links_by_lang
 from priorviews.bots import helps
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
 # ---
 file = f'{Dir2}/lists/creators_by_lang.json'

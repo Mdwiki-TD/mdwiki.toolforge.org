@@ -6,6 +6,7 @@ python3 core8/pwb.py priorviews/find/find_blame -lang:ar
 
 import sys
 import os
+from pathlib import Path
 import re
 import json
 import sys
@@ -40,7 +41,7 @@ for lla, titles in links_by_lang.items():
 # ---
 COUNTS_ALL = 0
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
 # ---
 file = f'{Dir2}/lists/blames.json'

@@ -8,6 +8,7 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import re
 import codecs
 import datetime
@@ -21,7 +22,7 @@ from priorviews.bots import count_words
 #---
 TEST = False
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
 #---
 file = f'{Dir2}/lists/words_mdwiki_langs.json'

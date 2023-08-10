@@ -9,6 +9,7 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import re
 import datetime
 import codecs
@@ -20,7 +21,7 @@ from priorviews.lists import translators
 from priorviews.bots import helps
 from priorviews.lists import creators # creators.Creators_by_lang_title
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 file_cts = f'{Dir}/creators_as_translators.json'
 #---

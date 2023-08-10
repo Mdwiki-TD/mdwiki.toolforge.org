@@ -16,6 +16,7 @@ import string
 import time
 import sys
 import os
+from pathlib import Path
 import urllib
 import urllib.request
 import urllib.parse
@@ -24,7 +25,7 @@ import codecs
 #---
 import pywikibot
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 from mdpy.bots import mdwiki_api
 #---

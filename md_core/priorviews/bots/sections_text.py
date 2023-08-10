@@ -9,12 +9,13 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 from urllib.parse import urlencode
 import codecs
 import datetime
 from datetime import timedelta
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 text_v = '''
 <div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">

@@ -7,6 +7,7 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import re
 import codecs
 import datetime
@@ -18,7 +19,7 @@ from priorviews.bots import helps
 #---
 TEST = False
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
 #---
 file = f'{Dir2}/lists/views_mdwiki_langs.json'

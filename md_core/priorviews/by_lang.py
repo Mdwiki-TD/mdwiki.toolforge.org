@@ -7,13 +7,14 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import codecs
 # ---
 from priorviews.lists import words
 from priorviews.lists import views
 from new_api.mdwiki_page import MainPage as md_MainPage
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 from priorviews.lists.creators_to_translators import creators_as_translators
 from priorviews.lists import translators 

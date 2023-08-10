@@ -11,6 +11,7 @@ from priorviews.bots import helps
 import sys
 import json
 import os
+from pathlib import Path
 import re
 import codecs
 import datetime
@@ -19,7 +20,7 @@ from datetime import timedelta
 #---
 import pywikibot
 from mdpy import printe
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 def views_url(title, lang, view):
     params = {

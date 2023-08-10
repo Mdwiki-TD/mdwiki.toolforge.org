@@ -43,7 +43,7 @@ def add_lang_en(text, lang=''):
         #---
         if re.sub(r'\|\s*language\s*\=\s*\w+', '', ref) != ref : continue
         #---
-        ref2 = re.sub(r'(\|\s*language\s*\=\s*)(\|\}\})', '\g<1>en\g<2>', ref)
+        ref2 = re.sub(r'(\|\s*language\s*\=\s*)(\|\}\})', r'\g<1>en\g<2>', ref)
         #---
         if ref2 == ref:
             ref2 = ref.replace('}}</ref>', '|language=en}}</ref>')
@@ -89,13 +89,13 @@ def remove_False_code(text):
 #---
 def move_dots_text(newtext, lang=''):
     #---
-    dot = '(\.|\,)'
+    dot = r'(\.|\,)'
     #---
     if lang == 'zh':    dot = '(。)'
     #---
     regline = r'((?:\s*<ref[\s\S]+?(?:<\/ref|\/)>)+)'
     #---
-    newtext = re.sub(dot + r'\s*' + regline, '\g<2>\g<1>', newtext)
+    newtext = re.sub(dot + r'\s*' + regline, r'\g<2>\g<1>', newtext)
     #---
     return newtext
 #---

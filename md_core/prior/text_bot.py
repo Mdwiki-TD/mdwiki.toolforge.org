@@ -5,6 +5,7 @@
 import sys
 import json
 import os
+from pathlib import Path
 import codecs
 import pywikibot
 # ---
@@ -185,7 +186,7 @@ all_pages_states = {}
 
 
 def log_all_pages_states():
-    Dir = os.path.dirname(os.path.abspath(__file__))
+    Dir = Path(__file__).parent
     file = f'{Dir}/all_pages_states.json'
     # ---
     if all_pages_states != {}:

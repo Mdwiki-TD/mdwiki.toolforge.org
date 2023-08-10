@@ -9,6 +9,7 @@ python3 pwb.py newupdater/med Retinol from_toolforge
 #
 #
 import os
+from pathlib import Path
 import re
 import sys
 #---
@@ -110,7 +111,7 @@ def test():
     drugbox.printn    = print
     expend.printn     = print
     # ---
-    Dir = os.path.dirname(os.path.abspath(__file__))
+    Dir = Path(__file__).parent
     # ---
     text = codecs.open(os.path.join(Dir, "bots/resources.txt"), "r", "utf-8").read()
     newtext = work_on_text("test", text)

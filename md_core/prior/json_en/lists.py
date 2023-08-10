@@ -6,9 +6,10 @@ from prior.json_en.lists import json_en_all
 '''
 import sys
 import os
+from pathlib import Path
 import json
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 # ---
 project_js_new = Dir
 # ---

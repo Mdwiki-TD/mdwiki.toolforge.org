@@ -1,11 +1,12 @@
 import wikitextparser as wtp
 import os
+from pathlib import Path
 import codecs
 import re
 import sys
 
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 # ---
 from lists.chem_params import rename_chem_params
 # ---

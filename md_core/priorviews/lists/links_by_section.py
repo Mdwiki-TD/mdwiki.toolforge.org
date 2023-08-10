@@ -10,13 +10,14 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import codecs
 # ---
 from mdpy import printe
 # ---
 from priorviews.bots.sections_links import get_section_links
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 # get the dir 2 levels back
 # ---
 _Dir_ = os.path.dirname(os.path.dirname(Dir))

@@ -2,6 +2,7 @@ import re
 import sys
 
 import os
+from pathlib import Path
 import codecs
 import wikitextparser
 #---
@@ -135,7 +136,7 @@ if __name__ == "__main__":
     #---
     printn = print
     #---
-    Dir = os.path.dirname(os.path.realpath(__file__))
+    Dir = Path(__file__).parent
     from newupdater.med import GetPageText
     #---
     text = GetPageText(sys.argv[1])

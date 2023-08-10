@@ -12,10 +12,11 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import re
 import codecs
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 file = f'{Dir}/translators_mdwiki_langs.json'
 #---

@@ -15,12 +15,13 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import re
 import codecs
 #---
 from priorviews.bots import helps
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 file = f'{Dir}/views_mdwiki_langs.json'
 #---

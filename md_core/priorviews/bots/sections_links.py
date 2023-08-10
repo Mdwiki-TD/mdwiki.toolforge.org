@@ -7,6 +7,7 @@ python3 core8/pwb.py priorviews/sections_links
 '''
 import sys
 import os
+from pathlib import Path
 import re
 import json
 import urllib.parse
@@ -18,7 +19,7 @@ from mdpy import printe
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 Dir = os.path.dirname(Dir)
 #---
 sect_file = f'{Dir}/lists/secs_links.json'

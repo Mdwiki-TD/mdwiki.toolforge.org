@@ -4,6 +4,7 @@ python3 core8/pwb.py niosh/bot
 '''
 import sys
 import os
+from pathlib import Path
 import re
 import json
 import urllib.parse
@@ -14,7 +15,7 @@ import codecs
 from mdpy import printe
 from new_api.wiki_page import MainPage, NEW_API
 # ---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 # ---
 file_json1 = f"{Dir}/jsons/extlinks.json"
 # ---

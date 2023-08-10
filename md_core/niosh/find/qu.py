@@ -4,11 +4,12 @@ python3 core8/pwb.py niosh/bot
 '''
 import sys
 import os
+from pathlib import Path
 import re
 import codecs
 import json
 # ---
-Dir  = os.path.dirname(os.path.abspath(__file__))
+Dir  = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
 # ---
 file = f"{Dir2}/jsons/old/quarry.json"

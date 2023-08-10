@@ -1,8 +1,9 @@
 import os
+from pathlib import Path
 import json
 
 # استدعاء الدالة وتمرير المجلد الحالي كوسيطة
-folder_path = os.path.dirname(os.path.abspath(__file__))
+folder_path = Path(__file__).parent
 
 # قم بعمل سكان للمجلد ومجلداته الفرعية
 for root, dirs, files in os.walk(folder_path):

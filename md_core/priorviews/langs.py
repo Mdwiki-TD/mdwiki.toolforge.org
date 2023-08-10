@@ -7,6 +7,7 @@ import sys
 import pywikibot
 import json
 import os
+from pathlib import Path
 import urllib.parse
 import re
 import datetime
@@ -29,7 +30,7 @@ from priorviews.bots import w_all
 #---
 from new_api.mdwiki_page import MainPage as md_MainPage
 #---
-Dir = os.path.dirname(os.path.abspath(__file__))
+Dir = Path(__file__).parent
 #---
 from priorviews.lists.creators_to_translators import creators_as_translators
 #---
