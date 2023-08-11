@@ -17,14 +17,15 @@ def remove_cite_web( text, resources_get_NLM, line, title ):
     #---
     title2 = re.escape(title)
     #---
-    ioireg = r"(\*\s*{{\s*cite web\s*\|\s*url\s*=\s*https\:\/\/druginfo\.nlm\.nih\.gov\/drugportal\/(?:name|category)\/%s\s*\|\s*publisher\s*=\s*U\.S\. National Library of Medicine\s*\|\s*work\s*=\s*Drug Information Portal\s*\|\s*title\s*=\s*%s\s*}})" % (title2, title2)
+    ioireg = fr"\s*cite web\s*\|\s*url\s*=\s*https\:\/\/druginfo\.nlm\.nih\.gov\/drugportal\/(?:name|category)\/{title2}\s*\|\s*publisher\s*=\s*U\.S\. National Library of Medicine\s*\|\s*work\s*=\s*Drug Information Portal\s*\|\s*title\s*=\s*{title2}\s*"
+    ioireg = r"(\*\s*{{" + ioireg + "}})"
     #---
     vavo = re.search( ioireg, new_text, flags=re.IGNORECASE)
     if vavo :
         vas = vavo.group(1)
         # الوسيط موجود في القالب
         if line != "" and resources_get_NLM and resources_get_NLM == "":
-            line2 = re.sub(r"(\s*NLM\s*\=\s*)", "\g<1>{{PAGENAME}}", line, flags=re.IGNORECASE)
+            line2 = re.sub(r"(\s*NLM\s*\=\s*)", r"\g<1>{{PAGENAME}}", line, flags=re.IGNORECASE)
             new_text = new_text.replace( line, line2 )
             if line != line2 and new_text.find(line2) != -1 :
                 new_text = new_text.replace( vas, "" )             # حذف قالب الاستشهاد

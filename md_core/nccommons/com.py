@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 """
 
 create pages in nccommons
@@ -75,16 +74,9 @@ def make_page(x, tab):
     if x2.strip() == "":
         x2 = x
     #---
-    text = """{{Imagestack
-|width=850
-|title=%s
-|align=centre
-|loop=no
-%s}}
-[[Category:Image set]]""" % (
-        x2,
-        lines,
-    )
+    text = "{{" + f"Imagestack\n|width=850\n|title={x2}\n|align=centre\n|loop=no\n{lines}"
+    #---
+    text += "\n}}\n[[Category:Image set]]"
     #---
     api.create_Page(text, x)
     #---
