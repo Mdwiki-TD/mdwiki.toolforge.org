@@ -1,9 +1,10 @@
 <?php
 namespace TopLangs;
 use function LeadHelp\make_table_lead;
-use function Functions\makeColSm4;
-use function LeaderTables\createNumbersTable;
-use function LeaderTables\makeUsersTable;
+use function Functions\ColSm;
+use function LeaderTables\NumbsTableNew;
+use function LeaderTables\UsersTableNew;
+use function LeaderTables\UsersTableTarget;
 // require 'tables.php';
 /**
  * Build and return an HTML string which represents a table with categories,
@@ -12,15 +13,18 @@ use function LeaderTables\makeUsersTable;
  * @return string The generated HTML string.
  */
 function print_cat_table_lang(): string {
-    $numbersTable = createNumbersTable();
-    $numbersCol = makeColSm4('Numbers', $numbersTable, $numb = '3');
-    $usersTable = makeUsersTable();
-    $usersCol   = makeColSm4('Top Translators', $usersTable, $numb = '6');
+    $numbersTable = NumbsTableNew();
+    $numbersCol = ColSm('Numbers', $numbersTable, $numb=3);
+    $usersTable = UsersTableNew();
+    $usersCol   = ColSm('Top Translators', $usersTable, $numb=6);
+    $targets    = UsersTableTarget();
+    $targetsCol = ColSm('<button class="btn btn-success" onclick="copy()">Copy</button>', $targets, $numb=3);
 
     return <<<HTML
         <div class="row">
             $numbersCol
             $usersCol
+            $targetsCol
         </div>
     HTML;
 }

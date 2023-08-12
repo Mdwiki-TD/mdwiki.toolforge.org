@@ -11,7 +11,7 @@ use function TopIndex\generateLeaderboardTable;
 use function TopLangs\make_lang_tab;
 
 // Enable error reporting for debugging (Only if 'test' request parameter is set)
-if (isset($_REQUEST['test'])) {
+if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -25,4 +25,5 @@ if ($langs !== '') {
     generateLeaderboardTable();
 }
 
+echo '<script>$("#prior").addClass("active");</script>';
 require 'foter.php';

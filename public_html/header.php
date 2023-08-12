@@ -127,6 +127,16 @@ echo <<<HTML
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
 					<li class="nav-item col-4 col-lg-auto">
+						<a class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/index.php" target="_blank">
+							<span class="navtitles">Translation Dashboard</span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto">
+						<a class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/leaderboard.php" target="_blank">
+							<span class="navtitles">Leaderboard</span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto">
 						<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/mdwiki.toolforge.org" target="_blank">
 							<span class="navtitles">Github</span>
 						</a>

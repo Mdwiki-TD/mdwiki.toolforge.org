@@ -1,11 +1,5 @@
 # sql backup
 
-- name: yaml-backup
-  command: "$HOME/databasebackup.sh"
-  schedule: '11 1 * * *'
-  image: tf-python39
-  emails: onfailure
-
 - name: days7-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
@@ -111,7 +105,7 @@
   image: python3.9
   emails: onfailure
 
-- name: P11143-yaml
+- name: p11143-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/P11143 add addq"
   schedule: '1 1 * * 2'
   image: python3.9

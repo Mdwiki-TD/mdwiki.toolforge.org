@@ -2,28 +2,32 @@
 </main>
 
 <script>
+	
 	$(document).ready(function() {
-
+		var table = $('.soro2').DataTable( {
+			// paging: false,
+			info: false,
+			lengthMenu: [
+				[30, 50, 100, 150, 200],
+				[30, 50, 100, 150, 200]
+			],
+			searching: false,
+			// lengthChange: false
+		} );
+	
 		$('[data-toggle="tooltip"]').tooltip();
 
-		setTimeout(function() {
-			$('.soro2').DataTable({
-				// paging: false,
-				info: false,
-				lengthMenu: [
-					[50, 100, 150, 200],
-					[50, 100, 150, 200]
-				],
-				searching: false
-			});
-
-			$('.soro').DataTable({
-				lengthMenu: [
-					[100, 200],
-					[100, 200]
-				],
-			});
-		}, 3000);
+		$('.sortable').DataTable({
+			paging: false,
+			info: false,
+			searching: false
+		});
+		$('.soro').DataTable({
+			lengthMenu: [
+				[200, 300, 2500],
+				[200, 300, 2500]
+			],
+		});
 	});
 </script>
 </body>

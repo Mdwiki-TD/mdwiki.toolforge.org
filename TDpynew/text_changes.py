@@ -16,7 +16,9 @@ temps_to_delete = [
     "short description",
     "toc limit",
     'use american english',
-    'use dmy dates'
+    'use dmy dates',
+    'about',
+    'redirect'
 ]
 #---
 def work(text) :
@@ -28,5 +30,5 @@ def work(text) :
         if name.lower() in temps_to_delete:
             text = text.replace(temp.string.strip(), '')
     #---
-    return text
+    return text.strip()
 #---

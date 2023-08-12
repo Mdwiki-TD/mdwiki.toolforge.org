@@ -18,16 +18,8 @@ if ($_REQUEST['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 	error_reporting(E_ALL);
 };
 
-$testxx = isset($_REQUEST['test']) ? "1" : "";
-
-define('global_test', $testxx);
-
 include_once('functions.php');
-
 include_once('../Translation_Dashboard/login5.php');
-
-define('global_username', $username);
-
 $hoste = '';
 
 function print_head() {
@@ -43,6 +35,7 @@ function print_head() {
 		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
+		<!-- <link href='$hoste/ajax/libs/datatables.net-buttons-bs5/2.4.1/buttons.bootstrap5.css' rel='stylesheet' type='text/css'> -->
 		<!-- <link href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css' rel='stylesheet' type='text/css'> -->
 		<link rel="stylesheet" href="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css" rel='stylesheet' type='text/css'>
 
@@ -54,8 +47,13 @@ function print_head() {
 		<!-- <script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script> -->
 		<script src="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
 
+		<!-- <script src='$hoste/ajax/libs/datatables.net-buttons/2.4.1/js/dataTables.buttons.min.js'></script>
+		<script src='$hoste/ajax/libs/datatables.net-buttons-bs5/2.4.1/buttons.bootstrap5.min.js'></script>
+		<script src="$hoste/ajax/libs/datatables.net-buttons/2.4.1/js/buttons.html5.min.js"></script>
+		<script src="$hoste/ajax/libs/datatables.net-buttons/2.4.1/js/buttons.print.min.js"></script> -->
+
 		<script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
-		<script src='/Translation_Dashboard/js/sorttable.js'></script>
+		<!-- <script src='/Translation_Dashboard/js/sorttable.js'></script> -->
 
 		<style> 
 		a {
@@ -63,9 +61,6 @@ function print_head() {
 		}</style>
 		HTML;
 	};
-
-	echo "
-	<span id='myusername' style='display:none'>" . global_username . "</span>";
 
 };
 
@@ -137,6 +132,21 @@ echo <<<HTML
 			</button>
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+					<li class="nav-item col-4 col-lg-auto" id="prior">
+						<a class="nav-link py-2 px-0 px-lg-2" href="index.php">
+							<span class="navtitles">Top Languages</span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto">
+						<a class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/index.php" target="_blank">
+							<span class="navtitles"><b>New Translation Dashboard</b></span>
+						</a>
+					</li>
+					<li class="nav-item col-4 col-lg-auto">
+						<a class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/leaderboard.php" target="_blank">
+							<span class="navtitles"><b>New Leaderboard</b></span>
+						</a>
+					</li>
 					<li class="nav-item col-4 col-lg-auto">
 						<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/mdwiki.toolforge.org" target="_blank">
 							<span class="navtitles">Github</span>
@@ -148,16 +158,6 @@ echo <<<HTML
 					<li class="nav-item col-4 col-lg-auto dropdown">
 						$them_li
 					</li>
-					<li class="nav-item col-4 col-lg-auto" id="">
-						<a id="username_li" href="index.php?user=$username" class="nav-link py-2 px-0 px-lg-2" style="display:none">
-							<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
-						</a>
-					</li>
-					<li class="nav-item col-4 col-lg-auto" id="loginli">
-						<a role="button" class="nav-link py-2 px-0 px-lg-2" onclick="login()">
-							<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-						</a>
-					</li>
 				</ul>
 			</div>
 		</div>
@@ -165,25 +165,6 @@ echo <<<HTML
 </header>
 HTML;
 ?>
-<script>	
-	// $(document).ready(function() {
-	var lo = $('#myusername').text();
-	if ( lo != '' ) {
-		$('#login_btn').hide();
-		$('#myboard').show();
-		$('#loginli').hide();
-		$('#username_li').show();
-		$('#logout_btn').show();
-		$('#user_name').text(lo);
-
-	} else {
-		$('#login_btn').show();
-		$('#loginli').show();
-		$('#username_li').hide();
-		$('#logout_btn').hide();
-	};
-	// });
-	</script>
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container-fluid">

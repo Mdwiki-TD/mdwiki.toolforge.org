@@ -1,7 +1,7 @@
 <?php
 namespace Functions;
 
-if (isset($_REQUEST['test'])) {
+if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -27,7 +27,7 @@ function escape_string($unescaped_string)
     return \strtr($unescaped_string, $replacementMap);
 }
 
-function makeColSm4($title, $table, $numb = '4')
+function ColSm($title, $table, $numb = '4')
 {
     return <<<HTML
     <div class="col-md-$numb">
@@ -35,7 +35,7 @@ function makeColSm4($title, $table, $numb = '4')
             <div class="card-header aligncenter" style="font-weight:bold;">
                 $title
             </div>
-            <div class="card-body1 card2">
+            <div class="card-body">
                 $table
             </div>
             <!-- <div class="card-footer"></div> -->

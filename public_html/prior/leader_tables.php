@@ -4,7 +4,7 @@ namespace LeaderTables;
 include_once('tables.php');
 $mainlang = $_REQUEST['lang'] ?? '';
 
-function createNumbersTable(): string {
+function NumbsTableNew(): string {
     global $numbers, $mainlang;
     
     // Initialize the HTML string with the table header
@@ -59,12 +59,12 @@ function createNumbersTable(): string {
     return $Numbers_table;
 };
 
-function makeUsersTable(): string {
+function UsersTableNew(): string {
     global $top_translators, $translators_views, $translators_words, $mainlang;
 
     // Start the table with a header row
     $text = <<<HTML
-    <table class="sortable table table-striped soro2 table-sm">
+    <table class="table table-striped table-sm soro2">
         <thead>
             <tr>
                 <th class="spannowrap">#</th>
@@ -122,7 +122,38 @@ function makeUsersTable(): string {
     return $text;
 }
 
-function makeLangTable(): string {
+function UsersTableTarget(): string {
+    global $top_translators, $mainlang;
+
+    $text = <<<HTML
+    <div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">
+        <textarea rows="30" cols="70" id="userslist">
+    HTML;
+
+    arsort($top_translators);
+
+    foreach ( $top_translators as $user => $usercount ) {
+
+        $mass = "#{{#target:User:$user|$mainlang.wikipedia.org}}";
+        $text .= $mass . "\n";
+    };
+
+    $text .= <<<HTML
+        </textarea>
+    </div>
+    <script>
+        function copy() {
+            let textarea = document.getElementById("userslist");
+            textarea.select();
+            document.execCommand("copy");
+            }
+    </script>
+    HTML;
+
+    return $text;
+}
+
+function LangsTableNew(): string {
 
     global $translates_by_lang;
 

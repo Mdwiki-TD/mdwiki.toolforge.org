@@ -14,7 +14,7 @@ function make_table_lead($dd, $lang='') {
                 <tr>
                     <th>#</th>
                     <th>mdtitle</th>
-                    <th>Section</th>
+                    <!-- <th>Section</th> -->
                     <th>Words</th>
                     <th>Views</th>
                     <th>Translated</th>
@@ -48,7 +48,7 @@ function make_table_lead($dd, $lang='') {
             <tr class='filterDiv show2'>
                 <th data-content="#">$noo</th>
                 <td data-content="Title">$nana</td>
-                <td data-content="Section">$section</td>
+                <!-- <td data-content="Section">$section</td> -->
                 <td data-content="Words">$word</td>
                 <td data-content='Views'>$views</td>
                 <td data-content="Translated">$target_link</td>
