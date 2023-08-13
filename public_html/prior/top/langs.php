@@ -22,9 +22,15 @@ function print_cat_table_lang(): string {
 
     return <<<HTML
         <div class="row">
-            $numbersCol
-            $usersCol
-            $targetsCol
+            <div class="col-md-3">
+                $numbersCol
+            </div>
+            <div class="col-md-6">
+                $usersCol
+            </div>
+            <div class="col-md-3">
+                $targetsCol
+            </div>
         </div>
     HTML;
 }

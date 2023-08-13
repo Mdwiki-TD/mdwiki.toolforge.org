@@ -30,7 +30,6 @@ function escape_string($unescaped_string)
 function ColSm($title, $table, $numb = '4')
 {
     return <<<HTML
-    <div class="col-md-$numb">
         <div class="card">
             <div class="card-header aligncenter" style="font-weight:bold;">
                 $title
@@ -41,7 +40,6 @@ function ColSm($title, $table, $numb = '4')
             <!-- <div class="card-footer"></div> -->
         </div>
         <br>
-    </div>
     HTML;
 };
 

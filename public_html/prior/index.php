@@ -2,7 +2,8 @@
 namespace Prior;
 
 require 'header.php';
-require 'leader_tables.php';
+require 'graph.php';
+require 'prior_leaders.php';
 require 'top/lead_help.php';
 require 'top/index.php';
 require 'top/langs.php';

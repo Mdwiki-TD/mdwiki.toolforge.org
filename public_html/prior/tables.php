@@ -117,6 +117,11 @@ $numbers['Translators'] = count($translators);
 
 // Identify the top translators by number of translations
 $top_translators = array_map('count', $translators);
-
 arsort($top_translators);
 $top_translators = array_slice($top_translators, 0, 156, true);
+
+// count top langs by number of titles count($translates_by_lang[$get_lang]['titles'])
+
+$top_langs = array_map(function ($data) {
+	return count($data['titles']);
+}, $translates_by_lang);
