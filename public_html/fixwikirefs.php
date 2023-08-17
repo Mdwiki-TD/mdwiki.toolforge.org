@@ -72,9 +72,9 @@ function get_results() {
     $ccc = "returnfile -page:$title2 -lang:$lang $mv";
     //---
     $params = array(
-        'dir' => '/data/project/mdwiki/md_core/mdpy',
-        'localdir' => '../mdpy',
-        'pyfile' => 'wpref.py',
+        'dir' => '/data/project/mdwiki/md_core/wprefs',
+        'localdir' => '../wprefs',
+        'pyfile' => 'bot.py',
         'other' => $ccc,
         'test' => $test
     );

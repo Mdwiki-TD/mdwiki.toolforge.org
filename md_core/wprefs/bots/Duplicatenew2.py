@@ -4,7 +4,7 @@
 
 تجميع المراجع المتشابهة
 
-python pwb.py mdwiki/mdpy/Duplicatenew2.py
+
 
 """
 #
@@ -18,33 +18,7 @@ import sys
 import itertools
 from contextlib import suppress
 #---
-try:
-    from mdpy.bots.replace_except import replaceExcept
-except ImportError:
-    from bots.replace_except import replaceExcept
-#---
-PYTHON_VERSION = sys.version_info[:3]
-if PYTHON_VERSION >= (3, 9):
-    removeprefix = str.removeprefix  # type: ignore[attr-defined]
-    removesuffix = str.removesuffix  # type: ignore[attr-defined]
-else:
-    def removeprefix(string: str, prefix: str) -> str:
-        """Remove prefix from a string or return a copy otherwise.
-
-        .. versionadded:: 5.4
-        """
-        if string.startswith(prefix):
-            return string[len(prefix):]
-        return string
-
-    def removesuffix(string: str, suffix: str) -> str:
-        """Remove prefix from a string or return a copy otherwise.
-
-        .. versionadded:: 5.4
-        """
-        if string.endswith(suffix):
-            return string[:-len(suffix)]
-        return string
+from wprefs.bots.replace_except import replaceExcept, removeprefix, removesuffix
 #---
 def get_html_attributes_value(text, param):
     # rar = r'(?i){0}\s*=\s*[\'"]?(?P<{0}>[^\'" >]+)[\'"]?'.format(param)
@@ -276,4 +250,4 @@ if __name__ == "__main__":
     #---
     newt = DuplicateReferences(tet)
     #---
-    pywikibot.showDiff(tet, newt)
+    # pywikibot.showDiff(tet, newt)

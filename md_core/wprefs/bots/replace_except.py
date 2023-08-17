@@ -1,4 +1,5 @@
 import re
+import sys
 from contextlib import suppress
 
 _regex_cache = {}
@@ -45,7 +46,29 @@ FILE_LINK_REGEX = r"""
     )??
     \]\]
 """
+PYTHON_VERSION = sys.version_info[:3]
+if PYTHON_VERSION >= (3, 9):
+    removeprefix = str.removeprefix  # type: ignore[attr-defined]
+    removesuffix = str.removesuffix  # type: ignore[attr-defined]
+else:
+    def removeprefix(string: str, prefix: str) -> str:
+        """Remove prefix from a string or return a copy otherwise.
 
+        .. versionadded:: 5.4
+        """
+        if string.startswith(prefix):
+            return string[len(prefix):]
+        return string
+
+    def removesuffix(string: str, suffix: str) -> str:
+        """Remove prefix from a string or return a copy otherwise.
+
+        .. versionadded:: 5.4
+        """
+        if string.endswith(suffix):
+            return string[:-len(suffix)]
+        return string
+#---
 def compileLinkR(withoutBracketed: bool = False, onlyBracketed: bool = False):
     """Return a regex that matches external links."""
     notAtEnd = r'\]\s\.:;,<>"\|\)'

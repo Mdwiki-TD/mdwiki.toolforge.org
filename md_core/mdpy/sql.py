@@ -342,7 +342,6 @@ def main():
         add_to_wd.add_tab_to_wd( { lange : New_Table_by_lang[lange] } )
         #---
         add_to_mdwiki_sql( { lange : New_Table_by_lang[lange] } )
-    #wpref.make_ref_change(New_Table_by_lang)# if newtext.find('[[Category:Translated from MDWiki') == -1 : newtext = newtext + '\n[[Category:Translated from MDWiki]]'
     #---
 if __name__ == '__main__':
     main()
