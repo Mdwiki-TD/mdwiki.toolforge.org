@@ -1,72 +1,59 @@
 """
-from wprefs.bots.fix_pt_months import pt_months
+July 25, 1975 should be translated as 25 de julio de 1975
 """
-import sys
 import re
 import wikitextparser as wtp
 # ---
 from wprefs.helps import print_s
 # ---
-months = {
-    'January': 'janeiro',
-    'February': 'fevereiro',
-    'March': 'março',
+es_months_tab = {
+    'January': 'enero',
+    'February': 'febrero',
+    'March': 'marzo',
     'April': 'abril',
-    'May': 'maio',
-    'June': 'junho',
-    'July': 'julho',
+    'May': 'mayo',
+    'June': 'junio',
+    'July': 'julio',
     'August': 'agosto',
-    'September': 'setembro',
-    'October': 'outubro',
-    'November': 'novembro',
-    'December': 'dezembro',
+    'September': 'septiembre',
+    'October': 'ctubre',
+    'November': 'noviembre',
+    'December': 'diciembre',
 }
 # ---
-months_lower = {k.lower(): v for k, v in months.items()}
+es_months_lower = {k.lower(): v for k, v in es_months_tab.items()}
 # ---
-months_line = "|".join(months.keys())
+es_months_line = "|".join(es_months_tab.keys())
 # ---
 
 def make_new_val(val):
     newval = val
     # match month and year
     # ---
-    maa = r'^(?P<d>\d{1,2} |)(?P<m>%s) (?P<y>\d{4})$' % months_line
+    # match date like : January, 2020 or 10 January, 2020
+    maa = r'^(?P<d>\d{1,2} |)(?P<m>%s) (?P<y>\d{4})$' % es_months_line
+    # ---
     # match date like : January 10, 2020
-    maa2 = r'^(?P<m>%s) (?P<d>\d{1,2}), (?P<y>\d{4})$' % months_line
+    maa2 = r'^(?P<m>%s) (?P<d>\d{1,2}), (?P<y>\d{4})$' % es_months_line
     # ---
     sas = re.search(maa, val.strip())
+    # ---
+    if not sas:
+        sas = re.search(maa2, newval.strip())
+    # ---
     if sas:
-        d = sas.group('d')
-        m = sas.group('m')
-        y = sas.group('y')
+        d = sas.group('d').strip()
+        m = sas.group('m').strip()
+        y = sas.group('y').strip()
         # ---
-        pt_m = months_lower.get(m.lower(), '')
-        # ---
-        if pt_m != '':
-            # ---
-            if d != '':
-                pt_m = f'de {pt_m}'
-            # ---
-            newval = f"{d} {pt_m} {y}"
-        # ---
-        return newval
-    # ---
-    sas2 = re.search(maa2, newval.strip())
-    # ---
-    if sas2:
-        d = sas2.group('d')
-        m = sas2.group('m')
-        y = sas2.group('y')
-        # ---
-        pt_m = months_lower.get(m.lower(), '')
+        pt_m = es_months_lower.get(m.lower(), '').strip()
         # ---
         if pt_m != '':
             # ---
             if d != '':
                 pt_m = f'de {pt_m}'
             # ---
-            newval = f"{d} {pt_m} {y}"
+            newval = f"{d} {pt_m} de {y}"
         # ---
         return newval
     # ---
@@ -74,16 +61,11 @@ def make_new_val(val):
 # ---
 
 
-def pt_months(text):
+def fix_es_months(text):
     parsed = wtp.parse(text)
     tags = parsed.get_tags()
     # ---
     for x in tags:
-        if 'dd' in sys.argv:
-            print('--------------------------------')
-            print(str(x))
-            print(dir(x))
-        #---
         if not x or not x.name:  continue
         if x.name != 'ref':
             continue

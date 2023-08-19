@@ -57,8 +57,13 @@ reffixed_list = make_ref_done_list()
 # ---
 
 
-def append_reffixed_file(lang, title):
+def append_reffixed_file(lang, title, titles=[]):
     lio = f'{lang}:{title}'
+    #---
+    if titles:
+        nan = "\n".join([f'{lang}:{t}' for t in titles])
+        lio += f"\n{nan}"
+    #---
     with codecs.open(reffixed_file, "a", encoding="utf-8") as ggg:
         ggg.write('\n' + lio)
     ggg.close()

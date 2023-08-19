@@ -36,7 +36,12 @@ project = '/data/project/mdwiki'
 if not os.path.isdir(project):
     project = 'I:/mdwiki'
 # ---
-
+yes_answer = ["y", "a", "", "Y", "A", "all"]
+# ---
+ask_a = {1: False}
+# ---
+missingtitles = {}
+# ---
 
 def log(lang):
     # ---
@@ -92,12 +97,10 @@ def log(lang):
     token = r3.json()['query']['tokens']['csrftoken']
     # ---
     session["token"] = token
-# ---
 
 
 def Gettoken():
     return session["token"]
-# ---
 
 
 def submitAPI(params, lang='', Type='post'):
@@ -133,11 +136,42 @@ def submitAPI(params, lang='', Type='post'):
     # ---
     return json1
 
-
-# ---
-missingtitles = {}
-# ---
-
+def get_revisions(title, lang=''):
+    params = {
+        "action": "query",
+        "format": "json",
+        "prop": "revisions",
+        "titles": title,
+        "formatversion": "2",
+        "rvprop": "comment|user|timestamp",
+        "rvdir": "newer",
+        "rvlimit": "max"
+    }
+    #---
+    rvcontinue = 'x'
+    #---
+    revisions = []
+    #---
+    while rvcontinue != '':
+        #---
+        if rvcontinue != 'x' :
+            params['rvcontinue'] = rvcontinue
+        #---
+        json1 = submitAPI(params, lang=lang)
+        # ---
+        if not json1 or type(json1) != dict:
+            return ''
+        # ---
+        rvcontinue = json1.get( "continue" , {} ).get( "rvcontinue" , '' )
+        #---
+        pages = json1.get('query',{}).get('pages',[{}])
+        #---
+        for p in pages:
+            _revisions = p.get("revisions", [])
+            revisions.extend(_revisions)
+    #---
+    return revisions
+    
 
 def GetPageText(title, lang='', Print=True):
     # ---
@@ -185,13 +219,6 @@ def GetPageText(title, lang='', Print=True):
             print_s(f'page {title} text == "".')
     # ---
     return text
-
-
-# ---
-yes_answer = ["y", "a", "", "Y", "A", "all"]
-# ---
-ask_a = {1: False}
-# ---
 
 
 def page_put(oldtext, NewText, summary, title, lang):
@@ -243,4 +270,4 @@ def page_put(oldtext, NewText, summary, title, lang):
         ggg.close()
     # ---
     return False
-# ---
+

@@ -41,6 +41,7 @@ def match_ref_names(r, refnames, lang):
     _tags_ = {}
     #---
     for x in tags:
+        if not x or not x.name:  continue
         if x.name != 'ref': continue
         #---
         attrs = x.attrs

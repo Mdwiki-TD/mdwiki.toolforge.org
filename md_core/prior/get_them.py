@@ -198,6 +198,7 @@ class work_in_one_lang_link:
         _tags_ = {}
         #---
         for x in tags:
+            if not x or not x.name:  continue
             if x.name != 'ref': continue
             #---
             attrs = x.attrs
@@ -317,6 +318,7 @@ class work_in_one_lang_link:
     def make_new_text(self, tags):
         #---
         for x in tags:
+            if not x or not x.name:  continue
             if x.name != 'ref': continue
             #---
             name = x.attrs.get('name', '').replace('/', '').lower().strip()
@@ -416,6 +418,7 @@ class get_old:
         _tags_ = {}
         #---
         for x in tags:
+            if not x or not x.name:  continue
             if x.name != 'ref': continue
             #---
             attrs = x.attrs
@@ -511,6 +514,7 @@ class get_old:
     def make_new_text(self, tags):
         #---
         for x in tags:
+            if not x or not x.name:  continue
             if x.name != 'ref': continue
             #---
             name = x.attrs.get('name', '').replace('/', '').lower().strip()

@@ -172,11 +172,27 @@ def cash_wd():
     # ---
     printe.output('<<lightgreen>> cash_wd')
     # ---
-    mdwiki_pages = mdwiki_api.subcatquery('RTT', depth='3', ns='all')
-    # ---
     titles = []
-    for dd in mdwiki_pages:
-        if not dd.startswith("User:") and not dd.startswith("Category:"):
+    # ---
+    cac = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;', return_dict=True)
+    #---
+    for c in cac:
+        cat = c['category']
+        dep = c['depth']
+        #---
+        cat = cat.decode("utf-8") if type(cat) == bytes else cat
+        #---
+        dep = dep.decode("utf-8") if type(dep) == bytes else dep
+        #---
+        mdwiki_pages = mdwiki_api.subcatquery(cat, depth=dep, ns='all')
+        # ---
+        for dd in mdwiki_pages:
+            if dd.startswith("User:") or dd.startswith("Category:"):
+                continue
+            # ---
+            if dd in titles:
+                continue
+            # ---
             titles.append(dd)
     # ---
     printe.output(f'<<lightgreen>> len of mdwiki_api.subcatquery:RTT:{len(titles)}.')

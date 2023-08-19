@@ -88,6 +88,8 @@ def work_one_lang(list_, lang):
     # ---
     number = 0
     # ---
+    dns = []
+    # ---
     for title in newlist:
         # ---
         lio = f'{lang}:{title}'
@@ -96,6 +98,10 @@ def work_one_lang(list_, lang):
         # ---
         if lio in reffixed_list and 'lala' not in sys.argv:
             print_s('<<lightred>>\talready in reffixed_list.')
+            continue
+        # ---
+        if 'adddone' in sys.argv:
+            dns.append(title)
             continue
         # ---
         text = GetPageText(title, lang=lang)
@@ -113,13 +119,12 @@ def work_one_lang(list_, lang):
             # ---
             if aa:
                 donee = True
-        else:
-            if 'donee' in sys.argv:
-                donee = True
         # ---
-        if donee:
+        if donee or 'donee' in sys.argv:
             append_reffixed_file(lang, title)
-
+    #---
+    if dns:
+        append_reffixed_file(lang, '', dns)
 
 # ---
 for arg in sys.argv:

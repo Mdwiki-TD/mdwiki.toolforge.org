@@ -17,6 +17,8 @@ from mdpy.bots import txtlib2
 from wprefs.bots.fix_pt_months import pt_months
 # ---
 from wprefs.helps import print_s
+from wprefs.es import fix_es
+from wprefs.infobox import Expend_Infobox
 # ---
 
 
@@ -46,7 +48,6 @@ def add_lang_en(text, lang=''):
             text = text.replace(pap + ref, pap + ref2)
     # ---
     return text
-# ---
 
 
 def remove_False_code(text):
@@ -82,7 +83,6 @@ def remove_False_code(text):
             text = text.replace(pap + ref, pap + ref2)
     # ---
     return text
-# ---
 
 
 def move_dots_text(newtext, lang=''):
@@ -97,76 +97,6 @@ def move_dots_text(newtext, lang=''):
     newtext = re.sub(dot + r'\s*' + regline, r'\g<2>\g<1>', newtext)
     # ---
     return newtext
-# ---
-
-
-def Expend_Infobox(text, title, section_0):
-    # ---
-    newtext = text
-    # ---
-    if section_0 == '':
-        if newtext.find('==') != -1:
-            section_0 = newtext.split('==')[0]
-        else:
-            tagg = f"'''{title}'''1"
-            if newtext.find(tagg) != -1:
-                section_0 = newtext.split(tagg)[0]
-            else:
-                section_0 = newtext
-                print_s('section_0 = newtext')
-    # ---
-    title2 = re.escape(title)
-    # ---
-    newtext = re.sub(r"\}\s*(\'\'\'%s\'\'\')" % title2, "}\n\n\g<1>", newtext)
-    section_0 = re.sub(r"\}\s*(\'\'\'%s\'\'\')" % title2, "}\n\n\g<1>", section_0)
-    # ---
-    tempse_by_u = {}
-    tempse = {}
-    # ---
-    ingr = txtlib2.extract_templates_and_params(section_0)
-    u = 0
-    for temp in ingr:
-        u += 1
-        name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
-        if len(params) > 4 and section_0.find(f'>{template}') == -1:
-            tempse_by_u[u] = temp
-            # ---
-            tempse[u] = len(template)
-            # ---
-            print_s(namestrip)
-    # ---
-    main_temp = {}
-    # ---
-    if len(tempse_by_u) == 1:
-        for x in tempse_by_u:
-            main_temp = tempse_by_u[x]
-    else:
-        PP = [[y1, u1] for u1, y1 in tempse.items()]
-        PP.sort(reverse=True)
-        # ---
-        for y2, u2 in PP:
-            print_s(f'len: {y2}, u2: {u2}')
-            main_temp = tempse_by_u[u2]
-            break
-    # ---
-    # work in main_temp:
-    if main_temp != {}:
-        main_temp_text = main_temp.get('item', '')
-        # ---
-        new_temp = main_temp_text
-        # ---
-        for param in main_temp['params']:
-            # new_temp = re.sub(r'\s*(\|\s*%s\s*\=)' % param, '\n\g<1>', new_temp)
-            newparam = f'| {param.ljust(16)}='
-            new_temp = re.sub(r'\s*(\|\s*%s\s*\=)' % param, '\n' + newparam, new_temp)
-        # ---
-        new_temp = re.sub(r'\s*\}\}\s*$', '\n}}', new_temp)
-        # ---
-        newtext = newtext.replace(main_temp_text, new_temp)
-        newtext = newtext.replace(new_temp + "'''", new_temp + "\n'''")
-    # ---
-    return newtext
-# ---
 
 
 def fix_page(newtext, title, move_dots=False, infobox=False, section_0='', lang='', add_en_lang=False):
@@ -188,6 +118,9 @@ def fix_page(newtext, title, move_dots=False, infobox=False, section_0='', lang=
     # ---
     if lang == 'pt':
         newtext = pt_months(newtext)
+    # ---
+    if lang == 'es':
+        newtext = fix_es(newtext, title)
     # ---
     return newtext
 # ---
