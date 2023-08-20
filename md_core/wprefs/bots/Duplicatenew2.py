@@ -103,7 +103,7 @@ def DuplicateReferences(text):
     name_r = fmt.format('name')
     group_r = fmt.format('group')
     #---
-    ("group_r:" + group_r )
+    # ("group_r:" + group_r )
     #---
     NAMES = re.compile(name_r)
     GROUPS = re.compile(group_r)

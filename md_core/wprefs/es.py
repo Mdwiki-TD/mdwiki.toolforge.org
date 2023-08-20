@@ -9,6 +9,7 @@ import wikitextparser as wtp
 from wprefs.helps import print_s
 from wprefs.bots.es_months import fix_es_months
 from wprefs.bots.es_section import add_section
+from wprefs.bots.es_refs import mv_es_refs
 # ---
 refs_temps = {
     'cite web': 'cita web',
@@ -378,6 +379,8 @@ def fix_es(text, title):
     newtext = fix_temps(newtext)
     # ---
     newtext = add_section(newtext, title)
+    # ---
+    newtext = mv_es_refs(newtext)
     # ---
     newtext = newtext.replace('<references />', '{{listaref}}')
     # ---
