@@ -54,9 +54,9 @@ else:
     credentials = {'read_default_file': config.db_connect_file}
 # ---
 main_args = {
-    'host':     'tools.db.svc.wikimedia.cloud',
-    'db':       's54732__mdwiki',
-    'charset':  'utf8mb4',
+    'host': 'tools.db.svc.wikimedia.cloud',
+    'db': 's54732__mdwiki',
+    'charset': 'utf8mb4',
     # 'collation':  'utf8_general_ci',
     'use_unicode': True,
     'autocommit': True

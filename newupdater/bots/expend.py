@@ -20,7 +20,7 @@ def find_main_temp(text, parsed, title):
         section_0 = str(_section0[0].contents)
     # ---
     tempse_by_u = {}
-    tempse      = {}
+    tempse = {}
     # ---
     ingr = txtlib2.extract_templates_and_params(section_0)
     u = 0
@@ -56,8 +56,8 @@ def find_main_temp(text, parsed, title):
 def Expend_Infobox(newtext, title):
     # ---
     main_temp_params = {}
-    main_temp_text   = ''
-    main_temp_title  = ''
+    main_temp_text = ''
+    main_temp_title = ''
     # ---
     parsed = wtp.parse(newtext)
     # ---
@@ -125,7 +125,7 @@ def Expend_Infoboxs(new_text, temp_name, temp_params, dups):
             for param in template.arguments:
                 na = str(param.name).strip()
                 na = dups.get(na.lower(), na)
-                
+
                 params[na] = str(param.value)
             # ---
             for x in params:

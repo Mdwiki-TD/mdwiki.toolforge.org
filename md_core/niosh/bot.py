@@ -73,7 +73,7 @@ def new_vals():
         tat = []
         #---
         for x in exts:
-            if x.find('cdc.gov/niosh/') == -1:  continue
+            if x.find('cdc.gov/niosh/') == -1: continue
             #---
             if x.find('web.archive.org') > -1:
                 x = fix_links(x)

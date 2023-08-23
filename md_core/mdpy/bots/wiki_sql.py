@@ -36,9 +36,9 @@ can_use_sql_db = sql_qu.can_use_sql_db
 def GET_SQL():
     return can_use_sql_db[1]
 #---
-def make_labsdb_dbs_p(wiki):#host, dbs_p = make_labsdb_dbs_p('ar')
+def make_labsdb_dbs_p(wiki): #host, dbs_p = make_labsdb_dbs_p('ar')
     #---
-    if wiki.endswith('wiki') : wiki = wiki[:-4]
+    if wiki.endswith('wiki'): wiki = wiki[:-4]
     #---
     wiki = wiki.replace("-", "_")
     #---
@@ -66,7 +66,7 @@ def Make_sql_many_rows(queries, wiki="", printqua=False, return_dict=False):
     host, dbs_p = make_labsdb_dbs_p(wiki)
     #---
     if printqua or "printsql" in sys.argv:
-        printe.output( queries )
+        printe.output(queries)
     #---
     if not GET_SQL():
         return []
@@ -74,7 +74,7 @@ def Make_sql_many_rows(queries, wiki="", printqua=False, return_dict=False):
     start = tttime.time()
     final = tttime.time()
     #---
-    rows = sql_qu.make_sql_connect( queries, db=dbs_p, host=host, return_dict=return_dict)
+    rows = sql_qu.make_sql_connect(queries, db=dbs_p, host=host, return_dict=return_dict)
     #---
     final = tttime.time()
     #---
@@ -91,7 +91,7 @@ def sql_new(queries, wiki="", printqua=False):
     host, dbs_p = make_labsdb_dbs_p(wiki)
     #---
     if printqua or "printsql" in sys.argv:
-        printe.output( queries )
+        printe.output(queries)
     #---
     if not GET_SQL():
         return []
@@ -99,7 +99,7 @@ def sql_new(queries, wiki="", printqua=False):
     start = tttime.time()
     final = tttime.time()
     #---
-    rows = sql_qu.make_sql_connect( queries, db=dbs_p, host=host, return_dict=True)
+    rows = sql_qu.make_sql_connect(queries, db=dbs_p, host=host, return_dict=True)
     #---
     final = tttime.time()
     #---

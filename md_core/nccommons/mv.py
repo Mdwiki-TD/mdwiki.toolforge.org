@@ -16,7 +16,7 @@ import pywikibot
 #---
 project = "/data/project/mdwiki/"
 #---
-if not os.path.isdir(project):  project = "I:/mdwiki"
+if not os.path.isdir(project): project = "I:/mdwiki"
 #---
 from mdpy.bots import mdwiki_api
 #---
@@ -34,7 +34,7 @@ api_new = NEW_API('www', family='mdwiki')
 exists = {}
 # exists = api_new.Find_pages_exists_or_not(cats)
 #---
-to_create = [ x for x, t in exists.items() if t == False ]
+to_create = [x for x, t in exists.items() if t == False]
 #---
 pywikibot.output(f'len of to_create: {len(to_create)}')
 #---
@@ -46,7 +46,7 @@ for cat in to_create:
     text = mdwiki_api.GetPageText(cat)
     new = api.create_Page(text, cat, summary='Copy categories from mdwiki')
 #---
-to_update = [ x for x, t in exists.items() if t == True ]
+to_update = [x for x, t in exists.items() if t == True]
 to_update = cats
 #---
 from new_api.ncc_page import MainPage as ncc_MainPage
@@ -57,7 +57,7 @@ def delete_it(cat):
     #---
     pywikibot.output(f'cat: {n}/{len(to_update)}:')
     #---
-    params = {"action": "delete","format": "json","title": cat, "reason": "cat moved to nccommons.org"}#, "deletetalk": 1}
+    params = {"action": "delete", "format": "json", "title": cat, "reason": "cat moved to nccommons.org"}#, "deletetalk": 1}
     #---
     doit = mdwiki_api.post(params, addtoken=True)
     #---

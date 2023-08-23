@@ -19,7 +19,7 @@ import codecs
 #---
 project = "/data/project/mdwiki/"
 #---
-if not os.path.isdir(project):  project = "I:/mdwiki/md_core/nccommons"
+if not os.path.isdir(project): project = "I:/mdwiki/md_core/nccommons"
 #---
 from nccommons import api
 # newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
@@ -28,14 +28,14 @@ from nccommons import api
 files_len = 0
 #---
 limitall = 0
-limit_0  = 0
+limit_0 = 0
 #---
 for arg in sys.argv:
     arg, sep, value = arg.partition(":")
     #---
-    if arg == "-limit0":    limit_0 = int(value)
-    if arg == "-limitall":  limitall = int(value)
-    if arg == "-files":     files_len = int(value)
+    if arg == "-limit0": limit_0 = int(value)
+    if arg == "-limitall": limitall = int(value)
+    if arg == "-files": files_len = int(value)
     #---
 #---
 file_dir = __file__.replace("com.py", "")
@@ -47,12 +47,12 @@ if 'usefiles' in sys.argv:
     all_files = codecs.open(file_dir + "all_files.json", "r", "utf-8").read()
 else:
     ns_0_pages = api.Get_All_pages("", limit="max", namespace="0", limit_all=limit_0)
-    all_files  = api.Get_All_pages("", limit="max", namespace="6", limit_all=limitall)
+    all_files = api.Get_All_pages("", limit="max", namespace="6", limit_all=limitall)
     #---
     codecs.open(file_dir + "ns_0_pages.json", "w", "utf-8").write(json.dumps(ns_0_pages, indent=4, ensure_ascii=False))
     codecs.open(file_dir + "all_files.json", "w", "utf-8").write(json.dumps(all_files, indent=4, ensure_ascii=False))
 #---
-if 'onlyread' in sys.argv: 
+if 'onlyread' in sys.argv:
     sys.exit(0)
 #---
 all_reg = {}
@@ -110,7 +110,7 @@ def work():
     #---
     for le, x in da:
         #---
-        if le >= files_len :
+        if le >= files_len:
             print(f"x:{x}, len: {le}")
             tab = all_reg[x]
             #---

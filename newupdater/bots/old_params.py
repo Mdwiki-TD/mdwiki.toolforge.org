@@ -11,16 +11,16 @@ import sys
 def printn(s):
     return
 #---
-def rename_params(temptext) :
+def rename_params(temptext):
     #---
     to_replace = {
-        "side effects" : "side_effects",
+        "side effects": "side_effects",
         # "routes_of_use" : "routes_of_administration",
-        "side effect" : "side_effects",
-        "side_effect" : "side_effects",
-        "legal status" : "legal_status",
-        "smiles" : "SMILES",
-        "smiles2" : "SMILES2",
+        "side effect": "side_effects",
+        "side_effect": "side_effects",
+        "legal status": "legal_status",
+        "smiles": "SMILES",
+        "smiles2": "SMILES2",
     }
     #---
     new_temptext = temptext
@@ -40,18 +40,18 @@ def rename_params(temptext) :
         if str(name).lower() in temps_okay:
             _temps_.append(temp)
         else:
-            printn( f"*+name ({str([name])}) not in temps_okay ." )
+            printn(f"*+name ({str([name])}) not in temps_okay .")
         #---
     #---
-    if len(_temps_) == 0: 
-        printn( "*+_temps_ == 0 ." )
+    if len(_temps_) == 0:
+        printn("*+_temps_ == 0 .")
         return new_temptext
     #---
     for temp in _temps_:
         old_temp = temp.string
         #---
-        if new_temptext.find(old_temp) == -1 :
-            printn( f"*+new_temptext find ({str([old_temp])}) == -1 ." )
+        if new_temptext.find(old_temp) == -1:
+            printn(f"*+new_temptext find ({str([old_temp])}) == -1 .")
             continue
         #---
         # Replace the old parameter with the new parameter
@@ -68,7 +68,7 @@ def rename_params(temptext) :
     #---
     return new_temptext
 #---
-if __name__ == "__main__" :
+if __name__ == "__main__":
     #---
     # python3 pwb.py medUpdater/bots/old_params
     #---

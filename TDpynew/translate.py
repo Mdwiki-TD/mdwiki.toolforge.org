@@ -25,32 +25,32 @@ import ref
 #---
 import user_account_new
 #---
-lgname_enwiki   = user_account_new.lgname_enwiki
-lgpass_enwiki   = user_account_new.lgpass_enwiki
+lgname_enwiki = user_account_new.lgname_enwiki
+lgpass_enwiki = user_account_new.lgpass_enwiki
 #---
 import mdapi
 # mdapi.submitAPI( params )
 #---
-wholearticle = { 1 : False }
+wholearticle = {1: False}
 #---
-SS = { "token" : '' }
+SS = {"token": ''}
 session = {}
 session[1] = requests.Session()
 session["url"] = ""
 #---
-Url_To_login = { 1 : '' , 'not' : True }
+Url_To_login = {1: '', 'not': True}
 #---
-login_done = { 1 : False }
+login_done = {1: False}
 #---
 def print_py(s):
     if sys.stdin.isatty():
         print(s)
 #---
-def log_to_enwiki() :
+def log_to_enwiki():
     #---
-    if login_done[1] : return ''
+    if login_done[1]: return ''
     #---
-    api_urle = 'https://' + 'en.wikipedia.org/w/api.php' 
+    api_urle = 'https://' + 'en.wikipedia.org/w/api.php'
     #---
     Url_To_login[1] = api_urle
     #---
@@ -89,28 +89,28 @@ def log_to_enwiki() :
     #---
     session["token"] = token
 #---
-def submit_to_enwiki( params ):
+def submit_to_enwiki(params):
     #---
     log_to_enwiki()
     #---
-    params['token'] = session.get("token","")
+    params['token'] = session.get("token", "")
     #---
     json1 = {}
-    #---    
+    #---
     try:
         r4 = session[1].post(session["url"], data=params)
-        json1 = json.loads( r4.text )
+        json1 = json.loads(r4.text)
     except Exception as e:
         print_py(f"post_ss error: {e}")
         return {}
     #---
     return json1
     #---
-def put(title,text):
+def put(title, text):
     #---
-    text = text.replace("{{Sprotect|small=yes}}","")
+    text = text.replace("{{Sprotect|small=yes}}", "")
     #---
-    suus = 'from https://' + 'mdwiki.org/wiki/' + title.replace(' ' , '_')
+    suus = 'from https://' + 'mdwiki.org/wiki/' + title.replace(' ', '_')
     #---
     tit2 = 'User:Mr. Ibrahem/' + title
     #---
@@ -124,14 +124,14 @@ def put(title,text):
         #"nocreate": 1,
     }
     #---
-    js = submit_to_enwiki( dataa )
+    js = submit_to_enwiki(dataa)
     #---
     if 'Success' in str(js):
         print('true')
     else:
         print(str(js))
 #---
-def work( title ):
+def work(title):
     #---
     title = urllib.parse.unquote(title)
     #---
@@ -139,7 +139,7 @@ def work( title ):
     #---
     if 'test' in sys.argv: print(title)
     #---
-    params2 = {"action": "parse","format": "json","page": title ,"prop": "wikitext"}
+    params2 = {"action": "parse", "format": "json", "page": title, "prop": "wikitext"}
     #---
     json2 = mdapi.submitAPI(params2)
     #---
@@ -150,13 +150,13 @@ def work( title ):
     if wholearticle[1]:
         first = alltext
     else:
-        params = {"action": "parse","format": "json","page": title ,"prop": "wikitext","section": "0" }
+        params = {"action": "parse", "format": "json", "page": title, "prop": "wikitext", "section": "0"}
         json1 = mdapi.submitAPI(params)
         first = json1.get("parse", {}).get("wikitext", {}).get("*", '')
     #---
     text = first
     #---
-    if text == '' :
+    if text == '':
         print_py('no text')
         return "notext"
     #---
@@ -164,31 +164,31 @@ def work( title ):
         #text += '\n==References==\n<references />\n[[en:%s]]' % title
         text += '\n==References==\n<references />'
     #---
-    text = ref.fix_ref( text, alltext )
+    text = ref.fix_ref(text, alltext)
     #---
-    text = text_changes.work( text )
+    text = text_changes.work(text)
     #---
-    text = text.replace('[[Category:','[[:Category:')
+    text = text.replace('[[Category:', '[[:Category:')
     #---
-    if text == '' : 
+    if text == '':
         print_py('no text')
         return "notext"
     #---
-    return put(title,text)
+    return put(title, text)
     #---
 title = ''
 #---
-# python translate.py -title:Amoebiasis 
+# python translate.py -title:Amoebiasis
 #---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     #---
-    if arg == "-title" : title = value
+    if arg == "-title": title = value
     #---
-    if arg == "wholearticle" : wholearticle[1] = True
+    if arg == "wholearticle": wholearticle[1] = True
     #---
-if title != '' :
-    work( title )
+if title != '':
+    work(title)
     #print(a)
 #---
 

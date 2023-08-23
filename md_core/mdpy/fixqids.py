@@ -25,7 +25,7 @@ from mdpy.bots import sql_for_mdwiki
 #---
 mdlist = sql_for_mdwiki.get_all_qids()
 #---
-qs_list = { q : title for title, q in mdlist.items() if q != '' }
+qs_list = {q: title for title, q in mdlist.items() if q != ''}
 #---
 def fix_redirects():
     #---
@@ -61,8 +61,8 @@ def check_title(title):
     #---
     title = title.lower().strip()
     #---
-    if title.find('(disambiguation)') != -1 :   return False
-    if title.startswith('user:') :              return False
+    if title.find('(disambiguation)') != -1: return False
+    if title.startswith('user:'): return False
     #---
     return True
 #---
@@ -72,11 +72,11 @@ def add_to_qids():
     #---
     all_pages = catdepth2.make_cash_to_cats(return_all_pages=True)
     #---
-    all_pages = [ x for x in all_pages[:] if check_title(x) ]
+    all_pages = [x for x in all_pages[:] if check_title(x)]
     #---
-    all_in = [ x for x in mdlist ]
+    all_in = [x for x in mdlist]
     #---
-    new_list = { title : '' for title in all_pages if title not in all_in }
+    new_list = {title: '' for title in all_pages if title not in all_in}
     #---
     printe.output(f'len of new_list: {len(new_list)}')
     #---

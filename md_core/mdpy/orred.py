@@ -37,29 +37,29 @@ from mdpy import wpref
 #---
 or_url = 'https://' + 'or.wikipedia.org/w/api.php'
 #---
-def Find_pages_exists_or_not( liste , apiurl = '' ) :
+def Find_pages_exists_or_not(liste, apiurl=''):
     #---
     params = {
         "action": "query",
         "format": "json",
-        "titles": '|'.join( liste ),
+        "titles": '|'.join(liste),
         #"redirects": 0,
         #"prop": "templates|langlinks",
         "utf8": 1,
-        "token" : ""
+        "token": ""
     }
     #---
     table = {}
     #---
-    json1 = wpref.submitAPI( params, lang = 'or')
+    json1 = wpref.submitAPI(params, lang='or')
     #---
     if json1:
-        query_pages = json1.get("query",{}).get("pages",{})
+        query_pages = json1.get("query", {}).get("pages", {})
         for page in query_pages:
             kk = query_pages[page]
             faso = ''
             if "title" in kk:
-                tit = kk.get("title","")
+                tit = kk.get("title", "")
                 #---
                 if "missing" in kk:
                     table[tit] = False
@@ -68,21 +68,21 @@ def Find_pages_exists_or_not( liste , apiurl = '' ) :
         #---
     return table
 #---
-def create_redirect( target, mdtitle):
+def create_redirect(target, mdtitle):
     #---
-    exists = Find_pages_exists_or_not( [target,mdtitle] , apiurl = or_url )
+    exists = Find_pages_exists_or_not([target, mdtitle], apiurl=or_url)
     #---
     Worrk = False
     #---
-    for tit , o in exists.items() :
+    for tit, o in exists.items():
         if o == False:
-            if tit.lower() == target.lower() :
-                printe.output( f" target:{target} not exists in orwiki." )
+            if tit.lower() == target.lower():
+                printe.output(f" target:{target} not exists in orwiki.")
                 return ""
-            elif tit.lower() == mdtitle.lower() :
+            elif tit.lower() == mdtitle.lower():
                 Worrk = True
     #---
-    if Worrk :
+    if Worrk:
         #---
         text = f'#redirect [[{target}]]'
         sus = f'Redirected page to [[{target}]]'
@@ -97,12 +97,12 @@ def create_redirect( target, mdtitle):
             "token": ""
         }
         #---
-        uu = wpref.submitAPI( params, lang = 'or')
+        uu = wpref.submitAPI(params, lang='or')
         #---
-        if 'Success' in uu :
-            printe.output(f'<<lightgreen>>** true .. [[{mdtitle}]] ' )
+        if 'Success' in uu:
+            printe.output(f'<<lightgreen>>** true .. [[{mdtitle}]] ')
         else:
-            printe.output( uu )
+            printe.output(uu)
 #---
 def dodo_sql():
     #---
@@ -117,14 +117,14 @@ and lang = "or"
     #---
     n = 0
     #---
-    for tab in sq :
+    for tab in sq:
         n += 1
-        mdtitle  = tab['title']
-        target   = tab['target']
+        mdtitle = tab['title']
+        target = tab['target']
         #---
         printe.output(f'----------\n*<<lightyellow>> p{n}/{len(sq)} >target:"{target}".')
         #---
-        create_redirect( target , mdtitle)
+        create_redirect(target, mdtitle)
 #---
 # python3 core8/pwb.py mdpy/orred
 #---

@@ -25,7 +25,7 @@ def mv_es_refs(text):
             continue
         # ---
         attrs = x.attrs
-        name  = attrs.get('name', '').strip()
+        name = attrs.get('name', '').strip()
         group = attrs.get('group', '').strip()
         # ---
         if not group in refs: refs[group] = {}

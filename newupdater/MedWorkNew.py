@@ -107,9 +107,9 @@ def test():
     # ---
     old_params.printn = print
     mv_section.printn = print
-    chembox.printn    = print
-    drugbox.printn    = print
-    expend.printn     = print
+    chembox.printn = print
+    drugbox.printn = print
+    expend.printn = print
     # ---
     Dir = Path(__file__).parent
     # ---

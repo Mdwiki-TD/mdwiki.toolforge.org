@@ -25,7 +25,7 @@ import codecs
 #---
 import re
 import string
-#import datetime 
+#import datetime
 #import dateutil.parser
 import time
 #from datetime import datetime, date
@@ -48,7 +48,7 @@ from mdpy.bots import mdwiki_api
 #Session = requests.Session()
 #---#---
 #---
-limit_m = { 1 : 0 }
+limit_m = {1: 0}
 #---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')
@@ -59,58 +59,58 @@ for arg in sys.argv:
 redirects_pages = []
 #---
 if 'nored' not in sys.argv:
-    redirects_pages = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'redirects', limit_all = limit_m[1] )
+    redirects_pages = mdwiki_api.Get_All_pages('!', namespace='0', apfilterredir='redirects', limit_all=limit_m[1])
 #---
 dones = []
 links = []
 re_links = []
 #---
-ptext = mdwiki_api.GetPageText( 'WikiProjectMed:List' )
+ptext = mdwiki_api.GetPageText('WikiProjectMed:List')
 link_regex = re.compile(r'\[\[(.*?)\]\]')
 #---
 vaild_links = []
 #---
 for m2 in link_regex.finditer(ptext):
-    sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE )
+    sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE)
     sal = sa.findall(m2.group(0))
     if not sal:
         itemu = m2.group(1).split('|')[0].strip()
-        vaild_links.append( itemu )
+        vaild_links.append(itemu)
 #---
-print(f'len of vaild_links: {len(vaild_links)}' )
+print(f'len of vaild_links: {len(vaild_links)}')
 #---
 for x in vaild_links:
     x1 = x
     x2 = x#.replace(x[0], x[0].upper() , 1)
-    if x1 != x2 : print(f'x1:{x1},x2:{x2}' )
-    if not x2 in dones: 
-        dones.append( x2 )
+    if x1 != x2: print(f'x1:{x1},x2:{x2}')
+    if not x2 in dones:
+        dones.append(x2)
         if x2 in redirects_pages or x1 in redirects_pages:
-            re_links.append( x2 )
+            re_links.append(x2)
         else:
-            links.append( x2 )
+            links.append(x2)
 #---
-print(f'len of re_links: {len(re_links)}' )
-print(f'len of links: {len(links)}' )
+print(f'len of re_links: {len(re_links)}')
+print(f'len of links: {len(links)}')
 #print(str(links))
 #---
-catpages = mdwiki_api.subcatquery( 'Category:RTT' , depth = '0' , ns = "0" )
-catpages = [ x.replace('_',' ') for x in catpages ]
+catpages = mdwiki_api.subcatquery('Category:RTT', depth='0', ns="0")
+catpages = [x.replace('_', ' ') for x in catpages]
 #catpages = mdwiki_api.Get_cat( 'RTT', '0' )
 #---
-print(f'len of catpages: {len(catpages)}' )
+print(f'len of catpages: {len(catpages)}')
 if 'Biceps tendon rupture' in catpages:
     print('Biceps tendon rupture in catpages')
 # print(str(catpages))
 #---
-listo = [ x for x in links if not x in catpages ]
+listo = [x for x in links if not x in catpages]
 #---
-re_listo = [ d for d in re_links if not d in catpages ]
+re_listo = [d for d in re_links if not d in catpages]
 num = 0
 #---
-print(f'len of listo: {len(listo)}' )
+print(f'len of listo: {len(listo)}')
 #---
-lines = "\n".join( [ f'# [[{x}]]' for x in listo ] )
+lines = "\n".join([f'# [[{x}]]' for x in listo])
 text = '''Pages in [[WikiProjectMed:List]] missing [[:Category:RTT]]:
 --~~~~
 __TOC__
@@ -121,9 +121,9 @@ text += lines
 #---
 text += "\n\n== Redirects ==\n\n"
 #---
-text += "\n".join( [ f'# [[{dx}]]' for dx in re_listo ] )
+text += "\n".join([f'# [[{dx}]]' for dx in re_listo])
 #---
 print(text)
 #---
-mdwiki_api.page_put( newtext=text , summary='update' , title='User:Mr. Ibrahem/List' , nocreate = 0 )
+mdwiki_api.page_put(newtext=text, summary='update', title='User:Mr. Ibrahem/List', nocreate=0)
 #---

@@ -45,7 +45,7 @@ def add_to_translators():
         titles_no_bots = {title: user for title, user in titles.items() if user != '' and not user.lower().endswith('bot')}
 
         # printe.output(f'<<blue>> lang:{lang} found {len(titles_bots)} bots, {len(titles_no_bots)} no bots')
-        
+
         # ---
         for title, user in titles_no_bots.items():
             # ---

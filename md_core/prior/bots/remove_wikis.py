@@ -13,7 +13,7 @@ import codecs
 #---
 Dir = Path(__file__).parent
 #---
-project_js_new   = f'{Dir}/json_langs/'
+project_js_new = f'{Dir}/json_langs/'
 project_js_newen = f'{Dir}/json_en/'
 #---
 black_list = [

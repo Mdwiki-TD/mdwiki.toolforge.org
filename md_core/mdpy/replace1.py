@@ -2,7 +2,7 @@
 
 """
 
-""" 
+"""
 #
 # (C) Ibrahem Qasim, 2023
 #
@@ -12,7 +12,7 @@ import json
 import re
 import sys
 #---
-numbers = { 1 : 20000 , 'done' : 0 }
+numbers = {1: 20000, 'done': 0}
 #---
 import os
 project = '/data/project/mdwiki/'
@@ -23,7 +23,7 @@ public_html = project + '/public_html'
 #---
 from new_api.mdwiki_page import MainPage, NEW_API
 api_new = NEW_API('www', family='mdwiki')
-login   = api_new.Login_to_wiki()
+login = api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 #---
@@ -31,30 +31,30 @@ file_name = {}
 #---
 def work(title, Find, Replace, nn):
     #---
-    page      = MainPage(title, 'www', family='mdwiki')
-    exists    = page.exists()
+    page = MainPage(title, 'www', family='mdwiki')
+    exists = page.exists()
     if not exists: return
     #---
     # if page.isRedirect() :  return
     # target = page.get_redirect_target()
     #---
-    text        = page.get_text()
+    text = page.get_text()
     #---
     if text.strip() == '':
         print(f"page:{title} text = ''")
-        line = '"%s":"no changes",\n' % title.replace('"','\\"')
+        line = '"%s":"no changes",\n' % title.replace('"', '\\"')
         codecs.open(file_name[1], 'a', encoding="utf-8").write(line)
         return
     #---
     new_text = text
     #---
     if 'testtest' in sys.argv:
-        new_text = new_text.replace( Find, Replace, 1)
+        new_text = new_text.replace(Find, Replace, 1)
     else:
-        new_text = new_text.replace( Find, Replace )
+        new_text = new_text.replace(Find, Replace)
     #---
-    if new_text == text :
-        line = '"%s":"no changes",\n' % title.replace('"','\\"')
+    if new_text == text:
+        line = '"%s":"no changes",\n' % title.replace('"', '\\"')
         codecs.open(file_name[1], 'a', encoding="utf-8").write(line)
         return
     #---
@@ -64,9 +64,9 @@ def work(title, Find, Replace, nn):
     #---
     sus = f'replace {nn} [[toolforge:mdwiki/qdel.php?job=replace{nn}|(stop)]] '
     #---
-    save_page   = page.save(newtext=new_text, summary=sus)
+    save_page = page.save(newtext=new_text, summary=sus)
     #---
-    line = '"%s":%d,\n' % ( title.replace('"','\\"') , 0 )
+    line = '"%s":%d,\n' % (title.replace('"', '\\"'), 0)
     #---
     if save_page:
         #---
@@ -74,7 +74,7 @@ def work(title, Find, Replace, nn):
         #---
         if newrevid != revid and newrevid != '':
             #---
-            line = '"%s":%d,\n' % ( title.replace('"','\\"') , newrevid)
+            line = '"%s":%d,\n' % (title.replace('"', '\\"'), newrevid)
             #---
     #---
     codecs.open(file_name[1], 'a', encoding="utf-8").write(line)
@@ -87,7 +87,7 @@ def main():
     for arg in sys.argv:
         arg, sep, value = arg.partition(':')
         #---
-        if arg == "-rand" : 
+        if arg == "-rand":
             nn = value
         #---
         if arg == "-number" and value.isdigit():
@@ -96,11 +96,11 @@ def main():
     #---
     print(nn)
     #---
-    find = codecs.open(public_html + f'/find/{nn}_find.txt' , 'r', 'utf8').read()
+    find = codecs.open(public_html + f'/find/{nn}_find.txt', 'r', 'utf8').read()
     #---
-    replace = codecs.open(public_html + f'/find/{nn}_replace.txt' , 'r', 'utf8').read()
+    replace = codecs.open(public_html + f'/find/{nn}_replace.txt', 'r', 'utf8').read()
     #---
-    if replace.strip() == "empty" : replace = ""
+    if replace.strip() == "empty": replace = ""
     #---
     if 'testtest' in sys.argv:
         find = ','
@@ -114,7 +114,7 @@ def main():
     file_name[2] = public_html + f'/find/log/{nn}-text.txt'
     #---
     if 'newlist' in sys.argv:
-        Add_pa = {"srsort": "just_match" , "srwhat": "text"}
+        Add_pa = {"srsort": "just_match", "srwhat": "text"}
         #---
         titles = api_new.Search(find, ns="0", srlimit="max", RETURN_dict=False, addparams=Add_pa)
     else:
@@ -130,11 +130,11 @@ def main():
     for page in titles:
         num += 1
         #---
-        if numbers['done'] >= numbers[1] :  break
+        if numbers['done'] >= numbers[1]: break
         #---
         work(page, find, replace, nn)
     #---
-# python py/replace1.py 
+# python py/replace1.py
 #---
 if __name__ == "__main__":
     main()

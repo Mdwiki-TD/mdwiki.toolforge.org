@@ -14,7 +14,7 @@ from new_api import txtlib
 """
 #
 # (C) Ibrahem Qasim, 2021
-# 
+#
 #
 #---
 from collections import OrderedDict
@@ -98,24 +98,24 @@ def extract_templates_and_params(text):
         #---
         namestrip = name
         #---
-        ficrt = { 'name': "قالب:" + name ,'namestrip': namestrip , 'params' : params, 'item' : pa_item }
+        ficrt = {'name': "قالب:" + name, 'namestrip': namestrip, 'params': params, 'item': pa_item}
         #---
         result.append(ficrt)
     #---
     return result
 #---
-def get_one_temp_params( text, tempname="", templates=[], lowers=False, get_all_temps=False ):
-    ingr = extract_templates_and_params( text )
+def get_one_temp_params(text, tempname="", templates=[], lowers=False, get_all_temps=False):
+    ingr = extract_templates_and_params(text)
     #---
     temps = templates
     #---
-    if tempname != '' :
+    if tempname != '':
         temps.append(tempname)
     #---
-    temps = [ x.replace("قالب:","").replace("Template:","").replace('_',' ').strip() for x in temps ]
+    temps = [x.replace("قالب:", "").replace("Template:", "").replace('_', ' ').strip() for x in temps]
     #---
     if lowers:
-        temps = [ x.lower() for x in temps ]
+        temps = [x.lower() for x in temps]
     #---
     named = {}
     #---
@@ -126,23 +126,23 @@ def get_one_temp_params( text, tempname="", templates=[], lowers=False, get_all_
         #---
         name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
         #---
-        if lowers : namestrip = namestrip.lower()
+        if lowers: namestrip = namestrip.lower()
         #---
         if namestrip in temps:
             #---
             #print("te:%s, namestrip:%s" % (te,namestrip) )
             #---
             if get_all_temps:
-                tabe = { namestrip : params }
-                named.append( tabe )
+                tabe = {namestrip: params}
+                named.append(tabe)
             else:
                 return params
             #---
     #---
     return named
 #---
-def get_all_temps_params( text, templates=[], lowers=False):
-    tab = get_one_temp_params( text, templates=templates, lowers=lowers, get_all_temps=True )
+def get_all_temps_params(text, templates=[], lowers=False):
+    tab = get_one_temp_params(text, templates=templates, lowers=lowers, get_all_temps=True)
     return tab
 #---
 test_text = ''' 
@@ -159,12 +159,12 @@ test_text = '''
 }}
 
 {{ourworldindatamirror|https://owidm.wmcloud.org/grapher/cancer-death-rates?tab=map {{Webarchive}}}}
-''' 
+'''
 #---
 if __name__ == '__main__':
     #---
     #---
-    ingr = extract_templates_and_params( test_text )
+    ingr = extract_templates_and_params(test_text)
     for temp in ingr:
         #---
         name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']

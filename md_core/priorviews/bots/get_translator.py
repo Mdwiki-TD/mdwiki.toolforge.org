@@ -33,7 +33,7 @@ class FindTranslator:
         #---
         self.lang = lang
         self.title = title
-        self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
+        self.url = 'https://' + self.lang + '.wikipedia.org/w/api.php'
         self.translator = ''
         #---
         self.session = requests.Session()
@@ -72,13 +72,13 @@ class FindTranslator:
         #---
         while rvcontinue != '':
             #---
-            if rvcontinue != 'x' : params['rvcontinue'] = rvcontinue
+            if rvcontinue != 'x': params['rvcontinue'] = rvcontinue
             #---
             json1 = self.post_to_json(params)
             #---
-            rvcontinue = json1.get( "continue" , {} ).get( "rvcontinue" , '' )
+            rvcontinue = json1.get("continue", {}).get("rvcontinue", '')
             #---
-            pages = json1.get('query',{}).get('pages',[{}])
+            pages = json1.get('query', {}).get('pages', [{}])
             #---
             for p in pages:
                 revisions = p.get("revisions", [])

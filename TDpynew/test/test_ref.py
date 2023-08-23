@@ -114,6 +114,6 @@ There are few treatments which increase prolactin levels in humans. Treatment di
 #---
 ff = ff.replace('<ref', '\n<ref')
 #---
-new = fix_ref( ff , all )
-pywikibot.showDiff( ff , new )
+new = fix_ref(ff, all)
+pywikibot.showDiff(ff, new)
 #---

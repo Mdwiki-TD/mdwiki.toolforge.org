@@ -9,7 +9,7 @@ import re
 import codecs
 import json
 # ---
-Dir  = Path(__file__).parent
+Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
 # ---
 file = f"{Dir2}/jsons/old/quarry.json"

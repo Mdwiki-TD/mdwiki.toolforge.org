@@ -66,7 +66,7 @@ def fix_es_months(text):
     tags = parsed.get_tags()
     # ---
     for x in tags:
-        if not x or not x.name:  continue
+        if not x or not x.name: continue
         if x.name != 'ref':
             continue
         if not x.contents:

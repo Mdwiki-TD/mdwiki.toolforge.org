@@ -57,14 +57,14 @@ def login():
         })
     r11.raise_for_status()
     # log in
-    r22 = SS["ss"].post(SS["url"], data= {
+    r22 = SS["ss"].post(SS["url"], data={
         #fz"assert": "user",
         "format": "json",
         "action": "login",
         "lgname": username,
         "lgtoken": r11.json()["query"]["tokens"]["logintoken"],
         "lgpassword": password,
-        } )
+        })
     #---
     # get edit token
     SS["r33"] = SS["ss"].get(SS["url"], params={
@@ -81,7 +81,7 @@ def GetPageText(title):
     #---
     print_new(f'get text for {title}')
     #---
-    params = { "action": "parse", "format": "json", "prop": "wikitext", "page": title, "utf8": 1}
+    params = {"action": "parse", "format": "json", "prop": "wikitext", "page": title, "utf8": 1}
     #---
     url = "https://" + "mdwiki.org/w/api.php?action=parse&prop=wikitext&utf8=1&format=json&page=" + title
     #---
@@ -121,15 +121,15 @@ def page_put(NewText, title):
         return
     #---
     if "success" in str(r4).lower():
-        print( "True" )
+        print("True")
     else:
-        print( r4.get("error", {}).get("info", ""))
-        print( "False" )
+        print(r4.get("error", {}).get("info", ""))
+        print("False")
 #---
 def get_new_text(title, text=''):
     #---
-    if text == "" :
-        text = GetPageText( title )
+    if text == "":
+        text = GetPageText(title)
     #---
     newtext = text
     #---
@@ -145,7 +145,7 @@ def work_on_title(title, returntext=False, text_O=""):
     #---
     text, new_text = get_new_text(title, text=text_O)
     #---
-    if "from_toolforge" not in sys.argv :
+    if "from_toolforge" not in sys.argv:
         print(new_text)
         return
     #---
@@ -154,37 +154,37 @@ def work_on_title(title, returntext=False, text_O=""):
         if text.strip() == "" or new_text.strip() == "":
             print("notext")
             return
-        elif text == new_text :
+        elif text == new_text:
             print("no changes")
             return
-        elif new_text == '' :
+        elif new_text == '':
             print("notext")
             return
         elif "save" in sys.argv:
             return page_put(new_text, title)
     #---
     title2 = title
-    title2 = title2.replace(":","-").replace("/","-")
+    title2 = title2.replace(":", "-").replace("/", "-")
     #---
     if 'xx' in sys.argv: title2 = 'xx'
     #---
     try:
         filename = project + "/public_html/updatercash/" + title2 + "_1.txt"
         #---
-        codecs.open( filename, "w", encoding="utf-8").write( new_text ) 
+        codecs.open(filename, "w", encoding="utf-8").write(new_text)
         #---
         print(filename)
         #---
     except Exception as e:
         filename = project + "/public_html/updatercash/title2.txt"
         #---
-        codecs.open(filename, "w", encoding="utf-8").write( new_text ) 
+        codecs.open(filename, "w", encoding="utf-8").write(new_text)
         #---
         print(filename)
 #---
 def main():
     #---
-    if sys.argv and sys.argv[1] :
+    if sys.argv and sys.argv[1]:
         #---
         title = sys.argv[1]
         #---

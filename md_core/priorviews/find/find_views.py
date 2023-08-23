@@ -25,7 +25,7 @@ Dir2 = os.path.dirname(Dir)
 file = f'{Dir2}/lists/views_mdwiki_langs.json'
 #---
 if not os.path.exists(file):
-    with open(file, 'w') as f:  json.dump({}, f)
+    with open(file, 'w') as f: json.dump({}, f)
 #---
 from priorviews.lists.links_by_section import sects_links_langlinks
 #---
@@ -38,10 +38,10 @@ def log_views():
 #---
 def api_views(title, lang):
     #---
-    d_end   = datetime.datetime.utcnow() - timedelta(days = 1)
+    d_end = datetime.datetime.utcnow() - timedelta(days=1)
     d_start = d_end - timedelta()
     #---
-    d_end   = d_end.strftime('%Y%m%d')
+    d_end = d_end.strftime('%Y%m%d')
     # d_start = d_start.strftime('%Y%m%d')
     d_start = "20110101"
     #---
@@ -83,7 +83,7 @@ def get_v(links):
             #---
             viws_in = ViewsData[mdtitle].get(lang, {}).get('views', 0)
             #---
-            if 'new' in sys.argv and viws_in != 0 : continue
+            if 'new' in sys.argv and viws_in != 0: continue
             #---
             viws = api_views(title, lang)
             #---
@@ -119,7 +119,7 @@ def start():
 #---
 def test():
     #---
-    da = { "Pit latrine" : {'ar': 'مرحاض ذو حفرة', 'bn': 'খাটা পায়খানা', 'ca': 'Latrina de fossa', 'ee': 'Do nugododeƒe', 'es': 'Letrina de hoyo', 'fa': 'توالت گودالی', 'ha': 'Shaddar gargajiya', 'hi': 'खुड्डी शौचालय', 'ig': 'Ụlọ mposi', 'it': 'Latrina a fossa', 'ln': 'Latrine ya libulu', 'nso': 'Boithomelo bja mokoti', 'or': 'ବରପାଲି ପାଇଖାନା', 'pl': 'Latryna', 'ru': 'Ямный туалет', 'sw': 'Choo cha shimo', 'ta': 'குழி கழிவறை', 'tr': 'Köy tuvaleti', 'ur': 'گڑھے والا بیت الخلا', 'wo': 'Duus', 'xh': 'Ithoyilethi yomngxuma', 'yo': 'Ṣalanga oniho', 'zh': '旱廁', 'zu': 'Ithoyilethe lomgodi'}
+    da = {"Pit latrine": {'ar': 'مرحاض ذو حفرة', 'bn': 'খাটা পায়খানা', 'ca': 'Latrina de fossa', 'ee': 'Do nugododeƒe', 'es': 'Letrina de hoyo', 'fa': 'توالت گودالی', 'ha': 'Shaddar gargajiya', 'hi': 'खुड्डी शौचालय', 'ig': 'Ụlọ mposi', 'it': 'Latrina a fossa', 'ln': 'Latrine ya libulu', 'nso': 'Boithomelo bja mokoti', 'or': 'ବରପାଲି ପାଇଖାନା', 'pl': 'Latryna', 'ru': 'Ямный туалет', 'sw': 'Choo cha shimo', 'ta': 'குழி கழிவறை', 'tr': 'Köy tuvaleti', 'ur': 'گڑھے والا بیت الخلا', 'wo': 'Duus', 'xh': 'Ithoyilethi yomngxuma', 'yo': 'Ṣalanga oniho', 'zh': '旱廁', 'zu': 'Ithoyilethe lomgodi'}
     }
     #---
     get_v(da)
@@ -128,8 +128,8 @@ def test():
     #---
 #---
 if __name__ == '__main__':
-    if "test1" in sys.argv: 
+    if "test1" in sys.argv:
         TEST = True
         test()
-    else: 
+    else:
         start()

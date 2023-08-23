@@ -22,20 +22,20 @@ Dir = Path(__file__).parent
 file_cts = f'{Dir}/creators_as_translators.json'
 #---
 if not os.path.exists(file_cts):
-    with open(file_cts, 'w') as f:  json.dump({}, f)
+    with open(file_cts, 'w') as f: json.dump({}, f)
 #---
 creators_as_translators = json.load(codecs.open(file_cts, 'r', 'utf-8'))
 #---
 file = f'{Dir}/creators_by_lang.json'
 #---
 if not os.path.exists(file):
-    with open(file, 'w') as f:  json.dump({}, f)
+    with open(file, 'w') as f: json.dump({}, f)
 #---
 CreatorsData = json.load(codecs.open(file, 'r', 'utf-8'))
 #---
 Creators_by_lang_title = {}
 #---
-counts_creators_by_lang  = {}
+counts_creators_by_lang = {}
 #---
 Dump_it = False
 #---
@@ -49,9 +49,9 @@ for lang in CreatorsData.copy():
     #---
     for title, tab in titles.items():
         #---
-        actor   = tab["actor"]
-        _time_  = tab["time"]
-        TD      = tab["TD"]
+        actor = tab["actor"]
+        _time_ = tab["time"]
+        TD = tab["TD"]
         comment = tab["comment"]
         #---
         if comment.find("|User:Mr. Ibrahem/") == -1 and TD:
@@ -62,7 +62,7 @@ for lang in CreatorsData.copy():
         # if actor match IP address : skip
         if re.match(r"^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$", actor): continue
         # ---
-        if not actor in counts_creators_by_lang[lang] : counts_creators_by_lang[lang][actor] = 0
+        if not actor in counts_creators_by_lang[lang]: counts_creators_by_lang[lang][actor] = 0
         counts_creators_by_lang[lang][actor] += 1
         #---
         Creators_by_lang_title[lang][title] = tab

@@ -40,11 +40,11 @@ def fix_p(title, text, param):
         #---
     return newtext
 #---
-def work( title ):
+def work(title):
     #---
     global values
     #---
-    text = mdwiki_api.GetPageText( title )
+    text = mdwiki_api.GetPageText(title)
     #---
     ingr = txtlib2.extract_templates_and_params(text)
     #---
@@ -56,7 +56,7 @@ def work( title ):
         #---
         name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
         #---
-        if namestrip.lower() == 'ourworldindatamirror' :
+        if namestrip.lower() == 'ourworldindatamirror':
             #---
             pas += str(params) + '\n'
             #---
@@ -65,7 +65,7 @@ def work( title ):
             if param == '' and len(params.keys()) == 1:
                 pp = list(params.keys())[0]
                 vv = params[pp]
-                if pp.find('https') != -1 and vv.find('Webarchive') != -1 :
+                if pp.find('https') != -1 and vv.find('Webarchive') != -1:
                     param = pp + '=' + vv
                     #---
                     newtext = fix_p(title, newtext, param)
@@ -73,7 +73,7 @@ def work( title ):
             #---
             param = param.strip()
             if not param in values:
-                values[param] = [ title ]
+                values[param] = [title]
             else:
                 values[param].append(title)
     #---
@@ -88,9 +88,9 @@ def work( title ):
                 sa = True
         #---
         if sa:
-            vav = mdwiki_api.page_put_new( newtext, 'fix ourworldindatamirror template.', title ) 
+            vav = mdwiki_api.page_put_new(newtext, 'fix ourworldindatamirror template.', title)
     #---
-    printe.output( pas )
+    printe.output(pas)
 #---
 from pywikibot.comms import http
 #---
@@ -106,14 +106,14 @@ def check_urls(urls):
         #---
         print(url)
         #---
-        req = http.fetch( url )
+        req = http.fetch(url)
         #---
         if 500 <= req.status_code < 600:
-            printe.output( f'<<lightred>> received {req.uri} status from {req.status_code}' )
+            printe.output(f'<<lightred>> received {req.uri} status from {req.status_code}')
             errors[u] = True
         #---
 def make_log(dad):
-    lists = { x : len(z) for x,z in dad.items() }
+    lists = {x: len(z) for x, z in dad.items()}
     #---
     global errors
     #---
@@ -129,12 +129,12 @@ def make_log(dad):
         #---
         ta += 'used %d times.\n' % va
         #---
-        if x.find('https') == -1 :
+        if x.find('https') == -1:
             ta += f"[https://owidm.wmcloud.org/grapher/{x.replace(' ', '%20')} {x}]"
         else:
             ta += x
         #---
-        ta += '\n=== pages ===\n%s' % "\n".join( [ f"*[[{s}]]" for s in dad[x] ])
+        ta += '\n=== pages ===\n%s' % "\n".join([f"*[[{s}]]" for s in dad[x]])
         #print(ta)
         #---
         if vav:
@@ -153,7 +153,7 @@ def main():
     global values
     #---
     if 'read' in sys.argv:
-        list = mdwiki_api.Get_template_pages( "Template:Ourworldindatamirror", namespace = "0", limit = "max" )
+        list = mdwiki_api.Get_template_pages("Template:Ourworldindatamirror", namespace="0", limit="max")
         #---
         num = 0
         #---
@@ -162,14 +162,14 @@ def main():
             #---
             printe.output(f'<<lightyellow>> work {num}/{len(list)} page: {page}')
             #---
-            work( page )
+            work(page)
             #---
-            if '50' in sys.argv and num > 50 : break
+            if '50' in sys.argv and num > 50: break
         #---
         with open(project + '/md_core/mdpy/our.json', 'w') as f: json.dump(values, f)
         #---
     else:
-        with open(project + '/md_core/mdpy/our.json') as f:  values = json.load(f)
+        with open(project + '/md_core/mdpy/our.json') as f: values = json.load(f)
     #---
     make_log(values)
     #---

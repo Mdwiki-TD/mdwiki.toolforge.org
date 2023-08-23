@@ -24,12 +24,12 @@ Dir = os.path.dirname(Dir)
 #---
 sect_file = f'{Dir}/lists/secs_links.json'
 if not os.path.exists(sect_file):
-    with open(sect_file, 'w') as f:  json.dump({}, f)
+    with open(sect_file, 'w') as f: json.dump({}, f)
 #---
 old = json.load(codecs.open(sect_file, 'r', 'utf-8'))
 #---
 replaces = {
-    "Syncope" : "Syncope (medicine)",
+    "Syncope": "Syncope (medicine)",
 }
 #---
 class Sectios_links:
@@ -106,7 +106,7 @@ def dump_secs_links(secs_links):
 def get_section_links(new=False):
     """
     Retrieves the links to the sections from the Sectios_links bot.
-    """    
+    """
     if new or len(old) == 0:
     # Instantiate an object of the Sectios_links class.
         bot = Sectios_links()
@@ -115,7 +115,7 @@ def get_section_links(new=False):
 
         # Retrieve the links to the sections
         secs_links = bot.SectionsToLinks
-        
+
         dump_secs_links(secs_links)
     else:
         secs_links = old

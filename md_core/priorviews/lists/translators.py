@@ -21,19 +21,19 @@ Dir = Path(__file__).parent
 file = f'{Dir}/translators_mdwiki_langs.json'
 #---
 if not os.path.exists(file):
-    with open(file, 'w') as f:  json.dump({}, f)
+    with open(file, 'w') as f: json.dump({}, f)
 #---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 #---
-_data = { "ar" : { "artitle" : "بيت الحكمة"}}
+_data = {"ar": {"artitle": "بيت الحكمة"}}
 #---
 from priorviews.bots import helps
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)
 #---
-counts_by_translator  = {}
-counts_by_lang        = {}
+counts_by_translator = {}
+counts_by_lang = {}
 #---
 # Iterate through each markdown file and language in `tra_by_lang`
 for lang, titles in tra_by_lang.items():
@@ -48,7 +48,7 @@ for lang, titles in tra_by_lang.items():
         # skip user match ip address
         if helps.is_ip(user): continue
         #---
-        if not user in counts_by_translator[lang] : counts_by_translator[lang][user] = 0
+        if not user in counts_by_translator[lang]: counts_by_translator[lang][user] = 0
         counts_by_translator[lang][user] += 1
         #---
         counts_by_lang[lang] += 1

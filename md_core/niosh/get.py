@@ -35,21 +35,21 @@ by_title_all = {}
 all_pages = {}
 
 def write_main():
-    
+
     title = f'User:Mr. Ibrahem/niosh'
     text = ''
     #---
     # sort all_pages
-    all_pa = {x:v for x, v in sorted(all_pages.items(), key=lambda item: item[0].lower(), reverse=False)}
+    all_pa = {x: v for x, v in sorted(all_pages.items(), key=lambda item: item[0].lower(), reverse=False)}
     #---
     for x, tt in all_pa.items():
         text += f'* [[{tt}]]\n'
-    
-    page  = md_MainPage(title, 'www', family='mdwiki')
+
+    page = md_MainPage(title, 'www', family='mdwiki')
 
     # Get the current text of the page.
     oldtext = page.get_text()
-    exists    = page.exists()
+    exists = page.exists()
     if not exists:
         page.Create(text=text, summary='update')
     elif oldtext != text:
@@ -71,11 +71,11 @@ def write_to_mdwiki(data, x):
     title = f'User:Mr. Ibrahem/niosh/{x}'
     all_pages[x] = title
     #---
-    page  = md_MainPage(title, 'www', family='mdwiki')
+    page = md_MainPage(title, 'www', family='mdwiki')
 
     # Get the current text of the page.
     oldtext = page.get_text()
-    exists    = page.exists()
+    exists = page.exists()
     if not exists:
         page.Create(text=wikitext, summary='update')
     elif oldtext != wikitext:
@@ -93,11 +93,11 @@ def run(x, urls):
             if link.lower() in urls_:
                 ya.append(link)
                 #---
-                if not link in by_url:  by_url[link] = []
-                if not link in by_url_all:  by_url_all[link] = []
+                if not link in by_url: by_url[link] = []
+                if not link in by_url_all: by_url_all[link] = []
                 #---
-                if not title in by_url[link]:   by_url[link].append(title)
-                if not title in by_url_all[link]:   by_url_all[link].append(title)
+                if not title in by_url[link]: by_url[link].append(title)
+                if not title in by_url_all[link]: by_url_all[link].append(title)
         # ---
         if len(ya) > 0:
             by_title[title] = ya

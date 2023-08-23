@@ -25,7 +25,7 @@ class fix_Chembox:
         # ---
 
     def run(self):
-        
+
         self.get_params()
         # ---
         if self.all_params == {}:
@@ -69,7 +69,7 @@ class fix_Chembox:
         # ---
         for p, value in self.all_params.items():
             # ---
-            p = rename_chem_params.get(p,'') if rename_chem_params.get(p,'') != '' else p
+            p = rename_chem_params.get(p, '') if rename_chem_params.get(p, '') != '' else p
             # ---
             p_v = f'\n| {p}= {value}'
             # ---

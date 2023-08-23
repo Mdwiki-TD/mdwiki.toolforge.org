@@ -33,16 +33,16 @@ def get_cats_and_pages():
     #---
     RTT_dpl = 0
     #---
-    for tab in sq :
-        cat     = tab['category']
-        depth   = tab['depth']
+    for tab in sq:
+        cat = tab['category']
+        depth = tab['depth']
         #---
         catlen[cat] = 0
         #---
         pages = mdwiki_api.subcatquery(cat, depth=depth, ns="0")
         #---
         for page in pages:
-            if page in cat_for_pages :
+            if page in cat_for_pages:
                 if cat != 'RTT':
                     cat_for_pages[page] = cat
                     catlen[cat] += 1
@@ -66,17 +66,17 @@ def get_pages_with_no_cat():
     #---
     ioi = sql_for_mdwiki.mdwiki_sql("select title from pages where cat = '';", return_dict=True)
     #---
-    for tab in ioi :
+    for tab in ioi:
         title = tab['title']
         #---
-        cat     = cat_for_pages.get(title, '')
+        cat = cat_for_pages.get(title, '')
         if cat != '':
             add_cat[title] = cat
         #---
     #---
     for tit, cat in add_cat.items():
         #---
-        tit2 = escape_string(tit)    
+        tit2 = escape_string(tit)
         #---
         quanew = f"""UPDATE pages SET cat = '{cat}' WHERE title = '{tit2}';"""
         #---
@@ -84,7 +84,7 @@ def get_pages_with_no_cat():
         printe.output(quanew)
         #---
         if 'dont' not in sys.argv:
-            qu = sql_for_mdwiki.mdwiki_sql(quanew, update = True)
+            qu = sql_for_mdwiki.mdwiki_sql(quanew, update=True)
             #---
             printe.output(qu)
 #---

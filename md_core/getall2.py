@@ -38,7 +38,7 @@ def printe(color, text):
         'aqua': "\033[106m%s\033[00m",
         'lightaqua': "\033[107m%s\033[00m",
         'lightgray': "\033[107m%s\033[00m",
-        'gray': "\033[100m%s\033[00m",		
+        'gray': "\033[100m%s\033[00m",
 	}
 	#---
 	if color in color_table:
@@ -61,7 +61,7 @@ def get_text(file_path):
 		enc = chardet.detect(raw)['encoding']
 		f.close()
 	#---
-	if enc and enc.startswith("ISO-8859"):	enc = "windows-1256"
+	if enc and enc.startswith("ISO-8859"): enc = "windows-1256"
 	#---
 	text = ''
 	#---
@@ -104,24 +104,24 @@ for pyfile in os.listdir(drivepath):
         #---
         # match all defs
         rec = re.compile(r'def\s+([^\(\)]+)\s*\(.*?\)\s*\:')
-        for def_ in rec.finditer( text ):
+        for def_ in rec.finditer(text):
             #---
             Def = def_.group()
             name = def_.group(1)
-            printe( "green" , f"{Def} found in: {pyfile}" )
-            printe( "green" , f"name:{name} " )
+            printe("green", f"{Def} found in: {pyfile}")
+            printe("green", f"name:{name} ")
             #---
             #shared_paths
-            if not name in shared_paths:shared_paths[name] = 0
+            if not name in shared_paths: shared_paths[name] = 0
             shared_paths[name] += 1
         #---
 #---
-printe( "yellow" , f"lenth of shared_paths: {len(shared_paths)}" )
+printe("yellow", f"lenth of shared_paths: {len(shared_paths)}")
 #---
 
 sort = sorted(shared_paths.items(), key=lambda x: x[1], reverse=True)
 #---
 for key, value in sort:
     if value > 1:
-        printe( "yellow" , "%s: %d" % (key,value) )
+        printe("yellow", "%s: %d" % (key, value))
 #---

@@ -20,7 +20,7 @@ from wikiblame.bot import get_blame #first, result = get_blame({"lang": "es", "a
 from prior.json_langs.lists import json_langs_by_langs
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
 #---
-from prior.json_en.lists import json_en_all 
+from prior.json_en.lists import json_en_all
 # tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
 #---
 from priorviews.bots import helps
@@ -30,29 +30,29 @@ from priorviews.bots import helps
 def match_ref_names(r, refnames, lang):
     # dict_keys(['revid', 'parentid', 'user', 'timestamp', 'contentformat', 'contentmodel', 'content', 'comment'])
     text_pp = r.get('content')
-    user    = r.get('user')
+    user = r.get('user')
     #---
     if not text_pp: return ''
     if not user: return ''
     #---
-    parsed  = wikitextparser.parse(text_pp)
-    tags    = parsed.get_tags()
+    parsed = wikitextparser.parse(text_pp)
+    tags = parsed.get_tags()
     #---
     _tags_ = {}
     #---
     for x in tags:
-        if not x or not x.name:  continue
+        if not x or not x.name: continue
         if x.name != 'ref': continue
         #---
         attrs = x.attrs
         name = attrs.get('name', '').replace('/', '').lower().strip()
-        if name == '' : continue
+        if name == '': continue
         #---
         contents = x.contents
         #---
         if re.sub(r'[:\d\s]+', '', name) == '': continue
         #---
-        if not name in _tags_:  _tags_[name] = 0
+        if not name in _tags_: _tags_[name] = 0
         #---
         _tags_[name] += 1
     #---
@@ -75,7 +75,7 @@ class FindInHistory:
         #---
         self.lang = lang
         self.title = title
-        self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
+        self.url = 'https://' + self.lang + '.wikipedia.org/w/api.php'
         self.author = ''
         #---
         self.revisions = []
@@ -115,7 +115,7 @@ class FindInHistory:
             #---
             json1 = self.post_to_json(params)
             #---
-            if not json1 or json1 == {}:    break
+            if not json1 or json1 == {}: break
             #---
             continue_params = json1.get("continue", {})
             #---
@@ -158,7 +158,7 @@ class FindInHistory:
                 if r.get('anon'):
                     continue
                 self.revisions.append(r)
-    
+
 def search_history(title, lang, en='', refname=[], extlinks=[]):
     #---
     tab = {"lang": lang, "article": title, "needle": ""}
@@ -169,11 +169,11 @@ def search_history(title, lang, en='', refname=[], extlinks=[]):
         if not infos:
             return ''
         #---
-        en       = infos.get('en', '')
-        refname  = infos.get('refsname')
+        en = infos.get('en', '')
+        refname = infos.get('refsname')
         extlinks = infos.get('extlinks')
     #---
-    en_refname  = []
+    en_refname = []
     en_extlinks = []
     #---
     if en != '':
@@ -202,7 +202,7 @@ def search_history(title, lang, en='', refname=[], extlinks=[]):
         #---
         timestamp = r.get('timestamp', '')
         text_pp = r.get('content')
-        user    = r.get('user')
+        user = r.get('user')
         #---
         if not text_pp: continue
         if not user: continue

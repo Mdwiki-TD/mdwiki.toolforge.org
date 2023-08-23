@@ -16,7 +16,7 @@ import pywikibot
 #---
 import re
 import string
-#import datetime 
+#import datetime
 #import dateutil.parser
 #import time
 #from datetime import datetime, date
@@ -34,7 +34,7 @@ from mdpy import printe#---
 #import requests
 #Session = requests.Session()
 #---
-offset = { 1 : 0 }
+offset = {1: 0}
 #---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')
@@ -44,7 +44,7 @@ for arg in sys.argv:
 #---
 from_to = {}
 #---
-def fix_dup(From,To):
+def fix_dup(From, To):
     """Treat one double redirect."""
     #---
     targetPage = To
@@ -58,7 +58,7 @@ def fix_dup(From,To):
     #---
 #---
 def main():
-    printe.output( '*<<lightred>> > main:')
+    printe.output('*<<lightred>> > main:')
     #---
     # python3 dup.py -page:Allopurinol
     # python3 dup.py -page:Activated_charcoal_\(medication\)
@@ -80,7 +80,7 @@ def main():
     #---
     list = mdwiki_api.post(fop)
     #---
-    redirects = list.get('query',{}).get('redirects',[])
+    redirects = list.get('query', {}).get('redirects', [])
     #---
     for gg in redirects:
         From = gg['from']
@@ -91,10 +91,10 @@ def main():
     for title in redirects:
         nu += 1
         From = title['from']
-        printe.output( '-------------------------------------------\n*<<lightyellow>> >%d/%d From:"%s".' % ( nu , len(redirects) , From ) )
+        printe.output('-------------------------------------------\n*<<lightyellow>> >%d/%d From:"%s".' % (nu, len(redirects), From))
         To = title['to']
         if To in from_to:
-            fix_dup(From,To)
+            fix_dup(From, To)
     #---
 
 #---

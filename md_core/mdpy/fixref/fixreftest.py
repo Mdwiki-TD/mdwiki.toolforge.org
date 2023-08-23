@@ -69,8 +69,8 @@ text = '''
 '''
 # ---
 def test():
-    newtext = fix_ref_template( text )
-    pywikibot.showDiff( text , newtext )
+    newtext = fix_ref_template(text)
+    pywikibot.showDiff(text, newtext)
 #---
 if __name__ == "__main__":
     test()

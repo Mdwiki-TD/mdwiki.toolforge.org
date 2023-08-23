@@ -43,12 +43,12 @@ class WikiBlame:
             "offmon": "7",
             "offjahr": "2023",
             "searchmethod": "int",
-            "order": "asc",#desc
+            "order": "asc", #desc
             "force_wikitags": "on",
             "user": ""
         }
         if params is not None:
-            self.params.update({x : v for x, v in params.items() if v and v != ''})
+            self.params.update({x: v for x, v in params.items() if v and v != ''})
         self.content = None
 
     def fetch_content(self) -> None:
@@ -102,8 +102,8 @@ class WikiBlame:
 
 def get_blame(params):
     scraper = WikiBlame(params)
-    result  = scraper.scrape()
-    first   = scraper.in_first
+    result = scraper.scrape()
+    first = scraper.in_first
     #---
     return first, result
     #---

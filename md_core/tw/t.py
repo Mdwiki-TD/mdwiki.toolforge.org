@@ -24,11 +24,11 @@ import random
 #---
 import twet_config
 # Create variables for each key, secret, token
-consumer_key        = twet_config.consumer_key
-consumer_secret     = twet_config.consumer_secret
-access_token        = twet_config.access_token
+consumer_key = twet_config.consumer_key
+consumer_secret = twet_config.consumer_secret
+access_token = twet_config.access_token
 access_token_secret = twet_config.access_token_secret
-bearer_token        = twet_config.bearer_token
+bearer_token = twet_config.bearer_token
 #---
 #---
 import tweepy
@@ -49,12 +49,12 @@ def auth_ready(tweet, link=None):
     #---
     data = getattr(t, 'data')
     if data != None and type(data) == dict and data.get('id') != None:
-        print(data.get('id',''))
+        print(data.get('id', ''))
         return True
 #---
 project = '/data/project/mdwiki'
 #---
-if not os.path.isdir(project): 
+if not os.path.isdir(project):
     print(f'{project} is not dir')
     project = '/mdwiki'
 #---
@@ -63,7 +63,7 @@ def auth(tweet, link=None):
     auth = tweepy.OAuth1UserHandler(consumer_key, consumer_secret, access_token=access_token, access_token_secret=access_token_secret)
     api = tweepy.API(auth)
     #---
-    # t = api.update_status(tweet)  
+    # t = api.update_status(tweet)
     t = api.update_status_with_media(tweet, project + '/md_core/tw/a.png')
     print(t)
     #---
@@ -81,7 +81,7 @@ def do_api(params):
     #---
     json1 = {}
     try:
-        r4 = requests.Session().post( url, data=params)
+        r4 = requests.Session().post(url, data=params)
         json1 = json.loads(r4.text)
         return json1
     except Exception as e:
@@ -95,7 +95,7 @@ json_file = project + '/md_core/tw/done.json'
 #---
 def get_links():
     #---
-    sects = do_api( {"action": "parse", "page": title, "prop": "sections" } )
+    sects = do_api({"action": "parse", "page": title, "prop": "sections"})
     # pri   nt(sects)
     sections = sects.get("parse", {}).get("sections", {})
     #---
@@ -111,7 +111,7 @@ def get_links():
     if level:
         level = str(level)
         #---
-        uxu = do_api({"action": "parse", "page": title, "prop": "sections|wikitext", "section": level })
+        uxu = do_api({"action": "parse", "page": title, "prop": "sections|wikitext", "section": level})
         #---
         section_text = uxu.get("parse", {}).get("wikitext", {}).get("*", "")
         #---
@@ -120,16 +120,16 @@ def get_links():
     vaild_links = []
     #---
     for m2 in link_regex.finditer(section_text):
-        sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE )
+        sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE)
         sal = sa.findall(m2.group(0))
         if not sal:
             itemu = m2.group(1).split('|')[0].strip()
-            if itemu.lower().strip() in ['xx', 'x'] : continue
-            vaild_links.append( itemu )
+            if itemu.lower().strip() in ['xx', 'x']: continue
+            vaild_links.append(itemu)
     #---
     vaild_links = list(set(vaild_links))
     #---
-    print(f'len of vaild_links: {len(vaild_links)}' )
+    print(f'len of vaild_links: {len(vaild_links)}')
     #---
     if 'XX' in vaild_links:
         vaild_links.remove('XX')
@@ -163,21 +163,21 @@ def get_one_link(done, links):
     return link
 #---
 def start_md():
-    done    = get_done()
+    done = get_done()
     #---
     print(f'len of done: {len(done)}')
     #---
-    links   = get_links()
+    links = get_links()
     #---
     print(f'len of links: {len(links)}')
     #---
     if set(links) == set(done): done = ['XX']
     #---
-    links = list(set(links) - set(done) )
+    links = list(set(links) - set(done))
     #---
     print(f'lenth of links: {len(links)} links:')
     #---
-    if len(links) == 0 :
+    if len(links) == 0:
         print('close')
         sys.exit()
     #---

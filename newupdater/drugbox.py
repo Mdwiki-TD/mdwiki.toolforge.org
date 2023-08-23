@@ -71,7 +71,7 @@ class TextProcessor:
         #---
         drugbox2, params = self.get_txt_params(drugbox2)
         #---
-        self.drugbox_params     = params
+        self.drugbox_params = params
         self.all_drugbox_params = params
         #---
         # create self.newdrugbox
@@ -88,9 +88,9 @@ class TextProcessor:
     def get_combo(self):
         #---
         combo_titles = {
-            "mab" : "Monoclonal antibody data",
-            "vaccine" : "Vaccine data",
-            "combo" : "Combo data"
+            "mab": "Monoclonal antibody data",
+            "vaccine": "Vaccine data",
+            "combo": "Combo data"
         }
         #---
         Type = self.drugbox_params.get("type", "").lower().strip()
@@ -109,7 +109,7 @@ class TextProcessor:
             #---
             params = all_params['combo'][Type]
             #---
-            for p in all_combo: 
+            for p in all_combo:
                 if not p in params: params.append(p)
             #---
             all_combo = params
@@ -141,13 +141,13 @@ class TextProcessor:
             #---
             vv = f"| {x}= {x_val} "
             #---
-            if n % 5 == 0:  vv += "\n"
+            if n % 5 == 0: vv += "\n"
             #---
             sec_text += vv
         #---
         # remove all_formola_params from sec_params
         for p in all_formola_params:
-            if p in sec_params: 
+            if p in sec_params:
                 sec_params.remove(p)
         #---
         return sec_text, sec_params
@@ -180,7 +180,7 @@ class TextProcessor:
         if sec_title != '':
             section_title = f'<!-- {sec_title} -->'
         #---
-        if sectionname in ['first', 'last']:    section_title = ''
+        if sectionname in ['first', 'last']: section_title = ''
         #---
         sec_text = ''
         #---
@@ -188,7 +188,7 @@ class TextProcessor:
             sec_text, sec_params = self.get_chemical()
         #---
         if sectionname == "last":
-            sec_params = [ x for x in self.drugbox_params.keys() if x.lower().strip() not in self.params_done_lowers ]
+            sec_params = [x for x in self.drugbox_params.keys() if x.lower().strip() not in self.params_done_lowers]
         #---
         for p in sec_params:
             p = p.strip()
@@ -201,7 +201,7 @@ class TextProcessor:
                 #---
                 p2 = p.ljust(18)
                 #---
-                self.params_done_lowers.append(p.lower())                
+                self.params_done_lowers.append(p.lower())
                 #---
                 p_v = f'\n| {p2}= {p_value}'
                 #---
@@ -251,5 +251,5 @@ class TextProcessor:
         last_section = self.create_section('last')
         self.add_section(last_section)
         #---
-        self.newdrugbox += '\n}}'    
+        self.newdrugbox += '\n}}'
 #---

@@ -17,7 +17,7 @@ import codecs
 from mdpy import printe
 #---
 from priorviews.lists.links_by_section import links_by_lang
-from priorviews.lists import translators 
+from priorviews.lists import translators
 from priorviews.bots import helps
 from priorviews.lists import creators # creators.Creators_by_lang_title
 #---
@@ -26,7 +26,7 @@ Dir = Path(__file__).parent
 file_cts = f'{Dir}/creators_as_translators.json'
 #---
 if not os.path.exists(file_cts):
-    with open(file_cts, 'w') as f:  json.dump({}, f)
+    with open(file_cts, 'w') as f: json.dump({}, f)
 #---
 creators_as_translators = json.load(codecs.open(file_cts, 'r', 'utf-8'))
 #---
@@ -45,17 +45,17 @@ for lang, links in links_by_lang.items():
     #---
     lang_translations = translators.tra_by_lang.get(lang, {})
     #---
-    links = [ x for x in links if lang_translations.get(x.lower(), '') == '']
+    links = [x for x in links if lang_translations.get(x.lower(), '') == '']
     #---
     for title in links:
         #---
         _creator = creators.Creators_by_lang_title.get(lang, {}).get(title, {})
         #---
-        TD       = _creator.get("TD")
-        actor    = _creator.get("actor", "")
+        TD = _creator.get("TD")
+        actor = _creator.get("actor", "")
         #---
-        _time_   = _creator.get("time", "")
-        _time_x  = ''
+        _time_ = _creator.get("time", "")
+        _time_x = ''
         #---
         if actor == '':
             continue

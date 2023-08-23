@@ -43,7 +43,7 @@ import configparser
 #---
 project = "/data/project/mdwiki/"
 #---
-if not os.path.isdir(project):  project = "I:/mdwiki/"
+if not os.path.isdir(project): project = "I:/mdwiki/"
 #---
 config = configparser.ConfigParser()
 config.read(project + "/confs/nccommons_user.ini")
@@ -51,7 +51,7 @@ config.read(project + "/confs/nccommons_user.ini")
 username = config["DEFAULT"]["username"].strip()
 password = config["DEFAULT"]["password"].strip()
 #---
-User_tables = { "username" : username, "password" : password }
+User_tables = {"username": username, "password": password}
 #---
 # xxxxxxxxxxx
 #---
@@ -64,11 +64,11 @@ super_login.User_tables['nccommons'] = User_tables
 #---
 Login = super_login.Login
 #---
-bot_api.login_def    = Login
+bot_api.login_def = Login
 super_page.login_def = Login
 #---
-NEW_API      = bot_api.NEW_API
-MainPage     = super_page.MainPage
+NEW_API = bot_api.NEW_API
+MainPage = super_page.MainPage
 change_codes = super_page.change_codes
 
 #---

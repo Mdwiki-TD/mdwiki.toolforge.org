@@ -21,17 +21,17 @@ tt = get_them.work_in_one_lang_link()
 '''
 #---
 change_codes = {
-    "bat_smg" : "bat-smg",
-    "be_x_old" : "be-tarask",
-    "be-x-old" : "be-tarask",
-    "cbk_zam" : "cbk-zam",
-    "fiu_vro" : "fiu-vro",
-    "map_bms" : "map-bms",
-    "nds_nl" : "nds-nl",
-    "roa_rup" : "roa-rup",
-    "zh_classical" : "zh-classical",
-    "zh_min_nan" : "zh-min-nan",
-    "zh_yue" : "zh-yue",
+    "bat_smg": "bat-smg",
+    "be_x_old": "be-tarask",
+    "be-x-old": "be-tarask",
+    "cbk_zam": "cbk-zam",
+    "fiu_vro": "fiu-vro",
+    "map_bms": "map-bms",
+    "nds_nl": "nds-nl",
+    "roa_rup": "roa-rup",
+    "zh_classical": "zh-classical",
+    "zh_min_nan": "zh-min-nan",
+    "zh_yue": "zh-yue",
 }
 #---
 def url_parser(url):
@@ -68,11 +68,11 @@ def filter_urls(links):
     # delete link like web.archive.org
     for x in links:
         #---
-        if x.startswith('//'):  x = 'https:' + x
+        if x.startswith('//'): x = 'https:' + x
         #---
         x = x.replace('//www.', '//').replace('http://', 'https://')
         #---
-        # un urlencode 
+        # un urlencode
         # x = x.replace('%3A', ':').replace('%2F', '/').replace('%3F', '?').replace('%3D', '=').replace('%26', '&')
         x = urllib.parse.unquote(x)
         #---
@@ -123,7 +123,7 @@ class work_in_one_lang_link:
         self.lang = change_codes.get(lang) or lang
         #---
         self.title = title
-        self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
+        self.url = 'https://' + self.lang + '.wikipedia.org/w/api.php'
         self.text = ''
         self.section0 = ''
         self.lead = {'extlinks': [], 'refsname': {}}
@@ -141,7 +141,7 @@ class work_in_one_lang_link:
         self.get_extlinks()
         #---
         parsed = wikitextparser.parse(self.text)
-        tags   = parsed.get_tags()
+        tags = parsed.get_tags()
         #---
         self.refsname = self.get_ref_names(tags)
         #---
@@ -180,12 +180,12 @@ class work_in_one_lang_link:
     def get_expended(self):
         #---
         text_pp = self.expandtemplates(self.text)
-        parsed  = wikitextparser.parse(text_pp)
-        tags    = parsed.get_tags()
+        parsed = wikitextparser.parse(text_pp)
+        tags = parsed.get_tags()
         #---
-        refsn   = self.get_ref_names(tags)
+        refsn = self.get_ref_names(tags)
         #---
-        refsn   = {k: v for k, v in refsn.items() if not k in self.refsname}
+        refsn = {k: v for k, v in refsn.items() if not k in self.refsname}
         #---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -198,43 +198,43 @@ class work_in_one_lang_link:
         _tags_ = {}
         #---
         for x in tags:
-            if not x or not x.name:  continue
+            if not x or not x.name: continue
             if x.name != 'ref': continue
             #---
             attrs = x.attrs
             name = attrs.get('name', '').replace('/', '').lower().strip()
             #---
-            if name == '' : continue
+            if name == '': continue
             #---
             contents = x.contents
             #---
-            if contents != '' :
+            if contents != '':
                 self.contents_all[name] = str(x)
             #---
             if re.sub(r'[:\d\s]+', '', name) == '': continue
             #---
-            if not name in _tags_:  _tags_[name] = 0
+            if not name in _tags_: _tags_[name] = 0
             #---
             _tags_[name] += 1
         #---
         return _tags_
 
     def get_text(self):
-        params = { "action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
+        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         #---
         json1 = self.post_to_json(params)
         #---
-        self.text = json1.get('parse',{}).get('wikitext',{}).get('*','')
+        self.text = json1.get('parse', {}).get('wikitext', {}).get('*', '')
         #---
 
     def get_extlinks(self):
         params = {
             "action": "query",
             "format": "json",
-            "prop": "extlinks", 
-            "titles": self.title, 
-            "formatversion": "2", 
-            "utf8": 1, 
+            "prop": "extlinks",
+            "titles": self.title,
+            "formatversion": "2",
+            "utf8": 1,
             "ellimit": "max"
             }
         #---
@@ -251,11 +251,11 @@ class work_in_one_lang_link:
             #---
             elcontinue = json1.get('continue', {}).get('elcontinue', '')
             #---
-            linkso = json1.get('query',{}).get('pages',[{}])[0].get('extlinks',[])
+            linkso = json1.get('query', {}).get('pages', [{}])[0].get('extlinks', [])
             #---
             links.extend(linkso)
         #---
-        links = [ x['url'] for x in links ]
+        links = [x['url'] for x in links]
         #---
         # remove duplicates
         liste1 = list(set(links))
@@ -277,14 +277,14 @@ class work_in_one_lang_link:
         #---
         section0_pa = wikitextparser.parse(self.section0)
         #---
-        tags0   = section0_pa.get_tags()
+        tags0 = section0_pa.get_tags()
         #---
         self.make_new_text(tags0)
         #---
         # printe.showDiff(section0, self.section0)
         #---
         self.lead['refsname'] = self.get_ref_names(tags0)
-        self.lead['extlinks']  = self.get_lead_extlinks()
+        self.lead['extlinks'] = self.get_lead_extlinks()
         #---
 
     def get_lead_extlinks(self):
@@ -302,7 +302,7 @@ class work_in_one_lang_link:
         #---
         # printe.output(json1)
         #---
-        links = json1.get('parse',{}).get('externallinks',[])
+        links = json1.get('parse', {}).get('externallinks', [])
         #---
         # remove duplicates
         liste1 = list(set(links))
@@ -318,11 +318,11 @@ class work_in_one_lang_link:
     def make_new_text(self, tags):
         #---
         for x in tags:
-            if not x or not x.name:  continue
+            if not x or not x.name: continue
             if x.name != 'ref': continue
             #---
             name = x.attrs.get('name', '').replace('/', '').lower().strip()
-            if name == '' : continue
+            if name == '': continue
             #---
             contents = x.contents
             #---
@@ -338,7 +338,7 @@ class get_old:
         #---
         self.lang = lang
         self.title = title
-        self.url = 'https://' +  self.lang + '.wikipedia.org/w/api.php'
+        self.url = 'https://' + self.lang + '.wikipedia.org/w/api.php'
         self.oldtext = ''
         self.text = ''
         self.section0 = ''
@@ -355,7 +355,7 @@ class get_old:
         self.get_oldtext()
         #---
         parsed = wikitextparser.parse(self.oldtext)
-        tags   = parsed.get_tags()
+        tags = parsed.get_tags()
         #---
         self.refsname = self.get_ref_names(tags)
         #---
@@ -400,12 +400,12 @@ class get_old:
     def get_expended(self):
         #---
         text_pp = self.expandtemplates(self.oldtext)
-        parsed  = wikitextparser.parse(text_pp)
-        tags    = parsed.get_tags()
+        parsed = wikitextparser.parse(text_pp)
+        tags = parsed.get_tags()
         #---
-        refsn   = self.get_ref_names(tags)
+        refsn = self.get_ref_names(tags)
         #---
-        refsn   = {k: v for k, v in refsn.items() if not k in self.refsname}
+        refsn = {k: v for k, v in refsn.items() if not k in self.refsname}
         #---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -418,29 +418,29 @@ class get_old:
         _tags_ = {}
         #---
         for x in tags:
-            if not x or not x.name:  continue
+            if not x or not x.name: continue
             if x.name != 'ref': continue
             #---
             attrs = x.attrs
             name = attrs.get('name', '').replace('/', '').lower().strip()
             #---
-            if name == '' : continue
+            if name == '': continue
             #---
             contents = x.contents
             #---
-            if contents != '' :
+            if contents != '':
                 self.contents_all[name] = str(x)
             #---
             if re.sub(r'[:\d\s]+', '', name) == '': continue
             #---
-            if not name in _tags_:  _tags_[name] = 0
+            if not name in _tags_: _tags_[name] = 0
             #---
             _tags_[name] += 1
         #---
         return _tags_
 
     def get_oldtext(self):
-        params = { "action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
+        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         #---
         params = {
             "action": "query",
@@ -459,9 +459,9 @@ class get_old:
         json1 = self.post_to_json(params)
         #---
         revisions = json1.get('query', {}).get('pages', [{}])[0].get('revisions', [{}])[0]
-        self.timestamp = revisions.get('timestamp','')
+        self.timestamp = revisions.get('timestamp', '')
         print(f'timestamp: {self.timestamp}')
-        self.oldtext = revisions.get('slots',{}).get('main',{}).get('content','')
+        self.oldtext = revisions.get('slots', {}).get('main', {}).get('content', '')
         #---
 
     def get_lead(self):
@@ -473,14 +473,14 @@ class get_old:
         #---
         section0_pa = wikitextparser.parse(self.section0)
         #---
-        tags0   = section0_pa.get_tags()
+        tags0 = section0_pa.get_tags()
         #---
         self.make_new_text(tags0)
         #---
         # printe.showDiff(section0, self.section0)
         #---
         self.lead['refsname'] = self.get_ref_names(tags0)
-        self.lead['extlinks']  = self.get_extlinks_from_text(self.section0)
+        self.lead['extlinks'] = self.get_extlinks_from_text(self.section0)
         #---
 
     def get_extlinks_from_text(self, text):
@@ -498,7 +498,7 @@ class get_old:
         #---
         # printe.output(json1)
         #---
-        links = json1.get('parse',{}).get('externallinks',[])
+        links = json1.get('parse', {}).get('externallinks', [])
         #---
         # remove duplicates
         liste1 = list(set(links))
@@ -514,11 +514,11 @@ class get_old:
     def make_new_text(self, tags):
         #---
         for x in tags:
-            if not x or not x.name:  continue
+            if not x or not x.name: continue
             if x.name != 'ref': continue
             #---
             name = x.attrs.get('name', '').replace('/', '').lower().strip()
-            if name == '' : continue
+            if name == '': continue
             #---
             contents = x.contents
             #---

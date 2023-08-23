@@ -51,7 +51,7 @@ def add_section(text, title):
     revisions = get_revisions(title, lang='es')
     # ---
     timestamp = '' #2023-02-28T14:01:49Z
-    comment   = '' #Creado al traducir la página «[[:en:Special:Redirect/revision/1138582883|User:Mr. Ibrahem/Herpes labialis]]
+    comment = '' #Creado al traducir la página «[[:en:Special:Redirect/revision/1138582883|User:Mr. Ibrahem/Herpes labialis]]
     # ---
     for r in revisions:
         # user = r.get('user', '')
@@ -66,7 +66,7 @@ def add_section(text, title):
     print_s(f'timestamp = {timestamp}')
     print_s(f'comment = {comment}')
     # ---
-    oldid  = re.search(r'revision/(\d+)\|', comment)
+    oldid = re.search(r'revision/(\d+)\|', comment)
     if oldid:
         oldid = oldid.group(1)
     else:

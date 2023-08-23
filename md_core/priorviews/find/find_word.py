@@ -28,7 +28,7 @@ Dir2 = os.path.dirname(Dir)
 file = f'{Dir2}/lists/words_mdwiki_langs.json'
 #---
 if not os.path.exists(file):
-    with open(file, 'w') as f:  json.dump({}, f)
+    with open(file, 'w') as f: json.dump({}, f)
 #---
 from priorviews.lists.links_by_section import links_by_lang
 #---
@@ -57,7 +57,7 @@ def get_w(links, lang):
     #---
     if 'onlynew' in sys.argv:
         # links = [ x for x in links if not x in words_by_lang[lang] or words_by_lang[lang][x] == 0]
-        links = [ x for x in links if valid(x, words_by_lang[lang], empty=0) ]
+        links = [x for x in links if valid(x, words_by_lang[lang], empty=0)]
     #---
     lena = len(links)
     #---
@@ -69,7 +69,7 @@ def get_w(links, lang):
         #---
         words_in = words_by_lang[lang].get(title_lower, 0)
         #---
-        if 'new' in sys.argv and words_in > 40 : continue
+        if 'new' in sys.argv and words_in > 40: continue
         #---
         printe.output(f'<<yellow>> title: {m}/{lena} get_w {title}, words_in:{words_in}')
         #---
@@ -125,8 +125,8 @@ def test():
     #---
 #---
 if __name__ == '__main__':
-    if "test1" in sys.argv: 
+    if "test1" in sys.argv:
         TEST = True
         test()
-    else: 
+    else:
         start()

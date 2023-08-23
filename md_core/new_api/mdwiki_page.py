@@ -29,7 +29,7 @@ purge       = page.purge()
 #---
 from mdpy.bots import user_account_new
 #---
-User_tables = { "username" : user_account_new.my_username, "password" : user_account_new.mdwiki_pass }
+User_tables = {"username": user_account_new.my_username, "password": user_account_new.mdwiki_pass}
 #---
 # xxxxxxxxxxx
 #---
@@ -42,11 +42,11 @@ su_login.User_tables["mdwiki"] = User_tables
 #---
 Login = su_login.Login
 #---
-bot_api.login_def    = Login
+bot_api.login_def = Login
 su_page.login_def = Login
 #---
-NEW_API      = bot_api.NEW_API
-MainPage     = su_page.MainPage
+NEW_API = bot_api.NEW_API
+MainPage = su_page.MainPage
 change_codes = su_page.change_codes
 
 #---
@@ -87,7 +87,7 @@ def test():
     api_new = NEW_API('www', family='mdwiki')
     # login   = api_new.Login_to_wiki()
     # pages   = api_new.Find_pages_exists_or_not(liste)
-    pages   = api_new.Get_Newpages(limit=5000)
+    pages = api_new.Get_Newpages(limit=5000)
 #---
 if __name__ == '__main__':
     # python3 core8/pwb.py new_api/page

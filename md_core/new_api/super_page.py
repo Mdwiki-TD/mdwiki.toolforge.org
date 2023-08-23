@@ -65,9 +65,9 @@ purge       = page.purge()
 # ingr = txtlib.extract_templates_and_params(text)
 # for temp in ingr: name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
 #---
-print_test = {1:False}
+print_test = {1: False}
 #---
-Edit_summary_line = { 1 : ' -Edit summary: %s:' }
+Edit_summary_line = {1: ' -Edit summary: %s:'}
 #---
 import inspect
 def warn_err(err):
@@ -75,26 +75,26 @@ def warn_err(err):
     nn = inspect.stack()[1][3]
     return f'\ndef {nn}(): {err}'
 #---
-Save_Edit_Pages = { 1 : False}
+Save_Edit_Pages = {1: False}
 #---
 change_codes = {
-    "nb" : "no",
-    "bat_smg" : "bat-smg",
-    "be_x_old" : "be-tarask",
-    "be-x-old" : "be-tarask",
-    "cbk_zam" : "cbk-zam",
-    "fiu_vro" : "fiu-vro",
-    "map_bms" : "map-bms",
-    "nds_nl" : "nds-nl",
-    "roa_rup" : "roa-rup",
-    "zh_classical" : "zh-classical",
-    "zh_min_nan" : "zh-min-nan",
-    "zh_yue" : "zh-yue",
+    "nb": "no",
+    "bat_smg": "bat-smg",
+    "be_x_old": "be-tarask",
+    "be-x-old": "be-tarask",
+    "cbk_zam": "cbk-zam",
+    "fiu_vro": "fiu-vro",
+    "map_bms": "map-bms",
+    "nds_nl": "nds-nl",
+    "roa_rup": "roa-rup",
+    "zh_classical": "zh-classical",
+    "zh_min_nan": "zh-min-nan",
+    "zh_yue": "zh-yue",
     }
 #---
-def login_def(lang, family) :{}
+def login_def(lang, family): {}
 #---
-not_loged_m = {1:""}
+not_loged_m = {1: ""}
 #---
 class MainPage():
     def __init__(self, title, lang, family='wikipedia'):
@@ -125,12 +125,12 @@ class MainPage():
         self.user = ""
         #---
         self.back_links = []
-        self.extlinks   = []
+        self.extlinks = []
         self.links = []
         self.iwlinks = []
         self.links_here = []
         #---
-        self.info = {'done':False}
+        self.info = {'done': False}
         #---
         self.categories = {}
         self.hidden_categories = {}
@@ -170,10 +170,10 @@ class MainPage():
             "rvslots": "*"                          # revisions
         }
         #---
-        if redirects:    params["redirects"] = 1
+        if redirects: params["redirects"] = 1
         data = self.post_params(params)
         #---
-        _dat_ = {"batchcomplete": "","query": {
+        _dat_ = {"batchcomplete": "", "query": {
                 "normalized": [{"from": "وب:ملعب", "to": "ويكيبيديا:ملعب"}],
                 "pages": {
                     "361534": {
@@ -185,9 +185,9 @@ class MainPage():
                             "parentid": 61421528,
                             "user": "Al-shazali Sabeel",
                             "timestamp": "2023-03-07T13:50:29Z",
-                            "slots": {"main": {"contentmodel": "wikitext","contentformat": "text/x-wiki","*": "{{عنوان الملعب}}"}}
+                            "slots": {"main": {"contentmodel": "wikitext", "contentformat": "text/x-wiki", "*": "{{عنوان الملعب}}"}}
                         }],
-                        "pageprops": {"wikibase_item": "Q3938" }
+                        "pageprops": {"wikibase_item": "Q3938"}
                     }
                 }
         }}
@@ -198,28 +198,28 @@ class MainPage():
             #---
             if print_test[1] or 'printdata' in sys.argv: warn(warn_err('v:' + str(v)), UserWarning)
             #---
-            if 'missing' in v :
+            if 'missing' in v:
                 self.Exists = False
                 break
             else:
                 self.Exists = True
             #---
-            title   = v["title"]
+            title = v["title"]
             #---
             pageprops = v.get("pageprops", {})
-            self.wikibase_item   = pageprops.get("wikibase_item") or self.wikibase_item
+            self.wikibase_item = pageprops.get("wikibase_item") or self.wikibase_item
             #---
             # "flagged": { "stable_revid": 61366100, "level": 0, "level_text": "stable"}
             self.flagged = v.get('flagged', False) != False
             #---
-            self.ns      = v.get("ns") or self.ns
-            self.pageid  = v.get("pageid") or self.pageid
+            self.ns = v.get("ns") or self.ns
+            self.pageid = v.get("pageid") or self.pageid
             #---
             page = v.get("revisions", [{}])[0]
             #---
-            self.text   = page.get("slots",{}).get("main",{}).get("*",'')
-            self.user   = page.get("user")  or self.user
-            self.revid  = page.get("revid") or self.revid
+            self.text = page.get("slots", {}).get("main", {}).get("*", '')
+            self.user = page.get("user") or self.user
+            self.revid = page.get("revid") or self.revid
             #---
             self.timestamp = page.get("timestamp") or self.timestamp
             #---
@@ -255,9 +255,9 @@ class MainPage():
                         "title": "طواف العالم للدراجات 2023",
                         "categories": [],
                         "langlinks": [],
-                        "templates": [{"ns": 10,"title": "قالب:-"}],
-                        "linkshere": [{"pageid": 189150,"ns": 0,"title": "طواف فرنسا"}],
-                        "iwlinks": [{"prefix": "commons","*": "Category:2023_UCI_World_Tour"}],
+                        "templates": [{"ns": 10, "title": "قالب:-"}],
+                        "linkshere": [{"pageid": 189150, "ns": 0, "title": "طواف فرنسا"}],
+                        "iwlinks": [{"prefix": "commons", "*": "Category:2023_UCI_World_Tour"}],
                         "contentmodel": "wikitext",
                         "pagelanguage": "ar",
                         "pagelanguagehtmlcode": "ar",
@@ -275,17 +275,17 @@ class MainPage():
         xs = {'batchcomplete': True, 'query': {'pages': [{'pageid': 151314, 'ns': 10, 'title': 'قالب:أوب',
 
             'categories': [
-                {'ns': 14, 'title': 'تصنيف:قوالب تستخدم أنماط القوالب', 'sortkey': '', 'sortkeyprefix': '', 'hidden': False}, 
+                {'ns': 14, 'title': 'تصنيف:قوالب تستخدم أنماط القوالب', 'sortkey': '', 'sortkeyprefix': '', 'hidden': False},
                 {'ns': 14, 'title': 'تصنيف:cc', 'sortkey': 'v', 'sortkeyprefix': 'أوب', 'hidden': True}
                 ],
 
-            'langlinks': [{'lang': 'bh', 'title': 'टेम्पलेट:AWB'}], 
+            'langlinks': [{'lang': 'bh', 'title': 'टेम्पलेट:AWB'}],
 
-            'templates': [{'ns': 10, 'title': 'قالب:No redirect'}], 
+            'templates': [{'ns': 10, 'title': 'قالب:No redirect'}],
 
-            'linkshere': [{'pageid': 308641, 'ns': 10, 'title': 'قالب:AWB', 'redirect': True}], 
+            'linkshere': [{'pageid': 308641, 'ns': 10, 'title': 'قالب:AWB', 'redirect': True}],
 
-            'iwlinks': [{'prefix': 'd', 'title': 'Q4063270'}], 
+            'iwlinks': [{'prefix': 'd', 'title': 'Q4063270'}],
 
             'contentmodel': 'wikitext', 'pagelanguage': 'ar', 'pagelanguagehtmlcode': 'ar', 'pagelanguagedir': 'rtl', 'touched': '2023-03-05T22:10:23Z', 'lastrevid': 61388266, 'length': 3477
             }
@@ -295,16 +295,16 @@ class MainPage():
         #---
         #for _, ta in pages.items():
         #---
-        self.ns     = ta.get('ns')        or self.ns
-        self.pageid = ta.get('pageid')    or self.pageid
-        self.length = ta.get('length')    or self.length
-        self.revid  = ta.get('lastrevid') or self.revid
+        self.ns = ta.get('ns') or self.ns
+        self.pageid = ta.get('pageid') or self.pageid
+        self.length = ta.get('length') or self.length
+        self.revid = ta.get('lastrevid') or self.revid
         #---
         self.is_redirect = True if 'redirect' in ta else False
         #---
         for cat in ta.get('categories', []):
             #---
-            _cat_ = {"ns": 14,"title": "تصنيف:بوابة سباق الدراجات الهوائية/مقالات متعلقة","sortkey": "d8b7","sortkeyprefix": "","hidden": True  }
+            _cat_ = {"ns": 14, "title": "تصنيف:بوابة سباق الدراجات الهوائية/مقالات متعلقة", "sortkey": "d8b7", "sortkeyprefix": "", "hidden": True}
             #---
             if 'sortkey' in cat: del cat['sortkey']
             #---
@@ -322,13 +322,13 @@ class MainPage():
             #---
             # {"lang": "ca", "*": "UCI World Tour 2023"} or {'lang': 'bh', 'title': 'टेम्पलेट:AWB'}
             #---
-            self.langlinks = { ta["lang"]: ta.get("*") or ta.get("title") for ta in ta.get('langlinks', []) }
+            self.langlinks = {ta["lang"]: ta.get("*") or ta.get("title") for ta in ta.get('langlinks', [])}
         #---
         if ta.get('templates', []) != []:
             #---
             # 'templates': [{'ns': 10, 'title': 'قالب:No redirect'}],
             #---
-            self.templates_API = [ ta["title"] for ta in ta.get('templates', []) ]
+            self.templates_API = [ta["title"] for ta in ta.get('templates', [])]
         #---
         # "linkshere": [{"pageid": 189150,"ns": 0,"title": "طواف فرنسا"}, {"pageid": 308641,"ns": 10,"title": "قالب:AWB","redirect": ""}]
         self.links_here = ta.get('linkshere', [])
@@ -350,7 +350,7 @@ class MainPage():
             #---
             json1 = self.post_params(params)
             #---
-            if not json1 or json1 == {}:    break
+            if not json1 or json1 == {}: break
             #---
             continue_params = json1.get("continue", {})
             #---
@@ -366,7 +366,7 @@ class MainPage():
                 results = {**results, **data}
         #---
         return results
-    
+
     def page_backlinks(self, ns=0):
         params = {
             "action": "query",
@@ -375,7 +375,7 @@ class MainPage():
             "generator": "backlinks",
             "redirects": 1,
             # 'gblfilterredir': 'redirects',
-            "gbltitle":self.title,
+            "gbltitle": self.title,
             "gblnamespace": ns,
             "gbllimit": "max",
             "formatversion": "2",
@@ -386,12 +386,12 @@ class MainPage():
             'batchcomplete': True,
             'limits': {'backlinks': 2500},
             'query': {
-                'redirects': [{'from': 'فريدريش زيمرمان','to': 'فريدريش تسيمرمان'}],
+                'redirects': [{'from': 'فريدريش زيمرمان', 'to': 'فريدريش تسيمرمان'}],
                 'pages': [
-                    {'pageid': 2941285,'ns': 0,'title': 'فولفغانغ شويبله'},
-                    {'pageid': 4783977,'ns': 0,'title': 'وزارة الشؤون الرقمية والنقل'},
-                    {'pageid': 5218323,'ns': 0,'title': 'فريدريش تسيمرمان'},
-                    {'pageid': 6662649,'ns': 0,'title': 'غونتر كراوزه'}
+                    {'pageid': 2941285, 'ns': 0, 'title': 'فولفغانغ شويبله'},
+                    {'pageid': 4783977, 'ns': 0, 'title': 'وزارة الشؤون الرقمية والنقل'},
+                    {'pageid': 5218323, 'ns': 0, 'title': 'فريدريش تسيمرمان'},
+                    {'pageid': 6662649, 'ns': 0, 'title': 'غونتر كراوزه'}
                     ]
         }}
         #---
@@ -400,7 +400,7 @@ class MainPage():
         #---
         pages = self.post_continue(params, 'query', 'pages', [])
         #---
-        back_links = [ x for x in pages if x['title'] != self.title]
+        back_links = [x for x in pages if x['title'] != self.title]
         #---
         self.back_links = back_links
         #---
@@ -451,7 +451,7 @@ class MainPage():
         #---
         data = self.post_params(params)
         #---
-        _pages_ = {'batchcomplete': '', 'query': {'redirects': [{'from': 'Yemen', 'to': 'اليمن'}], 'pages': {}, 'normalized': [{'from': 'yemen', 'to': 'Yemen'}] }}
+        _pages_ = {'batchcomplete': '', 'query': {'redirects': [{'from': 'Yemen', 'to': 'اليمن'}], 'pages': {}, 'normalized': [{'from': 'yemen', 'to': 'Yemen'}]}}
         #---
         __redirects__ = {'from': 'Yemen', 'to': 'اليمن'}
         #---
@@ -459,7 +459,7 @@ class MainPage():
         #---
         to = redirects.get("to", '')
         #---
-        if to != '' :
+        if to != '':
             printe.output(f'<<lightyellow>>Page:{self.title} redirect to {to}')
         #---
         return to
@@ -472,7 +472,7 @@ class MainPage():
             "srsearch": self.title,
             "srlimit": srlimit,
         }
-        data = self.post_params(params, addtoken = True)
+        data = self.post_params(params, addtoken=True)
         #---
         if data == {}: return 0
         #---
@@ -491,10 +491,10 @@ class MainPage():
         params = {
             "action": "query",
             "format": "json",
-            "prop": "extlinks", 
-            "titles": self.title, 
-            "formatversion": "2", 
-            "utf8": 1, 
+            "prop": "extlinks",
+            "titles": self.title,
+            "formatversion": "2",
+            "utf8": 1,
             "ellimit": "max"
             }
         #---
@@ -511,11 +511,11 @@ class MainPage():
             #---
             elcontinue = json1.get('continue', {}).get('elcontinue', '')
             #---
-            linkso = json1.get('query',{}).get('pages',[{}])[0].get('extlinks',[])
+            linkso = json1.get('query', {}).get('pages', [{}])[0].get('extlinks', [])
             #---
             links.extend(linkso)
         #---
-        links = [ x['url'] for x in links ]
+        links = [x['url'] for x in links]
         #---
         # remove duplicates
         liste1 = list(set(links))
@@ -547,7 +547,7 @@ class MainPage():
         #---
         for x in data.get('normalized', []):
             # printe.output(f"normalized from {x['from']} to {x['to']}")
-            if x['from'] == self.title :
+            if x['from'] == self.title:
                 title2 = x['to']
                 break
         #---
@@ -557,7 +557,7 @@ class MainPage():
             if title2 == ti and 'purged' in t:
                 return True
             if "missing" in t:
-                printe.output( f"page \"{t['title']}\" missing" )
+                printe.output(f"page \"{t['title']}\" missing")
                 return "missing"
         return False
 
@@ -573,7 +573,7 @@ class MainPage():
         self.is_Disambig = self.title.endswith('(توضيح)') or self.title.endswith('(disambiguation)')
         #---
         if self.is_Disambig:
-            printe.output( f'<<lightred>> page "{self.title}" is Disambiguation / توضيح')
+            printe.output(f'<<lightred>> page "{self.title}" is Disambiguation / توضيح')
         #---
         return self.is_Disambig
     #---
@@ -589,7 +589,7 @@ class MainPage():
 
     def get_hidden_categories(self):
         #---
-        if self.categories == {} and self.hidden_categories == {} : self.get_infos()
+        if self.categories == {} and self.hidden_categories == {}: self.get_infos()
         #---
         return self.hidden_categories
 
@@ -612,8 +612,8 @@ class MainPage():
         return self.links_here
 
     def get_wiki_links_from_text(self):
-        if self.text == '' : self.text = self.get_text()
-        #---        
+        if self.text == '': self.text = self.get_text()
+        #---
         parsed = wtp.parse(self.text)
         wikilinks = parsed.wikilinks
         #---
@@ -625,7 +625,7 @@ class MainPage():
         return self.can_be_edit
 
     def Get_tags(self, tag=''):
-        if self.text == '' : self.text = self.get_text()
+        if self.text == '': self.text = self.get_text()
         #---
         self.text = self.text.replace('<ref>', '<ref name="ss">', 1)
         #---
@@ -649,34 +649,34 @@ class MainPage():
         #---
         if self.family != 'wikipedia': return True
         #---
-        if self.text == '' : self.text = self.get_text()
+        if self.text == '': self.text = self.get_text()
         #---
-        self.can_be_edit = botEdit.botMayEdit( False, text= self.text, title_page=self.title, botjob=script)
+        self.can_be_edit = botEdit.botMayEdit(False, text=self.text, title_page=self.title, botjob=script)
         #---
         return self.can_be_edit
 
     def is_flagged(self):
         #---
-        if self.text == '' : self.text = self.get_text()
+        if self.text == '': self.text = self.get_text()
         #---
         return self.flagged
 
     def get_timestamp(self):
-        if self.timestamp == '' : self.get_text()
+        if self.timestamp == '': self.get_text()
         return self.timestamp
 
     def exists(self):
-        if self.Exists == '' : self.get_text()
+        if self.Exists == '': self.get_text()
         if not self.Exists:
-            printe.output( f'page "{self.title}" not exists in {self.lang}:{self.family}' )
+            printe.output(f'page "{self.title}" not exists in {self.lang}:{self.family}')
         return self.Exists
 
     def namespace(self):
-        if self.ns == False : self.get_text()
+        if self.ns == False: self.get_text()
         return self.ns
 
     def get_user(self):
-        if self.user == '' : self.get_text()
+        if self.user == '': self.get_text()
         return self.user
 
     def get_userinfo(self):
@@ -692,7 +692,7 @@ class MainPage():
             #---
             data = self.post_params(params)
             #---
-            _userinfo_ = { "id": 229481, "name": "Mr. Ibrahem", "groups": [ "editor", "reviewer", "rollbacker", "*", "user", "autoconfirmed" ] }
+            _userinfo_ = {"id": 229481, "name": "Mr. Ibrahem", "groups": ["editor", "reviewer", "rollbacker", "*", "user", "autoconfirmed"]}
             #---
             ff = data.get("query", {}).get("users", [{}])
             #---
@@ -702,12 +702,12 @@ class MainPage():
         return self.userinfo
 
     def get_templates(self):
-        if self.text == '' : self.text = self.get_text()
+        if self.text == '': self.text = self.get_text()
         self.templates = txtlib.extract_templates_and_params(self.text)
         return self.templates
 
-    def ask_put(self, nodiff = False):
-        yes_answer = [ "y", "a", "", "Y", "A", "all", "aaa" ]
+    def ask_put(self, nodiff=False):
+        yes_answer = ["y", "a", "", "Y", "A", "all", "aaa"]
         #---
         if 'ask' in sys.argv and not Save_Edit_Pages[1] or print_test[1]:
             #---
@@ -719,18 +719,18 @@ class MainPage():
                     printe.output(f'diference in bytes: {len(self.newtext) - len(self.text)}')
                     printe.output(f'length of text: {len(self.text)}, length of newtext: {len(self.newtext)}')
             #---
-            printe.output(Edit_summary_line[1] % self.summary )
+            printe.output(Edit_summary_line[1] % self.summary)
             #---
             sa = pywikibot.input(f'<<lightyellow>>page.py: Do you want to accept these changes? (yes, no): for page {self.lang}:{self.title} user:{self.username}')
             #---
             if sa == "a":
-                printe.output('<<lightgreen>> ---------------------------------' )
-                printe.output(f'<<lightgreen>> {__file__} save all without asking.' )
-                printe.output('<<lightgreen>> ---------------------------------' )
+                printe.output('<<lightgreen>> ---------------------------------')
+                printe.output(f'<<lightgreen>> {__file__} save all without asking.')
+                printe.output('<<lightgreen>> ---------------------------------')
                 Save_Edit_Pages[1] = True
             #---
             if not sa in yes_answer:
-                printe.output( "wrong answer" )
+                printe.output("wrong answer")
                 return False
         #---
         return True
@@ -750,10 +750,10 @@ class MainPage():
             #---
             # oioioi = {'error': {'code': 'abusefilter-disallowed', 'info': 'This', 'abusefilter': {'id': '169', 'description': 'تأخير البوتات 3 ساعات', 'actions': ['disallow']}, '*': 'See https'}, 'servedby': 'mw1374'}
             #---
-            abusefilter = error.get("abusefilter","")
-            description = abusefilter.get('description','')
-            printe.output(f'<<lightred>> ** abusefilter-disallowed: {description} ' )
-            if description in ['تأخير البوتات 3 ساعات', 'تأخير البوتات 3 ساعات- 3 من 3', 'تأخير البوتات 3 ساعات- 1 من 3', 'تأخير البوتات 3 ساعات- 2 من 3'] :
+            abusefilter = error.get("abusefilter", "")
+            description = abusefilter.get('description', '')
+            printe.output(f'<<lightred>> ** abusefilter-disallowed: {description} ')
+            if description in ['تأخير البوتات 3 ساعات', 'تأخير البوتات 3 ساعات- 3 من 3', 'تأخير البوتات 3 ساعات- 1 من 3', 'تأخير البوتات 3 ساعات- 2 من 3']:
                 return False
             return description
         #---
@@ -775,7 +775,7 @@ class MainPage():
             self.summary = summary
         #---
         ask = self.ask_put(nodiff=nodiff)
-        if ask == False : return False
+        if ask == False: return False
         #---
         params = {
             "action": "edit",
@@ -786,9 +786,9 @@ class MainPage():
             "nocreate": nocreate,
         }
         #---
-        if self.revid != '' : params['baserevid'] = self.revid
+        if self.revid != '': params['baserevid'] = self.revid
         #---
-        if tags != "" :params["tags"] = tags
+        if tags != "": params["tags"] = tags
         #---
         # params['basetimestamp'] = self.timestamp
         #---
@@ -796,24 +796,24 @@ class MainPage():
         #---
         if pop == {}: return False
         #---
-        error  = pop.get('error',{})
-        edit   = pop.get('edit',{})
-        result = edit.get('result','')
+        error = pop.get('error', {})
+        edit = pop.get('edit', {})
+        result = edit.get('result', '')
         #---
         # {'edit': {'result': 'Success', 'pageid': 5013, 'title': 'User:Mr. Ibrahem/sandbox', 'contentmodel': 'wikitext', 'oldrevid': 1336986, 'newrevid': 1343447, 'newtimestamp': '2023-04-01T23:14:07Z', 'watched': ''}}
         #---
         if result.lower() == 'success':
             self.text = newtext
             self.user = ''
-            printe.output('<<lightgreen>> ** true .. ' + f'[[{self.lang}:{self.family}:{self.title}]] '  )
-            printe.output( 'Done True... time.sleep() ')
+            printe.output('<<lightgreen>> ** true .. ' + f'[[{self.lang}:{self.family}:{self.title}]] ')
+            printe.output('Done True... time.sleep() ')
             #---
             if 'printpop' in sys.argv:
                 print(pop)
             #---
-            self.pageid = edit.get('pageid')   or self.pageid
-            self.revid  = edit.get('newrevid') or self.revid
-            self.newrevid  = edit.get('newrevid') or self.newrevid
+            self.pageid = edit.get('pageid') or self.pageid
+            self.revid = edit.get('newrevid') or self.revid
+            self.newrevid = edit.get('newrevid') or self.newrevid
             self.timestamp = edit.get('newtimestamp') or self.timestamp
             #---
             return True
@@ -831,7 +831,7 @@ class MainPage():
         #---
         ask = self.ask_put()
         #---
-        if ask == False : return False
+        if ask == False: return False
         #---
         params = {
             "action": "edit",
@@ -846,11 +846,11 @@ class MainPage():
         #---
         if pop == {}: return False
         #---
-        error  = pop.get('error',{})
-        edit   = pop.get('edit',{})
-        result = edit.get('result','')
+        error = pop.get('error', {})
+        edit = pop.get('edit', {})
+        result = edit.get('result', '')
         #---
-        if print_test[1] :
+        if print_test[1]:
             print('pop:')
             print(pop)
         #---
@@ -860,12 +860,12 @@ class MainPage():
             #---
             self.text = text
             #---
-            printe.output('<<lightgreen>> ** true .. ' + f'[[{self.lang}:{self.family}:{self.title}]] '  )
-            printe.output( 'Done True... time.sleep() ')
+            printe.output('<<lightgreen>> ** true .. ' + f'[[{self.lang}:{self.family}:{self.title}]] ')
+            printe.output('Done True... time.sleep() ')
             #---
-            self.pageid = edit.get('pageid')   or self.pageid
-            self.revid  = edit.get('newrevid') or self.revid
-            self.newrevid  = edit.get('newrevid') or self.newrevid
+            self.pageid = edit.get('pageid') or self.pageid
+            self.revid = edit.get('newrevid') or self.revid
+            self.newrevid = edit.get('newrevid') or self.newrevid
             self.timestamp = edit.get('newtimestamp') or self.timestamp
             #---
             return True

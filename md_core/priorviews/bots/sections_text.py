@@ -26,7 +26,7 @@ text_v = '''
 ! Views
 !'''
 #---
-from priorviews.lists import views 
+from priorviews.lists import views
 from priorviews.bots import helps#views_url(title, lang, view)
 #---
 # views.views_by_mdtitle_langs
@@ -58,7 +58,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
         view = ''
 
         # Get the title of the current language, or an empty string if not found
-        title    = langlinks.get(l, '')
+        title = langlinks.get(l, '')
         if title != '':
             # Get the view count for the current language and title, or 0 if not found
             view = views.views_by_lang.get(l, {}).get(title.lower(), 0)
@@ -166,7 +166,7 @@ def make_text(section, links):
     # total views by language
     text += '\n|-\n'
     text += f'! !! style="position: sticky;left: 0;colspan:2;" | Total views !! {section_views:,} \n'
-    text += '! ' + " !! ".join([ str(fo_n(section_langs_views[section].get(l, 0))) for l in langs_keys ])
+    text += '! ' + " !! ".join([str(fo_n(section_langs_views[section].get(l, 0))) for l in langs_keys])
     # text += '! ' + " !! ".join([ str(views.count_views_by_lang.get(l, 0)) for l in langs_keys ])
 
     # Add the closing table tag and div tag to the text variable.
@@ -179,16 +179,16 @@ def make_text(section, links):
     # Return the final formatted text.
     return faf
 #---
-if __name__ == '__main__': 
+if __name__ == '__main__':
     lngs = ["af", "ar", "ast", "ay", "az", "be", "be-tarask", "bg", "bn", "bs", "ca", "ckb", "cs", "cy", "da", "de", "el", "eo", "es", "et", "eu", "fa", "fi", "fr", "gcr", "gl", "ha", "he", "hi", "hr", "hu", "hy", "id", "is", "it", "ja", "jv", "ka", "kk", "kn", "ko", "ky", "la", "lt", "lv", "mk", "ml", "mr", "ms", "my", "ne", "nl", "nn", "no", "or", "pa", "pl", "pt", "qu", "ro", "ru", "sah", "sh", "si", "sk", "sl", "sq", "sr", "sv", "sw", "ta", "te", "tg", "tl", "tr", "tt", "uk", "uz", "vi", "wa", "wuu", "za", "zh", "zh-min-nan", "zh-yue"]
     lala = {
-        # "Tooth decay":{ x : x for x in lngs}, 
-        "Angular cheilitis":{},
-        "Pit latrine" : {'ar': 'مرحاض ذو حفرة', 'bn': 'খাটা পায়খানা', 'ca': 'Latrina de fossa', 'ee': 'Do nugododeƒe', 'es': 'Letrina de hoyo', 'fa': 'توالت گودالی', 'ha': 'Shaddar gargajiya', 'hi': 'खुड्डी शौचालय', 'ig': 'Ụlọ mposi', 'it': 'Latrina a fossa', 'ln': 'Latrine ya libulu', 'nso': 'Boithomelo bja mokoti', 'or': 'ବରପାଲି ପାଇଖାନା', 'pl': 'Latryna', 'ru': 'Ямный туалет', 'sw': 'Choo cha shimo', 'ta': 'குழி கழிவறை', 'tr': 'Köy tuvaleti', 'ur': 'گڑھے والا بیت الخلا', 'wo': 'Duus', 'xh': 'Ithoyilethi yomngxuma', 'yo': 'Ṣalanga oniho', 'zh': '旱廁', 'zu': 'Ithoyilethe lomgodi'},
-        "Bad breath":{}, 
-        "Leukoplakia":{},
-        "Periodontal disease":{}, 
-        "Tonsil stones":{}
+        # "Tooth decay":{ x : x for x in lngs},
+        "Angular cheilitis": {},
+        "Pit latrine": {'ar': 'مرحاض ذو حفرة', 'bn': 'খাটা পায়খানা', 'ca': 'Latrina de fossa', 'ee': 'Do nugododeƒe', 'es': 'Letrina de hoyo', 'fa': 'توالت گودالی', 'ha': 'Shaddar gargajiya', 'hi': 'खुड्डी शौचालय', 'ig': 'Ụlọ mposi', 'it': 'Latrina a fossa', 'ln': 'Latrine ya libulu', 'nso': 'Boithomelo bja mokoti', 'or': 'ବରପାଲି ପାଇଖାନା', 'pl': 'Latryna', 'ru': 'Ямный туалет', 'sw': 'Choo cha shimo', 'ta': 'குழி கழிவறை', 'tr': 'Köy tuvaleti', 'ur': 'گڑھے والا بیت الخلا', 'wo': 'Duus', 'xh': 'Ithoyilethi yomngxuma', 'yo': 'Ṣalanga oniho', 'zh': '旱廁', 'zu': 'Ithoyilethe lomgodi'},
+        "Bad breath": {},
+        "Leukoplakia": {},
+        "Periodontal disease": {},
+        "Tonsil stones": {}
     }
     u = make_text('Dentistry', lala)
     print(u.replace("height:580px;", ""))

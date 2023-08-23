@@ -27,12 +27,12 @@ import twet_config
 def send(link):
     #---
     # Create variables for each key, secret, token
-    consumer_key        = twet_config.consumer_key
-    consumer_secret     = twet_config.consumer_secret
-    access_token        = twet_config.access_token
+    consumer_key = twet_config.consumer_key
+    consumer_secret = twet_config.consumer_secret
+    access_token = twet_config.access_token
     access_token_secret = twet_config.access_token_secret
     #---
-    client = tweepy.Client( consumer_key=consumer_key, consumer_secret=consumer_secret, access_token=access_token, access_token_secret=access_token_secret )
+    client = tweepy.Client(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token=access_token, access_token_secret=access_token_secret)
     #---
     article = link.replace("_", " ")
     link = 'https://mdwiki.org/wiki/' + link.replace(" ", "_")
@@ -54,7 +54,7 @@ def do_api(params):
     #---
     json1 = {}
     try:
-        r4 = requests.Session().post( url, data=params)
+        r4 = requests.Session().post(url, data=params)
         json1 = json.loads(r4.text)
         return json1
     except Exception as e:
@@ -70,7 +70,7 @@ json_file = project + '/md_core/tw/done.json'
 #---
 def get_links():
     #---
-    sects = do_api( {"action": "parse", "page": title, "prop": "sections" } )
+    sects = do_api({"action": "parse", "page": title, "prop": "sections"})
     # pri   nt(sects)
     sections = sects.get("parse", {}).get("sections", {})
     #---
@@ -88,7 +88,7 @@ def get_links():
         #---
         print(level)
         #---
-        uxu = do_api({"action": "parse", "page": title, "prop": "sections|wikitext", "section": level })
+        uxu = do_api({"action": "parse", "page": title, "prop": "sections|wikitext", "section": level})
         #---
         section_text = uxu.get("parse", {}).get("wikitext", {}).get("*", "")
         #---
@@ -97,15 +97,15 @@ def get_links():
     vaild_links = []
     #---
     for m2 in link_regex.finditer(section_text):
-        sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE )
+        sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE)
         sal = sa.findall(m2.group(0))
         if not sal:
             itemu = m2.group(1).split('|')[0].strip()
-            vaild_links.append( itemu )
+            vaild_links.append(itemu)
     #---
     vaild_links = list(set(vaild_links))
     #---
-    print(f'len of vaild_links: {len(vaild_links)}' )
+    print(f'len of vaild_links: {len(vaild_links)}')
     #---
     return vaild_links
 #---
@@ -134,15 +134,15 @@ def get_one_link(done, links):
     #---
     return link
 #---
-done    = get_done()
-links   = get_links()
+done = get_done()
+links = get_links()
 if set(links) == set(done): done = ['XX']
 #---
-links = list(set(links) - set(done) )
+links = list(set(links) - set(done))
 #---
 print(f'lenth of links: {len(links)} links:')
 #---
-if len(links) == 0 :
+if len(links) == 0:
     print('close')
     sys.exit()
 #---

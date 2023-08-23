@@ -36,7 +36,7 @@ def do_all():
     # ---
     all_links = list(set(all_links))
     # ---
-    all_links = [ fix_links(x) for x in all_links ]
+    all_links = [fix_links(x) for x in all_links]
     # ---
     all_links = sorted(all_links, key=lambda x: x.lower(), reverse=False)
     # ---

@@ -27,12 +27,12 @@ from medUpdater import med
 
 printe.output(sys.argv)
 #---
-def treat_page( title, textn ):
+def treat_page(title, textn):
     #---
-    newtext = med.work( title , returntext = True , text_O = textn )
+    newtext = med.work(title, returntext=True, text_O=textn)
     #---
-    if 'test' in sys.argv: 
-        pywikibot.showDiff( textn , newtext )
+    if 'test' in sys.argv:
+        pywikibot.showDiff(textn, newtext)
         return ''
     #---
     mdwiki_api.page_put(oldtext=textn, newtext=newtext, summary='mdwiki changes.', title=title, returntrue=False, diff=True)
@@ -87,25 +87,25 @@ def main():
     for arg in sys.argv:
         arg, sep, value = arg.partition(':')
         #---
-        if arg == "-page" : 
+        if arg == "-page":
             ttab.append(value)
         #---
         # python3 core8/pwb.py md2 allpages
         # python pwb.py md2 allpages
-        if arg == "allpages" : 
-            ttab = mdwiki_api.Get_All_pages( '!' , namespace = '0', apfilterredir = 'nonredirects' )
+        if arg == "allpages":
+            ttab = mdwiki_api.Get_All_pages('!', namespace='0', apfilterredir='nonredirects')
     #---
     numb = 0
     #---
     for title in ttab:
         numb += 1
-        printe.output( '<<lightyellow>> tit:%d / %d\t title: %s.' % ( numb , len(ttab) , title )  )
+        printe.output('<<lightyellow>> tit:%d / %d\t title: %s.' % (numb, len(ttab), title))
         text = mdwiki_api.GetPageText(title)
-        treat_page( title , text )
+        treat_page(title, text)
     #---
     # python pwb.py md2 test
     if 'test' in sys.argv:
-        treat_page( 'nana' , test_text )
+        treat_page('nana', test_text)
 
 #---
 if __name__ == '__main__':

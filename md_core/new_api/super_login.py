@@ -21,14 +21,14 @@ if __file__.find('mdwiki') == -1:
 else:
     from new_api import printe
 #---
-print_test = {1:False}
+print_test = {1: False}
 #---
-User_tables = {"mdwiki":{}, "wikidata":{}, "wikipedia":{}, "nccommons":{}}
+User_tables = {"mdwiki": {}, "wikidata": {}, "wikipedia": {}, "nccommons": {}}
 #---
-tokens_by_lang  = {}
+tokens_by_lang = {}
 seasons_by_lang = {}
 #---
-ar_lag = { 1 : 3 }
+ar_lag = {1: 3}
 #---
 import inspect
 #---
@@ -37,12 +37,12 @@ def warn_err(err):
     nn = inspect.stack()[1][3]
     return f'\ndef {nn}(): {err}'
 #---
-login_lang = { 1 : True }
+login_lang = {1: True}
 #---
 class Login():
     def __init__(self, lang, family='wikipedia'):
         self.lang = lang
-        self.family   = family
+        self.family = family
         #---
         if not self.family in User_tables: User_tables[self.family] = {}
         #---
@@ -50,7 +50,7 @@ class Login():
         self.password = User_tables[self.family]['password']
         #---
         self.Bot_or_himo = ''
-        if self.username.find("bot") == -1:  self.Bot_or_himo = 1
+        if self.username.find("bot") == -1: self.Bot_or_himo = 1
         #---
         self.endpoint = 'https://' + f'{self.lang}.{self.family}.org/w/api.php'
         self.r3_token = ''
@@ -89,9 +89,9 @@ class Login():
             req0 = seasons_by_lang[self.lang].post(self.endpoint, data=params)
             # req0.raise_for_status()
         except Exception as e:
-            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+            pywikibot.output('<<lightred>> Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
-            pywikibot.output( 'CRITICAL:' )
+            pywikibot.output('CRITICAL:')
             return {}
         #---
         data = {}
@@ -103,7 +103,7 @@ class Login():
         except Exception as e:
             text = str(req0.text).strip()
             if not text.startswith('{') or not text.endswith('}'):
-                pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+                pywikibot.output('<<lightred>> Traceback (most recent call last):')
                 pywikibot.output(f'error:{e}')
                 pywikibot.output(traceback.format_exc())
                 #---
@@ -112,7 +112,7 @@ class Login():
                 if str(e) == 'Expecting value: line 1 column 1 (char 0)':
                     pywikibot.output(params)
                 #---
-                pywikibot.output( 'CRITICAL:' )
+                pywikibot.output('CRITICAL:')
                 return {}
         #---
         if text == '': return {}
@@ -121,7 +121,7 @@ class Login():
             data = json.loads(text)
             return data
         except Exception as e:
-            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+            pywikibot.output('<<lightred>> Traceback (most recent call last):')
             pywikibot.output(f'error:{e} when json.loads(response.text)')
             pywikibot.output(traceback.format_exc())
             #---
@@ -130,7 +130,7 @@ class Login():
             if str(e) == 'Expecting value: line 1 column 1 (char 0)':
                 pywikibot.output(params)
             #---
-            pywikibot.output( 'CRITICAL:' )
+            pywikibot.output('CRITICAL:')
             return {}
         #---
         return {}
@@ -140,8 +140,8 @@ class Login():
         login_lang[1] = self.lang
         #---
         colors = {
-            "ar" : "yellow",
-            "en" : "lightpurple"
+            "ar": "yellow",
+            "en": "lightpurple"
             }
         #---
         color = colors.get(self.lang, '')
@@ -149,11 +149,11 @@ class Login():
         # self.season = requests.Session()
         printe.output(f"<<{color}>> newapi/page.py: Log_to_wiki {self.endpoint}")
         #---
-        r2_params = { 'format': 'json', 'action': 'login', 'lgname': self.username, 'lgpassword': self.password, 'lgtoken' : ''}
+        r2_params = {'format': 'json', 'action': 'login', 'lgname': self.username, 'lgpassword': self.password, 'lgtoken': ''}
         #---
-        printe.output( f"newapi/page.py: log to {self.lang}.{self.family}.org user:{self.username}"  )
+        printe.output(f"newapi/page.py: log to {self.lang}.{self.family}.org user:{self.username}")
         #---
-        r1_params = { 'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
+        r1_params = {'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
         #---
         # WARNING: /data/project/himo/core/newapi/page.py:101: UserWarning: Exception:502 Server Error: Server Hangup for url: https://ar.wikipedia.org/w/api.php
         #---
@@ -170,26 +170,26 @@ class Login():
         #---
         if r22 == {}: return False
         #---
-        reason  = r22.get('login', {}).get('reason', '')
+        reason = r22.get('login', {}).get('reason', '')
         success = r22.get('login', {}).get('result', '').lower()
         #---
         if success != 'success':
-            pywikibot.output( '<<lightred>> Traceback (most recent call last):' )
+            pywikibot.output('<<lightred>> Traceback (most recent call last):')
             warn(warn_err('Exception:' + str(r22)), UserWarning)
             #---
             if reason == "Incorrect username or password entered. Please try again.":
                 pywikibot.output(f'user:{self.username}, pass:{self.password}')
             #---
-            pywikibot.output( 'CRITICAL:' )
+            pywikibot.output('CRITICAL:')
             return False
         #---
         printe.output(f'<<green>> {__file__} login Success')
         #---
-        r3_params = {'format': 'json', 'action': 'query', 'meta': 'tokens' }
+        r3_params = {'format': 'json', 'action': 'query', 'meta': 'tokens'}
         #---
         r33 = self.make_response(r3_params)
         #---
-        if r33 == {}: 
+        if r33 == {}:
             _Except_ions_ = [
                 '''('Connection aborted.', OSError("(104, 'ECONNRESET')"))''',
             ]
@@ -217,19 +217,19 @@ class Login():
             self.Log_to_wiki_1()
         #---
         params['format'] = 'json'
-        params['utf8']   = 1
-        params['bot']    = self.Bot_or_himo
+        params['utf8'] = 1
+        params['bot'] = self.Bot_or_himo
         params["maxlag"] = ar_lag[1]
         #---
-        if 'minor' in params and params['minor'] == '' : params['minor'] = self.Bot_or_himo
+        if 'minor' in params and params['minor'] == '': params['minor'] = self.Bot_or_himo
         #---
         if addtoken or params["action"] in ["edit", "create"]:
-            if self.r3_token == '': 
+            if self.r3_token == '':
                 warn(warn_err('self.r3_token == "" '), UserWarning)
                 warn(warn_err('self.r3_token == "" '), UserWarning)
             params["token"] = self.r3_token
         #---
-        if self.family == "wikipedia" and params.get("summary") and self.username.find("bot") == -1 :
+        if self.family == "wikipedia" and params.get("summary") and self.username.find("bot") == -1:
             params["summary"] = ""
         #---
         if 'workibrahem' in sys.argv: params["summary"] = ""
@@ -242,15 +242,15 @@ class Login():
         #---
         data = self.make_response(params)
         #---
-        if data == {}:  return {}
+        if data == {}: return {}
         #---
-        error = data.get("error",{})
+        error = data.get("error", {})
         #---
         if error != {}:
             # printe.output(data)
             #---
-            Invalid = error.get("info",'')
-            code = error.get("code",'')
+            Invalid = error.get("info", '')
+            code = error.get("code", '')
             #---
             # printe.output(Invalid)
             #---
@@ -264,7 +264,7 @@ class Login():
         #---
         if 'printdata' in sys.argv:
             # printe.output( json.dumps(data,ensure_ascii=False) )
-            printe.output( data )
+            printe.output(data)
         #---
         return data
     #---

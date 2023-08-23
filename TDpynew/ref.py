@@ -12,7 +12,7 @@ python pwb.py mdwiki/public_html/Translation_Dashboard/ref test
 import re
 import sys
 #---
-print_pywikibot = { 1 : False }
+print_pywikibot = {1: False}
 try:
     import pywikibot
     print_pywikibot[1] = True
@@ -21,12 +21,12 @@ except:
 #---
 def outputnew(s):
     if print_pywikibot[1] and 'test' in sys.argv:
-        pywikibot.output( s )
+        pywikibot.output(s)
 #---
 ref_complite = re.compile(r'(<ref\s*name\s*\=*\s*[\"\']*([^>]*)[\"\']*\s*>[^<>]+</ref>)')
-ref_short    = re.compile(r'(<ref\s*name\s*\=\s*[\"\']*([^>]*)[\"\']*\s*\/\s*>)')
+ref_short = re.compile(r'(<ref\s*name\s*\=\s*[\"\']*([^>]*)[\"\']*\s*\/\s*>)')
 #---
-def fix_ref(first, alltext) :
+def fix_ref(first, alltext):
     first = first
     #---
     refs = {}
@@ -34,9 +34,9 @@ def fix_ref(first, alltext) :
     for m in ref_complite.finditer(alltext):
         refec = m.group()
 
-        name3 = re.sub( r"\s*\"$", "", m.group(2)).strip()
+        name3 = re.sub(r"\s*\"$", "", m.group(2)).strip()
 
-        if name3 != '' :
+        if name3 != '':
             refs[name3] = refec
             outputnew('--------------------------')
             outputnew(f'name\t:{name3}')
@@ -46,7 +46,7 @@ def fix_ref(first, alltext) :
         refe = g.group()
         #---
         name = g.group(2).strip()
-        name = re.sub(r"\s*\"$" , "" , name)
+        name = re.sub(r"\s*\"$", "", name)
         name = name.strip()
         #---
         outputnew('--------------------------')
@@ -55,7 +55,7 @@ def fix_ref(first, alltext) :
         #---
         rr = refs.get(name, False)
         if name != '' and rr:
-            first = first.replace( refe , rr )
+            first = first.replace(refe, rr)
     #---
     return first
 #---
@@ -65,6 +65,6 @@ if __name__ == '__main__':
     all = """"""
     #---
     if 'test' in sys.argv:
-        new = fix_ref( ff , all )
-        pywikibot.showDiff( ff , new )
+        new = fix_ref(ff, all)
+        pywikibot.showDiff(ff, new)
 #---

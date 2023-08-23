@@ -66,7 +66,7 @@ def work_in_file(filename):
         tab.append(nan)
         #---
     # ---
-    lista = [ x['url'].replace('http://', 'https://') for x in tab if x.get('url','').find('cdc.gov/niosh/') != -1 ]
+    lista = [x['url'].replace('http://', 'https://') for x in tab if x.get('url', '').find('cdc.gov/niosh/') != -1]
     lista = sorted(lista, key=lambda x: x.lower(), reverse=False)
     # ---
     lista = list(set(lista))

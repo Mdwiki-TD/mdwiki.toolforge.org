@@ -16,9 +16,9 @@ import codecs
 from mdpy import printe
 #---
 from priorviews.lists.links_by_section import sects_links_langlinks, links_by_lang
-from priorviews.lists import views 
-from priorviews.lists import translators 
-from priorviews.lists import words 
+from priorviews.lists import views
+from priorviews.lists import translators
+from priorviews.lists import words
 #---
 from priorviews.bots import helps
 # v_comm = helps.isv(comment)
@@ -98,12 +98,12 @@ def make_lang_textso(lang):
     TD_all = 0
     tr_all = 0
     #---
-    all_links  = 0
-    all_links_with_ar  = 0
+    all_links = 0
+    all_links_with_ar = 0
     #---
     for section, links in sects_links_langlinks.items():
         #---
-        tab = { x: v[lang] for x, v in links.items() if lang in v}
+        tab = {x: v[lang] for x, v in links.items() if lang in v}
         #---
         all_links += len(links)
         all_links_with_ar += len(tab)
@@ -141,7 +141,7 @@ def make_lang_textso(lang):
                 #---
                 lang_words += arwords
                 #---
-                ar_tra  = translators.tra_by_lang.get(lang, {}).get(ar.lower(), '')
+                ar_tra = translators.tra_by_lang.get(lang, {}).get(ar.lower(), '')
                 #---
                 _creat = creators.Creators_by_lang_title.get(lang, {}).get(ar, {})
                 _creat_user = _creat.get("actor", "")
@@ -188,13 +188,13 @@ def make_lang_textso(lang):
                     translators_all[ar_tra]['all'] += 1
                 #---
                 fafo = {
-                    'mdtitle':x,
-                    'target':ar,
-                    'lang':lang,
-                    'views':arviews,
-                    'words':arwords,
-                    'translator':ar_tra,
-                    'tr_type':tr_type
+                    'mdtitle': x,
+                    'target': ar,
+                    'lang': lang,
+                    'views': arviews,
+                    'words': arwords,
+                    'translator': ar_tra,
+                    'tr_type': tr_type
                     }
                 #---
                 tab_new['translates'].append(fafo)
@@ -203,7 +203,7 @@ def make_lang_textso(lang):
             #---
             secs_texts += "|}\n"
     #---
-    newtext  = '[https://:' + f'{lang}.wikipedia.org {lang}.wikipedia.org] statistics:\n'
+    newtext = '[https://:' + f'{lang}.wikipedia.org {lang}.wikipedia.org] statistics:\n'
     newtext += f'* All links: {all_links:,}\n'
     newtext += f'** With ({lang}) translations: {all_links_with_ar:,}\n'
     newtext += f"*** With translators: {tr_all:,}\n"
@@ -216,7 +216,7 @@ def make_lang_textso(lang):
     print(newtext)
     #----
     # authors = sorted(authors.items(), key=lambda x: x[1])
-    authors_2 = { x: v for x, v in sorted(authors_2.items(), key=lambda item: item[1], reverse=True)}
+    authors_2 = {x: v for x, v in sorted(authors_2.items(), key=lambda item: item[1], reverse=True)}
     authors_text = "\n==Translators==\n"
     #----
     authors_text += authors_table(authors_2, lang)
@@ -233,14 +233,14 @@ def work(lang):
     #---
     if 'write' not in sys.argv: return
     #---
-    page      = md_MainPage(f'User:Mr. Ibrahem/priorviews/bylang/{lang}', 'www', family='mdwiki')
-    exists    = page.exists()
-    text        = page.get_text()
+    page = md_MainPage(f'User:Mr. Ibrahem/priorviews/bylang/{lang}', 'www', family='mdwiki')
+    exists = page.exists()
+    text = page.get_text()
     if not exists:
         create = page.Create(text=newtext, summary='update')
     elif text != newtext:
         #---
-        save_page   = page.save(newtext=newtext, summary='update', nocreate=1, minor='')
+        save_page = page.save(newtext=newtext, summary='update', nocreate=1, minor='')
     else:
         print('no change')
     #---

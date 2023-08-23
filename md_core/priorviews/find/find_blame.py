@@ -63,9 +63,9 @@ def gtblame_value(title, lang):
     if not infos:
         return ''
     # ---
-    refname  = infos.get('refsname', [])
+    refname = infos.get('refsname', [])
     extlinks = infos.get('extlinks', [])
-    en       = infos.get('en', '')
+    en = infos.get('en', '')
     # ---
     if 'history' in sys.argv:
         ne = gt_blame.search_history(title, lang, en=en, refname=refname, extlinks=extlinks)
@@ -108,7 +108,7 @@ def get_b(links, lang):
     #---
     if 'new' in sys.argv:
         # links = [ x for x in links if not x in new_data[lang] or v[lang][x] == '']
-        links = [ x for x in links if valid(x, new_data[lang], empty='') ]
+        links = [x for x in links if valid(x, new_data[lang], empty='')]
     #---
     m = 0
     # ---

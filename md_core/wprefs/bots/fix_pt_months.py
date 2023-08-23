@@ -84,7 +84,7 @@ def pt_months(text):
             print(str(x))
             print(dir(x))
         #---
-        if not x or not x.name:  continue
+        if not x or not x.name: continue
         if x.name != 'ref':
             continue
         if not x.contents:

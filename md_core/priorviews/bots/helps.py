@@ -31,8 +31,8 @@ def views_url(title, lang, view):
         'redirects': '0',
         'pages': title
     }
-    d_end   = datetime.datetime.utcnow() - timedelta(days = 1)
-    d_end   = d_end.strftime('%Y-%m-%d')
+    d_end = datetime.datetime.utcnow() - timedelta(days=1)
+    d_end = d_end.strftime('%Y-%m-%d')
     # params['end'] = d_end
     params['end'] = "2023-06-01"
     params = urlencode(params)
@@ -45,10 +45,10 @@ def isv(comment):
     #---
     comment = comment.lower()
     #---
-    if comment.find('translators without borders') != -1 :  
+    if comment.find('translators without borders') != -1:
         print(f' <<yellow>> translators without borders: {comment}')
         return True
-    if comment.find('(twb)') != -1 :  
+    if comment.find('(twb)') != -1:
         print(f' <<yellow>> (twb): {comment}')
         return True
     #---

@@ -1,7 +1,7 @@
 #---
 from mdpy.bots import user_account_new
 #---
-User_tables = { "username" : user_account_new.my_username, "password" : user_account_new.my_password }
+User_tables = {"username": user_account_new.my_username, "password": user_account_new.my_password}
 #---
 # xxxxxxxxxxx
 #---
@@ -14,11 +14,11 @@ super_login.User_tables["wikipedia"] = User_tables
 #---
 Login = super_login.Login
 #---
-bot_api.login_def    = Login
+bot_api.login_def = Login
 super_page.login_def = Login
 #---
-NEW_API      = bot_api.NEW_API
-MainPage     = super_page.MainPage
+NEW_API = bot_api.NEW_API
+MainPage = super_page.MainPage
 change_codes = super_page.change_codes
 
 #---

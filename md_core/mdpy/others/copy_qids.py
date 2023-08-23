@@ -31,8 +31,8 @@ in_qids = sql_for_mdwiki.get_all_qids()
 #---
 if 'rr' in sys.argv: sys.exit()
 #---
-len_qids_empty = len( [ x for x in in_qids if in_qids[x].find('Q') == -1 ] )
-len_qids_not_empty = len( [ x for x in in_qids if in_qids[x] != '' ] )
+len_qids_empty = len([x for x in in_qids if in_qids[x].find('Q') == -1])
+len_qids_not_empty = len([x for x in in_qids if in_qids[x] != ''])
 #---
 print(f'len_qids_empty = {len_qids_empty}')
 print(f'len_qids_not_empty = {len_qids_not_empty}')
@@ -53,7 +53,7 @@ print(f'len(qids_list) = {len(qids_list)}')
 #---
 for title, qid in qids_list.items():
     #---
-    qid_in = in_qids.get(title,'')
+    qid_in = in_qids.get(title, '')
     #---
     title2 = escape_string(title)
     qua = f"""INSERT INTO qids (title, qid) SELECT '{title2}', '{qid}';"""
@@ -63,7 +63,7 @@ for title, qid in qids_list.items():
         if qid == qid_in:
             qua = ''
     #---
-    if qua != '' : 
+    if qua != '':
         num += 1
         #---
         # print(qua)
@@ -74,14 +74,14 @@ for title, qid in qids_list.items():
     if texts != '':
         if num % 300 == 0:
             print(texts)
-            vfg = sql_for_mdwiki.mdwiki_sql(texts, update = True, Prints = False)
-            texts = ''        
+            vfg = sql_for_mdwiki.mdwiki_sql(texts, update=True, Prints=False)
+            texts = ''
             #---
             # if 'break' in sys.argv: break
 #---
 if texts != '':
     print(texts)
-    vfg = sql_for_mdwiki.mdwiki_sql(texts, update = True, Prints = False)
+    vfg = sql_for_mdwiki.mdwiki_sql(texts, update=True, Prints=False)
 #---
 # log all_texts
 with codecs.open(f'{project}/md_core/mdpy/copy_qids.txt', 'w', 'utf-8') as f:

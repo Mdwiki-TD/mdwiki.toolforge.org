@@ -1,8 +1,8 @@
 #---
 params_placeholders = {
-    "uses"          :   "<!-- primary uses -->",
-    "side_effects"  :   "<!-- common side effects and notable side effects -->",
-    "interactions"  :   "<!-- notable interactions -->",
+    "uses": "<!-- primary uses -->",
+    "side_effects": "<!-- common side effects and notable side effects -->",
+    "interactions": "<!-- notable interactions -->",
     }
 #---
 all_params = {}
@@ -39,18 +39,18 @@ all_params['first'] = [
     ]
 #---
 all_params['combo'] = {
-    "mab" : [
+    "mab": [
         "type",
         "mab_type",
         "source",
         "target",
     ],
-    "vaccine" : [
+    "vaccine": [
         "type",
         "target",
         "vaccine_type",
     ],
-    "combo" : [
+    "combo": [
         "type",
         "component1",
         "class1",
@@ -63,7 +63,7 @@ all_params['combo'] = {
         "component5",
         "class5",
     ],
-    "all" : []
+    "all": []
 }
 #---
 all_params['combo']['all'] = all_params['combo']['mab'] + all_params['combo']['vaccine'] + all_params['combo']['combo']
@@ -94,25 +94,25 @@ all_params['gene'] = [
     ]
 #---
 all_params['clinical'] = [
-    "class",  
-    "uses", 
-    "side effects", 
-    "side effect", 
-    "side_effects", 
-    "side_effect", 
-    "interactions", 
-    "pregnancy_AU", 
-    "pregnancy_AU_comment", 
-    "pregnancy_US", 
-    "pregnancy_US_comment", 
-    "pregnancy_category", 
-    "breastfeeding", 
-    "PLLR", 
-    "routes_of_administration", 
-    "onset", 
-    "duration_of_action", 
+    "class",
+    "uses",
+    "side effects",
+    "side effect",
+    "side_effects",
+    "side_effect",
+    "interactions",
+    "pregnancy_AU",
+    "pregnancy_AU_comment",
+    "pregnancy_US",
+    "pregnancy_US_comment",
+    "pregnancy_category",
+    "breastfeeding",
+    "PLLR",
+    "routes_of_administration",
+    "onset",
+    "duration_of_action",
     "defined_daily_dose",
-    "routes_of_use", 
+    "routes_of_use",
     "typical_dose",
     "dependency_liability",
     "addiction_liability",
@@ -122,12 +122,12 @@ all_params['clinical'] = [
 params_to_add['clinical'] = [
     "class",
     "uses",
-    "side_effects", 
-    "interactions", 
-    "onset", 
-    "duration_of_action", 
-    "defined_daily_dose", 
-    "typical_dose", 
+    "side_effects",
+    "interactions",
+    "onset",
+    "duration_of_action",
+    "defined_daily_dose",
+    "typical_dose",
     "breastfeeding"
     ]
 #---

@@ -30,7 +30,7 @@ def make_by_lang(one_langs_only):
     for user, tab in one_langs_only.items():
         for lang, cunts in tab['by_lang'].items():
             if not lang in tab2:
-                tab2[lang] = {'list':{}, 'all':0}
+                tab2[lang] = {'list': {}, 'all': 0}
             # ---
             tab2[lang]['all'] += cunts
             # ---

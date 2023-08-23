@@ -9,7 +9,7 @@ main_temps_list = [
     "Infobox drug class",
     "Infobox drug mechanism",
     "infobox drug",
-    "infobox medical condition (new)", 
+    "infobox medical condition (new)",
     "infobox medical condition",
     "Infobox medical intervention",
     "Infobox nonhuman protein",
@@ -21,7 +21,7 @@ main_temps_list = [
     "Infobox vein",
 ]
 #---
-main_temps_list = [ x.lower() for x in main_temps_list]
+main_temps_list = [x.lower() for x in main_temps_list]
 #---
 IMC_params = {}
 #---

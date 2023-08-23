@@ -42,7 +42,7 @@ def match_p(refs, p_ref):
 
     # If the length of `same` is less than 8 or less than half the length of `refs` minus 1,
     # return False and the length of `same`
-    if 6 > len_same < ((len_refs/2)-1):
+    if 6 > len_same < ((len_refs / 2) - 1):
         return False, len_same
 
     # Otherwise, return True and the length of `same`

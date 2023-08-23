@@ -21,7 +21,7 @@ temps_to_delete = [
     'redirect'
 ]
 #---
-def work(text) :
+def work(text):
     #---
     parsed = wtp.parse(text)
     for temp in parsed.templates:

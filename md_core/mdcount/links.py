@@ -23,44 +23,44 @@ def get_valid_Links(words_tab):
     #---
     if 'newpages' in sys.argv:
         vav2 = vav
-        vav = [ t for t in vav2 if (not t in words_tab or words_tab[t] < 50) ]
+        vav = [t for t in vav2 if (not t in words_tab or words_tab[t] < 50)]
         #---
-        printe.output( f'Category-members:{len(vav2)}, New-members:{len(vav)}' )
+        printe.output(f'Category-members:{len(vav2)}, New-members:{len(vav)}')
     #---
     elif 'sql' in sys.argv:
         vav2 = sql_for_mdwiki.get_all_pages()
-        vav = [ t for t in vav2 if (not t in words_tab or words_tab[t] < 50) ]
-        printe.output(f'ALL SQL LINKS:{len(vav2)}, to work:{len(vav)}' )
+        vav = [t for t in vav2 if (not t in words_tab or words_tab[t] < 50)]
+        printe.output(f'ALL SQL LINKS:{len(vav2)}, to work:{len(vav)}')
     #---
     elif 'oldway' in sys.argv:
-        ptext = mdwiki_api.GetPageText( 'WikiProjectMed:List' )
+        ptext = mdwiki_api.GetPageText('WikiProjectMed:List')
         for m2 in link_regex.finditer(ptext):
-            sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE )
+            sa = re.compile(r'\[\[(\:|)(\w{2}|\w{3}|w|en|image|file|category|template)\:', flags=re.IGNORECASE)
             sal = sa.findall(m2.group(0))
             if not sal:
                 itemu = m2.group(1).split('|')[0].strip()
                 itemu = itemu[0].upper() + itemu[1:]
-                vav.append( itemu )
+                vav.append(itemu)
         #---
-        printe.output('Get vaild_links fromlist : WikiProjectMed:List (oldway)' )
+        printe.output('Get vaild_links fromlist : WikiProjectMed:List (oldway)')
     #---
     elif 'listnew' in sys.argv:
-        printe.output('Get vaild_links listnew' )
+        printe.output('Get vaild_links listnew')
         ttt = '''Lymphogranuloma venereum'''
-        vav = [ x.strip() for x in ttt.split('\n') if x.strip() != '' ]
+        vav = [x.strip() for x in ttt.split('\n') if x.strip() != '']
     #---
     elif 'fromlist' in sys.argv:
-        vav = mdwiki_api.Get_page_links_2( 'WikiProjectMed:List' )
-        printe.output('Get vaild_links fromlist : WikiProjectMed:List' )
+        vav = mdwiki_api.Get_page_links_2('WikiProjectMed:List')
+        printe.output('Get vaild_links fromlist : WikiProjectMed:List')
     #---
     else:
-        printe.output('Get vaild_links from cat : RTT' )
+        printe.output('Get vaild_links from cat : RTT')
     #---
     for x in vav[:]:
-        if x.startswith('Category:') :
+        if x.startswith('Category:'):
             vav.remove(x)
     #---
-    printe.output(f'len of vaild_links: {len(vav)}' )
+    printe.output(f'len of vaild_links: {len(vav)}')
     #---
     return vav
 #---

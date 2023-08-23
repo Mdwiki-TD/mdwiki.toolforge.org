@@ -33,7 +33,7 @@ for en, tab in json_langs_all.items():
         if not lang in json_langs_by_langs:
             json_langs_by_langs[lang] = {}
         # ---
-        title    = ta['title']
+        title = ta['title']
         extlinks = ta['extlinks']
         refsname = ta['refsname']
         # ---

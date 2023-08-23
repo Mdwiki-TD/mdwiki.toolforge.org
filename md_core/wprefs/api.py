@@ -154,7 +154,7 @@ def get_revisions(title, lang=''):
     #---
     while rvcontinue != '':
         #---
-        if rvcontinue != 'x' :
+        if rvcontinue != 'x':
             params['rvcontinue'] = rvcontinue
         #---
         json1 = submitAPI(params, lang=lang)
@@ -162,16 +162,16 @@ def get_revisions(title, lang=''):
         if not json1 or type(json1) != dict:
             return ''
         # ---
-        rvcontinue = json1.get( "continue" , {} ).get( "rvcontinue" , '' )
+        rvcontinue = json1.get("continue", {}).get("rvcontinue", '')
         #---
-        pages = json1.get('query',{}).get('pages',[{}])
+        pages = json1.get('query', {}).get('pages', [{}])
         #---
         for p in pages:
             _revisions = p.get("revisions", [])
             revisions.extend(_revisions)
     #---
     return revisions
-    
+
 
 def GetPageText(title, lang='', Print=True):
     # ---

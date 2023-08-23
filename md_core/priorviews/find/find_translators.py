@@ -33,7 +33,7 @@ Dir2 = os.path.dirname(Dir)
 file = f'{Dir2}/lists/translators_mdwiki_langs.json'
 #---
 if not os.path.exists(file):
-    with open(file, 'w') as f:  json.dump({}, f)
+    with open(file, 'w') as f: json.dump({}, f)
 #---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 #---
@@ -61,7 +61,7 @@ def get_t(links, lang):
         return False
     #---
     if 'onlynew' in sys.argv:
-        links = [ x for x in links if valid(x, tra_by_lang[lang]) ]
+        links = [x for x in links if valid(x, tra_by_lang[lang])]
     #---
     lena = len(links)
     #---
@@ -73,7 +73,7 @@ def get_t(links, lang):
         #---
         value_in = tra_by_lang[lang].get(title_lower) or tra_by_lang[lang].get(title) or ''
         #---
-        if 'new' in sys.argv and value_in != "" : continue
+        if 'new' in sys.argv and value_in != "": continue
         #---
         printe.output(f'<<yellow>> title: {m}/{lena} get_t {title}, value_in:{value_in}')
         #---
@@ -163,5 +163,5 @@ if __name__ == '__main__':
     elif "test1" in sys.argv:
         TEST = True
         test()
-    else: 
+    else:
         start()

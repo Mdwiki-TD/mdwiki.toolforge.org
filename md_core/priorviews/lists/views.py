@@ -26,23 +26,23 @@ Dir = Path(__file__).parent
 file = f'{Dir}/views_mdwiki_langs.json'
 #---
 if not os.path.exists(file):
-    with open(file, 'w') as f:  json.dump({}, f)
+    with open(file, 'w') as f: json.dump({}, f)
 #---
 ViewsData = json.load(codecs.open(file, 'r', 'utf-8'))
 #---
-_data = { 
-    "mdtitle" : {
-        "ar" : {"title": "artitle", "views" : 0},
-        "en" : {"title": "entitle", "views" : 0}
+_data = {
+    "mdtitle": {
+        "ar": {"title": "artitle", "views": 0},
+        "en": {"title": "entitle", "views": 0}
     }
 }
 #---
 views_by_mdtitle_langs = {}
 count_views_by_mdtitle = {}
 #---
-count_tra_by_lang    = {}
-count_views_by_lang  = {}
-views_by_lang        = {}
+count_tra_by_lang = {}
+count_views_by_lang = {}
+views_by_lang = {}
 #---
 def makeviews():
     #---
@@ -76,7 +76,7 @@ def makeviews():
             if not lang in count_views_by_lang: count_views_by_lang[lang] = 0
 
             # If the language doesn't exist in `views_by_lang`, add it
-            if not lang in views_by_lang:   views_by_lang[lang] = {}
+            if not lang in views_by_lang: views_by_lang[lang] = {}
 
             if not v['title'].lower() in views_by_lang[lang]:
                 # Increment the total view count for the given language
