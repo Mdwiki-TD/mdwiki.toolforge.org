@@ -11,7 +11,7 @@ James
 import re
 import wikitextparser as wtp
 import sys
-#---
+# ---
 temps_to_delete = [
     "short description",
     "toc limit",
@@ -20,15 +20,17 @@ temps_to_delete = [
     'about',
     'redirect'
 ]
-#---
+# ---
+
+
 def work(text):
-    #---
+    # ---
     parsed = wtp.parse(text)
     for temp in parsed.templates:
         # ---
         name = str(temp.normal_name()).strip()
         if name.lower() in temps_to_delete:
             text = text.replace(temp.string.strip(), '')
-    #---
+    # ---
     return text.strip()
-#---
+# ---

@@ -18,12 +18,12 @@ python3 core8/pwb.py mdpy/wpref ask
 # (C) Ibrahem Qasim, 2023
 #
 #
-#---
+# ---
 from wprefs.bot import *
-#---
+# ---
 if __name__ == '__main__':
     if 'tests' in sys.argv:
         tests()
     else:
         maine()
-#---
+# ---

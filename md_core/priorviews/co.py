@@ -8,9 +8,9 @@ import pywikibot
 import json
 import os
 import codecs
-#---
+# ---
 from wikiwho_wrapper import WikiWho
-ww = WikiWho() # or WikiWho(USERNAME, PASSWORD)
-#---
+ww = WikiWho()  # or WikiWho(USERNAME, PASSWORD)
+# ---
 
-#---
+# ---

@@ -1,8 +1,8 @@
 """
 python3 core8/pwb.py wikiblame/bot
-#---
+# ---
 from wikiblame.bot import get_blame #first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})
-#---
+# ---
 """
 import requests
 import re
@@ -43,7 +43,7 @@ class WikiBlame:
             "offmon": "7",
             "offjahr": "2023",
             "searchmethod": "int",
-            "order": "asc", #desc
+            "order": "asc",  # desc
             "force_wikitags": "on",
             "user": ""
         }
@@ -54,10 +54,10 @@ class WikiBlame:
     def fetch_content(self) -> None:
         """Fetch the content of the web page."""
         url = self.base_url + "?" + urlencode(self.params)
-        #---
+        # ---
         if 'printurl' in sys.argv:
             print(url)
-        #---
+        # ---
         response = requests.get(url)
         self.content = response.text
 
@@ -104,9 +104,9 @@ def get_blame(params):
     scraper = WikiBlame(params)
     result = scraper.scrape()
     first = scraper.in_first
-    #---
+    # ---
     return first, result
-    #---
+    # ---
 
 
 if __name__ == "__main__":

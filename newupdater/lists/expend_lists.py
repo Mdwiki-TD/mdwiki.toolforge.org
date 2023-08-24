@@ -1,4 +1,4 @@
-#---
+# ---
 main_temps_list = [
     "drugbox",
     "Infobox anatomy",
@@ -20,11 +20,11 @@ main_temps_list = [
     "Infobox sanitation technology",
     "Infobox vein",
 ]
-#---
+# ---
 main_temps_list = [x.lower() for x in main_temps_list]
-#---
+# ---
 IMC_params = {}
-#---
+# ---
 IMC_params["infobox medical condition"] = [
     "name",
     "synonym",
@@ -53,12 +53,12 @@ IMC_params["infobox medical condition"] = [
 IMC_params["infobox medical condition (new)"] = IMC_params["infobox medical condition"]
 # ---
 dup_params = {}
-#---
+# ---
 dup_params["infobox medical condition"] = {
     "synonyms": "synonym",
     "speciality": "field",
     "specialty": "field",
 }
-#---
+# ---
 dup_params["infobox medical condition (new)"] = dup_params["infobox medical condition"]
 # ---

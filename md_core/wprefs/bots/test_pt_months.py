@@ -18,7 +18,7 @@ text = """Boala se agravează în timp și este de obicei diagnosticată atunci 
 |titlu=Lewy body dementia: Hope through research
 |lucrare=National Institute of Neurological Disorders and Stroke
 |archiveurl=https://web.archive.org/web/20210430175606/https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Lewy-Body-Dementia-Hope-Through-Research}}</ref>"""
-#---
+# ---
 import pywikibot
 # ---
 from wprefs.wpref_text import fix_page

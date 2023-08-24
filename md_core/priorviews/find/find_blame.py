@@ -28,16 +28,16 @@ from prior.json_langs.lists import json_langs_by_langs
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 from priorviews.bots import helps
-#---
+# ---
 from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})
-#---
+# ---
 links_without_translator = {}
 # ---
 for lla, titles in links_by_lang.items():
     links_without_translator[lla] = [
         x for x in titles
         if tra_by_lang.get(lla, {}).get(x, '') == '' and tra_by_lang.get(lla, {}).get(x.lower(), '') == ''
-        ]
+    ]
 # ---
 COUNTS_ALL = 0
 # ---
@@ -93,6 +93,7 @@ def logem():
     # dump new_data
     helps.dump_data(file, new_data)
 
+
 def get_b(links, lang):
     # ---
     global new_data, COUNTS_ALL
@@ -100,16 +101,17 @@ def get_b(links, lang):
     if not lang in new_data:
         new_data[lang] = {}
     # ---
+
     def valid(x, tab, empty=''):
         i = tab.get(x) or tab.get(x.lower())
         if not i or i == empty:
             return True
         return False
-    #---
+    # ---
     if 'new' in sys.argv:
         # links = [ x for x in links if not x in new_data[lang] or v[lang][x] == '']
         links = [x for x in links if valid(x, new_data[lang], empty='')]
-    #---
+    # ---
     m = 0
     # ---
     lang_creators = creators.Creators_by_lang_title.get(lang, {})
@@ -189,6 +191,7 @@ def start():
         get_b(links, la)
     # ---
     logem()
+
     # ---
 # ---
 if __name__ == '__main__':

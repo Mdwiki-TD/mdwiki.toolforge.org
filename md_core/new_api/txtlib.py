@@ -6,7 +6,7 @@ from new_api import txtlib
 # txtlib.get_one_temp_params( text, templates=[], lowers=False )
 # alltemp = txtlib.get_all_temps_params( text, templates=[], lowers=False )
 # for tab in alltemp: for namestrip, params in tab.keys():   
-#---
+# ---
 from new_api import txtlib
 # temps = txtlib.extract_templates_and_params(text)
 # for temp in temps: name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
@@ -16,7 +16,7 @@ from new_api import txtlib
 # (C) Ibrahem Qasim, 2021
 #
 #
-#---
+# ---
 from collections import OrderedDict
 import pywikibot
 import re
@@ -42,13 +42,15 @@ or
 
     pip install "wikitextparser>=0.47.5"
 """) from None
-#---
+# ---
+
+
 def extract_templates_and_params(text):
-    #---
+    # ---
     result = []
-    #---
+    # ---
     pra = wikitextparser
-    #---
+    # ---
     '''
     if RECURSE_OTHERS :
         try:
@@ -58,25 +60,25 @@ def extract_templates_and_params(text):
             printe.output("mwparserfromhell is missing")
             return result
     '''
-    #---
+    # ---
     parser_name = pra.__name__
     parsed = pra.parse(text)
     if parser_name == 'wikitextparser':
         templates = parsed.templates
         arguments = 'arguments'
     else:
-        #if RECURSE_OTHERS:
-            #templates = parsed.ifilter_templates(parsed.RECURSE_OTHERS, matches=lambda x: not x.name.lstrip().startswith('#'))
-        #else:
+        # if RECURSE_OTHERS:
+        # templates = parsed.ifilter_templates(parsed.RECURSE_OTHERS, matches=lambda x: not x.name.lstrip().startswith('#'))
+        # else:
         templates = parsed.ifilter_templates(matches=lambda x: not x.name.lstrip().startswith('#'), recursive=True)
         arguments = 'params'
-    #---
-    #print("parsed.templates:")
-    #print(parsed.templates)
-    #---
+    # ---
+    # print("parsed.templates:")
+    # print(parsed.templates)
+    # ---
     for template in templates:
-        #print(dir(template))
-        #---
+        # print(dir(template))
+        # ---
         # params = OrderedDict()
         params = {}
         for param in getattr(template, arguments):
@@ -84,67 +86,74 @@ def extract_templates_and_params(text):
             key = str(param.name)
             key = key.strip()
             params[key] = value
-        #---
+        # ---
         name = template.name.strip()
-        #---
-        #print('=====')
-        #---
+        # ---
+        # print('=====')
+        # ---
         if parser_name == 'wikitextparser':
             name = str(template.normal_name()).strip()
             pa_item = template.string
         else:
             pa_item = template.__str__()
-        #printe.output( "<<lightyellow>> pa_item: %s" % pa_item )
-        #---
+        # printe.output( "<<lightyellow>> pa_item: %s" % pa_item )
+        # ---
         namestrip = name
-        #---
+        # ---
         ficrt = {'name': "قالب:" + name, 'namestrip': namestrip, 'params': params, 'item': pa_item}
-        #---
+        # ---
         result.append(ficrt)
-    #---
+    # ---
     return result
-#---
+# ---
+
+
 def get_one_temp_params(text, tempname="", templates=[], lowers=False, get_all_temps=False):
     ingr = extract_templates_and_params(text)
-    #---
+    # ---
     temps = templates
-    #---
+    # ---
     if tempname != '':
         temps.append(tempname)
-    #---
+    # ---
     temps = [x.replace("قالب:", "").replace("Template:", "").replace('_', ' ').strip() for x in temps]
-    #---
+    # ---
     if lowers:
         temps = [x.lower() for x in temps]
-    #---
+    # ---
     named = {}
-    #---
+    # ---
     if get_all_temps:
         named = []
-    #---
+    # ---
     for temp in ingr:
-        #---
+        # ---
         name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
-        #---
-        if lowers: namestrip = namestrip.lower()
-        #---
+        # ---
+        if lowers:
+            namestrip = namestrip.lower()
+        # ---
         if namestrip in temps:
-            #---
-            #print("te:%s, namestrip:%s" % (te,namestrip) )
-            #---
+            # ---
+            # print("te:%s, namestrip:%s" % (te,namestrip) )
+            # ---
             if get_all_temps:
                 tabe = {namestrip: params}
                 named.append(tabe)
             else:
                 return params
-            #---
-    #---
+            # ---
+    # ---
     return named
-#---
+# ---
+
+
 def get_all_temps_params(text, templates=[], lowers=False):
     tab = get_one_temp_params(text, templates=templates, lowers=lowers, get_all_temps=True)
     return tab
-#---
+
+
+# ---
 test_text = ''' 
 {{ص.م/صورة مضاعفة ويكي بيانات|معرف ويكي بيانات={{{معرف ويكي بيانات|}}}
 | صورة1 ={{{علم|{{{flag|{{{صورة علم|}}}}}}}}}
@@ -160,21 +169,21 @@ test_text = '''
 
 {{ourworldindatamirror|https://owidm.wmcloud.org/grapher/cancer-death-rates?tab=map {{Webarchive}}}}
 '''
-#---
+# ---
 if __name__ == '__main__':
-    #---
-    #---
+    # ---
+    # ---
     ingr = extract_templates_and_params(test_text)
     for temp in ingr:
-        #---
+        # ---
         name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
-        #---
+        # ---
         print("-----------------------------")
         print(f"name: {name}")
         print(f"namestrip: {namestrip}")
         print(f"params: {params}")
         print(f"template: {template}")
 
-    #---
+    # ---
     parser_name = wikitextparser.__name__
     print(f"parser_name: {parser_name}")

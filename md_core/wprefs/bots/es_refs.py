@@ -6,6 +6,7 @@ import wikitextparser as wtp
 from wprefs.helps import print_s
 # ---
 
+
 def mv_es_refs(text):
     # ---
     refs = {}
@@ -28,7 +29,8 @@ def mv_es_refs(text):
         name = attrs.get('name', '').strip()
         group = attrs.get('group', '').strip()
         # ---
-        if not group in refs: refs[group] = {}
+        if not group in refs:
+            refs[group] = {}
         # ---
         if name == '':
             numb += 1
@@ -39,7 +41,7 @@ def mv_es_refs(text):
             refs[group][name] = x.contents
         elif refs[group][name] != x.contents:
             print_s(f'x.contents = {x.contents}')
-        #---
+        # ---
         asas = f'<ref name="{name}" />'
         if group != '':
             asas = f'<ref group="{group}" name="{name}" />'

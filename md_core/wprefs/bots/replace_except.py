@@ -68,7 +68,9 @@ else:
         if string.endswith(suffix):
             return string[:-len(suffix)]
         return string
-#---
+# ---
+
+
 def compileLinkR(withoutBracketed: bool = False, onlyBracketed: bool = False):
     """Return a regex that matches external links."""
     notAtEnd = r'\]\s\.:;,<>"\|\)'
@@ -85,6 +87,7 @@ def compileLinkR(withoutBracketed: bool = False, onlyBracketed: bool = False):
     linkR = re.compile(regex)
     return linkR
 
+
 def ignore_case(string: str) -> str:
     """Return a case-insensitive pattern for the string.
 
@@ -95,6 +98,7 @@ def ignore_case(string: str) -> str:
         f'[{c}{s}]' if c != s else c
         for s, c in zip(string, string.swapcase()))
 
+
 def _tag_pattern(tag_name: str) -> str:
     """Return a tag pattern for the given tag name."""
     return (
@@ -102,6 +106,7 @@ def _tag_pattern(tag_name: str) -> str:
         r'[\s\S]*?'  # contents
         r'</{0}\s*>'  # end tag
         .format(ignore_case(tag_name)))
+
 
 def _create_default_regexes() -> None:
     """Fill (and possibly overwrite) _regex_cache with default regexes."""
@@ -154,9 +159,11 @@ def _create_default_regexes() -> None:
         'template': NESTED_TEMPLATE_REGEX,
     })
 
+
 def _tag_regex(tag_name: str):
     """Return a compiled tag regex for the given tag name."""
     return re.compile(_tag_pattern(tag_name))
+
 
 def _get_regexes(keys, site):
     """Fetch compiled regexes."""
@@ -205,6 +212,7 @@ def _get_regexes(keys, site):
             result.append(_tag_regex('ce'))
 
     return result
+
 
 def replaceExcept(text: str, old, new, exceptions: list,
                   caseInsensitive: bool = False, allowoverlap: bool = False,
@@ -264,7 +272,7 @@ def replaceExcept(text: str, old, new, exceptions: list,
                 # So we have to process the group references manually.
                 replacement = ''
 
-                group_regex = re.compile(r'\\(\d+)|\\g<(.+?)>')
+                group_regex = re.compile(r'\\(\d+)|\g<(.+?)>')
                 last = 0
                 for group_match in group_regex.finditer(new):
                     group_id = group_match.group(1) or group_match.group(2)

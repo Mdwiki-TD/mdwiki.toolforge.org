@@ -15,11 +15,11 @@ from priorviews.lists import views
 from new_api.mdwiki_page import MainPage as md_MainPage
 # ---
 Dir = Path(__file__).parent
-#---
+# ---
 from priorviews.lists.creators_to_translators import creators_as_translators
 from priorviews.lists import translators
 # translators.tra_by_lang
-#---
+# ---
 total_views = 0
 # ---
 te_langs = '''
@@ -55,7 +55,7 @@ for l, vv in keys_1.items():
     total_views += vv
     # ---
     # with translators
-    #---
+    # ---
     trator = translators.counts_by_lang.get(l, 0) + len(creators_as_translators.get(l, {}))
     with_trator += trator
     # ---

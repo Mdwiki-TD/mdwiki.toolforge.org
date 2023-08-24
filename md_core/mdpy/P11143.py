@@ -15,7 +15,7 @@ import os
 import json
 import time
 import pywikibot
-#---
+# ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import wikidataapi
 from mdpy import printe

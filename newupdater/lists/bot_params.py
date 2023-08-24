@@ -1,13 +1,13 @@
-#---
+# ---
 params_placeholders = {
     "uses": "<!-- primary uses -->",
     "side_effects": "<!-- common side effects and notable side effects -->",
     "interactions": "<!-- notable interactions -->",
-    }
-#---
+}
+# ---
 all_params = {}
 params_to_add = {}
-#---
+# ---
 all_params['first'] = [
     "Verifiedfields",
     "Verifiedrevid",
@@ -36,8 +36,8 @@ all_params['first'] = [
     "widthR",
     "altR",
     "captionLR",
-    ]
-#---
+]
+# ---
 all_params['combo'] = {
     "mab": [
         "type",
@@ -65,10 +65,10 @@ all_params['combo'] = {
     ],
     "all": []
 }
-#---
+# ---
 all_params['combo']['all'] = all_params['combo']['mab'] + all_params['combo']['vaccine'] + all_params['combo']['combo']
 all_params['combo']['all'] = list(set(all_params['combo']['all']))
-#---
+# ---
 all_params['names'] = [
     "pronounce",
     "pronounce_ref",
@@ -81,18 +81,18 @@ all_params['names'] = [
     "JAN",
     "USAN",
     "IUPAC_name",
-    ]
-#---
+]
+# ---
 params_to_add['names'] = ["pronounce", "tradename", "synonyms", "IUPAC_name"]
-#---
+# ---
 all_params['gene'] = [
     "gt_target_gene",
     "gt_vector",
     "gt_nucleic_acid_type",
     "gt_editing_method",
     "gt_delivery_method",
-    ]
-#---
+]
+# ---
 all_params['clinical'] = [
     "class",
     "uses",
@@ -117,8 +117,8 @@ all_params['clinical'] = [
     "dependency_liability",
     "addiction_liability",
     "duration",
-    ]
-#---
+]
+# ---
 params_to_add['clinical'] = [
     "class",
     "uses",
@@ -129,20 +129,20 @@ params_to_add['clinical'] = [
     "defined_daily_dose",
     "typical_dose",
     "breastfeeding"
-    ]
-#---
+]
+# ---
 all_params['external'] = [
     "Drugs.com",
     "NLM",
     "MedlinePlus",
-    ]
-#---
+]
+# ---
 params_to_add['external'] = [
     "Drugs.com",
     # "NLM",
     "MedlinePlus",
-    ]
-#---
+]
+# ---
 all_params['legal'] = [
     "INN_EMA",
     "engvar",
@@ -172,8 +172,8 @@ all_params['legal'] = [
     "license_CA",
     "licence_EU",
     "license_EU",
-    ]
-#---
+]
+# ---
 all_params['physiological'] = [
     "source_tissues",
     "target_tissues",
@@ -184,8 +184,8 @@ all_params['physiological'] = [
     "biosynthesis",
     "sources",
     "targets",
-    ]
-#---
+]
+# ---
 all_params['pharmacokinetic'] = [
     "bioavailability",
     "protein_bound",
@@ -193,8 +193,8 @@ all_params['pharmacokinetic'] = [
     "metabolites",
     "elimination_half-life",
     "excretion",
-    ]
-#---
+]
+# ---
 all_formola_params = [
     "Ac", "Ag", "Al", "Am", "Ar", "As", "At", "Au",
     "B", "Ba", "Be", "Bh", "Bi", "Bk", "Br", "C",
@@ -212,55 +212,55 @@ all_formola_params = [
     "Tc", "Te", "Th", "Ti", "Tl", "Tm", "Ts", "U",
     "V", "W", "Xe", "Y", "Yb", "Zn", "Zr",
 ]
-#---
+# ---
 all_params['chemical'] = all_formola_params + [
-	"charge",
-	"chemical_formula",
-	"chemical_formula_ref",
-	"chemical_formula_comment",
+    "charge",
+    "chemical_formula",
+    "chemical_formula_ref",
+    "chemical_formula_comment",
 
-	"SMILES",
-	"SMILES2",
+    "SMILES",
+    "SMILES2",
 
-	"StdInChI",
-	"StdInChI_Ref",
-	"StdInChI_comment",
+    "StdInChI",
+    "StdInChI_Ref",
+    "StdInChI_comment",
 
-	"StdInChIKey",
-	"StdInChIKey_Ref",
+    "StdInChIKey",
+    "StdInChIKey_Ref",
 
-	"StdInChI2",
-	"StdInChI2_Ref",
+    "StdInChI2",
+    "StdInChI2_Ref",
 
-	"StdInChIKey2",
-	"StdInChIKey2_Ref",
+    "StdInChIKey2",
+    "StdInChIKey2_Ref",
 
-	"Jmol",
-	"Jmol2",
+    "Jmol",
+    "Jmol2",
 
-	"molecular_weight",
-	"molecular_weight_round",
-	"molecular_weight_unit",
-	"molecular_weight_ref",
-	"molecular_weight_comment",
+    "molecular_weight",
+    "molecular_weight_round",
+    "molecular_weight_unit",
+    "molecular_weight_ref",
+    "molecular_weight_comment",
 
-	"chirality",
+    "chirality",
 
-	"density",
-	"density_notes",
+    "density",
+    "density_notes",
 
-	"melting_point",
-	"melting_high",
-	"melting_notes",
+    "melting_point",
+    "melting_high",
+    "melting_notes",
 
-	"boiling_point",
-	"boiling_high",
-	"boiling_notes",
+    "boiling_point",
+    "boiling_high",
+    "boiling_notes",
 
-	"solubility",
-	"sol_units",
-	"specific_rotation"
-    ]
-#---
+    "solubility",
+    "sol_units",
+    "specific_rotation"
+]
+# ---
 all_params['last'] = []
-#---
+# ---

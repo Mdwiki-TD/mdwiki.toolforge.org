@@ -32,23 +32,27 @@ for item in data:
     result[page_title].sort()
 json.dump(result, codecs.open(file, 'w', encoding='utf-8'))
 '''
-#---
+# ---
 # sort
 titles = list(data.keys())
 titles.sort()
-#---
+# ---
 all_links = []
-#---
+# ---
+
+
 def fix_links(x):
     x = re.sub(r'^https*://(www.|)cdc.gov/', 'https://www.cdc.gov/', x)
     return x
-#---
+
+
+# ---
 for title in titles:
     exts = data[title]
     title = title.replace("_", " ")
-    #---
+    # ---
     tat = new.get(title, [])
-    #---
+    # ---
     for x in exts:
         if x.find('web.archive.org') > -1:
             # remove url suffix like https://web.archive.org/web/20150530203735/
@@ -58,22 +62,22 @@ for title in titles:
         if x.find('cdc.gov/niosh/') > -1:
             x = fix_links(x)
             tat.append(x)
-    #---
+    # ---
     tat = list(set(tat))
-    #---
+    # ---
     if tat:
         new[title] = tat
         all_links.extend(tat)
-#---
+# ---
 all_links = list(set(all_links))
-#---
+# ---
 all_links.sort()
-#---
+# ---
 len_all_links = len(all_links)
-#---
+# ---
 print(f'all pages:{len(new.keys())}, {len_all_links=}')
 # ---
 # sort dict keys
 new = {k: v for k, v in sorted(new.items(), key=lambda item: item[0].lower(), reverse=False)}
-#---
+# ---
 json.dump(new, codecs.open(f"{Dir2}/jsons/both.json", 'w', encoding='utf-8'), ensure_ascii=False, indent=4)

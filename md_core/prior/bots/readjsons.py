@@ -29,4 +29,3 @@ for root, dirs, files in os.walk(folder_path):
             print("size after:", file_size_after)
             print("--------------------")
             print("Difference:", file_size_after - file_size_before)
-

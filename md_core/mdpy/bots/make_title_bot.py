@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
 """
-#---
+# ---
 from mdpy.bots import make_title_bot
 # _title1_ = make_title_bot.make_title(url)
-#---
+# ---
 """
 #
 # (C) Ibrahem Qasim, 2023

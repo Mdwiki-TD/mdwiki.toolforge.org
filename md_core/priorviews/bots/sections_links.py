@@ -14,24 +14,27 @@ import urllib.parse
 import pywikibot
 import wikitextparser
 import codecs
-#---
+# ---
 from mdpy import printe
-#---
+# ---
 from new_api.mdwiki_page import MainPage as md_MainPage
-#---
+# ---
 Dir = Path(__file__).parent
 Dir = os.path.dirname(Dir)
-#---
+# ---
 sect_file = f'{Dir}/lists/secs_links.json'
 if not os.path.exists(sect_file):
-    with open(sect_file, 'w') as f: json.dump({}, f)
-#---
+    with open(sect_file, 'w') as f:
+        json.dump({}, f)
+# ---
 old = json.load(codecs.open(sect_file, 'r', 'utf-8'))
-#---
+# ---
 replaces = {
     "Syncope": "Syncope (medicine)",
 }
-#---
+# ---
+
+
 class Sectios_links:
     def __init__(self):
         """
@@ -94,21 +97,25 @@ class Sectios_links:
 
             # Add the section and its links to the all_sections dict
             self.SectionsToLinks[t] = wikilinks
-#---
+# ---
+
+
 def dump_secs_links(secs_links):
-    #---
+    # ---
     global sect_file
-    #---
+    # ---
     if secs_links != {}:
         printe.output(f'<<lightyellow>> secs_links(): lenth: {len(secs_links.keys())}')
         json.dump(secs_links, codecs.open(sect_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
-#---
+# ---
+
+
 def get_section_links(new=False):
     """
     Retrieves the links to the sections from the Sectios_links bot.
     """
     if new or len(old) == 0:
-    # Instantiate an object of the Sectios_links class.
+        # Instantiate an object of the Sectios_links class.
         bot = Sectios_links()
 
         bot.run()
@@ -119,28 +126,32 @@ def get_section_links(new=False):
         dump_secs_links(secs_links)
     else:
         secs_links = old
-    #---
+    # ---
     return secs_links
-#---
+
+
+# ---
 if __name__ == '__main__':
     all_links = {}
-    #---
+    # ---
     ll = get_section_links()
-    #---
+    # ---
     for s, ls in ll.items():
         print(f'section: {s}')
         print(f'len of links: {len(ls)}')
         if len(ls) < 10:
             print(ls)
-        #---
+        # ---
         for link in ls:
-            if not link.lower() in all_links: all_links[link.lower()] = []
-            if not s in all_links[link.lower()]: all_links[link.lower()].append(s)
-    #---
+            if not link.lower() in all_links:
+                all_links[link.lower()] = []
+            if not s in all_links[link.lower()]:
+                all_links[link.lower()].append(s)
+    # ---
     printe.output('<<red>>---------------')
-    #---
+    # ---
     for x, v in all_links.items():
         if len(v) > 1:
             sections = ", ".join(v)
             print(f'link: ({x}) in {len(v)} sections: {sections}')
-    #---
+    # ---

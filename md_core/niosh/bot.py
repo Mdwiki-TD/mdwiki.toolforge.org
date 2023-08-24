@@ -31,12 +31,13 @@ if not os.path.isfile(file_json2):
     json.dump({}, codecs.open(file_json2, 'w', encoding='utf-8'))
 
 new = json.load(codecs.open(file_json2, 'r', encoding='utf-8'))
-#---
+# ---
+
 
 def new_search():
     global toto
     toto = {}
-    #---
+    # ---
     api_new = NEW_API('en', family='wikipedia')
     # ---
     value = 'insource:"cdc.gov/niosh/"'
@@ -60,6 +61,7 @@ def new_vals():
     global new
     new = {}
     # ---
+
     def fix_links(x):
         # remove url suffix like https://web.archive.org/web/20150530203735/
 
@@ -68,18 +70,19 @@ def new_vals():
         x = x.split("#")[0].strip()
         x = re.sub(r'^https*://(www.|)cdc.gov/', 'https://www.cdc.gov/', x)
         return x
-    #---
+    # ---
     for title, exts in toto.items():
         tat = []
-        #---
+        # ---
         for x in exts:
-            if x.find('cdc.gov/niosh/') == -1: continue
-            #---
+            if x.find('cdc.gov/niosh/') == -1:
+                continue
+            # ---
             if x.find('web.archive.org') > -1:
                 x = fix_links(x)
-            #---
+            # ---
             tat.append(x)
-        #---
+        # ---
         if tat:
             new[title] = tat
     # ---
@@ -87,11 +90,12 @@ def new_vals():
     # ---
     json.dump(new, codecs.open(file_json2, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
 
+
 def start():
     # ---
     if 'new' in sys.argv:
         new_search()
-    #---
+    # ---
     if 'new2' in sys.argv:
         new_vals()
     # ---
@@ -104,16 +108,17 @@ def start():
         n += 1
         all_links.extend(exts)
         # print(f'n:{n}/{ns}, title:{x} lenth:{len(exts)}')
-    #---
+    # ---
     all_links = list(set(all_links))
-    #---
+    # ---
     all_links.sort()
-    #---
+    # ---
     json.dump(all_links, codecs.open(file_all_links, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
-    #---
+    # ---
     len_all_links = len(all_links)
-    #---
+    # ---
     print(f'all pages:{n}, {len_all_links=}')
+
 
 if __name__ == "__main__":
     start()

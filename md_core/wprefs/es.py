@@ -295,6 +295,8 @@ for _new, _lal in params.items():
     for _old in _lal:
         args_to[_old] = _new
 # ---
+
+
 def fix_temps(text):
     # ---
     parsed = wtp.parse(text)
@@ -308,33 +310,34 @@ def fix_temps(text):
         if name.lower() in refs_temps.keys() or name.lower() in refs_temps.values():
             # ---
             old = template.string
-            #---
+            # ---
             # print_s(f'template = {template}')
-            #---=
+            # ---=
             for arg in template.arguments:
                 param = arg.name.strip()
                 # value = arg.value.strip()
-                #---
+                # ---
                 if param in args_to:
-                    #---
+                    # ---
                     arg.name = args_to[param]
-            #---
+            # ---
             if template.has_arg('url-status'):
                 template.del_arg('url-status')
-            #---
+            # ---
             template_name = refs_temps.get(name, name).strip()
-            #---
+            # ---
             if template_name.lower() != name.lower():
                 template.name = template_name
-            #---
+            # ---
             new = template.string
-            #---
+            # ---
             # print_s(f'new = {new}')
-            #---
+            # ---
             new_text = new_text.replace(old, new)
-            #---
+            # ---
     # ---
     return new_text
+
 
 def add_lang_en(text, lang=''):
     # ---
@@ -363,6 +366,7 @@ def add_lang_en(text, lang=''):
     # ---
     return text
 # ---
+
 
 def fix_es(text, title):
     # ---

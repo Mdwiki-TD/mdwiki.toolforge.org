@@ -1,6 +1,6 @@
 from ref import fix_ref
 import pywikibot
-#---
+# ---
 ff = """{{Infobox medical condition (new)
 | name            = Hypoprolactinemia
 | synonyms        = Prolactin deficiency
@@ -37,7 +37,7 @@ While some evidence supports the use of [[prolactin|recombinant human prolactin]
 <ref name="Tri2019" /> It occurs in about 17% of cases of hypopituitarism or about 8 per 100,000 people in Spain as of 1999.<ref name = 'Tri2019'/>
 
 """
-#---
+# ---
 all = """
 {{Infobox medical condition (new)
 | name            = Hypoprolactinemia
@@ -111,9 +111,9 @@ There are few treatments which increase prolactin levels in humans. Treatment di
 [[Category:RTT]]
 
 """
-#---
+# ---
 ff = ff.replace('<ref', '\n<ref')
-#---
+# ---
 new = fix_ref(ff, all)
 pywikibot.showDiff(ff, new)
-#---
+# ---

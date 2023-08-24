@@ -28,6 +28,8 @@ nas_rep = {
     "lt": "url"
 }
 cite_all_links = {}
+
+
 def work_in_file(filename):
     filename2 = os.path.join(Dird_js, filename)
     # ---
@@ -57,14 +59,14 @@ def work_in_file(filename):
             if mat:
                 na = mat.group(1)
                 na = nas_rep.get(na.lower(), na)
-                #---
+                # ---
                 value = mat.group(2).strip()
                 value = re.sub(r'\s+', ' ', value)
-                #---
+                # ---
                 nan[na] = value
-        #---
+        # ---
         tab.append(nan)
-        #---
+        # ---
     # ---
     lista = [x['url'].replace('http://', 'https://') for x in tab if x.get('url', '').find('cdc.gov/niosh/') != -1]
     lista = sorted(lista, key=lambda x: x.lower(), reverse=False)
@@ -74,6 +76,7 @@ def work_in_file(filename):
     cite_all_links[filename.replace('.txt', '')] = lista
     # ---
     json.dump(tab, codecs.open(f"{filename2}.json", 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
+
     # ---
 # scan all txt files in Dir and work on them
 for filename in os.listdir(Dird):
@@ -84,5 +87,5 @@ for filename in os.listdir(Dird):
         # ---
         work_in_file(filename)
         # break
-#---
+# ---
 json.dump(cite_all_links, codecs.open(cite_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)

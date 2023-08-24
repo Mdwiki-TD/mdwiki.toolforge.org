@@ -10,6 +10,8 @@ Dir = Path(__file__).parent
 # ---
 from lists.chem_params import rename_chem_params
 # ---
+
+
 def printn(s):
     return
 
@@ -77,6 +79,7 @@ class fix_Chembox:
             # ---
         # ---
         self.newchembox += "\n}}"
+
 
 if __name__ == '__main__':
     import pywikibot

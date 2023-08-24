@@ -2,13 +2,13 @@
 """
 python3 core8/pwb.py mdpy/sql_for_mdwiki
 
-#---
+# ---
 from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # pages = sql_for_mdwiki.get_all_pages()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
-#---
+# ---
 
 """
 #
@@ -235,21 +235,21 @@ def tests():
     # test_get_all_qids
     '''
     qua = ' select DISTINCT * from pages where lang ="zh" limit 100;'
-    #---
+    # ---
     qids = sql_connect_pymysql(qua)
     print('sql_connect_pymysql:')
     print(len(qids))
-    #---
+    # ---
     # test_add_qid
     a = add_qid('test', 'test')
     printe.output(f'<<yellow>> add: {a}')
     aa = add_qid('test11', '11')
     printe.output(f'<<yellow>> add: {aa}')
-    #---
+    # ---
     # test_update_qid
     zz = update_qid('test11', 'xxx')
     printe.output(f'<<yellow>> update: {zz}')
-    #---
+    # ---
     '''
     # return
     # test_get_all_pages

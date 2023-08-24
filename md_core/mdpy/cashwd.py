@@ -18,7 +18,7 @@ import pywikibot
 # ---
 from mdpy import printe
 from mdpy.bots import sql_for_mdwiki
-from mdpy.bots import en_to_md # en_to_md.mdtitle_to_qid #en_to_md.enwiki_to_mdwiki # en_to_md.mdwiki_to_enwiki
+from mdpy.bots import en_to_md  # en_to_md.mdtitle_to_qid #en_to_md.enwiki_to_mdwiki # en_to_md.mdwiki_to_enwiki
 from mdpy.bots import mdwiki_api
 from mdpy.bots import wikidataapi
 # ---
@@ -175,15 +175,15 @@ def cash_wd():
     titles = []
     # ---
     cac = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;', return_dict=True)
-    #---
+    # ---
     for c in cac:
         cat = c['category']
         dep = c['depth']
-        #---
+        # ---
         cat = cat.decode("utf-8") if type(cat) == bytes else cat
-        #---
+        # ---
         dep = dep.decode("utf-8") if type(dep) == bytes else dep
-        #---
+        # ---
         mdwiki_pages = mdwiki_api.subcatquery(cat, depth=dep, ns='all')
         # ---
         for dd in mdwiki_pages:
@@ -281,7 +281,6 @@ def cash_wd():
     # ---
     json.dump(missing, open(Dashboard_path + '/Tables/missing.json', 'w'))
     printe.output(' log to missing.json true.... ')
-
 
     # ---
 # ---

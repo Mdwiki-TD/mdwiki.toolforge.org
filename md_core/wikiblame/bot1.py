@@ -17,9 +17,11 @@ import wikitextparser
 import requests
 import codecs
 from bs4 import BeautifulSoup
-#---
+# ---
 session = requests.Session()
-#---
+# ---
+
+
 def get_url(url):
     try:
         html = session.get(url)
@@ -27,7 +29,9 @@ def get_url(url):
     except Exception as e:
         printe.output(f'except: {e}')
     return ''
-#---
+# ---
+
+
 def wikiblame(table):
     exampl_url = 'http://wikipedia.ramselehof.de/wikiblame.php?user_lang=en&lang=es&project=wikipedia&tld=org&article=Letrina+de+hoyo&needle=Till2014&skipversions=0&ignorefirst=0&limit=1500&offtag=22&offmon=7&offjahr=2023&searchmethod=int&order=desc&force_wikitags=on&user='
     endpoint = 'http://wikipedia.ramselehof.de/wikiblame.php'
@@ -48,10 +52,10 @@ def wikiblame(table):
         'force_wikitags': 'on',
         'user': table.get('user', '')
     }
-    #---
+    # ---
     url = endpoint + '?' + urllib.parse.urlencode(params)
-    #---
+    # ---
     html = get_url(url)
-    #---
+    # ---
     #
-    #---
+    # ---

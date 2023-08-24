@@ -12,12 +12,12 @@ Prostate abscess
 
 # Etonogestrel موجودة في ويكي إنجليزية تحويلة إلى المقالة الهدف الموجودة في ويكي ميد
 
-#---
+# ---
 from mdpy.bots import en_to_md
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
-#---
+# ---
 
 """
 #

@@ -27,6 +27,7 @@ months_lower = {k.lower(): v for k, v in months.items()}
 months_line = "|".join(months.keys())
 # ---
 
+
 def make_new_val(val):
     newval = val
     # match month and year
@@ -83,8 +84,9 @@ def pt_months(text):
             print('--------------------------------')
             print(str(x))
             print(dir(x))
-        #---
-        if not x or not x.name: continue
+        # ---
+        if not x or not x.name:
+            continue
         if x.name != 'ref':
             continue
         if not x.contents:

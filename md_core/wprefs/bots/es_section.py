@@ -13,6 +13,8 @@ for k, v in es_months_tab.items():
     n += 1
     m_keys[n] = v
 # ---
+
+
 def make_date(timestamp):
     # ---
     timestamp = timestamp.split('T')[0]
@@ -39,6 +41,8 @@ def make_date(timestamp):
     # ---
     return f"{d} de {m_ky} de {y}"
     # ---
+
+
 def add_section(text, title):
     # ---
     # if text has section "==Enlaces externos==" return text
@@ -50,15 +54,15 @@ def add_section(text, title):
     # ---
     revisions = get_revisions(title, lang='es')
     # ---
-    timestamp = '' #2023-02-28T14:01:49Z
-    comment = '' #Creado al traducir la página «[[:en:Special:Redirect/revision/1138582883|User:Mr. Ibrahem/Herpes labialis]]
+    timestamp = ''  # 2023-02-28T14:01:49Z
+    comment = ''  # Creado al traducir la página «[[:en:Special:Redirect/revision/1138582883|User:Mr. Ibrahem/Herpes labialis]]
     # ---
     for r in revisions:
         # user = r.get('user', '')
         # if user == '':  continue
-        #---
+        # ---
         timestamp = r.get('timestamp', '')
-        #---
+        # ---
         comment = r.get('comment', '')
         if comment.lower().find("|user:mr. ibrahem/") != -1:
             break
@@ -98,6 +102,8 @@ def add_section(text, title):
         text += section
     # ---
     return text
+
+
 # ---
 if __name__ == '__main__':
     d = '2022-01-24'

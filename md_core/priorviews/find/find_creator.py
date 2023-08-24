@@ -34,32 +34,39 @@ def log_Data():
     printe.output(f'<<yellow>> log_Data {len(CreatorsData)} CreatorsData')
     # dump CreatorsData
     helps.dump_data(file, CreatorsData)
-    #---
+
+
+    # ---
 ADDED = 0
+
+
 def get_creator(links, lang):
     # ---
-    if not lang in CreatorsData:    CreatorsData[lang] = {}
+    if not lang in CreatorsData:
+        CreatorsData[lang] = {}
     # ---
+
     def valid(x, tab, empty=''):
         i = tab.get(x) or tab.get(x.lower())
         if not i or i == empty:
             return True
         return False
-    #---
+    # ---
     if "new" in sys.argv:
         # links = [ x for x in links if not x in CreatorsData[lang] or CreatorsData[lang][x] == '']
-        links = [ x for x in links if valid(x, CreatorsData[lang]) ]
+        links = [x for x in links if valid(x, CreatorsData[lang])]
     # ---
     print(f'lang: {lang}, links: {len(links)}')
     # ---
-    if len(links) == 0 : return
-    #---
+    if len(links) == 0:
+        return
+    # ---
     # split links to 100 per group
     for i in range(0, len(links), 100):
-        titles = [ x.replace(" ", "_") for x in links[i:i+100] ]
-        #---
-        titles = ", ".join([ f'"{escape_string(x)}"' for x in titles ])
-        #---
+        titles = [x.replace(" ", "_") for x in links[i:i+100]]
+        # ---
+        titles = ", ".join([f'"{escape_string(x)}"' for x in titles])
+        # ---
         query = f'''select rev_timestamp, page_title, actor_name, comment_text
             from revision, actor, page, comment
             where actor_id = rev_actor
@@ -73,9 +80,9 @@ def get_creator(links, lang):
         result = wiki_sql.sql_new(query, lang)
         # ---
         for x in result:
-            time_stamp   = int(x["rev_timestamp"])
-            page_title   = x["page_title"].replace("_", " ")
-            actor_name   = x["actor_name"].replace("_", " ")
+            time_stamp = int(x["rev_timestamp"])
+            page_title = x["page_title"].replace("_", " ")
+            actor_name = x["actor_name"].replace("_", " ")
             comment_text = x["comment_text"]
             # ---
             TD = False
@@ -85,10 +92,10 @@ def get_creator(links, lang):
             # ---
             print(f"time:{time_stamp}", f"title:{page_title}", f"actor:{actor_name}")
             # ---
-            tab = {"time": time_stamp, "actor": actor_name, "comment": comment_text, "TD":TD}
-            #---
+            tab = {"time": time_stamp, "actor": actor_name, "comment": comment_text, "TD": TD}
+            # ---
             ADDED += 1
-            #---
+            # ---
             CreatorsData[lang][page_title] = tab
             # ---
             if ADDED % 50 == 0:

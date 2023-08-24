@@ -15,28 +15,30 @@ python3 core8/pwb.py md2 -page:Hyoscine_butylbromide
 import json
 import urllib
 import codecs
-#---
+# ---
 import pywikibot
 import re
 import sys
-#---
+# ---
 from mdpy import printe
 from mdpy.bots import mdwiki_api
 from medUpdater import med
-#---
+# ---
 
 printe.output(sys.argv)
-#---
+# ---
+
+
 def treat_page(title, textn):
-    #---
+    # ---
     newtext = med.work(title, returntext=True, text_O=textn)
-    #---
+    # ---
     if 'test' in sys.argv:
         pywikibot.showDiff(textn, newtext)
         return ''
-    #---
+    # ---
     mdwiki_api.page_put(oldtext=textn, newtext=newtext, summary='mdwiki changes.', title=title, returntrue=False, diff=True)
-    #---
+    # ---
     test_text = '''
 {{Drugbox
 | Verifiedfields = changed
@@ -76,38 +78,41 @@ def treat_page(title, textn):
 <!--Chemical data-->
 |drug_name=|alt=|caption=|licence_EU=|licence_US=}}
 '''
-#---
+# ---
+
+
 def main():
-    #---
+    # ---
     ttab = []
-    #---
+    # ---
     # python3 core8/pwb.py md2 -page:Abacavir/lamivudine
     # python3 core8/pwb.py md2 -page:Hyoscine_butylbromide
-    #---
+    # ---
     for arg in sys.argv:
         arg, sep, value = arg.partition(':')
-        #---
+        # ---
         if arg == "-page":
             ttab.append(value)
-        #---
+        # ---
         # python3 core8/pwb.py md2 allpages
         # python pwb.py md2 allpages
         if arg == "allpages":
             ttab = mdwiki_api.Get_All_pages('!', namespace='0', apfilterredir='nonredirects')
-    #---
+    # ---
     numb = 0
-    #---
+    # ---
     for title in ttab:
         numb += 1
         printe.output('<<lightyellow>> tit:%d / %d\t title: %s.' % (numb, len(ttab), title))
         text = mdwiki_api.GetPageText(title)
         treat_page(title, text)
-    #---
+    # ---
     # python pwb.py md2 test
     if 'test' in sys.argv:
         treat_page('nana', test_text)
 
-#---
+
+# ---
 if __name__ == '__main__':
     main()
-#---
+# ---

@@ -7,9 +7,12 @@ from bots import txtlib2
 
 from lists.expend_lists import main_temps_list, IMC_params, dup_params
 
+
 def printn(s):
     return
-#---
+# ---
+
+
 def find_main_temp(text, parsed, title):
     # ---
     section_0 = ''

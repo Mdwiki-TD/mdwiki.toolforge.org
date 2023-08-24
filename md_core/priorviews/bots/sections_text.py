@@ -14,9 +14,9 @@ from urllib.parse import urlencode
 import codecs
 import datetime
 from datetime import timedelta
-#---
+# ---
 Dir = Path(__file__).parent
-#---
+# ---
 text_v = '''
 <div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">
 {| class="wikitable sortable" style="width:100%;background-color:#dedede"
@@ -25,20 +25,23 @@ text_v = '''
 ! style="position: sticky;top: 0;left: 0;" | Title
 ! Views
 !'''
-#---
+# ---
 from priorviews.lists import views
-from priorviews.bots import helps#views_url(title, lang, view)
-#---
+from priorviews.bots import helps  # views_url(title, lang, view)
+# ---
 # views.views_by_mdtitle_langs
 # views.count_views_by_mdtitle
 # views.count_views_by_lang
 # views.views_by_lang
-#---
+# ---
 section_langs_views = {}
 all_section_views = 0
-#---
+# ---
+
+
 def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
-    if not section in section_langs_views: section_langs_views[section] = {}
+    if not section in section_langs_views:
+        section_langs_views[section] = {}
     """
     Returns a formatted string containing view counts for all available languages.
     """
@@ -54,7 +57,8 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
     # Loop through all available languages in the sorted order
     for l in langs_keys_sorted:
         u += 1
-        if not l in section_langs_views[section]: section_langs_views[section][l] = 0
+        if not l in section_langs_views[section]:
+            section_langs_views[section][l] = 0
         view = ''
 
         # Get the title of the current language, or an empty string if not found
@@ -63,9 +67,9 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
             # Get the view count for the current language and title, or 0 if not found
             view = views.views_by_lang.get(l, {}).get(title.lower(), 0)
             section_langs_views[section][l] += view
-            #---
+            # ---
             view = helps.views_url(title, l, view)
-            #---
+            # ---
             '''
             params = {
                 'project': f"{l}.wikipedia.org",
@@ -83,7 +87,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
 
             view = f'[{url_views} {view:,}]'
             '''
-            #---
+            # ---
             if 'test1' in sys.argv:
                 view = f'[[:w:{l}:{title}|a]] {view}'
         # Create a formatted string with the view count for the current language and title
@@ -98,7 +102,9 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
 
     # Return the overall formatted string containing view counts for all available languages
     return lang_text
-#---
+# ---
+
+
 def make_text(section, links):
     """
     Generate formatted text from given section and links.
@@ -124,12 +130,14 @@ def make_text(section, links):
     # Add the language keys to text separated by '!!'.
     # text += " " + " !! ".join(langs_keys)
     def format_x(x):
-        if len(x) < 4: return x
-        #---
+        if len(x) < 4:
+            return x
+        # ---
         x2 = x.replace('-', '')
         x2 = x2[:3]
-        #---
+        # ---
         return "{{abbr|" + f"{x2}|{x}" + "}}"
+
     def fo_n(x):
         return f'{x:,}'
     langs_keys_text = " !! ".join([format_x(x) for x in langs_keys])
@@ -178,9 +186,12 @@ def make_text(section, links):
 
     # Return the final formatted text.
     return faf
-#---
+
+
+# ---
 if __name__ == '__main__':
-    lngs = ["af", "ar", "ast", "ay", "az", "be", "be-tarask", "bg", "bn", "bs", "ca", "ckb", "cs", "cy", "da", "de", "el", "eo", "es", "et", "eu", "fa", "fi", "fr", "gcr", "gl", "ha", "he", "hi", "hr", "hu", "hy", "id", "is", "it", "ja", "jv", "ka", "kk", "kn", "ko", "ky", "la", "lt", "lv", "mk", "ml", "mr", "ms", "my", "ne", "nl", "nn", "no", "or", "pa", "pl", "pt", "qu", "ro", "ru", "sah", "sh", "si", "sk", "sl", "sq", "sr", "sv", "sw", "ta", "te", "tg", "tl", "tr", "tt", "uk", "uz", "vi", "wa", "wuu", "za", "zh", "zh-min-nan", "zh-yue"]
+    lngs = ["af", "ar", "ast", "ay", "az", "be", "be-tarask", "bg", "bn", "bs", "ca", "ckb", "cs", "cy", "da", "de", "el", "eo", "es", "et", "eu", "fa", "fi", "fr", "gcr", "gl", "ha", "he", "hi", "hr", "hu", "hy", "id", "is", "it", "ja", "jv", "ka", "kk", "kn", "ko", "ky",
+            "la", "lt", "lv", "mk", "ml", "mr", "ms", "my", "ne", "nl", "nn", "no", "or", "pa", "pl", "pt", "qu", "ro", "ru", "sah", "sh", "si", "sk", "sl", "sq", "sr", "sv", "sw", "ta", "te", "tg", "tl", "tr", "tt", "uk", "uz", "vi", "wa", "wuu", "za", "zh", "zh-min-nan", "zh-yue"]
     lala = {
         # "Tooth decay":{ x : x for x in lngs},
         "Angular cheilitis": {},
@@ -192,4 +203,4 @@ if __name__ == '__main__':
     }
     u = make_text('Dentistry', lala)
     print(u.replace("height:580px;", ""))
-#---
+# ---

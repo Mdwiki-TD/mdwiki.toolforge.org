@@ -2,7 +2,7 @@ from prior import p4
 from prior import read4
 from urllib.parse import urlparse
 
-#---
+# ---
 lal = [
     "Esophageal cancer",
     "Pancreatic cancer",
@@ -50,18 +50,18 @@ lal = [
     "Vulvar cancer",
     "Kidney cancer",
 ]
-#---
+# ---
 
 all, allen = p4.start_test(links=lal)
 
 read4.work_test(all, allen)
 
-#---
+# ---
 x = 'https://books.google.ca/books?id=JaOoXdSlT9sC&pg=PA11'
-#---
+# ---
 # prased = url_parser(x)
 # print(prased)
-#---
+# ---
 #
 # if 'books.google' in x: x = re.sub(r'google\.\w+/', 'google.com/', x)
-#---
+# ---

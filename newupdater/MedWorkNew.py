@@ -12,20 +12,22 @@ import os
 from pathlib import Path
 import re
 import sys
-#---
+# ---
 import wikitextparser as wtp
 import codecs
-#---
+# ---
 from bots import expend  # Expend_Infobox_new #Expend_Infobox(text, title, section_0)
 from bots import old_params
-#---
-import mv_section #mv_section.move_External_links_section
-import drugbox    #drugbox.TextProcessor
+# ---
+import mv_section  # mv_section.move_External_links_section
+import drugbox  # drugbox.TextProcessor
 import resources_new
 import chembox  # fix_Chembox
-#---
+# ---
 
 # ---
+
+
 def printn(s):
     return
 

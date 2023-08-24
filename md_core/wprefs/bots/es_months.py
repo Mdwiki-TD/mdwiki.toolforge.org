@@ -26,6 +26,7 @@ es_months_lower = {k.lower(): v for k, v in es_months_tab.items()}
 es_months_line = "|".join(es_months_tab.keys())
 # ---
 
+
 def make_new_val(val):
     newval = val
     # match month and year
@@ -66,7 +67,8 @@ def fix_es_months(text):
     tags = parsed.get_tags()
     # ---
     for x in tags:
-        if not x or not x.name: continue
+        if not x or not x.name:
+            continue
         if x.name != 'ref':
             continue
         if not x.contents:

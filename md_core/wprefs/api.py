@@ -43,6 +43,7 @@ ask_a = {1: False}
 missingtitles = {}
 # ---
 
+
 def log(lang):
     # ---
     if login_done[1] == lang:
@@ -136,6 +137,7 @@ def submitAPI(params, lang='', Type='post'):
     # ---
     return json1
 
+
 def get_revisions(title, lang=''):
     params = {
         "action": "query",
@@ -147,29 +149,29 @@ def get_revisions(title, lang=''):
         "rvdir": "newer",
         "rvlimit": "max"
     }
-    #---
+    # ---
     rvcontinue = 'x'
-    #---
+    # ---
     revisions = []
-    #---
+    # ---
     while rvcontinue != '':
-        #---
+        # ---
         if rvcontinue != 'x':
             params['rvcontinue'] = rvcontinue
-        #---
+        # ---
         json1 = submitAPI(params, lang=lang)
         # ---
         if not json1 or type(json1) != dict:
             return ''
         # ---
         rvcontinue = json1.get("continue", {}).get("rvcontinue", '')
-        #---
+        # ---
         pages = json1.get('query', {}).get('pages', [{}])
-        #---
+        # ---
         for p in pages:
             _revisions = p.get("revisions", [])
             revisions.extend(_revisions)
-    #---
+    # ---
     return revisions
 
 
@@ -270,4 +272,3 @@ def page_put(oldtext, NewText, summary, title, lang):
         ggg.close()
     # ---
     return False
-

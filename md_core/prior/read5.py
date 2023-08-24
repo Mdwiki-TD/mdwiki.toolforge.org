@@ -36,7 +36,7 @@ project_js_newen = f'{project}/json_en/'
 page      = md_MainPage(title, 'www', family='mdwiki')
 exists    = page.exists()
 if not exists: return
-#---
+# ---
 text        = page.get_text()
 save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 '''
@@ -124,7 +124,6 @@ def get_all_json():
     printe.output(f'new All len:{len(All)}')
     # ---
     return All
-
 
 
 class WorkAll:
@@ -244,7 +243,6 @@ def work_all():
         text_bot.log_all_pages_states()
     else:
         printe.output(f'<<lightyellow>> add "logall" to args to log All pages links green/red..')
-
 
     # ---
 # ---

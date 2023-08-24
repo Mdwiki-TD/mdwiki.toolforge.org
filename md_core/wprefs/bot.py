@@ -122,9 +122,10 @@ def work_one_lang(list_, lang):
         # ---
         if donee or 'donee' in sys.argv:
             append_reffixed_file(lang, title)
-    #---
+    # ---
     if dns:
         append_reffixed_file(lang, '', dns)
+
 
 # ---
 for arg in sys.argv:
@@ -215,6 +216,7 @@ def maine():
         print_s(f'find {len(missingtitles)} pages in missingtitles')
         for x, lang in missingtitles.items():
             print_s(f'lang: {lang}, title: {x}')
+
 
     # ---
 # ---

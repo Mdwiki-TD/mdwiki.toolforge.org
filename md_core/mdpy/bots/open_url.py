@@ -1,10 +1,10 @@
 #!/usr/bin/python
 """
-#---
+# ---
 from mdpy.bots import open_url
 # open_url.getURL(url)
 # open_url.open_json_url(url)
-#---
+# ---
 """
 #
 # (C) Ibrahem Qasim, 2023

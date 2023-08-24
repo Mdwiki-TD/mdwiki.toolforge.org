@@ -19,7 +19,7 @@ from mdpy import printe
 Dir = Path(__file__).parent
 Dird = f"{Dir}/downloads/"
 Dird_js = f"{Dir}/downloads_js/"
-#---
+# ---
 cite_file = f"{Dird_js}/cite_all_links.json"
 both_file = f"{Dir}/jsons/both.json"
 # ---
@@ -34,14 +34,15 @@ by_title_all = {}
 
 all_pages = {}
 
+
 def write_main():
 
     title = f'User:Mr. Ibrahem/niosh'
     text = ''
-    #---
+    # ---
     # sort all_pages
     all_pa = {x: v for x, v in sorted(all_pages.items(), key=lambda item: item[0].lower(), reverse=False)}
-    #---
+    # ---
     for x, tt in all_pa.items():
         text += f'* [[{tt}]]\n'
 
@@ -55,8 +56,10 @@ def write_main():
     elif oldtext != text:
         page.save(newtext=text, summary='update', nocreate=0, minor='')
 
+
 def write_to_mdwiki(data, x):
-    if 'write' not in sys.argv: return
+    if 'write' not in sys.argv:
+        return
     wikitext = '''{| class="wikitable sortable"\n|-\n'''
     wikitext += '! # !! title !! urls\n|-\n'
     n = 0
@@ -67,10 +70,10 @@ def write_to_mdwiki(data, x):
             v_li = "\n* ".join(v)
             wikitext += f'|-\n| {n} || [[:en:{k}|{k}]] || \n* {v_li}\n'
     wikitext += "\n|-\n|}"
-    #---
+    # ---
     title = f'User:Mr. Ibrahem/niosh/{x}'
     all_pages[x] = title
-    #---
+    # ---
     page = md_MainPage(title, 'www', family='mdwiki')
 
     # Get the current text of the page.
@@ -80,6 +83,7 @@ def write_to_mdwiki(data, x):
         page.Create(text=wikitext, summary='update')
     elif oldtext != wikitext:
         page.save(newtext=wikitext, summary='update', nocreate=0, minor='')
+
 
 def run(x, urls):
     by_title = {}
@@ -92,12 +96,16 @@ def run(x, urls):
         for link in links:
             if link.lower() in urls_:
                 ya.append(link)
-                #---
-                if not link in by_url: by_url[link] = []
-                if not link in by_url_all: by_url_all[link] = []
-                #---
-                if not title in by_url[link]: by_url[link].append(title)
-                if not title in by_url_all[link]: by_url_all[link].append(title)
+                # ---
+                if not link in by_url:
+                    by_url[link] = []
+                if not link in by_url_all:
+                    by_url_all[link] = []
+                # ---
+                if not title in by_url[link]:
+                    by_url[link].append(title)
+                if not title in by_url_all[link]:
+                    by_url_all[link].append(title)
         # ---
         if len(ya) > 0:
             by_title[title] = ya
@@ -125,12 +133,13 @@ def run(x, urls):
     printe.output(f'wrote {file2}')
     # ---
     write_to_mdwiki(by_title, x)
+
     # ---
 # ---
 for x, urls in data.items():
     run(x, urls)
     # break
-#---
+# ---
 file3 = f"{Dir}/by_url/all.json"
 # ---
 json.dump(by_url_all, codecs.open(file3, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
@@ -142,6 +151,6 @@ json.dump(by_title_all, codecs.open(file4, 'w', encoding='utf-8'), ensure_ascii=
 printe.output(f'wrote {file4}')
 # ---
 write_to_mdwiki(by_title_all, 'all')
-#---
+# ---
 write_main()
-#---
+# ---

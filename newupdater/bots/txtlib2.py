@@ -8,12 +8,12 @@ from mdpy.bots import txtlib2
 # (C) Ibrahem Qasim, 2021
 #
 #
-#---
+# ---
 import sys
 
-#---
+# ---
 import os
-#---
+# ---
 try:
     import wikitextparser
 except ImportError:
@@ -31,13 +31,15 @@ or
 
     pip install "wikitextparser>=0.47.5"
 """) from None
-#---
+# ---
+
+
 def extract_templates_and_params(text):
-    #---
+    # ---
     result = []
-    #---
+    # ---
     pra = wikitextparser
-    #---
+    # ---
     parser_name = pra.__name__
     parsed = pra.parse(text)
     if parser_name == 'wikitextparser':
@@ -46,29 +48,29 @@ def extract_templates_and_params(text):
     else:
         templates = parsed.ifilter_templates(matches=lambda x: not x.name.lstrip().startswith('#'), recursive=True)
         arguments = 'params'
-    #---
+    # ---
     for template in templates:
-        #---
+        # ---
         params = {}
         for param in getattr(template, arguments):
             value = str(param.value)
             key = str(param.name)
             key = key.strip()
             params[key] = value
-        #---
+        # ---
         name = template.name.strip()
-        #---
+        # ---
         if parser_name == 'wikitextparser':
             name = str(template.normal_name()).strip()
             pa_item = template.string
         else:
             pa_item = template.__str__()
-        #---
+        # ---
         namestrip = name
-        #---
+        # ---
         ficrt = {'name': "قالب:" + name, 'namestrip': namestrip, 'params': params, 'item': pa_item}
-        #---
+        # ---
         result.append(ficrt)
-    #---
+    # ---
     return result
-#---
+# ---

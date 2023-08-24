@@ -1,8 +1,8 @@
 '''
-#---
+# ---
 from prior.json_langs.lists import json_langs_by_langs
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
-#---
+# ---
 '''
 import sys
 import os
