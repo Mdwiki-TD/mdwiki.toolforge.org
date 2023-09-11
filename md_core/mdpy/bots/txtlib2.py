@@ -51,13 +51,6 @@ def extract_templates_and_params(text):
     # ---
     for template in templates:
         # ---
-        params = {}
-        for param in getattr(template, arguments):
-            value = str(param.value)
-            key = str(param.name)
-            key = key.strip()
-            params[key] = value
-        # ---
         name = template.name.strip()
         # ---
         if parser_name == 'wikitextparser':
@@ -65,6 +58,15 @@ def extract_templates_and_params(text):
             pa_item = template.string
         else:
             pa_item = template.__str__()
+        # ---
+        if not pa_item or pa_item.strip() == '':  continue
+        # ---
+        params = {}
+        for param in getattr(template, arguments):
+            value = str(param.value)
+            key = str(param.name)
+            key = key.strip()
+            params[key] = value
         # ---
         namestrip = name
         # ---
