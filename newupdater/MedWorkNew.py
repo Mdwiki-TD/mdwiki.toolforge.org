@@ -60,16 +60,16 @@ def work_on_text_md(title, text):
     if drugbox_text == '':
         return text
     # ---
-    drug_box_new = re.sub(rf'\s*{lkj2}\s*', "\n\n\g<1>\n", drug_box_new, flags=re.DOTALL)
+    drug_box_new = re.sub(rf'\s*{lkj2}\s*', r"\n\n\g<1>\n", drug_box_new, flags=re.DOTALL)
     # ---
     drug_box_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', drug_box_new, flags=re.DOTALL | re.MULTILINE)
     # ---
-    drug_box_new = re.sub(r'{{(Infobox drug|Drugbox|drug resources)\s*\n*', '{{\g<1>\n', drug_box_new, flags=re.DOTALL | re.MULTILINE)
+    drug_box_new = re.sub(r'{{(Infobox drug|Drugbox|drug resources)\s*\n*', r'{{\g<1>\n', drug_box_new, flags=re.DOTALL | re.MULTILINE)
     # ---
     # replace the old drugbox by newdrugbox
     new_text = new_text.replace(drugbox_text, drug_box_new)
     # ---
-    new_text = re.sub(r"\{\{(Infobox drug|Drugbox|drug resources)\s*\<\!", "{{\g<1>\n<!", new_text, flags=re.IGNORECASE)
+    new_text = re.sub(r"\{\{(Infobox drug|Drugbox|drug resources)\s*\<\!", r"{{\g<1>\n<!", new_text, flags=re.IGNORECASE)
     # ---
     bot2 = mv_section.move_External_links_section(new_text)
     # ---

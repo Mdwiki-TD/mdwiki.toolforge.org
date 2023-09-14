@@ -59,7 +59,8 @@ def extract_templates_and_params(text):
         else:
             pa_item = template.__str__()
         # ---
-        if not pa_item or pa_item.strip() == '':  continue
+        if not pa_item or pa_item.strip() == '':
+            continue
         # ---
         params = {}
         for param in getattr(template, arguments):
