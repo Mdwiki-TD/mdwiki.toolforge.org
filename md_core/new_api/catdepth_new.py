@@ -3,7 +3,6 @@ import time
 import sys
 # ---
 def login_def(lang, family): {}
-# ---
 
 
 class CategoryDepth:
@@ -185,4 +184,5 @@ class CategoryDepth:
             new_list = new_tab2
         # ---
         return self.result_table
-# ---
+
+

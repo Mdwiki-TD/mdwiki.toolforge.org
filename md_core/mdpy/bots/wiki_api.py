@@ -522,7 +522,7 @@ def get_page_views(titles, site='en', days=30):
 # ---
 
 
-def get_views_with_rest_v1(langcode, titles, date_start='20040101', date_end='20300101', printurl=False, printstr=False, Type=''):
+def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20300101', printurl=False, printstr=False, Type=''):
     # ---
     numbers = {}
     # ---
