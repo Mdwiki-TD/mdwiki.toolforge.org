@@ -7,7 +7,7 @@ from newapi.page import NEW_API
 # pages    = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 # search   = api_new.Search(value, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
 # newpages = api_new.Get_Newpages(limit="max", namespace="0", rcstart="", user='', three_houers=False)
-# usercont = api_new.UserContribs(user, limit="max", namespace="*", ucshow="")
+# usercont = api_new.UserContribs(user, limit=5000, namespace="*", ucshow="")
 # l_links  = api_new.Get_langlinks_for_list(titles, targtsitecode="", numbes=50)
 # text_w   = api_new.expandtemplates(text)
 # subst    = api_new.Prase_Text('{{subst:page_name}}', title)
@@ -102,7 +102,10 @@ class NEW_API():
     def post_params(self, params):
         return self.log.post(params)
 
-    def post_continue(self, params, action, _p_, p_empty):
+    def post_continue(self, params, action, _p_, p_empty, Max=50000):
+        # ---
+        if type(Max) != int and Max.isdigit():
+            Max = int(Max)
         # ---
         continue_params = {}
         # ---
@@ -127,6 +130,9 @@ class NEW_API():
             # ---
             printe.output(f'post_continue, len:{len(data)}, all: {len(results)}')
             # ---
+            if Max <= len(results) and len(results) > 1:
+                break
+            # ---
             if isinstance(results, list):
                 results.extend(data)
             else:
@@ -145,7 +151,7 @@ class NEW_API():
         exists = 0
         # ---
         for i in range(0, len(liste), 50):
-            titles = liste[i:i+50]
+            titles = liste[i:i + 50]
             # ---
             done += len(titles)
             # ---
@@ -371,7 +377,7 @@ class NEW_API():
         return Main_table
     # ---
 
-    def UserContribs(self, user, limit="max", namespace="*", ucshow=""):
+    def UserContribs(self, user, limit=5000, namespace="*", ucshow=""):
         # ---
         params = {
             "action": "query",
@@ -379,7 +385,7 @@ class NEW_API():
             "list": "usercontribs",
             "ucdir": "older",
             "ucnamespace": namespace,
-            "uclimit": limit,
+            "uclimit": "max",
             "ucuser": user,
             "utf8": 1,
             "bot": 1,
@@ -389,7 +395,7 @@ class NEW_API():
         if ucshow != "":
             params["ucshow"] = ucshow
         # ---
-        results = self.post_continue(params, "query", "usercontribs", [])
+        results = self.post_continue(params, "query", "usercontribs", [], Max=limit)
         # ---
         results = [x["title"] for x in results]
         # ---
@@ -427,7 +433,7 @@ class NEW_API():
             printe.output(f'params["lllang"] = {targtsitecode}')
         # ---
         for i in range(0, len(titles), numbes):
-            titles_1 = titles[i:i+numbes]
+            titles_1 = titles[i:i + numbes]
             # ---
             params["titles"] = "|".join(titles_1)
             # ---

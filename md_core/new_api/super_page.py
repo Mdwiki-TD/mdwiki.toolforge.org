@@ -349,7 +349,10 @@ class MainPage():
         # ---
         self.info['done'] = True
 
-    def post_continue(self, params, action, _p_, p_empty):
+    def post_continue(self, params, action, _p_, p_empty, Max=50000):
+        # ---
+        if type(Max) != int and Max.isdigit():
+            Max = int(Max)
         # ---
         continue_params = {}
         # ---
@@ -373,6 +376,9 @@ class MainPage():
                 break
             # ---
             printe.output(f'post_continue, len:{len(data)}, all: {len(results)}')
+            # ---
+            if Max <= len(results) and len(results) > 1:
+                break
             # ---
             if isinstance(results, list):
                 results.extend(data)
