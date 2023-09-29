@@ -10,8 +10,8 @@ python3 core8/pwb.py WHOem/lists/lang_links new
 python3 core8/pwb.py WHOem/lists/lang_links_mdtitles
 
 # find_views
-python3 core8/pwb.py WHOem/lists/find_views_by_lang lang:en
+# python3 core8/pwb.py WHOem/lists/find_views_by_lang lang:en
 
-python3 core8/pwb.py WHOem/lists/find_views_by_lang
+python3 core8/pwb.py WHOem/lists/find_views_by_lang new
 
 python3 core8/pwb.py WHOem/make_text ask

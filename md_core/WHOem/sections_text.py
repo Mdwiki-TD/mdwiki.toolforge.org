@@ -6,33 +6,18 @@ python3 core8/pwb.py priorviews/sections_text
 
 '''
 import sys
-import pywikibot
-import json
-import os
 from pathlib import Path
-from urllib.parse import urlencode
-import codecs
-import datetime
-from datetime import timedelta
 # ---
 Dir = Path(__file__).parent
 # ---
 text_v = '''
-<div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">
+<div style="height:540px;width:100%;overflow-x:auto; overflow-y:auto">
 {| class="wikitable sortable" style="width:100%;background-color:#dedede"
 |- style="position: sticky;top: 0; z-index: 2;"
 ! #
 ! style="position: sticky;top: 0;left: 0;" | Title
 ! Views
 !'''
-# ---
-from priorviews.lists import views
-from priorviews.bots import helps  # views_url(title, lang, view)
-# ---
-# views.views_by_mdtitle_langs
-# views.count_views_by_mdtitle
-# views.count_views_by_lang
-# views.views_by_lang
 # ---
 section_langs_views = {}
 # ---
@@ -60,14 +45,11 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
         if data:
             title = data['title']
             view  = data['views']
-            # Get the view count for the current language and title, or 0 if not found
-            view = views.views_by_lang.get(l, {}).get(title.lower(), 0)
             section_langs_views[l] += view
             # ---
-            view = helps.views_url(title, l, view)
+            # view = helps.views_url(title, l, view)
+            view = f'[[:w:{l}:{title}|{view:,}]]'
             # ---
-            if 'test1' in sys.argv:
-                view = f'[[:w:{l}:{title}|a]] {view}'
         # Create a formatted string with the view count for the current language and title
         tt = f' || {view}'
 
@@ -83,12 +65,18 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
 # ---
 
 
-def make_text(langs_keys, ViewsData):
+def make_text(ViewsData):
     """
     Generate formatted text from given section and links.
     """
     text = text_v
-
+    #---
+    langs_keys = [ lang for mdtitle, tab in ViewsData.items() for lang in tab.keys() ]
+    langs_keys = list(set(langs_keys))
+    langs_keys.sort()
+    #---
+    # print(langs_keys)
+    # ---
     # Add the language keys to text separated by '!!'.
     # text += " " + " !! ".join(langs_keys)
     def format_x(x):

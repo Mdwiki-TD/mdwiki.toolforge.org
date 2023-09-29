@@ -18,13 +18,7 @@ with codecs.open(f'{Dir}/lists/views.json', 'r', 'utf-8') as f:
 # ---
 print(f'len ViewsData: {len(ViewsData)}')
 # ---
-langs_keys = [ lang for mdtitle, tab in ViewsData.items() for lang in tab.keys() ]
-langs_keys = list(set(langs_keys))
-langs_keys.sort()
-#---
-# print(langs_keys)
-# ---
-ntext = sections_text.make_text(langs_keys, ViewsData)
+ntext = sections_text.make_text(ViewsData)
 # ---
 if 'test' in sys.argv:
     print(ntext)
