@@ -9,44 +9,34 @@ python3 core8/pwb.py mdpy/get_red
 # (C) Ibrahem Qasim, 2022
 #
 #
-import re
-import json
-import pywikibot
-import codecs
-import os
-import stat
 import sys
-
-import datetime
+import os
 from datetime import datetime
+# ---
+from mdpy import printe
+from mdpy.bots import sql_for_mdwiki
+from mdpy.bots import mdwiki_api
+# ---
+mdwiki_to_qid = sql_for_mdwiki.get_all_qids()
+# ---
 Day_History = datetime.now().strftime("%Y-%m-%d")
 # ---
-
-# ---
+# sql_for_mdwiki.mdwiki_sql(query, update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# pages = sql_for_mdwiki.get_all_pages()
+# sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 # ---
 project = '/data/project/mdwiki/'
 # ---
 if not os.path.isdir(project):
     project = '/mdwiki'
-from mdpy.bots import en_to_md
-from mdpy import printe
-# en_to_md.mdtitle_to_qid
-# en_to_md.enwiki_to_mdwiki
-# en_to_md.mdwiki_to_enwiki
-# ---
-mdwiki_to_qid = en_to_md.mdtitle_to_qid
-# ---
-from mdpy.bots import mdwiki_api
-# ---
 
 
 def get_pages():
     # ---
     table = {}
     # ---
-    num = 0
-    # ---
-    titles = mdwiki_to_qid.keys()
+    titles = list(mdwiki_to_qid.keys())
     # ---
     for i in range(0, len(titles), 100):
         group = titles[i:i+100]
@@ -73,28 +63,28 @@ def get_pages():
     for old_title, new_title in table.items():
         ll = f'"old_title: {old_title}" to: "{new_title}",\n'
         # ---
-        t_q = mdwiki_to_qid.get(new_title, False)
-        r_q = mdwiki_to_qid.get(old_title, False)
+        # replace_titles(old_title, new_title)
         # ---
-        if r_q:
-            if not t_q:
+        new_title_qid = mdwiki_to_qid.get(new_title, False)
+        old_title_qid = mdwiki_to_qid.get(old_title, False)
+        # ---
+        if old_title_qid:
+            if not new_title_qid:
                 # استبدال
                 rep += 1
                 # ---
                 printe.output('<<lightyellow>>' + ll.strip())
                 # ---
-                to_del.append(old_title)
-                to_add[new_title] = r_q
+                sql_for_mdwiki.update_qid_title(new_title, old_title_qid)
                 # ---
-                del mdwiki_to_qid[old_title]
-                mdwiki_to_qid[new_title] = r_q
+                to_del.append(old_title)
+                to_add[new_title] = old_title_qid
                 # ---
                 tat += ll
                 # ---
-            elif t_q == r_q:
+            elif new_title_qid == old_title_qid:
                 remo += 1
                 to_del.append(old_title)
-                del mdwiki_to_qid[old_title]
     # ---
     printe.output('===================')
     if tat != '':
@@ -112,18 +102,8 @@ def get_pages():
     if len(to_add) > 0:
         printe.output(f'add {len(to_add)} pages. ')
         printe.output(to_add)
-    # ---
-    if 'fix' in sys.argv:
-        back_up = json.load(open(project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json'))
+        sql_for_mdwiki.add_titles_to_qids(to_add)
         # ---
-        with open(project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid_back_up.json', 'w') as uuu:
-            json.dump(back_up, uuu)
-        uuu.close()
-        # ---
-        with open(project + '/public_html/Translation_Dashboard/Tables/mdwiki_to_qid.json', 'w') as uuu:
-            json.dump(mdwiki_to_qid, uuu)
-        uuu.close()
-
 
 # ---
 if __name__ == '__main__':

@@ -76,9 +76,12 @@ def get_qids(noqids_list):
         # "redirects": 1,
         "prop": "pageprops",
         "ppprop": "wikibase_item",
-        "normalize": 1,
+        # "normalize": 1,
         "utf8": 1
     }
+    # ---
+    if 'redirects' in sys.argv:
+        params["redirects"] = 1
     # ---
     num = 0
     # ---
@@ -90,6 +93,9 @@ def get_qids(noqids_list):
         json1 = wiki_api.submitAPI(params, apiurl='https://en.wikipedia.org/w/api.php')
         # ---
         if json1:
+            redirects = json1.get("query", {}).get("redirects", [])
+            redirects = { x['to']: x['from'] for x in redirects }
+            # ---
             pages = json1.get("query", {}).get("pages", {})
             # ---
             for p, kk in pages.items():
@@ -98,6 +104,8 @@ def get_qids(noqids_list):
                 # ---
                 title = kk.get("title", "")
                 qid = kk.get("pageprops", {}).get("wikibase_item", "")
+                # ---
+                title = redirects.get(title, title)
                 # ---
                 new_title_qids[title] = qid
     # ---
@@ -135,10 +143,10 @@ def start():
     printe.output('===================')
     if false_qids:
         printe.output('<<lightred>> flase qids:')
-        for x, q in false_qids.items():
+        for xz, q in false_qids.items():
             title_in = qids_already.get(q, '')
             # ---
-            printe.output(f'q: {q}\t new title: ({x})\t: title_in: ({title_in})..')
+            printe.output(f'q: {q}\t new title: ({xz})\t: title_in: ({title_in})..')
     # ---
     printe.output('===================')
     printe.output(f'<<lightred>>no qids: {len(empty_qids)}')

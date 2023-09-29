@@ -100,7 +100,7 @@
 
 # Find the Wikidata qid for items without qid from English
 - name: findqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_qids addthem"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_qids redirects addthem"
   schedule: '40 1,6,12,18 * * *'
   image: python3.9
   emails: onfailure
@@ -119,7 +119,7 @@
 
 # Fix Wikidata item conversions and add articles to qids spreadsheet
 - name: fixqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fixqids"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fixqids &&$HOME/local/bin/python3 core8/pwb.py mdpy/get_red"
   schedule: '45 2,7,13,19 * * *'
   image: python3.9
   emails: onfailure

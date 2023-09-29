@@ -66,7 +66,6 @@ def update_2023(lang, table):
             qu = sql_for_mdwiki.mdwiki_sql(qua, update=True)
             # ---
             printe.output("<<lightyellow>>sqlviewsm.py mdwiki_sql result:" + str(qu))
-# ---
 
 
 def update_in_sql(lang, table):
@@ -106,7 +105,6 @@ def update_in_sql(lang, table):
             qu = sql_for_mdwiki.mdwiki_sql(qua, update=True)
             # ---
             printe.output("<<lightyellow>>sqlviewsm.py mdwiki_sql result:" + str(qu))
-# ---
 
 
 def insert_to_sql(lang, table):
@@ -145,7 +143,6 @@ def insert_to_sql(lang, table):
             qu = sql_for_mdwiki.mdwiki_sql(qua, update=True)
             # ---
             printe.output("<<lightyellow>>sqlviewsm.py mdwiki_sql result:" + str(qu))
-# ---
 
 
 def get_targets(lang_o):
@@ -176,7 +173,6 @@ def get_targets(lang_o):
             Lang_to_targets[lang][target] = pupdate
     # ---
     print(f'<<lightyellow>> find {len(sq)} to work. ')
-# ---
 
 
 def get_views_sql(lang_o):
@@ -205,7 +201,6 @@ def get_views_sql(lang_o):
             already_in_sql[lang] = {}
         # ---
         already_in_sql[lang][target] = {'all': countall, '2021': count2021, '2022': count2022, '2023': count2023}
-# ---
 
 
 def main():
