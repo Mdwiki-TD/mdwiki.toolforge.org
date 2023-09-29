@@ -38,8 +38,6 @@ if not os.path.isdir(project):
 enwiki_to_mdwiki = {}
 mdwiki_to_enwiki = {}
 # ---
-other_qids_json = {}
-# ---
 mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # ---
 lala = ''

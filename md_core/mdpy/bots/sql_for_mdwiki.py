@@ -8,6 +8,7 @@ from mdpy.bots import sql_for_mdwiki
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # pages = sql_for_mdwiki.get_all_pages()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
+# sql_for_mdwiki.update_qid_title(new_title, qid)
 # ---
 
 """
@@ -189,6 +190,16 @@ def update_qid(title, qid):
     qua = f"""UPDATE qids set qid = '{qid}' where title = '{title2}';"""
     # ---
     printe.output(f'<<yellow>> update_qid()  title:{title}, qid:{qid}')
+    # ---
+    return mdwiki_sql(qua, return_dict=True)
+# ---
+
+
+def update_qid_title(new_title, qid):
+    title2 = escape_string(new_title)
+    qua = f"""UPDATE qids set title = '{title2}' where qid = '{qid}';"""
+    # ---
+    printe.output(f'<<yellow>> update_qid_title()  new_title:{new_title}, qid:{qid}')
     # ---
     return mdwiki_sql(qua, return_dict=True)
 # ---

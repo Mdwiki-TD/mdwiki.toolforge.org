@@ -250,21 +250,6 @@ def cash_wd():
     # ---
     json.dump(noqids, open(Dashboard_path + '/Tables/noqids.json', 'w'))
     # ---
-    noqids1 = [x for x in noqids if not x in en_to_md.other_qids_json]
-    # ---
-    printe.output("xxxxxxxx\n noqids1:")
-    numb = 0
-    for f in noqids1:
-        numb += 1
-        printe.output('<<lightblue>> %d mdtitle:%s not in mdwiki_to_qid.' % (numb, f.ljust(40)))
-    # ---
-    printe.output("xxxxxxxx\n noqids2:")
-    numb = 0
-    noqids2 = [x for x in noqids if x in en_to_md.other_qids_json]
-    for f in noqids2:
-        numb += 1
-        printe.output('<<lightyellow>> %d mdtitle:%s empty in other_qids_json.' % (numb, f.ljust(40)))
-    # ---
     # redirects_qids
     # mis_qids
     # ---
@@ -274,8 +259,6 @@ def cash_wd():
     for qd in mis_qids:
         printe.output(f'<<lightblue>> missing_qids:{qd}.')
     # ---
-    printe.output(f' len of noqids1:         {len(noqids1)}')
-    printe.output(f' len of noqids2:         {len(noqids2)}')
     printe.output(f' len of redirects_qids:  {len(redirects_qids.keys())}')
     printe.output(f' len of missing_qids:    {len(mis_qids)}')
     # ---
