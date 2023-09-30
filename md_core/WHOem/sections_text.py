@@ -5,6 +5,8 @@ from priorviews.bots import sections_text #make_text(section, links)
 python3 core8/pwb.py priorviews/sections_text
 
 '''
+import json
+import codecs
 import sys
 from pathlib import Path
 # ---
@@ -21,7 +23,13 @@ text_v = '''
 # ---
 section_langs_views = {}
 # ---
-
+with codecs.open(f'{Dir}/lists/lang_links_mdtitles.json', 'r', encoding='utf-8') as f:
+    lang_links_mdtitles = json.load(f)
+#---
+# sort lang_links_mdtitles by lenth
+lang_to_wrks = dict(sorted(lang_links_mdtitles.items(), key=lambda x: len(x[1]), reverse=True))
+# change it to list
+lang_to_wrks = list(lang_to_wrks.keys())
 
 def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
     lang_text = ''
@@ -62,7 +70,6 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
 
     # Return the overall formatted string containing view counts for all available languages
     return lang_text
-# ---
 
 
 def make_text(ViewsData):
@@ -74,6 +81,8 @@ def make_text(ViewsData):
     langs_keys = [ lang for mdtitle, tab in ViewsData.items() for lang in tab.keys() ]
     langs_keys = list(set(langs_keys))
     langs_keys.sort()
+    #---
+    langs_keys = lang_to_wrks
     #---
     # print(langs_keys)
     # ---

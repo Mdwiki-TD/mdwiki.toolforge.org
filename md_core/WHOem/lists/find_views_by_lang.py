@@ -63,7 +63,9 @@ def get_v(lang, links):
             # ---
             # _views_ = {"all": 14351,"2021": {"all": 907,"202108": 186},"2022": {"all": 5750,"202201": 158}}
             # ---
-            mdtitle = lang_links_mdtitles[lang][title]
+            mdtitle = lang_links_mdtitles.get(lang, {}).get(title, None)
+            if mdtitle is None:
+                continue
             # ---
             views = views['all']
             # ---
@@ -71,9 +73,13 @@ def get_v(lang, links):
             # ---
             printe.output(f't: {title} - {lang} - views: {views}')
             # ---
+            # ViewsData.setdefault(mdtitle, {})[lang] = ViewsData[mdtitle].setdefault(lang, {})
+            # ---
+            # ViewsData.setdefault(mdtitle, {})
             if not mdtitle in ViewsData.keys():
                 ViewsData[mdtitle] = {}
             # ---
+            # ViewsData[mdtitle].setdefault(lang, {})
             if not lang in ViewsData[mdtitle].keys():
                 ViewsData[mdtitle][lang] = {}
             # ---
