@@ -48,11 +48,13 @@ md_core/prior/test1.py
 md_core/prior/new_1.json
 md_core/.vscode/settings.json
 md_core/nccommons/mv.json
-*.json
+md_core/niosh/*/*.json
+md_core/prior/*/*.json
+md_core/prior/*.json
 public_html/adminer.php
 md_core/mdcount/old/allwords.py
 public_html/mdwiki3_old.php
-*/old/**
+**/old/**
 md_core/prior/old/**
 md_core/prior/en_old.py
 md_core/prior/.pylintrc
@@ -63,3 +65,4 @@ public_html/gmail1/quickstart.py
 public_html/gmail1/mail.py
 md_core/priorviews/lists/blames.json_1
 md_core/WHOem/priorviews/**
+*.json
