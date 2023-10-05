@@ -15,6 +15,7 @@ $get_cat  = $_REQUEST['cat'] ?? 'all';
 $numbers = [
 	'Articles' => 0,
 	'Languages' =>  0,
+	'LangLinks' =>  0,
 	'Views' =>  0,
 ];
 
@@ -29,7 +30,6 @@ $md_titles_to_cat = [];
 $titles_by_lang = [];
 $translators_views = [];
 
-$numbers['Languages'] = count($titles_by_lang);
 // ---
 foreach ($views_data as $mdtitle => $table) {
 	foreach ($table as $langcode => $tab) {
@@ -50,6 +50,10 @@ $numbers['Languages'] = count($titles_by_lang);
 // ---
 # sum views from each lang
 $numbers['Views'] = array_sum(array_column($titles_by_lang, 'views'));
+// ---
+$numbers['LangLinks'] = array_sum(array_map(function ($data) {
+	return count($data['titles']);
+}, $titles_by_lang));
 // ---
 $translators = [];
 // Identify the top translators by number of 
