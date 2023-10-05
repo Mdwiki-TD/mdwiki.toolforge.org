@@ -18,6 +18,11 @@
 		$('[data-toggle="tooltip"]').tooltip();
 
 		$('.sortable').DataTable({
+			lengthMenu: [
+				[50, 100, 150],[50, 100, 150]
+			],
+		});
+		$('.datatable').DataTable({
 			paging: false,
 			info: false,
 			searching: false

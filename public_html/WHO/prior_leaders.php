@@ -10,7 +10,7 @@ function NumbsTableNew(): string {
     
     // Initialize the HTML string with the table header
     $Numbers_table = <<<HTML
-    <table class="sortable table table-striped table-sm">
+    <table class="datatable table table-striped table-sm">
     <thead>
         <tr>
             <th class="spannowrap">Type</th>

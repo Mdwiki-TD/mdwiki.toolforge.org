@@ -16,14 +16,14 @@ if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
 function generateLeaderboardTable(): void
 {
     $numbersTable = NumbsTableNew();
-    $numbersCol   = ColSm('Numbers', $numbersTable, $numb = 3);
+    $numbersCol   = ColSm('Numbers', $numbersTable);
+
     // TODO: Uncomment these lines to include a users table.
     // $usersTable = UsersTableNew();
-    // $usersCol   = ColSm('Top Translators', $usersTable, $numb=5);
-    $usersCol      = '';
+    // $usersCol   = ColSm('Top Translators', $usersTable);
 
     $languagesTable = LangsTableNew();
-    $languagesCol = ColSm('Top Languages', $languagesTable, $numb = 8);
+    $languagesCol = ColSm('Top Languages', $languagesTable);
 
     echo <<<HTML
         <div class="container-fluid">
@@ -34,7 +34,7 @@ function generateLeaderboardTable(): void
                 <div class="col-md-3">
                     $numbersCol
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                     $languagesCol
                 </div>
             </div>

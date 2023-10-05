@@ -13,12 +13,13 @@ from pathlib import Path
 Dir = Path(__file__).parent
 # ---
 text_v = '''
-<div style="height:540px;width:100%;overflow-x:auto; overflow-y:auto">
+<div style="height:1500px;width:100%;overflow-x:auto; overflow-y:auto">
 {| class="wikitable sortable" style="width:100%;background-color:#dedede"
 |- style="position: sticky;top: 0; z-index: 2;"
 ! #
 ! style="position: sticky;top: 0;left: 0;" | Title
 ! Views
+! Articles
 !'''
 # ---
 section_langs_views = {}
@@ -110,6 +111,7 @@ def make_text(ViewsData):
     for mdtitle, langlinks in ViewsData.items():
         n += 1
 
+        articles = len(langlinks)
         # Call make_lang_text to create the language text for this row.
         lang_text = make_lang_text(mdtitle, langlinks, langs_keys)
 
@@ -121,6 +123,7 @@ def make_text(ViewsData):
         l_text += f'! {n}\n'
         l_text += f'! style="position: sticky;left: 0;" | [[{mdtitle}]]\n'
         l_text += f'! {mdtitle_views:,}\n'
+        l_text += f'! {articles:,}\n'
         l_text += f'| {lang_text}'
 
         # Add the row to the text variable.
@@ -129,13 +132,17 @@ def make_text(ViewsData):
     # total views by language
     text += '\n|-\n'
     text += f'! !! style="position: sticky;left: 0;colspan:2;" | Total views !! {section_views:,} \n'
-    text += '! ' + " !! ".join([str(fo_n(section_langs_views.get(l, 0))) for l in langs_keys])
+    text += '! \n! '
+    text += " !! ".join([str(fo_n(section_langs_views.get(l, 0))) for l in langs_keys])
 
     # Add the closing table tag and div tag to the text variable.
     text += '\n|}\n</div>'
-
+    #---
+    all_articles = sum([len(x) for x in ViewsData.values()])
     # Create the final formatted text with the section header, number of links, and the table.
-    faf = f'* views: {section_views:,}\n{text}'
+    #---
+    faf  = f'* {all_articles:,} articles with work in {len(langs_keys):,} languages\n'
+    faf += f'* {section_views:,} pageviews from July 2015 to Sept 2023\n{text}'
 
     # Return the final formatted text.
     return faf

@@ -29,9 +29,9 @@ Lang_to_targets = {}
 # ---
 
 
-def print_test(str):
+def print_test(strr):
     if 'print' in sys.argv or 'nosql' in sys.argv:
-        printe.output(str)
+        printe.output(strr)
 # ---
 
 
@@ -247,13 +247,16 @@ def main():
             # ---
             lenlist = len(title_list)
             # ---
-            printe.output(f'---')
+            printe.output('---')
             printe.output(f'<<lightyellow>> get pageviews for {lenlist} pages, date_start:{start}')
             # ---
             if lenlist < 5:
                 printe.output(", ".join(title_list))
             # ---
             numbers = wiki_api.get_views_with_rest_v1(lange, title_list, date_start=start, date_end='20300101', printurl=False, printstr=False, Type='daily')
+            # ---
+            if 'numbers' in sys.argv and title_list[0] == 'Tacalcitol':
+                printe.output(numbers)
             # ---
             numbs = {**numbs, **numbers}
         # ---

@@ -46,8 +46,6 @@ foreach ($views_data as $mdtitle => $table) {
 	}
 }
 // ---
-$numbers['Languages'] = count($titles_by_lang);
-// ---
 # sum views from each lang
 $numbers['Views'] = array_sum(array_column($titles_by_lang, 'views'));
 // ---
@@ -66,3 +64,5 @@ $top_translators = array_slice($top_translators, 0, 156, true);
 $top_langs = array_map(function ($data) {
 	return count($data['titles']);
 }, $titles_by_lang);
+// ---
+$numbers['Languages'] = count($titles_by_lang);
