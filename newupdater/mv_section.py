@@ -1,7 +1,6 @@
 import re
 import sys
 
-import os
 from pathlib import Path
 import codecs
 import wikitextparser

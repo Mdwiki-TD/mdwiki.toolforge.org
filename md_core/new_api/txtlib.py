@@ -17,12 +17,7 @@ from new_api import txtlib
 #
 #
 # ---
-from collections import OrderedDict
-import pywikibot
-import re
-import json
 # from new_api import printe
-import sys
 
 try:
     import wikitextparser

@@ -9,12 +9,7 @@ python3 core8/pwb.py mdpy/P11143
 # (C) Ibrahem Qasim, 2023
 #
 #
-import codecs
 import sys
-import os
-import json
-import time
-import pywikibot
 # ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import wikidataapi

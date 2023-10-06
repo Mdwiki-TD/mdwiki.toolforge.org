@@ -8,7 +8,6 @@ python3 core8/pwb.py priorviews/lists/creators
 
 '''
 import sys
-import pywikibot
 import json
 import os
 from pathlib import Path

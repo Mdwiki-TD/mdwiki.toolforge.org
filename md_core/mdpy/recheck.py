@@ -11,14 +11,8 @@ python3 core8/pwb.py mdpy/recheck
 # (C) Ibrahem Qasim, 2022
 #
 #
-import re
-import json
-import codecs
-import pywikibot
-import string
+
 import sys
-import os
-import time
 # ---
 from mdpy import printe
 from mdpy.bots import wiki_sql

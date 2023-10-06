@@ -5,17 +5,12 @@ python3 core8/pwb.py priorviews/find/find_word new
 
 '''
 import sys
-import pywikibot
 import json
 import os
 from pathlib import Path
-import re
 import codecs
-import datetime
-from datetime import timedelta
 # ---
 from mdpy import printe
-from mdpy.bots import wiki_api
 # ---
 from priorviews.bots import helps
 from priorviews.bots import count_words

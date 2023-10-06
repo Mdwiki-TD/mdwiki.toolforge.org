@@ -7,7 +7,6 @@ python3 core8/pwb.py priorviews/lists/links_by_section
 
 """
 import sys
-import pywikibot
 import json
 import os
 from pathlib import Path

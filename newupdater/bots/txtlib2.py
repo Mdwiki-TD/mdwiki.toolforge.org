@@ -9,10 +9,8 @@ from mdpy.bots import txtlib2
 #
 #
 # ---
-import sys
 
 # ---
-import os
 # ---
 try:
     import wikitextparser

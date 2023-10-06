@@ -20,13 +20,11 @@ from mdpy.bots import wiki_api
 #
 #
 import json
-import codecs
 # ---
 import traceback
 import pywikibot
 # ---
-import re
-import string
+
 # import datetime
 # import dateutil.parser
 # import time

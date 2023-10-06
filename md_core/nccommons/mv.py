@@ -6,10 +6,8 @@ python3 core8/pwb.py nccommons/mv
 # (C) Ibrahem Qasim, 2023
 #
 # ---
-import re
 import sys
 import json
-import time
 import os
 import codecs
 import pywikibot

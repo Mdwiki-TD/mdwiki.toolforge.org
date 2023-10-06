@@ -9,13 +9,9 @@
 # (C) Ibrahem Qasim, 2022
 #
 #
-import json
-import codecs
 # ---
-import pywikibot
 # ---
-import re
-import string
+
 # import datetime
 # import dateutil.parser
 # import time
@@ -24,9 +20,6 @@ import sys
 # ---
 
 # ---
-import urllib
-import urllib.request
-import urllib.parse
 # ---
 # ---
 from mdpy.bots import mdwiki_api

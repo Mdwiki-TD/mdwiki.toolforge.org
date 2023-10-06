@@ -25,7 +25,6 @@ from mdpy.bots import en_to_md
 #
 #
 import codecs
-import sys
 import os
 import json
 from mdpy.bots import sql_for_mdwiki

@@ -7,11 +7,8 @@
 # (C) Ibrahem Qasim, 2022
 #
 #
-import codecs
-import json
 import re
-import string
-import sys
+
 
 # ---
 numbers = {1: 20000, 'done': 0}

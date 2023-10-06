@@ -18,12 +18,8 @@ python3 core8/pwb.py wprefs/bot ask
 # (C) Ibrahem Qasim, 2023
 #
 #
-import json
-import traceback
-import codecs
 import os
 import sys
-import requests
 # ---
 # newtext = fix_page(text,title, move_dots= move_dot[1], infobox = False)
 # ---
@@ -34,8 +30,8 @@ if not 'returnfile' in sys.argv:
 from wprefs.wpref_text import fix_page
 from wprefs.files import reffixed_list, setting, append_reffixed_file, save_wprefcash
 # ---
-from wprefs.helps import print_s, ec_de_code, exepts
-from wprefs.api import log, submitAPI, GetPageText, missingtitles, page_put
+from wprefs.helps import print_s, ec_de_code
+from wprefs.api import log, GetPageText, missingtitles, page_put
 # ---
 move_dot = {1: False}
 expend_infobox = {1: False}

@@ -7,14 +7,10 @@
 # (C) Ibrahem Qasim, 2022
 #
 #
-import json
-import urllib
 import codecs
 from mdpy import printe
-import pywikibot
 # ---
-import re
-import string
+
 import sys
 # ---
 
@@ -39,7 +35,6 @@ himoBOT3.log('https://' + 'en.wikipedia.org/w/api.php')
 # ---
 # himoBOT3.get_Export_xml( title )
 # ---
-import tempfile
 # ---
 
 

@@ -3,12 +3,7 @@
 python3 core8/pwb.py priorviews/by_lang ask
 
 """
-import sys
-import pywikibot
-import json
-import os
 from pathlib import Path
-import codecs
 # ---
 from priorviews.lists import words
 from priorviews.lists import views

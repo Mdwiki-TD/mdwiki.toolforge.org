@@ -11,9 +11,7 @@ python3 pwb.py newupdater/med Retinol from_toolforge
 import os
 from pathlib import Path
 import re
-import sys
 # ---
-import wikitextparser as wtp
 import codecs
 # ---
 from bots import expend  # Expend_Infobox_new #Expend_Infobox(text, title, section_0)

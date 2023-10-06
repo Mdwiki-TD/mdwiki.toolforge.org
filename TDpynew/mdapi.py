@@ -7,23 +7,17 @@
 #
 #
 import json
-import codecs
 # ---
 import traceback
 # import pywikibot
 # ---
-import re
-import string
+
 # import datetime
 # import dateutil.parser
 # import time
-import sys
 # ---
 
 # ---
-import urllib
-import urllib.request
-import urllib.parse
 # ---
 # ---
 import requests

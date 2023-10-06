@@ -11,19 +11,13 @@ python3 core8/pwb.py mdpy/fixred
 # (C) Ibrahem Qasim, 2022
 #
 #
-import json
-import codecs
 # ---
-import pywikibot
 import re
-import string
+
 # import time
 # import datetime
 import sys
 # ---
-import urllib
-import urllib.request
-import urllib.parse
 # ---
 
 # ---

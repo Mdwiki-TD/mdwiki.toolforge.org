@@ -12,7 +12,6 @@ import json
 import codecs
 import os
 import traceback
-import sys
 from datetime import datetime
 import pywikibot
 # ---

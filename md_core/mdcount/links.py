@@ -1,8 +1,6 @@
 # ---
 import sys
 import re
-import string
-import pywikibot
 # ---
 from mdpy.bots import catdepth2
 from mdpy.bots import mdwiki_api

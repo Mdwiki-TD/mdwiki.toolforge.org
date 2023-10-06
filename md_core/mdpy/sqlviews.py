@@ -12,7 +12,6 @@ python3 core8/pwb.py /data/project/mdwiki/mdpy/sqlviews -lang:or
 #
 #
 import re
-import pywikibot
 import sys
 # ---
 from mdpy.bots import sql_for_mdwiki

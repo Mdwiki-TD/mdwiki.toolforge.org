@@ -10,8 +10,6 @@ from mdpy.bots import py_tools
 # (C) Ibrahem Qasim, 2023
 #
 #
-import re
-import codecs
 import sys
 import urllib
 import traceback

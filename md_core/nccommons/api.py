@@ -6,15 +6,12 @@
 # (C) Ibrahem Qasim, 2023
 #
 # ---
-import re
 import sys
-import json
 import time
 import urllib
 import urllib.parse
 import os
 import pywikibot
-import codecs
 import configparser
 import requests
 # ---

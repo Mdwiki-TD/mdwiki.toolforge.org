@@ -7,17 +7,9 @@ python3 core8/pwb.py priorviews/find/find_blame -lang:ar
 import sys
 import os
 from pathlib import Path
-import re
 import json
 import sys
-import pywikibot
 import codecs
-import datetime
-import urllib.parse
-from urllib.parse import urlparse
-from urllib.parse import urlencode
-import requests
-import wikitextparser
 # ---
 from mdpy import printe
 from priorviews.bots import gt_blame

@@ -11,15 +11,12 @@ from mdpy.bots import open_url
 #
 import traceback
 import json
-import re
-import codecs
 import time
 import requests
 import sys
 
 # ---
 from mdpy import printe
-from pywikibot import comms
 import pywikibot
 # ---
 

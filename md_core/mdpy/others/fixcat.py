@@ -10,7 +10,6 @@ python3 core8/pwb.py mdpy/fixcat
 # (C) Ibrahem Qasim, 2022
 #
 #
-import pywikibot
 import sys
 # ---
 from pymysql.converters import escape_string

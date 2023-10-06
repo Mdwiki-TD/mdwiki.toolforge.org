@@ -12,13 +12,11 @@
 #
 #
 
-import codecs
 import re
-import sys
 import itertools
 from contextlib import suppress
 # ---
-from wprefs.bots.replace_except import replaceExcept, removeprefix, removesuffix
+from wprefs.bots.replace_except import replaceExcept, removeprefix
 # ---
 
 

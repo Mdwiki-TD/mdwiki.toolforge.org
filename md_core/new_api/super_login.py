@@ -7,7 +7,6 @@
 # json1 = bot.post(params, Type='post', addtoken=False)
 # ---
 import sys
-import os
 import json
 import requests
 import urllib

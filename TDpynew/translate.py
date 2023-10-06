@@ -7,9 +7,7 @@
 #
 #
 import json
-import codecs
-import re
-import string
+
 import sys
 # ---
 

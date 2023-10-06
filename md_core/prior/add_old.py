@@ -26,10 +26,7 @@ python3 core8/pwb.py prior/add_old new  -file:en_14.json
 '''
 import sys
 import os
-import re
 import json
-import pywikibot
-import codecs
 # ---
 from prior import get_them
 from mdpy import printe

@@ -1,9 +1,6 @@
 import wikitextparser as wtp
-import os
 from pathlib import Path
 import codecs
-import re
-import sys
 
 # ---
 Dir = Path(__file__).parent

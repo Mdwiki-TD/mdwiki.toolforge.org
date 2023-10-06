@@ -4,15 +4,10 @@ python3 core8/pwb.py priorviews/bots/gt_blame
 
 '''
 import sys
-import os
 import re
-import json
-import urllib.parse
-from urllib.parse import urlparse
 from urllib.parse import urlencode
 import requests
 import wikitextparser
-import codecs
 from mdpy import printe
 # ---
 from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})

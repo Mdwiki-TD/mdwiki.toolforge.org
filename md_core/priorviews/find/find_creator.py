@@ -6,7 +6,6 @@ python3 core8/pwb.py priorviews/find/find_creator -lang:ar
 """
 from mdpy.bots import wiki_sql
 import sys
-import pywikibot
 import json
 import os
 from pathlib import Path

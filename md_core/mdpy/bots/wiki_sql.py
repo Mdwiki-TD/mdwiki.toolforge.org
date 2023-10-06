@@ -12,20 +12,10 @@ from mdpy.bots import wiki_sql
 # (C) Ibrahem Qasim, 2023
 #
 #
-from pywikibot import config
-import re
-import json
-import codecs
-import pywikibot
-import string
+
 import sys
-import urllib
-import urllib.request
-import urllib.parse
 # ---
 import time as tttime
-import datetime
-from datetime import datetime
 # ---
 from mdpy import printe
 # ---

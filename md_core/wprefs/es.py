@@ -2,8 +2,6 @@
 """
 
 import re
-import os
-import sys
 import wikitextparser as wtp
 # ---
 from wprefs.helps import print_s

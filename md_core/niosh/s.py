@@ -2,14 +2,10 @@
 python pwb.py niosh/s
 python3 core8/pwb.py niosh/s
 '''
-import sys
 import os
 from pathlib import Path
 import re
 import json
-import urllib.parse
-import pywikibot
-import wikitextparser
 import codecs
 # ---
 from mdpy import printe

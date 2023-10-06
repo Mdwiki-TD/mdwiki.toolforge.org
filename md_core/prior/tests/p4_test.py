@@ -1,12 +1,4 @@
-import sys
-from collections import namedtuple
 import os
-import re
-import pywikibot
-import json
-import urllib.parse
-import wikitextparser
-import codecs
 # ---
 project = '/data/project/mdwiki/'
 # ---

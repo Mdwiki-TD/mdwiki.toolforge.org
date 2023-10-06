@@ -10,7 +10,6 @@ from priorviews.bots import helps
 '''
 import sys
 import json
-import os
 from pathlib import Path
 import re
 import codecs
@@ -18,7 +17,6 @@ import datetime
 from urllib.parse import urlencode
 from datetime import timedelta
 # ---
-import pywikibot
 from mdpy import printe
 Dir = Path(__file__).parent
 # ---

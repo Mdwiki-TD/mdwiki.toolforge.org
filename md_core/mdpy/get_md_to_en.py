@@ -10,19 +10,11 @@ python3 core8/pwb.py mdpy/get_md_to_en nodump
 #
 #
 import json
-import urllib
-import codecs
 # ---
 # ---
-import re
-import string
-import time
+
 import sys
-import pywikibot
 import os
-import urllib
-import urllib.request
-import urllib.parse
 # ---
 project = '/data/project/mdwiki/'
 # ---

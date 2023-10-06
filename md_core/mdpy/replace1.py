@@ -8,8 +8,6 @@
 #
 #
 import codecs
-import json
-import re
 import sys
 # ---
 numbers = {1: 20000, 'done': 0}

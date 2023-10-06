@@ -6,9 +6,7 @@ python ./nash/mdpy/getall2.py
 
 """
 import os
-import time
 import re
-import sys
 import chardet
 # ---
 

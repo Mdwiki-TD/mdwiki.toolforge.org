@@ -10,12 +10,10 @@ python3 core8/pwb.py mdpy/catdepth2
 #
 #
 
-import re
 import json
-from warnings import warn
 # import pywikibot
 import codecs
-import string
+
 import time
 import os
 import sys

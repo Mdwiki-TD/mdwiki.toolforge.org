@@ -5,12 +5,9 @@ python3 core8/pwb.py priorviews/lists/creators_to_translators
 from priorviews.lists.creators_to_translators import creators_as_translators
 # ---
 """
-import sys
-import pywikibot
 import json
 import os
 from pathlib import Path
-import re
 import datetime
 import codecs
 # ---

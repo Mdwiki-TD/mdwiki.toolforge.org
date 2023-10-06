@@ -1,7 +1,6 @@
 """
 from bots.expend import Expend_Infobox #Expend_Infobox(text, title, section_0)
 """
-import re
 import wikitextparser as wtp
 from bots import txtlib2
 

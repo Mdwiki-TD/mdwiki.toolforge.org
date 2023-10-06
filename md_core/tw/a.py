@@ -11,7 +11,6 @@ python twet.py
 #
 #
 # ---
-from nntplib import ArticleInfo
 import tweepy
 import re
 import sys

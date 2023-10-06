@@ -9,13 +9,9 @@ from mdpy.bots import make_title_bot
 #
 # (C) Ibrahem Qasim, 2023
 #
-import json
 import urllib.parse
 import re
-import traceback
-import sys
 
-from pywikibot import comms
 from mdpy.bots import open_url
 from mdpy import printe
 import pywikibot

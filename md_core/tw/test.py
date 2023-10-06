@@ -13,13 +13,6 @@ python3 core8/pwb.py tw/t
 #
 #
 # ---
-import re
-import sys
-import os
-import codecs
-import json
-import requests
-import random
 # ---
 # ---
 import twet_config
