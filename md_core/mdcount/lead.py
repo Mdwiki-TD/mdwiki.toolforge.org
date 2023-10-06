@@ -1,7 +1,5 @@
 # ---
-import sys
 import re
-import string
 import pywikibot
 import wikitextparser as wtp
 # ---

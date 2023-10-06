@@ -5,11 +5,8 @@ python3 core8/pwb.py priorviews/add_blame_to_tra
 '''
 
 import sys
-import os
 from pathlib import Path
-import re
 import json
-import codecs
 # ---
 from mdpy import printe
 # ---

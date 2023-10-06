@@ -17,14 +17,6 @@ import codecs
 import re
 import os
 import sys
-# ---
-print_pywikibot = {1: False}
-try:
-    import pywikibot
-    print_pywikibot[1] = True
-except:
-    print_pywikibot[1] = False
-# ---
 from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---

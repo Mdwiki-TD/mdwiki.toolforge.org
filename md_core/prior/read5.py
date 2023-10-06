@@ -10,10 +10,7 @@ python3 core8/pwb.py prior/read5 dontsave logall
 '''
 import sys
 import os
-import re
 import json
-import urllib.parse
-import pywikibot
 import wikitextparser
 import codecs
 # ---

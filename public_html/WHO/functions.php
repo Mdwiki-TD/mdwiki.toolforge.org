@@ -27,7 +27,7 @@ function escape_string($unescaped_string)
     return \strtr($unescaped_string, $replacementMap);
 }
 
-function ColSm($title, $table, $numb = '4')
+function ColSm($title, $table)
 {
     return <<<HTML
         <div class="card">

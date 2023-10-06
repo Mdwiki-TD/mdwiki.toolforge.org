@@ -7,12 +7,8 @@ import os
 from pathlib import Path
 import re
 import json
-import urllib.parse
-import pywikibot
-import wikitextparser
 import codecs
 # ---
-from mdpy import printe
 from new_api.wiki_page import MainPage, NEW_API
 # ---
 Dir = Path(__file__).parent

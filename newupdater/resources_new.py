@@ -5,8 +5,6 @@
 import re
 import sys
 
-import codecs
-import os
 import wikitextparser as wtp
 # ---
 from bots.Remove import remove_cite_web, portal_remove

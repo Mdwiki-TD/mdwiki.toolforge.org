@@ -11,19 +11,11 @@ python3 mdpy/io.py test
 # (C) Ibrahem Qasim, 2022
 #
 #
-import re
-import string
-import time
+
 import sys
-import os
 from pathlib import Path
-import urllib
-import urllib.request
-import urllib.parse
-import json
 import codecs
 # ---
-import pywikibot
 # ---
 Dir = Path(__file__).parent
 # ---

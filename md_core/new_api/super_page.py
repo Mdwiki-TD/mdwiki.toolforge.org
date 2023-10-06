@@ -1,10 +1,5 @@
 from warnings import warn
-import traceback
 import pywikibot
-import urllib
-import requests
-import os
-import json
 import sys
 import wikitextparser as wtp
 # ---

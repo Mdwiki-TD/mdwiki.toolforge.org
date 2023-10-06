@@ -4,12 +4,8 @@ python3 core8/pwb.py priorviews/langs -lang:ar write ask
 
 """
 import sys
-import pywikibot
 import json
-import os
 from pathlib import Path
-import urllib.parse
-import re
 import datetime
 import codecs
 # ---

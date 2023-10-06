@@ -13,7 +13,6 @@ python3 nccommons/com.py -limitall:50000 -files:200 ask
 import re
 import sys
 import json
-import urllib.parse
 import os
 import codecs
 # ---

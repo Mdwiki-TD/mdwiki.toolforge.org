@@ -3,18 +3,10 @@
 python3 core8/pwb.py WHOem/lists/find_views_by_lang
 
 '''
-import sys
 import json
-import os
 from pathlib import Path
 import codecs
-import time
-import datetime
-from datetime import timedelta
 # ---
-from mdpy import printe
-from mdpy.bots import wiki_api
-from priorviews.bots import helps
 # ---
 Dir = Path(__file__).parent
 # ---

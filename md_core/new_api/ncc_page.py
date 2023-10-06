@@ -38,7 +38,6 @@ purge       = page.purge()
 # ---
 # ---
 import os
-import sys
 import configparser
 # ---
 project = "/data/project/mdwiki/"

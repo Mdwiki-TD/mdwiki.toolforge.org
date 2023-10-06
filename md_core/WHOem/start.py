@@ -4,7 +4,7 @@ python3 core8/pwb.py WHOem/start enonly
 
 '''
 from WHOem import get_them
-from new_api.wiki_page import MainPage, change_codes
+from new_api.wiki_page import change_codes
 from mdpy import printe
 import sys
 import os

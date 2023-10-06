@@ -1,7 +1,6 @@
 """
 python3 core8/pwb.py wprefs/bots/es_refs
 """
-import re
 import wikitextparser as wtp
 from wprefs.helps import print_s
 # ---

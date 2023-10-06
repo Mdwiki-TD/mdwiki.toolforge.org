@@ -6,14 +6,7 @@ python3 core8/pwb.py priorviews/sections_text
 
 '''
 import sys
-import pywikibot
-import json
-import os
 from pathlib import Path
-from urllib.parse import urlencode
-import codecs
-import datetime
-from datetime import timedelta
 # ---
 Dir = Path(__file__).parent
 # ---

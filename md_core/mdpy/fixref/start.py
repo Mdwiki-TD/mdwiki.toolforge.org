@@ -7,11 +7,7 @@ python3 core8/pwb.py mdpy/fixref
 # (C) Ibrahem Qasim, 2023
 #
 #
-import json
-import urllib
 import codecs
-import pywikibot
-import re
 import sys
 import os
 

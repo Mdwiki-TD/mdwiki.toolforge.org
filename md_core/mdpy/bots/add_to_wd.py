@@ -15,10 +15,8 @@ from mdpy.bots import add_to_wd
 #
 #
 import re
-import codecs
 import os
-import pywikibot
-import string
+
 import sys
 # ---
 from pymysql.converters import escape_string

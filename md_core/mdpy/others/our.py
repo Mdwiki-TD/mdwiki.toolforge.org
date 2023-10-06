@@ -9,11 +9,9 @@ python3 core8/pwb.py mdpy/our
 # (C) Ibrahem Qasim, 2022
 #
 #
-import codecs
 import json
 import pywikibot
-import re
-import string
+
 import sys
 
 # ---

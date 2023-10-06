@@ -12,14 +12,11 @@ results = sql_qu.make_sql_connect( query, db='', host='', update=False, Return=[
 #
 #
 from pywikibot import config
-import re
-import sys
 import os
 # ---
 import pywikibot
-from warnings import warn
 import traceback
-import string
+
 
 # ---
 import pymysql

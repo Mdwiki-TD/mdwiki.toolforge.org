@@ -4,15 +4,8 @@ python3 core8/pwb.py priorviews/bots/get_translator
 
 '''
 import sys
-import os
-import re
-import json
-import urllib.parse
-from urllib.parse import urlparse
 from urllib.parse import urlencode
 import requests
-import wikitextparser
-import codecs
 from mdpy import printe
 # ---
 '''

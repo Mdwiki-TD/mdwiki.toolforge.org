@@ -12,12 +12,8 @@ python3 core8/pwb.py md2 -page:Hyoscine_butylbromide
 # (C) Ibrahem Qasim, 2022
 #
 #
-import json
-import urllib
-import codecs
 # ---
 import pywikibot
-import re
 import sys
 # ---
 from mdpy import printe

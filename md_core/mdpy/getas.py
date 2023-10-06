@@ -19,7 +19,6 @@ import codecs
 import os
 import sys
 
-import pywikibot
 from mdpy.bots import catdepth2
 # ---
 # ---

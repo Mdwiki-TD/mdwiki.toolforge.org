@@ -4,7 +4,6 @@ July 25, 1975 should be translated as 25 de julio de 1975
 import re
 import wikitextparser as wtp
 # ---
-from wprefs.helps import print_s
 # ---
 es_months_tab = {
     'January': 'enero',

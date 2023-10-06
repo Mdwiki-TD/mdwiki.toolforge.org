@@ -13,10 +13,8 @@ python3 core8/pwb.py mdpy/sql
 #
 #
 import re
-import codecs
 import os
-import pywikibot
-import string
+
 import sys
 import time as tttime
 from pymysql.converters import escape_string

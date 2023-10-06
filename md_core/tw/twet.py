@@ -29,9 +29,7 @@ access_token_secret = twet_config.access_token_secret
 bearer_token = twet_config.bearer_token
 # ---
 # ---
-from requests_oauthlib import OAuth1Session
 # ---
-import twitter
 import tweepy
 # ---
 '''

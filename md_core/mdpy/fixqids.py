@@ -8,11 +8,6 @@ python3 core8/pwb.py mdpy/fixqids
 #
 #
 # ---
-import json
-import codecs
-from warnings import warn
-import pywikibot
-import os
 import sys
 # ---
 from mdpy.bots import wikidataapi

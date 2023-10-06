@@ -5,7 +5,6 @@ import sys
 import re
 import wikitextparser as wtp
 # ---
-from wprefs.helps import print_s
 # ---
 months = {
     'January': 'janeiro',

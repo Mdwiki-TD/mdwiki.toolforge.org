@@ -1,8 +1,5 @@
 import re
-import sys
 
-import os
-import codecs
 import wikitextparser as wtp
 # ---
 

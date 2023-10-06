@@ -8,9 +8,7 @@ Ibrahem/Article name
 
 James
 """
-import re
 import wikitextparser as wtp
-import sys
 # ---
 temps_to_delete = [
     "short description",

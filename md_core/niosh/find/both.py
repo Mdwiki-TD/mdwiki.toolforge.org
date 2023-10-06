@@ -2,7 +2,6 @@
 python pwb.py niosh/bot
 python3 core8/pwb.py niosh/bot
 '''
-import sys
 import os
 from pathlib import Path
 import re

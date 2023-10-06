@@ -17,17 +17,13 @@ python3 core8/pwb.py mdpy/listo save
 # (C) Ibrahem Qasim, 2022
 #
 #
-import json
-import urllib
-import codecs
 # ---
 # import pywikibot
 # ---
 import re
-import string
+
 # import datetime
 # import dateutil.parser
-import time
 # from datetime import datetime, date
 # menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
 import sys
@@ -36,9 +32,6 @@ import sys
 # ---
 
 # ---
-import urllib
-import urllib.request
-import urllib.parse
 # ---
 # ---
 from mdpy.bots import mdwiki_api

@@ -12,13 +12,10 @@ python3 core8/pwb.py mdpy/imp -page:Infertility
 #
 #
 import json
-import urllib
 import codecs
 # ---
-import pywikibot
 # ---
-import re
-import string
+
 from mdpy import printe
 # import datetime
 # import dateutil.parser
@@ -27,9 +24,6 @@ import sys
 # ---
 
 # ---
-import urllib
-import urllib.request
-import urllib.parse
 # ---
 # ---
 from mdpy.bots import py_tools

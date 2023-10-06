@@ -11,12 +11,9 @@ from priorviews.lists import views
 python3 core8/pwb.py priorviews/views
 
 '''
-import sys
-import pywikibot
 import json
 import os
 from pathlib import Path
-import re
 import codecs
 # ---
 from priorviews.bots import helps

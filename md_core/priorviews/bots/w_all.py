@@ -5,14 +5,7 @@ python3 core8/pwb.py priorviews/langs -lang:ar ask
 
 """
 from new_api.mdwiki_page import MainPage as md_MainPage
-import sys
-import json
-import os
 from pathlib import Path
-import re
-import urllib.parse
-import datetime
-import codecs
 # ---
 Dir = Path(__file__).parent
 # ---

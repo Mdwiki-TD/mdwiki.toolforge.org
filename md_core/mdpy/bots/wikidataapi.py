@@ -14,11 +14,8 @@
 import traceback
 # import pywikibot
 import re
-import time
 import urllib
 import json
-import codecs
-import unicodedata
 import sys
 # ---
 import pywikibot

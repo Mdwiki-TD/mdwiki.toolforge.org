@@ -4,7 +4,6 @@ from prior.json_en.lists import json_en_all
 # tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 '''
-import sys
 import os
 from pathlib import Path
 import json

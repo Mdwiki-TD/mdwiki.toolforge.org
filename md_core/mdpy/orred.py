@@ -13,20 +13,10 @@ python3 core8/pwb.py mdpy/orred
 # (C) Ibrahem Qasim, 2022
 #
 #
-import json
-import codecs
-import pywikibot
-import re
-import string
-import time
-import sys
+
 # ---
 
 # ---
-import urllib
-import urllib.request
-import urllib.parse
-from pywikibot import config
 # ---
 from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)

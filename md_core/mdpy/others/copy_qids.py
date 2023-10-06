@@ -14,9 +14,7 @@ delete from qids q1 WHERE q1.qid = '' and EXISTS  (SELECT 1 FROM qids q2 WHERE q
 # ---
 import codecs
 import os
-import json
 import sys
-import pywikibot
 # ---
 from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)

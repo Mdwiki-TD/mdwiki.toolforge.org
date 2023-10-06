@@ -9,11 +9,9 @@ from wprefs.wpref_text import fix_page
 #
 #
 import re
-import os
 import sys
 # ---
 from wprefs.bots.Duplicatenew2 import DuplicateReferences
-from mdpy.bots import txtlib2
 from wprefs.bots.fix_pt_months import pt_months
 # ---
 from wprefs.helps import print_s

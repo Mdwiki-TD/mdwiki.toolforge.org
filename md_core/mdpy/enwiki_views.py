@@ -10,13 +10,11 @@ python3 core8/pwb.py mdpy/enwiki_views
 # (C) Ibrahem Qasim, 2022
 #
 #
-import re
 import os
 import codecs
 import json
 import traceback
 import pywikibot
-import sys
 import datetime
 from datetime import timedelta
 # ---

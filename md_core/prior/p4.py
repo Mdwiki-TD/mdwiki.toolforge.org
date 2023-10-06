@@ -7,13 +7,8 @@ links like [[example]]
 python3 core8/pwb.py prior/p4 test
 '''
 import sys
-from collections import namedtuple
 import os
-import re
-import pywikibot
 import json
-import urllib.parse
-import wikitextparser
 import codecs
 # ---
 from mdpy import printe

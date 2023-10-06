@@ -4,8 +4,6 @@ from bots.old_params import rename_params
 # ---
 import wikitextparser as wtp
 # ---
-import re
-import sys
 
 # ---
 

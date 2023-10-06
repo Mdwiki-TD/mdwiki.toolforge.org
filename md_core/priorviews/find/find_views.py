@@ -4,11 +4,9 @@ python3 core8/pwb.py priorviews/find/find_views test
 
 '''
 import sys
-import pywikibot
 import json
 import os
 from pathlib import Path
-import re
 import codecs
 import datetime
 from datetime import timedelta

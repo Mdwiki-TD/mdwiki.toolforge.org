@@ -8,12 +8,9 @@ from priorviews.lists import translators
 python3 core8/pwb.py priorviews/lists/translators
 
 '''
-import sys
-import pywikibot
 import json
 import os
 from pathlib import Path
-import re
 import codecs
 # ---
 Dir = Path(__file__).parent

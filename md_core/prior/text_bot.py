@@ -4,12 +4,9 @@
 """
 import sys
 import json
-import os
 from pathlib import Path
 import codecs
-import pywikibot
 # ---
-from prior import get_them
 from mdpy import printe
 # ---
 from priorviews.lists import translators

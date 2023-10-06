@@ -14,7 +14,6 @@ import codecs
 import os
 import json
 import sys
-import pywikibot
 from mdpy.bots import sql_for_mdwiki
 # ---
 from mdpy import printe

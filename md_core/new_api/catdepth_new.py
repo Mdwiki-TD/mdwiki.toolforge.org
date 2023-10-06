@@ -1,6 +1,4 @@
 # ---
-import time
-import sys
 # ---
 def login_def(lang, family): {}
 

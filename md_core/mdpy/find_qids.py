@@ -10,13 +10,7 @@ python3 core8/pwb.py mdpy/find_qids
 # (C) Ibrahem Qasim, 2023
 #
 #
-import re
-import json
-import pywikibot
-import codecs
 import os
-from pymysql.converters import escape_string
-import stat
 import sys
 # ---
 from mdpy.bots import sql_for_mdwiki

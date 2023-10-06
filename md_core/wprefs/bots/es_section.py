@@ -1,7 +1,6 @@
 """
 """
 import re
-import wikitextparser as wtp
 # ---
 from wprefs.helps import print_s
 from wprefs.api import get_revisions

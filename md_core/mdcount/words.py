@@ -20,10 +20,8 @@ python3 core8/pwb.py mdpy/words sql
 import os
 import json
 import codecs
-import re
 import sys
 # ---
-import pywikibot
 # ---
 from mdpy.bots import mdwiki_api
 from mdpy import printe

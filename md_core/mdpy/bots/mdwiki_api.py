@@ -9,16 +9,12 @@
 #
 # ---
 # import pywikibot
-import re
 import traceback
 import json as JJson
-from warnings import warn
 import time
 import urllib
 import pywikibot
 import urllib.parse
-import codecs
-import unicodedata
 import requests
 # ---
 import sys

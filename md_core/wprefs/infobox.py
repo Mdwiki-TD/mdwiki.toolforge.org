@@ -9,8 +9,6 @@ from wprefs.wpref_text import fix_page
 #
 #
 import re
-import os
-import sys
 from mdpy.bots import txtlib2
 import wikitextparser as wtp
 from wprefs.helps import print_s

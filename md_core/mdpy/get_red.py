@@ -9,7 +9,6 @@ python3 core8/pwb.py mdpy/get_red
 # (C) Ibrahem Qasim, 2022
 #
 #
-import sys
 import os
 from datetime import datetime
 # ---

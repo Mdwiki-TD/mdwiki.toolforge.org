@@ -7,9 +7,7 @@
 # (C) Ibrahem Qasim, 2023
 #
 #
-import json
 import codecs
-import re
 import sys
 
 import os
