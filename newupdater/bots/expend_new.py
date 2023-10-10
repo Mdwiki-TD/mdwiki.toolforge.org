@@ -22,6 +22,7 @@ def expend_new(template, min_len=1):
         if len(arg.name.strip()) <= min_len:
             continue
         arg.value = value + '\n'
+        arg.name = arg.name.strip().ljust(16)
 
     for aa in to_del:
         template.del_arg(aa)
@@ -30,20 +31,20 @@ def expend_new(template, min_len=1):
 
 
 def expend_infoboxs(new_text):
-    
+
     parsed = wtp.parse(new_text)
     for temp in parsed.templates:
-        
+
         temp_str = temp.string
-        
+
         if not temp_str or temp_str.strip() == '':
             continue
-        
+
         name = str(temp.normal_name()).strip()
-        
+
         if name.lower() not in main_temps_list:
             continue
-        
+
         temp = expend_new(temp)
         new_temp = temp.string
         new_text = new_text.replace(temp_str, new_temp)
