@@ -148,16 +148,7 @@ def work_on_title(title, returntext=False, text_O=""):
     # ---
     text, new_text = get_new_text(title, text=text_O)
     # ---
-    if "ask" in sys.argv:
-        printe.showDiff(text, new_text)
-        ask = input("save? ")
-        if ask in ['y', '', 'a']:
-            return page_put(new_text, title)
-        else:
-            print("not saved")
-            return
-
-    elif "from_toolforge" not in sys.argv:
+    if "from_toolforge" not in sys.argv:
         print(new_text)
         return
     # ---

@@ -547,9 +547,9 @@ class NEW_API():
             # ---
             linkso = json1.get('query', {}).get('pages', [{}])[0].get('extlinks', [])
             # ---
-            links.extend(linkso)
+            results.extend(linkso)
         # ---
-        links = [x['url'] for x in links]
+        links = [x['url'] for x in results]
         # ---
         # remove duplicates
         liste1 = list(set(links))

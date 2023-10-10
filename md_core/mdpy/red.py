@@ -9,31 +9,34 @@
 # (C) Ibrahem Qasim, 2022
 #
 #
-import codecs
-# ---
-# ---
-
-# import dateutil.parser
-# import datetime
-# from datetime import datetime, date
-# menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
+from new_api.mdwiki_page import MainPage, NEW_API
 import sys
-# ---
-
-# ---
-# ---
-# ---
-from mdpy.bots import py_tools
-
-
-# ---
-# ---
-from mdpy.bots import mdwiki_api
-from mdpy import printe
+import json
+import codecs
 import requests
+# ---
+from mdpy import printe
+from mdpy.bots import py_tools
+from mdpy.bots import mdwiki_api
+# ---
 Session = requests.Session()
 # ---
 offset = {1: 0}
+# ---
+to_make = {}
+# ---
+for arg in sys.argv:
+    arg, sep, value = arg.partition(':')
+    # ---
+    if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
+        offset[1] = int(value)
+# ---
+# from export import * # export_en_history( title )
+# ---
+api_new = NEW_API('www', family='mdwiki')
+login = api_new.Login_to_wiki()
+# pages   = api_new.Find_pages_exists_or_not(liste)
+# pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 # ---
 
 
@@ -50,29 +53,9 @@ def get_red(title):
         "rdlimit": "max"
     }
     # ---
-    result = {
-        "batchcomplete": "",
-        "query": {
-            "pages": {
-                "1369": {
-                    "pageid": 1369,
-                    "ns": 0,
-                    "title": "اليمن",
-                    "redirects": [
-                        {
-                            "ns": 0,
-                            "title": "جمهورية يمنية"
-                        }
-                    ]
-                }
-            }
-        },
-        "limits": {
-            "redirects": 500
-        }
-    }
+    # result = { "batchcomplete": "", "query": { "pages": { "1369": { "pageid": 1369, "ns": 0, "title": "اليمن", "redirects": [ { "ns": 0, "title": "جمهورية يمنية" } ] } } }, "limits": { "redirects": 500 } }
     # ---
-    list = []
+    lista = []
     # ---
     r22 = Session.post('https://' + 'en.wikipedia.org/w/api.php', data=params)
     json1 = r22.json()
@@ -88,41 +71,32 @@ def get_red(title):
                 if io["ns"] != 0:
                     continue
                 # ---
-                if not io["title"] in list:
-                    list.append(io["title"])
+                if not io["title"] in lista:
+                    lista.append(io["title"])
     # ---
-    return list
+    return lista
 
-
-# ---
-to_make = {}
-# ---
-
-
-def work(title, num, lenth):
+def work(title, num, lenth, From=''):
     # ---
     printe.output('-------------------------------------------\n*<<lightyellow>> >%d/%d title:"%s".' % (num, lenth, title))
-    # ---
-    exists = mdwiki_api.Find_pages_exists_or_not([title])
-    # ---
-    for tit, o in exists.items():
-        if o == False and tit.lower() == title.lower():
-            printe.output(f" page:{title} not exists in mdwiki.")
-            return ""
     # ---
     if num < offset[1]:
         return ""
     # ---
+    page = MainPage(title, 'www', family='mdwiki')
+    exists = page.exists()
+    if not exists:
+        printe.output(f" page:{title} not exists in mdwiki.")
+        return ""
+    # ---
     redirects = get_red(title)
+    # ---
     printe.output(redirects)
     # ---
     text = f'#redirect [[{title}]]'
     sus = f'Redirected page to [[{title}]]'
     # ---
     ing = mdwiki_api.Find_pages_exists_or_not(redirects)
-    # ---
-    # for tit in redirects:
-    # mdwiki_api.create_Page( text , sus , tit , False , family = "mdwiki" , sleep= 1)
     # ---
     num = 0
     for tit, o in ing.items():
@@ -147,15 +121,6 @@ def work(title, num, lenth):
 
     # ---
  #   printe.output("sleep 5 s")
-#    time.sleep(5)
-    # ---
-# ---
-for arg in sys.argv:
-    arg, sep, value = arg.partition(':')
-    # ---
-    if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
-        offset[1] = int(value)
-# ---
 
 
 def main():
@@ -166,7 +131,23 @@ def main():
     # python3 red.py -newpages:10
     # python red.py -newpages:1000
     # python red.py -newpages:20000
-    options = {}
+    # ---
+    page2 = ''
+    From = '0'
+    # ---
+    for arg in sys.argv:
+        arg, sep, value = arg.partition(':')
+        # ---
+        arg = arg.lower()
+        # ---
+        if arg == "-from":
+            From = py_tools.ec_de_code(value, 'decode')
+        # ---
+        if arg == "-page2" or arg == "page2":
+            page2 = py_tools.ec_de_code(value, 'decode')
+    # ---
+    if page2 != '' and From != '':
+        work(page2, 0, 1, From=From)
     # ---
     user = ''
     user_limit = '3000'
@@ -184,7 +165,7 @@ def main():
     newpages = ''
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # ---
         arg = arg.lower()
         # ---
@@ -233,10 +214,9 @@ def main():
             if value in searchlist:
                 value = searchlist[value]
             # ---
-            ccc = mdwiki_api.Search(value, ns="0", offset='', srlimit="max", RETURN_dict=False, addparams={})
+            ccc = NEW_API.Search(value, ns="0", srlimit="max")
             for x in ccc:
                 pages.append(x)
-        # ---
         # ---
     # ---
     starts = starts
@@ -252,7 +232,7 @@ def main():
             # python red.py -start:all
             #
             # ---
-            list = mdwiki_api.Get_All_pages('', namespace=namespaces, limit=limite)
+            list = api_new.Get_All_pages(start='', namespace=namespaces, limit=limite)
             start_done = starts
             num = 0
             for page in list:
@@ -262,7 +242,7 @@ def main():
                 starts = page
     # ---
     if starts != '':
-        listen = mdwiki_api.Get_All_pages(starts, namespace=namespaces, limit=limite)
+        listen = api_new.Get_All_pages(start=starts, namespace=namespaces, limit=limite)
         num = 0
         for page in listen:
             num += 1
@@ -272,7 +252,7 @@ def main():
     list = []
     # ---
     if newpages != "":
-        list = mdwiki_api.Get_Newpages(limit=newpages, namespace=namespaces)
+        list = api_new.Get_Newpages(limit=newpages, namespace=namespaces)
     elif user != "":
         list = mdwiki_api.Get_UserContribs(user, limit=user_limit, namespace=namespaces, ucshow="new")
     elif pages != []:
@@ -294,7 +274,7 @@ def main():
             # python red.py -start:all
             #
             # ---
-            list = mdwiki_api.Get_All_pages('', namespace=namespaces, limit=limite)
+            list = api_new.Get_All_pages(start='', namespace=namespaces, limit=limite)
             start_done = starts
             num = 0
             for page in list:
@@ -313,7 +293,7 @@ def main():
             # python red.py -start:! -limit:3
             #
             # ---
-            list = mdwiki_api.Get_All_pages(starts, namespace=namespaces, limit=limite)
+            list = api_new.Get_All_pages(start=starts, namespace=namespaces, limit=limite)
             start_done = starts
             num = 0
             for page in list:
@@ -323,9 +303,5 @@ def main():
                 starts = page
 
 
-# ---
-# python red.py
-# ---
 if __name__ == "__main__":
     main()
-# ---

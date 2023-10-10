@@ -75,7 +75,8 @@ function get_results($title) {
     //---
     $resultb = shell_exec($ccc);
     //---
-    $resultb = trim($resultb);
+    // $resultb = trim($resultb);
+    $resultb = trim((string) $resultb);
     //---
     return $resultb;
 }
