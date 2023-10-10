@@ -30,7 +30,7 @@ from mdpy.bots import mdwiki_api
 from new_api.mdwiki_page import MainPage, NEW_API
 # ---
 api_new = NEW_API('www', family='mdwiki')
-login = api_new.Login_to_wiki()
+api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 # ---
@@ -130,7 +130,8 @@ def main():
         # ---
         listen = api_new.Get_All_pages(start=starts, namespace=namespaces, limit=limite)
         # ---
-        for page in listen:
+        for n, page in enumerate(listen):
+            printe.output(f'<<green>> n:{n}, title:{page}')
             work_on_title(page)
             # ---
     # ---
@@ -143,7 +144,8 @@ def main():
     elif pages != []:
         lista = pages
     # ---
-    for page in lista:
+    for n, page in enumerate(lista):
+        printe.output(f'<<green>> n:{n}, title:{page}')
         work_on_title(page)
     # ---
 
