@@ -18,14 +18,8 @@
 # from datetime import datetime, date
 import sys
 # ---
-
-# ---
-# ---
-# ---
 from mdpy.bots import mdwiki_api
-from mdpy import printe  # ---
-# import requests
-# Session = requests.Session()
+from mdpy import printe
 # ---
 offset = {1: 0}
 # ---
@@ -52,7 +46,6 @@ def fix_dup(From, To):
     sus = f'fix duplicate redirect to [[{To}]]'
     mdwiki_api.page_put(oldtext=oldtext, newtext=newtext, summary=sus, title=From, returntrue=False, diff=True)
     # ---
-# ---
 
 
 def main():
@@ -63,7 +56,6 @@ def main():
     # python3 dup.py -newpages:10
     # python dup.py -newpages:1000
     # python dup.py -newpages:20000
-    options = {}
     # ---
     fop = {
         "action": "query",
@@ -76,9 +68,9 @@ def main():
         "gqplimit": "max"
     }
     # ---
-    list = mdwiki_api.post(fop)
+    lista = mdwiki_api.post(fop)
     # ---
-    redirects = list.get('query', {}).get('redirects', [])
+    redirects = lista.get('query', {}).get('redirects', [])
     # ---
     for gg in redirects:
         From = gg['from']
@@ -96,9 +88,5 @@ def main():
     # ---
 
 
-# ---
-# python dup.py
-# ---
 if __name__ == "__main__":
     main()
-# ---

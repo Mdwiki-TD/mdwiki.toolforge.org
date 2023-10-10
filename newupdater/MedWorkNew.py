@@ -14,17 +14,14 @@ import re
 # ---
 import codecs
 # ---
-from bots import expend  # Expend_Infobox_new #Expend_Infobox(text, title, section_0)
+from bots import expend  # expend_infoboxs_and_fix(text)
+from bots import expend_new  # expend_infoboxs(text)
 from bots import old_params
 # ---
 import mv_section  # mv_section.move_External_links_section
 import drugbox  # drugbox.TextProcessor
 import resources_new
 import chembox  # fix_Chembox
-# ---
-
-# ---
-
 
 def printn(s):
     return
@@ -39,7 +36,6 @@ if not os.path.isdir(project):
 lkj = r"<!--\s*(Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status|Identifiers)\s*-->"
 # ---
 lkj2 = r"(<!--\s*(?:Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*-->)"
-# ---
 
 
 def work_on_text_md(title, text):
@@ -76,7 +72,6 @@ def work_on_text_md(title, text):
     new_text = re.sub(r'\n\s*\[\[Category', '\n[[Category', new_text, flags=re.DOTALL | re.MULTILINE)
     # ---
     return new_text
-# ---
 
 
 def work_on_text(title, text):
@@ -91,38 +86,11 @@ def work_on_text(title, text):
     rea = re.search(r"{{(Infobox drug|Drugbox)", newtext, flags=re.IGNORECASE)
     # ---
     if not rea:
-        newtext = expend.Expend_Infobox(newtext, title)
-        newtext = expend.Expend_Infobox_new(newtext)
+        newtext = expend_new.expend_infoboxs(newtext)
+        newtext = expend.expend_infoboxs_and_fix(newtext)
+        # ---
         return newtext
     # ---
     newtext = work_on_text_md(title, newtext)
     # ---
     return newtext
-
-
-def test():
-    # ---
-    # python3 pwb.py newupdater/MedWorkNew
-    import pywikibot
-    # ---
-    old_params.printn = print
-    mv_section.printn = print
-    chembox.printn = print
-    drugbox.printn = print
-    expend.printn = print
-    # ---
-    Dir = Path(__file__).parent
-    # ---
-    text = codecs.open(os.path.join(Dir, "bots/resources.txt"), "r", "utf-8").read()
-    newtext = work_on_text("test", text)
-    # ---
-    pywikibot.showDiff(text, newtext)
-    # ---
-    codecs.open(os.path.join(Dir, "bots/resources_new.txt"), "w", "utf-8").write(newtext)
-
-
-    # ---
-# ---
-if __name__ == "__main__":
-    # ---
-    test()

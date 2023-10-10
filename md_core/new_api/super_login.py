@@ -112,16 +112,20 @@ class Login():
         except Exception as e:
             text = str(req0.text).strip()
             if not text.startswith('{') or not text.endswith('}'):
-                pywikibot.output('<<lightred>> Traceback (most recent call last):')
-                pywikibot.output(f'error:{e}')
-                pywikibot.output(traceback.format_exc())
                 # ---
-                pywikibot.output(url_o_print)
+                # stop log for sometime
+                if 'pp' in sys.argv:
+                    pywikibot.output('<<lightred>> Traceback (most recent call last):')
+                    pywikibot.output(f'error:{e}')
+                    pywikibot.output(traceback.format_exc())
+                    # ---
+                    pywikibot.output(url_o_print)
+                    # ---
+                    if str(e) == 'Expecting value: line 1 column 1 (char 0)':
+                        pywikibot.output(params)
+                    # ---
+                    pywikibot.output('CRITICAL:')
                 # ---
-                if str(e) == 'Expecting value: line 1 column 1 (char 0)':
-                    pywikibot.output(params)
-                # ---
-                pywikibot.output('CRITICAL:')
                 return {}
         # ---
         if text == '':

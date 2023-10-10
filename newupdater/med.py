@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
 """
-
+!
 """
 #
 # (C) Ibrahem Qasim, 2023
 #
 #
+import user_account_new
 import codecs
 import sys
 
@@ -19,34 +20,28 @@ import urllib.parse
 import MedWorkNew
 # ---
 from_toolforge = True
-# ---
-
-
-def print_new(s):
-    if not from_toolforge:
-        printe.output(s)
-
-
+printe = False
 # ---
 if "from_toolforge" not in sys.argv:
     from_toolforge = False
     import printe
-# ---
-MedWorkNew.printn = print_new
 # ---
 project = "/data/project/mdwiki/"
 # ---
 if not os.path.isdir(project):
     project = "/mdwiki"
 # ---
-import user_account_new
-# ---
 username = user_account_new.my_username
 password = user_account_new.mdwiki_pass
 # ---
 SS = {}
-# ---
 
+
+def print_new(s):
+    if not from_toolforge:
+        printe.output(s)
+
+MedWorkNew.printn = print_new
 
 def login():
     # ---
@@ -62,7 +57,7 @@ def login():
     })
     r11.raise_for_status()
     # log in
-    r22 = SS["ss"].post(SS["url"], data={
+    SS["ss"].post(SS["url"], data={
         # fz"assert": "user",
         "format": "json",
         "action": "login",
@@ -79,11 +74,6 @@ def login():
     })
     # ---
     SS["r3_token"] = SS["r33"].json()["query"]["tokens"]["csrftoken"]
-
-
-# ---
-login()
-# ---
 
 
 def GetPageText(title):
@@ -107,7 +97,6 @@ def GetPageText(title):
     text = r4.get("parse", {}).get("wikitext", {}).get("*", "")
     # ---
     return text
-# ---
 
 
 def page_put(NewText, title):
@@ -136,7 +125,6 @@ def page_put(NewText, title):
     else:
         print(r4.get("error", {}).get("info", ""))
         print("False")
-# ---
 
 
 def get_new_text(title, text=''):
@@ -150,12 +138,12 @@ def get_new_text(title, text=''):
         newtext = MedWorkNew.work_on_text(title, newtext)
     # ---
     return text, newtext
-# ---
 
 
 def work_on_title(title, returntext=False, text_O=""):
     # ---
-    title = title
+    login()
+    # ---
     title = urllib.parse.unquote(title)
     # ---
     text, new_text = get_new_text(title, text=text_O)
@@ -197,7 +185,6 @@ def work_on_title(title, returntext=False, text_O=""):
         codecs.open(filename, "w", encoding="utf-8").write(new_text)
         # ---
         print(filename)
-# ---
 
 
 def main():
@@ -209,7 +196,5 @@ def main():
         work_on_title(title)
 
 
-# ---
 if __name__ == "__main__":
     main()
-# ---

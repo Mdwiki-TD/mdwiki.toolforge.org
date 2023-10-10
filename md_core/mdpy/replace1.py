@@ -22,7 +22,7 @@ public_html = project + '/public_html'
 # ---
 from new_api.mdwiki_page import MainPage, NEW_API
 api_new = NEW_API('www', family='mdwiki')
-login = api_new.Login_to_wiki()
+api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 # ---

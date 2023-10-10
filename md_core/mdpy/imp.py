@@ -11,53 +11,32 @@ python3 core8/pwb.py mdpy/imp -page:Infertility
 # (C) Ibrahem Qasim, 2022
 #
 #
+import sys
 import json
 import codecs
-# ---
-# ---
-
-from mdpy import printe
-# import datetime
-# import dateutil.parser
-# import time
-import sys
-# ---
-
-# ---
-# ---
-# ---
-from mdpy.bots import py_tools
-
-
-# ---
-from mdpy.bots import mdwiki_api
-# ---
 import requests
-Session = requests.Session()
+# ---
+from mdpy import printe
+from mdpy.bots import py_tools
+from mdpy.bots import mdwiki_api
+from new_api.mdwiki_page import MainPage, NEW_API
 # ---
 offset = {1: 0}
 # ---
 to_make = {}
 # ---
+for arg in sys.argv:
+    arg, sep, value = arg.partition(':')
+    # ---
+    if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
+        offset[1] = int(value)
+# ---
 # from export import * # export_en_history( title )
 # ---
-from new_api.mdwiki_page import MainPage, NEW_API
 api_new = NEW_API('www', family='mdwiki')
-login = api_new.Login_to_wiki()
+api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
-# ---
-'''
-page      = MainPage(title, 'www', family='mdwiki')
-exists    = page.exists()
-if not exists: return
-# ---
-# if page.isRedirect() :  return
-# target = page.get_redirect_target()
-# ---
-text        = page.get_text()
-save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
-'''
 # ---
 
 
@@ -108,22 +87,12 @@ def work(title, num, lenth, From=''):
             save = page2.save(newtext=text, summary='Returns the article text after importing the history', nocreate=0)
 
 
-# ---
-for arg in sys.argv:
-    arg, sep, value = arg.partition(':')
-    # ---
-    if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
-        offset[1] = int(value)
-# ---
-
-
 def main():
     printe.output('*<<lightred>> > main:')
     # ---
     # python3 imp.py -page:Crohn's_disease
     # python imp.py -newpages:1000
     # python imp.py -newpages:20000
-    options = {}
     # ---
     page2 = ''
     From = '0'
@@ -138,8 +107,6 @@ def main():
         # ---
         if arg == "-page2" or arg == "page2":
             page2 = py_tools.ec_de_code(value, 'decode')
-        # ---
-
     # ---
     if page2 != '' and From != '':
         work(page2, 0, 1, From=From)
@@ -159,10 +126,8 @@ def main():
     namespaces = '0'
     newpages = ''
     # ---
-
-    # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # ---
         arg = arg.lower()
         # ---
@@ -173,6 +138,10 @@ def main():
             user_limit = value
         # ---
         if arg == "-page" or arg == "page":
+            pages.append(value)
+        # ---
+        if arg == "-page2" or arg == "page2":
+            value = py_tools.ec_de_code(value, 'decode')
             pages.append(value)
         # ---
         if arg == 'newpages' or arg == '-newpages':
@@ -193,6 +162,10 @@ def main():
         # python imp.py -file:mdwiki/list.txt
         # python3 imp.py -file:mdwiki/list.txt
         if arg == "-file":
+            # ---
+            # if value == 'redirectlist.txt' :
+            # value = '/data/project/mdwiki/public_html/redirectlist.txt'
+            # ---
             text2 = codecs.open(value, 'r', 'utf8')
             text = text2.read()
             for x in text.split("\n"):
@@ -221,12 +194,12 @@ def main():
             # python imp.py -start:all
             #
             # ---
-            list = api_new.Get_All_pages(start='', namespace=namespaces, limit=limite)
+            lista = api_new.Get_All_pages(start='', namespace=namespaces, limit=limite)
             start_done = starts
             num = 0
-            for page in list:
+            for page in lista:
                 num += 1
-                work(page, num, len(list))
+                work(page, num, len(lista))
                 # ---
                 starts = page
     # ---
@@ -238,19 +211,19 @@ def main():
             work(page, num, len(listen))
             # ---
     # ---
-    list = []
+    lista = []
     # ---
     if newpages != "":
-        list = api_new.Get_Newpages(limit=newpages, namespace=namespaces)
+        lista = api_new.Get_Newpages(limit=newpages, namespace=namespaces)
     elif user != "":
-        list = mdwiki_api.Get_UserContribs(user, limit=user_limit, namespace=namespaces, ucshow="new")
+        lista = mdwiki_api.Get_UserContribs(user, limit=user_limit, namespace=namespaces, ucshow="new")
     elif pages != []:
-        list = pages
+        lista = pages
     # ---
     num = 0
-    for page in list:
+    for page in lista:
         num += 1
-        work(page, num, len(list))
+        work(page, num, len(lista))
     # ---
     # '''
     # ---
@@ -263,12 +236,12 @@ def main():
             # python imp.py -start:all
             #
             # ---
-            list = api_new.Get_All_pages(start='', namespace=namespaces, limit=limite)
+            lista = api_new.Get_All_pages(start='', namespace=namespaces, limit=limite)
             start_done = starts
             num = 0
-            for page in list:
+            for page in lista:
                 num += 1
-                work(page, num, len(list))
+                work(page, num, len(lista))
                 # ---
                 starts = page
     # ---
@@ -282,19 +255,15 @@ def main():
             # python3 imp.py -start:! -limit:3
             #
             # ---
-            list = api_new.Get_All_pages(start=starts, namespace=namespaces, limit=limite)
+            lista = api_new.Get_All_pages(start=starts, namespace=namespaces, limit=limite)
             start_done = starts
             num = 0
-            for page in list:
+            for page in lista:
                 num += 1
-                work(page, num, len(list))
+                work(page, num, len(lista))
                 # ---
                 starts = page
 
 
-# ---
-# python imp.py
-# ---
 if __name__ == "__main__":
     main()
-# ---

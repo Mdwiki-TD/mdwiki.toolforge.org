@@ -13,19 +13,9 @@ python3 core8/pwb.py mdpy/fixred
 #
 # ---
 import re
-
-# import time
-# import datetime
 import sys
-# ---
-# ---
-
-# ---
 from mdpy.bots import mdwiki_api
 from mdpy import printe
-# ---
-# import requests
-# Session = requests.Session()
 # ---
 NewList = {}
 # ---
