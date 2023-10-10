@@ -25,7 +25,7 @@ Dir = Path(__file__).parent
 sys.path.append(str(Dir))
 # ---
 from newupdater import med
-import printe
+from mdpy import printe
 from mdpy.bots import mdwiki_api
 from new_api.mdwiki_page import MainPage, NEW_API
 # ---
@@ -53,7 +53,7 @@ def work_on_title(title, returntext=False, text_O=""):
     # ---
     printe.showDiff(text, new_text)
     # ---
-    ask = input("<<yellow>> save? ")
+    ask = input(f"<<yellow>> save title:{title}? ")
     # ---
     if ask in ['y', '', 'a']:
         return med.page_put(new_text, title)
