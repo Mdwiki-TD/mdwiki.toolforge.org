@@ -48,5 +48,6 @@ def expend_infoboxs(new_text):
         temp = expend_new(temp)
         new_temp = temp.string
         new_text = new_text.replace(temp_str, new_temp)
+        del temp, new_temp
 
     return new_text

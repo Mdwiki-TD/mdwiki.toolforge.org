@@ -28,7 +28,7 @@ to_make = {}
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     # ---
-    if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
+    if (arg.lower() == 'offset' or arg.lower() == '-offset') and value.isdigit():
         offset[1] = int(value)
 # ---
 # from export import * # export_en_history( title )
@@ -219,7 +219,6 @@ def main():
                 pages.append(x)
         # ---
     # ---
-    starts = starts
     start_done = starts
     okay = True
     # ---

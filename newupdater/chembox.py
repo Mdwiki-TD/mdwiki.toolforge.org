@@ -46,22 +46,37 @@ class fix_Chembox:
             # ---
             name = str(template.normal_name()).strip()
             # ---
+            boxes = [
+                'chembox',
+                'chembox identifiers',
+                'chembox properties',
+                'chembox hazards',
+                'chembox thermochemistry',
+                'chembox explosive',
+                'chembox pharmacology',
+                'chembox related',
+                'chembox structure',
+                'chembox supplement',
+            ]
+            # ---
             if name.lower() == 'chembox':
                 self.oldchembox = template.string
             # ---
-            if name.lower().startswith("chembox"):
+            # if name.lower().startswith("chembox"):
+            elif name.lower() not in boxes:
+                continue
+            # ---
+            params = {str(param.name).strip(): str(param.value) for param in template.arguments}
+            # ---
+            for x, v in params.items():
+                if v.strip() == '':
+                    continue
                 # ---
-                params = {str(param.name).strip(): str(param.value) for param in template.arguments}
+                if x.lower().startswith("section"):
+                    continue
                 # ---
-                for x, v in params.items():
-                    if v.strip() == '':
-                        continue
-                    # ---
-                    if x.lower().startswith("section"):
-                        continue
-                    # ---
-                    self.all_params[x] = v
-                # ---
+                self.all_params[x] = v
+            # ---
         # ---
 
     def new_temp(self):

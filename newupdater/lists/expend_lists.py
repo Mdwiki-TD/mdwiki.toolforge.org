@@ -29,6 +29,8 @@ IMC_params["infobox medical condition"] = [
     "name",
     "synonym",
     "image",
+    "image_size",
+    "image_thumbtime",
     "alt",
     "caption",
     "pronounce",
