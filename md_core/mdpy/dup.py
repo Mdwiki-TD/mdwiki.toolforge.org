@@ -26,7 +26,7 @@ offset = {1: 0}
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')
     # ---
-    if arg.lower() == 'offset' or arg.lower() == '-offset' and value.isdigit():
+    if (arg.lower() == 'offset' or arg.lower() == '-offset') and value.isdigit():
         offset[1] = int(value)
 # ---
 from_to = {}

@@ -92,6 +92,10 @@ def main():
     for arg in sys.argv:
         arg, _, value = arg.partition(':')
         # ---
+        if not value:
+            print(f"Value required for argument {arg}")
+            continue
+        # ---
         arg = arg.lower()
         # ---
         if arg == "-limit" or arg == "limit":
