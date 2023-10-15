@@ -40,9 +40,11 @@ def expend_infoboxs(new_text):
         if not temp_str or temp_str.strip() == '':
             continue
 
-        name = str(temp.normal_name()).strip()
+        name = str(temp.normal_name()).strip().lower()
+        
+        isvalid = name.startswith('infobox') or name.endswith('infobox') or name.endswith('box')
 
-        if name.lower() not in main_temps_list:
+        if name not in main_temps_list and not isvalid:
             continue
 
         temp = expend_new(temp)

@@ -272,7 +272,7 @@ def replaceExcept(text: str, old, new, exceptions: list,
                 # So we have to process the group references manually.
                 replacement = ''
 
-                group_regex = re.compile(r'\\(\d+)|\g<(.+?)>')
+                group_regex = re.compile(r'\\(\d+)|\\g<(.+?)>')
                 last = 0
                 for group_match in group_regex.finditer(new):
                     group_id = group_match.group(1) or group_match.group(2)
