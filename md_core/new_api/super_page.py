@@ -52,6 +52,7 @@ flagged     = page.is_flagged()
 timestamp   = page.get_timestamp()
 user        = page.get_user()
 userinfo    = page.get_userinfo() # "id", "name", "groups"
+revisions   = page.get_revisions(rvprops=['content])
 purge       = page.purge()
 '''
 
@@ -127,6 +128,7 @@ class MainPage():
         self.timestamp = ""
         self.user = ""
         # ---
+        self.revisions = []
         self.back_links = []
         self.extlinks = []
         self.links = []
@@ -542,6 +544,46 @@ class MainPage():
         return liste1
         # ---
 
+    def get_revisions(self, rvprops=[]):
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "revisions",
+            "titles": self.title,
+            "utf8": 1,
+            "formatversion": "2",
+            # "rvprop": "comment|timestamp|user|content|ids",
+            "rvdir": "newer",
+            "rvslots": "*",
+            "rvlimit": "max"
+        }
+        # ---
+        rvprop = [ 
+            "comment", 
+            "timestamp", 
+            "user", 
+            # "content", 
+            "ids"
+        ]
+        # ---
+        for x in rvprops:
+            if not x in rvprop:
+                rvprop.append(x)
+        # ---
+        params['rvprop'] = '|'.join(rvprop)
+        # ---
+        _revisions = self.post_continue(params, "query", "pages", [])
+        # ---
+        revisions = []
+        # ---
+        for x in _revisions:
+            revisions.extend(x['revisions'])
+        # ---
+        self.revisions = revisions
+        # ---
+        return revisions
+
+
     def purge(self):
         # ---
         params = {
@@ -820,6 +862,9 @@ class MainPage():
             "minor": minor,
             "nocreate": nocreate,
         }
+        # ---
+        if nocreate != 1:
+            del params['nocreate']
         # ---
         if self.revid != '':
             params['baserevid'] = self.revid

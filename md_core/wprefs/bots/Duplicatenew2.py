@@ -213,8 +213,9 @@ def DuplicateReferences(text):
             for ref in v[1][1:]:
                 # Don't replace inside templates (T266411)
                 # if text
-                # text = replaceExcept(text, re.escape(ref), repeated_ref, exceptions=['template'])
-                text = replaceExcept(text, re.escape(ref), repeated_ref, exceptions=[])
+                ref2 = re.escape(ref)
+                # text = replaceExcept(text, ref2, repeated_ref, exceptions=['template'])
+                text = replaceExcept(text, ref2, repeated_ref, exceptions=[])
         # ---
     # ---
     # Fix references with different names
@@ -256,6 +257,7 @@ if __name__ == "__main__":
 <references />
     """
     # ---
+    # python3 core8/pwb.py wprefs/bots/Duplicatenew2
     newt = DuplicateReferences(tet)
     # ---
     # pywikibot.showDiff(tet, newt)
