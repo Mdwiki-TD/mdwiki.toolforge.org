@@ -14,6 +14,7 @@ import_xml.py
 *.log
 *.log_2
 md.js
+*.tmp.py
 *.sql
 *.zip
 n.js

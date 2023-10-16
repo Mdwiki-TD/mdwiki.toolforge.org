@@ -67,9 +67,8 @@ for title in titles:
         new[title] = tat
         all_links.extend(tat)
 # ---
-all_links = list(set(all_links))
+all_links = sorted(set(all_links))
 # ---
-all_links.sort()
 # ---
 len_all_links = len(all_links)
 # ---
