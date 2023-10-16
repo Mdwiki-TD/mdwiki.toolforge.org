@@ -5,7 +5,7 @@
 from new_api import txtlib
 # txtlib.get_one_temp_params( text, templates=[], lowers=False )
 # alltemp = txtlib.get_all_temps_params( text, templates=[], lowers=False )
-# for tab in alltemp: for namestrip, params in tab.keys():   
+# for tab in alltemp: for namestrip, params in tab.keys():
 # ---
 from new_api import txtlib
 # temps = txtlib.extract_templates_and_params(text)
@@ -149,7 +149,7 @@ def get_all_temps_params(text, templates=[], lowers=False):
 
 
 # ---
-test_text = ''' 
+test_text = '''
 {{ص.م/صورة مضاعفة ويكي بيانات|معرف ويكي بيانات={{{معرف ويكي بيانات|}}}
 | صورة1 ={{{علم|{{{flag|{{{صورة علم|}}}}}}}}}
 | تعليق1 ={{#لو:{{قيمة ويكي بيانات|معرف ويكي بيانات={{{معرف ويكي بيانات|}}}|{{{وصف العلم|{{{flagcaption|}}}}}}|خاصية=P163|rank=best}}|{{قيمة ويكي بيانات|معرف ويكي بيانات={{{معرف ويكي بيانات|}}}|{{{وصف العلم|{{{flagcaption|}}}}}}|خاصية=P163|rank=best}}|{{فصع}}}}

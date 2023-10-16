@@ -4,6 +4,7 @@ python pwb.py niosh/get write ask
 python3 core8/pwb.py niosh/get write ask
 
 '''
+from new_api.mdwiki_page import MainPage as md_MainPage
 import sys
 from pathlib import Path
 import json
@@ -22,7 +23,6 @@ data = json.load(open(cite_file))
 # ---
 boths = json.load(open(both_file))
 # ---
-from new_api.mdwiki_page import MainPage as md_MainPage
 # ---
 by_url_all = {}
 by_title_all = {}
@@ -128,6 +128,7 @@ def run(x, urls):
     printe.output(f'wrote {file2}')
     # ---
     write_to_mdwiki(by_title, x)
+
 
     # ---
 # ---

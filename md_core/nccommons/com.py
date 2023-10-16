@@ -10,6 +10,7 @@ python3 nccommons/com.py -limitall:50000 -files:200 ask
 # (C) Ibrahem Qasim, 2023
 #
 # ---
+from nccommons import api
 import re
 import sys
 import json
@@ -21,7 +22,6 @@ project = "/data/project/mdwiki/"
 if not os.path.isdir(project):
     project = "I:/mdwiki/md_core/nccommons"
 # ---
-from nccommons import api
 # newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
 # new = api.create_Page(text=, title)
 # ---

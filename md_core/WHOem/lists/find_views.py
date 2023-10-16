@@ -21,8 +21,8 @@ TEST = False
 Dir = Path(__file__).parent
 # ---
 with codecs.open(f'{Dir}/lang_links.json', 'r', encoding='utf-8') as f:
-    lang_links = json.load(f) # {'en': 'enwiki', 'redirect_to': '', 'langs': {'ar': 'arwiki'}}
-#---
+    lang_links = json.load(f)  # {'en': 'enwiki', 'redirect_to': '', 'langs': {'ar': 'arwiki'}}
+# ---
 file = f'{Dir}/views.json'
 # ---
 if not os.path.exists(file):
@@ -47,7 +47,7 @@ def api_views(title, lang):
     d_start = d_end - timedelta()
     # ---
     d_end = d_end.strftime('%Y%m%d')
-    #---
+    # ---
     d_start = "20110101"
     # ---
     d_start = ""

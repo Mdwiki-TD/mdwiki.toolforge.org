@@ -133,7 +133,7 @@ def insert_to_sql(lang, table):
     # ---
     if len(to_insert) > 0:
         ins = ",\n".join(to_insert)
-        qua = f""" INSERT INTO views (target, countall, count2021, count2022, count2023, lang) VALUES 
+        qua = f""" INSERT INTO views (target, countall, count2021, count2022, count2023, lang) VALUES
             {ins}; """
         # ---
         print(qua)
@@ -151,7 +151,7 @@ def get_targets(lang_o):
     if lang_o != '':
         uu = f'and lang = "{lang_o}"'
     # ---
-    que = f'''select DISTINCT lang, target, pupdate from pages 
+    que = f'''select DISTINCT lang, target, pupdate from pages
     where target != ""
     {uu}
     ;'''

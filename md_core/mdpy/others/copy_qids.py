@@ -12,6 +12,7 @@ delete from qids q1 WHERE q1.qid = '' and EXISTS  (SELECT 1 FROM qids q2 WHERE q
 #
 #
 # ---
+from mdpy.bots import en_to_md
 import codecs
 import os
 import sys
@@ -40,7 +41,6 @@ project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
     project = '/mdwiki'
 # ---
-from mdpy.bots import en_to_md
 # en_to_md.mdtitle_to_qid
 qids_list = en_to_md.mdtitle_to_qid
 # ---

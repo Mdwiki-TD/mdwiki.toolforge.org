@@ -27,11 +27,11 @@ sys.path.append('/data/project/mdwiki/md_core/')
 # ---
 if not 'returnfile' in sys.argv:
     from mdpy.bots import sql_for_mdwiki
-from wprefs.wpref_text import fix_page
-from wprefs.files import reffixed_list, setting, append_reffixed_file, save_wprefcash
 # ---
-from wprefs.helps import print_s, ec_de_code
 from wprefs.api import log, GetPageText, missingtitles, page_put
+from wprefs.helps import print_s, ec_de_code
+from wprefs.files import reffixed_list, setting, append_reffixed_file, save_wprefcash
+from wprefs.wpref_text import fix_page
 # ---
 move_dot = {1: False}
 expend_infobox = {1: False}
@@ -212,7 +212,6 @@ def maine():
         print_s(f'find {len(missingtitles)} pages in missingtitles')
         for x, lang in missingtitles.items():
             print_s(f'lang: {lang}, title: {x}')
-
 
     # ---
 # ---

@@ -1,4 +1,7 @@
 # ---
+from new_api import super_login
+from new_api import bot_api
+from new_api import super_page
 from mdpy.bots import user_account_new
 # ---
 User_tables = {"username": user_account_new.my_username, "password": user_account_new.my_password}
@@ -6,9 +9,6 @@ User_tables = {"username": user_account_new.my_username, "password": user_accoun
 # xxxxxxxxxxx
 # ---
 
-from new_api import super_page
-from new_api import bot_api
-from new_api import super_login
 # ---
 super_login.User_tables["wikipedia"] = User_tables
 # ---
@@ -52,6 +52,7 @@ def test():
     ex = page.page_backlinks()
     print(f'---------------------------')
     print(f'page_backlinks:{ex}')
+
 
     # ---
     # hidden_categories= page.get_hidden_categories()

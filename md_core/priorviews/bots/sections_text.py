@@ -5,6 +5,8 @@ from priorviews.bots import sections_text #make_text(section, links)
 python3 core8/pwb.py priorviews/sections_text
 
 '''
+from priorviews.bots import helps  # views_url(title, lang, view)
+from priorviews.lists import views
 import sys
 from pathlib import Path
 # ---
@@ -19,8 +21,6 @@ text_v = '''
 ! Views
 !'''
 # ---
-from priorviews.lists import views
-from priorviews.bots import helps  # views_url(title, lang, view)
 # ---
 # views.views_by_mdtitle_langs
 # views.count_views_by_mdtitle
@@ -115,8 +115,7 @@ def make_text(section, links):
     langs_keys = [x.strip() for x in langs_keys if x.strip() != '']
 
     # Remove duplicates from langs_keys and sort the list.
-    langs_keys = list(set(langs_keys))
-    langs_keys.sort()
+    langs_keys = sorted(set(langs_keys))
 
     text = text_v
 

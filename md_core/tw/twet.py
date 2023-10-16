@@ -11,6 +11,7 @@ python twet.py test
 #
 #
 # ---
+import tweepy
 import re
 import sys
 import os
@@ -30,7 +31,6 @@ bearer_token = twet_config.bearer_token
 # ---
 # ---
 # ---
-import tweepy
 # ---
 '''
 def auth22(tweet):
@@ -290,7 +290,6 @@ def start_md():
         with codecs.open(json_file, "w", encoding="utf-8") as ii:
             json.dump(done, ii)
         ii.close()
-
 
         # ---
 # ---

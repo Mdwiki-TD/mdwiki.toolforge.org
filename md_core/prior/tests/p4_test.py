@@ -1,3 +1,4 @@
+from prior.p4 import work_in_links
 import os
 # ---
 project = '/data/project/mdwiki/'
@@ -7,7 +8,6 @@ if not os.path.isdir(project):
 # ---
 project_json = f'{project}/md_core/prior/json/'
 # ---
-from prior.p4 import work_in_links
 # ---
 
 

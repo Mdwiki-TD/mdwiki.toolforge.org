@@ -1,7 +1,7 @@
 """
 python3 core8/pwb.py fixnew
 
-bot to find errors like: 
+bot to find errors like:
 * https://mdwiki.org/w/index.php?diff=1370771
 * https://mdwiki.org/w/index.php?diff=1371108
 

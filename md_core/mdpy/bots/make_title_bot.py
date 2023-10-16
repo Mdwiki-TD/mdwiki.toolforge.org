@@ -94,7 +94,7 @@ def make_title(url):
     # ---
     results = json1
     # ---
-    if type(json1) == list:
+    if isinstance(json1, list):
         results = json1[0]
     # ---
     title = results.get('title', '')

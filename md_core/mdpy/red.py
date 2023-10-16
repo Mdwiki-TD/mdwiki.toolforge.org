@@ -11,7 +11,6 @@
 #
 from new_api.mdwiki_page import MainPage, NEW_API
 import sys
-import json
 import codecs
 import requests
 # ---
@@ -75,6 +74,7 @@ def get_red(title):
                     lista.append(io["title"])
     # ---
     return lista
+
 
 def work(title, num, lenth, From=''):
     # ---

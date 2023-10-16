@@ -50,21 +50,21 @@ def treat_page(title, textn):
 | class2 = Nucleotide analogue [[reverse transcriptase inhibitor]]
 
 <!--Names-->
-| pronounce = 
+| pronounce =
 | tradename = Kivexa, Epzicom, others
-| synonyms = 
+| synonyms =
 | IUPAC_name =
 
 <!--Clinical data-->
 | pregnancy_AU = <!-- A / B1 / B2 / B3 / C / D / X -->
 | pregnancy_US = C
 | routes_of_administration = by mouth
-| onset = 
-| duration_of_action = 
+| onset =
+| duration_of_action =
 | defined_daily_dose = is not established<ref name=who/>
 
 | MedlinePlus = a696011
-| pregnancy_category =  
+| pregnancy_category =
 | legal_AU = S4
 | legal_CA = <!-- Schedule IV{{citation needed|date=July 2019}} -->
 | legal_UK = POM

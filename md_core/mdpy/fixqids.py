@@ -8,6 +8,7 @@ python3 core8/pwb.py mdpy/fixqids
 #
 #
 # ---
+from mdpy.bots import catdepth2
 import sys
 # ---
 from mdpy.bots import wikidataapi
@@ -54,7 +55,6 @@ def fix_redirects():
 
 
 # ---
-from mdpy.bots import catdepth2
 # ---
 
 

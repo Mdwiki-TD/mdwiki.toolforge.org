@@ -118,10 +118,10 @@ def sql_connect_pymysql(query, db='', host='', update=False, Return=[], return_d
 def decode_value(value):
     try:
         value = value.decode('utf-8')  # Assuming UTF-8 encoding
-    except:
+    except BaseException:
         try:
             value = str(value)
-        except:
+        except BaseException:
             return ''
     return value
 # ---

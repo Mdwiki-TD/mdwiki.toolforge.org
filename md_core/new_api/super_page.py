@@ -1,3 +1,4 @@
+import inspect
 from warnings import warn
 import pywikibot
 import sys
@@ -52,7 +53,7 @@ flagged     = page.is_flagged()
 timestamp   = page.get_timestamp()
 user        = page.get_user()
 userinfo    = page.get_userinfo() # "id", "name", "groups"
-revisions   = page.get_revisions(rvprops=['content])
+revisions   = page.get_revisions(rvprops=['content'])
 purge       = page.purge()
 '''
 
@@ -65,7 +66,6 @@ print_test = {1: False}
 # ---
 Edit_summary_line = {1: ' -Edit summary: %s:'}
 # ---
-import inspect
 
 
 def warn_err(err):
@@ -348,7 +348,7 @@ class MainPage():
 
     def post_continue(self, params, action, _p_, p_empty, Max=50000):
         # ---
-        if type(Max) != int and Max.isdigit():
+        if not isinstance(Max, int) and Max.isdigit():
             Max = int(Max)
         # ---
         continue_params = {}
@@ -536,9 +536,8 @@ class MainPage():
         links = [x['url'] for x in links]
         # ---
         # remove duplicates
-        liste1 = list(set(links))
+        liste1 = sorted(set(links))
         # ---
-        liste1.sort()
         # ---
         self.extlinks = liste1
         return liste1
@@ -558,11 +557,11 @@ class MainPage():
             "rvlimit": "max"
         }
         # ---
-        rvprop = [ 
-            "comment", 
-            "timestamp", 
-            "user", 
-            # "content", 
+        rvprop = [
+            "comment",
+            "timestamp",
+            "user",
+            # "content",
             "ids"
         ]
         # ---
@@ -582,7 +581,6 @@ class MainPage():
         self.revisions = revisions
         # ---
         return revisions
-
 
     def purge(self):
         # ---

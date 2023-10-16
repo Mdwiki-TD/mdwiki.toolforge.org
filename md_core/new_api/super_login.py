@@ -6,6 +6,7 @@
 # login = bot.Log_to_wiki()
 # json1 = bot.post(params, Type='post', addtoken=False)
 # ---
+import inspect
 import sys
 import json
 import requests
@@ -29,7 +30,6 @@ seasons_by_lang = {}
 # ---
 ar_lag = {1: 3}
 # ---
-import inspect
 # ---
 
 
@@ -80,7 +80,7 @@ class Login():
         pams2 = params.copy()
         # ---
         for x, v in params.items():
-            if type(v) == str and len(v) > 100:
+            if isinstance(v, str) and len(v) > 100:
                 pams2[x] = v[:100]
         # ---
         url_o_print = self.endpoint + '?' + urllib.parse.urlencode(pams2)

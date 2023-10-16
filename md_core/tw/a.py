@@ -3,7 +3,7 @@
 
 @WikiProjectMed
 
-python pwb.py twet/t 
+python pwb.py twet/t
 python twet.py
 """
 #
@@ -42,7 +42,7 @@ def send(link):
     response = client.create_tweet(text=tweet)
     # ---
     data = getattr(response, 'data')
-    if data and getattr(data, 'id') != None:
+    if data and getattr(data, 'id') is not None:
         print(data.id)
         return True
 # ---

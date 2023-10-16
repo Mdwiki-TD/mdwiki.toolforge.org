@@ -22,7 +22,7 @@ result = {}
 for item in data:
     page_title = item['page_title']
     el_to = item['el_to']
-    
+
     if page_title in result:
         result[page_title].append(el_to)
     else:
@@ -33,8 +33,7 @@ json.dump(result, codecs.open(file, 'w', encoding='utf-8'))
 '''
 # ---
 # sort
-titles = list(data.keys())
-titles.sort()
+titles = sorted(data.keys())
 # ---
 all_links = []
 # ---
@@ -68,9 +67,8 @@ for title in titles:
         new[title] = tat
         all_links.extend(tat)
 # ---
-all_links = list(set(all_links))
+all_links = sorted(set(all_links))
 # ---
-all_links.sort()
 # ---
 len_all_links = len(all_links)
 # ---

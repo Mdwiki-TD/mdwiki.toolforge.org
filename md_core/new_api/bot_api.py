@@ -26,10 +26,10 @@ if login_done_lang[1] != code:
     api_new.Login_to_wiki()
 '''
 # ---
+# ---
 import pywikibot
 import datetime
 from datetime import timedelta
-# ---
 if __file__.find('mdwiki') == -1:
     from API import printe
 else:
@@ -104,7 +104,7 @@ class NEW_API():
 
     def post_continue(self, params, action, _p_, p_empty, Max=50000):
         # ---
-        if type(Max) != int and Max.isdigit():
+        if not isinstance(Max, int) and Max.isdigit():
             Max = int(Max)
         # ---
         continue_params = {}
@@ -175,7 +175,7 @@ class NEW_API():
             # ---
             for kk in query_pages:
                 # ---
-                if type(query_pages) == dict:
+                if isinstance(query_pages, dict):
                     kk = query_pages[kk]
                 # ---
                 tit = kk.get("title", "")
@@ -552,9 +552,8 @@ class NEW_API():
         links = [x['url'] for x in results]
         # ---
         # remove duplicates
-        liste1 = list(set(links))
+        liste1 = sorted(set(links))
         # ---
-        liste1.sort()
         # ---
         return liste1
         # ---

@@ -4,7 +4,7 @@
 إيجاد الصفحات القديمة
 تحديث صفحة User:Mr. Ibrahem/pages
 
-python3 mdpy/io.py test 
+python3 mdpy/io.py test
 
 """
 #
@@ -12,6 +12,7 @@ python3 mdpy/io.py test
 #
 #
 
+from mdpy.bots import mdwiki_api
 import sys
 from pathlib import Path
 import codecs
@@ -19,7 +20,6 @@ import codecs
 # ---
 Dir = Path(__file__).parent
 # ---
-from mdpy.bots import mdwiki_api
 # ---
 NewList = {}
 # ---
@@ -67,6 +67,7 @@ def get_timestamp(titles):
         # ---
         if str(num).endswith('00'):
             print('page:%d:%s,timestamp:%s' % (num, page, timestamp))
+
 
         # ---
 # ---

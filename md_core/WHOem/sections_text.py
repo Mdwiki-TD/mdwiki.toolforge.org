@@ -26,21 +26,22 @@ section_langs_views = {}
 # ---
 with codecs.open(f'{Dir}/lists/lang_links_mdtitles.json', 'r', encoding='utf-8') as f:
     lang_links_mdtitles = json.load(f)
-#---
+# ---
 # sort lang_links_mdtitles by lenth
 lang_to_wrks = dict(sorted(lang_links_mdtitles.items(), key=lambda x: len(x[1]), reverse=True))
 # change it to list
 lang_to_wrks = list(lang_to_wrks.keys())
 
+
 def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
     lang_text = ''
     u = 0
 
-    #---
+    # ---
     if 'test1' in sys.argv:
         print('mdtitle:', mdtitle)
         print('langlinks:', langlinks)
-    #---
+    # ---
 
     for l in langs_keys_sorted:
         u += 1
@@ -53,7 +54,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
 
         if data:
             title = data['title']
-            view  = data['views']
+            view = data['views']
             section_langs_views[l] += view
             # ---
             # view = helps.views_url(title, l, view)
@@ -78,17 +79,17 @@ def make_text(ViewsData):
     Generate formatted text from given section and links.
     """
     text = text_v
-    #---
-    langs_keys = [ lang for mdtitle, tab in ViewsData.items() for lang in tab.keys() ]
-    langs_keys = list(set(langs_keys))
-    langs_keys.sort()
-    #---
+    # ---
+    langs_keys = [lang for mdtitle, tab in ViewsData.items() for lang in tab.keys()]
+    langs_keys = sorted(set(langs_keys))
+    # ---
     langs_keys = lang_to_wrks
-    #---
+    # ---
     # print(langs_keys)
     # ---
     # Add the language keys to text separated by '!!'.
     # text += " " + " !! ".join(langs_keys)
+
     def format_x(x):
         if len(x) < 4:
             return x
@@ -137,11 +138,11 @@ def make_text(ViewsData):
 
     # Add the closing table tag and div tag to the text variable.
     text += '\n|}\n</div>'
-    #---
+    # ---
     all_articles = sum([len(x) for x in ViewsData.values()])
     # Create the final formatted text with the section header, number of links, and the table.
-    #---
-    faf  = f'* {all_articles:,} articles with work in {len(langs_keys):,} languages\n'
+    # ---
+    faf = f'* {all_articles:,} articles with work in {len(langs_keys):,} languages\n'
     faf += f'* {section_views:,} pageviews from July 2015 to Sept 2023\n{text}'
 
     # Return the final formatted text.
