@@ -14,6 +14,8 @@ python3 core8/pwb.py mdpy/getas newpages
 # (C) Ibrahem Qasim, 2022
 #
 #
+from mdpy.bots.en_to_md import *  # mdwiki_to_enwiki#enwiki_to_mdwiki
+from mdpy.bots import wiki_api
 import json
 import codecs
 import os
@@ -68,7 +70,6 @@ for arg in sys.argv:
         Nore[1] = True
 # ---
 # ---
-from mdpy.bots import wiki_api
 
 # ---
 # ---
@@ -97,7 +98,6 @@ def split_list_to_numbers(lll):
 
 
 # ---
-from mdpy.bots.en_to_md import *  # mdwiki_to_enwiki#enwiki_to_mdwiki
 # ---
 
 
@@ -164,6 +164,7 @@ def mmain():
         # ---
     # ---
     log()
+
 
     # ---
 # ---

@@ -4,6 +4,7 @@ python3 core8/pwb.py priorviews/find/find_translators new
 python3 core8/pwb.py priorviews/find/find_translators removeip
 
 '''
+from priorviews.lists.links_by_section import links_by_lang
 import sys
 import json
 import os
@@ -33,7 +34,6 @@ if not os.path.exists(file):
 # ---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
-from priorviews.lists.links_by_section import links_by_lang
 # ---
 
 
@@ -168,7 +168,6 @@ def removeip():
                 continue
     # ---
     logem()
-
 
     # ---
 # ---

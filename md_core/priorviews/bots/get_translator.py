@@ -3,6 +3,7 @@
 python3 core8/pwb.py priorviews/bots/get_translator
 
 '''
+from priorviews.bots import helps
 import sys
 from urllib.parse import urlencode
 import requests
@@ -15,7 +16,6 @@ from priorviews.bots import get_translator
 # ---
 '''
 # ---
-from priorviews.bots import helps
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)

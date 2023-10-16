@@ -15,6 +15,7 @@ python3 core8/pwb.py tw/t
 # ---
 # ---
 # ---
+import tweepy
 import twet_config
 # Create variables for each key, secret, token
 consumer_key = twet_config.consumer_key
@@ -24,7 +25,6 @@ access_token_secret = twet_config.access_token_secret
 bearer_token = twet_config.bearer_token
 # ---
 # ---
-import tweepy
 # ---
 # ---
 # auth = tweepy.OAuth2BearerHandler(bearer_token)

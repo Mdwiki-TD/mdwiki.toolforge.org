@@ -11,10 +11,10 @@ text = """
     <!-- Cause and diagnosis -->
     Causes include [[Sheehan's syndrome|Sheehan syndrome]], [[pituitary surgery]], [[traumatic brain injury]], and certain [[genetic mutations]].<ref name=Yen2013>{{cite book
     |author1=Jerome F. Strauss III|author2=Robert L. Barbieri|title=Yen & Jaffe's Reproductive Endocrinology: Physiology, Pathophysiology, and Clinical Management
-    |url=https://books.google.com/books?id=TTCwAAAAQBAJ&pg=PA53|date=28 August 2013|publisher=Elsevier Health Sciences|isbn=978-1-4557-5972-9|pages=53–}}</ref><ref name=Bond2005>{{cite journal |last1=Bondanelli |first1=M 
-    |last2=Ambrosio 
-    |first2=MR |last3=Zatelli 
-    |first3=MC |last4=De Marinis |first4=L |last5=degli Uberti |first5=EC 
+    |url=https://books.google.com/books?id=TTCwAAAAQBAJ&pg=PA53|date=28 August 2013|publisher=Elsevier Health Sciences|isbn=978-1-4557-5972-9|pages=53–}}</ref><ref name=Bond2005>{{cite journal |last1=Bondanelli |first1=M
+    |last2=Ambrosio
+    |first2=MR |last3=Zatelli
+    |first3=MC |last4=De Marinis |first4=L |last5=degli Uberti |first5=EC
     |title=Hypopituitarism after traumatic brain injury. |journal=European journal of endocrinology |date=May 2005 |volume=152 |issue=5 |pages=679-91 |doi=10.1530/eje.1.01895 |pmid=15879352}}</ref><ref name=Tri2019/> Diagnosis is by blood tests for prolactin, after being given [[thyrotropin]].<ref name=Mer2021>{{cite web |title=Hypopituitarism - Hormonal and Metabolic Disorders |url=https://www.merckmanuals.com/home/hormonal-and-metabolic-disorders/pituitary-gland-disorders/hypopituitarism |website=Merck Manuals Consumer Version |accessdate=2 February 2021}}</ref><ref name=Emed2021Diag>{{cite web |title=Prolactin Deficiency Workup |url=https://emedicine.medscape.com/article/124526-workup |website=Emedicine |accessdate=2 February 2021}}</ref> Confirming the diagnosis; however, is not necessarily required as there is no specific treatment.<ref name=Emed2021Diag/>
 
     <!-- Treatment and epidemiology -->
@@ -43,15 +43,15 @@ text = """
 
     == External links ==
     {{Medical resources
-    |  DiseasesDB      =  
-    |  ICD10           =  
-    |  ICD9            =  
-    |  ICDO            =  
-    |  OMIM            =  
-    |  MedlinePlus     =  
-    |  eMedicineSubj   =  
-    |  eMedicineTopic  =  
-    |  MeshID          = 
+    |  DiseasesDB      =
+    |  ICD10           =
+    |  ICD9            =
+    |  ICDO            =
+    |  OMIM            =
+    |  MedlinePlus     =
+    |  eMedicineSubj   =
+    |  eMedicineTopic  =
+    |  MeshID          =
     }}
     {{Endocrine pathology}}
 
@@ -59,11 +59,11 @@ text = """
     [[Category:RTT]]"""
 # ---
 text = '''
-<ref>{{cite journal 
-| vauthors = Grant JE, Kim SW, Odlaug BL 
+<ref>{{cite journal
+| vauthors = Grant JE, Kim SW, Odlaug BL
 | url =  https://pubmed.ncbi.nlm.nih.gov/19217077/
-| lay-date = 3 April 2009 
-| lay-url = https://www.sciencedaily.com/releases/2009/04/090401101900.htm 
+| lay-date = 3 April 2009
+| lay-url = https://www.sciencedaily.com/releases/2009/04/090401101900.htm
 | lay-source = Science Daily
 }}</ref>
 '''

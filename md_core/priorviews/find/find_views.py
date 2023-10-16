@@ -3,6 +3,7 @@
 python3 core8/pwb.py priorviews/find/find_views test
 
 '''
+from priorviews.lists.links_by_section import sects_links_langlinks
 import sys
 import json
 import os
@@ -26,7 +27,6 @@ if not os.path.exists(file):
     with open(file, 'w') as f:
         json.dump({}, f)
 # ---
-from priorviews.lists.links_by_section import sects_links_langlinks
 # ---
 ViewsData = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
@@ -142,7 +142,6 @@ def test():
     get_v(da)
     # ---
     log_views()
-
 
     # ---
 # ---

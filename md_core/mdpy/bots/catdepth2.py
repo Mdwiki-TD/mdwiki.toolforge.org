@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #   himo
-""" 
+"""
 
 python3 core8/pwb.py mdpy/catdepth2
 
@@ -10,6 +10,8 @@ python3 core8/pwb.py mdpy/catdepth2
 #
 #
 
+from mdpy.bots import mdwiki_api
+from mdpy.bots import sql_for_mdwiki
 import json
 # import pywikibot
 import codecs
@@ -27,12 +29,10 @@ project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
     project = '/mdwiki'
 # ---
-from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 # ---
-from mdpy.bots import mdwiki_api
 # ---
 
 
@@ -105,7 +105,7 @@ def Get_cat(enlink, print_url=False):
             # ---
             caca = category
             # ---
-            if type(pages) == dict:
+            if isinstance(pages, dict):
                 caca = pages[category]
             # ---
             cate_title = caca["title"]
@@ -170,7 +170,7 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     # ---
     new_list = [v['title'] for x, v in tablemember.items() if int(v["ns"]) == 14]
     # ---
-    if type(depth) != int and depth.isdigit():
+    if not isinstance(depth, int) and depth.isdigit():
         depth = int(depth)
     # ---
     if 'newlist' in sys.argv:
@@ -297,9 +297,9 @@ def make_cash_to_cats(return_all_pages=False):
         cat = c['category']
         dep = c['depth']
         # ---
-        cat = cat.decode("utf-8") if type(cat) == bytes else cat
+        cat = cat.decode("utf-8") if isinstance(cat, bytes) else cat
         # ---
-        dep = dep.decode("utf-8") if type(dep) == bytes else dep
+        dep = dep.decode("utf-8") if isinstance(dep, bytes) else dep
         # ---
         cats[cat] = dep
     # ---
@@ -314,6 +314,7 @@ def make_cash_to_cats(return_all_pages=False):
     # ---
     if return_all_pages:
         return all_pages
+
 
     # ---
 # ---

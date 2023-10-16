@@ -56,6 +56,7 @@ def find_wd(title):
     printe.output(f'qid: {qid}')
     # ---
 
+
 def work_in_page(title):
     # ---
     page = MainPage(title, 'en')

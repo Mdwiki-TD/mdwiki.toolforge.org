@@ -27,6 +27,9 @@ user        = page.get_user()
 purge       = page.purge()
 '''
 # ---
+from new_api import super_login as su_login
+from new_api import bot_api
+from new_api import super_page as su_page
 from mdpy.bots import user_account_new
 # ---
 User_tables = {"username": user_account_new.my_username, "password": user_account_new.mdwiki_pass}
@@ -34,9 +37,6 @@ User_tables = {"username": user_account_new.my_username, "password": user_accoun
 # xxxxxxxxxxx
 # ---
 
-from new_api import super_page as su_page
-from new_api import bot_api
-from new_api import super_login as su_login
 # ---
 su_login.User_tables["mdwiki"] = User_tables
 # ---

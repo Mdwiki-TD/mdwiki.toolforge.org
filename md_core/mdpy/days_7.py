@@ -11,7 +11,7 @@ from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---
 qua = '''
-delete from pages 
+delete from pages
 where target = ''
 # and DATEDIFF(CURDATE(),date) > 7
 # and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)

@@ -19,7 +19,7 @@ class WikiBlame:
     ----------
     base_url : str
         The base URL to scrape.
-    params 
+    params
         The parameters to add to the base URL.
     content : Optional[str]
         The content of the web page.

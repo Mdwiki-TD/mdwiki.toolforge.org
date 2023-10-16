@@ -3,6 +3,8 @@
 python3 core8/pwb.py priorviews/by_lang ask
 
 """
+from priorviews.lists import translators
+from priorviews.lists.creators_to_translators import creators_as_translators
 from pathlib import Path
 # ---
 from priorviews.lists import words
@@ -11,8 +13,6 @@ from new_api.mdwiki_page import MainPage as md_MainPage
 # ---
 Dir = Path(__file__).parent
 # ---
-from priorviews.lists.creators_to_translators import creators_as_translators
-from priorviews.lists import translators
 # translators.tra_by_lang
 # ---
 total_views = 0

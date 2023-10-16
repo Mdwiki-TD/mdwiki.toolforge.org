@@ -14,7 +14,6 @@ python3 core8/pwb.py mdpy/imp -page:Infertility
 import sys
 import json
 import codecs
-import requests
 # ---
 from mdpy import printe
 from mdpy.bots import py_tools
@@ -69,7 +68,7 @@ def work(title, num, lenth, From=''):
     ing_js = {}
     try:
         ing_js = json.loads(ing)
-    except:
+    except BaseException:
         print("")
     # ---
     done = ing_js.get("import", [{}])[0].get("revisions", 0)

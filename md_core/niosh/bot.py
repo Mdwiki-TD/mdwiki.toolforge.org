@@ -105,9 +105,8 @@ def start():
         all_links.extend(exts)
         # print(f'n:{n}/{ns}, title:{x} lenth:{len(exts)}')
     # ---
-    all_links = list(set(all_links))
+    all_links = sorted(set(all_links))
     # ---
-    all_links.sort()
     # ---
     json.dump(all_links, codecs.open(file_all_links, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
     # ---

@@ -214,8 +214,7 @@ def make_text(allo, ttt=''):
     # ---
     langs_keys = [x.strip() for x in langs_keys if x.strip() != '']
     # ---
-    langs_keys = list(set(langs_keys))
-    langs_keys.sort()
+    langs_keys = sorted(set(langs_keys))
     # ---
     langs_keys_2 = {}
     # ---

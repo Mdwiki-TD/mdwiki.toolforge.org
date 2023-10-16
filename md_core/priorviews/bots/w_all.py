@@ -4,13 +4,13 @@ python3 core8/pwb.py priorviews/langs -lang:ar ask
 python3 core8/pwb.py priorviews/langs -lang:ar ask
 
 """
+from priorviews.bots import helps
 from new_api.mdwiki_page import MainPage as md_MainPage
 from pathlib import Path
 # ---
 Dir = Path(__file__).parent
 # ---
 # ---
-from priorviews.bots import helps
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)

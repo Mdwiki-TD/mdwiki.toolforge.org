@@ -7,6 +7,7 @@
 # (C) Ibrahem Qasim, 2022
 #
 #
+from API import himoBOT3
 import codecs
 from mdpy import printe
 # ---
@@ -30,7 +31,6 @@ for arg in sys.argv:
         # ---
     # ---
 # start of himoBOT3.py file
-from API import himoBOT3
 himoBOT3.log('https://' + 'en.wikipedia.org/w/api.php')
 # ---
 # himoBOT3.get_Export_xml( title )

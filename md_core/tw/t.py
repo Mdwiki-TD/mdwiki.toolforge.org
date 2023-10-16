@@ -13,6 +13,7 @@ python3 core8/pwb.py tw/t
 #
 #
 # ---
+import tweepy
 import re
 import sys
 import os
@@ -31,7 +32,6 @@ access_token_secret = twet_config.access_token_secret
 bearer_token = twet_config.bearer_token
 # ---
 # ---
-import tweepy
 # ---
 
 
@@ -50,7 +50,7 @@ def auth_ready(tweet, link=None):
 
     # ---
     data = getattr(t, 'data')
-    if data != None and type(data) == dict and data.get('id') != None:
+    if data is not None and isinstance(data, dict) and data.get('id') is not None:
         print(data.get('id', ''))
         return True
 
@@ -74,7 +74,7 @@ def auth(tweet, link=None):
     print(t)
     # ---
     dataid = getattr(t, 'id')
-    if dataid != None:
+    if dataid is not None:
         print(dataid)
         return True
 # ---

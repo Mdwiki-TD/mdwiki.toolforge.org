@@ -1,6 +1,6 @@
 '''
 # ---
-from prior.json_en.lists import json_en_all 
+from prior.json_en.lists import json_en_all
 # tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 '''

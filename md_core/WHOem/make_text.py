@@ -12,7 +12,7 @@ from WHOem import sections_text
 from new_api.mdwiki_page import MainPage as md_MainPage
 # ---
 Dir = Path(__file__).parent
-#---
+# ---
 with codecs.open(f'{Dir}/lists/views.json', 'r', 'utf-8') as f:
     ViewsData = json.load(f)
 # ---

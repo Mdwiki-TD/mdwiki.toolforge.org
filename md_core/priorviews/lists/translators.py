@@ -1,6 +1,6 @@
 '''
 # ---
-from priorviews.lists import translators 
+from priorviews.lists import translators
 # translators.tra_by_lang
 # translators.counts_by_translator
 # translators.counts_by_lang
@@ -8,6 +8,7 @@ from priorviews.lists import translators
 python3 core8/pwb.py priorviews/lists/translators
 
 '''
+from priorviews.bots import helps
 import json
 import os
 from pathlib import Path
@@ -25,7 +26,6 @@ tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
 _data = {"ar": {"artitle": "بيت الحكمة"}}
 # ---
-from priorviews.bots import helps
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)

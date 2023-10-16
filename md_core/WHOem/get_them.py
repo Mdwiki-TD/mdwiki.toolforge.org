@@ -114,9 +114,8 @@ def filter_urls(links):
         liste1.append(x.lower())
     # ---
     # remove duplicates
-    liste1 = list(set(liste1))
+    liste1 = sorted(set(liste1))
     # ---
-    liste1.sort()
     # ---
     return liste1
 # ---
@@ -270,9 +269,8 @@ class work_in_one_lang_link:
         links = [x['url'] for x in links]
         # ---
         # remove duplicates
-        liste1 = list(set(links))
+        liste1 = sorted(set(links))
         # ---
-        liste1.sort()
         # ---
         if 'nofilter' not in sys.argv:
             liste1 = filter_urls(liste1)
@@ -317,9 +315,8 @@ class work_in_one_lang_link:
         links = json1.get('parse', {}).get('externallinks', [])
         # ---
         # remove duplicates
-        liste1 = list(set(links))
+        liste1 = sorted(set(links))
         # ---
-        liste1.sort()
         # ---
         if 'nofilter' not in sys.argv:
             liste1 = filter_urls(liste1)
@@ -476,7 +473,7 @@ class get_old:
             "rvslots": "*",
             "rvlimit": "1",
             "redirects": 1,
-            #"rvstart": "2020-05-31T22:00:00.000Z",
+            # "rvstart": "2020-05-31T22:00:00.000Z",
             "rvdir": "older"
         }
         # ---
@@ -525,9 +522,8 @@ class get_old:
         links = json1.get('parse', {}).get('externallinks', [])
         # ---
         # remove duplicates
-        liste1 = list(set(links))
+        liste1 = sorted(set(links))
         # ---
-        liste1.sort()
         # ---
         if 'nofilter' not in sys.argv:
             liste1 = filter_urls(liste1)
@@ -553,6 +549,7 @@ class get_old:
             # ---
             if contents == '' and new_co != '':
                 self.section0 = self.section0.replace(str(x), new_co)
+
 
         # ---
 # ---

@@ -1,6 +1,6 @@
 '''
 # ---
-from priorviews.lists import views 
+from priorviews.lists import views
 # ---
 # views.views_by_mdtitle_langs
 # views.count_views_by_mdtitle

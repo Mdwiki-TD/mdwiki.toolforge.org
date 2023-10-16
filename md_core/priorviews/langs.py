@@ -3,6 +3,8 @@
 python3 core8/pwb.py priorviews/langs -lang:ar write ask
 
 """
+from priorviews.lists import creators
+from priorviews.lists.creators_to_translators import creators_as_translators
 import sys
 import json
 from pathlib import Path
@@ -28,9 +30,7 @@ from new_api.mdwiki_page import MainPage as md_MainPage
 # ---
 Dir = Path(__file__).parent
 # ---
-from priorviews.lists.creators_to_translators import creators_as_translators
 # ---
-from priorviews.lists import creators
 # creators.Creators_by_lang_title
 # creators.counts_creators_by_lang
 # ---
@@ -250,7 +250,6 @@ def work(lang):
         save_page = page.save(newtext=newtext, summary='update', nocreate=1, minor='')
     else:
         print('no change')
-
 
     # ---
 # ---

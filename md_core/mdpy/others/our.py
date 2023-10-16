@@ -9,6 +9,7 @@ python3 core8/pwb.py mdpy/our
 # (C) Ibrahem Qasim, 2022
 #
 #
+from pywikibot.comms import http
 import json
 import pywikibot
 
@@ -97,7 +98,6 @@ def work(title):
 
 
 # ---
-from pywikibot.comms import http
 # ---
 errors = {}
 # ---
@@ -186,7 +186,6 @@ def main():
             values = json.load(f)
     # ---
     make_log(values)
-
 
     # ---
 if __name__ == "__main__":

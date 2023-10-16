@@ -129,7 +129,7 @@ def sql_connect_pymysql(query, return_dict=False):
 
 
 def Decode_bytes(x):
-    if type(x) == bytes:
+    if isinstance(x, bytes):
         x = x.decode("utf-8")
     return x
 # ---

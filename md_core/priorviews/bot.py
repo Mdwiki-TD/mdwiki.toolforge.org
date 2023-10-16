@@ -3,17 +3,17 @@
 python3 core8/pwb.py priorviews/bot test
 
 """
+from new_api.mdwiki_page import MainPage as md_MainPage
+from priorviews import by_lang
+from priorviews.lists import views
+from priorviews.bots import sections_text
+from priorviews.lists.links_by_section import sects_links_langlinks
 import sys
 from pathlib import Path
 # ---
 Dir = Path(__file__).parent
 # ---
-from priorviews.lists.links_by_section import sects_links_langlinks
-from priorviews.bots import sections_text
-from priorviews.lists import views
-from priorviews import by_lang
 # ---
-from new_api.mdwiki_page import MainPage as md_MainPage
 '''
 page      = md_MainPage(title, 'www', family='mdwiki')
 exists    = page.exists()

@@ -4,6 +4,7 @@ python3 core8/pwb.py priorviews/find/find_word -lang:ar
 python3 core8/pwb.py priorviews/find/find_word new
 
 '''
+from priorviews.lists.links_by_section import links_by_lang
 import sys
 import json
 import os
@@ -26,7 +27,6 @@ if not os.path.exists(file):
     with open(file, 'w') as f:
         json.dump({}, f)
 # ---
-from priorviews.lists.links_by_section import links_by_lang
 # ---
 words_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
@@ -130,6 +130,7 @@ def test():
     ]
     # ---
     get_w(da, "ar")
+
 
     # ---
     # log_words()

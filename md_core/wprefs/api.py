@@ -161,7 +161,7 @@ def get_revisions(title, lang=''):
         # ---
         json1 = submitAPI(params, lang=lang)
         # ---
-        if not json1 or type(json1) != dict:
+        if not json1 or not isinstance(json1, dict):
             return ''
         # ---
         rvcontinue = json1.get("continue", {}).get("rvcontinue", '')
@@ -190,7 +190,7 @@ def GetPageText(title, lang='', Print=True):
     # ---
     json1 = submitAPI(params, lang=lang)
     # ---
-    if not json1 or type(json1) != dict:
+    if not json1 or not isinstance(json1, dict):
         if Print:
             print_s('json1 ==:')
             print_s(json1)
