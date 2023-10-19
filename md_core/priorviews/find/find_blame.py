@@ -90,7 +90,7 @@ def get_b(links, lang):
     # ---
     global new_data, COUNTS_ALL
     # ---
-    if not lang in new_data:
+    if lang not in new_data:
         new_data[lang] = {}
     # ---
 

@@ -167,7 +167,7 @@ def get_targets(lang_o):
             pupdate = '2023-01-01'
         # ---
         if target != "":
-            if not lang in Lang_to_targets:
+            if lang not in Lang_to_targets:
                 Lang_to_targets[lang] = {}
             Lang_to_targets[lang][target] = pupdate
     # ---
@@ -196,7 +196,7 @@ def get_views_sql(lang_o):
         count2022 = tab['count2022']
         count2023 = tab['count2023']
         # ---
-        if not lang in already_in_sql:
+        if lang not in already_in_sql:
             already_in_sql[lang] = {}
         # ---
         already_in_sql[lang][target] = {'all': countall, '2021': count2021, '2022': count2022, '2023': count2023}
@@ -221,13 +221,13 @@ def main():
     # ---
     for lang, tit_list in Lang_to_targets.items():
         # ---
-        if not lang in lang_pupdate_titles:
+        if lang not in lang_pupdate_titles:
             lang_pupdate_titles[lang] = {}
         # ---
         # قوائم حسب تاريخ النشر
         for tit, pupdate in tit_list.items():
             # ---
-            if not pupdate in lang_pupdate_titles[lang]:
+            if pupdate not in lang_pupdate_titles[lang]:
                 lang_pupdate_titles[lang][pupdate] = []
             # ---
             lang_pupdate_titles[lang][pupdate].append(tit)

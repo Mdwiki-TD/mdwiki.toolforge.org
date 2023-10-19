@@ -15,7 +15,6 @@ python3 core8/pwb.py newupdater/medask -ns:0 -usercontribs:Ghuron
 #
 #
 import sys
-import requests
 import urllib
 import urllib.parse
 # ---
@@ -27,7 +26,7 @@ sys.path.append(str(Dir))
 from newupdater import med
 from mdpy import printe
 from mdpy.bots import mdwiki_api
-from new_api.mdwiki_page import MainPage, NEW_API
+from new_api.mdwiki_page import NEW_API
 # ---
 api_new = NEW_API('www', family='mdwiki')
 api_new.Login_to_wiki()

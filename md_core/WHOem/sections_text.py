@@ -45,7 +45,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
 
     for l in langs_keys_sorted:
         u += 1
-        if not l in section_langs_views:
+        if l not in section_langs_views:
             section_langs_views[l] = 0
         view = ''
 

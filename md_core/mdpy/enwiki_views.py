@@ -37,7 +37,7 @@ def get_RTT():
     # ---
     try:
         textn = codecs.open(filename, "r", encoding="utf-8").read()
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')

@@ -70,7 +70,7 @@ def get_red(title):
                 if io["ns"] != 0:
                     continue
                 # ---
-                if not io["title"] in lista:
+                if io["title"] not in lista:
                     lista.append(io["title"])
     # ---
     return lista

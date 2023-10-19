@@ -64,7 +64,7 @@ def rename_params(temptext):
                 temp.set_arg(new, value, before=old)
                 temp.del_arg(old)
         # ---
-        printn(f'diff:')
+        printn('diff:')
         # ---
         new_temptext = new_temptext.replace(old_temp, temp.string)
     # ---

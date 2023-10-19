@@ -54,7 +54,7 @@ def find_redirects(links):
     # titles = [ x for x in links if links[x].get('ns','') == '0' ]
     titles = []
     for x in links:
-        if not x in from_to:
+        if x not in from_to:
             ns = links[x].get('ns', '')
             if str(ns) == '0':
                 titles.append(x)

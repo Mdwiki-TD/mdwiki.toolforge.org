@@ -191,7 +191,7 @@ class work_in_one_lang_link:
         # ---
         refsn = self.get_ref_names(tags)
         # ---
-        refsn = {k: v for k, v in refsn.items() if not k in self.refsname}
+        refsn = {k: v for k, v in refsn.items() if k not in self.refsname}
         # ---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -223,7 +223,7 @@ class work_in_one_lang_link:
             if re.sub(r'[:\d\s]+', '', name) == '':
                 continue
             # ---
-            if not name in _tags_:
+            if name not in _tags_:
                 _tags_[name] = 0
             # ---
             _tags_[name] += 1
@@ -421,7 +421,7 @@ class get_old:
         # ---
         refsn = self.get_ref_names(tags)
         # ---
-        refsn = {k: v for k, v in refsn.items() if not k in self.refsname}
+        refsn = {k: v for k, v in refsn.items() if k not in self.refsname}
         # ---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -453,7 +453,7 @@ class get_old:
             if re.sub(r'[:\d\s]+', '', name) == '':
                 continue
             # ---
-            if not name in _tags_:
+            if name not in _tags_:
                 _tags_[name] = 0
             # ---
             _tags_[name] += 1

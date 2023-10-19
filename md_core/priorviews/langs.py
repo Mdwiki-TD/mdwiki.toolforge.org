@@ -57,7 +57,7 @@ def authors_table(authors, lang):
     # ----
     tab2 = {}
     for user, cunts in authors.items():
-        if not cunts in tab2:
+        if cunts not in tab2:
             tab2[cunts] = []
         tab2[cunts].append(user)
     # ---
@@ -174,18 +174,18 @@ def make_lang_textso(lang):
                     # ---
                     wi_tra = f"[[w:{lang}:User:{ar_tra}|{ar_tra}]]"
                     # ---
-                    if not wi_tra in authors:
+                    if wi_tra not in authors:
                         authors[wi_tra] = 0
                     authors[wi_tra] += 1
                     # ---
-                    if not ar_tra in authors_2:
+                    if ar_tra not in authors_2:
                         authors_2[ar_tra] = 0
                     authors_2[ar_tra] += 1
                     # ---
-                    if not ar_tra in translators_all:
+                    if ar_tra not in translators_all:
                         translators_all[ar_tra] = {'all': 0, 'by_lang': {}}
                     # ---
-                    if not lang in translators_all[ar_tra]['by_lang']:
+                    if lang not in translators_all[ar_tra]['by_lang']:
                         translators_all[ar_tra]['by_lang'][lang] = 0
                     translators_all[ar_tra]['by_lang'][lang] += 1
                     # ---

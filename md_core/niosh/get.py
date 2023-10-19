@@ -32,7 +32,7 @@ all_pages = {}
 
 def write_main():
 
-    title = f'User:Mr. Ibrahem/niosh'
+    title = 'User:Mr. Ibrahem/niosh'
     text = ''
     # ---
     # sort all_pages
@@ -92,19 +92,19 @@ def run(x, urls):
             if link.lower() in urls_:
                 ya.append(link)
                 # ---
-                if not link in by_url:
+                if link not in by_url:
                     by_url[link] = []
-                if not link in by_url_all:
+                if link not in by_url_all:
                     by_url_all[link] = []
                 # ---
-                if not title in by_url[link]:
+                if title not in by_url[link]:
                     by_url[link].append(title)
-                if not title in by_url_all[link]:
+                if title not in by_url_all[link]:
                     by_url_all[link].append(title)
         # ---
         if len(ya) > 0:
             by_title[title] = ya
-        if not title in by_title_all:
+        if title not in by_title_all:
             by_title_all[title] = ya
         else:
             by_title_all[title].extend(ya)

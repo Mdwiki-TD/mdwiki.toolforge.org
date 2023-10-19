@@ -29,7 +29,7 @@ json_langs_by_langs = {}
 # ---
 for en, tab in json_langs_all.items():
     for lang, ta in tab['langs'].items():
-        if not lang in json_langs_by_langs:
+        if lang not in json_langs_by_langs:
             json_langs_by_langs[lang] = {}
         # ---
         title = ta['title']

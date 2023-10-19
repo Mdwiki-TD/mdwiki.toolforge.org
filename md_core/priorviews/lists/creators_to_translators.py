@@ -38,7 +38,7 @@ for lang, links in links_by_lang.items():
     # ---
     # printe.output(f'<<yellow>> {n}/{len(links_by_lang.keys())} lang: {lang}:')
     # ---
-    if not lang in creators_as_translators:
+    if lang not in creators_as_translators:
         creators_as_translators[lang] = {}
     # ---
     lang_translations = translators.tra_by_lang.get(lang, {})

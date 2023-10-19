@@ -73,7 +73,7 @@ class Sectios_links:
             # Get the wikilinks for the section and convert them to strings
             wikilinks = s.wikilinks
 
-            wikilinks = [str(x.title) for x in wikilinks if not str(x.title).lower() in self.titles_done]
+            wikilinks = [str(x.title) for x in wikilinks if str(x.title).lower() not in self.titles_done]
 
             # remove duplicts
             wikilinks = list(set(wikilinks))
@@ -139,9 +139,9 @@ if __name__ == '__main__':
             print(ls)
         # ---
         for link in ls:
-            if not link.lower() in all_links:
+            if link.lower() not in all_links:
                 all_links[link.lower()] = []
-            if not s in all_links[link.lower()]:
+            if s not in all_links[link.lower()]:
                 all_links[link.lower()].append(s)
     # ---
     printe.output('<<red>>---------------')

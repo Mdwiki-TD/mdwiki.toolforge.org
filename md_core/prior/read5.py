@@ -239,7 +239,7 @@ def work_all():
     if 'logall' in sys.argv:
         text_bot.log_all_pages_states()
     else:
-        printe.output(f'<<lightyellow>> add "logall" to args to log All pages links green/red..')
+        printe.output('<<lightyellow>> add "logall" to args to log All pages links green/red..')
 
     # ---
 # ---

@@ -28,7 +28,7 @@ def mv_es_refs(text):
         name = attrs.get('name', '').strip()
         group = attrs.get('group', '').strip()
         # ---
-        if not group in refs:
+        if group not in refs:
             refs[group] = {}
         # ---
         if name == '':
@@ -36,7 +36,7 @@ def mv_es_refs(text):
             name = f'autogen_{numb}'
             x.set_attr('name', name)
         # ---
-        if not name in refs[group]:
+        if name not in refs[group]:
             refs[group][name] = x.contents
         elif refs[group][name] != x.contents:
             print_s(f'x.contents = {x.contents}')

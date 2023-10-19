@@ -155,7 +155,7 @@ def post(params, apiurl='', token=True):
     try:
         r4 = SS["ss"].post(SS["url"], data=params)
         jsone = r4.json()
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output(params)
@@ -527,7 +527,7 @@ def open_url(url, return_json=False):
     req = False
     try:
         req = urllib.request.urlopen(url)
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -539,7 +539,7 @@ def open_url(url, return_json=False):
     html = ""
     try:
         html = req.read().strip().decode('utf-8')
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')

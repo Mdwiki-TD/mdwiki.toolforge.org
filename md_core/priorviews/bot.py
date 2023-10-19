@@ -54,8 +54,8 @@ all_section_views = sections_text.all_section_views - by_lang.en_views
 print(f'<<lightgreen>> all_section_views: {all_section_views:,}')
 # ---
 newtext = ''
-newtext += f'; (Views from July 2015 to June 2023).\n'
-newtext += f'* Enwiki: ([[WikiProjectMed:List/Prior|1338 articles]]):\n'
+newtext += '; (Views from July 2015 to June 2023).\n'
+newtext += '* Enwiki: ([[WikiProjectMed:List/Prior|1338 articles]]):\n'
 newtext += f'** Total views: {by_lang.en_views:,}\n'
 
 newtext += f'* Translations: {by_lang.total_tra:,}:\n'

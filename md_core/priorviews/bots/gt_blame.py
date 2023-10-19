@@ -10,7 +10,6 @@ import requests
 import wikitextparser
 from mdpy import printe
 # ---
-from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})
 # ---
 from prior.json_langs.lists import json_langs_by_langs
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
@@ -55,7 +54,7 @@ def match_ref_names(r, refnames, lang):
         if re.sub(r'[:\d\s]+', '', name) == '':
             continue
         # ---
-        if not name in _tags_:
+        if name not in _tags_:
             _tags_[name] = 0
         # ---
         _tags_[name] += 1

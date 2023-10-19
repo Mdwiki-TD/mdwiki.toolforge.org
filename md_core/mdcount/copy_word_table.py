@@ -47,7 +47,7 @@ new_words = {}
 na_list = [x for x in all_words.keys()]
 # ---
 for x in lead_words.keys():
-    if not x in na_list:
+    if x not in na_list:
         na_list.append(x)
 # ---
 # remove duplicates from list
@@ -81,7 +81,7 @@ for tit in na_list:
     # ---
     qua_update = f"""UPDATE words SET w_lead_words = {lead}, w_all_words = {All} WHERE w_title = '{title2}';"""
     # ---
-    if not tit in in_sql_lead:
+    if tit not in in_sql_lead:
         qua_new = f"""('{title2}', {lead}, {All})"""
         # ---
         INSERT.append(qua_new)

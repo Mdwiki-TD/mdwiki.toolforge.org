@@ -51,7 +51,7 @@ def quoteurl(fao):
     # ---
     try:
         fao = urllib.parse.quote(fao)
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')

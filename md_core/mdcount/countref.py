@@ -80,7 +80,7 @@ def count_ref_from_text(text, get_short=False):
         for m in short_ref.finditer(text):
             name = m.group('name')
             if name.strip() != '':
-                if not name.strip() in ref_list:
+                if name.strip() not in ref_list:
                     ref_list.append(name.strip())
     # ---
     # refreg = re.compile(r'(<ref[^>]*>[^<>]+</ref>|<ref[^>]*\/\s*>)')
@@ -94,10 +94,10 @@ def count_ref_from_text(text, get_short=False):
         content = m.group('content')
         # ---
         if name.strip() != '':
-            if not name.strip() in ref_list:
+            if name.strip() not in ref_list:
                 ref_list.append(name.strip())
         elif content.strip() != '':
-            if not content.strip() in ref_list:
+            if content.strip() not in ref_list:
                 ref_list.append(content.strip())
             # count += 1
     # ---
@@ -147,7 +147,7 @@ def from_sql():
     # ---
     titles2 = [q['title'] for q in sq]
     # ---
-    titles = [x for x in titles2 if not x in list_ma[1]]
+    titles = [x for x in titles2 if x not in list_ma[1]]
     # ---
     printe.output(f'<<lightyellow>> sql: find {len(titles2)} titles, {len(titles)} to work. ')
     return titles
@@ -162,7 +162,7 @@ def get_links():
         lale = from_sql()
     # ---
     if 'newpages' in sys.argv:
-        lale = [x for x in lale if (not x in list_ma[1])]
+        lale = [x for x in lale if (x not in list_ma[1])]
     # ---
     return lale
 # ---

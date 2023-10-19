@@ -106,7 +106,7 @@ def submitAPI(params, type='get'):
     try:
         r4 = SS["ss"].post(SS["url"], data=params)
         json1 = json.loads(r4.text)
-    except Exception as e:
+    except Exception:
         if print_pywikibot[1]:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())

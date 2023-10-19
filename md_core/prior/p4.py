@@ -115,10 +115,10 @@ def advance_work_en(title, title2, page):
 
 def work_in_en_page(title):
     # ---
-    if not title in All:
+    if title not in All:
         All[title] = {'langs': {}}
     # ---
-    if not title in allen:
+    if title not in allen:
         allen[title] = {
             'extlinks': [],
             'refsname': [],
@@ -275,7 +275,7 @@ def start_all():
         printe.output(f'list number:{valu} not found.')
         # ---
         if 'All' not in sys.argv:
-            printe.output(f'Add "All" to sys.argv to work in All.. \n sys.exit()')
+            printe.output('Add "All" to sys.argv to work in All.. \n sys.exit()')
             sys.exit()
     # ---
     for x, tab in tanko.items():

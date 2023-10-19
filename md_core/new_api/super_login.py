@@ -49,7 +49,7 @@ class Login():
         self.lang = lang
         self.family = family
         # ---
-        if not self.family in User_tables:
+        if self.family not in User_tables:
             User_tables[self.family] = {}
         # ---
         self.username = User_tables[self.family]['username']
@@ -62,10 +62,10 @@ class Login():
         self.endpoint = 'https://' + f'{self.lang}.{self.family}.org/w/api.php'
         self.r3_token = ''
         # ---
-        if not self.lang in tokens_by_lang:
+        if self.lang not in tokens_by_lang:
             tokens_by_lang[self.lang] = ''
         # ---
-        if not self.lang in seasons_by_lang:
+        if self.lang not in seasons_by_lang:
             seasons_by_lang[self.lang] = requests.Session()
         # ---
         # self.season = requests.Session()
@@ -90,14 +90,14 @@ class Login():
         if print_test[1] or 'printurl' in sys.argv:
             printe.output(url_o_print)
         # ---
-        if not self.lang in seasons_by_lang:
+        if self.lang not in seasons_by_lang:
             seasons_by_lang[self.lang] = requests.Session()
         # ---
         # handle errors
         try:
             req0 = seasons_by_lang[self.lang].post(self.endpoint, data=params)
             # req0.raise_for_status()
-        except Exception as e:
+        except Exception:
             pywikibot.output('<<lightred>> Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')

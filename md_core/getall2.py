@@ -116,7 +116,7 @@ for pyfile in os.listdir(drivepath):
             printe("green", f"name:{name} ")
             # ---
             # shared_paths
-            if not name in shared_paths:
+            if name not in shared_paths:
                 shared_paths[name] = 0
             shared_paths[name] += 1
         # ---

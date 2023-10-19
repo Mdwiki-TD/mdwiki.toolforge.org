@@ -9,10 +9,8 @@ python3 pwb.py newupdater/med Retinol from_toolforge
 #
 #
 import os
-from pathlib import Path
 import re
 # ---
-import codecs
 # ---
 from bots import expend  # expend_infoboxs_and_fix(text)
 from bots import expend_new  # expend_infoboxs(text)

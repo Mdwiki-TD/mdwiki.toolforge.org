@@ -112,7 +112,7 @@ def start():
         # ---
         n += 1
         # ---
-        if not mdtitle in ViewsData:
+        if mdtitle not in ViewsData:
             ViewsData[mdtitle] = {}
         # ---
         printe.output(f'<<blue>> p:{n}/{all_lenth} mdtitle: {mdtitle}')

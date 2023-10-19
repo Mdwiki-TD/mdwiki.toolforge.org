@@ -76,11 +76,11 @@ def get_v(lang, links):
             # ViewsData.setdefault(mdtitle, {})[lang] = ViewsData[mdtitle].setdefault(lang, {})
             # ---
             # ViewsData.setdefault(mdtitle, {})
-            if not mdtitle in ViewsData.keys():
+            if mdtitle not in ViewsData.keys():
                 ViewsData[mdtitle] = {}
             # ---
             # ViewsData[mdtitle].setdefault(lang, {})
-            if not lang in ViewsData[mdtitle].keys():
+            if lang not in ViewsData[mdtitle].keys():
                 ViewsData[mdtitle][lang] = {}
             # ---
             if viws_in > 0 and views == 0:

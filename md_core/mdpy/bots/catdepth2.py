@@ -183,7 +183,7 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
         new_tab2 = []
         # ---
         for cat in new_list:
-            if not cat in cat_done:
+            if cat not in cat_done:
                 cat_done.append(cat)
                 # ---
                 table2 = Get_cat(cat)
@@ -237,7 +237,7 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
     # ---
     try:
         textn = codecs.open(filename, "r", encoding="utf-8").read()
-    except Exception as e:
+    except Exception:
         print('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         print('CRITICAL:')
@@ -309,7 +309,7 @@ def make_cash_to_cats(return_all_pages=False):
         print(f"len of pages in {cat}, depth:{depth}, : %d" % len(ca['list']))
         # ---
         for x in ca['list']:
-            if not x in all_pages:
+            if x not in all_pages:
                 all_pages.append(x)
     # ---
     if return_all_pages:

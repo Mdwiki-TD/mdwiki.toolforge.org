@@ -33,7 +33,7 @@ all_section_views = 0
 
 
 def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
-    if not section in section_langs_views:
+    if section not in section_langs_views:
         section_langs_views[section] = {}
     """
     Returns a formatted string containing view counts for all available languages.
@@ -50,7 +50,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
     # Loop through all available languages in the sorted order
     for l in langs_keys_sorted:
         u += 1
-        if not l in section_langs_views[section]:
+        if l not in section_langs_views[section]:
             section_langs_views[section][l] = 0
         view = ''
 

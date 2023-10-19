@@ -45,9 +45,9 @@ for lang in CreatorsData.copy():
     # ---
     titles = CreatorsData[lang]
     # ---
-    if not lang in counts_creators_by_lang:
+    if lang not in counts_creators_by_lang:
         counts_creators_by_lang[lang] = {}
-    if not lang in Creators_by_lang_title:
+    if lang not in Creators_by_lang_title:
         Creators_by_lang_title[lang] = {}
     # ---
     for title, tab in titles.items():
@@ -66,7 +66,7 @@ for lang in CreatorsData.copy():
         if re.match(r"^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$", actor):
             continue
         # ---
-        if not actor in counts_creators_by_lang[lang]:
+        if actor not in counts_creators_by_lang[lang]:
             counts_creators_by_lang[lang][actor] = 0
         counts_creators_by_lang[lang][actor] += 1
         # ---

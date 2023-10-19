@@ -80,7 +80,7 @@ def get_status(req):
     try:
         st = req.status_code
         return st
-    except Exception as e:
+    except Exception:
         pywikibot.output('<<lightred>> Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -104,7 +104,7 @@ def post_all(params, addtoken=False, **kwargs):
     r4 = False
     try:
         r4 = SS["ss"].post(SS["url"], data=params)
-    except Exception as e:
+    except Exception:
         pywikibot.output('<<lightred>> Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -147,7 +147,7 @@ def Log_to_wiki(family='mdwiki', lang="www"):
     try:
         r11 = SS["ss"].get(SS["url"], params=r1_params)
         r11.raise_for_status()
-    except Exception as e:
+    except Exception:
         pywikibot.output('<<lightred>> Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -339,7 +339,7 @@ def import_history(FILE_PATH, title):
             # ---
             if 'Success' in r4.text:
                 printe.output('<<lightgreen>> ** true .. . ')
-        except Exception as e:
+        except Exception:
             pywikibot.output('<<lightred>> Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')
@@ -448,7 +448,7 @@ def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family
             printe.output('<<lightgreen>> ---------------------------------')
             Save_2020[1] = True
         # ---
-        if not sa in yes_answer:
+        if sa not in yes_answer:
             printe.output("wrong answer")
             return False
     # ---
@@ -640,7 +640,7 @@ def move(From, to, reason, lang='ar', nosleep=False):
             printe.output('<<lightgreen>> ---------------------------------')
             Save_2020[1] = True
         # ---
-        if not sa in yes_answer:
+        if sa not in yes_answer:
             JustMove = False
             printe.output(' mdwiki/mdpy/mdwiki_api.py: wrong answer')
         # return sa
@@ -872,7 +872,7 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False, without_lang="", 
             # ---
             printe.output(f'get pages from subcat:{cat}')
             # ---
-            if not cat in cat_done:
+            if cat not in cat_done:
                 cat_done.append(cat)
                 table2 = Get_cat(cat, ns)
                 for x in table2:
@@ -1123,7 +1123,7 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
         printe.output(f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages.")
         # ---
         for x in newp:
-            if not x["title"] in Main_table:
+            if x["title"] not in Main_table:
                 Main_table.append(x["title"])
         # ---
         printe.output(f"len of Main_table {len(Main_table)}.")

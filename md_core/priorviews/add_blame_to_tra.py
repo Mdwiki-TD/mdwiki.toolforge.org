@@ -28,7 +28,7 @@ def add_to_translators():
     dd = 1
     for lang, titles in new_data.items():
         # ---
-        if not lang in tra_by_lang:
+        if lang not in tra_by_lang:
             tra_by_lang[lang] = {}
         # ---
         titles = {title: user for title, user in titles.items() if user != ''}
@@ -78,11 +78,11 @@ def sea55():
     n = 0
     # ---
     for lang, titls in data.items():
-        if not lang in new_data:
+        if lang not in new_data:
             new_data[lang] = {}
         # ---
         for title in titls:
-            if not title.lower() in new_data[lang] and not title in new_data[lang]:
+            if title.lower() not in new_data[lang] and title not in new_data[lang]:
                 n += 1
                 printe.output(f'<<red>>{n=}/{len(titls)} {lang=}, {title=}')
                 new_data[lang][title.lower()] = ""

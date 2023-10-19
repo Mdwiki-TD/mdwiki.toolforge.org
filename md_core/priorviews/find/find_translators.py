@@ -52,7 +52,7 @@ def get_t(links, lang):
     # ---
     global tra_by_lang, N_g
     # ---
-    if not lang in tra_by_lang:
+    if lang not in tra_by_lang:
         tra_by_lang[lang] = {}
     # ---
     m = 0

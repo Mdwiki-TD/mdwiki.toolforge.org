@@ -66,7 +66,7 @@ def work_in_page(title):
         links_not_found.append(title)
         return find_wd(title)
     # ---
-    if not title in lang_links:
+    if title not in lang_links:
         lang_links[title] = {
             'en': title,
             'redirect_to': "",

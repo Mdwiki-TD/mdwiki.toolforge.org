@@ -29,7 +29,7 @@ count_words_by_lang = {}
 # Iterate through each markdown file and language in `words_by_lang`
 for lang, titles in words_by_lang.items():
     # ---
-    if not lang in count_words_by_lang:
+    if lang not in count_words_by_lang:
         count_words_by_lang[lang] = 0
     # ---
     for title, words in titles.items():

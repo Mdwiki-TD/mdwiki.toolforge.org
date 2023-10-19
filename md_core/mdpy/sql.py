@@ -150,19 +150,19 @@ def dodo_sql():
         tul = mdtitle + user + lang
         tit_user_lang[tul] = target
         # ---
-        if not lang in Lang_usr_mdtitle:
+        if lang not in Lang_usr_mdtitle:
             Lang_usr_mdtitle[lang] = {}
-        if not user in Lang_usr_mdtitle[lang]:
+        if user not in Lang_usr_mdtitle[lang]:
             Lang_usr_mdtitle[lang][user] = []
         # ---
         Lang_usr_mdtitle[lang][user].append(mdtitle)
         # ---
-        if not lang in Langs_to_title_and_user:
+        if lang not in Langs_to_title_and_user:
             Langs_to_title_and_user[lang] = {}
-        if not lang in to_update_lang_user_mdtitle:
+        if lang not in to_update_lang_user_mdtitle:
             to_update_lang_user_mdtitle[lang] = {}
         # ---
-        if not user in to_update_lang_user_mdtitle[lang]:
+        if user not in to_update_lang_user_mdtitle[lang]:
             to_update_lang_user_mdtitle[lang][user] = []
         # ---
         if target == "":
@@ -174,7 +174,7 @@ def dodo_sql():
             # ---
         else:
             # ---
-            if not lang in targets_done:
+            if lang not in targets_done:
                 targets_done[lang] = {}
             # ---
             target = target.replace("_", " ")
@@ -350,7 +350,7 @@ def main():
                     continue
                 # ---
                 # للتأكد من الصفحات غير المنشورة
-                if not target2 in tgd and not target in tgd:
+                if target2 not in tgd and target not in tgd:
                     # ---
                     if tul_target != '':
                         if tul_target == target:

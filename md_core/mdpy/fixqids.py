@@ -29,7 +29,7 @@ def fix_redirects():
     # ---
     # python3 core8/pwb.py mdpy/fixqids redirects
     # ---
-    printe.output(f'<<lightyellow>> start fix_redirects()')
+    printe.output('<<lightyellow>> start fix_redirects()')
     # ---
     new_list = list(qs_list.keys())
     # ---
@@ -73,7 +73,7 @@ def check_title(title):
 
 def add_to_qids():
     # ---
-    printe.output(f'<<lightyellow>> start add_to_qids()')
+    printe.output('<<lightyellow>> start add_to_qids()')
     # ---
     all_pages = catdepth2.make_cash_to_cats(return_all_pages=True)
     # ---

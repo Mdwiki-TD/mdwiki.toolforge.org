@@ -76,7 +76,7 @@ def work(title):
                     # ---
             # ---
             param = param.strip()
-            if not param in values:
+            if param not in values:
                 values[param] = [title]
             else:
                 values[param].append(title)

@@ -45,7 +45,7 @@ class classgetURL:
                 # ---
                 self.html = req.text
         # ---
-        except Exception as e:
+        except Exception:
             _Except_ions_ = [
                 "Too long GET request",
                 "HTTPSConnectionPool(host='en.wikipedia.org', port=443): Read timed out. (read timeout=45)",
@@ -79,7 +79,7 @@ def open_json_url(url, maxsleeps=0, **kwargs):
     try:
         json1 = json.loads(js_text)
         return json1
-    except Exception as e:
+    except Exception:
         pywikibot.output(traceback.format_exc())
         printe.output(js_text)
         pywikibot.output(" CRITICAL:")

@@ -75,7 +75,7 @@ def merge_references(text):
                         name = name2
                         # printe.output("get the name again:%s" % name )
             # ---
-            if not name in ref_tab_new[Group]:
+            if name not in ref_tab_new[Group]:
                 ref_tab_new[Group][name] = {"org": Match.group(), "others": []}
             else:
                 ref_tab_new[Group][name]["others"].append(Match.group())

@@ -129,7 +129,7 @@ def start():
             empty_qids.append(x)
             continue
         # ---
-        if not q in list(qids_already.keys()):
+        if q not in list(qids_already.keys()):
             to_add[x] = q
         else:
             false_qids[x] = q

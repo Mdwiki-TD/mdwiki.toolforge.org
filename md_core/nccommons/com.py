@@ -121,7 +121,7 @@ def work():
             print(f"x:{x}, len: {le}")
             tab = all_reg[x]
             # ---
-            if not x in ns_0_pages:
+            if x not in ns_0_pages:
                 # ---
                 make_page(x, tab)
             else:

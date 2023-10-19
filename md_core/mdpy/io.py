@@ -28,7 +28,7 @@ fakalist = fska.split('\n')
 fakalist = [x.strip().split(']]')[0].replace('[[', '').strip() for x in fakalist]
 # ---
 listo = mdwiki_api.Get_All_pages('!', namespace='0')
-listo = [x for x in listo if not x in fakalist]
+listo = [x for x in listo if x not in fakalist]
 if 'test' in sys.argv:
     listo = listo[:100]
 # ---

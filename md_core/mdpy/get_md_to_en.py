@@ -73,7 +73,7 @@ def check():
             # "redirects": [{"from": "Acetylsalicylic acid","to": "Aspirin"}]
             Redirects = query.get("redirects", [])
             for red in Redirects:
-                if not red["to"] in Listo:
+                if red["to"] not in Listo:
                     medwiki_to_enwiki[red["from"]] = red["to"]
                 else:
                     medwiki_to_enwiki_conflic[red["from"]] = red["to"]

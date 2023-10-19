@@ -128,11 +128,11 @@ def split_list_to_numbers(lise, numbs=100):
     # ---
     for cc in lise:
         # ---
-        if not num in titles:
+        if num not in titles:
             titles[num] = []
         # ---
         if len(titles[num]) < numbs:
-            if not cc in DDone:
+            if cc not in DDone:
                 titles[num].append(cc)
                 DDone.append(cc)
                 # ---
@@ -162,7 +162,7 @@ def submitAPI_token(params, apiurl='', returnjson=False):
     # ---
     try:
         json1 = json.loads(r4.text)
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -197,7 +197,7 @@ def submitAPI(params, apiurl='', returnjson=False):
     # ---
     try:
         json1 = json.loads(r4.text)
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -565,7 +565,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20
         data = {}
         try:
             data = json.loads(req.text)
-        except Exception as e:
+        except Exception:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(req.text)
             pywikibot.output(traceback.format_exc())
@@ -590,7 +590,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20
             month = str(x["timestamp"])[:6]
             year = str(month)[:4]
             # ---
-            if not year in tabl:
+            if year not in tabl:
                 tabl[year] = {'all': 0}
             # ---
             tabl[year]['all'] += x["views"]

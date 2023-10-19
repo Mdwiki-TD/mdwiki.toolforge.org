@@ -50,7 +50,7 @@ def test():
     # ---
     # ---
     ex = page.page_backlinks()
-    print(f'---------------------------')
+    print('---------------------------')
     print(f'page_backlinks:{ex}')
 
 

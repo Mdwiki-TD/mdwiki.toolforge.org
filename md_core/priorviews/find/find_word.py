@@ -46,7 +46,7 @@ def get_w(links, lang):
     # ---
     global words_by_lang, N_g
     # ---
-    if not lang in words_by_lang:
+    if lang not in words_by_lang:
         words_by_lang[lang] = {}
     # ---
     m = 0

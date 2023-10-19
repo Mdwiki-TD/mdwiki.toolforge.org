@@ -566,7 +566,7 @@ class MainPage():
         ]
         # ---
         for x in rvprops:
-            if not x in rvprop:
+            if x not in rvprop:
                 rvprop.append(x)
         # ---
         params['rvprop'] = '|'.join(rvprop)
@@ -803,7 +803,7 @@ class MainPage():
                 printe.output('<<lightgreen>> ---------------------------------')
                 Save_Edit_Pages[1] = True
             # ---
-            if not sa in yes_answer:
+            if sa not in yes_answer:
                 printe.output("wrong answer")
                 return False
         # ---

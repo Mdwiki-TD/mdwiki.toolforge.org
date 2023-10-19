@@ -179,7 +179,7 @@ def work_on_title(title, returntext=False, text_O=""):
         # ---
         print(filename)
         # ---
-    except Exception as e:
+    except Exception:
         filename = project + "/public_html/updatercash/title2.txt"
         # ---
         codecs.open(filename, "w", encoding="utf-8").write(new_text)

@@ -23,13 +23,13 @@ def get_valid_Links(words_tab):
     # ---
     if 'newpages' in sys.argv:
         vav2 = vav
-        vav = [t for t in vav2 if (not t in words_tab or words_tab[t] < 50)]
+        vav = [t for t in vav2 if (t not in words_tab or words_tab[t] < 50)]
         # ---
         printe.output(f'Category-members:{len(vav2)}, New-members:{len(vav)}')
     # ---
     elif 'sql' in sys.argv:
         vav2 = sql_for_mdwiki.get_all_pages()
-        vav = [t for t in vav2 if (not t in words_tab or words_tab[t] < 50)]
+        vav = [t for t in vav2 if (t not in words_tab or words_tab[t] < 50)]
         printe.output(f'ALL SQL LINKS:{len(vav2)}, to work:{len(vav)}')
     # ---
     elif 'oldway' in sys.argv:

@@ -223,7 +223,7 @@ def make_text(allo, ttt=''):
             la = la.strip()
             if la in ['en', '']:
                 continue
-            if not la in langs_keys_2:
+            if la not in langs_keys_2:
                 langs_keys_2[la] = 0
             langs_keys_2[la] += 1
     # ---
@@ -274,7 +274,7 @@ def make_text(allo, ttt=''):
         if len(langs) == 0:
             print(f'{en}: no langs.....')
         # ---
-        if not en in all_pages_states:
+        if en not in all_pages_states:
             all_pages_states[en] = {}
         # ---
         n += 1
@@ -286,9 +286,9 @@ def make_text(allo, ttt=''):
         # ---
         for l in langs_keys:
             # ---
-            if not l in all_langs_states:
+            if l not in all_langs_states:
                 all_langs_states[l] = {'red': 0, 'green': 0}
-            if not l in langs_green_red:
+            if l not in langs_green_red:
                 langs_green_red[l] = {'red': 0, 'green': 0}
             # ---
             tit = langs.get(l, {}).get('title', '')

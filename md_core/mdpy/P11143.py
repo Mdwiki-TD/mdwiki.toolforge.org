@@ -44,7 +44,7 @@ for wd in wdlist:
     # ---
     in_wd[qid] = prop
     # ---
-    if not qid in qids and not prop in mdwiki_in_qids:
+    if qid not in qids and prop not in mdwiki_in_qids:
         new_qids[qid] = prop
     # ---
 # ---
@@ -128,10 +128,10 @@ def duplict():
     # ---
     for q, va in merge_qids.items():
         # ---
-        if not va in va_tab:
+        if va not in va_tab:
             va_tab[va] = []
         # ---
-        if not q in va_tab[va]:
+        if q not in va_tab[va]:
             va_tab[va].append(q)
     # ---
     printe.output(f'<<lightyellow>> len of va_tab: {len(va_tab)}')

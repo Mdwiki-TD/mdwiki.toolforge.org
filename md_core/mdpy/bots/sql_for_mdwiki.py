@@ -90,7 +90,7 @@ def sql_connect_pymysql(query, return_dict=False):
     try:
         connection = pymysql.connect(**args, **credentials)
 
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -106,7 +106,7 @@ def sql_connect_pymysql(query, return_dict=False):
         try:
             cursor.execute(query, params)
 
-        except Exception as e:
+        except Exception:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')
@@ -117,7 +117,7 @@ def sql_connect_pymysql(query, return_dict=False):
         try:
             results = cursor.fetchall()
 
-        except Exception as e:
+        except Exception:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')
@@ -224,7 +224,7 @@ def add_titles_to_qids(tab, add_empty_qid=False):
     all_in = get_all_qids()
     # ---
     for title, qid in new.items():
-        if not title in all_in:
+        if title not in all_in:
             add_qid(title, qid)
             continue
         # ---

@@ -75,7 +75,7 @@ def dodo_sql():
             continue
         # ---
         len_done_target += 1
-        if not lang in targets_done:
+        if lang not in targets_done:
             targets_done[lang] = {}
         target = target.replace("_", " ")
         # targets_done[lang][py_tools.ec_de_code(target , 'encode')] = { "user" : user , "target" : target, "mdtitle" : title }
@@ -265,7 +265,7 @@ for target in wd_tt:
         mdtitle = tit2
         qid_mdwiki = qid_2
         printe.output(f"<<lightyellow>> mdtitle: ({mdtitle}), tit2: ({tit2})")
-        printe.output(f"<<lightyellow>> qid_mdwiki for mdtitle is empty, but qid_2 for tit2 is not empty")
+        printe.output("<<lightyellow>> qid_mdwiki for mdtitle is empty, but qid_2 for tit2 is not empty")
     # ---
     if qid_target == qid_mdwiki:
         continue

@@ -238,7 +238,7 @@ def page_put(oldtext, NewText, summary, title, lang):
             print_s(' <<lightgreen>>mdwiki/wpref.py: All changes accepted.')
             print_s(' <<lightgreen>>mdwiki/wpref.py: All changes accepted.')
         # ---
-        if not sa in yes_answer:
+        if sa not in yes_answer:
             print_s("wrong answer")
             return False
     # ---

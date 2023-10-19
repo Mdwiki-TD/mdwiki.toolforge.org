@@ -41,7 +41,7 @@ ADDED = 0
 
 def get_creator(links, lang):
     # ---
-    if not lang in CreatorsData:
+    if lang not in CreatorsData:
         CreatorsData[lang] = {}
     # ---
 

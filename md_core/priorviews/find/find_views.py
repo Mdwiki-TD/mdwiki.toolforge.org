@@ -76,7 +76,7 @@ def get_v(links):
         # ---
         m += 1
         # ---
-        if not mdtitle in ViewsData:
+        if mdtitle not in ViewsData:
             ViewsData[mdtitle] = {}
         # ---
         printe.output(f'<<yellow>> title: {m}/{lena} get_v {mdtitle}')

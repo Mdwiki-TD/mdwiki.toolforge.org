@@ -115,7 +115,7 @@ def get_qids_sitelinks(qidslist):
             # ---
             qid = kk.get("id", '')
             # ---
-            if qid != '' and not qid in table_d["qids"]:
+            if qid != '' and qid not in table_d["qids"]:
                 table_d["qids"][qid] = {"mdtitle": '', "sitelinks": {}}
                 table_l["qids"][qid] = {"mdtitle": '', "sitelinks": []}
             # ---
@@ -143,15 +143,15 @@ def get_qids_sitelinks(qidslist):
                 # ---
                 site = change_codes.get(site) or site
                 # ---
-                if not site in heads:
+                if site not in heads:
                     heads.append(site)
                 # ---
-                if not site in main_table_sites:
+                if site not in main_table_sites:
                     main_table_sites[site] = []
                 # ---
                 # add mdwiki title to cash_exists/wiki.json table
                 # ---
-                if mdwiki_title != '' and not mdwiki_title in main_table_sites[site]:
+                if mdwiki_title != '' and mdwiki_title not in main_table_sites[site]:
                     main_table_sites[site].append(mdwiki_title)
                 # ---
                 sitelinks[site] = title
@@ -235,7 +235,7 @@ def cash_wd():
         try:
             json.dump(liste, codecs.open(json_file, 'w', encoding="utf-8"), ensure_ascii=False, indent=4)
             printe.output(f'<<lightgreenn>>dump to cash_exists/{site}.json done..')
-        except Exception as e:
+        except Exception:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')
@@ -244,7 +244,7 @@ def cash_wd():
     # email_address = "ibrahem.al-radaei@outlook.com"
     # send aleart email to email_address
     # ---
-    noqids = [x for x in titles if not x in en_to_md.mdtitle_to_qid]
+    noqids = [x for x in titles if x not in en_to_md.mdtitle_to_qid]
     noqids.sort()
     # ---
     json.dump(noqids, open(Dashboard_path + '/Tables/noqids.json', 'w'))

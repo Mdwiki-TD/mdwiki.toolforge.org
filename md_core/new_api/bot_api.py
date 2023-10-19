@@ -240,7 +240,7 @@ class NEW_API():
             printe.output(f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages.")
             # ---
             for x in newp:
-                if not x["title"] in Main_table:
+                if x["title"] not in Main_table:
                     Main_table.append(x["title"])
             # ---
             printe.output(f"len of Main_table {len(Main_table)}.")

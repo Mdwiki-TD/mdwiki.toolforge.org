@@ -93,7 +93,7 @@ def export_en_history(title):
         # while done == False :
         for rev in revisions:
             # ---
-            if not num in texts:
+            if num not in texts:
                 texts[num] = ''
             # ---
             texts[num] += rev
@@ -116,7 +116,7 @@ def export_en_history(title):
                 num += 1
             # ---
         # ---
-        if not num in numbdone and num in texts and texts[num] != '':
+        if num not in numbdone and num in texts and texts[num] != '':
             # ---
             path2 = 'mdwiki/xml/%s-%d.xml' % (title2, num)
             # ---

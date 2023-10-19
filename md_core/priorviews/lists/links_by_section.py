@@ -66,7 +66,7 @@ for section, links in sects_links_langlinks.items():
     # ---
     for md, langs in links.items():
         for lang, title in langs.items():
-            if not lang in links_by_lang:
+            if lang not in links_by_lang:
                 links_by_lang[lang] = []
             links_by_lang[lang].append(title)
 # ---

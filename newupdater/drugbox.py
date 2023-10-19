@@ -116,7 +116,7 @@ class TextProcessor:
             params = all_params['combo'][Type]
             # ---
             for p in all_combo:
-                if not p in params:
+                if p not in params:
                     params.append(p)
             # ---
             all_combo = params
@@ -139,7 +139,7 @@ class TextProcessor:
         # ---
         for x in all_formola_params:
             # ---
-            if not x in self.drugbox_params:
+            if x not in self.drugbox_params:
                 continue
             # ---
             x_val = self.drugbox_params.get(x, '').strip()

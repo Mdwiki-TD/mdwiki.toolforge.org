@@ -175,7 +175,7 @@ def do_api(params):
         r4 = requests.Session().post(url, data=params)
         json1 = json.loads(r4.text)
         return json1
-    except Exception as e:
+    except Exception:
         return {}
     # ---
     return {}

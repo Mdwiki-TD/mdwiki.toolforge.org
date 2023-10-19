@@ -162,7 +162,7 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
         pywikibot.output(f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages.")
         # ---
         for x in newp:
-            if not x["title"] in Main_table:
+            if x["title"] not in Main_table:
                 Main_table.append(x["title"])
         # ---
         pywikibot.output(f"len of Main_table {len(Main_table)}.")
@@ -204,7 +204,7 @@ def create_Page(text, title, summary="create page"):
         pywikibot.output(text)
         sa = py_input(f"<<lightyellow>> nccommons/com.py: create:\"{title}\" page ? ([y]es, [N]o):user:{r2_params['lgname']}")
         # ---
-        if not sa.strip() in yes_answer:
+        if sa.strip() not in yes_answer:
             pywikibot.output("<<lightred>> wrong answer")
             return False
         # ---

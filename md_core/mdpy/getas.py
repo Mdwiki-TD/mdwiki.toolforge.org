@@ -59,7 +59,7 @@ assessments = {x: z for x, z in old_assessments.items()}
 # ---
 if 'newpages' in sys.argv:  # vaild_links
     vaild_links2 = vaild_links
-    vaild_links = [xp for xp in vaild_links2 if (not xp in old_assessments or old_assessments.get(xp) in ["Unknown", ""])]
+    vaild_links = [xp for xp in vaild_links2 if (xp not in old_assessments or old_assessments.get(xp) in ["Unknown", ""])]
     # ---
     printe.output(f'Category-members:{len(vaild_links2)},New-members:{len(vaild_links)}')
     # ---
@@ -82,11 +82,11 @@ def split_list_to_numbers(lll):
     # ---
     for cc in lll:
         # ---
-        if not num in List:
+        if num not in List:
             List[num] = []
         # ---
         if len(List[num]) < 150:
-            if not cc in DDone:
+            if cc not in DDone:
                 List[num].append(cc)
                 DDone.append(cc)
                 # ---

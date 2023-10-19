@@ -25,7 +25,7 @@ import sys
 # ---
 sys.path.append('/data/project/mdwiki/md_core/')
 # ---
-if not 'returnfile' in sys.argv:
+if 'returnfile' not in sys.argv:
     from mdpy.bots import sql_for_mdwiki
 # ---
 from wprefs.api import log, GetPageText, missingtitles, page_put
@@ -75,7 +75,7 @@ def work_one_lang(list_, lang):
     newlist = list_
     # ---
     if 'lala' not in sys.argv:
-        newlist = [x for x in list_ if not f"{lang}:{x}" in reffixed_list]
+        newlist = [x for x in list_ if f"{lang}:{x}" not in reffixed_list]
         dd = int(len(list_)) - int(len(newlist))
         print("already in reffixed_list :%d" % dd)
     # ---
@@ -200,9 +200,9 @@ def maine():
             lang = tab['lang']
             target = tab['target']
             # ---
-            if not lang in newtable:
+            if lang not in newtable:
                 newtable[lang] = []
-            if not target in newtable[lang]:
+            if target not in newtable[lang]:
                 newtable[lang].append(target)
     # ---
     for lang in newtable:
