@@ -7,8 +7,10 @@
 #
 #
 import json
+
 # ---
 import traceback
+
 # import pywikibot
 # ---
 
@@ -21,8 +23,10 @@ import traceback
 # ---
 # ---
 import requests
+
 # ---
 import user_account_new
+
 # ---
 username = user_account_new.my_username  # user_account_new.bot_username
 passe = user_account_new.mdwiki_pass  # user_account_new.bot_password     #user_account_new.my_password
@@ -33,8 +37,9 @@ SS = {}
 print_pywikibot = {1: False}
 try:
     import pywikibot
+
     print_pywikibot[1] = True
-except:
+except BaseException:
     print_pywikibot[1] = False
 # ---
 
@@ -43,7 +48,9 @@ def printt(s):
     if print_pywikibot[1]:
         pywikibot.output(s)
     # else:
-        # print(s)
+    # print(s)
+
+
 # ---
 
 
@@ -53,22 +60,28 @@ def start_sea():
     SS["url"] = 'https://' + 'mdwiki.org/w/api.php'
     SS["ss"] = requests.Session()
     # ---
-    r11 = SS["ss"].get(SS["url"], params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-        'type': 'login',
-    })
+    r11 = SS["ss"].get(
+        SS["url"],
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+            'type': 'login',
+        },
+    )
     r11.raise_for_status()
     # log in
-    r22 = SS["ss"].post(SS["url"], data={
-        # 'assert': 'user',
-        'format': 'json',
-        'action': 'login',
-        'lgname': username,
-        'lgpassword': passe,
-        'lgtoken': r11.json()['query']['tokens']['logintoken'],
-    })
+    r22 = SS["ss"].post(
+        SS["url"],
+        data={
+            # 'assert': 'user',
+            'format': 'json',
+            'action': 'login',
+            'lgname': username,
+            'lgpassword': passe,
+            'lgtoken': r11.json()['query']['tokens']['logintoken'],
+        },
+    )
     # ---
     # printt( f'__file__:{__file__}' )
     # ---
@@ -83,15 +96,20 @@ def start_sea():
         printt(f"<<lightgreen>> mdwiki/TDpynew/mdapi.py: log to {SS['url']} user:{username} Success... ")
     # ---
     # get edit token
-    SS["r33"] = SS["ss"].get(SS["url"], params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-    })
+    SS["r33"] = SS["ss"].get(
+        SS["url"],
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+        },
+    )
     # ---
     SS["r3_token"] = SS["r33"].json()['query']['tokens']['csrftoken']
 
     # ---
+
+
 # ---
 start_sea()
 # ---
@@ -114,4 +132,6 @@ def submitAPI(params, type='get'):
         return {}
     # ---
     return json1
+
+
 # ---

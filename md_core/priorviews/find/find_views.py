@@ -11,10 +11,12 @@ from pathlib import Path
 import codecs
 import datetime
 from datetime import timedelta
+
 # ---
 from mdpy import printe
 from mdpy.bots import wiki_api
 from priorviews.bots import helps
+
 # ---
 TEST = False
 # ---
@@ -36,6 +38,8 @@ def log_views():
     printe.output(f'<<yellow>> log_views {len(ViewsData)} views')
     # dump ViewsData
     helps.dump_data(file, ViewsData)
+
+
 # ---
 
 
@@ -112,6 +116,8 @@ def get_v(links):
             if N_g % 100 == 0:
                 log_views()
     # ---
+
+
 # ---
 
 
@@ -131,19 +137,49 @@ def start():
     # ---
     log_views()
     # ---
+
+
 # ---
 
 
 def test():
     # ---
-    da = {"Pit latrine": {'ar': 'مرحاض ذو حفرة', 'bn': 'খাটা পায়খানা', 'ca': 'Latrina de fossa', 'ee': 'Do nugododeƒe', 'es': 'Letrina de hoyo', 'fa': 'توالت گودالی', 'ha': 'Shaddar gargajiya', 'hi': 'खुड्डी शौचालय', 'ig': 'Ụlọ mposi', 'it': 'Latrina a fossa', 'ln': 'Latrine ya libulu', 'nso': 'Boithomelo bja mokoti', 'or': 'ବରପାଲି ପାଇଖାନା', 'pl': 'Latryna', 'ru': 'Ямный туалет', 'sw': 'Choo cha shimo', 'ta': 'குழி கழிவறை', 'tr': 'Köy tuvaleti', 'ur': 'گڑھے والا بیت الخلا', 'wo': 'Duus', 'xh': 'Ithoyilethi yomngxuma', 'yo': 'Ṣalanga oniho', 'zh': '旱廁', 'zu': 'Ithoyilethe lomgodi'}
-          }
+    da = {
+        "Pit latrine": {
+            'ar': 'مرحاض ذو حفرة',
+            'bn': 'খাটা পায়খানা',
+            'ca': 'Latrina de fossa',
+            'ee': 'Do nugododeƒe',
+            'es': 'Letrina de hoyo',
+            'fa': 'توالت گودالی',
+            'ha': 'Shaddar gargajiya',
+            'hi': 'खुड्डी शौचालय',
+            'ig': 'Ụlọ mposi',
+            'it': 'Latrina a fossa',
+            'ln': 'Latrine ya libulu',
+            'nso': 'Boithomelo bja mokoti',
+            'or': 'ବରପାଲି ପାଇଖାନା',
+            'pl': 'Latryna',
+            'ru': 'Ямный туалет',
+            'sw': 'Choo cha shimo',
+            'ta': 'குழி கழிவறை',
+            'tr': 'Köy tuvaleti',
+            'ur': 'گڑھے والا بیت الخلا',
+            'wo': 'Duus',
+            'xh': 'Ithoyilethi yomngxuma',
+            'yo': 'Ṣalanga oniho',
+            'zh': '旱廁',
+            'zu': 'Ithoyilethe lomgodi',
+        }
+    }
     # ---
     get_v(da)
     # ---
     log_views()
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     if "test1" in sys.argv:

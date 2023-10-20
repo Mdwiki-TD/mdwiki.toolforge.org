@@ -14,12 +14,16 @@ from mdpy.bots import wiki_sql
 #
 
 import sys
+
 # ---
 import time as tttime
+
 # ---
 from mdpy import printe
+
 # ---
 from new_api import sql_qu
+
 can_use_sql_db = sql_qu.can_use_sql_db
 # results = sql_qu.make_sql_connect( query, db='', host='', update=False, Return=[], return_dict=False)
 # ---
@@ -27,6 +31,8 @@ can_use_sql_db = sql_qu.can_use_sql_db
 
 def GET_SQL():
     return can_use_sql_db[1]
+
+
 # ---
 
 
@@ -53,6 +59,8 @@ def make_labsdb_dbs_p(wiki):  # host, dbs_p = make_labsdb_dbs_p('ar')
     dbs_p = dbs + '_p'
     # ---
     return host, dbs_p
+
+
 # ---
 
 
@@ -80,6 +88,8 @@ def Make_sql_many_rows(queries, wiki="", printqua=False, return_dict=False):
     printe.output(f'wiki_sql.py Make_sql_many_rows len(encats) = "{len(rows)}", in {delta} seconds')
     # ---
     return rows
+
+
 # ---
 
 
@@ -107,4 +117,6 @@ def sql_new(queries, wiki="", printqua=False):
     printe.output(f'wiki_sql.py Make_sql_many_rows len(encats) = "{len(rows)}", in {delta} seconds')
     # ---
     return rows
+
+
 # ---

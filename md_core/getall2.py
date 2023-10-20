@@ -8,6 +8,7 @@ python ./nash/mdpy/getall2.py
 import os
 import re
 import chardet
+
 # ---
 
 
@@ -45,6 +46,8 @@ def printe(color, text):
         print(color_table[color] % text)
     else:
         print(text)
+
+
 # ---
 
 

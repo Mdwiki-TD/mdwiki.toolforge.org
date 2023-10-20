@@ -20,6 +20,7 @@ python3 core8/pwb.py wprefs/bot ask
 #
 import os
 import sys
+
 # ---
 # newtext = fix_page(text,title, move_dots= move_dot[1], infobox = False)
 # ---
@@ -32,6 +33,7 @@ from wprefs.api import log, GetPageText, missingtitles, page_put
 from wprefs.helps import print_s, ec_de_code
 from wprefs.files import reffixed_list, setting, append_reffixed_file, save_wprefcash
 from wprefs.wpref_text import fix_page
+
 # ---
 move_dot = {1: False}
 expend_infobox = {1: False}
@@ -65,6 +67,8 @@ def fix_page_here(text, title, langcode):
     newtext = fix_page(newtext, title, move_dots=dots, infobox=expend, section_0=section_0_text, lang=langcode, add_en_lang=adden)
     # ---
     return newtext
+
+
 # ---
 
 
@@ -214,6 +218,8 @@ def maine():
             print_s(f'lang: {lang}, title: {x}')
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     maine()

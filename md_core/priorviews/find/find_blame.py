@@ -10,6 +10,7 @@ from pathlib import Path
 import json
 import sys
 import codecs
+
 # ---
 from mdpy import printe
 from priorviews.bots import gt_blame
@@ -17,19 +18,19 @@ from priorviews.lists.links_by_section import links_by_lang
 from priorviews.lists.translators import tra_by_lang
 from priorviews.lists import creators
 from prior.json_langs.lists import json_langs_by_langs
+
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 from priorviews.bots import helps
+
 # ---
 from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})
+
 # ---
 links_without_translator = {}
 # ---
 for lla, titles in links_by_lang.items():
-    links_without_translator[lla] = [
-        x for x in titles
-        if tra_by_lang.get(lla, {}).get(x, '') == '' and tra_by_lang.get(lla, {}).get(x.lower(), '') == ''
-    ]
+    links_without_translator[lla] = [x for x in titles if tra_by_lang.get(lla, {}).get(x, '') == '' and tra_by_lang.get(lla, {}).get(x.lower(), '') == '']
 # ---
 COUNTS_ALL = 0
 # ---
@@ -77,6 +78,8 @@ def gtblame_value(title, lang):
                 return 'creator'
     # ---
     return ''
+
+
 # ---
 
 
@@ -99,6 +102,7 @@ def get_b(links, lang):
         if not i or i == empty:
             return True
         return False
+
     # ---
     if 'new' in sys.argv:
         # links = [ x for x in links if not x in new_data[lang] or v[lang][x] == '']
@@ -185,6 +189,8 @@ def start():
     logem()
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     start()

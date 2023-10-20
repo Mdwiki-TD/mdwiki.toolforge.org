@@ -31,17 +31,15 @@ def expend_new(template, min_len=1):
 
 
 def expend_infoboxs(new_text):
-
     parsed = wtp.parse(new_text)
     for temp in parsed.templates:
-
         temp_str = temp.string
 
         if not temp_str or temp_str.strip() == '':
             continue
 
         name = str(temp.normal_name()).strip().lower()
-        
+
         isvalid = name.startswith('infobox') or name.endswith('infobox') or name.endswith('box')
 
         if name not in main_temps_list and not isvalid:

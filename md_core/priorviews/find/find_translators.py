@@ -10,12 +10,16 @@ import json
 import os
 from pathlib import Path
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.bots import get_translator
+
 # ---
 from priorviews.bots import helps
+
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)
@@ -63,6 +67,7 @@ def get_t(links, lang):
         if not i or i == empty:
             return True
         return False
+
     # ---
     if 'onlynew' in sys.argv:
         links = [x for x in links if valid(x, tra_by_lang[lang])]
@@ -100,6 +105,8 @@ def get_t(links, lang):
         if N_g % 100 == 0:
             logem()
     # ---
+
+
 # ---
 
 
@@ -128,14 +135,14 @@ def start():
     # ---
     logem()
     # ---
+
+
 # ---
 
 
 def test():
     # ---
-    da = [
-        'مرحاض ذو حفرة'
-    ]
+    da = ['مرحاض ذو حفرة']
     # ---
     get_t(da, "ar")
     # ---
@@ -150,6 +157,8 @@ def test():
                     n += 1
                     print(n, lang, title, tra)
     # ---
+
+
 # ---
 
 
@@ -170,6 +179,8 @@ def removeip():
     logem()
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     if 'removeip' in sys.argv:

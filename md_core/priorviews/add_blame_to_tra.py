@@ -7,18 +7,19 @@ python3 core8/pwb.py priorviews/add_blame_to_tra
 import sys
 from pathlib import Path
 import json
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.find.find_blame import new_data
 from priorviews.lists.translators import tra_by_lang
 from priorviews.bots import helps
+
 # ---
 Dir = Path(__file__).parent
 # ---
-skip_users = [
-    "doc james"
-]
+skip_users = ["doc james"]
 # ---
 
 
@@ -93,8 +94,9 @@ def sea55():
     # with open(file, 'w', encoding='utf-8') as zf:   json.dump(new_data, zf, ensure_ascii=False)
     helps.dump_data(file, new_data)
 
-
     # ---
+
+
 # ---
 if __name__ == '__main__':
     # ---

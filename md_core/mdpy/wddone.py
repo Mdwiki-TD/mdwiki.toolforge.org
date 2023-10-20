@@ -37,15 +37,15 @@ for tab in sq:
     lang = py_tools.Decode_bytes(tab[2]).lower()
     target = py_tools.Decode_bytes(tab[3])
     # ---
-    mdtit=escape_string(mdtitle)
-    tar=escape_string(target)
-    user=escape_string(user)
+    mdtit = escape_string(mdtitle)
+    tar = escape_string(target)
+    user = escape_string(user)
     # ---
     done_qu = f"""
         INSERT INTO wddone (mdtitle, target, lang, user)
         SELECT '{mdtit}', '{tar}', '{lang}', '{user}'
         WHERE NOT EXISTS (SELECT 1
-            FROM wddone 
+            FROM wddone
                 WHERE mdtitle = '{mdtit}'
                 AND lang = '{lang}'
                 AND user = '{user}'

@@ -8,6 +8,7 @@ python3 core8/pwb.py mdpy/days_7
 #
 #
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---
 qua = '''

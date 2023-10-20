@@ -6,10 +6,13 @@ import sys
 import json
 from pathlib import Path
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.lists import translators
+
 # translators.tra_by_lang
 # translators.counts_by_translator
 # ---
@@ -136,6 +139,8 @@ def get_t_sections():
     text += te_langs
     # ---
     return text
+
+
 # ---
 
 
@@ -190,8 +195,9 @@ def log_all_pages_states():
         printe.output(f'<<lightyellow>> log_all_pages_states(): lenth: {len(all_pages_states.keys())}')
         json.dump(all_pages_states, codecs.open(file, 'w', encoding='utf-8'))
 
-
     # ---
+
+
 # ---
 log_all_pages_states()
 # ---
@@ -356,7 +362,7 @@ def make_text(allo, ttt=''):
                 all_pages_states[en][l]['color'] = color
                 # ---
                 if color == 'green':
-                    color = '#c0fcc0'   # green
+                    color = '#c0fcc0'  # green
                     langs_green_red[l]['green'] += 1
                     all_langs_states[l]['green'] += 1
                     all_green += 1
@@ -364,7 +370,7 @@ def make_text(allo, ttt=''):
                     langs_green_red[l]['red'] += 1
                     all_langs_states[l]['red'] += 1
                     all_red += 1
-                    color = '#fcc0c0'   # red
+                    color = '#fcc0c0'  # red
                     # ---
                 # ---
                 same = f'{same1}/{same2}'
@@ -396,7 +402,7 @@ def make_text(allo, ttt=''):
 |- style="position: sticky;top: 0; z-index: 2;"
 ! style="position: sticky;top: 0;left: 0;" | key
 !'''
-# ---
+    # ---
     te_langs += " !! ".join(langs_keys)
     # ---
     green_line = ''
@@ -408,7 +414,8 @@ def make_text(allo, ttt=''):
         # ---
         red_line += f'{ta["red"]} || '
     # ---
-    te_langs = f'''
+    te_langs = (
+        f'''
 {te_langs}
 
 |- style="position: sticky;top: 0; z-index: 2;"
@@ -418,7 +425,9 @@ def make_text(allo, ttt=''):
 |- style="position: sticky;top: 0; z-index: 2;"
 ! style="position: sticky;top: 0;left: 0;" | red
 | {red_line}
-''' + '\n|}\n</div>'
+'''
+        + '\n|}\n</div>'
+    )
     # ---
     lrnn = len(allo.keys())
     # ---
@@ -443,4 +452,6 @@ def make_text(allo, ttt=''):
         text = text.replace('height:580px;', '')
     # ---
     return text
+
+
 # ---

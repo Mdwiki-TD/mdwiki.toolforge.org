@@ -3,6 +3,7 @@ python3 core8/pwb.py mdpy/fixref/fixreftest
 '''
 import pywikibot
 from mdpy.fixref.fixref_text_new import fix_ref_template
+
 # ---
 text = """
     <!-- Definition and symptoms -->

@@ -12,12 +12,15 @@ import codecs
 import sys
 
 import os
+
 # ---
 import requests
 import urllib
 import urllib.parse
+
 # ---
 import MedWorkNew
+
 # ---
 from_toolforge = True
 printe = False
@@ -41,7 +44,9 @@ def print_new(s):
     if not from_toolforge:
         printe.output(s)
 
+
 MedWorkNew.printn = print_new
+
 
 def login():
     # ---
@@ -49,29 +54,38 @@ def login():
     SS["url"] = "https://" + "mdwiki.org/w/api.php"
     SS["ss"] = requests.Session()
     # ---
-    r11 = SS["ss"].get(SS["url"], params={
-        "format": "json",
-        "action": "query",
-        "meta": "tokens",
-        "type": "login",
-    })
+    r11 = SS["ss"].get(
+        SS["url"],
+        params={
+            "format": "json",
+            "action": "query",
+            "meta": "tokens",
+            "type": "login",
+        },
+    )
     r11.raise_for_status()
     # log in
-    SS["ss"].post(SS["url"], data={
-        # fz"assert": "user",
-        "format": "json",
-        "action": "login",
-        "lgname": username,
-        "lgtoken": r11.json()["query"]["tokens"]["logintoken"],
-        "lgpassword": password,
-    })
+    SS["ss"].post(
+        SS["url"],
+        data={
+            # fz"assert": "user",
+            "format": "json",
+            "action": "login",
+            "lgname": username,
+            "lgtoken": r11.json()["query"]["tokens"]["logintoken"],
+            "lgpassword": password,
+        },
+    )
     # ---
     # get edit token
-    SS["r33"] = SS["ss"].get(SS["url"], params={
-        "format": "json",
-        "action": "query",
-        "meta": "tokens",
-    })
+    SS["r33"] = SS["ss"].get(
+        SS["url"],
+        params={
+            "format": "json",
+            "action": "query",
+            "meta": "tokens",
+        },
+    )
     # ---
     SS["r3_token"] = SS["r33"].json()["query"]["tokens"]["csrftoken"]
 

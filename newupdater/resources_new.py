@@ -6,9 +6,11 @@ import re
 import sys
 
 import wikitextparser as wtp
+
 # ---
 from bots.Remove import remove_cite_web, portal_remove
 from lists.identifier_params import identifiers_params
+
 # ---
 printn_t = {1: False}
 # ---
@@ -53,7 +55,7 @@ def add_resources(new_text, drug_resources):
         # ---
         if new_drug_resources.strip().endswith("}}"):
             new_drug_resources = new_drug_resources[:-2]
-            line = new_drug_resources + "\n"+ to_add.strip() + "\n}}"
+            line = new_drug_resources + "\n" + to_add.strip() + "\n}}"
             new_text = new_text.replace(drug_resources, line)
     # ---
     else:
@@ -145,7 +147,7 @@ def move_resources(text, title, lkj=_lkj_, lkj2=_lkj2_):
     # ---<!--Identifiers-->
     if new_text.find(infobox_old) != -1:
         # ---
-        infobox_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', infobox_new, flags=re.DOTALL|re.MULTILINE)
+        infobox_new = re.sub(r'\n\s*\n\s*[\n\s]+', '\n\n', infobox_new, flags=re.DOTALL | re.MULTILINE)
         # ---
         new_text = new_text.replace(infobox_old, infobox_new)
     # ---
@@ -183,7 +185,7 @@ def move_resources(text, title, lkj=_lkj_, lkj2=_lkj2_):
         # ---
         printn(f'resources_new = {resources_new}')
         # ---
-        resources_new = re.sub(r'\n\n\n+<', '\n\n<', resources_new, flags=re.DOTALL|re.MULTILINE)
+        resources_new = re.sub(r'\n\n\n+<', '\n\n<', resources_new, flags=re.DOTALL | re.MULTILINE)
         # ---
         new_text = new_text.replace(resources_old, resources_new)
         # ---
@@ -205,4 +207,6 @@ def move_resources(text, title, lkj=_lkj_, lkj2=_lkj2_):
     new_text = portal_remove(new_text)
     # ---
     return new_text
+
+
 # ---

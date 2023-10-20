@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 import codecs
 import json
+
 # ---
 Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)

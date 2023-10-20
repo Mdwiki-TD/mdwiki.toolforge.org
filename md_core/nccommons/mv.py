@@ -15,6 +15,7 @@ import json
 import os
 import codecs
 import pywikibot
+
 # ---
 project = "/data/project/mdwiki/"
 # ---

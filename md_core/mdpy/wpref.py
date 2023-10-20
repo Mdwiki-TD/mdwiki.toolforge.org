@@ -20,6 +20,7 @@ python3 core8/pwb.py mdpy/wpref ask
 #
 # ---
 from wprefs.bot import *
+
 # ---
 if __name__ == '__main__':
     if 'tests' in sys.argv:

@@ -4,6 +4,7 @@ from wprefs.helps import print_s, ec_de_code, exepts
 import sys
 import traceback
 import urllib.parse
+
 try:
     import printe
 except ImportError:
@@ -19,6 +20,8 @@ def print_s(s):
         return
     if 'returnfile' not in sys.argv:
         printe.output(s)
+
+
 # ---
 
 
@@ -30,6 +33,8 @@ def ec_de_code(tt, type1):
     elif type1 == 'decode':
         fao = urllib.parse.unquote(tt)
     return fao
+
+
 # ---
 
 

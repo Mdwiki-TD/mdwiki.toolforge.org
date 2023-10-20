@@ -21,13 +21,16 @@ import os
 import json
 import codecs
 import sys
+
 # ---
 # ---
 from mdpy.bots import mdwiki_api
 from mdpy import printe
 from mdcount.links import get_valid_Links
+
 # ---
 from mdcount import lead
+
 # ---
 json_file = {}
 # ---
@@ -56,8 +59,9 @@ def get_word_files():
     # ---
     printe.output(f'len of words_n:{len(words_n.keys())}')
 
-
     # ---
+
+
 # ---
 get_word_files()
 # ---

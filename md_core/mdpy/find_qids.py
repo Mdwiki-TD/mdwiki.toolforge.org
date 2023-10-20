@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #   himo
-""" 
+"""
 إيجاد معرف ويكيداتا للعناصر بدون معرف
 
 python3 core8/pwb.py mdpy/find_qids
@@ -12,11 +12,13 @@ python3 core8/pwb.py mdpy/find_qids
 #
 import os
 import sys
+
 # ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import wiki_api
 from mdpy.bots import wikidataapi
 from mdpy import printe
+
 # ---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
@@ -58,6 +60,8 @@ def create_qids(no_qids):
         print(new)
         # ---
         # break
+
+
 # ---
 
 
@@ -71,7 +75,7 @@ def get_qids(noqids_list):
         "prop": "pageprops",
         "ppprop": "wikibase_item",
         # "normalize": 1,
-        "utf8": 1
+        "utf8": 1,
     }
     # ---
     if 'redirects' in sys.argv:
@@ -80,7 +84,7 @@ def get_qids(noqids_list):
     num = 0
     # ---
     for i in range(0, len(noqids_list), 50):
-        group = noqids_list[i:i+50]
+        group = noqids_list[i: i + 50]
         # ---
         params["titles"] = '|'.join(group)
         # ---
@@ -88,7 +92,7 @@ def get_qids(noqids_list):
         # ---
         if json1:
             redirects = json1.get("query", {}).get("redirects", [])
-            redirects = { x['to']: x['from'] for x in redirects }
+            redirects = {x['to']: x['from'] for x in redirects}
             # ---
             pages = json1.get("query", {}).get("pages", {})
             # ---

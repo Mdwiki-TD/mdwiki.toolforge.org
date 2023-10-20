@@ -4,11 +4,14 @@ import sys
 from pathlib import Path
 import codecs
 import wikitextparser
+
 # ---
 
 
 def printn(s):
     return
+
+
 # ---
 
 
@@ -57,7 +60,7 @@ class move_External_links_section:
         while True:
             match = metadataR.search(tmpText)
             if match:
-                tmpText = tmpText[:match.start()]
+                tmpText = tmpText[: match.start()]
             else:
                 break
         # ---
@@ -106,7 +109,7 @@ class move_External_links_section:
             if mata:
                 # ---
                 # ---
-                index = len(l_c[:mata.end()])
+                index = len(l_c[: mata.end()])
                 # ---
                 l_c2 = l_c[index:]
                 # ---
@@ -130,6 +133,7 @@ class move_External_links_section:
             # ---
 
         # ---
+
     def make_new_txt(self):
         # ---
         self.new_text = re.sub(r'\n\s*\[\[Category', '\n[[Category', self.new_text, flags=re.DOTALL | re.MULTILINE)
@@ -141,21 +145,23 @@ class move_External_links_section:
 if __name__ == "__main__":
     # python3 pwb.py newupdater/mv_section Alcohol_septal_ablation
     import pywikibot
+
     # ---
     printn = print
     # ---
     Dir = Path(__file__).parent
     from newupdater.med import GetPageText
+
     # ---
     text = GetPageText(sys.argv[1])
     # ---
     # text = codecs.open(Dir+ "/texts/section.txt", "r", "utf-8").read()
     # ---
-    codecs.open(Dir+ "/texts/section.txt", "w", "utf-8").write(text)
+    codecs.open(Dir + "/texts/section.txt", "w", "utf-8").write(text)
     # ---
     bot = move_External_links_section(str(text))
     # ---
     new_text = bot.make_new_txt()
     # ---
     pywikibot.showDiff(text, new_text)
-    codecs.open(Dir+ "/texts/secnew.txt", "w", "utf-8").write(new_text)
+    codecs.open(Dir + "/texts/secnew.txt", "w", "utf-8").write(new_text)

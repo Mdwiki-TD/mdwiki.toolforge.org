@@ -16,6 +16,7 @@ from mdpy.bots import mdwiki_api
 import sys
 from pathlib import Path
 import codecs
+
 # ---
 # ---
 Dir = Path(__file__).parent
@@ -23,7 +24,7 @@ Dir = Path(__file__).parent
 # ---
 NewList = {}
 # ---
-fska = codecs.open(f'{Dir}/date_before_20200701.txt', "r", encoding="utf-8") .read()
+fska = codecs.open(f'{Dir}/date_before_20200701.txt', "r", encoding="utf-8").read()
 fakalist = fska.split('\n')
 fakalist = [x.strip().split(']]')[0].replace('[[', '').strip() for x in fakalist]
 # ---
@@ -47,15 +48,7 @@ def get_timestamp(titles):
     # ---
     for page in titles:
         num += 1
-        params = {
-            "action": "query",
-            "format": "json",
-            "prop": "revisions",
-            "titles": page,
-            "rvprop": "timestamp",
-            "rvlimit": "1",
-            "rvdir": "newer"
-        }
+        params = {"action": "query", "format": "json", "prop": "revisions", "titles": page, "rvprop": "timestamp", "rvlimit": "1", "rvdir": "newer"}
         hh = mdwiki_api.post(params)
         # ---
         # { "action": "query", "format": "json", "prop": "revisions", "titles": "Etizolam", "utf8": 1, "rvprop": "timestamp", "rvlimit": "1", "rvdir": "newer" }
@@ -68,8 +61,9 @@ def get_timestamp(titles):
         if str(num).endswith('00'):
             print('page:%d:%s,timestamp:%s' % (num, page, timestamp))
 
-
         # ---
+
+
 # ---
 get_timestamp(listo)
 # ---

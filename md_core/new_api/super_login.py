@@ -15,6 +15,7 @@ import urllib.parse
 import traceback
 from warnings import warn
 import pywikibot
+
 # ---
 if __file__.find('mdwiki') == -1:
     from API import printe
@@ -44,7 +45,7 @@ login_lang = {1: True}
 # ---
 
 
-class Login():
+class Login:
     def __init__(self, lang, family='wikipedia'):
         self.lang = lang
         self.family = family
@@ -69,10 +70,12 @@ class Login():
             seasons_by_lang[self.lang] = requests.Session()
         # ---
         # self.season = requests.Session()
+
     # ---
 
     def Log_to_wiki(self):
         return True
+
     # ---
 
     def make_response(self, params):
@@ -148,16 +151,14 @@ class Login():
             return {}
         # ---
         return {}
+
     # ---
 
     def Log_to_wiki_1(self):
         # ---
         login_lang[1] = self.lang
         # ---
-        colors = {
-            "ar": "yellow",
-            "en": "lightpurple"
-        }
+        colors = {"ar": "yellow", "en": "lightpurple"}
         # ---
         color = colors.get(self.lang, '')
         # ---
@@ -219,6 +220,7 @@ class Login():
         # ---
         printe.output(f'<<green>> r3_token: {self.r3_token}')
         # ---
+
     # ---
 
     def post(self, params, Type='get', addtoken=False, CSRF=True):
@@ -289,5 +291,8 @@ class Login():
             printe.output(data)
         # ---
         return data
+
     # ---
+
+
 # ---

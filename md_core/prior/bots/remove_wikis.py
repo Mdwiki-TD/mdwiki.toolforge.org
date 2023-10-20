@@ -4,6 +4,7 @@ python3 core8/pwb.py prior/remove_wikis
 import os
 from pathlib import Path
 import json
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -32,6 +33,7 @@ def work_in_jsfile(filename):
                     continue
         # ---
         return extlinks2
+
     # ---
     for title, tabs in data.items():
         if tabs.get("langs"):
@@ -61,6 +63,8 @@ def work_in_jsfile(filename):
     json.dump(data, open(filename, 'w'))
 
     # ---
+
+
 # ---
 for filename in os.listdir(project_js_new):
     if filename.endswith('.json'):

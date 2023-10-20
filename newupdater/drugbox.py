@@ -1,6 +1,7 @@
 import re
 
 import wikitextparser as wtp
+
 # ---
 
 
@@ -14,6 +15,7 @@ lkj = r"<!--\s*(Monoclonal antibody data|External links|Names*|Clinical data|Leg
 lkj2 = r"(<!--\s*(?:Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*-->)"
 # ---
 from lists.bot_params import all_params, params_to_add, params_placeholders, all_formola_params
+
 # ---
 
 
@@ -92,11 +94,7 @@ class TextProcessor:
 
     def get_combo(self):
         # ---
-        combo_titles = {
-            "mab": "Monoclonal antibody data",
-            "vaccine": "Vaccine data",
-            "combo": "Combo data"
-        }
+        combo_titles = {"mab": "Monoclonal antibody data", "vaccine": "Vaccine data", "combo": "Combo data"}
         # ---
         Type = self.drugbox_params.get("type", "").lower().strip()
         # ---
@@ -161,23 +159,12 @@ class TextProcessor:
                 sec_params.remove(p)
         # ---
         return sec_text, sec_params
+
     # ---
 
     def create_section(self, sectionname):
         # ---
-        sections_titles = {
-            "first": "",
-            "combo": "",
-            "names": "Names",
-            "gene": "GENE THERAPY",
-            "clinical": "Clinical data",
-            "external": "External links",
-            "legal": "Legal data",
-            "physiological": "Physiological data",
-            "pharmacokinetic": "Pharmacokinetic data",
-            "chemical": "Chemical and physical data",
-            "last": ""
-        }
+        sections_titles = {"first": "", "combo": "", "names": "Names", "gene": "GENE THERAPY", "clinical": "Clinical data", "external": "External links", "legal": "Legal data", "physiological": "Physiological data", "pharmacokinetic": "Pharmacokinetic data", "chemical": "Chemical and physical data", "last": ""}
         # ---
         sec_title = sections_titles[sectionname]
         # ---
@@ -264,4 +251,6 @@ class TextProcessor:
         self.add_section(last_section)
         # ---
         self.newdrugbox += '\n}}'
+
+
 # ---

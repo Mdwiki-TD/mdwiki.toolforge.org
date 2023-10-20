@@ -3,6 +3,7 @@ python3 core8/pwb.py wprefs/bots/es_refs
 """
 import wikitextparser as wtp
 from wprefs.helps import print_s
+
 # ---
 
 
@@ -75,6 +76,7 @@ def mv_es_refs(text):
 
 if __name__ == '__main__':
     import pywikibot
+
     text = """{{Ficha de medicamento
         | IUPAC_name      = (''R'',''R'')-(+)-Methyl 2-phenyl-2-(2-piperidyl)acetate
 

@@ -12,15 +12,19 @@
 # ---
 
 import traceback
+
 # import pywikibot
 import re
 import urllib
 import json
 import sys
+
 # ---
 import pywikibot
+
 # ---
 from datetime import datetime
+
 # ---
 menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
 # ---
@@ -47,8 +51,10 @@ from mdpy.bots import wikidataapi
 '''
 # ---
 import requests
+
 # ---
 from mdpy.bots import user_account_new
+
 # ---
 username = user_account_new.bot_username  # user_account_new.my_username
 password = user_account_new.bot_password  # user_account_new.my_password      #user_account_new.mdwiki_pass
@@ -112,11 +118,14 @@ def Log_to_wiki(url=''):
         printe.output('wikidataapi.py login Success')
     # ---
     # get edit token
-    SS["r33"] = SS["ss"].get(SS["url"], params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-    })
+    SS["r33"] = SS["ss"].get(
+        SS["url"],
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+        },
+    )
     # ---
     SS["url"] = url
     # ---
@@ -126,6 +135,8 @@ def Log_to_wiki(url=''):
     # ---
     login_not_done[1] = False
     # ---
+
+
 # ---
 
 
@@ -133,9 +144,11 @@ def get_status(req):
     try:
         st = req.status_code
         return st
-    except:
+    except BaseException:
         st = req.status
         return st
+
+
 # ---
 
 
@@ -168,23 +181,28 @@ def post(params, apiurl='', token=True):
         return {}
     # ---
     return jsone
+
+
 # ---
 
 
 def post_to_qs(data):
     menet = datetime.now().strftime("%Y-%b-%d %H:%M:%S")
     # ---
-    r2 = requests.Session().post('https://quickstatements.toolforge.org/api.php', data={
-        'format': 'v1',
-        'action': 'import',  # create
-        # 'type': 'item',
-        'compress': 1,
-        'submit': 1,
-        'batchname': menet,
-        'username': "Mr. Ibrahem",
-        'token': user_account_new.qs_token,
-        'data': data,
-    })
+    r2 = requests.Session().post(
+        'https://quickstatements.toolforge.org/api.php',
+        data={
+            'format': 'v1',
+            'action': 'import',  # create
+            # 'type': 'item',
+            'compress': 1,
+            'submit': 1,
+            'batchname': menet,
+            'username': "Mr. Ibrahem",
+            'token': user_account_new.qs_token,
+            'data': data,
+        },
+    )
     # ---
     if not r2 or r2 == {}:
         return False
@@ -192,6 +210,8 @@ def post_to_qs(data):
     print("QS_New_API: " + str(r2.text))
     # ---
     return r2.json()
+
+
 # ---
 
 
@@ -218,6 +238,8 @@ def QS_New_API(data2):
     CREATE = CREATE.replace("||XX", "")
     # ---
     return post_to_qs(CREATE)
+
+
 # ---
 
 
@@ -254,6 +276,8 @@ def Get_sitelinks_From_Qid(q):
             return {}
     # ---
     return table
+
+
 # ---
 
 
@@ -308,6 +332,8 @@ def WD_Merge(q1, q2):
     else:
         printe.output('<<lightred>> r4' + str(r4))
         return False
+
+
 # ---
 
 
@@ -348,6 +374,8 @@ def Labels_API(Qid, label, lang, remove=False):
             printe.output('<<lightred>> r5' + str(req))
     # ---
     return False
+
+
 # ---
 
 
@@ -358,7 +386,7 @@ def get_redirects(liste):
     for i in range(0, len(liste), 50):
         # ---
         # group = dict(list(liste.items())[i:i+50])
-        group = liste[i:i+50]
+        group = liste[i: i + 50]
         params = {
             "action": "query",
             "format": "json",
@@ -398,7 +426,7 @@ def Sitelink_API(Qid, title, wiki):
         "linksite": wiki,
     }
     # ---
-    out = 'Added link to "%s" [%s]:"%s"' % ( Qid, wiki, title) 
+    out = 'Added link to "%s" [%s]:"%s"' % ( Qid, wiki, title)
     # ---
     r4 = post(paramse, apiurl = "https://www.wikidata.org/w/api.php", token = True)
     # ---
@@ -440,13 +468,7 @@ def Claim_API_str(qid, property, string):
     if string == '' or qid == '' or property == '':
         return ''
     # ---
-    params = {
-        "action": "wbcreateclaim",
-        "entity": qid,
-        "snaktype": "value",
-        "property": property,
-        "value": json.JSONEncoder().encode(string)
-    }
+    params = {"action": "wbcreateclaim", "entity": qid, "snaktype": "value", "property": property, "value": json.JSONEncoder().encode(string)}
     # ---
     req = post(params, apiurl="https://www.wikidata.org/w/api.php", token=True)
     # ---
@@ -461,6 +483,8 @@ def Claim_API_str(qid, property, string):
         printe.output('<<lightred>> req' + str(req))
     # ---
     return False
+
+
 # ---
 
 
@@ -481,6 +505,8 @@ def Delete_claim(claimid):
         printe.output('<<lightred>> req' + str(req))
     # ---
     return False
+
+
 # ---
 
 
@@ -516,6 +542,8 @@ def Claim_API_qid(qid, property, numeric):
         printe.output('<<lightred>> req' + str(req))
     # ---
     return False
+
+
 # ---
 
 
@@ -553,6 +581,8 @@ def open_url(url, return_json=False):
         return result
     # ---
     return jsontab
+
+
 # ---
 
 
@@ -571,8 +601,7 @@ def sparql_generator_url(quary, printq=False, add_date=True):
     json1 = open_url(url, return_json=False)
     # ---
     if json1 and 'head' in json1:
-        var = [x for x in json1['head']['vars']]
-        var.sort()
+        var = sorted([x for x in json1['head']['vars']])
     # ---
     qlist = []
     if json1:
@@ -591,19 +620,13 @@ def sparql_generator_url(quary, printq=False, add_date=True):
     # ---
     printe.output(f'#sparql_generator_url:<<lightgreen>> {len(qlist)} items found. {menet}')
     return qlist
+
+
 # ---
 
 
 def wbsearchentities(search, language):
-    params = {
-        "action": "wbsearchentities",
-        "format": "json",
-        "search": search,
-        "language": language,
-        "strictlanguage": 1,
-        "type": "item",
-        "utf8": 1
-    }
+    params = {"action": "wbsearchentities", "format": "json", "search": search, "language": language, "strictlanguage": 1, "type": "item", "utf8": 1}
     # ---
     req = post(params, apiurl="https://www.wikidata.org/w/api.php")
     # ---
@@ -620,17 +643,17 @@ def wbsearchentities(search, language):
     if 'search' in req:
         search = req['search']  # list
         for s in search:
-            ss = {"id": "Q111587429", "title": "Q111587429", "pageid": 106531075,
-                  "display": {"label": {"value": "User:Mr. Ibrahem/Sodium nitrite (medical use)", "language": "en"}},
-                  "repository": "wikidata",
-                  "url": "//www.wikidata.org/wiki/Q111587429",
-                  "concepturi": "http://www.wikidata.org/entity/Q111587429",
-                  "label": "User:Mr. Ibrahem/Sodium nitrite (medical use)",
-                  "match": {
-                      "type": "label",
-                      "language": "en",
-                      "text": "User:Mr. Ibrahem/Sodium nitrite (medical use)"
-                  }}
+            ss = {
+                "id": "Q111587429",
+                "title": "Q111587429",
+                "pageid": 106531075,
+                "display": {"label": {"value": "User:Mr. Ibrahem/Sodium nitrite (medical use)", "language": "en"}},
+                "repository": "wikidata",
+                "url": "//www.wikidata.org/wiki/Q111587429",
+                "concepturi": "http://www.wikidata.org/entity/Q111587429",
+                "label": "User:Mr. Ibrahem/Sodium nitrite (medical use)",
+                "match": {"type": "label", "language": "en", "text": "User:Mr. Ibrahem/Sodium nitrite (medical use)"},
+            }
             # ---
             id = s['id']
             table[id] = {}
@@ -646,6 +669,8 @@ def wbsearchentities(search, language):
             # ---
     # ---
     return table
+
+
 # ---
 
 
@@ -672,7 +697,7 @@ def Get_claim(q, property, get_claim_id=False):
         Type = datavalue.get("type", False)
         value = datavalue.get("value", "")
         # ---
-        if type(value) == dict:
+        if isinstance(value, dict):
             if value.get("id", False):
                 value = value.get("id")
         # ---

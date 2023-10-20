@@ -42,6 +42,7 @@ from new_api import bot_api
 from new_api import super_page
 import os
 import configparser
+
 # ---
 project = "/data/project/mdwiki/"
 # ---
@@ -109,6 +110,8 @@ def test():
     # print(f'page_links:{red}')
     # ---
     # save = page.save(newtext='')
+
+
 # ---
 if __name__ == '__main__':
     # python3 core8/pwb.py new_api/page

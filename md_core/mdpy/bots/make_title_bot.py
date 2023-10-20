@@ -15,6 +15,7 @@ import re
 from mdpy.bots import open_url
 from mdpy import printe
 import pywikibot
+
 # ---
 Title_cash = {}
 # ---
@@ -105,7 +106,7 @@ def make_title(url):
     titleBlackList = re.compile(globalbadtitles, re.I | re.S | re.X)
     # ---
     if titleBlackList.match(title):
-        printe.output(f'<<lightred>> WARNING<<default>> {url} : ''Blacklisted title ({title})')
+        printe.output(f'<<lightred>> WARNING<<default>> {url} : ' 'Blacklisted title ({title})')
     # ---
     Title_cash[url] = title
     # ---
@@ -113,4 +114,6 @@ def make_title(url):
         printe.output(f'<<lightgreen>> make_title_bot: newtitle: ({title})')
     # ---
     return title
+
+
 # ---

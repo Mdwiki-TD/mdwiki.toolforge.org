@@ -9,15 +9,19 @@ from urllib.parse import urlencode
 import requests
 import wikitextparser
 from mdpy import printe
+
 # ---
 # ---
 from prior.json_langs.lists import json_langs_by_langs
+
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 from prior.json_en.lists import json_en_all
+
 # tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 from priorviews.bots import helps
+
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # ---
@@ -70,11 +74,11 @@ def match_ref_names(r, refnames, lang):
     # ---
     return ''
 
+
 # ---
 
 
 class FindInHistory:
-
     def __init__(self, title, lang="en", refname=[], extlinks=[]):
         # ---
         self.lang = lang
@@ -139,19 +143,7 @@ class FindInHistory:
         return results
 
     def get_revisions(self, title):
-        params = {
-            "action": "query",
-            "format": "json",
-            "prop": "revisions",
-            "titles": title,
-            "utf8": 1,
-            "formatversion": "2",
-            "rvprop": "comment|timestamp|user|content|ids",
-            "rvdir": "newer",
-            "rvstart": "2011-01-01T00:00:00.000Z",
-            "rvend": "2018-01-01T00:00:00.000Z",
-            "rvlimit": "max"
-        }
+        params = {"action": "query", "format": "json", "prop": "revisions", "titles": title, "utf8": 1, "formatversion": "2", "rvprop": "comment|timestamp|user|content|ids", "rvdir": "newer", "rvstart": "2011-01-01T00:00:00.000Z", "rvend": "2018-01-01T00:00:00.000Z", "rvlimit": "max"}
         # ---
         pages = self.post_continue(params, "query", "pages", [])
         # ---

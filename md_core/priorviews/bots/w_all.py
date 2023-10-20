@@ -7,6 +7,7 @@ python3 core8/pwb.py priorviews/langs -lang:ar ask
 from priorviews.bots import helps
 from new_api.mdwiki_page import MainPage as md_MainPage
 from pathlib import Path
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -116,4 +117,6 @@ def work_all(translators_all):
     elif oldtext != text:
         # ---
         page.save(newtext=text, summary='update', nocreate=1, minor='')
+
+
 # ---

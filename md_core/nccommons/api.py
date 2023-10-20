@@ -14,6 +14,7 @@ import os
 import pywikibot
 import configparser
 import requests
+
 # ---
 project = "/data/project/mdwiki/"
 # ---
@@ -44,6 +45,8 @@ def py_input(s):
     sa = input()
     # ---
     return sa
+
+
 # ---
 
 
@@ -76,6 +79,8 @@ def Log_to_wiki(family="nccommons", lang="www"):
     # ---
     SS["r3_token"] = SS["r33"].json()["query"]["tokens"]["csrftoken"]
     SS["login_not_done"] = False
+
+
 # ---
 
 
@@ -103,7 +108,7 @@ def post_s(params):
     # ---
     try:
         jj = r4.json()
-    except:
+    except BaseException:
         text = r4.text
         # ---
         if text.find('<!DOCTYPE html>') != -1:
@@ -114,6 +119,8 @@ def post_s(params):
         SS["login_not_done"] = True
     # ---
     return jj
+
+
 # ---
 
 
@@ -235,6 +242,8 @@ def create_Page(text, title, summary="create page"):
     # pywikibot.output("end of create_Page def return False title:(%s)" % title)
     # ---
     return False
+
+
 # ---
 
 
@@ -249,7 +258,7 @@ def Find_pages_exists_or_not(liste):
     exists = 0
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i:i+50]
+        titles = liste[i: i + 50]
         # ---
         done += len(titles)
         # ---

@@ -14,6 +14,7 @@ import re
 numbers = {1: 20000, 'done': 0}
 # ---
 import os
+
 project = '/data/project/mdwiki/'
 # ---
 if not os.path.isdir(project):
@@ -22,6 +23,7 @@ if not os.path.isdir(project):
 public_html = project + '/public_html'
 # ---
 from new_api.mdwiki_page import MainPage, NEW_API
+
 api_new = NEW_API('www', family='mdwiki')
 api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
@@ -49,7 +51,7 @@ def work(title):
     text = page.get_text()
     # <templatestyles src="Owid/styles.css"/><ourworldindatamirror>cumulative-covid-cases-region</ourworldindatamirror>
     # ---
-    regref = re.compile(r'<templatestyles\s*src="Owid/styles.css"\s*/\s*>\s*<ourworldindatamirror>(?P<content>.*?)</ourworldindatamirror>', re.IGNORECASE|re.DOTALL)
+    regref = re.compile(r'<templatestyles\s*src="Owid/styles.css"\s*/\s*>\s*<ourworldindatamirror>(?P<content>.*?)</ourworldindatamirror>', re.IGNORECASE | re.DOTALL)
     # ---
     newtext = text
     # ---
@@ -72,6 +74,8 @@ def work(title):
         numbers['done'] += 1
         # ---
         save_page = page.save(newtext=newtext, summary=sus)
+
+
 # ---
 
 
@@ -91,6 +95,8 @@ def main():
         work(page)
 
     # ---
+
+
 # python py/replace1.py
 # ---
 if __name__ == "__main__":

@@ -3,11 +3,13 @@
 
 import re
 import wikitextparser as wtp
+
 # ---
 from wprefs.helps import print_s
 from wprefs.bots.es_months import fix_es_months
 from wprefs.bots.es_section import add_section
 from wprefs.bots.es_refs import mv_es_refs
+
 # ---
 refs_temps = {
     'cite web': 'cita web',
@@ -45,22 +47,16 @@ args_to = {
     "date": "fecha",
     "archive-date": "fechaarchivo",
     "archivedate": "fechaarchivo",
-
     "first": "nombre",
     "last": "apellidos",
-
     "first1": "nombre1",
     "last1": "apellidos1",
-
     "last2": "apellidos2",
     "first2": "nombre2",
 }
 # ---
 params = {
-    "nombre1": [
-        "first1",
-        "given1"
-    ],
+    "nombre1": ["first1", "given1"],
     "enlaceautor1": [
         "authorlink1",
         "author1-link",
@@ -70,223 +66,67 @@ params = {
         "author-link",
         "authorlink",
     ],
-    "título": [
-        "title"
-    ],
-    "fechaacceso": [
-        "accessdate"
-    ],
-    "año": [
-        "year"
-    ],
-    "fecha": [
-        "date"
-    ],
-    "editorial": [
-        "publisher"
-    ],
-    "apellido-editor": [
-        "editor-last",
-        "editor-surname",
-        "editor1-last"
-    ],
-    "nombre-editor": [
-        "editor-first",
-        "editor-given",
-        "editor1-first",
-        "editor1-given"
-    ],
-    "enlace-editor": [
-        "editor-link",
-        "editor1-link"
-    ],
-    "ubicación": [
-        "place",
-        "location"
-    ],
-    "lugar-publicación": [
-        "publication-place"
-    ],
-    "fecha-publicación": [
-        "publication-date"
-    ],
-    "edición": [
-        "edition"
-    ],
-    "sined": [
-        "noed"
-    ],
-    "volumen": [
-        "volume"
-    ],
-    "página": [
-        "page"
-    ],
-    "páginas": [
-        "pages"
-    ],
-    "en": [
-        "at"
-    ],
-    "enlace-pasaje": [
-        "url-pasaje"
-    ],
-    "idioma": [
-        "language"
-    ],
-    "título-trad": [
-        "trans_title"
-    ],
-    "capítulo": [
-        "chapter"
-    ],
-    "url-capítulo": [
-        "url-chapter"
-    ],
-    "capítulo-trad": [
-        "trans_chapter"
-    ],
-    "formato": [
-        "format"
-    ],
-    "cita": [
-        "quote"
-    ],
-    "separador": [
-        "separator"
-    ],
-    "resumen": [
-        "laysummary",
-        "layurl"
-    ],
-    "fecha-resumen": [
-        "laydate"
-    ],
+    "título": ["title"],
+    "fechaacceso": ["accessdate"],
+    "año": ["year"],
+    "fecha": ["date"],
+    "editorial": ["publisher"],
+    "apellido-editor": ["editor-last", "editor-surname", "editor1-last"],
+    "nombre-editor": ["editor-first", "editor-given", "editor1-first", "editor1-given"],
+    "enlace-editor": ["editor-link", "editor1-link"],
+    "ubicación": ["place", "location"],
+    "lugar-publicación": ["publication-place"],
+    "fecha-publicación": ["publication-date"],
+    "edición": ["edition"],
+    "sined": ["noed"],
+    "volumen": ["volume"],
+    "página": ["page"],
+    "páginas": ["pages"],
+    "en": ["at"],
+    "enlace-pasaje": ["url-pasaje"],
+    "idioma": ["language"],
+    "título-trad": ["trans_title"],
+    "capítulo": ["chapter"],
+    "url-capítulo": ["url-chapter"],
+    "capítulo-trad": ["trans_chapter"],
+    "formato": ["format"],
+    "cita": ["quote"],
+    "separador": ["separator"],
+    "resumen": ["laysummary", "layurl"],
+    "fecha-resumen": ["laydate"],
     "apellidos1": [
         "last1",
     ],
     "apellidos2": [
         "last2",
     ],
-    "nombre2": [
-        "first2",
-        "given2"
-    ],
-    "enlaceautor2": [
-        "authorlink2",
-        "author2-link",
-        "authorlink2"
-    ],
-    "apellidos3": [
-        "last3",
-        "surname3",
-        "author3"
-    ],
-    "nombre3": [
-        "first3",
-        "given3"
-    ],
-    "enlaceautor3": [
-        "authorlink3",
-        "author3-link",
-        "authorlink3"
-    ],
-    "apellidos4": [
-        "last4",
-        "surname4",
-        "author4"
-    ],
-    "nombre4": [
-        "first4",
-        "given4"
-    ],
-    "enlaceautor4": [
-        "authorlink4",
-        "author4-link",
-        "authorlink4"
-    ],
-    "apellidos5": [
-        "last5",
-        "surname5",
-        "author5"
-    ],
-    "nombre5": [
-        "first5",
-        "given5"
-    ],
-    "enlaceautor5": [
-        "authorlink5",
-        "author5-link",
-        "authorlink5"
-    ],
-    "apellidos6": [
-        "last6",
-        "surname6",
-        "author6"
-    ],
-    "nombre6": [
-        "first6",
-        "given6"
-    ],
-    "enlaceautor6": [
-        "authorlink6",
-        "author6-link",
-        "authorlink6"
-    ],
-    "apellidos7": [
-        "last7",
-        "surname7",
-        "author7"
-    ],
-    "nombre7": [
-        "first7",
-        "given7"
-    ],
-    "enlaceautor7": [
-        "authorlink7",
-        "author7-link",
-        "authorlink7"
-    ],
-    "apellidos8": [
-        "last8",
-        "surname8",
-        "author8"
-    ],
-    "nombre8": [
-        "first8",
-        "given8"
-    ],
-    "enlaceautor8": [
-        "authorlink8",
-        "author8-link",
-        "authorlink8"
-    ],
-    "apellidos9": [
-        "last9",
-        "surname9",
-        "author9"
-    ],
-    "nombre9": [
-        "first9",
-        "given9"
-    ],
-    "enlaceautor9": [
-        "authorlink9",
-        "author9-link",
-        "authorlink9"
-    ],
-    "separador-nombres": [
-        "author-name-separator"
-    ],
-    "separador-autores": [
-        "author-separator"
-    ],
-    "número-autores": [
-        "display-authors"
-    ],
-    "otros": [
-        "others"
-    ]
+    "nombre2": ["first2", "given2"],
+    "enlaceautor2": ["authorlink2", "author2-link", "authorlink2"],
+    "apellidos3": ["last3", "surname3", "author3"],
+    "nombre3": ["first3", "given3"],
+    "enlaceautor3": ["authorlink3", "author3-link", "authorlink3"],
+    "apellidos4": ["last4", "surname4", "author4"],
+    "nombre4": ["first4", "given4"],
+    "enlaceautor4": ["authorlink4", "author4-link", "authorlink4"],
+    "apellidos5": ["last5", "surname5", "author5"],
+    "nombre5": ["first5", "given5"],
+    "enlaceautor5": ["authorlink5", "author5-link", "authorlink5"],
+    "apellidos6": ["last6", "surname6", "author6"],
+    "nombre6": ["first6", "given6"],
+    "enlaceautor6": ["authorlink6", "author6-link", "authorlink6"],
+    "apellidos7": ["last7", "surname7", "author7"],
+    "nombre7": ["first7", "given7"],
+    "enlaceautor7": ["authorlink7", "author7-link", "authorlink7"],
+    "apellidos8": ["last8", "surname8", "author8"],
+    "nombre8": ["first8", "given8"],
+    "enlaceautor8": ["authorlink8", "author8-link", "authorlink8"],
+    "apellidos9": ["last9", "surname9", "author9"],
+    "nombre9": ["first9", "given9"],
+    "enlaceautor9": ["authorlink9", "author9-link", "authorlink9"],
+    "separador-nombres": ["author-name-separator"],
+    "separador-autores": ["author-separator"],
+    "número-autores": ["display-authors"],
+    "otros": ["others"],
 }
 # ---
 for _new, _lal in params.items():
@@ -363,6 +203,8 @@ def add_lang_en(text, lang=''):
             text = text.replace(pap + ref, pap + ref2)
     # ---
     return text
+
+
 # ---
 
 
@@ -387,4 +229,6 @@ def fix_es(text, title):
     newtext = newtext.replace('<references />', '{{listaref}}')
     # ---
     return newtext
+
+
 # ---

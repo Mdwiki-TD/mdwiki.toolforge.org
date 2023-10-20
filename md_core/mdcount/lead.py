@@ -2,8 +2,10 @@
 import re
 import pywikibot
 import wikitextparser as wtp
+
 # ---
 from mdpy.bots import mdwiki_api
+
 # ---
 
 
@@ -40,6 +42,8 @@ def count_text(text):
     # ---
     # print(f'count_text: {lenth}')
     return tem_text, lenth
+
+
 # ---
 
 
@@ -56,6 +60,8 @@ def count_lead(x):
     pywikibot.showDiff(te_1, f'count_text:\n{te_2}')
     # ---
     return lenth1
+
+
 # ---
 
 

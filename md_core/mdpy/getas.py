@@ -22,9 +22,11 @@ import os
 import sys
 
 from mdpy.bots import catdepth2
+
 # ---
 # ---
 from mdpy import printe
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -108,6 +110,8 @@ def log():
     # ---
     printe.output(f'<<lightgreen>> {len(assessments)} lines to {json_file[0]}')
     printe.output('<<lightgreen>> len old assessments %d' % len_old)
+
+
 # ---
 
 
@@ -136,6 +140,8 @@ def work_for_list(list):
     # ---
     print(f'len of new assessments:{lenn}')
     # ---
+
+
 # ---
 
 
@@ -165,8 +171,9 @@ def mmain():
     # ---
     log()
 
-
     # ---
+
+
 # ---
 if __name__ == '__main__':
     mmain()

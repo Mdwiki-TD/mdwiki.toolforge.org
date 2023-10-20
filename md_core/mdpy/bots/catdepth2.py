@@ -13,6 +13,7 @@ python3 core8/pwb.py mdpy/catdepth2
 from mdpy.bots import mdwiki_api
 from mdpy.bots import sql_for_mdwiki
 import json
+
 # import pywikibot
 import codecs
 
@@ -21,6 +22,7 @@ import os
 import sys
 import datetime
 from datetime import datetime
+
 # ---
 Day_History = datetime.now().strftime("%Y-%m-%d")
 # ---
@@ -49,17 +51,14 @@ def Get_cat(enlink, print_url=False):
         "action": "query",
         "format": "json",
         "utf8": 1,
-
         "generator": "categorymembers",
         "gcmtitle": enlink,
         "gcmprop": "title",
         "gcmtype": "page|subcat",
         "gcmlimit": "max",
-
         "redirects": 1,
         # "prop": "templates",
         # "tllimit": "max",
-
         # "lllang": langcode,
         # "lllimit": "max",
     }
@@ -131,6 +130,8 @@ def Get_cat(enlink, print_url=False):
             # ---
     # ---
     return table
+
+
 # ---
 
 
@@ -144,6 +145,8 @@ def check_title(title):
         return False
     # ---
     return True
+
+
 # ---
 
 
@@ -215,6 +218,8 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     # ---
     # return result_table
     return result_tab
+
+
 # ---
 
 
@@ -266,6 +271,8 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
         print(f"len of list:{len(Table['list'])}")
     # ---
     return Table
+
+
 # ---
 
 
@@ -315,8 +322,9 @@ def make_cash_to_cats(return_all_pages=False):
     if return_all_pages:
         return all_pages
 
-
     # ---
+
+
 # ---
 if __name__ == '__main__':
     make_cash_to_cats()

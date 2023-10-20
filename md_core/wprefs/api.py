@@ -12,6 +12,7 @@ import codecs
 import os
 import sys
 import requests
+
 # ---
 try:
     import pywikibot
@@ -21,6 +22,7 @@ except ImportError:
 sys.path.append('/data/project/mdwiki/md_core/')
 # ---
 from wprefs.helps import print_s
+
 # ---
 SS = {"token": ''}
 session = {}
@@ -62,21 +64,27 @@ def log(lang):
     session["lang"] = lang
     # ---
     # get login token
-    r1 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-        'type': 'login',
-    })
+    r1 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+            'type': 'login',
+        },
+    )
     r1.raise_for_status()
     # ---
-    r2 = session[1].post(api_urle, data={
-        'format': 'json',
-        'action': 'login',
-        'lgname': 'Mr. Ibrahem',
-        'lgpassword': 'Mr._Ibrahem@9usrv463ql983qrulnani14t3hqs1g27',
-        'lgtoken': r1.json()['query']['tokens']['logintoken'],
-    })
+    r2 = session[1].post(
+        api_urle,
+        data={
+            'format': 'json',
+            'action': 'login',
+            'lgname': 'Mr. Ibrahem',
+            'lgpassword': 'Mr._Ibrahem@9usrv463ql983qrulnani14t3hqs1g27',
+            'lgtoken': r1.json()['query']['tokens']['logintoken'],
+        },
+    )
     # ---
     print_s(r2)
     if r2.json()['login']['result'] != 'Success':
@@ -87,13 +95,16 @@ def log(lang):
         login_done[1] = lang
     # ---
     # if r2.json()['login']['result'] != 'Success': print(r2.json()['login']['reason'])
-        # raise RuntimeError(r2.json()['login']['reason'])
+    # raise RuntimeError(r2.json()['login']['reason'])
     # get edit token
-    r3 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-    })
+    r3 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+        },
+    )
     # ---
     token = r3.json()['query']['tokens']['csrftoken']
     # ---
@@ -139,16 +150,7 @@ def submitAPI(params, lang='', Type='post'):
 
 
 def get_revisions(title, lang=''):
-    params = {
-        "action": "query",
-        "format": "json",
-        "prop": "revisions",
-        "titles": title,
-        "formatversion": "2",
-        "rvprop": "comment|user|timestamp",
-        "rvdir": "newer",
-        "rvlimit": "max"
-    }
+    params = {"action": "query", "format": "json", "prop": "revisions", "titles": title, "formatversion": "2", "rvprop": "comment|user|timestamp", "rvdir": "newer", "rvlimit": "max"}
     # ---
     rvcontinue = 'x'
     # ---

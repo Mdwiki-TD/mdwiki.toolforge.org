@@ -20,6 +20,7 @@ import time as tttime
 from pymysql.converters import escape_string
 
 from mdpy.bots import add_to_wd
+
 # add_to_wd.add_tab_to_wd(New_Table_by_lang)
 # ---
 from mdpy.bots import py_tools
@@ -30,10 +31,12 @@ from mdpy import printe
 
 # ---
 from mdpy.bots import wiki_sql
+
 # wiki_sql.GET_SQL()
 # wiki_sql.Make_sql_many_rows( queries , wiki="", printqua = False)
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---
 project = '/data/project/mdwiki/'
@@ -43,6 +46,7 @@ if not os.path.isdir(project):
 # ---
 cat_for_pages = {}
 from mdpy.others.fixcat import cat_for_pages
+
 # ---
 Lang_usr_mdtitle = {}
 targets_done = {}
@@ -139,7 +143,7 @@ def dodo_sql():
     len_done_target = 0
     # ---
     for tab in sq:
-        mdtitle= tab['title']
+        mdtitle = tab['title']
         user = tab['user']
         target = tab['target']
         lang = tab['lang'].lower()
@@ -222,8 +226,8 @@ query_main_old = '''
 '''
 # ---
 query_main = '''
-    select DISTINCT p.page_title, 
-    SUBSTRING_INDEX(SUBSTRING_INDEX(c.comment_text, 'Ibrahem/', -1), ']]', 1), 
+    select DISTINCT p.page_title,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(c.comment_text, 'Ibrahem/', -1), ']]', 1),
     a.actor_name, r.rev_timestamp, p.page_namespace, r.rev_parent_id
     from change_tag t
     INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
@@ -301,8 +305,8 @@ def main():
                 co_text = py_tools.Decode_bytes(list[1])
                 user = py_tools.Decode_bytes(list[2])
                 pupdate = py_tools.Decode_bytes(list[3])
-                namespace= py_tools.Decode_bytes(list[4])
-                rev_parent_id= py_tools.Decode_bytes(list[5])
+                namespace = py_tools.Decode_bytes(list[4])
+                rev_parent_id = py_tools.Decode_bytes(list[5])
                 # ---
                 namespace = str(namespace)
                 # ---
@@ -323,14 +327,7 @@ def main():
                 if md_title in Skip_titles.get(user, {}).get('mdtitles', []):
                     continue
                 # ---
-                Taba2 = {
-                    "mdtitle": md_title,
-                    "target": target,
-                    "user": user,
-                    "lang": lange,
-                    "pupdate": pupdate,
-                    "namespace": namespace
-                }
+                Taba2 = {"mdtitle": md_title, "target": target, "user": user, "lang": lange, "pupdate": pupdate, "namespace": namespace}
                 # ---
                 lineout = '<<lightyellow>> target:%s:%s, ns:%s for mdtit:<<lightyellow>>%s, user:<<lightyellow>>%s'
                 laloly = lineout % (lange, target.ljust(40), namespace.ljust(3), md_title.ljust(30), user)
@@ -368,6 +365,8 @@ def main():
         add_to_mdwiki_sql({lange: New_Table_by_lang[lange]})
 
     # ---
+
+
 if __name__ == '__main__':
     main()
 # ---

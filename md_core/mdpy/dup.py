@@ -17,9 +17,11 @@
 # import time
 # from datetime import datetime, date
 import sys
+
 # ---
 from mdpy.bots import mdwiki_api
 from mdpy import printe
+
 # ---
 offset = {1: 0}
 # ---
@@ -57,16 +59,7 @@ def main():
     # python dup.py -newpages:1000
     # python dup.py -newpages:20000
     # ---
-    fop = {
-        "action": "query",
-        "format": "json",
-        "prop": "info",
-        "generator": "querypage",
-        "redirects": 1,
-        "utf8": 1,
-        "gqppage": "DoubleRedirects",
-        "gqplimit": "max"
-    }
+    fop = {"action": "query", "format": "json", "prop": "info", "generator": "querypage", "redirects": 1, "utf8": 1, "gqppage": "DoubleRedirects", "gqplimit": "max"}
     # ---
     lista = mdwiki_api.post(fop)
     # ---

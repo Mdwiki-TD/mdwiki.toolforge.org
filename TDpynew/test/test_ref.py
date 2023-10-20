@@ -1,28 +1,29 @@
 from ref import fix_ref
 import pywikibot
+
 # ---
 ff = """{{Infobox medical condition (new)
 | name            = Hypoprolactinemia
 | synonyms        = Prolactin deficiency
 | image           = PRL structure.png
 | caption         = [[Prolactin]]
-| pronounce       = 
+| pronounce       =
 | field           = [[Gynecology]]
 | symptoms        = Inability to produce milk after [[childbirth]]<ref name=Yen2013/>
 | complications   = [[Infertility]], [[sexual dysfunction]]<ref name=Tri2019/>
-| onset           = 
-| duration        = 
-| types           = 
+| onset           =
+| duration        =
+| types           =
 | causes          =genetics<ref name=Yen2013/><ref name=Bond2005/><ref name=Tri2019/>
-| risks           = 
+| risks           =
 | diagnosis       = Blood tests<ref name=Mer2021/>
-| differential    = 
-| prevention      = 
+| differential    =
+| prevention      =
 | treatment       = [[Formula feeding]] the baby<ref name=Emed2021Tx/>
-| medication      = 
-| prognosis       = 
+| medication      =
+| prognosis       =
 | frequency       = 8 per 100,000 (Spain, 1999)<ref name='Tri2019'/>
-| deaths          = 
+| deaths          =
 | video1          = [[File:Hypoprolactinemia.webm|frameless|upright=1.36|Video explanation]]
 }}
 <!-- Definition and symptoms -->
@@ -44,23 +45,23 @@ all = """
 | synonyms        = Prolactin deficiency
 | image           = PRL structure.png
 | caption         = [[Prolactin]]
-| pronounce       = 
+| pronounce       =
 | field           = [[Gynecology]]
 | symptoms        = Inability to produce milk after [[childbirth]]<ref name=Yen2013/>
 | complications   = [[Infertility]], [[sexual dysfunction]]<ref name=Tri2019/>
-| onset           = 
-| duration        = 
-| types           = 
+| onset           =
+| duration        =
+| types           =
 | causes          = [[Sheehan's syndrome|Sheehan syndrome]], [[pituitary surgery]], [[traumatic brain injury]], genetics<ref name=Yen2013/><ref name=Bond2005/><ref name=Tri2019/>
-| risks           = 
+| risks           =
 | diagnosis       = Blood tests<ref name=Mer2021/>
-| differential    = 
-| prevention      = 
+| differential    =
+| prevention      =
 | treatment       = [[Formula feeding]] the baby<ref name=Emed2021Tx/>
-| medication      = 
-| prognosis       = 
+| medication      =
+| prognosis       =
 | frequency       = 8 per 100,000 (Spain, 1999)<ref name=Tri2019/>
-| deaths          = 
+| deaths          =
 | video1          = [[File:Hypoprolactinemia.webm|frameless|upright=1.36|Video explanation]]
 }}
 <!-- Definition and symptoms -->
@@ -95,15 +96,15 @@ There are few treatments which increase prolactin levels in humans. Treatment di
 
 == External links ==
 {{Medical resources
-|  DiseasesDB      =  
-|  ICD10           =  
-|  ICD9            =  
-|  ICDO            =  
-|  OMIM            =  
-|  MedlinePlus     =  
-|  eMedicineSubj   =  
-|  eMedicineTopic  =  
-|  MeshID          = 
+|  DiseasesDB      =
+|  ICD10           =
+|  ICD9            =
+|  ICDO            =
+|  OMIM            =
+|  MedlinePlus     =
+|  eMedicineSubj   =
+|  eMedicineTopic  =
+|  MeshID          =
 }}
 {{Endocrine pathology}}
 

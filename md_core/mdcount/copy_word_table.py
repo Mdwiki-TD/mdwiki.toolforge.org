@@ -15,9 +15,11 @@ import os
 import json
 import sys
 from mdpy.bots import sql_for_mdwiki
+
 # ---
 from mdpy import printe
 from pymysql.converters import escape_string
+
 # ---
 que = '''select DISTINCT w_title, w_lead_words, w_all_words from words;'''
 # ---
@@ -27,7 +29,7 @@ in_sql_all = {}
 for q in sql_for_mdwiki.mdwiki_sql(que, return_dict=True):
     # ---
     w_title = q['w_title']
-    w_lead_words= q['w_lead_words']
+    w_lead_words = q['w_lead_words']
     w_all_words = q['w_all_words']
     # ---
     in_sql_lead[w_title] = w_lead_words

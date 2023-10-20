@@ -9,8 +9,10 @@ import sys
 from pathlib import Path
 import json
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 Dir = Path(__file__).parent
 Dird = f"{Dir}/downloads/"
@@ -31,7 +33,6 @@ all_pages = {}
 
 
 def write_main():
-
     title = 'User:Mr. Ibrahem/niosh'
     text = ''
     # ---
@@ -129,8 +130,9 @@ def run(x, urls):
     # ---
     write_to_mdwiki(by_title, x)
 
-
     # ---
+
+
 # ---
 for x, urls in data.items():
     run(x, urls)

@@ -16,6 +16,7 @@ import urllib
 import pywikibot
 import urllib.parse
 import requests
+
 # ---
 import sys
 
@@ -50,6 +51,7 @@ ar_lag = {1: maxlag}
 # ---
 from mdpy.bots import user_account_new
 from mdpy import printe
+
 # ---
 account = {
     'u': user_account_new.my_username,  # user_account_new.bot_username
@@ -73,6 +75,8 @@ def py_input(s):
     sa = pywikibot.input(s)
     # ---
     return sa
+
+
 # ---
 
 
@@ -86,6 +90,8 @@ def get_status(req):
         pywikibot.output('CRITICAL:')
         st = req.status
         return st
+
+
 # ---
 
 
@@ -129,6 +135,8 @@ def post_all(params, addtoken=False, **kwargs):
             return {}
     # ---
     return jsone
+
+
 # ---
 
 
@@ -168,11 +176,14 @@ def Log_to_wiki(family='mdwiki', lang="www"):
     # ---
     # get edit token
     try:
-        SS["r33"] = SS["ss"].get(SS["url"], params={
-            'format': 'json',
-            'action': 'query',
-            'meta': 'tokens',
-        })
+        SS["r33"] = SS["ss"].get(
+            SS["url"],
+            params={
+                'format': 'json',
+                'action': 'query',
+                'meta': 'tokens',
+            },
+        )
     except Exception as e:
         pywikibot.output(f"mdwiki_api.py: Log_to_wiki error: {e}")
         return False
@@ -182,6 +193,8 @@ def Log_to_wiki(family='mdwiki', lang="www"):
     SS["r3_token"] = SS["r33"].json()['query']['tokens']['csrftoken']
     # ---
     login_not_done[1] = False
+
+
 # ---
 
 
@@ -191,29 +204,33 @@ def post_s(params, addtoken=False, **kwargs):
         Log_to_wiki("mdwiki", lang="www")
     # ---
     return post_all(params, addtoken=addtoken, **kwargs)
+
+
 # ---
 
 
 def post(p, **kwargs):
     return post_s(p, **kwargs)
+
+
 # ---
 
 
 def outbot(text2):
     text = {}
     # ---
-    if type(text2) == dict:
+    if isinstance(text2, dict):
         text = text2
     else:
         try:
             text = JJson.loads(text2)
-        except:
+        except BaseException:
             pywikibot.output("error when JJson loads text2")
     # ---{'error': {'*': 'See https://mdwiki.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.', 'info': 'Invalid CSRF token.', 'code': 'badtoken'}}
     # {'error': {'info': 'Invalid CSRF token.', '*': 'See https://mdwiki.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.', 'code': 'badtoken'}}
     # ---
     Invalid = ''
-    if type(text.get("error", {})) == dict:
+    if isinstance(text.get("error", {}), dict):
         Invalid = text.get("error", {}).get("info", '')
     # ---
     if Invalid == "Invalid CSRF token.":
@@ -251,6 +268,8 @@ def outbot(text2):
         pywikibot.output('<<lightgreen>> ** true. ')
     else:
         pywikibot.output(text2)
+
+
 # ---
 
 
@@ -273,14 +292,14 @@ def import_history2(FILE_PATH, title):
         "namespace": namespace,
         # "assignknownusers": 1,
         "token": SS["r3_token"],
-        "utf8": 1
+        "utf8": 1,
     }
     # ---
     NewList = []
     # ---
-    if FILE_PATH and type(FILE_PATH) != list:
+    if FILE_PATH and not isinstance(FILE_PATH, list):
         NewList.append(FILE_PATH)
-    elif FILE_PATH and type(FILE_PATH) == list:
+    elif FILE_PATH and isinstance(FILE_PATH, list):
         NewList = FILE_PATH
     # ---
     for fff in NewList:
@@ -297,6 +316,8 @@ def import_history2(FILE_PATH, title):
             printe.output('<<lightgreen>> ** true .. . ')
         # ---
         outbot(r4.text)
+
+
 # ---
 
 
@@ -323,9 +344,9 @@ def import_history(FILE_PATH, title):
     # ---
     NewList = []
     # ---
-    if FILE_PATH and type(FILE_PATH) != list:
+    if FILE_PATH and not isinstance(FILE_PATH, list):
         NewList.append(FILE_PATH)
-    elif FILE_PATH and type(FILE_PATH) == list:
+    elif FILE_PATH and isinstance(FILE_PATH, list):
         NewList = FILE_PATH
     # ---
     for fff in NewList:
@@ -349,18 +370,13 @@ def import_history(FILE_PATH, title):
         printe.output(DATA)
         # ---
         # outbot(r4.text)
+
+
 # ---
 
 
 def import_page(title):
-    params = {
-        "action": "import",
-        "format": "json",
-        "interwikisource": "wikipedia",
-        "interwikipage": title,
-        "fullhistory": 1,
-        "assignknownusers": 1
-    }
+    params = {"action": "import", "format": "json", "interwikisource": "wikipedia", "interwikipage": title, "fullhistory": 1, "assignknownusers": 1}
     # ---
     r4 = post_s(params, addtoken=True)
     # ---
@@ -369,6 +385,8 @@ def import_page(title):
     # ---
     return r4
     # ---
+
+
 # ---
 
 
@@ -376,13 +394,7 @@ def page_put_new(NewText, summary, title, time_sleep="", family="", lang="", min
     # ---
     printe.output(f' page_put {title}:')
     # ---
-    pparams = {
-        "action": "edit",
-        "title": title,
-        "text": NewText,
-        "summary": summary,
-        "nocreate": nocreate
-    }
+    pparams = {"action": "edit", "title": title, "text": NewText, "summary": summary, "nocreate": nocreate}
     # ---
     if sys.argv and "workibrahem" in sys.argv:
         pparams["summary"] = ""
@@ -397,7 +409,7 @@ def page_put_new(NewText, summary, title, time_sleep="", family="", lang="", min
     r4 = post_s(pparams, addtoken=True)
     # ---
     Invalid = ''
-    if type(r4.get("error", {})) == dict:
+    if isinstance(r4.get("error", {}), dict):
         Invalid = r4.get("error", {}).get("info", '')
     # ---
     if 'Success' in str(r4):
@@ -437,7 +449,7 @@ def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family
         if diff:
             try:
                 pywikibot.showDiff(oldtext, newtext)
-            except:
+            except BaseException:
                 printe.output(' -mdwiki cant showDiff')
         printe.output(f' -Edit summary: {summary}:')
         sa = py_input(f"<<lightyellow>>mdwiki/mdpy/mdwiki_api.py: Do you want to accept these changes? ([y]es, [N]o, [a]ll): for page {lang}:{title}.org user:{account['u']}")
@@ -453,6 +465,8 @@ def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family
             return False
     # ---
     return page_put_new(newtext, summary, title, time_sleep=time_sleep, family=family, lang=lang, minor=minor, nocreate=nocreate, tags=tags, returntrue=returntrue)
+
+
 # ---
 
 
@@ -486,6 +500,8 @@ def Add_To_Bottom2(aptext, summary, title, poss="", family="", minor=""):
             outbot(r4)
     else:
         printe.output('** Add_To_Bottom2 ..  title == ""')
+
+
 # ---
 
 
@@ -511,6 +527,8 @@ def Add_To_Head(prependtext, summary, title, Ask, minor=""):
         # ---
     else:
         printe.output('** Add_To_Head ..  title == ""')
+
+
 # ---
 
 
@@ -535,6 +553,8 @@ def Add_To_Bottom(appendtext, summary, title, Ask, family="", minor=""):
         # ---
     else:
         printe.output('** Add_To_Bottom ..  title == ""')
+
+
 # ---
 
 
@@ -610,6 +630,8 @@ def create_Page(text, summary, title, ask, sleep=0, family="", duplicate4="", mi
     printe.output(r4)
     # ---a
     return False
+
+
 # ---
 
 
@@ -666,6 +688,8 @@ def move(From, to, reason, lang='ar', nosleep=False):
             return outbot(r4.text)
             # printe.output(r4.text)
     return False
+
+
 # ---
 
 
@@ -695,6 +719,8 @@ def wordcount(title, srlimit='30'):
             break
     # ---
     return words
+
+
 # ---
 
 
@@ -714,11 +740,9 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True):
         "gcmprop": "title",
         "gcmtype": "page|subcat",
         "gcmlimit": "max",
-
         "redirects": 1,
         # "prop": "templates",
         # "tllimit": "max",
-
         # "lllang": langcode,
         # "lllimit": "max",
     }
@@ -732,7 +756,7 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True):
         params["tllimit"] = "max"
         params["tltemplates"] = "|".join(tempyes)
     # ---
-    if lllang != "" or lang_no:        # مع وصلة لغة معينة
+    if lllang != "" or lang_no:  # مع وصلة لغة معينة
         params["prop"] = params["prop"] + "|langlinks"
         # params["lllang"] = lllang
         params["lllimit"] = "max"
@@ -781,7 +805,7 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True):
             # ---
             caca = category
             # ---
-            if type(pages) == dict:
+            if isinstance(pages, dict):
                 caca = pages[category]
             # ---
             cate_title = caca["title"]
@@ -811,6 +835,8 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True):
     printe.output(f'<<lightyellow>> cat:{enlink} has:{len(table)} pages.')
     # ---
     return table
+
+
 # ---
 
 
@@ -858,10 +884,10 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False, without_lang="", 
     # ---
     depth_done = 0
     # ---
-    if type(depth) != int:
+    if not isinstance(depth, int):
         try:
             depth = int(depth)
-        except:
+        except BaseException:
             printe.output('<<lightblue>> type(depth) != int ')
     # ---
     while depth > depth_done:  # and ( limit > 0 and len(result_table) < limit ):
@@ -914,6 +940,8 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False, without_lang="", 
     # ---
     # return result_table
     return result_tab
+
+
 # ---
 
 
@@ -944,6 +972,8 @@ def GetPageText(title, redirects=False):
         printe.output(f'page {title} text == "".')
     # ---
     return text
+
+
 # ---
 
 
@@ -955,7 +985,7 @@ def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
         # "rcdir": "newer",
         "rcnamespace": namespace,
         "rclimit": limit,
-        "rctype": "new"
+        "rctype": "new",
     }
     # ---
     if rcstart != "":
@@ -972,20 +1002,13 @@ def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
     # ---
     newp = json1.get("query", {}).get("recentchanges", {})
     # ---
-    ccc = {
-        "type": "new",
-        "ns": 0,
-        "title": "تشارلز مسيون ريمي",
-        "pageid": 7004776,
-        "revid": 41370093,
-        "old_revid": 0,
-        "rcid": 215347464,
-        "timestamp": "2019-12-15T13:14:34Z"
-    }
+    ccc = {"type": "new", "ns": 0, "title": "تشارلز مسيون ريمي", "pageid": 7004776, "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"}
     # ---
     Main_table = [x["title"] for x in newp]
     # ---
     return Main_table
+
+
 # ---
 
 
@@ -1006,7 +1029,11 @@ def Get_page_links(title, namespace="0", limit="max"):
     # ---
     json1 = post_s(params)
     # ---
-    Main_table = {'links': {}, 'normalized': [], 'redirects': [], }
+    Main_table = {
+        'links': {},
+        'normalized': [],
+        'redirects': [],
+    }
     # ---
     if json1:
         # ---
@@ -1026,6 +1053,8 @@ def Get_page_links(title, namespace="0", limit="max"):
     printe.output(f"mdwiki_api.py Get_page_links : find {len(Main_table['links'])} pages.")
     # ---
     return Main_table
+
+
 # ---
 
 
@@ -1033,6 +1062,8 @@ def Get_page_links_2(title):
     Main_table = Get_page_links(title)
     lista = Main_table.get('links', {}).keys()
     return lista
+
+
 # ---
 
 
@@ -1040,14 +1071,7 @@ def Get_template_pages(title, namespace="*", limit="max"):
     # ---
     printe.output(f'Get_template_pages for template:"{title}", limit:"{limit}",namespace:"{namespace}"')
     # ---
-    params = {
-        "action": "query",
-        "prop": "info",
-        "titles": title,
-        "generator": "transcludedin",
-        "gtinamespace": namespace,
-        "gtilimit": limit
-    }
+    params = {"action": "query", "prop": "info", "titles": title, "generator": "transcludedin", "gtinamespace": namespace, "gtilimit": limit}
     # ---
     Main_table = []
     gticontinue = 'x'
@@ -1075,6 +1099,8 @@ def Get_template_pages(title, namespace="*", limit="max"):
     printe.output(f"mdwiki_api.py Get_template_pages : find {len(Main_table)} pages.")
     # ---
     return Main_table
+
+
 # ---
 
 
@@ -1140,6 +1166,8 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
     printe.output(f"mdwiki_api.py Get_All_pages : find {len(Main_table)} pages.")
     # ---
     return Main_table
+
+
 # ---
 
 
@@ -1156,6 +1184,8 @@ def get_section(title, level):
     text = json1.get("parse", {}).get("wikitext", {}).get("*", '')
     # ---
     return text
+
+
 # ---
 
 
@@ -1189,6 +1219,8 @@ def Get_UserContribs(user, limit="max", namespace="*", ucshow=""):
     printe.output(f"mdwiki_api.py Get_Newpages : find {len(Main_table)} pages.")
     # ---
     return Main_table
+
+
 # ---
 
 
@@ -1242,6 +1274,8 @@ def Search(valu, lang="", family='', ns="", offset='', srlimit="max", RETURN_dic
     printe.output(f'mdwiki_api.Search find "{len(Lidy)}" result. s')
     # ---
     return Lidy
+
+
 # ---
 
 
@@ -1250,7 +1284,7 @@ def get_redirect(liste):
     redirects = {}
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i:i+50]
+        titles = liste[i: i + 50]
         # ---
         params = {
             "action": "query",
@@ -1270,6 +1304,8 @@ def get_redirect(liste):
                 redirects[red["from"]] = red["to"]
     # ---
     return redirects
+
+
 # ---
 
 
@@ -1279,7 +1315,7 @@ def Find_pages_exists_or_not(liste):
     table = {}
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i:i+50]
+        titles = liste[i: i + 50]
         # ---
         params = {
             "action": "query",

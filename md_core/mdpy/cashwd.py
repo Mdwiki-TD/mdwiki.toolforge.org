@@ -14,12 +14,14 @@ import os
 import traceback
 from datetime import datetime
 import pywikibot
+
 # ---
 from mdpy import printe
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import en_to_md  # en_to_md.mdtitle_to_qid #en_to_md.enwiki_to_mdwiki # en_to_md.mdwiki_to_enwiki
 from mdpy.bots import mdwiki_api
 from mdpy.bots import wikidataapi
+
 # ---
 Day_History = datetime.now().strftime("%Y-%m-%d")
 # ---
@@ -66,15 +68,10 @@ def get_qids_sitelinks(qidslist):
         # "ids": ,
         "redirects": "yes",
         "props": "sitelinks",
-        "utf8": 1
+        "utf8": 1,
     }
     # ---
-    TEST = {
-        "heads": ["arwiki"],
-        "qids": {
-            "Q1": {"mdtitle": "test", "sitelinks": {"arwiki": "test"}}
-        }
-    }
+    TEST = {"heads": ["arwiki"], "qids": {"Q1": {"mdtitle": "test", "sitelinks": {"arwiki": "test"}}}}
     table_d = {"heads": [], "qids": {}}
     table_l = {"heads": [], "qids": {}}
     # ---
@@ -86,7 +83,7 @@ def get_qids_sitelinks(qidslist):
     # ---
     for i in range(0, len(qs_list), 100):
         # ---
-        qids = qs_list[i:i+100]
+        qids = qs_list[i: i + 100]
         # ---
         params_wd["ids"] = '|'.join(qids)
         # ---
@@ -164,6 +161,8 @@ def get_qids_sitelinks(qidslist):
     table_l["heads"] = heads
     # ---
     return table_d, table_l
+
+
 # ---
 
 
@@ -179,9 +178,9 @@ def cash_wd():
         cat = c['category']
         dep = c['depth']
         # ---
-        cat = cat.decode("utf-8") if type(cat) == bytes else cat
+        cat = cat.decode("utf-8") if isinstance(cat, bytes) else cat
         # ---
-        dep = dep.decode("utf-8") if type(dep) == bytes else dep
+        dep = dep.decode("utf-8") if isinstance(dep, bytes) else dep
         # ---
         mdwiki_pages = mdwiki_api.subcatquery(cat, depth=dep, ns='all')
         # ---
@@ -244,8 +243,7 @@ def cash_wd():
     # email_address = "ibrahem.al-radaei@outlook.com"
     # send aleart email to email_address
     # ---
-    noqids = [x for x in titles if x not in en_to_md.mdtitle_to_qid]
-    noqids.sort()
+    noqids = sorted([x for x in titles if x not in en_to_md.mdtitle_to_qid])
     # ---
     json.dump(noqids, open(Dashboard_path + '/Tables/noqids.json', 'w'))
     # ---
@@ -265,6 +263,8 @@ def cash_wd():
     printe.output(' log to missing.json true.... ')
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     cash_wd()

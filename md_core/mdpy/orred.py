@@ -19,10 +19,12 @@ python3 core8/pwb.py mdpy/orred
 # ---
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---
 from mdpy import printe
 from mdpy import wpref
+
 # wpref.submitAPI( params , lang = 'or' , returnjson = False )
 # ---
 or_url = 'https://' + 'or.wikipedia.org/w/api.php'
@@ -38,7 +40,7 @@ def Find_pages_exists_or_not(liste, apiurl=''):
         # "redirects": 0,
         # "prop": "templates|langlinks",
         "utf8": 1,
-        "token": ""
+        "token": "",
     }
     # ---
     table = {}
@@ -59,6 +61,8 @@ def Find_pages_exists_or_not(liste, apiurl=''):
                     table[tit] = True
         # ---
     return table
+
+
 # ---
 
 
@@ -80,16 +84,7 @@ def create_redirect(target, mdtitle):
         # ---
         text = f'#redirect [[{target}]]'
         sus = f'Redirected page to [[{target}]]'
-        params = {
-            "action": "edit",
-            "format": "json",
-            "title": mdtitle,
-            "text": text,
-            "summary": sus,
-            "createonly": 1,
-            "utf8": 1,
-            "token": ""
-        }
+        params = {"action": "edit", "format": "json", "title": mdtitle, "text": text, "summary": sus, "createonly": 1, "utf8": 1, "token": ""}
         # ---
         uu = wpref.submitAPI(params, lang='or')
         # ---
@@ -97,6 +92,8 @@ def create_redirect(target, mdtitle):
             printe.output(f'<<lightgreen>>** true .. [[{mdtitle}]] ')
         else:
             printe.output(uu)
+
+
 # ---
 
 

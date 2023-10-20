@@ -9,6 +9,7 @@
 import json
 
 import sys
+
 # ---
 
 # ---
@@ -16,17 +17,21 @@ import urllib
 import urllib.request
 import urllib.parse
 import requests
+
 # ---
 import text_changes
 import ref
+
 # ref.fix_ref( first , alltext )
 # ---
 import user_account_new
+
 # ---
 lgname_enwiki = user_account_new.lgname_enwiki
 lgpass_enwiki = user_account_new.lgpass_enwiki
 # ---
 import mdapi
+
 # mdapi.submitAPI( params )
 # ---
 wholearticle = {1: False}
@@ -45,6 +50,8 @@ login_done = {1: False}
 def print_py(s):
     if sys.stdin.isatty():
         print(s)
+
+
 # ---
 
 
@@ -62,27 +69,36 @@ def log_to_enwiki():
     session["url"] = api_urle
     # ---
     # get login token
-    r1 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-        'type': 'login',
-    })
+    r1 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+            'type': 'login',
+        },
+    )
     r1.raise_for_status()
     # log in
-    r2 = session[1].post(api_urle, data={
-        'format': 'json',
-        'action': 'login',
-        'lgname': lgname_enwiki,
-        'lgpassword': lgpass_enwiki,
-        'lgtoken': r1.json()['query']['tokens']['logintoken'],
-    })
+    r2 = session[1].post(
+        api_urle,
+        data={
+            'format': 'json',
+            'action': 'login',
+            'lgname': lgname_enwiki,
+            'lgpassword': lgpass_enwiki,
+            'lgtoken': r1.json()['query']['tokens']['logintoken'],
+        },
+    )
 
-    r3 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-    })
+    r3 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+        },
+    )
     # ---
     token = r3.json()['query']['tokens']['csrftoken']
     # ---
@@ -91,6 +107,8 @@ def log_to_enwiki():
     login_done[1] = True
     # ---
     session["token"] = token
+
+
 # ---
 
 
@@ -137,6 +155,8 @@ def put(title, text):
         print('true')
     else:
         print(str(js))
+
+
 # ---
 
 
@@ -187,6 +207,8 @@ def work(title):
     return put(title, text)
 
     # ---
+
+
 title = ''
 # ---
 # python translate.py -title:Amoebiasis

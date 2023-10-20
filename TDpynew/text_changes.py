@@ -9,15 +9,9 @@ Ibrahem/Article name
 James
 """
 import wikitextparser as wtp
+
 # ---
-temps_to_delete = [
-    "short description",
-    "toc limit",
-    'use american english',
-    'use dmy dates',
-    'about',
-    'redirect'
-]
+temps_to_delete = ["short description", "toc limit", 'use american english', 'use dmy dates', 'about', 'redirect']
 # ---
 
 
@@ -31,4 +25,6 @@ def work(text):
             text = text.replace(temp.string.strip(), '')
     # ---
     return text.strip()
+
+
 # ---

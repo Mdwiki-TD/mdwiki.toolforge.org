@@ -9,17 +9,14 @@ with codecs.open(f'{Dir}/lists/md_links.json', 'r', encoding='utf-8') as f:
 import json
 import codecs
 from pathlib import Path
+
 # ---
 from mdpy.bots import mdwiki_api
+
 # ---
 Dir = Path(__file__).parent.parent
 # ---
-cats = [
-    "World Health Organization essential medicines",
-    "World Health Organization essential medicines (vaccines)",
-    "World Health Organization essential medicines (alternatives)",
-    "World Health Organization essential medicines (removed)"
-]
+cats = ["World Health Organization essential medicines", "World Health Organization essential medicines (vaccines)", "World Health Organization essential medicines (alternatives)", "World Health Organization essential medicines (removed)"]
 # ---
 all_p = []
 # ---

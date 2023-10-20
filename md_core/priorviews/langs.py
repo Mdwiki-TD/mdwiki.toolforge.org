@@ -10,23 +10,29 @@ import json
 from pathlib import Path
 import datetime
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.lists.links_by_section import sects_links_langlinks, links_by_lang
 from priorviews.lists import views
 from priorviews.lists import translators
 from priorviews.lists import words
+
 # ---
 from priorviews.bots import helps
+
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)
 # helps.talk_url(lang, user, labl)
 # ---
 from priorviews.bots import w_all
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -83,6 +89,8 @@ def authors_table(authors, lang):
     authors_text += '\n|}'
     # ---
     return authors_text
+
+
 # ---
 
 
@@ -191,15 +199,7 @@ def make_lang_textso(lang):
                     # ---
                     translators_all[ar_tra]['all'] += 1
                 # ---
-                fafo = {
-                    'mdtitle': x,
-                    'target': ar,
-                    'lang': lang,
-                    'views': arviews,
-                    'words': arwords,
-                    'translator': ar_tra,
-                    'tr_type': tr_type
-                }
+                fafo = {'mdtitle': x, 'target': ar, 'lang': lang, 'views': arviews, 'words': arwords, 'translator': ar_tra, 'tr_type': tr_type}
                 # ---
                 tab_new['translates'].append(fafo)
                 # ---
@@ -230,6 +230,8 @@ def make_lang_textso(lang):
     newtext += secs_texts
     # ---
     return newtext
+
+
 # ---
 
 
@@ -252,6 +254,8 @@ def work(lang):
         print('no change')
 
     # ---
+
+
 # ---
 if __name__ == "__main__":
     langs = links_by_lang.keys()

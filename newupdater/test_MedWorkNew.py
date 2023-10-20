@@ -1,10 +1,11 @@
-
 from MedWorkNew import *
+
 
 def test():
     # ---
     # python3 pwb.py newupdater/MedWorkNew
     import pywikibot
+
     # ---
     old_params.printn = print
     mv_section.printn = print

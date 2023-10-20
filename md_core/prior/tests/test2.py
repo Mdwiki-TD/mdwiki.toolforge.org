@@ -3,7 +3,6 @@ from prior import read4
 
 # ---
 lal = [
-
     "Tooth decay",
     "Angular cheilitis",
     "Bad breath",

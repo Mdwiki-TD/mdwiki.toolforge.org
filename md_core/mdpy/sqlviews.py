@@ -13,8 +13,10 @@ python3 core8/pwb.py /data/project/mdwiki/mdpy/sqlviews -lang:or
 #
 import re
 import sys
+
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ===
 # ---
@@ -22,6 +24,7 @@ from mdpy.bots import wiki_api
 from pymysql.converters import escape_string
 
 from mdpy import printe
+
 already_in_sql = {}
 # ---
 Lang_to_targets = {}
@@ -31,6 +34,8 @@ Lang_to_targets = {}
 def print_test(strr):
     if 'print' in sys.argv or 'nosql' in sys.argv:
         printe.output(strr)
+
+
 # ---
 
 

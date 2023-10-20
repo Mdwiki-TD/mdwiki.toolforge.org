@@ -20,28 +20,35 @@ from mdpy.bots import wiki_api
 #
 #
 import json
+
 # ---
 import traceback
 import pywikibot
+
 # ---
 
 # import datetime
 # import dateutil.parser
 # import time
 import sys
+
 # ---
 
 # ---
 import urllib
 import urllib.request
 import urllib.parse
+
 # ---
 from pywikibot.comms import http
+
 # ---
 import pywikibot.data.api as apit
+
 # ---
 # ---
 import requests
+
 # ---
 SS = {"token": ''}
 session = {}
@@ -55,6 +62,7 @@ login_done = {1: False}
 # ---
 from mdpy import printe
 from mdpy.bots import user_account_new
+
 # ---
 lgname = user_account_new.bot_username  # user_account_new.my_username
 lgpassword = user_account_new.bot_password  # user_account_new.my_password      #user_account_new.mdwiki_pass
@@ -63,7 +71,7 @@ lgpassword = user_account_new.bot_password  # user_account_new.my_password      
 
 def log(api_urle):
     # ---
-    if login_done[1] == api_urle or api_urle =='':
+    if login_done[1] == api_urle or api_urle == '':
         return ''
     # ---
     # api_urle = 'https://' + 'www.wikidata.org/w/api.php'
@@ -76,23 +84,29 @@ def log(api_urle):
     session["url"] = api_urle
     # ---
     # get login token
-    r1 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-        'type': 'login',
-    })
+    r1 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+            'type': 'login',
+        },
+    )
     r1.raise_for_status()
     # log in
     # passe = wd_password
     # ---
-    r2 = session[1].post(api_urle, data={
-        'format': 'json',
-        'action': 'login',
-        'lgname': lgname,
-        'lgpassword': lgpassword,
-        'lgtoken': r1.json()['query']['tokens']['logintoken'],
-    })
+    r2 = session[1].post(
+        api_urle,
+        data={
+            'format': 'json',
+            'action': 'login',
+            'lgname': lgname,
+            'lgpassword': lgpassword,
+            'lgtoken': r1.json()['query']['tokens']['logintoken'],
+        },
+    )
     # ---
     if r2.json()['login']['result'] != 'Success':
         pywikibot.output('Traceback (most recent call last):')
@@ -103,17 +117,22 @@ def log(api_urle):
         pywikibot.output(f"<<lightgreen>> mdwiki/mdpy/wiki_api.py: log to {api_urle} user:{lgname} Success... ")
     # ---
     # get edit token
-    r3 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-    })
+    r3 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+        },
+    )
     # ---
     token = r3.json()['query']['tokens']['csrftoken']
     # ---
     login_done[1] = api_urle
     # ---
     session["token"] = token
+
+
 # ---
 
 
@@ -141,6 +160,8 @@ def split_list_to_numbers(lise, numbs=100):
                 # ---
     # ---
     return titles
+
+
 # ---
 
 
@@ -170,6 +191,8 @@ def submitAPI_token(params, apiurl='', returnjson=False):
     # ---
     # ---
     return json1
+
+
 # ---
 
 
@@ -204,6 +227,8 @@ def submitAPI(params, apiurl='', returnjson=False):
         return {}
     # ---
     return json1
+
+
 # ---
 
 
@@ -216,7 +241,7 @@ def Find_pages_exists_or_not(liste, apiurl=''):
         # "redirects": 0,
         # "prop": "templates|langlinks",
         "utf8": 1,
-        "token": session["token"]
+        "token": session["token"],
     }
     # ---
     table = {}
@@ -237,6 +262,8 @@ def Find_pages_exists_or_not(liste, apiurl=''):
                     table[tit] = True
         # ---
     return table
+
+
 # ---
 
 
@@ -246,7 +273,7 @@ def get_langlinks(title, lang):
         "action": "query",
         "titles": title,
         "prop": "langlinks",
-        "lllimit": "max",		# langlinks
+        "lllimit": "max",  # langlinks
         "formatversion": "2",
     }
     # ---
@@ -258,6 +285,8 @@ def get_langlinks(title, lang):
     langlinks = {ta["lang"]: ta.get("*") or ta.get("title") for ta in ta.get('langlinks', [])}
     # ---
     return langlinks
+
+
 # ---
 
 
@@ -269,7 +298,7 @@ def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
     if apiurl == '' and sitecode != "":
         apiurl = "https://" + sitecode + ".wikipedia.org/w/api.php"
     # ---
-    if type(titles) == str:
+    if isinstance(titles, str):
         titles = [titles]
     # ---
     Main_table = {}
@@ -292,7 +321,7 @@ def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
     for i in range(0, len(titles), 50):
         # ---
         # group = dict(list(liste.items())[i:i+50])
-        group = titles[i:i+50]
+        group = titles[i: i + 50]
         # ---
         params["titles"] = "|".join(group)
         # ---
@@ -318,6 +347,8 @@ def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
                         Main_table[title]['q'] = kk["pageprops"].get("wikibase_item", "")
     # ---
     return Main_table
+
+
 # ---
 
 
@@ -375,6 +406,8 @@ def Getpageassessments_from_wikipedia(titles, site="en", find_redirects=False, p
                 break
     # ---
     return Tables
+
+
 # ---
 
 
@@ -407,6 +440,8 @@ def GetPageText(title, lang, redirects=False):
         printe.output(f'page {title} text == "".')
     # ---
     return text
+
+
 # ---
 
 
@@ -425,7 +460,7 @@ def _get_page_views_(titles, site='en', days=30):
         "titles": titles,
         # "formatversion": "2",
         "redirects": 1,
-        "pvipdays": str(days)
+        "pvipdays": str(days),
     }
     # ---
     maxn = 500 if '500' in sys.argv else 50
@@ -461,7 +496,7 @@ def _get_page_views_(titles, site='en', days=30):
             # ---
             kk = key
             # ---
-            if type(js.get('pages')) == dict:
+            if isinstance(js.get('pages'), dict):
                 kk = js['pages'][kk]
             # ---
             # {'pageid': 46133, 'ns': 0, 'title': 'Cardiomyopathy', 'pageviews': {'2022-11-14': 3076, '2022-11-15': 2114, '2022-11-16': 2895, '2022-11-17': 2616, '2022-11-18': 2247, '2022-11-19': 2303, '2022-11-20': 2152, '2022-11-21': 1752, '2022-11-22': 1617, '2022-11-23': 1595, '2022-11-24': 1520, '2022-11-25': 1534, '2022-11-26': 1611, '2022-11-27': 1702, '2022-11-28': 1457, '2022-11-29': 1362, '2022-11-30': 1517, '2022-12-01': 1689, '2022-12-02': 1510, '2022-12-03': 1588, '2022-12-04': 1678, '2022-12-05': 1449, '2022-12-06': 1578, '2022-12-07': 1411, '2022-12-08': 1495, '2022-12-09': 1732, '2022-12-10': 1553, '2022-12-11': 1702, '2022-12-12': 1472, '2022-12-13': 1333}}
@@ -487,7 +522,7 @@ def _get_page_views_(titles, site='en', days=30):
             all_views = 0
             # ---
             for date, views in pageviews.items():
-                if type(views) == int:
+                if isinstance(views, int):
                     all_views += views
             # ---
             Main_table[title] = all_views
@@ -500,6 +535,8 @@ def _get_page_views_(titles, site='en', days=30):
     printe.output(f'get_page_views: no_pv:{len_no_pv}')
     # ---
     return Main_table, no_pv
+
+
 # ---
 
 
@@ -517,6 +554,8 @@ def get_page_views(titles, site='en', days=30):
         views = {**views, **views1}
     # ---
     return views
+
+
 # ---
 
 
@@ -544,7 +583,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20
         # ---
         pa = urllib.parse.quote(page)
         # ---
-        url = 'https:' + '//wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' + langcode + '.wikipedia/all-access/all-agents/' + pa.replace('/', '%2F') + '/' + _Type +'/' + date_start + '00/' + date_end + '00'
+        url = 'https:' + '//wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' + langcode + '.wikipedia/all-access/all-agents/' + pa.replace('/', '%2F') + '/' + _Type + '/' + date_start + '00/' + date_end + '00'
         # ---
         if "printurl" in sys.argv or printurl:
             printe.output('printboturl:\t\t' + url)
@@ -574,10 +613,7 @@ def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20
         if not data or data == {}:
             pywikibot.output(url)
         # ---
-        sadasd = [
-            {"project": "ar.wikipedia", "article": "نيلوتينيب", "granularity": "monthly", "timestamp": "2021070100", "access": "all-access", "agent": "all-agents", "views": 77},
-            {"project": "ar.wikipedia", "article": "نيلوتينيب", "granularity": "monthly", "timestamp": "2021080100", "access": "all-access", "agent": "all-agents", "views": 95}
-        ]
+        sadasd = [{"project": "ar.wikipedia", "article": "نيلوتينيب", "granularity": "monthly", "timestamp": "2021070100", "access": "all-access", "agent": "all-agents", "views": 77}, {"project": "ar.wikipedia", "article": "نيلوتينيب", "granularity": "monthly", "timestamp": "2021080100", "access": "all-access", "agent": "all-agents", "views": 95}]
         # ---
         number_all = 0
         # ---

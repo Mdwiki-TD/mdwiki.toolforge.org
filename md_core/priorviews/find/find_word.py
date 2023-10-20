@@ -10,11 +10,14 @@ import json
 import os
 from pathlib import Path
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.bots import helps
 from priorviews.bots import count_words
+
 # ---
 TEST = False
 # ---
@@ -57,6 +60,7 @@ def get_w(links, lang):
         if not i or i == empty:
             return True
         return False
+
     # ---
     if 'onlynew' in sys.argv:
         # links = [ x for x in links if not x in words_by_lang[lang] or words_by_lang[lang][x] == 0]
@@ -92,6 +96,8 @@ def get_w(links, lang):
         if N_g % 100 == 0:
             log_words()
     # ---
+
+
 # ---
 
 
@@ -120,21 +126,22 @@ def start():
     # ---
     log_words()
     # ---
+
+
 # ---
 
 
 def test():
     # ---
-    da = [
-        'مرحاض ذو حفرة'
-    ]
+    da = ['مرحاض ذو حفرة']
     # ---
     get_w(da, "ar")
-
 
     # ---
     # log_words()
     # ---
+
+
 # ---
 if __name__ == '__main__':
     if "test1" in sys.argv:

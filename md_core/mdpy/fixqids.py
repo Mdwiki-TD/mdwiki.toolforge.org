@@ -10,11 +10,14 @@ python3 core8/pwb.py mdpy/fixqids
 # ---
 from mdpy.bots import catdepth2
 import sys
+
 # ---
 from mdpy.bots import wikidataapi
+
 # ---
 from mdpy import printe
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
@@ -68,6 +71,8 @@ def check_title(title):
         return False
     # ---
     return True
+
+
 # ---
 
 

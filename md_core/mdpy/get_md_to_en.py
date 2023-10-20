@@ -10,11 +10,13 @@ python3 core8/pwb.py mdpy/get_md_to_en nodump
 #
 #
 import json
+
 # ---
 # ---
 
 import sys
 import os
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -26,6 +28,7 @@ project += '/public_html/Translation_Dashboard/Tables/'
 from mdpy.bots import catdepth2
 from mdpy.bots import wiki_api
 from mdpy import printe
+
 # ---
 medwiki_to_enwiki_conflic = {}
 medwiki_to_enwiki = {}
@@ -49,7 +52,7 @@ def check():
     # ---
     for i in range(0, len(Listo), 100):
         # ---
-        newlist = Listo[i:i+100]
+        newlist = Listo[i: i + 100]
         # ---
         line = "|".join(newlist)
         # ---
@@ -81,18 +84,7 @@ def check():
             # "pages": { "4195": {"pageid": 4195,"ns": 0,"title": "Aspirin","redirects": [{"pageid": 4953,"ns": 0,"title": "Acetylsalicylic acid"}]} }
             pages = query.get("pages", {})
             # ---
-            pages_example = {
-                "-1": {
-                    "ns": 0,
-                    "title": "Fsdfdsf",
-                    "missing": ""
-                },
-                "2767": {
-                    "pageid": 2767,
-                    "ns": 0,
-                    "title": "ACE inhibitor"
-                }
-            }
+            pages_example = {"-1": {"ns": 0, "title": "Fsdfdsf", "missing": ""}, "2767": {"pageid": 2767, "ns": 0, "title": "ACE inhibitor"}}
             # ---
             for page in pages:
                 # ---
@@ -137,7 +129,6 @@ def check():
     printe.output(f'<<lightgreen>> len of sames:{len(sames)}')
     # ---
     if 'nodump' not in sys.argv:
-
         # الكتابة إلى الملفات
         json.dump(medwiki_to_enwiki, open(project + 'medwiki_to_enwiki.json', 'w'))
         # ---

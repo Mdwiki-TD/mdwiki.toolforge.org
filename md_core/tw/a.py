@@ -19,9 +19,11 @@ import codecs
 import json
 import requests
 import random
+
 # ---
 # ---
 import twet_config
+
 # ---
 
 
@@ -45,6 +47,8 @@ def send(link):
     if data and getattr(data, 'id') is not None:
         print(data.id)
         return True
+
+
 # ---
 
 
@@ -116,6 +120,8 @@ def get_links():
     print(f'len of vaild_links: {len(vaild_links)}')
     # ---
     return vaild_links
+
+
 # ---
 
 
@@ -134,6 +140,8 @@ def get_done():
         jsj = json.load(f)
     f.close()
     return jsj
+
+
 # ---
 
 

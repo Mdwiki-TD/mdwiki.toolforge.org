@@ -3,6 +3,7 @@ July 25, 1975 should be translated as 25 de julio de 1975
 """
 import re
 import wikitextparser as wtp
+
 # ---
 # ---
 es_months_tab = {
@@ -58,6 +59,8 @@ def make_new_val(val):
         return newval
     # ---
     return newval
+
+
 # ---
 
 
@@ -96,4 +99,6 @@ def fix_es_months(text):
     text = parsed.string
     # ---
     return text
+
+
 # ---

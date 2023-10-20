@@ -19,9 +19,11 @@ import codecs
 import json
 import requests
 import random
+
 # ---
 # ---
 import twet_config
+
 # Create variables for each key, secret, token
 consumer_key = twet_config.consumer_key
 consumer_secret = twet_config.consumer_secret
@@ -159,6 +161,8 @@ def auth(twet):
     # auth = tweepy.OAuth2AppHandler(consumer_key, consumer_secret)
     # api = tweepy.API(auth)
     # ---
+
+
 # ---
 # ---
 
@@ -231,6 +235,8 @@ def get_links():
     print(f'len of vaild_links: {len(vaild_links)}')
     # ---
     return vaild_links
+
+
 # ---
 
 
@@ -249,6 +255,8 @@ def get_done():
         jsj = json.load(f)
     f.close()
     return jsj
+
+
 # ---
 
 
@@ -260,6 +268,8 @@ def get_one_link(done, links):
         link = random.choice(links)
     # ---
     return link
+
+
 # ---
 
 
@@ -292,6 +302,8 @@ def start_md():
         ii.close()
 
         # ---
+
+
 # ---
 if 'test' in sys.argv:
     print('test!')

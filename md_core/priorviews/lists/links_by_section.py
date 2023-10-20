@@ -11,10 +11,13 @@ import json
 import os
 from pathlib import Path
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.bots.sections_links import get_section_links
+
 # ---
 Dir = Path(__file__).parent
 # get the dir 2 levels back

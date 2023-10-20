@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 import requests
 import wikitextparser
 from mdpy import printe
+
 # ---
 '''
 # ---
@@ -60,6 +61,8 @@ def url_parser(url):
     }
 
     return elements
+
+
 # ---
 
 
@@ -118,11 +121,12 @@ def filter_urls(links):
     # ---
     # ---
     return liste1
+
+
 # ---
 
 
 class work_in_one_lang_link:
-
     def __init__(self, lang, title):
         self.lang = change_codes.get(lang) or lang
         # ---
@@ -168,19 +172,14 @@ class work_in_one_lang_link:
 
     def expandtemplates(self, text):
         # ---
-        params = {
-            "action": "expandtemplates",
-            "format": "json",
-            "text": text,
-            "prop": "wikitext",
-            "formatversion": "2"
-        }
+        params = {"action": "expandtemplates", "format": "json", "text": text, "prop": "wikitext", "formatversion": "2"}
         # ---
         data = self.post_to_json(params)
         # ---
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         # ---
         return newtext
+
     # ---
 
     def get_expended(self):
@@ -239,15 +238,7 @@ class work_in_one_lang_link:
         # ---
 
     def get_extlinks(self):
-        params = {
-            "action": "query",
-            "format": "json",
-            "prop": "extlinks",
-            "titles": self.title,
-            "formatversion": "2",
-            "utf8": 1,
-            "ellimit": "max"
-        }
+        params = {"action": "query", "format": "json", "prop": "extlinks", "titles": self.title, "formatversion": "2", "utf8": 1, "ellimit": "max"}
         # ---
         elcontinue = 'x'
         # ---
@@ -298,15 +289,7 @@ class work_in_one_lang_link:
         # ---
 
     def get_lead_extlinks(self):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "title": self.title,
-            "text": self.section0,
-            "prop": "externallinks",
-            "utf8": 1,
-            "formatversion": "2"
-        }
+        params = {"action": "parse", "format": "json", "title": self.title, "text": self.section0, "prop": "externallinks", "utf8": 1, "formatversion": "2"}
         # ---
         json1 = self.post_to_json(params)
         # ---
@@ -343,11 +326,12 @@ class work_in_one_lang_link:
             if contents == '' and new_co != '':
                 self.section0 = self.section0.replace(str(x), new_co)
         # ---
+
+
 # ---
 
 
 class get_old:
-
     def __init__(self, title, lang="en"):
         # ---
         self.lang = lang
@@ -398,19 +382,14 @@ class get_old:
 
     def expandtemplates(self, text):
         # ---
-        params = {
-            "action": "expandtemplates",
-            "format": "json",
-            "text": text,
-            "prop": "wikitext",
-            "formatversion": "2"
-        }
+        params = {"action": "expandtemplates", "format": "json", "text": text, "prop": "wikitext", "formatversion": "2"}
         # ---
         data = self.post_to_json(params)
         # ---
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         # ---
         return newtext
+
     # ---
 
     def get_expended(self):
@@ -474,7 +453,7 @@ class get_old:
             "rvlimit": "1",
             "redirects": 1,
             # "rvstart": "2020-05-31T22:00:00.000Z",
-            "rvdir": "older"
+            "rvdir": "older",
         }
         # ---
         json1 = self.post_to_json(params)
@@ -505,15 +484,7 @@ class get_old:
         # ---
 
     def get_extlinks_from_text(self, text):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "title": self.title,
-            "text": text,
-            "prop": "externallinks",
-            "utf8": 1,
-            "formatversion": "2"
-        }
+        params = {"action": "parse", "format": "json", "title": self.title, "text": text, "prop": "externallinks", "utf8": 1, "formatversion": "2"}
         # ---
         json1 = self.post_to_json(params)
         # ---
@@ -550,8 +521,9 @@ class get_old:
             if contents == '' and new_co != '':
                 self.section0 = self.section0.replace(str(x), new_co)
 
-
         # ---
+
+
 # ---
 if __name__ == '__main__':
     # ---

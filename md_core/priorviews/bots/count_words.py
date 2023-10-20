@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 import requests
 import wikitextparser
 from mdpy import printe
+
 # ---
 '''
 # ---
@@ -20,7 +21,6 @@ tt = count_words.get_words(title, lang)
 
 
 class InOldText:
-
     def __init__(self, title, lang="en"):
         # ---
         self.lang = lang
@@ -103,19 +103,7 @@ class InOldText:
     def get_oldtext(self):
         params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         # ---
-        params = {
-            "action": "query",
-            "format": "json",
-            "prop": "revisions",
-            "titles": self.title,
-            "redirects": 1,
-            "formatversion": "2",
-            "rvprop": "timestamp|content",
-            "rvslots": "*",
-            "rvlimit": "1",
-            "rvstart": "2020-05-31T22:00:00.000Z",
-            "rvdir": "older"
-        }
+        params = {"action": "query", "format": "json", "prop": "revisions", "titles": self.title, "redirects": 1, "formatversion": "2", "rvprop": "timestamp|content", "rvslots": "*", "rvlimit": "1", "rvstart": "2020-05-31T22:00:00.000Z", "rvdir": "older"}
         # ---
         json1 = self.post_to_json(params)
         # ---

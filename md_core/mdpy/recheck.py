@@ -13,6 +13,7 @@ python3 core8/pwb.py mdpy/recheck
 #
 
 import sys
+
 # ---
 from mdpy import printe
 from mdpy.bots import wiki_sql
@@ -34,9 +35,11 @@ from pymysql.converters import escape_string
 
 # ---
 from mdpy.bots import wikidataapi
+
 wikidataurl = "https://www.wikidata.org/w/api.php"
 # ---
 from mdpy.bots import wiki_api
+
 # ---
 targets_done = {}
 # ---
@@ -81,7 +84,7 @@ def dodo_sql():
         # targets_done[lang][py_tools.ec_de_code(target , 'encode')] = { "user" : user , "target" : target, "mdtitle" : title }
         targets_done[lang][target] = {"user": user, "target": target, "mdtitle": title}
     # ---
-    printe.output("<<lightyellow>> find %d with target, and %s without "% (len_done_target, len_no_target))
+    printe.output("<<lightyellow>> find %d with target, and %s without " % (len_done_target, len_no_target))
 
 
 # ---
@@ -96,7 +99,7 @@ def do_it_sql(lange, targets):
     titles = list(targets.keys())
     # ---
     for i in range(0, len(titles), 100):
-        group = titles[i:i+100]
+        group = titles[i: i + 100]
         # ---
         ase = [escape_string(t.strip().replace(" ", "_")) for t in group if t.strip() != ""]
         # ---
@@ -107,7 +110,7 @@ def do_it_sql(lange, targets):
         # ---
         query = f"""
             select DISTINCT p.page_title, pp.pp_value
-            from page p, page_props pp 
+            from page p, page_props pp
             where p.page_id = pp.pp_page
             and pp.pp_propname='wikibase_item'
             and p.page_namespace = 0
@@ -147,6 +150,8 @@ def do_it_sql(lange, targets):
                 printe.output("recheck.py %d missing from %d" % (diff, len(group)))
                 printe.output("recheck.py missing:(%d):%s" % (len_missing, ",".join(itemdiff)))
         # ---
+
+
 # ---
 
 
@@ -165,7 +170,7 @@ def do_it_api(lange, targets):
     nomd = 0
     # ---
     for i in range(0, len(New_targets), limits):
-        group = New_targets[i:i+limits]
+        group = New_targets[i: i + limits]
         # ---
         # get all pages qid
         qids_from_wiki = wiki_api.Get_page_qids(lange, group)
@@ -211,9 +216,10 @@ def do_it_api(lange, targets):
     printe.output("<<lightyellow>> nomd  %d" % nomd)
     printe.output("<<lightyellow>> withqid %d" % withqid)
 
-
     # ---
     # return asde
+
+
 # ---
 numb_lang = 0
 for lange in targets_done:
@@ -229,6 +235,7 @@ for lange in targets_done:
     # ---
 # ---
 from mdpy.bots import en_to_md
+
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
@@ -333,7 +340,7 @@ for oldq, tab in qids_to_merge.items():
 quary = """
 SELECT ?q ?qlabel
 WHERE {
-  ?pid rdfs:label ?qlabel. FILTER((LANG(?qlabel)) = "en"). 
+  ?pid rdfs:label ?qlabel. FILTER((LANG(?qlabel)) = "en").
   FILTER (CONTAINS(?qlabel, "User:Mr. Ibrahem")).
 }
 LIMIT 100

@@ -3,6 +3,7 @@ from bots.old_params import rename_params
 """
 # ---
 import wikitextparser as wtp
+
 # ---
 
 # ---
@@ -10,6 +11,8 @@ import wikitextparser as wtp
 
 def printn(s):
     return
+
+
 # ---
 
 
@@ -77,6 +80,7 @@ if __name__ == "__main__":
     # python3 pwb.py medUpdater/bots/old_params
     # ---
     import pywikibot
+
     printn = print
     o = '''
 {{drugbox

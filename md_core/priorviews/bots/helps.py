@@ -16,21 +16,16 @@ import codecs
 import datetime
 from urllib.parse import urlencode
 from datetime import timedelta
+
 # ---
 from mdpy import printe
+
 Dir = Path(__file__).parent
 # ---
 
 
 def views_url(title, lang, view):
-    params = {
-        'project': f"{lang}.wikipedia.org",
-        'platform': 'all-access',
-        'agent': 'all-agents',
-        'start': "2015-07-01",
-        'redirects': '0',
-        'pages': title
-    }
+    params = {'project': f"{lang}.wikipedia.org", 'platform': 'all-access', 'agent': 'all-agents', 'start': "2015-07-01", 'redirects': '0', 'pages': title}
     d_end = datetime.datetime.utcnow() - timedelta(days=1)
     d_end = d_end.strftime('%Y-%m-%d')
     # params['end'] = d_end
@@ -40,6 +35,8 @@ def views_url(title, lang, view):
 
     view = f'[{url_views} {view:,}]'
     return view
+
+
 # ---
 
 
@@ -59,6 +56,8 @@ def isv(comment):
         return True
     # ---
     return False
+
+
 # ---
 
 
@@ -74,6 +73,8 @@ def is_ip(user):
         return True
     # ---
     return False
+
+
 # ---
 
 
@@ -84,6 +85,8 @@ def talk_url(lang, user, labl):
     url = f"//{lang}.wikipedia.org/w/index.php?" + urlencode(pas)
     # ---
     return f'[{url} {labl}]'
+
+
 # ---
 
 
@@ -101,4 +104,6 @@ def dump_data(file, data):
         sys.exit()
     except Exception as e:
         printe.output(f'<<red>> dump Error: {e}')
+
+
 # ---

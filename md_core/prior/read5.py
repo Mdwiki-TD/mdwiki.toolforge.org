@@ -13,10 +13,12 @@ import os
 import json
 import wikitextparser
 import codecs
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
 from mdpy import printe
 from prior import text_bot
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -84,6 +86,8 @@ def work_test(All, allen):
 
     # Return the updated 'text' variable.
     return text
+
+
 # ---
 
 
@@ -182,7 +186,7 @@ class WorkAll:
             # ---
             for i in range(0, len(_all_), numb):
                 # ---
-                las = dict(list(_all_.items())[i:i+numb])
+                las = dict(list(_all_.items())[i: i + numb])
                 # ---
                 ta = f'{t}_{n}'
                 # ---
@@ -220,7 +224,10 @@ class WorkAll:
                     # ---
                     page_x.save(newtext=text, summary='update', nocreate=0)
         # ---
+
     # ---
+
+
 # ---
 
 
@@ -242,6 +249,8 @@ def work_all():
         printe.output('<<lightyellow>> add "logall" to args to log All pages links green/red..')
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     if 'test' in sys.argv:

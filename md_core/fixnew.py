@@ -8,9 +8,11 @@ bot to find errors like:
 """
 import re
 import sys
+
 # ---
 from mdpy import printe
 from new_api.mdwiki_page import MainPage as md_MainPage, NEW_API
+
 # ---
 api_new = NEW_API('www', family='mdwiki')
 api_new.Login_to_wiki()

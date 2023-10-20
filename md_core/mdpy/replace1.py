@@ -11,6 +11,7 @@ from new_api.mdwiki_page import MainPage, NEW_API
 import os
 import codecs
 import sys
+
 # ---
 numbers = {1: 20000, 'done': 0}
 # ---
@@ -140,8 +141,9 @@ def main():
         # ---
         work(page, find, replace, nn)
 
-
     # ---
+
+
 # python py/replace1.py
 # ---
 if __name__ == "__main__":

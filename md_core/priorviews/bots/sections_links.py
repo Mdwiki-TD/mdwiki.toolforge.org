@@ -10,10 +10,13 @@ from pathlib import Path
 import json
 import wikitextparser
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
+
 # ---
 Dir = Path(__file__).parent
 Dir = os.path.dirname(Dir)
@@ -93,6 +96,8 @@ class Sectios_links:
 
             # Add the section and its links to the all_sections dict
             self.SectionsToLinks[t] = wikilinks
+
+
 # ---
 
 
@@ -103,6 +108,8 @@ def dump_secs_links(secs_links):
     if secs_links != {}:
         printe.output(f'<<lightyellow>> secs_links(): lenth: {len(secs_links.keys())}')
         json.dump(secs_links, codecs.open(sect_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
+
+
 # ---
 
 

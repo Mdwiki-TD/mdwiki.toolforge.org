@@ -15,8 +15,10 @@ import json
 import os
 from pathlib import Path
 import codecs
+
 # ---
 from priorviews.bots import helps
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -28,12 +30,7 @@ if not os.path.exists(file):
 # ---
 ViewsData = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
-_data = {
-    "mdtitle": {
-        "ar": {"title": "artitle", "views": 0},
-        "en": {"title": "entitle", "views": 0}
-    }
-}
+_data = {"mdtitle": {"ar": {"title": "artitle", "views": 0}, "en": {"title": "entitle", "views": 0}}}
 # ---
 views_by_mdtitle_langs = {}
 count_views_by_mdtitle = {}
@@ -56,14 +53,12 @@ def makeviews():
 
     # Iterate through each markdown file and language in `ViewsData`
     for mdtitle, langs in ViewsData.items():
-
         # Create a dictionary to store the view counts for a given markdown file
         views_by_mdtitle_langs[mdtitle] = {}
         count_views_by_mdtitle[mdtitle] = 0
 
         # Iterate through each language for a given markdown file
         for lang, v in langs.items():
-
             _views = int(v['views'])
             views_by_mdtitle_langs[mdtitle][lang] = _views
 

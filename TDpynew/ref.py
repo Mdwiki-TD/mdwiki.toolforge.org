@@ -11,12 +11,14 @@ python pwb.py mdwiki/public_html/Translation_Dashboard/ref test
 #
 import re
 import sys
+
 # ---
 print_pywikibot = {1: False}
 try:
     import pywikibot
+
     print_pywikibot[1] = True
-except:
+except BaseException:
     print_pywikibot[1] = False
 # ---
 

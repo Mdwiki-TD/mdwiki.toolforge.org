@@ -1,6 +1,9 @@
 # ---
 # ---
-def login_def(lang, family): {}
+def login_def(lang, family):
+    {}
+
+
 # ---
 
 
@@ -40,19 +43,7 @@ class CategoryDepth:
         return self.log.post(params, addtoken=True)
 
     def make_params(self):
-        params = {
-            "action": "query",
-            "format": "json",
-            "utf8": 1,
-            "generator": "categorymembers",
-            "gcmprop": "title",
-            "prop": [],
-            "gcmtype": "page|subcat",
-            "gcmlimit": "max",
-            "formatversion": "1",
-            "gcmsort": "timestamp",
-            "gcmdir": "newer"
-        }
+        params = {"action": "query", "format": "json", "utf8": 1, "generator": "categorymembers", "gcmprop": "title", "prop": [], "gcmtype": "page|subcat", "gcmlimit": "max", "formatversion": "1", "gcmsort": "timestamp", "gcmdir": "newer"}
         if self.no_gcmsort:
             del params["gcmsort"]
             del params["gcmdir"]
@@ -61,7 +52,7 @@ class CategoryDepth:
             params["prop"].append("templates")
             params["tllimit"] = "max"
             params["tltemplates"] = "|".join(self.tempyes)
-        if self.with_lang != "" or self.without_lang != '':        # مع وصلة لغة معينة
+        if self.with_lang != "" or self.without_lang != '':  # مع وصلة لغة معينة
             params["prop"].append("langlinks")
             params["lllimit"] = "max"
         # ---
@@ -183,4 +174,6 @@ class CategoryDepth:
             new_list = new_tab2
         # ---
         return self.result_table
+
+
 # ---

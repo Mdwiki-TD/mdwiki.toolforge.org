@@ -13,6 +13,7 @@ results = sql_qu.make_sql_connect( query, db='', host='', update=False, Return=[
 #
 from pywikibot import config
 import os
+
 # ---
 import pywikibot
 import traceback
@@ -22,12 +23,14 @@ import traceback
 import pymysql
 import pymysql.cursors
 import pkg_resources
+
 # ---
 from new_api import printe
+
 # ---
 py_v = pymysql.__version__
 if py_v.endswith('.None'):
-    py_v = py_v[:-len('.None')]
+    py_v = py_v[: -len('.None')]
 # ---
 pymysql_version = pkg_resources.parse_version(py_v)
 # printe.output(f'<<lightyellow>> pymysql_version: {pymysql_version}')
@@ -36,10 +39,7 @@ db_username = config.db_username
 db_password = config.db_password
 # ---
 if config.db_connect_file is None:
-    credentials = {
-        'user': db_username,
-        'password': db_password
-    }
+    credentials = {'user': db_username, 'password': db_password}
 else:
     credentials = {'read_default_file': config.db_connect_file}
 # ---
@@ -85,6 +85,7 @@ def sql_connect_pymysql(query, db='', host='', update=False, Return=[], return_d
     # ---
     if pymysql_version < pkg_resources.parse_version('1.0.0'):
         from contextlib import closing
+
         connection = closing(connection)
     # ---
     with connection as conn, conn.cursor() as cursor:
@@ -112,6 +113,8 @@ def sql_connect_pymysql(query, db='', host='', update=False, Return=[], return_d
         # ---
         # yield from cursor
         return results
+
+
 # ---
 
 
@@ -124,6 +127,8 @@ def decode_value(value):
         except BaseException:
             return ''
     return value
+
+
 # ---
 
 
@@ -139,6 +144,8 @@ def resolve_bytes(rows):
         decoded_rows.append(decoded_row)
     # ---
     return decoded_rows
+
+
 # ---
 
 
@@ -156,4 +163,6 @@ def make_sql_connect(query, db='', host='', update=False, Return=[], return_dict
         rows = resolve_bytes(rows)
     # ---
     return rows
+
+
 # ---

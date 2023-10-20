@@ -9,6 +9,7 @@ import json
 import codecs
 import sys
 from pathlib import Path
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -101,6 +102,7 @@ def make_text(ViewsData):
 
     def fo_n(x):
         return f'{x:,}'
+
     langs_keys_text = " !! ".join([format_x(x) for x in langs_keys])
     text += f" {langs_keys_text}"
 

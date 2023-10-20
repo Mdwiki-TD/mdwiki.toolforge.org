@@ -28,6 +28,7 @@ import codecs
 import os
 import json
 from mdpy.bots import sql_for_mdwiki
+
 # ---
 project = '/data/project/mdwiki/'
 # ---

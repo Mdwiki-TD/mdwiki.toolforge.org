@@ -7,6 +7,7 @@ from prior.json_langs.lists import json_langs_by_langs
 import os
 from pathlib import Path
 import json
+
 # ---
 Dir = Path(__file__).parent
 # ---
