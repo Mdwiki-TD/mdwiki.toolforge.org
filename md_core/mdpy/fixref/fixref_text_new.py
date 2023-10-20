@@ -3,6 +3,7 @@ import sys
 
 import wikitextparser as wtp
 from mdpy.bots import make_title_bot
+
 # _title1_ = make_title_bot.make_title(url)
 
 
@@ -19,7 +20,12 @@ def change_lay_source(temp):
         "source": ['laysource', 'lay-source']
     }
     # ---
-    new_tab = {"url": "", "title": "", "date": "", "source": ""}
+    new_tab = {
+        "url": "",
+        "title": "",
+        "date": "",
+        "source": ""
+    }
     # ---
     for x, ys in tab.items():
         for param in ys:

@@ -6,6 +6,7 @@ python3 core8/pwb.py WHOem/lists/find_views_by_lang
 import json
 from pathlib import Path
 import codecs
+
 # ---
 # ---
 Dir = Path(__file__).parent
@@ -22,8 +23,7 @@ lang_links_mdtitles = {
 for lang in lang_links_mdtitles.keys():
     lang_links_mdtitles[lang] = {
         tab['langs'][lang]: md
-        for md, tab in lang_links.items()
-        if lang in tab['langs']
+        for md, tab in lang_links.items() if lang in tab['langs']
     }
 # ---
 with codecs.open(f'{Dir}/lang_links_mdtitles.json', 'w', encoding='utf-8') as f:

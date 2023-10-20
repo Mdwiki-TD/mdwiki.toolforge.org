@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #   himo
-""" 
+"""
 
 python3 core8/pwb.py mdpy/get_red
 
@@ -11,10 +11,12 @@ python3 core8/pwb.py mdpy/get_red
 #
 import os
 from datetime import datetime
+
 # ---
 from mdpy import printe
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import mdwiki_api
+
 # ---
 mdwiki_to_qid = sql_for_mdwiki.get_all_qids()
 # ---
@@ -38,7 +40,7 @@ def get_pages():
     titles = list(mdwiki_to_qid.keys())
     # ---
     for i in range(0, len(titles), 100):
-        group = titles[i:i+100]
+        group = titles[i:i + 100]
         # ---
         asa = mdwiki_api.get_redirect(group)
         # ---
@@ -103,6 +105,7 @@ def get_pages():
         printe.output(to_add)
         sql_for_mdwiki.add_titles_to_qids(to_add)
         # ---
+
 
 # ---
 if __name__ == '__main__':

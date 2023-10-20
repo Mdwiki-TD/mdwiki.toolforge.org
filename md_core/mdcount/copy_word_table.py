@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdcount/copy_word_table
@@ -15,9 +14,11 @@ import os
 import json
 import sys
 from mdpy.bots import sql_for_mdwiki
+
 # ---
 from mdpy import printe
 from pymysql.converters import escape_string
+
 # ---
 que = '''select DISTINCT w_title, w_lead_words, w_all_words from words;'''
 # ---
@@ -27,7 +28,7 @@ in_sql_all = {}
 for q in sql_for_mdwiki.mdwiki_sql(que, return_dict=True):
     # ---
     w_title = q['w_title']
-    w_lead_words= q['w_lead_words']
+    w_lead_words = q['w_lead_words']
     w_all_words = q['w_all_words']
     # ---
     in_sql_lead[w_title] = w_lead_words
@@ -47,7 +48,7 @@ new_words = {}
 na_list = [x for x in all_words.keys()]
 # ---
 for x in lead_words.keys():
-    if not x in na_list:
+    if x not in na_list:
         na_list.append(x)
 # ---
 # remove duplicates from list
@@ -81,7 +82,7 @@ for tit in na_list:
     # ---
     qua_update = f"""UPDATE words SET w_lead_words = {lead}, w_all_words = {All} WHERE w_title = '{title2}';"""
     # ---
-    if not tit in in_sql_lead:
+    if tit not in in_sql_lead:
         qua_new = f"""('{title2}', {lead}, {All})"""
         # ---
         INSERT.append(qua_new)

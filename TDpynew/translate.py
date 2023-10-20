@@ -9,6 +9,7 @@
 import json
 
 import sys
+
 # ---
 
 # ---
@@ -16,35 +17,50 @@ import urllib
 import urllib.request
 import urllib.parse
 import requests
+
 # ---
 import text_changes
 import ref
+
 # ref.fix_ref( first , alltext )
 # ---
 import user_account_new
+
 # ---
 lgname_enwiki = user_account_new.lgname_enwiki
 lgpass_enwiki = user_account_new.lgpass_enwiki
 # ---
 import mdapi
+
 # mdapi.submitAPI( params )
 # ---
-wholearticle = {1: False}
+wholearticle = {
+    1: False
+}
 # ---
-SS = {"token": ''}
+SS = {
+    "token": ''
+}
 session = {}
 session[1] = requests.Session()
 session["url"] = ""
 # ---
-Url_To_login = {1: '', 'not': True}
+Url_To_login = {
+    1: '',
+    'not': True
+}
 # ---
-login_done = {1: False}
+login_done = {
+    1: False
+}
 # ---
 
 
 def print_py(s):
     if sys.stdin.isatty():
         print(s)
+
+
 # ---
 
 
@@ -62,27 +78,36 @@ def log_to_enwiki():
     session["url"] = api_urle
     # ---
     # get login token
-    r1 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-        'type': 'login',
-    })
+    r1 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+            'type': 'login',
+        },
+    )
     r1.raise_for_status()
     # log in
-    r2 = session[1].post(api_urle, data={
-        'format': 'json',
-        'action': 'login',
-        'lgname': lgname_enwiki,
-        'lgpassword': lgpass_enwiki,
-        'lgtoken': r1.json()['query']['tokens']['logintoken'],
-    })
+    r2 = session[1].post(
+        api_urle,
+        data={
+            'format': 'json',
+            'action': 'login',
+            'lgname': lgname_enwiki,
+            'lgpassword': lgpass_enwiki,
+            'lgtoken': r1.json()['query']['tokens']['logintoken'],
+        },
+    )
 
-    r3 = session[1].get(api_urle, params={
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-    })
+    r3 = session[1].get(
+        api_urle,
+        params={
+            'format': 'json',
+            'action': 'query',
+            'meta': 'tokens',
+        },
+    )
     # ---
     token = r3.json()['query']['tokens']['csrftoken']
     # ---
@@ -91,6 +116,8 @@ def log_to_enwiki():
     login_done[1] = True
     # ---
     session["token"] = token
+
+
 # ---
 
 
@@ -137,6 +164,8 @@ def put(title, text):
         print('true')
     else:
         print(str(js))
+
+
 # ---
 
 
@@ -149,7 +178,12 @@ def work(title):
     if 'test' in sys.argv:
         print(title)
     # ---
-    params2 = {"action": "parse", "format": "json", "page": title, "prop": "wikitext"}
+    params2 = {
+        "action": "parse",
+        "format": "json",
+        "page": title,
+        "prop": "wikitext"
+    }
     # ---
     json2 = mdapi.submitAPI(params2)
     # ---
@@ -160,7 +194,13 @@ def work(title):
     if wholearticle[1]:
         first = alltext
     else:
-        params = {"action": "parse", "format": "json", "page": title, "prop": "wikitext", "section": "0"}
+        params = {
+            "action": "parse",
+            "format": "json",
+            "page": title,
+            "prop": "wikitext",
+            "section": "0"
+        }
         json1 = mdapi.submitAPI(params)
         first = json1.get("parse", {}).get("wikitext", {}).get("*", '')
     # ---
@@ -187,6 +227,8 @@ def work(title):
     return put(title, text)
 
     # ---
+
+
 title = ''
 # ---
 # python translate.py -title:Amoebiasis

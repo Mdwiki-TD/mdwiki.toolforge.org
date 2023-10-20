@@ -10,10 +10,13 @@ from pathlib import Path
 import json
 import wikitextparser
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
+
 # ---
 Dir = Path(__file__).parent
 Dir = os.path.dirname(Dir)
@@ -32,6 +35,7 @@ replaces = {
 
 
 class Sectios_links:
+
     def __init__(self):
         """
         Initializes an instance of the class.
@@ -73,7 +77,7 @@ class Sectios_links:
             # Get the wikilinks for the section and convert them to strings
             wikilinks = s.wikilinks
 
-            wikilinks = [str(x.title) for x in wikilinks if not str(x.title).lower() in self.titles_done]
+            wikilinks = [str(x.title) for x in wikilinks if str(x.title).lower() not in self.titles_done]
 
             # remove duplicts
             wikilinks = list(set(wikilinks))
@@ -93,6 +97,8 @@ class Sectios_links:
 
             # Add the section and its links to the all_sections dict
             self.SectionsToLinks[t] = wikilinks
+
+
 # ---
 
 
@@ -103,6 +109,8 @@ def dump_secs_links(secs_links):
     if secs_links != {}:
         printe.output(f'<<lightyellow>> secs_links(): lenth: {len(secs_links.keys())}')
         json.dump(secs_links, codecs.open(sect_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
+
+
 # ---
 
 
@@ -139,9 +147,9 @@ if __name__ == '__main__':
             print(ls)
         # ---
         for link in ls:
-            if not link.lower() in all_links:
+            if link.lower() not in all_links:
                 all_links[link.lower()] = []
-            if not s in all_links[link.lower()]:
+            if s not in all_links[link.lower()]:
                 all_links[link.lower()].append(s)
     # ---
     printe.output('<<red>>---------------')

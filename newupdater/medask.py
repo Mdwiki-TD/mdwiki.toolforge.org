@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """
 python3 core8/pwb.py newupdater/medask -page:Haemophilus_influenzae
 python3 core8/pwb.py newupdater/medask -page:Crohn's_disease
@@ -15,11 +14,12 @@ python3 core8/pwb.py newupdater/medask -ns:0 -usercontribs:Ghuron
 #
 #
 import sys
-import requests
 import urllib
 import urllib.parse
+
 # ---
 from pathlib import Path
+
 Dir = Path(__file__).parent
 # ---
 sys.path.append(str(Dir))
@@ -27,13 +27,15 @@ sys.path.append(str(Dir))
 from newupdater import med
 from mdpy import printe
 from mdpy.bots import mdwiki_api
-from new_api.mdwiki_page import MainPage, NEW_API
+from new_api.mdwiki_page import NEW_API
+
 # ---
 api_new = NEW_API('www', family='mdwiki')
 api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 # ---
+
 
 def work_on_title(title, returntext=False, text_O=""):
     # ---

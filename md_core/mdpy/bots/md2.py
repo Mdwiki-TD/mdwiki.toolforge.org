@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 تجربة ملف mdd.py
@@ -15,10 +14,12 @@ python3 core8/pwb.py md2 -page:Hyoscine_butylbromide
 # ---
 import pywikibot
 import sys
+
 # ---
 from mdpy import printe
 from mdpy.bots import mdwiki_api
 from medUpdater import med
+
 # ---
 
 printe.output(sys.argv)
@@ -74,6 +75,8 @@ def treat_page(title, textn):
 <!--Chemical data-->
 |drug_name=|alt=|caption=|licence_EU=|licence_US=}}
 '''
+
+
 # ---
 
 

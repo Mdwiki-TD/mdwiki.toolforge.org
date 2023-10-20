@@ -23,11 +23,14 @@ import os
 import json
 import codecs
 from pathlib import Path
+
 # ---
 from new_api.wiki_page import MainPage, change_codes
 from mdpy import printe
+
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # ---
@@ -66,7 +69,7 @@ def work_in_page(title):
         links_not_found.append(title)
         return find_wd(title)
     # ---
-    if not title in lang_links:
+    if title not in lang_links:
         lang_links[title] = {
             'en': title,
             'redirect_to': "",

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdpy/P11143
@@ -10,10 +9,12 @@ python3 core8/pwb.py mdpy/P11143
 #
 #
 import sys
+
 # ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import wikidataapi
 from mdpy import printe
+
 # ---
 sys.argv.append('workhimo')
 # ---
@@ -25,7 +26,10 @@ wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php")
 # ---
 qids_di = sql_for_mdwiki.get_all_qids()
 # ---
-qids = {q: title for title, q in qids_di.items() if q != ''}
+qids = {
+    q: title
+    for title, q in qids_di.items() if q != ''
+}
 # ---
 mdwiki_in_qids = list(qids.values())
 # ---
@@ -44,7 +48,7 @@ for wd in wdlist:
     # ---
     in_wd[qid] = prop
     # ---
-    if not qid in qids and not prop in mdwiki_in_qids:
+    if qid not in qids and prop not in mdwiki_in_qids:
         new_qids[qid] = prop
     # ---
 # ---
@@ -63,7 +67,10 @@ def add_missing():
 
 
 # ---
-newlist = {q: tt for q, tt in qids.items() if q not in in_wd.keys()}
+newlist = {
+    q: tt
+    for q, tt in qids.items() if q not in in_wd.keys()
+}
 # ---
 print('len of newlist: ' + str(len(newlist)))
 # ---
@@ -128,10 +135,10 @@ def duplict():
     # ---
     for q, va in merge_qids.items():
         # ---
-        if not va in va_tab:
+        if va not in va_tab:
             va_tab[va] = []
         # ---
-        if not q in va_tab[va]:
+        if q not in va_tab[va]:
             va_tab[va].append(q)
     # ---
     printe.output(f'<<lightyellow>> len of va_tab: {len(va_tab)}')
@@ -151,6 +158,9 @@ if len(new_qids) > 0:
     print("\n".join([f'{k}:{v}' for k, v in new_qids.items()]))
     printe.output('<<lightyellow>> add "addq" to sys.argv to add them to qids')
     if 'addq' in sys.argv:
-        newtitles = {title: qid for qid, title in new_qids.items()}
+        newtitles = {
+            title: qid
+            for qid, title in new_qids.items()
+        }
         sql_for_mdwiki.add_titles_to_qids(newtitles)
     # ---

@@ -1,7 +1,6 @@
 #!/usr/bin/python
-
 """
-بوت فرعي من 
+بوت فرعي من
 mdpy/sql.py
 
 # ---
@@ -18,14 +17,18 @@ import re
 import os
 
 import sys
+
 # ---
 from pymysql.converters import escape_string
+
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---
 from mdpy.bots import wiki_api
 from mdpy import printe
+
 # ---
 from mdpy.bots import mdwiki_api
 
@@ -36,11 +39,13 @@ if not os.path.isdir(project):
     project = '/mdwiki'
 # ---
 from mdpy.bots import en_to_md
+
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
 # ---
 from mdpy import orred
+
 # ---
 '''CREATE TABLE wddone (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +56,7 @@ from mdpy import orred
     )'''
 # ---
 que_wddone = '''
-select mdtitle,target,lang,user 
+select mdtitle,target,lang,user
 from wddone
 ;
 '''
@@ -71,6 +76,7 @@ for tab in sq_dd:
     wddone_by_u_l_mdt.append(tuple([user, lang, mdtitle]))
     # ---
 from mdpy.bots import wikidataapi
+
 wikidataurl = "https://www.wikidata.org/w/api.php"
 # ---
 
@@ -95,7 +101,11 @@ def work_with_2_qids(oldq, new_q):
     # ---
     if en.startswith('User:Mr. Ibrahem'):
         printe.output(f'<<lightblue>> remove sitelink {en}')
-        remove = wikidataapi.post({"action": "wbsetsitelink", "id": oldq, "linksite": "enwiki"}, apiurl=wikidataurl, token=True)
+        remove = wikidataapi.post({
+            "action": "wbsetsitelink",
+            "id": oldq,
+            "linksite": "enwiki"
+        }, apiurl=wikidataurl, token=True)
         if 'success' in remove:
             len_sites -= 1
             printe.output('<<lightgreen>> **remove sitelink true.')
@@ -103,7 +113,12 @@ def work_with_2_qids(oldq, new_q):
             printe.output('<<lightred>> **remove sitelink false.')
             printe.output(remove)
         # ---
-        remove2 = wikidataapi.post({"action": "wbsetlabel", "id": oldq, "language": "en", "value": ""}, apiurl=wikidataurl, token=True)
+        remove2 = wikidataapi.post({
+            "action": "wbsetlabel",
+            "id": oldq,
+            "language": "en",
+            "value": ""
+        }, apiurl=wikidataurl, token=True)
         if 'success' in remove2:
             len_sites -= 1
             printe.output('<<lightgreen>> **remove2 label true.')
@@ -117,6 +132,8 @@ def work_with_2_qids(oldq, new_q):
         return mer
     # ---
     return False
+
+
 # ---
 
 
@@ -124,11 +141,11 @@ def add_wd(qid, enlink, lang, target):
     params = {
         "action": "wbsetsitelink",
         "linktitle": target,
-        "linksite": lang+'wiki',
+        "linksite": lang + 'wiki',
         # "title": enlink,
         # "site": 'enwiki',
         "format": "json",
-        "utf8": 1
+        "utf8": 1,
     }
     # ---
     if qid != "":
@@ -146,7 +163,7 @@ def add_wd(qid, enlink, lang, target):
     # ---
     # ss = {'error': {'code': 'failed-save', 'info': 'The save has failed.', 'messages': [{'name': 'wikibase-api-failed-save', 'parameters': [], 'html': {'*': 'لم ينجح الحفظ.'}}, {'name': 'wikibase-validator-sitelink-conflict', 'parameters': ['[https://ar.wikipedia.org/wiki/%D8%A5%D9%8A%D9%81%D8%A7%D9%83%D8%A7%D9%81%D8%AA%D9%88%D8%B1 arwiki:إيفاكافتور]', '[[Q113952553|Q113952553]]'], 'html': {'*': 'الوصلة <a class="external text" href="https://ar.wikipedia.org/wiki/%D8%A5%D9%8A%D9%81%D8%A7%D9%83%D8%A7%D9%81%D8%AA%D9%88%D8%B1">arwiki:إيفاكافتور</a> مستخدمة للعنصر <a href="/wiki/Q113952553" title="Q113952553">Q113952553</a>. يمكنك إزالتها من <a href="/wiki/Q113952553" title="Q113952553">Q113952553</a> إن لم تكن مناسبة هناك أو أن تدمج العنصرين إذا كانا عن نفس الموضوع تماماً.'}}], '*': 'See https://www.wikidata.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/postorius/lists/mediawiki-api-announce.lists.wikimedia.org/&gt; for notice of API deprecations and breaking changes.'}, 'servedby': 'mw1402'}
     # ---
-    if type(ss) != dict:
+    if not isinstance(ss, dict):
         return False
     # ---
     error = ss.get('error', {}).get('code', {})
@@ -169,6 +186,8 @@ def add_wd(qid, enlink, lang, target):
             # ---
     # ---
     return False
+
+
 # ---
 
 
@@ -188,7 +207,7 @@ def Add_to_wikidata(mdtitle, lang, target, user):
         done_qua = f"""
             INSERT INTO wddone (mdtitle, target, lang, user)
             SELECT '{mdtit}', '{tar}', '{lang}', '{user}'
-            WHERE NOT EXISTS (SELECT 1 FROM wddone 
+            WHERE NOT EXISTS (SELECT 1 FROM wddone
                 WHERE mdtitle = '{mdtit}'
                 AND target = '{tar}'
                 AND lang = '{lang}'
@@ -210,6 +229,8 @@ def Add_to_wikidata(mdtitle, lang, target, user):
     # ---
     if lang == "or":
         orred.create_redirect(target, mdtitle)
+
+
 # ---
 
 
@@ -225,7 +246,7 @@ def add_tab_to_wd(table):
         for tt in tab:
             tabe = tab[tt]  # {"mdtitle": md_title.replace("'" , "\'") , "target": target, "user":user.replace("'" , "\'"),"lang":lange}
             # ---
-            mdtitle= tabe['mdtitle']
+            mdtitle = tabe['mdtitle']
             lang = tabe['lang']
             target = tabe['target']
             user = tabe['user']
@@ -246,4 +267,6 @@ def add_tab_to_wd(table):
             printe.output('<<lightgreen>>p %d/%d: mdtitle:%s,lang:%s,target:%s' % (number, len(tab), mdtitle, lang, target))
             # ---
             Add_to_wikidata(mdtitle, lang, target, user)
+
+
 # ---

@@ -9,8 +9,10 @@ import sys
 from pathlib import Path
 import json
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 Dir = Path(__file__).parent
 Dird = f"{Dir}/downloads/"
@@ -31,12 +33,14 @@ all_pages = {}
 
 
 def write_main():
-
-    title = f'User:Mr. Ibrahem/niosh'
+    title = 'User:Mr. Ibrahem/niosh'
     text = ''
     # ---
     # sort all_pages
-    all_pa = {x: v for x, v in sorted(all_pages.items(), key=lambda item: item[0].lower(), reverse=False)}
+    all_pa = {
+        x: v
+        for x, v in sorted(all_pages.items(), key=lambda item: item[0].lower(), reverse=False)
+    }
     # ---
     for x, tt in all_pa.items():
         text += f'* [[{tt}]]\n'
@@ -92,19 +96,19 @@ def run(x, urls):
             if link.lower() in urls_:
                 ya.append(link)
                 # ---
-                if not link in by_url:
+                if link not in by_url:
                     by_url[link] = []
-                if not link in by_url_all:
+                if link not in by_url_all:
                     by_url_all[link] = []
                 # ---
-                if not title in by_url[link]:
+                if title not in by_url[link]:
                     by_url[link].append(title)
-                if not title in by_url_all[link]:
+                if title not in by_url_all[link]:
                     by_url_all[link].append(title)
         # ---
         if len(ya) > 0:
             by_title[title] = ya
-        if not title in by_title_all:
+        if title not in by_title_all:
             by_title_all[title] = ya
         else:
             by_title_all[title].extend(ya)
@@ -114,7 +118,10 @@ def run(x, urls):
             by_url[_u] = []
     # ---
     # sort by_url keys
-    by_url = {k: v for k, v in sorted(by_url.items(), key=lambda item: item[0].lower(), reverse=False)}
+    by_url = {
+        k: v
+        for k, v in sorted(by_url.items(), key=lambda item: item[0].lower(), reverse=False)
+    }
     # ---
     file1 = f"{Dir}/by_title/{x}.json"
     # ---
@@ -129,8 +136,9 @@ def run(x, urls):
     # ---
     write_to_mdwiki(by_title, x)
 
-
     # ---
+
+
 # ---
 for x, urls in data.items():
     run(x, urls)

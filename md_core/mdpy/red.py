@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 نسخ التحويلات من الإنجليزية إلى mdwiki
@@ -13,14 +12,18 @@ from new_api.mdwiki_page import MainPage, NEW_API
 import sys
 import codecs
 import requests
+
 # ---
 from mdpy import printe
 from mdpy.bots import py_tools
 from mdpy.bots import mdwiki_api
+
 # ---
 Session = requests.Session()
 # ---
-offset = {1: 0}
+offset = {
+    1: 0
+}
 # ---
 to_make = {}
 # ---
@@ -49,7 +52,7 @@ def get_red(title):
         "utf8": 1,
         "rdprop": "title",
         # "rdprop": "pageid|title",
-        "rdlimit": "max"
+        "rdlimit": "max",
     }
     # ---
     # result = { "batchcomplete": "", "query": { "pages": { "1369": { "pageid": 1369, "ns": 0, "title": "اليمن", "redirects": [ { "ns": 0, "title": "جمهورية يمنية" } ] } } }, "limits": { "redirects": 500 } }
@@ -70,7 +73,7 @@ def get_red(title):
                 if io["ns"] != 0:
                     continue
                 # ---
-                if not io["title"] in lista:
+                if io["title"] not in lista:
                     lista.append(io["title"])
     # ---
     return lista
@@ -120,7 +123,9 @@ def work(title, num, lenth, From=''):
             printe.output("page n:%d, title:'%s' already in mdwiki.org.." % (num, tit))
 
     # ---
- #   printe.output("sleep 5 s")
+
+
+#   printe.output("sleep 5 s")
 
 
 def main():

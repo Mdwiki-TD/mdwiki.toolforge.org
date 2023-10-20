@@ -18,6 +18,7 @@ import re
 import os
 import sys
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---
 project = '/data/project/mdwiki/'
@@ -27,21 +28,27 @@ if not os.path.isdir(project):
 # start of mdwiki_api.py file
 from mdpy.bots import mdwiki_api
 from mdpy import printe
+
 # ---
 all_ref = {}
 lead_ref = {}
-vaild_links = {1: []}
-list_ma = {1: []}
+vaild_links = {
+    1: []
+}
+list_ma = {
+    1: []
+}
 # ---
 file_all = project + '/public_html/Translation_Dashboard/Tables/all_refcount.json'
 file_lead = project + '/public_html/Translation_Dashboard/Tables/lead_refcount.json'
 # ---
 from mdpy.bots import catdepth2
+
 # ---
 
 
 def Decode_bytes(x):
-    if type(x) == bytes:
+    if isinstance(x, bytes):
         x = x.decode("utf-8")
     return x
 
@@ -51,13 +58,19 @@ a = {}
 # ---
 a = json.loads(codecs.open(file_all, "r", encoding="utf-8").read())
 # ---
-all_ref = {x: ref for x, ref in a.items() if ref > 0}
+all_ref = {
+    x: ref
+    for x, ref in a.items() if ref > 0
+}
 # ---
 la = {}
 # ---
 la = json.loads(codecs.open(file_lead, "r", encoding="utf-8").read())
 # ---
-lead_ref = {x: ref for x, ref in la.items() if ref> 0}
+lead_ref = {
+    x: ref
+    for x, ref in la.items() if ref > 0
+}
 # ---
 # list for titles in both all_ref and lead_ref
 list_fu = list(set(all_ref.keys()) & set(lead_ref.keys()))
@@ -70,7 +83,7 @@ list_ma[1] = [x for x in list_fu if (x in all_ref and x in lead_ref)]
 
 def count_ref_from_text(text, get_short=False):
     # ---
-    short_ref = re.compile(r'<ref\s*name\s*\=\s*(?P<name>[^>]*)\s*\/\s*>', re.IGNORECASE|re.DOTALL)
+    short_ref = re.compile(r'<ref\s*name\s*\=\s*(?P<name>[^>]*)\s*\/\s*>', re.IGNORECASE | re.DOTALL)
     # ---
     ref_list = []
     # ---
@@ -80,11 +93,11 @@ def count_ref_from_text(text, get_short=False):
         for m in short_ref.finditer(text):
             name = m.group('name')
             if name.strip() != '':
-                if not name.strip() in ref_list:
+                if name.strip() not in ref_list:
                     ref_list.append(name.strip())
     # ---
     # refreg = re.compile(r'(<ref[^>]*>[^<>]+</ref>|<ref[^>]*\/\s*>)')
-    refreg = re.compile(r'(?i)<ref(?P<name>[^>/]*)>(?P<content>.*?)</ref>', re.IGNORECASE|re.DOTALL)
+    refreg = re.compile(r'(?i)<ref(?P<name>[^>/]*)>(?P<content>.*?)</ref>', re.IGNORECASE | re.DOTALL)
     # ---
     for m in refreg.finditer(text):
         # content = m.group('content')
@@ -94,10 +107,10 @@ def count_ref_from_text(text, get_short=False):
         content = m.group('content')
         # ---
         if name.strip() != '':
-            if not name.strip() in ref_list:
+            if name.strip() not in ref_list:
                 ref_list.append(name.strip())
         elif content.strip() != '':
-            if not content.strip() in ref_list:
+            if content.strip() not in ref_list:
                 ref_list.append(content.strip())
             # count += 1
     # ---
@@ -108,6 +121,7 @@ def count_ref_from_text(text, get_short=False):
 
 # ---
 from TDpynew import ref
+
 # ref.fix_ref( first, alltext )
 # ---
 
@@ -127,6 +141,8 @@ def count_refs(title):
     lead_ref[title] = lead_c
     # ---
     printe.output('<<lightgreen>> all:%d \t lead:%d' % (all_c, lead_c))
+
+
 # ---
 
 
@@ -136,6 +152,8 @@ def logaa(file, table):
     outfile.close()
     # ---
     printe.output(f'<<lightgreen>> {len(table)} lines to {file}')
+
+
 # ---
 
 
@@ -147,10 +165,12 @@ def from_sql():
     # ---
     titles2 = [q['title'] for q in sq]
     # ---
-    titles = [x for x in titles2 if not x in list_ma[1]]
+    titles = [x for x in titles2 if x not in list_ma[1]]
     # ---
     printe.output(f'<<lightyellow>> sql: find {len(titles2)} titles, {len(titles)} to work. ')
     return titles
+
+
 # ---
 
 
@@ -162,9 +182,11 @@ def get_links():
         lale = from_sql()
     # ---
     if 'newpages' in sys.argv:
-        lale = [x for x in lale if (not x in list_ma[1])]
+        lale = [x for x in lale if (x not in list_ma[1])]
     # ---
     return lale
+
+
 # ---
 
 

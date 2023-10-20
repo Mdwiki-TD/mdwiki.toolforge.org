@@ -1,10 +1,14 @@
 # ---
 # ---
-def login_def(lang, family): {}
+def login_def(lang, family):
+    {}
+
+
 # ---
 
 
 class CategoryDepth:
+
     def __init__(self, title, sitecode, depth=0, family="wikipedia", ns="all", nslist=[], without_lang="", with_lang="", tempyes=[], no_gcmsort=False, **kwargs):
         # ---
         self.title = title
@@ -61,7 +65,7 @@ class CategoryDepth:
             params["prop"].append("templates")
             params["tllimit"] = "max"
             params["tltemplates"] = "|".join(self.tempyes)
-        if self.with_lang != "" or self.without_lang != '':        # مع وصلة لغة معينة
+        if self.with_lang != "" or self.without_lang != '':  # مع وصلة لغة معينة
             params["prop"].append("langlinks")
             params["lllimit"] = "max"
         # ---
@@ -129,7 +133,10 @@ class CategoryDepth:
                             continue
                 # ---
                 tablese['templates'] = [x['title'] for x in caca.get('templates', {})]
-                tablese['langlinks'] = {fo['lang']: fo.get('title') or fo.get('*') or '' for fo in caca.get('langlinks', [])}
+                tablese['langlinks'] = {
+                    fo['lang']: fo.get('title') or fo.get('*') or ''
+                    for fo in caca.get('langlinks', [])
+                }
                 # ---
                 table[cate_title] = tablese
             # ---
@@ -183,4 +190,6 @@ class CategoryDepth:
             new_list = new_tab2
         # ---
         return self.result_table
+
+
 # ---

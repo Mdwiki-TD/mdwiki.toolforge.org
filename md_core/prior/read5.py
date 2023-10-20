@@ -13,10 +13,12 @@ import os
 import json
 import wikitextparser
 import codecs
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
 from mdpy import printe
 from prior import text_bot
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -84,6 +86,8 @@ def work_test(All, allen):
 
     # Return the updated 'text' variable.
     return text
+
+
 # ---
 
 
@@ -99,7 +103,10 @@ def get_all_json():
             printe.output(f'filename: {filename2}..')
             # ---
             data = json.load(open(filename2))
-            All = {**All, **data}
+            All = {
+                **All,
+                **data
+            }
     # ---
     for filename in os.listdir(project_js_newen):
         if filename.endswith('.json'):
@@ -109,7 +116,10 @@ def get_all_json():
             # ---
             data = json.load(open(filename2))
             # ---
-            allen = {**allen, **data}
+            allen = {
+                **allen,
+                **data
+            }
     # ---
     for a, tab in allen.items():
         if a in All:
@@ -124,6 +134,7 @@ def get_all_json():
 
 
 class WorkAll:
+
     def __init__(self):
         self.title = "WikiProjectMed:List/Prior"
         # ---
@@ -162,7 +173,10 @@ class WorkAll:
             # ---
             t = t.replace('/', '-')
             # ---
-            _all_ = {a: self.All[a] for a in wikilinks if a in self.All}
+            _all_ = {
+                a: self.All[a]
+                for a in wikilinks if a in self.All
+            }
             # ---
             if len(_all_) < 150 or 'split' not in sys.argv:
                 self.all_sections[t] = _all_
@@ -182,7 +196,7 @@ class WorkAll:
             # ---
             for i in range(0, len(_all_), numb):
                 # ---
-                las = dict(list(_all_.items())[i:i+numb])
+                las = dict(list(_all_.items())[i:i + numb])
                 # ---
                 ta = f'{t}_{n}'
                 # ---
@@ -220,7 +234,10 @@ class WorkAll:
                     # ---
                     page_x.save(newtext=text, summary='update', nocreate=0)
         # ---
+
     # ---
+
+
 # ---
 
 
@@ -239,9 +256,11 @@ def work_all():
     if 'logall' in sys.argv:
         text_bot.log_all_pages_states()
     else:
-        printe.output(f'<<lightyellow>> add "logall" to args to log All pages links green/red..')
+        printe.output('<<lightyellow>> add "logall" to args to log All pages links green/red..')
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     if 'test' in sys.argv:

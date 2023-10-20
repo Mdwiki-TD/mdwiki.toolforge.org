@@ -14,6 +14,7 @@ import os
 import pywikibot
 import configparser
 import requests
+
 # ---
 project = "/data/project/mdwiki/"
 # ---
@@ -31,8 +32,18 @@ pywikibot.output(f"username: {username}")
 yes_answer = ["y", "a", "", "Y", "A", "all"]
 # ---
 SS = {}
-r1_params = {"format": "json", "action": "query", "meta": "tokens", "type": "login"}
-r2_params = {"format": "json", "action": "login", "lgname": username, "lgpassword": password}
+r1_params = {
+    "format": "json",
+    "action": "query",
+    "meta": "tokens",
+    "type": "login"
+}
+r2_params = {
+    "format": "json",
+    "action": "login",
+    "lgname": username,
+    "lgpassword": password
+}
 # ---
 SS["ss"] = requests.Session()
 SS["login_not_done"] = True
@@ -44,6 +55,8 @@ def py_input(s):
     sa = input()
     # ---
     return sa
+
+
 # ---
 
 
@@ -72,10 +85,16 @@ def Log_to_wiki(family="nccommons", lang="www"):
     else:
         pywikibot.output("com.py login Success")
     # ---
-    SS["r33"] = SS["ss"].get(SS["url"], params={"format": "json", "action": "query", "meta": "tokens"})
+    SS["r33"] = SS["ss"].get(SS["url"], params={
+        "format": "json",
+        "action": "query",
+        "meta": "tokens"
+    })
     # ---
     SS["r3_token"] = SS["r33"].json()["query"]["tokens"]["csrftoken"]
     SS["login_not_done"] = False
+
+
 # ---
 
 
@@ -103,7 +122,7 @@ def post_s(params):
     # ---
     try:
         jj = r4.json()
-    except:
+    except BaseException:
         text = r4.text
         # ---
         if text.find('<!DOCTYPE html>') != -1:
@@ -114,6 +133,8 @@ def post_s(params):
         SS["login_not_done"] = True
     # ---
     return jj
+
+
 # ---
 
 
@@ -162,7 +183,7 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
         pywikibot.output(f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages.")
         # ---
         for x in newp:
-            if not x["title"] in Main_table:
+            if x["title"] not in Main_table:
                 Main_table.append(x["title"])
         # ---
         pywikibot.output(f"len of Main_table {len(Main_table)}.")
@@ -182,7 +203,9 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
 
 
 # ---
-Save_all = {1: False}
+Save_all = {
+    1: False
+}
 # ---
 
 
@@ -204,7 +227,7 @@ def create_Page(text, title, summary="create page"):
         pywikibot.output(text)
         sa = py_input(f"<<lightyellow>> nccommons/com.py: create:\"{title}\" page ? ([y]es, [N]o):user:{r2_params['lgname']}")
         # ---
-        if not sa.strip() in yes_answer:
+        if sa.strip() not in yes_answer:
             pywikibot.output("<<lightred>> wrong answer")
             return False
         # ---
@@ -235,6 +258,8 @@ def create_Page(text, title, summary="create page"):
     # pywikibot.output("end of create_Page def return False title:(%s)" % title)
     # ---
     return False
+
+
 # ---
 
 
@@ -249,7 +274,7 @@ def Find_pages_exists_or_not(liste):
     exists = 0
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i:i+50]
+        titles = liste[i:i + 50]
         # ---
         done += len(titles)
         # ---

@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 import requests
 import wikitextparser
 from mdpy import printe
+
 # ---
 '''
 # ---
@@ -60,6 +61,8 @@ def url_parser(url):
     }
 
     return elements
+
+
 # ---
 
 
@@ -118,6 +121,8 @@ def filter_urls(links):
     # ---
     # ---
     return liste1
+
+
 # ---
 
 
@@ -130,7 +135,10 @@ class work_in_one_lang_link:
         self.url = 'https://' + self.lang + '.wikipedia.org/w/api.php'
         self.text = ''
         self.section0 = ''
-        self.lead = {'extlinks': [], 'refsname': {}}
+        self.lead = {
+            'extlinks': [],
+            'refsname': {}
+        }
         self.extlinks = []
         self.refsname = {}
         self.contents_all = {}
@@ -181,6 +189,7 @@ class work_in_one_lang_link:
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         # ---
         return newtext
+
     # ---
 
     def get_expended(self):
@@ -191,7 +200,10 @@ class work_in_one_lang_link:
         # ---
         refsn = self.get_ref_names(tags)
         # ---
-        refsn = {k: v for k, v in refsn.items() if not k in self.refsname}
+        refsn = {
+            k: v
+            for k, v in refsn.items() if k not in self.refsname
+        }
         # ---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -223,7 +235,7 @@ class work_in_one_lang_link:
             if re.sub(r'[:\d\s]+', '', name) == '':
                 continue
             # ---
-            if not name in _tags_:
+            if name not in _tags_:
                 _tags_[name] = 0
             # ---
             _tags_[name] += 1
@@ -231,7 +243,13 @@ class work_in_one_lang_link:
         return _tags_
 
     def get_text(self):
-        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
+        params = {
+            "action": "parse",
+            "format": "json",
+            "prop": "wikitext",
+            "page": self.title,
+            "utf8": 1
+        }
         # ---
         json1 = self.post_to_json(params)
         # ---
@@ -343,6 +361,8 @@ class work_in_one_lang_link:
             if contents == '' and new_co != '':
                 self.section0 = self.section0.replace(str(x), new_co)
         # ---
+
+
 # ---
 
 
@@ -356,7 +376,10 @@ class get_old:
         self.oldtext = ''
         self.text = ''
         self.section0 = ''
-        self.lead = {'extlinks': [], 'refsname': {}}
+        self.lead = {
+            'extlinks': [],
+            'refsname': {}
+        }
         self.extlinks = []
         self.refsname = {}
         self.contents_all = {}
@@ -411,6 +434,7 @@ class get_old:
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         # ---
         return newtext
+
     # ---
 
     def get_expended(self):
@@ -421,7 +445,10 @@ class get_old:
         # ---
         refsn = self.get_ref_names(tags)
         # ---
-        refsn = {k: v for k, v in refsn.items() if not k in self.refsname}
+        refsn = {
+            k: v
+            for k, v in refsn.items() if k not in self.refsname
+        }
         # ---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -453,7 +480,7 @@ class get_old:
             if re.sub(r'[:\d\s]+', '', name) == '':
                 continue
             # ---
-            if not name in _tags_:
+            if name not in _tags_:
                 _tags_[name] = 0
             # ---
             _tags_[name] += 1
@@ -461,7 +488,13 @@ class get_old:
         return _tags_
 
     def get_oldtext(self):
-        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
+        params = {
+            "action": "parse",
+            "format": "json",
+            "prop": "wikitext",
+            "page": self.title,
+            "utf8": 1
+        }
         # ---
         params = {
             "action": "query",
@@ -474,7 +507,7 @@ class get_old:
             "rvlimit": "1",
             "redirects": 1,
             # "rvstart": "2020-05-31T22:00:00.000Z",
-            "rvdir": "older"
+            "rvdir": "older",
         }
         # ---
         json1 = self.post_to_json(params)
@@ -550,8 +583,9 @@ class get_old:
             if contents == '' and new_co != '':
                 self.section0 = self.section0.replace(str(x), new_co)
 
-
         # ---
+
+
 # ---
 if __name__ == '__main__':
     # ---

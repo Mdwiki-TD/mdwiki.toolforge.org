@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 نسخ التاريخ من الإنجليزية إلى mdwiki
@@ -14,13 +13,17 @@ python3 core8/pwb.py mdpy/imp -page:Infertility
 import sys
 import json
 import codecs
+
 # ---
 from mdpy import printe
 from mdpy.bots import py_tools
 from mdpy.bots import mdwiki_api
 from new_api.mdwiki_page import MainPage, NEW_API
+
 # ---
-offset = {1: 0}
+offset = {
+    1: 0
+}
 # ---
 to_make = {}
 # ---

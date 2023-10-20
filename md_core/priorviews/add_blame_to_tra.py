@@ -7,18 +7,19 @@ python3 core8/pwb.py priorviews/add_blame_to_tra
 import sys
 from pathlib import Path
 import json
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.find.find_blame import new_data
 from priorviews.lists.translators import tra_by_lang
 from priorviews.bots import helps
+
 # ---
 Dir = Path(__file__).parent
 # ---
-skip_users = [
-    "doc james"
-]
+skip_users = ["doc james"]
 # ---
 
 
@@ -28,10 +29,13 @@ def add_to_translators():
     dd = 1
     for lang, titles in new_data.items():
         # ---
-        if not lang in tra_by_lang:
+        if lang not in tra_by_lang:
             tra_by_lang[lang] = {}
         # ---
-        titles = {title: user for title, user in titles.items() if user != ''}
+        titles = {
+            title: user
+            for title, user in titles.items() if user != ''
+        }
         # ---
         if not titles:
             continue
@@ -39,7 +43,10 @@ def add_to_translators():
         # titles no bots
         titles_bots = [user for title, user in titles.items() if user != '' and user.lower().endswith('bot')]
 
-        titles_no_bots = {title: user for title, user in titles.items() if user != '' and not user.lower().endswith('bot')}
+        titles_no_bots = {
+            title: user
+            for title, user in titles.items() if user != '' and not user.lower().endswith('bot')
+        }
 
         # printe.output(f'<<blue>> lang:{lang} found {len(titles_bots)} bots, {len(titles_no_bots)} no bots')
 
@@ -78,11 +85,11 @@ def sea55():
     n = 0
     # ---
     for lang, titls in data.items():
-        if not lang in new_data:
+        if lang not in new_data:
             new_data[lang] = {}
         # ---
         for title in titls:
-            if not title.lower() in new_data[lang] and not title in new_data[lang]:
+            if title.lower() not in new_data[lang] and title not in new_data[lang]:
                 n += 1
                 printe.output(f'<<red>>{n=}/{len(titls)} {lang=}, {title=}')
                 new_data[lang][title.lower()] = ""
@@ -93,8 +100,9 @@ def sea55():
     # with open(file, 'w', encoding='utf-8') as zf:   json.dump(new_data, zf, ensure_ascii=False)
     helps.dump_data(file, new_data)
 
-
     # ---
+
+
 # ---
 if __name__ == '__main__':
     # ---

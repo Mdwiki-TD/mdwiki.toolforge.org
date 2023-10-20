@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 بوت قواعد البيانات
 
@@ -20,20 +19,22 @@ import time as tttime
 from pymysql.converters import escape_string
 
 from mdpy.bots import add_to_wd
+
 # add_to_wd.add_tab_to_wd(New_Table_by_lang)
 # ---
 from mdpy.bots import py_tools
 from mdpy import printe
 
-
 # escape_string(string)
 
 # ---
 from mdpy.bots import wiki_sql
+
 # wiki_sql.GET_SQL()
 # wiki_sql.Make_sql_many_rows( queries , wiki="", printqua = False)
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ---
 project = '/data/project/mdwiki/'
@@ -43,13 +44,16 @@ if not os.path.isdir(project):
 # ---
 cat_for_pages = {}
 from mdpy.others.fixcat import cat_for_pages
+
 # ---
 Lang_usr_mdtitle = {}
 targets_done = {}
 Langs_to_title_and_user = {}
 to_update_lang_user_mdtitle = {}
 # ---
-printsql = {1: False}
+printsql = {
+    1: False
+}
 # ---
 
 
@@ -139,7 +143,7 @@ def dodo_sql():
     len_done_target = 0
     # ---
     for tab in sq:
-        mdtitle= tab['title']
+        mdtitle = tab['title']
         user = tab['user']
         target = tab['target']
         lang = tab['lang'].lower()
@@ -150,19 +154,19 @@ def dodo_sql():
         tul = mdtitle + user + lang
         tit_user_lang[tul] = target
         # ---
-        if not lang in Lang_usr_mdtitle:
+        if lang not in Lang_usr_mdtitle:
             Lang_usr_mdtitle[lang] = {}
-        if not user in Lang_usr_mdtitle[lang]:
+        if user not in Lang_usr_mdtitle[lang]:
             Lang_usr_mdtitle[lang][user] = []
         # ---
         Lang_usr_mdtitle[lang][user].append(mdtitle)
         # ---
-        if not lang in Langs_to_title_and_user:
+        if lang not in Langs_to_title_and_user:
             Langs_to_title_and_user[lang] = {}
-        if not lang in to_update_lang_user_mdtitle:
+        if lang not in to_update_lang_user_mdtitle:
             to_update_lang_user_mdtitle[lang] = {}
         # ---
-        if not user in to_update_lang_user_mdtitle[lang]:
+        if user not in to_update_lang_user_mdtitle[lang]:
             to_update_lang_user_mdtitle[lang][user] = []
         # ---
         if target == "":
@@ -174,7 +178,7 @@ def dodo_sql():
             # ---
         else:
             # ---
-            if not lang in targets_done:
+            if lang not in targets_done:
                 targets_done[lang] = {}
             # ---
             target = target.replace("_", " ")
@@ -191,8 +195,14 @@ def dodo_sql():
             # targets_done[lang][mdtitle] = { "user" : user , "target" : target }
             # targets_done[lang][py_tools.ec_de_code(target , 'encode')] = { "user" : user , "target" : target }
             # ---
-            targets_done[lang][target] = {"user": user, "target": target}
-            targets_done[lang][target2] = {"user": user, "target": target}
+            targets_done[lang][target] = {
+                "user": user,
+                "target": target
+            }
+            targets_done[lang][target2] = {
+                "user": user,
+                "target": target
+            }
     # ---
     printe.output('<<lightyellow>> find %d with target, and %s without in mdwiki database. ' % (len_done_target, len_no_target))
     # ---
@@ -222,8 +232,8 @@ query_main_old = '''
 '''
 # ---
 query_main = '''
-    select DISTINCT p.page_title, 
-    SUBSTRING_INDEX(SUBSTRING_INDEX(c.comment_text, 'Ibrahem/', -1), ']]', 1), 
+    select DISTINCT p.page_title,
+    SUBSTRING_INDEX(SUBSTRING_INDEX(c.comment_text, 'Ibrahem/', -1), ']]', 1),
     a.actor_name, r.rev_timestamp, p.page_namespace, r.rev_parent_id
     from change_tag t
     INNER JOIN change_tag_def ctd on ctd.ctd_id = t.ct_tag_id
@@ -251,10 +261,19 @@ def main():
     Skip_titles_global = ['جامعة نورث كارولاينا', 'جامعة ولاية كارولينا الشمالية إيه آند تي', 'نيشان راجاميترابورن', 'موميتازون']
     # ---
     Skip_titles = {}
-    Skip_titles['Mr. Ibrahem'] = {'targets': ['جامعة نورث كارولاينا', 'جامعة ولاية كارولينا الشمالية إيه آند تي', 'نيشان راجاميترابورن'], 'mdtitles': []}
-    Skip_titles['Avicenno'] = {'targets': ['ألم فرجي', 'لقاح المكورة السحائية', 'استئصال اللوزتين'], 'mdtitles': []}
+    Skip_titles['Mr. Ibrahem'] = {
+        'targets': ['جامعة نورث كارولاينا', 'جامعة ولاية كارولينا الشمالية إيه آند تي', 'نيشان راجاميترابورن'],
+        'mdtitles': []
+    }
+    Skip_titles['Avicenno'] = {
+        'targets': ['ألم فرجي', 'لقاح المكورة السحائية', 'استئصال اللوزتين'],
+        'mdtitles': []
+    }
     # ---
-    Skip_titles['Subas Chandra Rout'] = {'targets': [], 'mdtitles': ["Wilms' tumor", "Sheehan's syndrome", "Membranous nephropathy"]}
+    Skip_titles['Subas Chandra Rout'] = {
+        'targets': [],
+        'mdtitles': ["Wilms' tumor", "Sheehan's syndrome", "Membranous nephropathy"]
+    }
     # ---
     n = 0
     # ---
@@ -301,8 +320,8 @@ def main():
                 co_text = py_tools.Decode_bytes(list[1])
                 user = py_tools.Decode_bytes(list[2])
                 pupdate = py_tools.Decode_bytes(list[3])
-                namespace= py_tools.Decode_bytes(list[4])
-                rev_parent_id= py_tools.Decode_bytes(list[5])
+                namespace = py_tools.Decode_bytes(list[4])
+                rev_parent_id = py_tools.Decode_bytes(list[5])
                 # ---
                 namespace = str(namespace)
                 # ---
@@ -350,7 +369,7 @@ def main():
                     continue
                 # ---
                 # للتأكد من الصفحات غير المنشورة
-                if not target2 in tgd and not target in tgd:
+                if target2 not in tgd and target not in tgd:
                     # ---
                     if tul_target != '':
                         if tul_target == target:
@@ -363,11 +382,17 @@ def main():
                         printe.output(laloly)
                 # ---
         # ---
-        add_to_wd.add_tab_to_wd({lange: New_Table_by_lang[lange]})
+        add_to_wd.add_tab_to_wd({
+            lange: New_Table_by_lang[lange]
+        })
         # ---
-        add_to_mdwiki_sql({lange: New_Table_by_lang[lange]})
+        add_to_mdwiki_sql({
+            lange: New_Table_by_lang[lange]
+        })
 
     # ---
+
+
 if __name__ == '__main__':
     main()
 # ---

@@ -10,8 +10,10 @@ import sys
 import os
 import json
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
 '''
@@ -20,8 +22,10 @@ text        = page.get_text()
 '''
 # ---
 from new_api.wiki_page import MainPage, change_codes
+
 # ---
 from prior import get_them
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -64,11 +68,15 @@ def log_all(main_File):
         return
     # ---
     codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(All))
+
+
 # ---
 
 
 def log_allen(main_File):
     codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(allen))
+
+
 # ---
 
 
@@ -110,20 +118,27 @@ def advance_work_en(title, title2, page):
     printe.output(f'p0/\told\t\t{lenex1} extlinks, {lenre1} refsname')
     printe.output(f'p0/\told\t\t{lenex_lead1} lead_extlinks, {lenre_lead1} lead_refsname')
     # ---
+
+
 # ---
 
 
 def work_in_en_page(title):
     # ---
-    if not title in All:
-        All[title] = {'langs': {}}
+    if title not in All:
+        All[title] = {
+            'langs': {}
+        }
     # ---
-    if not title in allen:
+    if title not in allen:
         allen[title] = {
             'extlinks': [],
             'refsname': [],
             'en': title,
-            'lead': {'extlinks': [], 'refsname': []}
+            'lead': {
+                'extlinks': [],
+                'refsname': []
+            }
         }
     # ---
     page = MainPage(title, 'en')
@@ -159,7 +174,11 @@ def work_in_en_page(title):
         if lang == 'simple':
             continue
         # ---
-        tata = {'title': tit, 'extlinks': [], 'refsname': []}
+        tata = {
+            'title': tit,
+            'extlinks': [],
+            'refsname': []
+        }
         # ---
         tatnn = get_them.work_in_one_lang_link(lang, tit)
         # ---
@@ -179,6 +198,8 @@ def work_in_en_page(title):
 
         # ---
     # ---
+
+
 # ---
 n_al = 0
 # ---
@@ -232,15 +253,16 @@ def work_in_links(links, main_File, main_File_en, Log=True):
     # ---
     if Log:
         log_allen(main_File_en)
+
+
 # ---
 
 
 def start_all():
     # ---
-    links = main_links()
+    links = sorted(main_links())
     # start work in All links
     # ---
-    links.sort()
     # ---
     tanko = {}
     # ---
@@ -249,12 +271,16 @@ def start_all():
     for i in range(0, len(links), 100):
         n += 1
         # ---
-        titles = links[i:i+100]
+        titles = links[i:i + 100]
         # ---
         main_File = project_js_new + f'{n}.json'
         main_File_en = project_js_newen + f'en_{n}.json'
         # ---
-        tanko[str(n)] = {'file': main_File, 'file_en': main_File_en, 'links': titles}
+        tanko[str(n)] = {
+            'file': main_File,
+            'file_en': main_File_en,
+            'links': titles
+        }
         # ---
         printe.output(f'jsub -N s{n} python3 core8/pwb.py prior/p4 -s:{n}')
         # ---
@@ -270,12 +296,14 @@ def start_all():
     if valu in tanko:
         printe.output(f'list number:{valu} found')
         # ---
-        tanko = {valu: tanko[valu]}
+        tanko = {
+            valu: tanko[valu]
+        }
     else:
         printe.output(f'list number:{valu} not found.')
         # ---
         if 'All' not in sys.argv:
-            printe.output(f'Add "All" to sys.argv to work in All.. \n sys.exit()')
+            printe.output('Add "All" to sys.argv to work in All.. \n sys.exit()')
             sys.exit()
     # ---
     for x, tab in tanko.items():

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 إيجاد التحويلات واصلاحها
@@ -16,6 +15,7 @@ import re
 import sys
 from mdpy.bots import mdwiki_api
 from mdpy import printe
+
 # ---
 NewList = {}
 # ---
@@ -54,7 +54,7 @@ def find_redirects(links):
     # titles = [ x for x in links if links[x].get('ns','') == '0' ]
     titles = []
     for x in links:
-        if not x in from_to:
+        if x not in from_to:
             ns = links[x].get('ns', '')
             if str(ns) == '0':
                 titles.append(x)
@@ -66,7 +66,7 @@ def find_redirects(links):
     normalized_numb = 0
     # ---
     for i in range(0, len(titles), 300):
-        group = titles[i:i+300]
+        group = titles[i:i + 300]
         # ---
         # printe.output(group)
         # ---
@@ -120,6 +120,8 @@ def find_redirects(links):
     # ---
     printe.output("def find_redirects: find %d lenth" % nn)
     # printe.output( "def find_redirects: find %d for normalized" % normalized_numb )
+
+
 # ---
 
 
@@ -142,6 +144,8 @@ def replace_links2(text, oldlink, newlink):
             text = text.replace(f'[[{oldlink2}|', f'[[{newlink}|')
     # ---
     return text
+
+
 # ---
 
 
@@ -193,10 +197,12 @@ def treat_page(title):
             if tit2 != tit:
                 printe.output(f'<<lightred>> tit:["{tit}"] and tit:["{tit2}"] not in from_to')
             # else:
-                # printe.output('<<lightred>> tit:["%s"] not in from_to' % tit )
+            # printe.output('<<lightred>> tit:["%s"] not in from_to' % tit )
             # ---
     # ---
     mdwiki_api.page_put(oldtext=text, newtext=newtext, summary='Fix redirects', title=title, returntrue=False, diff=True)
+
+
 # ---
 
 
@@ -226,6 +232,8 @@ def main():
         treat_page(title)
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     main()

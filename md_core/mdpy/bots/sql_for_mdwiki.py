@@ -24,11 +24,15 @@ import pymysql.cursors
 import pymysql
 import traceback
 import pywikibot
+
 # ---
 from mdpy import printe
 from pywikibot import config
+
 # ---
-can_use_sql_db = {1: True}
+can_use_sql_db = {
+    1: True
+}
 # ---
 
 py_v = pymysql.__version__
@@ -52,7 +56,9 @@ if config.db_connect_file is None:
         'password': db_password
     }
 else:
-    credentials = {'read_default_file': config.db_connect_file}
+    credentials = {
+        'read_default_file': config.db_connect_file
+    }
 # ---
 main_args = {
     'host': 'tools.db.svc.wikimedia.cloud',
@@ -60,13 +66,16 @@ main_args = {
     'charset': 'utf8mb4',
     # 'collation':  'utf8_general_ci',
     'use_unicode': True,
-    'autocommit': True
+    'autocommit': True,
 }
 # ---
 if 'localhost' in sys.argv or project == '/mdwiki':
     main_args['host'] = '127.0.0.1'
     main_args['db'] = 'mdwiki'
-    credentials = {'user': 'root', 'password': 'root11'}
+    credentials = {
+        'user': 'root',
+        'password': 'root11'
+    }
 # ---
 
 
@@ -74,7 +83,10 @@ def sql_connect_pymysql(query, return_dict=False):
     # ---
     # print('start sql_connect_pymysql:')
     # ---
-    args = {x: v for x, v in main_args.items()}
+    args = {
+        x: v
+        for x, v in main_args.items()
+    }
     # ---
     params = None
     # ---
@@ -90,7 +102,7 @@ def sql_connect_pymysql(query, return_dict=False):
     try:
         connection = pymysql.connect(**args, **credentials)
 
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -98,6 +110,7 @@ def sql_connect_pymysql(query, return_dict=False):
     # ---
     if pymysql_version < pkg_resources.parse_version('1.0.0'):
         from contextlib import closing
+
         connection = closing(connection)
     # ---
     with connection as conn, conn.cursor() as cursor:
@@ -106,7 +119,7 @@ def sql_connect_pymysql(query, return_dict=False):
         try:
             cursor.execute(query, params)
 
-        except Exception as e:
+        except Exception:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')
@@ -117,7 +130,7 @@ def sql_connect_pymysql(query, return_dict=False):
         try:
             results = cursor.fetchall()
 
-        except Exception as e:
+        except Exception:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')
@@ -125,6 +138,8 @@ def sql_connect_pymysql(query, return_dict=False):
         # ---
         # yield from cursor
         return results
+
+
 # ---
 
 
@@ -132,6 +147,8 @@ def Decode_bytes(x):
     if isinstance(x, bytes):
         x = x.decode("utf-8")
     return x
+
+
 # ---
 
 
@@ -148,6 +165,8 @@ def mdwiki_sql(query, return_dict=False, **kwargs):
     # print('<<lightyellow>> newsql::')
     return sql_connect_pymysql(query, return_dict=return_dict)
     # ---
+
+
 # ---
 
 
@@ -161,6 +180,8 @@ def get_all_qids():
         mdtitle_to_qid[ta['title']] = ta['qid']
     # ---
     return mdtitle_to_qid
+
+
 # ---
 
 
@@ -172,6 +193,8 @@ def get_all_pages():
         pages.append(ta['title'])
     # ---
     return pages
+
+
 # ---
 
 
@@ -182,6 +205,8 @@ def add_qid(title, qid):
     printe.output(f'<<yellow>> add_qid()  title:{title}, qid:{qid}')
     # ---
     return mdwiki_sql(qua, return_dict=True)
+
+
 # ---
 
 
@@ -192,6 +217,8 @@ def update_qid(title, qid):
     printe.output(f'<<yellow>> update_qid()  title:{title}, qid:{qid}')
     # ---
     return mdwiki_sql(qua, return_dict=True)
+
+
 # ---
 
 
@@ -202,6 +229,8 @@ def update_qid_title(new_title, qid):
     printe.output(f'<<yellow>> update_qid_title()  new_title:{new_title}, qid:{qid}')
     # ---
     return mdwiki_sql(qua, return_dict=True)
+
+
 # ---
 
 
@@ -224,7 +253,7 @@ def add_titles_to_qids(tab, add_empty_qid=False):
     all_in = get_all_qids()
     # ---
     for title, qid in new.items():
-        if not title in all_in:
+        if title not in all_in:
             add_qid(title, qid)
             continue
         # ---
@@ -238,6 +267,8 @@ def add_titles_to_qids(tab, add_empty_qid=False):
                 printe.output(f'<<yellow>> update_qid() qid_in:{q_in}, new_qid:{qid}')
         # ---
     # ---
+
+
 # ---
 
 
@@ -270,6 +301,8 @@ def tests():
     printe.output(pages)
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     tests()

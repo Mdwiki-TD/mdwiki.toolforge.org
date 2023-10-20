@@ -21,13 +21,16 @@ import os
 import json
 import codecs
 import sys
+
 # ---
 # ---
 from mdpy.bots import mdwiki_api
 from mdpy import printe
 from mdcount.links import get_valid_Links
+
 # ---
 from mdcount import lead
+
 # ---
 json_file = {}
 # ---
@@ -56,8 +59,9 @@ def get_word_files():
     # ---
     printe.output(f'len of words_n:{len(words_n.keys())}')
 
-
     # ---
+
+
 # ---
 get_word_files()
 # ---
@@ -70,7 +74,9 @@ def log(file, table):
 
 
 # ---
-Nore = {1: False}
+Nore = {
+    1: False
+}
 for arg in sys.argv:
     if arg in ['new', 'listnew', 'less100', 'more400']:
         Nore[1] = True
@@ -87,7 +93,9 @@ def mmain():
     # ---
     vaild_links = get_valid_Links(words_n)
     # ---
-    kkk = {1: vaild_links}
+    kkk = {
+        1: vaild_links
+    }
     # ---
     for x in kkk[1]:
         # ---

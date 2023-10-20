@@ -9,6 +9,7 @@ from priorviews.bots import helps  # views_url(title, lang, view)
 from priorviews.lists import views
 import sys
 from pathlib import Path
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -33,7 +34,7 @@ all_section_views = 0
 
 
 def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
-    if not section in section_langs_views:
+    if section not in section_langs_views:
         section_langs_views[section] = {}
     """
     Returns a formatted string containing view counts for all available languages.
@@ -50,7 +51,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
     # Loop through all available languages in the sorted order
     for l in langs_keys_sorted:
         u += 1
-        if not l in section_langs_views[section]:
+        if l not in section_langs_views[section]:
             section_langs_views[section][l] = 0
         view = ''
 
@@ -95,6 +96,8 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
 
     # Return the overall formatted string containing view counts for all available languages
     return lang_text
+
+
 # ---
 
 
@@ -132,6 +135,7 @@ def make_text(section, links):
 
     def fo_n(x):
         return f'{x:,}'
+
     langs_keys_text = " !! ".join([format_x(x) for x in langs_keys])
     text += f" {langs_keys_text}"
 
@@ -182,16 +186,126 @@ def make_text(section, links):
 
 # ---
 if __name__ == '__main__':
-    lngs = ["af", "ar", "ast", "ay", "az", "be", "be-tarask", "bg", "bn", "bs", "ca", "ckb", "cs", "cy", "da", "de", "el", "eo", "es", "et", "eu", "fa", "fi", "fr", "gcr", "gl", "ha", "he", "hi", "hr", "hu", "hy", "id", "is", "it", "ja", "jv", "ka", "kk", "kn", "ko", "ky",
-            "la", "lt", "lv", "mk", "ml", "mr", "ms", "my", "ne", "nl", "nn", "no", "or", "pa", "pl", "pt", "qu", "ro", "ru", "sah", "sh", "si", "sk", "sl", "sq", "sr", "sv", "sw", "ta", "te", "tg", "tl", "tr", "tt", "uk", "uz", "vi", "wa", "wuu", "za", "zh", "zh-min-nan", "zh-yue"]
+    lngs = [
+        "af",
+        "ar",
+        "ast",
+        "ay",
+        "az",
+        "be",
+        "be-tarask",
+        "bg",
+        "bn",
+        "bs",
+        "ca",
+        "ckb",
+        "cs",
+        "cy",
+        "da",
+        "de",
+        "el",
+        "eo",
+        "es",
+        "et",
+        "eu",
+        "fa",
+        "fi",
+        "fr",
+        "gcr",
+        "gl",
+        "ha",
+        "he",
+        "hi",
+        "hr",
+        "hu",
+        "hy",
+        "id",
+        "is",
+        "it",
+        "ja",
+        "jv",
+        "ka",
+        "kk",
+        "kn",
+        "ko",
+        "ky",
+        "la",
+        "lt",
+        "lv",
+        "mk",
+        "ml",
+        "mr",
+        "ms",
+        "my",
+        "ne",
+        "nl",
+        "nn",
+        "no",
+        "or",
+        "pa",
+        "pl",
+        "pt",
+        "qu",
+        "ro",
+        "ru",
+        "sah",
+        "sh",
+        "si",
+        "sk",
+        "sl",
+        "sq",
+        "sr",
+        "sv",
+        "sw",
+        "ta",
+        "te",
+        "tg",
+        "tl",
+        "tr",
+        "tt",
+        "uk",
+        "uz",
+        "vi",
+        "wa",
+        "wuu",
+        "za",
+        "zh",
+        "zh-min-nan",
+        "zh-yue",
+    ]
     lala = {
         # "Tooth decay":{ x : x for x in lngs},
         "Angular cheilitis": {},
-        "Pit latrine": {'ar': 'مرحاض ذو حفرة', 'bn': 'খাটা পায়খানা', 'ca': 'Latrina de fossa', 'ee': 'Do nugododeƒe', 'es': 'Letrina de hoyo', 'fa': 'توالت گودالی', 'ha': 'Shaddar gargajiya', 'hi': 'खुड्डी शौचालय', 'ig': 'Ụlọ mposi', 'it': 'Latrina a fossa', 'ln': 'Latrine ya libulu', 'nso': 'Boithomelo bja mokoti', 'or': 'ବରପାଲି ପାଇଖାନା', 'pl': 'Latryna', 'ru': 'Ямный туалет', 'sw': 'Choo cha shimo', 'ta': 'குழி கழிவறை', 'tr': 'Köy tuvaleti', 'ur': 'گڑھے والا بیت الخلا', 'wo': 'Duus', 'xh': 'Ithoyilethi yomngxuma', 'yo': 'Ṣalanga oniho', 'zh': '旱廁', 'zu': 'Ithoyilethe lomgodi'},
+        "Pit latrine": {
+            'ar': 'مرحاض ذو حفرة',
+            'bn': 'খাটা পায়খানা',
+            'ca': 'Latrina de fossa',
+            'ee': 'Do nugododeƒe',
+            'es': 'Letrina de hoyo',
+            'fa': 'توالت گودالی',
+            'ha': 'Shaddar gargajiya',
+            'hi': 'खुड्डी शौचालय',
+            'ig': 'Ụlọ mposi',
+            'it': 'Latrina a fossa',
+            'ln': 'Latrine ya libulu',
+            'nso': 'Boithomelo bja mokoti',
+            'or': 'ବରପାଲି ପାଇଖାନା',
+            'pl': 'Latryna',
+            'ru': 'Ямный туалет',
+            'sw': 'Choo cha shimo',
+            'ta': 'குழி கழிவறை',
+            'tr': 'Köy tuvaleti',
+            'ur': 'گڑھے والا بیت الخلا',
+            'wo': 'Duus',
+            'xh': 'Ithoyilethi yomngxuma',
+            'yo': 'Ṣalanga oniho',
+            'zh': '旱廁',
+            'zu': 'Ithoyilethe lomgodi',
+        },
         "Bad breath": {},
         "Leukoplakia": {},
         "Periodontal disease": {},
-        "Tonsil stones": {}
+        "Tonsil stones": {},
     }
     u = make_text('Dentistry', lala)
     print(u.replace("height:580px;", ""))

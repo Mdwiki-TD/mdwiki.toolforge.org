@@ -13,6 +13,7 @@ import json
 import os
 from pathlib import Path
 import codecs
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -24,7 +25,11 @@ if not os.path.exists(file):
 # ---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
-_data = {"ar": {"artitle": "بيت الحكمة"}}
+_data = {
+    "ar": {
+        "artitle": "بيت الحكمة"
+    }
+}
 # ---
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
@@ -36,9 +41,9 @@ counts_by_lang = {}
 # Iterate through each markdown file and language in `tra_by_lang`
 for lang, titles in tra_by_lang.items():
     # ---
-    if not lang in counts_by_translator:
+    if lang not in counts_by_translator:
         counts_by_translator[lang] = {}
-    if not lang in counts_by_lang:
+    if lang not in counts_by_lang:
         counts_by_lang[lang] = 0
     # ---
     for title, user in titles.items():
@@ -50,7 +55,7 @@ for lang, titles in tra_by_lang.items():
         if helps.is_ip(user):
             continue
         # ---
-        if not user in counts_by_translator[lang]:
+        if user not in counts_by_translator[lang]:
             counts_by_translator[lang][user] = 0
         counts_by_translator[lang][user] += 1
         # ---

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 نسخ التحويلات من الإنجليزية إلى mdwiki
@@ -17,11 +16,15 @@
 # import time
 # from datetime import datetime, date
 import sys
+
 # ---
 from mdpy.bots import mdwiki_api
 from mdpy import printe
+
 # ---
-offset = {1: 0}
+offset = {
+    1: 0
+}
 # ---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')

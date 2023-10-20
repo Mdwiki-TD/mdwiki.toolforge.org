@@ -3,6 +3,7 @@ python3 core8/pwb.py wprefs/bots/es_refs
 """
 import wikitextparser as wtp
 from wprefs.helps import print_s
+
 # ---
 
 
@@ -28,7 +29,7 @@ def mv_es_refs(text):
         name = attrs.get('name', '').strip()
         group = attrs.get('group', '').strip()
         # ---
-        if not group in refs:
+        if group not in refs:
             refs[group] = {}
         # ---
         if name == '':
@@ -36,7 +37,7 @@ def mv_es_refs(text):
             name = f'autogen_{numb}'
             x.set_attr('name', name)
         # ---
-        if not name in refs[group]:
+        if name not in refs[group]:
             refs[group][name] = x.contents
         elif refs[group][name] != x.contents:
             print_s(f'x.contents = {x.contents}')
@@ -75,6 +76,7 @@ def mv_es_refs(text):
 
 if __name__ == '__main__':
     import pywikibot
+
     text = """{{Ficha de medicamento
         | IUPAC_name      = (''R'',''R'')-(+)-Methyl 2-phenyl-2-(2-piperidyl)acetate
 

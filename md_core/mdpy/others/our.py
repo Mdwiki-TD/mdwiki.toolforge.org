@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdpy/our
@@ -19,8 +18,10 @@ import sys
 from mdpy.bots import txtlib2
 from mdpy import printe
 from mdpy.bots import mdwiki_api
+
 # ---
 import os
+
 project = '/data/project/mdwiki/'
 # ---
 if not os.path.isdir(project):
@@ -41,6 +42,8 @@ def fix_p(title, text, param):
         newtext = newtext.replace(uu, nn)
         # ---
     return newtext
+
+
 # ---
 
 
@@ -76,7 +79,7 @@ def work(title):
                     # ---
             # ---
             param = param.strip()
-            if not param in values:
+            if param not in values:
                 values[param] = [title]
             else:
                 values[param].append(title)
@@ -122,7 +125,10 @@ def check_urls(urls):
 
 
 def make_log(dad):
-    lists = {x: len(z) for x, z in dad.items()}
+    lists = {
+        x: len(z)
+        for x, z in dad.items()
+    }
     # ---
     global errors
     # ---
@@ -155,6 +161,8 @@ def make_log(dad):
     te += '= no errors = \n' + text + '\n'
     # ---
     mdwiki_api.page_put(newtext=te, summary='update', title='User:Mr. Ibrahem/Ourworldindatamirror', diff=False)
+
+
 # ---
 
 
@@ -188,6 +196,8 @@ def main():
     make_log(values)
 
     # ---
+
+
 if __name__ == "__main__":
     main()
 # ---

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 التحقق من ربط المقالات بالعنصر المناسب في ويكي بيانات
 
@@ -13,6 +12,7 @@ python3 core8/pwb.py mdpy/recheck
 #
 
 import sys
+
 # ---
 from mdpy import printe
 from mdpy.bots import wiki_sql
@@ -29,14 +29,15 @@ from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import py_tools
 from pymysql.converters import escape_string
 
-
 # escape_string(string)
 
 # ---
 from mdpy.bots import wikidataapi
+
 wikidataurl = "https://www.wikidata.org/w/api.php"
 # ---
 from mdpy.bots import wiki_api
+
 # ---
 targets_done = {}
 # ---
@@ -75,13 +76,17 @@ def dodo_sql():
             continue
         # ---
         len_done_target += 1
-        if not lang in targets_done:
+        if lang not in targets_done:
             targets_done[lang] = {}
         target = target.replace("_", " ")
         # targets_done[lang][py_tools.ec_de_code(target , 'encode')] = { "user" : user , "target" : target, "mdtitle" : title }
-        targets_done[lang][target] = {"user": user, "target": target, "mdtitle": title}
+        targets_done[lang][target] = {
+            "user": user,
+            "target": target,
+            "mdtitle": title
+        }
     # ---
-    printe.output("<<lightyellow>> find %d with target, and %s without "% (len_done_target, len_no_target))
+    printe.output("<<lightyellow>> find %d with target, and %s without " % (len_done_target, len_no_target))
 
 
 # ---
@@ -96,7 +101,7 @@ def do_it_sql(lange, targets):
     titles = list(targets.keys())
     # ---
     for i in range(0, len(titles), 100):
-        group = titles[i:i+100]
+        group = titles[i:i + 100]
         # ---
         ase = [escape_string(t.strip().replace(" ", "_")) for t in group if t.strip() != ""]
         # ---
@@ -107,7 +112,7 @@ def do_it_sql(lange, targets):
         # ---
         query = f"""
             select DISTINCT p.page_title, pp.pp_value
-            from page p, page_props pp 
+            from page p, page_props pp
             where p.page_id = pp.pp_page
             and pp.pp_propname='wikibase_item'
             and p.page_namespace = 0
@@ -136,7 +141,11 @@ def do_it_sql(lange, targets):
                 # ---
                 md_title = targets.get(target, {}).get("mdtitle", "")
                 # ---
-                wd_tt[target] = {"mdtitle": md_title, "lang": lange, "qid": pp_value}
+                wd_tt[target] = {
+                    "mdtitle": md_title,
+                    "lang": lange,
+                    "qid": pp_value
+                }
         # ---
         if res_len < len(group):
             diff = len(group) - res_len
@@ -147,6 +156,8 @@ def do_it_sql(lange, targets):
                 printe.output("recheck.py %d missing from %d" % (diff, len(group)))
                 printe.output("recheck.py missing:(%d):%s" % (len_missing, ",".join(itemdiff)))
         # ---
+
+
 # ---
 
 
@@ -165,7 +176,7 @@ def do_it_api(lange, targets):
     nomd = 0
     # ---
     for i in range(0, len(New_targets), limits):
-        group = New_targets[i:i+limits]
+        group = New_targets[i:i + limits]
         # ---
         # get all pages qid
         qids_from_wiki = wiki_api.Get_page_qids(lange, group)
@@ -205,15 +216,20 @@ def do_it_api(lange, targets):
                 nomd += 1
                 # printe.output( '<<lightred>> %d md_title is empty for "%s"' % ( nomd, target ) )
             # ---
-            wd_tt[target] = {"mdtitle": md_title, "lang": lange, "qid": qid}
+            wd_tt[target] = {
+                "mdtitle": md_title,
+                "lang": lange,
+                "qid": qid
+            }
     # ---
     printe.output("<<lightyellow>> noqid %d" % noqid)
     printe.output("<<lightyellow>> nomd  %d" % nomd)
     printe.output("<<lightyellow>> withqid %d" % withqid)
 
-
     # ---
     # return asde
+
+
 # ---
 numb_lang = 0
 for lange in targets_done:
@@ -229,6 +245,7 @@ for lange in targets_done:
     # ---
 # ---
 from mdpy.bots import en_to_md
+
 # en_to_md.mdtitle_to_qid
 # en_to_md.enwiki_to_mdwiki
 # en_to_md.mdwiki_to_enwiki
@@ -265,14 +282,18 @@ for target in wd_tt:
         mdtitle = tit2
         qid_mdwiki = qid_2
         printe.output(f"<<lightyellow>> mdtitle: ({mdtitle}), tit2: ({tit2})")
-        printe.output(f"<<lightyellow>> qid_mdwiki for mdtitle is empty, but qid_2 for tit2 is not empty")
+        printe.output("<<lightyellow>> qid_mdwiki for mdtitle is empty, but qid_2 for tit2 is not empty")
     # ---
     if qid_target == qid_mdwiki:
         continue
     # ---
     # printe.output( '<<lightred>> qid_target != qid_mdwiki' )
     # ---
-    qids_to_merge[qid_target] = {"wd_qid": qid_mdwiki, "md_title": mdtitle, "lang": lang}
+    qids_to_merge[qid_target] = {
+        "wd_qid": qid_mdwiki,
+        "md_title": mdtitle,
+        "lang": lang
+    }
 # ---
 printe.output(f'len(qids_to_merge) = "{len(qids_to_merge)}"')
 # ---
@@ -298,7 +319,11 @@ def work_with_2_qids(oldq, new_q):
     # ---
     if en.startswith("User:Mr. Ibrahem"):
         printe.output(f"<<lightblue>> remove sitelink {en}")
-        remove = wikidataapi.post({"action": "wbsetsitelink", "id": oldq, "linksite": "enwiki"}, apiurl=wikidataurl, token=True)
+        remove = wikidataapi.post({
+            "action": "wbsetsitelink",
+            "id": oldq,
+            "linksite": "enwiki"
+        }, apiurl=wikidataurl, token=True)
         if "success" in remove:
             len_sites -= 1
             printe.output("<<lightgreen>> **remove sitelink true.")
@@ -333,7 +358,7 @@ for oldq, tab in qids_to_merge.items():
 quary = """
 SELECT ?q ?qlabel
 WHERE {
-  ?pid rdfs:label ?qlabel. FILTER((LANG(?qlabel)) = "en"). 
+  ?pid rdfs:label ?qlabel. FILTER((LANG(?qlabel)) = "en").
   FILTER (CONTAINS(?qlabel, "User:Mr. Ibrahem")).
 }
 LIMIT 100

@@ -4,6 +4,7 @@ from wprefs.bots.fix_pt_months import pt_months
 import sys
 import re
 import wikitextparser as wtp
+
 # ---
 # ---
 months = {
@@ -21,7 +22,10 @@ months = {
     'December': 'dezembro',
 }
 # ---
-months_lower = {k.lower(): v for k, v in months.items()}
+months_lower = {
+    k.lower(): v
+    for k, v in months.items()
+}
 # ---
 months_line = "|".join(months.keys())
 # ---
@@ -71,6 +75,8 @@ def make_new_val(val):
         return newval
     # ---
     return newval
+
+
 # ---
 
 
@@ -114,4 +120,6 @@ def pt_months(text):
     text = parsed.string
     # ---
     return text
+
+
 # ---

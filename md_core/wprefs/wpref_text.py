@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 from wprefs.wpref_text import fix_page
 # fix_page(text, title)
@@ -10,13 +9,16 @@ from wprefs.wpref_text import fix_page
 #
 import re
 import sys
+
 # ---
 from wprefs.bots.Duplicatenew2 import DuplicateReferences
 from wprefs.bots.fix_pt_months import pt_months
+
 # ---
 from wprefs.helps import print_s
 from wprefs.es import fix_es
 from wprefs.infobox import Expend_Infobox
+
 # ---
 
 
@@ -121,4 +123,6 @@ def fix_page(newtext, title, move_dots=False, infobox=False, section_0='', lang=
         newtext = fix_es(newtext, title)
     # ---
     return newtext
+
+
 # ---

@@ -14,12 +14,14 @@ import sys
 import urllib
 import traceback
 import pywikibot
+
 # ---
 PYTHON_VERSION = sys.version_info[:3]
 if PYTHON_VERSION >= (3, 9):
     removeprefix = str.removeprefix  # type: ignore[attr-defined]
     removesuffix = str.removesuffix  # type: ignore[attr-defined]
 else:
+
     def removeprefix(string: str, prefix: str) -> str:
         """Remove prefix from a string or return a copy otherwise.
 
@@ -37,6 +39,8 @@ else:
         if string.endswith(suffix):
             return string[:-len(suffix)]
         return string
+
+
 # ---
 
 
@@ -51,7 +55,7 @@ def quoteurl(fao):
     # ---
     try:
         fao = urllib.parse.quote(fao)
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -60,6 +64,8 @@ def quoteurl(fao):
         fao = fao.replace("ioioioioio", "%E2%80%93")
     # ---
     return fao
+
+
 # ---
 
 
@@ -67,6 +73,8 @@ def Decode_bytes(x):
     if isinstance(x, bytes):
         x = x.decode("utf-8")
     return x
+
+
 # ---
 
 
@@ -78,4 +86,6 @@ def ec_de_code(tt, Type):
     elif Type == 'decode':
         fao = urllib.parse.unquote(tt)
     return fao
+
+
 # ---

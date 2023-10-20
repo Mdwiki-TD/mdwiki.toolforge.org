@@ -10,10 +10,12 @@ import codecs
 import os
 import sys
 from pathlib import Path
+
 # ---
 sys.path.append('/data/project/mdwiki/md_core/')
 # ---
 from wprefs.helps import exepts
+
 # ---
 project = '/data/project/mdwiki'
 # ---
@@ -31,7 +33,7 @@ if os.path.isfile(fixwikirefs):
     try:
         setting = json.load(codecs.open(fixwikirefs, "r", encoding="utf-8-sig"))
         # print(setting)
-    except Exception as e:
+    except Exception:
         setting = {}
 # ---
 
@@ -44,7 +46,7 @@ def make_ref_done_list():
         with codecs.open(reffixed_file, "r", encoding="utf-8-sig") as mama:
             reffixed = mama.read()
         mama.close()
-    except Exception as e:
+    except Exception:
         exepts()
     # ---
     reffixed_list = [x.strip() for x in reffixed.split('\n') if x.strip() != '']
@@ -82,7 +84,7 @@ def save_wprefcash(title, newtext):
         # ---
         print(filename)
         # ---
-    except Exception as e:
+    except Exception:
         exepts()
 
         filename = project + '/public_html/wprefcash/title2.txt'

@@ -42,6 +42,7 @@ from new_api import bot_api
 from new_api import super_page
 import os
 import configparser
+
 # ---
 project = "/data/project/mdwiki/"
 # ---
@@ -54,7 +55,10 @@ config.read(project + "/confs/nccommons_user.ini")
 username = config["DEFAULT"]["username"].strip()
 password = config["DEFAULT"]["password"].strip()
 # ---
-User_tables = {"username": username, "password": password}
+User_tables = {
+    "username": username,
+    "password": password
+}
 # ---
 # xxxxxxxxxxx
 # ---
@@ -109,6 +113,8 @@ def test():
     # print(f'page_links:{red}')
     # ---
     # save = page.save(newtext='')
+
+
 # ---
 if __name__ == '__main__':
     # python3 core8/pwb.py new_api/page

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python ./nash/mdpy/getall2.py
@@ -8,6 +7,7 @@ python ./nash/mdpy/getall2.py
 import os
 import re
 import chardet
+
 # ---
 
 
@@ -45,6 +45,8 @@ def printe(color, text):
         print(color_table[color] % text)
     else:
         print(text)
+
+
 # ---
 
 
@@ -116,7 +118,7 @@ for pyfile in os.listdir(drivepath):
             printe("green", f"name:{name} ")
             # ---
             # shared_paths
-            if not name in shared_paths:
+            if name not in shared_paths:
                 shared_paths[name] = 0
             shared_paths[name] += 1
         # ---

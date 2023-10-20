@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 # ---
 from mdpy.bots import make_title_bot
@@ -15,6 +14,7 @@ import re
 from mdpy.bots import open_url
 from mdpy import printe
 import pywikibot
+
 # ---
 Title_cash = {}
 # ---
@@ -85,7 +85,20 @@ def make_title(url):
     # ---
     urlr = 'https://' + 'en.wikipedia.org/api/rest_v1/data/citation/mediawiki-basefields/' + url2
     # ---
-    _json1_ = [{"key": "JSJVMKE6", "version": 0, "itemType": "webpage", "creators": [], "tags": [], "title": "NCATS Inxight: Drugs — OXITRIPTAN", "url": "https://drugs.ncats.io/drug/C1LJO185Q9", "abstractNote": "Chemical", "language": "en", "accessDate": "2019-12-02", "shortTitle": "NCATS Inxight", "websiteTitle": "drugs.ncats.io"}]
+    _json1_ = [{
+        "key": "JSJVMKE6",
+        "version": 0,
+        "itemType": "webpage",
+        "creators": [],
+        "tags": [],
+        "title": "NCATS Inxight: Drugs — OXITRIPTAN",
+        "url": "https://drugs.ncats.io/drug/C1LJO185Q9",
+        "abstractNote": "Chemical",
+        "language": "en",
+        "accessDate": "2019-12-02",
+        "shortTitle": "NCATS Inxight",
+        "websiteTitle": "drugs.ncats.io"
+    }]
     # ---
     json1 = open_url.open_json_url(urlr)
     # ---
@@ -105,7 +118,8 @@ def make_title(url):
     titleBlackList = re.compile(globalbadtitles, re.I | re.S | re.X)
     # ---
     if titleBlackList.match(title):
-        printe.output(f'<<lightred>> WARNING<<default>> {url} : ''Blacklisted title ({title})')
+        printe.output(f'<<lightred>> WARNING<<default>> {url} : '
+                      'Blacklisted title ({title})')
     # ---
     Title_cash[url] = title
     # ---
@@ -113,4 +127,6 @@ def make_title(url):
         printe.output(f'<<lightgreen>> make_title_bot: newtitle: ({title})')
     # ---
     return title
+
+
 # ---

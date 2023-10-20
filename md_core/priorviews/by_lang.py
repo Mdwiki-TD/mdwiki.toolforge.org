@@ -6,10 +6,12 @@ python3 core8/pwb.py priorviews/by_lang ask
 from priorviews.lists import translators
 from priorviews.lists.creators_to_translators import creators_as_translators
 from pathlib import Path
+
 # ---
 from priorviews.lists import words
 from priorviews.lists import views
 from new_api.mdwiki_page import MainPage as md_MainPage
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -32,7 +34,10 @@ by_lang_tra = views.count_tra_by_lang
 by_lang = views.count_views_by_lang.copy()
 # ---
 # sort by_lang
-keys_1 = {x: v for x, v in sorted(by_lang.items(), key=lambda item: item[1], reverse=True)}
+keys_1 = {
+    x: v
+    for x, v in sorted(by_lang.items(), key=lambda item: item[1], reverse=True)
+}
 # ---
 total_tra = 0
 with_trator = 0

@@ -8,8 +8,10 @@ from pathlib import Path
 import re
 import json
 import codecs
+
 # ---
 from new_api.wiki_page import MainPage, NEW_API
+
 # ---
 Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
@@ -57,6 +59,7 @@ def new_vals():
     # ---
     global new
     new = {}
+
     # ---
 
     def fix_links(x):
@@ -67,6 +70,7 @@ def new_vals():
         x = x.split("#")[0].strip()
         x = re.sub(r'^https*://(www.|)cdc.gov/', 'https://www.cdc.gov/', x)
         return x
+
     # ---
     for title, exts in toto.items():
         tat = []
@@ -83,7 +87,10 @@ def new_vals():
         if tat:
             new[title] = tat
     # ---
-    new = {k: v for k, v in sorted(new.items(), key=lambda item: item[0].lower(), reverse=False)}
+    new = {
+        k: v
+        for k, v in sorted(new.items(), key=lambda item: item[0].lower(), reverse=False)
+    }
     # ---
     json.dump(new, codecs.open(file_json2, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
 

@@ -13,6 +13,7 @@ python3 core8/pwb.py mdpy/catdepth2
 from mdpy.bots import mdwiki_api
 from mdpy.bots import sql_for_mdwiki
 import json
+
 # import pywikibot
 import codecs
 
@@ -21,6 +22,7 @@ import os
 import sys
 import datetime
 from datetime import datetime
+
 # ---
 Day_History = datetime.now().strftime("%Y-%m-%d")
 # ---
@@ -49,17 +51,14 @@ def Get_cat(enlink, print_url=False):
         "action": "query",
         "format": "json",
         "utf8": 1,
-
         "generator": "categorymembers",
         "gcmtitle": enlink,
         "gcmprop": "title",
         "gcmtype": "page|subcat",
         "gcmlimit": "max",
-
         "redirects": 1,
         # "prop": "templates",
         # "tllimit": "max",
-
         # "lllang": langcode,
         # "lllimit": "max",
     }
@@ -131,6 +130,8 @@ def Get_cat(enlink, print_url=False):
             # ---
     # ---
     return table
+
+
 # ---
 
 
@@ -144,6 +145,8 @@ def check_title(title):
         return False
     # ---
     return True
+
+
 # ---
 
 
@@ -162,7 +165,10 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     tablemember = Get_cat(title, print_url=True)
     # ---
     # result_table = { x : da for x, da in tablemember.items() if check_title(x) }
-    result_table = {x: da for x, da in tablemember.items() if int(da["ns"]) == 0}
+    result_table = {
+        x: da
+        for x, da in tablemember.items() if int(da["ns"]) == 0
+    }
     # ---
     # for x in tablemember: if check_title(x) :  result_table[x] = tablemember[x]
     # ---
@@ -183,7 +189,7 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
         new_tab2 = []
         # ---
         for cat in new_list:
-            if not cat in cat_done:
+            if cat not in cat_done:
                 cat_done.append(cat)
                 # ---
                 table2 = Get_cat(cat)
@@ -215,6 +221,8 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     # ---
     # return result_table
     return result_tab
+
+
 # ---
 
 
@@ -237,7 +245,7 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
     # ---
     try:
         textn = codecs.open(filename, "r", encoding="utf-8").read()
-    except Exception as e:
+    except Exception:
         print('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         print('CRITICAL:')
@@ -266,6 +274,8 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
         print(f"len of list:{len(Table['list'])}")
     # ---
     return Table
+
+
 # ---
 
 
@@ -309,14 +319,15 @@ def make_cash_to_cats(return_all_pages=False):
         print(f"len of pages in {cat}, depth:{depth}, : %d" % len(ca['list']))
         # ---
         for x in ca['list']:
-            if not x in all_pages:
+            if x not in all_pages:
                 all_pages.append(x)
     # ---
     if return_all_pages:
         return all_pages
 
-
     # ---
+
+
 # ---
 if __name__ == '__main__':
     make_cash_to_cats()

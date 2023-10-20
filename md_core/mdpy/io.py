@@ -16,6 +16,7 @@ from mdpy.bots import mdwiki_api
 import sys
 from pathlib import Path
 import codecs
+
 # ---
 # ---
 Dir = Path(__file__).parent
@@ -23,12 +24,12 @@ Dir = Path(__file__).parent
 # ---
 NewList = {}
 # ---
-fska = codecs.open(f'{Dir}/date_before_20200701.txt', "r", encoding="utf-8") .read()
+fska = codecs.open(f'{Dir}/date_before_20200701.txt', "r", encoding="utf-8").read()
 fakalist = fska.split('\n')
 fakalist = [x.strip().split(']]')[0].replace('[[', '').strip() for x in fakalist]
 # ---
 listo = mdwiki_api.Get_All_pages('!', namespace='0')
-listo = [x for x in listo if not x in fakalist]
+listo = [x for x in listo if x not in fakalist]
 if 'test' in sys.argv:
     listo = listo[:100]
 # ---
@@ -62,14 +63,17 @@ def get_timestamp(titles):
         # ---
         kk = hh.get("query", {}).get("pages", {})
         for key, vav in kk.items():
-            timestamp = vav.get("revisions", [{'timestamp': ''}])[0].get("timestamp", '')
+            timestamp = vav.get("revisions", [{
+                'timestamp': ''
+            }])[0].get("timestamp", '')
             NewList[page] = timestamp
         # ---
         if str(num).endswith('00'):
             print('page:%d:%s,timestamp:%s' % (num, page, timestamp))
 
-
         # ---
+
+
 # ---
 get_timestamp(listo)
 # ---

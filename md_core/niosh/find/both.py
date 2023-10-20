@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 import codecs
 import json
+
 # ---
 Dir = Path(__file__).parent
 Dir2 = os.path.dirname(Dir)
@@ -24,12 +25,14 @@ print(f'all pages:{len(both.keys())}')
 def do_all():
     # ---
     all_links = []
+
     # ---
 
     def fix_links(x):
         x = x.split("#")[0].strip()
         x = re.sub(r'^https*://(www.|)cdc.gov/', 'https://www.cdc.gov/', x)
         return x
+
     # ---
     for x, le in both.items():
         all_links.extend(le)
@@ -49,7 +52,10 @@ def do_all():
     print(f'{len_all_links=}')
 
 
-aa = {k: v for k, v in sorted(both.items(), key=lambda item: len(item[1]), reverse=True)}
+aa = {
+    k: v
+    for k, v in sorted(both.items(), key=lambda item: len(item[1]), reverse=True)
+}
 
 n = 0
 

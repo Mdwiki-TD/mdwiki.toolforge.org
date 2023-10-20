@@ -10,23 +10,29 @@ import json
 from pathlib import Path
 import datetime
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.lists.links_by_section import sects_links_langlinks, links_by_lang
 from priorviews.lists import views
 from priorviews.lists import translators
 from priorviews.lists import words
+
 # ---
 from priorviews.bots import helps
+
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)
 # helps.talk_url(lang, user, labl)
 # ---
 from priorviews.bots import w_all
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -43,7 +49,11 @@ tab_new['links'] = {}
 for section, links in sects_links_langlinks.items():
     # ---
     for x in links:
-        tab_new['links'][x] = {'section': section, 'words': 0, 'views': 0}
+        tab_new['links'][x] = {
+            'section': section,
+            'words': 0,
+            'views': 0
+        }
     # ---
 # ---
 sql_file = f'{Dir}/lists/tab_new.json'
@@ -57,7 +67,7 @@ def authors_table(authors, lang):
     # ----
     tab2 = {}
     for user, cunts in authors.items():
-        if not cunts in tab2:
+        if cunts not in tab2:
             tab2[cunts] = []
         tab2[cunts].append(user)
     # ---
@@ -83,6 +93,8 @@ def authors_table(authors, lang):
     authors_text += '\n|}'
     # ---
     return authors_text
+
+
 # ---
 
 
@@ -103,7 +115,10 @@ def make_lang_textso(lang):
     # ---
     for section, links in sects_links_langlinks.items():
         # ---
-        tab = {x: v[lang] for x, v in links.items() if lang in v}
+        tab = {
+            x: v[lang]
+            for x, v in links.items() if lang in v
+        }
         # ---
         all_links += len(links)
         all_links_with_ar += len(tab)
@@ -174,18 +189,21 @@ def make_lang_textso(lang):
                     # ---
                     wi_tra = f"[[w:{lang}:User:{ar_tra}|{ar_tra}]]"
                     # ---
-                    if not wi_tra in authors:
+                    if wi_tra not in authors:
                         authors[wi_tra] = 0
                     authors[wi_tra] += 1
                     # ---
-                    if not ar_tra in authors_2:
+                    if ar_tra not in authors_2:
                         authors_2[ar_tra] = 0
                     authors_2[ar_tra] += 1
                     # ---
-                    if not ar_tra in translators_all:
-                        translators_all[ar_tra] = {'all': 0, 'by_lang': {}}
+                    if ar_tra not in translators_all:
+                        translators_all[ar_tra] = {
+                            'all': 0,
+                            'by_lang': {}
+                        }
                     # ---
-                    if not lang in translators_all[ar_tra]['by_lang']:
+                    if lang not in translators_all[ar_tra]['by_lang']:
                         translators_all[ar_tra]['by_lang'][lang] = 0
                     translators_all[ar_tra]['by_lang'][lang] += 1
                     # ---
@@ -220,7 +238,10 @@ def make_lang_textso(lang):
     print(newtext)
     # ----
     # authors = sorted(authors.items(), key=lambda x: x[1])
-    authors_2 = {x: v for x, v in sorted(authors_2.items(), key=lambda item: item[1], reverse=True)}
+    authors_2 = {
+        x: v
+        for x, v in sorted(authors_2.items(), key=lambda item: item[1], reverse=True)
+    }
     authors_text = "\n==Translators==\n"
     # ----
     authors_text += authors_table(authors_2, lang)
@@ -230,6 +251,8 @@ def make_lang_textso(lang):
     newtext += secs_texts
     # ---
     return newtext
+
+
 # ---
 
 
@@ -252,6 +275,8 @@ def work(lang):
         print('no change')
 
     # ---
+
+
 # ---
 if __name__ == "__main__":
     langs = links_by_lang.keys()

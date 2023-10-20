@@ -22,7 +22,10 @@ if not os.path.isdir(project):
     project = '/mdwiki'
 # ---
 # ---
-thenumbers = {1: 20000, 'done': 0}
+thenumbers = {
+    1: 20000,
+    'done': 0
+}
 # ---
 # ---
 
@@ -83,6 +86,8 @@ def main():
         work(title)
 
     # ---
+
+
 # ---
 if __name__ == "__main__":
     main()

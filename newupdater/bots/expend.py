@@ -19,7 +19,7 @@ def expend_infoboxs_and_fix(new_text):
             # ---
             if name.lower() in IMC_params:
                 # ---
-                _params = [ x for x in IMC_params[name.lower()] ]
+                _params = [x for x in IMC_params[name.lower()]]
                 # ---
                 dups = dup_params.get(name.lower(), {})
                 # ---
@@ -39,7 +39,7 @@ def expend_infoboxs_and_fix(new_text):
                     params[na] = str(param.value)
                 # ---
                 for x in params:
-                    if not x in _params:
+                    if x not in _params:
                         _params.append(x)
                 # ---
                 for x in _params:

@@ -9,16 +9,19 @@ from urllib.parse import urlencode
 import requests
 import wikitextparser
 from mdpy import printe
+
 # ---
-from wikiblame.bot import get_blame  # first, result = get_blame({"lang": "es", "article": "Letrina " ,"needle": "Till2014"})
 # ---
 from prior.json_langs.lists import json_langs_by_langs
+
 # tab = json_langs_by_langs.get(lang, {}).get(title, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 from prior.json_en.lists import json_en_all
+
 # tab = json_en_all.get(en, {})# {'extlinks': extlinks, 'refsname': refsname}
 # ---
 from priorviews.bots import helps
+
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
 # ---
@@ -55,13 +58,16 @@ def match_ref_names(r, refnames, lang):
         if re.sub(r'[:\d\s]+', '', name) == '':
             continue
         # ---
-        if not name in _tags_:
+        if name not in _tags_:
             _tags_[name] = 0
         # ---
         _tags_[name] += 1
     # ---
     # sort by count
-    _tags_ = {k: v for k, v in sorted(_tags_.items(), key=lambda item: item[1], reverse=True)}
+    _tags_ = {
+        k: v
+        for k, v in sorted(_tags_.items(), key=lambda item: item[1], reverse=True)
+    }
     for k, v in _tags_.items():
         if k in refnames:
             printe.output(f'<<green>> find: {k=} count: {v=}| main: {refnames[k]=}')
@@ -70,6 +76,7 @@ def match_ref_names(r, refnames, lang):
             return user
     # ---
     return ''
+
 
 # ---
 
@@ -116,7 +123,10 @@ class FindInHistory:
         while continue_params != {} or len(results) == 0:
             # ---
             if continue_params:
-                params = {**params, **continue_params}
+                params = {
+                    **params,
+                    **continue_params
+                }
             # ---
             json1 = self.post_to_json(params)
             # ---
@@ -135,7 +145,10 @@ class FindInHistory:
             if isinstance(results, list):
                 results.extend(data)
             else:
-                results = {**results, **data}
+                results = {
+                    **results,
+                    **data
+                }
         # ---
         return results
 
@@ -169,7 +182,11 @@ class FindInHistory:
 
 def search_history(title, lang, en='', refname=[], extlinks=[]):
     # ---
-    tab = {"lang": lang, "article": title, "needle": ""}
+    tab = {
+        "lang": lang,
+        "article": title,
+        "needle": ""
+    }
     # ---
     if refname == [] or extlinks == []:
         infos = json_langs_by_langs.get(lang, {}).get(title)  # {'extlinks': extlinks, 'refsname': refsname}

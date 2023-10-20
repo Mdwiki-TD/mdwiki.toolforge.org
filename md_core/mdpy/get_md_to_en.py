@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdpy/get_md_to_en nodump
@@ -10,11 +9,13 @@ python3 core8/pwb.py mdpy/get_md_to_en nodump
 #
 #
 import json
+
 # ---
 # ---
 
 import sys
 import os
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -26,6 +27,7 @@ project += '/public_html/Translation_Dashboard/Tables/'
 from mdpy.bots import catdepth2
 from mdpy.bots import wiki_api
 from mdpy import printe
+
 # ---
 medwiki_to_enwiki_conflic = {}
 medwiki_to_enwiki = {}
@@ -49,7 +51,7 @@ def check():
     # ---
     for i in range(0, len(Listo), 100):
         # ---
-        newlist = Listo[i:i+100]
+        newlist = Listo[i:i + 100]
         # ---
         line = "|".join(newlist)
         # ---
@@ -73,7 +75,7 @@ def check():
             # "redirects": [{"from": "Acetylsalicylic acid","to": "Aspirin"}]
             Redirects = query.get("redirects", [])
             for red in Redirects:
-                if not red["to"] in Listo:
+                if red["to"] not in Listo:
                     medwiki_to_enwiki[red["from"]] = red["to"]
                 else:
                     medwiki_to_enwiki_conflic[red["from"]] = red["to"]
@@ -137,7 +139,6 @@ def check():
     printe.output(f'<<lightgreen>> len of sames:{len(sames)}')
     # ---
     if 'nodump' not in sys.argv:
-
         # الكتابة إلى الملفات
         json.dump(medwiki_to_enwiki, open(project + 'medwiki_to_enwiki.json', 'w'))
         # ---

@@ -6,10 +6,13 @@ import sys
 import json
 from pathlib import Path
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.lists import translators
+
 # translators.tra_by_lang
 # translators.counts_by_translator
 # ---
@@ -136,6 +139,8 @@ def get_t_sections():
     text += te_langs
     # ---
     return text
+
+
 # ---
 
 
@@ -172,7 +177,11 @@ def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_ref
                     break
         # ---
     # ---
-    tab = {'same1': same1, 'same2': same2, 'color': color}
+    tab = {
+        'same1': same1,
+        'same2': same2,
+        'color': color
+    }
     # ---
     return tab
 
@@ -190,8 +199,9 @@ def log_all_pages_states():
         printe.output(f'<<lightyellow>> log_all_pages_states(): lenth: {len(all_pages_states.keys())}')
         json.dump(all_pages_states, codecs.open(file, 'w', encoding='utf-8'))
 
-
     # ---
+
+
 # ---
 log_all_pages_states()
 # ---
@@ -223,7 +233,7 @@ def make_text(allo, ttt=''):
             la = la.strip()
             if la in ['en', '']:
                 continue
-            if not la in langs_keys_2:
+            if la not in langs_keys_2:
                 langs_keys_2[la] = 0
             langs_keys_2[la] += 1
     # ---
@@ -233,6 +243,7 @@ def make_text(allo, ttt=''):
     # print(langs_keys_2)
     # ---
     text = text_main
+
     # ---
     # Add the language keys to text separated by '!!'.
     # text += " !! ".join(langs_keys)
@@ -274,7 +285,7 @@ def make_text(allo, ttt=''):
         if len(langs) == 0:
             print(f'{en}: no langs.....')
         # ---
-        if not en in all_pages_states:
+        if en not in all_pages_states:
             all_pages_states[en] = {}
         # ---
         n += 1
@@ -286,14 +297,23 @@ def make_text(allo, ttt=''):
         # ---
         for l in langs_keys:
             # ---
-            if not l in all_langs_states:
-                all_langs_states[l] = {'red': 0, 'green': 0}
-            if not l in langs_green_red:
-                langs_green_red[l] = {'red': 0, 'green': 0}
+            if l not in all_langs_states:
+                all_langs_states[l] = {
+                    'red': 0,
+                    'green': 0
+                }
+            if l not in langs_green_red:
+                langs_green_red[l] = {
+                    'red': 0,
+                    'green': 0
+                }
             # ---
             tit = langs.get(l, {}).get('title', '')
             # ---
-            all_pages_states[en][l] = {'color': '', 'title': tit}
+            all_pages_states[en][l] = {
+                'color': '',
+                'title': tit
+            }
             # ---
             p_ext = langs.get(l, {}).get('extlinks', [])
             p_ext = [x.lower() for x in p_ext]
@@ -356,7 +376,7 @@ def make_text(allo, ttt=''):
                 all_pages_states[en][l]['color'] = color
                 # ---
                 if color == 'green':
-                    color = '#c0fcc0'   # green
+                    color = '#c0fcc0'  # green
                     langs_green_red[l]['green'] += 1
                     all_langs_states[l]['green'] += 1
                     all_green += 1
@@ -364,7 +384,7 @@ def make_text(allo, ttt=''):
                     langs_green_red[l]['red'] += 1
                     all_langs_states[l]['red'] += 1
                     all_red += 1
-                    color = '#fcc0c0'   # red
+                    color = '#fcc0c0'  # red
                     # ---
                 # ---
                 same = f'{same1}/{same2}'
@@ -396,7 +416,7 @@ def make_text(allo, ttt=''):
 |- style="position: sticky;top: 0; z-index: 2;"
 ! style="position: sticky;top: 0;left: 0;" | key
 !'''
-# ---
+    # ---
     te_langs += " !! ".join(langs_keys)
     # ---
     green_line = ''
@@ -408,7 +428,7 @@ def make_text(allo, ttt=''):
         # ---
         red_line += f'{ta["red"]} || '
     # ---
-    te_langs = f'''
+    te_langs = (f'''
 {te_langs}
 
 |- style="position: sticky;top: 0; z-index: 2;"
@@ -418,7 +438,7 @@ def make_text(allo, ttt=''):
 |- style="position: sticky;top: 0; z-index: 2;"
 ! style="position: sticky;top: 0;left: 0;" | red
 | {red_line}
-''' + '\n|}\n</div>'
+''' + '\n|}\n</div>')
     # ---
     lrnn = len(allo.keys())
     # ---
@@ -443,4 +463,6 @@ def make_text(allo, ttt=''):
         text = text.replace('height:580px;', '')
     # ---
     return text
+
+
 # ---

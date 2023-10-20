@@ -8,6 +8,7 @@ python3 core8/pwb.py prior/p4 test
 '''
 import urllib.parse
 import requests
+
 # ---
 session = requests.Session()
 # ---
@@ -20,6 +21,8 @@ def get_url(url):
     except Exception as e:
         printe.output(f'except: {e}')
     return ''
+
+
 # ---
 
 

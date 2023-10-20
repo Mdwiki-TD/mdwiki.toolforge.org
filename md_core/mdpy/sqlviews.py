@@ -13,8 +13,10 @@ python3 core8/pwb.py /data/project/mdwiki/mdpy/sqlviews -lang:or
 #
 import re
 import sys
+
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # ===
 # ---
@@ -22,6 +24,7 @@ from mdpy.bots import wiki_api
 from pymysql.converters import escape_string
 
 from mdpy import printe
+
 already_in_sql = {}
 # ---
 Lang_to_targets = {}
@@ -31,6 +34,8 @@ Lang_to_targets = {}
 def print_test(strr):
     if 'print' in sys.argv or 'nosql' in sys.argv:
         printe.output(strr)
+
+
 # ---
 
 
@@ -167,7 +172,7 @@ def get_targets(lang_o):
             pupdate = '2023-01-01'
         # ---
         if target != "":
-            if not lang in Lang_to_targets:
+            if lang not in Lang_to_targets:
                 Lang_to_targets[lang] = {}
             Lang_to_targets[lang][target] = pupdate
     # ---
@@ -196,10 +201,15 @@ def get_views_sql(lang_o):
         count2022 = tab['count2022']
         count2023 = tab['count2023']
         # ---
-        if not lang in already_in_sql:
+        if lang not in already_in_sql:
             already_in_sql[lang] = {}
         # ---
-        already_in_sql[lang][target] = {'all': countall, '2021': count2021, '2022': count2022, '2023': count2023}
+        already_in_sql[lang][target] = {
+            'all': countall,
+            '2021': count2021,
+            '2022': count2022,
+            '2023': count2023
+        }
 
 
 def main():
@@ -221,13 +231,13 @@ def main():
     # ---
     for lang, tit_list in Lang_to_targets.items():
         # ---
-        if not lang in lang_pupdate_titles:
+        if lang not in lang_pupdate_titles:
             lang_pupdate_titles[lang] = {}
         # ---
         # قوائم حسب تاريخ النشر
         for tit, pupdate in tit_list.items():
             # ---
-            if not pupdate in lang_pupdate_titles[lang]:
+            if pupdate not in lang_pupdate_titles[lang]:
                 lang_pupdate_titles[lang][pupdate] = []
             # ---
             lang_pupdate_titles[lang][pupdate].append(tit)
@@ -257,7 +267,10 @@ def main():
             if 'numbers' in sys.argv and title_list[0] == 'Tacalcitol':
                 printe.output(numbers)
             # ---
-            numbs = {**numbs, **numbers}
+            numbs = {
+                **numbs,
+                **numbers
+            }
         # ---
         if 'testtest' in sys.argv:
             continue

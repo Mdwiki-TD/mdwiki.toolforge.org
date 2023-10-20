@@ -27,9 +27,11 @@ python3 core8/pwb.py prior/add_old new  -file:en_14.json
 import sys
 import os
 import json
+
 # ---
 from prior import get_them
 from mdpy import printe
+
 # ---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project):

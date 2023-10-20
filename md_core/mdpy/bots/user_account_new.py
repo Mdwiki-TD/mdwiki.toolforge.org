@@ -10,6 +10,7 @@ lgpass_enwiki   = user_account_new.lgpass_enwiki
 '''
 import os
 import configparser
+
 # ---
 project = '/data/project/mdwiki/'
 # ---

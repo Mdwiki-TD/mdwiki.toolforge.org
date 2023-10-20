@@ -7,8 +7,10 @@ from pathlib import Path
 import re
 import json
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 Dir = Path(__file__).parent
 Dird = f"{Dir}/downloads/"
@@ -21,7 +23,7 @@ nas_rep = {
     "ti": "title",
     # "au": "author",
     # "so": "source",
-    "lt": "url"
+    "lt": "url",
 }
 cite_all_links = {}
 
@@ -74,6 +76,8 @@ def work_in_file(filename):
     json.dump(tab, codecs.open(f"{filename2}.json", 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
 
     # ---
+
+
 # scan all txt files in Dir and work on them
 for filename in os.listdir(Dird):
     if filename.endswith('.txt'):

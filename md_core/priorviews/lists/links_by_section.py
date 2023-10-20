@@ -11,10 +11,13 @@ import json
 import os
 from pathlib import Path
 import codecs
+
 # ---
 from mdpy import printe
+
 # ---
 from priorviews.bots.sections_links import get_section_links
+
 # ---
 Dir = Path(__file__).parent
 # get the dir 2 levels back
@@ -29,7 +32,10 @@ mdtitles_lang_title = {}
 # ---
 for mdtitle, langs in all_pages_states.items():
     # ---
-    newlangs = {lang: v['title'] for lang, v in langs.items() if v['title'] != '' and v['color'] == 'green'}
+    newlangs = {
+        lang: v['title']
+        for lang, v in langs.items() if v['title'] != '' and v['color'] == 'green'
+    }
     # ---
     # if 'test' in sys.argv: print(newlangs)
     # ---
@@ -48,7 +54,10 @@ for section, links in sections_links.items():
     # ---
     _links_ = ['Tooth decay', 'Angular cheilitis', 'Bad breath', 'Leukoplakia', 'Periodontal disease', 'Tonsil stones']
     # ---
-    sec_links = {x: tab for x, tab in mdtitles_lang_title.items() if x in links}
+    sec_links = {
+        x: tab
+        for x, tab in mdtitles_lang_title.items() if x in links
+    }
     # ---
     links_done.extend(sec_links.keys())
     # ---
@@ -59,14 +68,16 @@ links_by_lang = {}
 least_section = min(sects_links_langlinks, key=lambda x: len(sects_links_langlinks[x]))
 # ---
 if 'small' in sys.argv:
-    sects_links_langlinks = {least_section: sects_links_langlinks[least_section]}
+    sects_links_langlinks = {
+        least_section: sects_links_langlinks[least_section]
+    }
 # ---
 # make text for each section
 for section, links in sects_links_langlinks.items():
     # ---
     for md, langs in links.items():
         for lang, title in langs.items():
-            if not lang in links_by_lang:
+            if lang not in links_by_lang:
                 links_by_lang[lang] = []
             links_by_lang[lang].append(title)
 # ---
@@ -93,7 +104,9 @@ print(f'lenth of least_section: {len(sects_links_langlinks[least_section])}')
 sects_links_langlinks = sects_links_langlinks.copy()
 # ---
 if 'test' in sys.argv:
-    sects_links_langlinks = {least_section: sects_links_langlinks[least_section]}
+    sects_links_langlinks = {
+        least_section: sects_links_langlinks[least_section]
+    }
 # ---
 if __name__ == '__main__':
     ll = sects_links_langlinks

@@ -11,6 +11,7 @@ import os
 import json
 import codecs
 from pathlib import Path
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -44,7 +45,11 @@ def work_lang_links(x, langs):
         if lang == 'simple':
             continue
         # ---
-        tata = {'title': tit, 'extlinks': [], 'refsname': []}
+        tata = {
+            'title': tit,
+            'extlinks': [],
+            'refsname': []
+        }
         # ---
         allen[title]['langs'][lang] = tata
         # ---

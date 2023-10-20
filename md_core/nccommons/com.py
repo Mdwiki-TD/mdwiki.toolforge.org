@@ -16,6 +16,7 @@ import sys
 import json
 import os
 import codecs
+
 # ---
 project = "/data/project/mdwiki/"
 # ---
@@ -85,6 +86,8 @@ def make_page(x, tab):
     # ---
     api.create_Page(text, x)
     # ---
+
+
 # ---
 
 
@@ -106,7 +109,9 @@ def work():
             if page in all_reg:
                 all_reg[page][number] = title2
             else:
-                all_reg[page] = {number: title2}
+                all_reg[page] = {
+                    number: title2
+                }
             # ---
         else:
             nomatch += 1
@@ -121,7 +126,7 @@ def work():
             print(f"x:{x}, len: {le}")
             tab = all_reg[x]
             # ---
-            if not x in ns_0_pages:
+            if x not in ns_0_pages:
                 # ---
                 make_page(x, tab)
             else:

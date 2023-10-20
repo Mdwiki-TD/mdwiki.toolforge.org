@@ -1,6 +1,7 @@
 import re
 
 import wikitextparser as wtp
+
 # ---
 
 
@@ -14,10 +15,12 @@ lkj = r"<!--\s*(Monoclonal antibody data|External links|Names*|Clinical data|Leg
 lkj2 = r"(<!--\s*(?:Monoclonal antibody data|External links|Names*|Clinical data|Legal data|Legal status|Pharmacokinetic data|Chemical and physical data|Definition and medical uses|Chemical data|Chemical and physical data|index_label\s*=\s*Free Base|\w+ \w+ data|\w+ \w+ \w+ data|\w+ data|\w+ status)\s*-->)"
 # ---
 from lists.bot_params import all_params, params_to_add, params_placeholders, all_formola_params
+
 # ---
 
 
 class TextProcessor:
+
     def __init__(self, text):
         self.text = text
         self.new_text = text
@@ -58,7 +61,10 @@ class TextProcessor:
                 # ---
                 txt = template.string
                 # ---
-                params = {str(param.name).strip(): str(param.value) for param in template.arguments}
+                params = {
+                    str(param.name).strip(): str(param.value)
+                    for param in template.arguments
+                }
                 # ---
                 break
         # ---
@@ -116,7 +122,7 @@ class TextProcessor:
             params = all_params['combo'][Type]
             # ---
             for p in all_combo:
-                if not p in params:
+                if p not in params:
                     params.append(p)
             # ---
             all_combo = params
@@ -139,7 +145,7 @@ class TextProcessor:
         # ---
         for x in all_formola_params:
             # ---
-            if not x in self.drugbox_params:
+            if x not in self.drugbox_params:
                 continue
             # ---
             x_val = self.drugbox_params.get(x, '').strip()
@@ -161,6 +167,7 @@ class TextProcessor:
                 sec_params.remove(p)
         # ---
         return sec_text, sec_params
+
     # ---
 
     def create_section(self, sectionname):
@@ -264,4 +271,6 @@ class TextProcessor:
         self.add_section(last_section)
         # ---
         self.newdrugbox += '\n}}'
+
+
 # ---

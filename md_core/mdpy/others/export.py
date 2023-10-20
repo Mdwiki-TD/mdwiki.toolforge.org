@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 """
@@ -10,16 +9,21 @@
 from API import himoBOT3
 import codecs
 from mdpy import printe
+
 # ---
 
 import sys
+
 # ---
 
 # ---
 import requests
+
 Session = requests.Session()
 # ---
-La_si = {1: 2500000}
+La_si = {
+    1: 2500000
+}
 # ---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')
@@ -93,7 +97,7 @@ def export_en_history(title):
         # while done == False :
         for rev in revisions:
             # ---
-            if not num in texts:
+            if num not in texts:
                 texts[num] = ''
             # ---
             texts[num] += rev
@@ -116,7 +120,7 @@ def export_en_history(title):
                 num += 1
             # ---
         # ---
-        if not num in numbdone and num in texts and texts[num] != '':
+        if num not in numbdone and num in texts and texts[num] != '':
             # ---
             path2 = 'mdwiki/xml/%s-%d.xml' % (title2, num)
             # ---
@@ -140,6 +144,8 @@ def export_en_history(title):
         printe.output(' revisions in one file.')
         # ---
         return FILE_PATH
+
+
 # ---
 
 

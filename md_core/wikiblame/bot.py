@@ -43,12 +43,15 @@ class WikiBlame:
             "offmon": "7",
             "offjahr": "2023",
             "searchmethod": "int",
-            "order": "asc",  # desc
+            "order": "asc",
             "force_wikitags": "on",
             "user": ""
-        }
+        }  # desc
         if params is not None:
-            self.params.update({x: v for x, v in params.items() if v and v != ''})
+            self.params.update({
+                x: v
+                for x, v in params.items() if v and v != ''
+            })
         self.content = None
 
     def fetch_content(self) -> None:
@@ -68,7 +71,9 @@ class WikiBlame:
             return None
 
         soup = BeautifulSoup(self.content, 'html.parser')
-        results_div = soup.find("div", {"class": "results"})
+        results_div = soup.find("div", {
+            "class": "results"
+        })
         if not results_div:
             print("No results found.")
             return None

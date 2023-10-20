@@ -9,6 +9,7 @@ import json
 import codecs
 import sys
 from pathlib import Path
+
 # ---
 Dir = Path(__file__).parent
 # ---
@@ -45,7 +46,7 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted):
 
     for l in langs_keys_sorted:
         u += 1
-        if not l in section_langs_views:
+        if l not in section_langs_views:
             section_langs_views[l] = 0
         view = ''
 
@@ -84,6 +85,7 @@ def make_text(ViewsData):
     langs_keys = sorted(set(langs_keys))
     # ---
     langs_keys = lang_to_wrks
+
     # ---
     # print(langs_keys)
     # ---
@@ -101,6 +103,7 @@ def make_text(ViewsData):
 
     def fo_n(x):
         return f'{x:,}'
+
     langs_keys_text = " !! ".join([format_x(x) for x in langs_keys])
     text += f" {langs_keys_text}"
 

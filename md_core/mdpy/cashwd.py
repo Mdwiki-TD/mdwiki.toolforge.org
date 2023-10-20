@@ -14,12 +14,14 @@ import os
 import traceback
 from datetime import datetime
 import pywikibot
+
 # ---
 from mdpy import printe
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import en_to_md  # en_to_md.mdtitle_to_qid #en_to_md.enwiki_to_mdwiki # en_to_md.mdwiki_to_enwiki
 from mdpy.bots import mdwiki_api
 from mdpy.bots import wikidataapi
+
 # ---
 Day_History = datetime.now().strftime("%Y-%m-%d")
 # ---
@@ -35,7 +37,11 @@ mis_qids = []
 # ---
 main_table_sites = {}
 # ---
-missing = {'all': 0, 'date': Day_History, 'langs': {}}
+missing = {
+    'all': 0,
+    'date': Day_History,
+    'langs': {}
+}
 # ---
 skip_codes = ["commons", "species", "ary", "arz", "meta"]
 # ---
@@ -66,17 +72,28 @@ def get_qids_sitelinks(qidslist):
         # "ids": ,
         "redirects": "yes",
         "props": "sitelinks",
-        "utf8": 1
+        "utf8": 1,
     }
     # ---
     TEST = {
         "heads": ["arwiki"],
         "qids": {
-            "Q1": {"mdtitle": "test", "sitelinks": {"arwiki": "test"}}
+            "Q1": {
+                "mdtitle": "test",
+                "sitelinks": {
+                    "arwiki": "test"
+                }
+            }
         }
     }
-    table_d = {"heads": [], "qids": {}}
-    table_l = {"heads": [], "qids": {}}
+    table_d = {
+        "heads": [],
+        "qids": {}
+    }
+    table_l = {
+        "heads": [],
+        "qids": {}
+    }
     # ---
     heads = []
     # ---
@@ -86,7 +103,7 @@ def get_qids_sitelinks(qidslist):
     # ---
     for i in range(0, len(qs_list), 100):
         # ---
-        qids = qs_list[i:i+100]
+        qids = qs_list[i:i + 100]
         # ---
         params_wd["ids"] = '|'.join(qids)
         # ---
@@ -98,7 +115,10 @@ def get_qids_sitelinks(qidslist):
             # ---
             entities = json1.get("entities", {})
             # ---
-            all_entities = {**all_entities, **entities}
+            all_entities = {
+                **all_entities,
+                **entities
+            }
         # ---
         for qid_1, kk in all_entities.items():
             # ---
@@ -115,9 +135,15 @@ def get_qids_sitelinks(qidslist):
             # ---
             qid = kk.get("id", '')
             # ---
-            if qid != '' and not qid in table_d["qids"]:
-                table_d["qids"][qid] = {"mdtitle": '', "sitelinks": {}}
-                table_l["qids"][qid] = {"mdtitle": '', "sitelinks": []}
+            if qid != '' and qid not in table_d["qids"]:
+                table_d["qids"][qid] = {
+                    "mdtitle": '',
+                    "sitelinks": {}
+                }
+                table_l["qids"][qid] = {
+                    "mdtitle": '',
+                    "sitelinks": []
+                }
             # ---
             mdwiki_title = qidslist.get(qid, '')
             if mdwiki_title != '':
@@ -143,15 +169,15 @@ def get_qids_sitelinks(qidslist):
                 # ---
                 site = change_codes.get(site) or site
                 # ---
-                if not site in heads:
+                if site not in heads:
                     heads.append(site)
                 # ---
-                if not site in main_table_sites:
+                if site not in main_table_sites:
                     main_table_sites[site] = []
                 # ---
                 # add mdwiki title to cash_exists/wiki.json table
                 # ---
-                if mdwiki_title != '' and not mdwiki_title in main_table_sites[site]:
+                if mdwiki_title != '' and mdwiki_title not in main_table_sites[site]:
                     main_table_sites[site].append(mdwiki_title)
                 # ---
                 sitelinks[site] = title
@@ -164,6 +190,8 @@ def get_qids_sitelinks(qidslist):
     table_l["heads"] = heads
     # ---
     return table_d, table_l
+
+
 # ---
 
 
@@ -179,9 +207,9 @@ def cash_wd():
         cat = c['category']
         dep = c['depth']
         # ---
-        cat = cat.decode("utf-8") if type(cat) == bytes else cat
+        cat = cat.decode("utf-8") if isinstance(cat, bytes) else cat
         # ---
-        dep = dep.decode("utf-8") if type(dep) == bytes else dep
+        dep = dep.decode("utf-8") if isinstance(dep, bytes) else dep
         # ---
         mdwiki_pages = mdwiki_api.subcatquery(cat, depth=dep, ns='all')
         # ---
@@ -224,7 +252,10 @@ def cash_wd():
         liste = list(set(liste))
         # ---
         leeen = int(len(titles)) - int(len(liste))
-        missing['langs'][site] = {'missing': leeen, 'exists': len(liste)}
+        missing['langs'][site] = {
+            'missing': leeen,
+            'exists': len(liste)
+        }
         # ---
         json_file = f'{Dashboard_path}/cash_exists/{site}.json'
         # ---
@@ -235,7 +266,7 @@ def cash_wd():
         try:
             json.dump(liste, codecs.open(json_file, 'w', encoding="utf-8"), ensure_ascii=False, indent=4)
             printe.output(f'<<lightgreenn>>dump to cash_exists/{site}.json done..')
-        except Exception as e:
+        except Exception:
             pywikibot.output('Traceback (most recent call last):')
             pywikibot.output(traceback.format_exc())
             pywikibot.output('CRITICAL:')
@@ -244,8 +275,7 @@ def cash_wd():
     # email_address = "ibrahem.al-radaei@outlook.com"
     # send aleart email to email_address
     # ---
-    noqids = [x for x in titles if not x in en_to_md.mdtitle_to_qid]
-    noqids.sort()
+    noqids = sorted([x for x in titles if x not in en_to_md.mdtitle_to_qid])
     # ---
     json.dump(noqids, open(Dashboard_path + '/Tables/noqids.json', 'w'))
     # ---
@@ -265,6 +295,8 @@ def cash_wd():
     printe.output(' log to missing.json true.... ')
 
     # ---
+
+
 # ---
 if __name__ == '__main__':
     cash_wd()

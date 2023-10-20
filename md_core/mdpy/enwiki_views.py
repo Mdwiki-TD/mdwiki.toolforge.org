@@ -17,11 +17,14 @@ import traceback
 import pywikibot
 import datetime
 from datetime import timedelta
+
 # ---
 from mdpy.bots import wiki_api
 from mdpy import printe
+
 # ---
 from mdpy.bots.en_to_md import enwiki_to_mdwiki, mdwiki_to_enwiki
+
 # --
 project = '/data/project/mdwiki/'
 # ---
@@ -37,7 +40,7 @@ def get_RTT():
     # ---
     try:
         textn = codecs.open(filename, "r", encoding="utf-8").read()
-    except Exception as e:
+    except Exception:
         pywikibot.output('Traceback (most recent call last):')
         pywikibot.output(traceback.format_exc())
         pywikibot.output('CRITICAL:')
@@ -52,6 +55,8 @@ def get_RTT():
     printe.output(f'len of RTT: {len(RTT)}')
     # ---
     return RTT
+
+
 # ---
 
 
@@ -82,6 +87,8 @@ def get_RTT2():
     printe.output(f'len of RTT:{len(RTT)}, len of qids:{len(qids.keys())}, diff:{diff}')
     # ---
     return RTT
+
+
 # ---
 
 
@@ -113,7 +120,10 @@ def main():
     # ---
     old_views = json.loads(codecs.open(enwiki_pageviews, "r", encoding="utf-8-sig").read())
     # ---
-    n_views = {x: z for x, z in old_views.items()}
+    n_views = {
+        x: z
+        for x, z in old_views.items()
+    }
     # ---
     for k, view in enviews.items():
         if view == 0:
@@ -134,6 +144,8 @@ def main():
     # ---
     # add_to_mdwiki_sql(numbers , lange)
     # ---
+
+
 # ---
 if __name__ == '__main__':
     main()

@@ -30,6 +30,7 @@ if login_done_lang[1] != code:
 import pywikibot
 import datetime
 from datetime import timedelta
+
 if __file__.find('mdwiki') == -1:
     from API import printe
 else:
@@ -49,12 +50,18 @@ change_codes = {
     "zh_min_nan": "zh-min-nan",
     "zh_yue": "zh-yue",
 }
+
+
 # ---
-def login_def(lang, family): {}
+def login_def(lang, family):
+    {}
+
+
 # ---
 
 
-class NEW_API():
+class NEW_API:
+
     def __init__(self, lang, family='wikipedia'):
         # ---
         self.lang = change_codes.get(lang) or lang
@@ -114,7 +121,10 @@ class NEW_API():
         while continue_params != {} or len(results) == 0:
             # ---
             if continue_params:
-                params = {**params, **continue_params}
+                params = {
+                    **params,
+                    **continue_params
+                }
             # ---
             json1 = self.post_params(params)
             # ---
@@ -136,7 +146,10 @@ class NEW_API():
             if isinstance(results, list):
                 results.extend(data)
             else:
-                results = {**results, **data}
+                results = {
+                    **results,
+                    **data
+                }
         # ---
         return results
 
@@ -157,7 +170,11 @@ class NEW_API():
             # ---
             printe.output(f"Find_pages_exists_or_not : {done}/{len(liste)}")
             # ---
-            params = {"action": "query", "titles": "|".join(titles), "formatversion": 2}
+            params = {
+                "action": "query",
+                "titles": "|".join(titles),
+                "formatversion": 2
+            }
             # ---
             json1 = self.post_params(params)
             # ---
@@ -193,6 +210,7 @@ class NEW_API():
         printe.output(f"Find_pages_exists_or_not : missing:{missing}, exists: {exists}")
         # ---
         return table
+
     # ---
 
     def Get_All_pages(self, start='', namespace="0", limit="max", apfilterredir='', limit_all=0):
@@ -240,7 +258,7 @@ class NEW_API():
             printe.output(f"<<lightpurple>> --- Get_All_pages : find {len(newp)} pages.")
             # ---
             for x in newp:
-                if not x["title"] in Main_table:
+                if x["title"] not in Main_table:
                     Main_table.append(x["title"])
             # ---
             printe.output(f"len of Main_table {len(Main_table)}.")
@@ -257,6 +275,7 @@ class NEW_API():
         printe.output(f"bot_api.py Get_All_pages : find {len(Main_table)} pages.")
         # ---
         return Main_table
+
     # ---
 
     def Search(self, valu, ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
@@ -299,6 +318,7 @@ class NEW_API():
         printe.output(f'bot_api.Search find "{len(search)}" all result: {len(results)}')
         # ---
         return results
+
     # ---
 
     def Get_Newpages(self, limit=5000, namespace="0", rcstart="", user='', three_houers=False):
@@ -317,7 +337,7 @@ class NEW_API():
             "rcnamespace": namespace,
             "rclimit": 'max',
             "utf8": 1,
-            "rctype": "new"
+            "rctype": "new",
         }
         # ---
         if rcstart != "":
@@ -356,8 +376,14 @@ class NEW_API():
             rccontinue = json1.get("continue", {}).get("rccontinue", '')
             # ---
             ccc = {
-                "type": "new", "ns": 0, "title": "تشارلز مسيون ريمي", "pageid": 7004776,
-                "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"
+                "type": "new",
+                "ns": 0,
+                "title": "تشارلز مسيون ريمي",
+                "pageid": 7004776,
+                "revid": 41370093,
+                "old_revid": 0,
+                "rcid": 215347464,
+                "timestamp": "2019-12-15T13:14:34Z"
             }
             # ---
             Main_table.extend([x["title"] for x in newp])
@@ -375,6 +401,7 @@ class NEW_API():
             # ---
         # ---
         return Main_table
+
     # ---
 
     def UserContribs(self, user, limit=5000, namespace="*", ucshow=""):
@@ -400,6 +427,7 @@ class NEW_API():
         results = [x["title"] for x in results]
         # ---
         return results
+
     # ---
 
     def Get_langlinks_for_list(self, titles, targtsitecode="", numbes=50):
@@ -464,6 +492,7 @@ class NEW_API():
         printe.output('bot_api.Get_langlinks_for_list find "%d" in table,find_targtsitecode:%s:%d' % (len(table), targtsitecode, find_targtsitecode))
         # ---
         return table
+
     # ---
 
     def expandtemplates(self, text):
@@ -484,6 +513,7 @@ class NEW_API():
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         # ---
         return newtext
+
     # ---
 
     def Prase_Text(self, line, title):
@@ -499,10 +529,14 @@ class NEW_API():
             "formatversion": "2"
         }
         # ---
-        _data_ = {"parse": {"title": "كريس فروم", "pageid": 2639244,
-                            "wikitext": "{{subst:user:Mr._Ibrahem/line2|Q76|P31}}",
-                            "psttext": "\"Q76\":{\n\"P31\":\"إنسان\"\n\n\n\n\n},"
-                            }}
+        _data_ = {
+            "parse": {
+                "title": "كريس فروم",
+                "pageid": 2639244,
+                "wikitext": "{{subst:user:Mr._Ibrahem/line2|Q76|P31}}",
+                "psttext": "\"Q76\":{\n\"P31\":\"إنسان\"\n\n\n\n\n},"
+            }
+        }
         # ---
         data = self.post_params(params)
         # ---
@@ -514,6 +548,7 @@ class NEW_API():
         textnew = textnew.replace("\\n\\n", "")
         # ---
         return textnew
+
     # ---
 
     def get_extlinks(self, title):
@@ -534,7 +569,10 @@ class NEW_API():
         while continue_params != {} or results == []:
             # ---
             if continue_params:
-                params = {**params, **continue_params}
+                params = {
+                    **params,
+                    **continue_params
+                }
             # ---
             json1 = self.post_params(params)
             # ---
@@ -557,6 +595,7 @@ class NEW_API():
         # ---
         return liste1
         # ---
+
     # ---
 
     def get_revisions(self, title):

@@ -3,6 +3,7 @@
 
 import pywikibot
 from wprefs.bot import *
+
 # ---
 title = 'Utilizator:Mr._Ibrahem/teste'
 lang = 'ro'

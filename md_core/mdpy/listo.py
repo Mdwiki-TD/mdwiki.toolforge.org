@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 Pages in WikiProjectMed:List missing Category:RTT
@@ -27,6 +26,7 @@ import re
 # from datetime import datetime, date
 # menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
 import sys
+
 # ---
 
 # ---
@@ -41,7 +41,9 @@ from mdpy.bots import mdwiki_api
 # Session = requests.Session()
 # ---# ---
 # ---
-limit_m = {1: 0}
+limit_m = {
+    1: 0
+}
 # ---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')
@@ -77,7 +79,7 @@ for x in vaild_links:
     x2 = x  # .replace(x[0], x[0].upper() , 1)
     if x1 != x2:
         print(f'x1:{x1},x2:{x2}')
-    if not x2 in dones:
+    if x2 not in dones:
         dones.append(x2)
         if x2 in redirects_pages or x1 in redirects_pages:
             re_links.append(x2)
@@ -97,9 +99,9 @@ if 'Biceps tendon rupture' in catpages:
     print('Biceps tendon rupture in catpages')
 # print(str(catpages))
 # ---
-listo = [x for x in links if not x in catpages]
+listo = [x for x in links if x not in catpages]
 # ---
-re_listo = [d for d in re_links if not d in catpages]
+re_listo = [d for d in re_links if d not in catpages]
 num = 0
 # ---
 print(f'len of listo: {len(listo)}')

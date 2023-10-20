@@ -22,9 +22,11 @@ import os
 import sys
 
 from mdpy.bots import catdepth2
+
 # ---
 # ---
 from mdpy import printe
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -38,7 +40,9 @@ vaild_links = tabe['list']
 # ---
 printe.output(f'len of vaild_links: {len(vaild_links)}')
 # ---
-json_file = {0: ''}
+json_file = {
+    0: ''
+}
 json_file[0] = project + '/public_html/Translation_Dashboard/Tables/assessments.json'
 # ---
 old_assessments = {}
@@ -55,16 +59,21 @@ if fa != '':
 # ---
 len_old = len(old_assessments)
 # ---
-assessments = {x: z for x, z in old_assessments.items()}
+assessments = {
+    x: z
+    for x, z in old_assessments.items()
+}
 # ---
 if 'newpages' in sys.argv:  # vaild_links
     vaild_links2 = vaild_links
-    vaild_links = [xp for xp in vaild_links2 if (not xp in old_assessments or old_assessments.get(xp) in ["Unknown", ""])]
+    vaild_links = [xp for xp in vaild_links2 if (xp not in old_assessments or old_assessments.get(xp) in ["Unknown", ""])]
     # ---
     printe.output(f'Category-members:{len(vaild_links2)},New-members:{len(vaild_links)}')
     # ---
 # ---
-Nore = {1: False}
+Nore = {
+    1: False
+}
 for arg in sys.argv:
     if arg in ['new', 'listnew', 'less100', 'more400']:
         Nore[1] = True
@@ -82,11 +91,11 @@ def split_list_to_numbers(lll):
     # ---
     for cc in lll:
         # ---
-        if not num in List:
+        if num not in List:
             List[num] = []
         # ---
         if len(List[num]) < 150:
-            if not cc in DDone:
+            if cc not in DDone:
                 List[num].append(cc)
                 DDone.append(cc)
                 # ---
@@ -108,6 +117,8 @@ def log():
     # ---
     printe.output(f'<<lightgreen>> {len(assessments)} lines to {json_file[0]}')
     printe.output('<<lightgreen>> len old assessments %d' % len_old)
+
+
 # ---
 
 
@@ -136,13 +147,17 @@ def work_for_list(list):
     # ---
     print(f'len of new assessments:{lenn}')
     # ---
+
+
 # ---
 
 
 def mmain():
     numb = 0
     # ---
-    kkk = {1: vaild_links}
+    kkk = {
+        1: vaild_links
+    }
     # ---
     if 'new' not in sys.argv:
         # kkk = [ x for x in vaild_links if not x in old_assessments ]
@@ -165,8 +180,9 @@ def mmain():
     # ---
     log()
 
-
     # ---
+
+
 # ---
 if __name__ == '__main__':
     mmain()

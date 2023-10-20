@@ -6,6 +6,7 @@ import codecs
 Dir = Path(__file__).parent
 # ---
 from lists.chem_params import rename_chem_params
+
 # ---
 
 
@@ -14,6 +15,7 @@ def printn(s):
 
 
 class fix_Chembox:
+
     def __init__(self, text):
         self.text = text
         self.new_text = text
@@ -24,7 +26,6 @@ class fix_Chembox:
         # ---
 
     def run(self):
-
         self.get_params()
         # ---
         if self.all_params == {}:
@@ -66,7 +67,10 @@ class fix_Chembox:
             elif name.lower() not in boxes:
                 continue
             # ---
-            params = {str(param.name).strip(): str(param.value) for param in template.arguments}
+            params = {
+                str(param.name).strip(): str(param.value)
+                for param in template.arguments
+            }
             # ---
             for x, v in params.items():
                 if v.strip() == '':
@@ -95,6 +99,7 @@ class fix_Chembox:
 
 if __name__ == '__main__':
     import pywikibot
+
     text = codecs.open(f"{Dir}/texts/chembox.txt", "r", encoding="utf-8").read()
     bot = fix_Chembox(text)
     newtext = bot.run()

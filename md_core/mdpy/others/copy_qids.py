@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdpy/copy_qids
@@ -16,8 +15,10 @@ from mdpy.bots import en_to_md
 import codecs
 import os
 import sys
+
 # ---
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
@@ -25,6 +26,7 @@ from mdpy.bots import sql_for_mdwiki
 # from sql import *
 # ---
 from pymysql.converters import escape_string
+
 # ---
 in_qids = sql_for_mdwiki.get_all_qids()
 # ---

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 تجميع المراجع المتشابهة
@@ -15,8 +14,10 @@
 import re
 import itertools
 from contextlib import suppress
+
 # ---
 from wprefs.bots.replace_except import replaceExcept, removeprefix
+
 # ---
 
 
@@ -29,6 +30,8 @@ def get_html_attributes_value(text, param):
     if m:
         return m.group(param)
     return ''
+
+
 # ---
 
 
@@ -51,7 +54,7 @@ def merge_references(text):
         # ---
         params = Match.group('params')
         # print(f"{params=}")
-        Group = re.search(group_r, params, re.IGNORECASE|re.DOTALL)
+        Group = re.search(group_r, params, re.IGNORECASE | re.DOTALL)
         if Group:
             Group = Group.group('group')
         # ---
@@ -68,15 +71,18 @@ def merge_references(text):
             # ---
             # change the regex if params.find '" == -1
             # if params.find('"') == -1 and params.find("'") == -1:
-            if Group == None:
-                if quote == '' or quote == None:
+            if Group is None:
+                if quote == '' or quote is None:
                     name2 = get_html_attributes_value(params, 'name')
                     if name2 and name2 != "":
                         name = name2
                         # printe.output("get the name again:%s" % name )
             # ---
-            if not name in ref_tab_new[Group]:
-                ref_tab_new[Group][name] = {"org": Match.group(), "others": []}
+            if name not in ref_tab_new[Group]:
+                ref_tab_new[Group][name] = {
+                    "org": Match.group(),
+                    "others": []
+                }
             else:
                 ref_tab_new[Group][name]["others"].append(Match.group())
     # ---
@@ -89,6 +95,8 @@ def merge_references(text):
                     text = text.replace(other, org)
     # ---
     return text
+
+
 # ---
 
 
@@ -121,7 +129,7 @@ def DuplicateReferences(text):
             continue
         # ---
         params = Match.group('params')
-        Group = re.search(group_r, params, re.IGNORECASE|re.DOTALL)
+        Group = re.search(group_r, params, re.IGNORECASE | re.DOTALL)
         if Group:
             Group = Group.group('group')
         # ---
@@ -146,8 +154,8 @@ def DuplicateReferences(text):
             # ---
             # change the regex if params.find '" == -1
             # if params.find('"') == -1 and params.find("'") == -1:
-            if Group == None:
-                if quote == '' or quote == None:
+            if Group is None:
+                if quote == '' or quote is None:
                     # print("get the name again:" )
                     name = get_html_attributes_value(params, 'name')
             # ---
@@ -225,10 +233,7 @@ def DuplicateReferences(text):
         if v[1]:
             name = f'"{name}"'
         # ---
-        text = re.sub(
-            r'<ref name\s*=\s*(?P<quote>["\']?)\s*{}\s*(?P=quote)\s*/>'
-            .format(ref),
-            f'<ref name={name} />', text)
+        text = re.sub(r'<ref name\s*=\s*(?P<quote>["\']?)\s*{}\s*(?P=quote)\s*/>'.format(ref), f'<ref name={name} />', text)
     # ---
     # iui_to_named = {}
     for iui, named in iui_to_named.items():
@@ -250,7 +255,7 @@ if __name__ == "__main__":
 {{Infobox medical condition (new)
 | risksx = <ref name=Fer2016>t1</ref>
 | risksx = <ref name=Fer2016>t1</ref>
-| risks = 
+| risks =
 }}
 '''PFPS'''<ref name=Fer2016 />
 

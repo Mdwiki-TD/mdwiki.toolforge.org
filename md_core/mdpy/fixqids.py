@@ -10,18 +10,24 @@ python3 core8/pwb.py mdpy/fixqids
 # ---
 from mdpy.bots import catdepth2
 import sys
+
 # ---
 from mdpy.bots import wikidataapi
+
 # ---
 from mdpy import printe
 from mdpy.bots import sql_for_mdwiki
+
 # sql_for_mdwiki.mdwiki_sql(query , update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab)
 # ---
 mdlist = sql_for_mdwiki.get_all_qids()
 # ---
-qs_list = {q: title for title, q in mdlist.items() if q != ''}
+qs_list = {
+    q: title
+    for title, q in mdlist.items() if q != ''
+}
 # ---
 
 
@@ -29,7 +35,7 @@ def fix_redirects():
     # ---
     # python3 core8/pwb.py mdpy/fixqids redirects
     # ---
-    printe.output(f'<<lightyellow>> start fix_redirects()')
+    printe.output('<<lightyellow>> start fix_redirects()')
     # ---
     new_list = list(qs_list.keys())
     # ---
@@ -68,12 +74,14 @@ def check_title(title):
         return False
     # ---
     return True
+
+
 # ---
 
 
 def add_to_qids():
     # ---
-    printe.output(f'<<lightyellow>> start add_to_qids()')
+    printe.output('<<lightyellow>> start add_to_qids()')
     # ---
     all_pages = catdepth2.make_cash_to_cats(return_all_pages=True)
     # ---
@@ -81,7 +89,10 @@ def add_to_qids():
     # ---
     all_in = [x for x in mdlist]
     # ---
-    new_list = {title: '' for title in all_pages if title not in all_in}
+    new_list = {
+        title: ''
+        for title in all_pages if title not in all_in
+    }
     # ---
     printe.output(f'len of new_list: {len(new_list)}')
     # ---

@@ -11,10 +11,12 @@ import codecs
 import time
 import datetime
 from datetime import timedelta
+
 # ---
 from mdpy import printe
 from mdpy.bots import wiki_api
 from priorviews.bots import helps
+
 # ---
 TEST = False
 # ---
@@ -89,7 +91,10 @@ def get_v(mdtitle, langslinks):
         if viws_in != 0 and viws == 0:
             continue
         # ---
-        ViewsData[mdtitle][lang] = {"title": title, "views": viws}
+        ViewsData[mdtitle][lang] = {
+            "title": title,
+            "views": viws
+        }
         # ---
         N_g += 1
         # ---
@@ -112,7 +117,7 @@ def start():
         # ---
         n += 1
         # ---
-        if not mdtitle in ViewsData:
+        if mdtitle not in ViewsData:
             ViewsData[mdtitle] = {}
         # ---
         printe.output(f'<<blue>> p:{n}/{all_lenth} mdtitle: {mdtitle}')

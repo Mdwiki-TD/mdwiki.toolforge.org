@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 import requests
 import wikitextparser
 from mdpy import printe
+
 # ---
 '''
 # ---
@@ -101,7 +102,13 @@ class InOldText:
         return json1
 
     def get_oldtext(self):
-        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
+        params = {
+            "action": "parse",
+            "format": "json",
+            "prop": "wikitext",
+            "page": self.title,
+            "utf8": 1
+        }
         # ---
         params = {
             "action": "query",
@@ -126,7 +133,15 @@ class InOldText:
         # ---
 
     def get_newtext(self):
-        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "redirects": 1, "utf8": 1, "formatversion": "2"}
+        params = {
+            "action": "parse",
+            "format": "json",
+            "prop": "wikitext",
+            "page": self.title,
+            "redirects": 1,
+            "utf8": 1,
+            "formatversion": "2"
+        }
         # ---
         json1 = self.post_to_json(params)
         # ---

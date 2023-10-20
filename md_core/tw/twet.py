@@ -19,9 +19,11 @@ import codecs
 import json
 import requests
 import random
+
 # ---
 # ---
 import twet_config
+
 # Create variables for each key, secret, token
 consumer_key = twet_config.consumer_key
 consumer_secret = twet_config.consumer_secret
@@ -159,6 +161,8 @@ def auth(twet):
     # auth = tweepy.OAuth2AppHandler(consumer_key, consumer_secret)
     # api = tweepy.API(auth)
     # ---
+
+
 # ---
 # ---
 
@@ -175,7 +179,7 @@ def do_api(params):
         r4 = requests.Session().post(url, data=params)
         json1 = json.loads(r4.text)
         return json1
-    except Exception as e:
+    except Exception:
         return {}
     # ---
     return {}
@@ -193,7 +197,11 @@ json_file = project + '/md_core/tw/done.json'
 
 def get_links():
     # ---
-    sects = do_api({"action": "parse", "page": title, "prop": "sections"})
+    sects = do_api({
+        "action": "parse",
+        "page": title,
+        "prop": "sections"
+    })
     # pri   nt(sects)
     sections = sects.get("parse", {}).get("sections", {})
     # ---
@@ -211,7 +219,12 @@ def get_links():
         # ---
         print(level)
         # ---
-        uxu = do_api({"action": "parse", "page": title, "prop": "sections|wikitext", "section": level})
+        uxu = do_api({
+            "action": "parse",
+            "page": title,
+            "prop": "sections|wikitext",
+            "section": level
+        })
         # ---
         section_text = uxu.get("parse", {}).get("wikitext", {}).get("*", "")
         # ---
@@ -231,6 +244,8 @@ def get_links():
     print(f'len of vaild_links: {len(vaild_links)}')
     # ---
     return vaild_links
+
+
 # ---
 
 
@@ -249,6 +264,8 @@ def get_done():
         jsj = json.load(f)
     f.close()
     return jsj
+
+
 # ---
 
 
@@ -260,6 +277,8 @@ def get_one_link(done, links):
         link = random.choice(links)
     # ---
     return link
+
+
 # ---
 
 
@@ -292,6 +311,8 @@ def start_md():
         ii.close()
 
         # ---
+
+
 # ---
 if 'test' in sys.argv:
     print('test!')

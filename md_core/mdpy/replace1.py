@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 """
@@ -11,8 +10,12 @@ from new_api.mdwiki_page import MainPage, NEW_API
 import os
 import codecs
 import sys
+
 # ---
-numbers = {1: 20000, 'done': 0}
+numbers = {
+    1: 20000,
+    'done': 0
+}
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -119,7 +122,10 @@ def main():
     file_name[2] = public_html + f'/find/log/{nn}-text.txt'
     # ---
     if 'newlist' in sys.argv:
-        Add_pa = {"srsort": "just_match", "srwhat": "text"}
+        Add_pa = {
+            "srsort": "just_match",
+            "srwhat": "text"
+        }
         # ---
         titles = api_new.Search(find, ns="0", srlimit="max", RETURN_dict=False, addparams=Add_pa)
     else:
@@ -140,8 +146,9 @@ def main():
         # ---
         work(page, find, replace, nn)
 
-
     # ---
+
+
 # python py/replace1.py
 # ---
 if __name__ == "__main__":

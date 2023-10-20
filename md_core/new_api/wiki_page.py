@@ -3,8 +3,12 @@ from new_api import super_login
 from new_api import bot_api
 from new_api import super_page
 from mdpy.bots import user_account_new
+
 # ---
-User_tables = {"username": user_account_new.my_username, "password": user_account_new.my_password}
+User_tables = {
+    "username": user_account_new.my_username,
+    "password": user_account_new.my_password
+}
 # ---
 # xxxxxxxxxxx
 # ---
@@ -50,9 +54,8 @@ def test():
     # ---
     # ---
     ex = page.page_backlinks()
-    print(f'---------------------------')
+    print('---------------------------')
     print(f'page_backlinks:{ex}')
-
 
     # ---
     # hidden_categories= page.get_hidden_categories()
@@ -67,6 +70,8 @@ def test():
     # login   = api_new.Login_to_wiki()
     # pages   = api_new.Find_pages_exists_or_not(liste)
     # pages   = api_new.Get_Newpages()
+
+
 # ---
 if __name__ == '__main__':
     # python3 core8/pwb.py new_api/page
