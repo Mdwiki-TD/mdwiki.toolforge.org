@@ -40,7 +40,9 @@ vaild_links = tabe['list']
 # ---
 printe.output(f'len of vaild_links: {len(vaild_links)}')
 # ---
-json_file = {0: ''}
+json_file = {
+    0: ''
+}
 json_file[0] = project + '/public_html/Translation_Dashboard/Tables/assessments.json'
 # ---
 old_assessments = {}
@@ -57,7 +59,10 @@ if fa != '':
 # ---
 len_old = len(old_assessments)
 # ---
-assessments = {x: z for x, z in old_assessments.items()}
+assessments = {
+    x: z
+    for x, z in old_assessments.items()
+}
 # ---
 if 'newpages' in sys.argv:  # vaild_links
     vaild_links2 = vaild_links
@@ -66,7 +71,9 @@ if 'newpages' in sys.argv:  # vaild_links
     printe.output(f'Category-members:{len(vaild_links2)},New-members:{len(vaild_links)}')
     # ---
 # ---
-Nore = {1: False}
+Nore = {
+    1: False
+}
 for arg in sys.argv:
     if arg in ['new', 'listnew', 'less100', 'more400']:
         Nore[1] = True
@@ -148,7 +155,9 @@ def work_for_list(list):
 def mmain():
     numb = 0
     # ---
-    kkk = {1: vaild_links}
+    kkk = {
+        1: vaild_links
+    }
     # ---
     if 'new' not in sys.argv:
         # kkk = [ x for x in vaild_links if not x in old_assessments ]

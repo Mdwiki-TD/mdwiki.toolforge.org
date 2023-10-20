@@ -59,7 +59,12 @@ def delete_it(cat):
     # ---
     pywikibot.output(f'cat: {n}/{len(to_update)}:')
     # ---
-    params = {"action": "delete", "format": "json", "title": cat, "reason": "cat moved to nccommons.org"}  # , "deletetalk": 1}
+    params = {
+        "action": "delete",
+        "format": "json",
+        "title": cat,
+        "reason": "cat moved to nccommons.org"
+    }  # , "deletetalk": 1}
     # ---
     doit = mdwiki_api.post(params, addtoken=True)
     # ---

@@ -50,14 +50,21 @@ import pywikibot.data.api as apit
 import requests
 
 # ---
-SS = {"token": ''}
+SS = {
+    "token": ''
+}
 session = {}
 session[1] = requests.Session()
 session["url"] = ""
 # ---
-Url_To_login = {1: '', 'not': True}
+Url_To_login = {
+    1: '',
+    'not': True
+}
 # ---
-login_done = {1: False}
+login_done = {
+    1: False
+}
 # ---
 # ---
 from mdpy import printe
@@ -282,7 +289,10 @@ def get_langlinks(title, lang):
     if not ta:
         return {}
     # ---
-    langlinks = {ta["lang"]: ta.get("*") or ta.get("title") for ta in ta.get('langlinks', [])}
+    langlinks = {
+        ta["lang"]: ta.get("*") or ta.get("title")
+        for ta in ta.get('langlinks', [])
+    }
     # ---
     return langlinks
 
@@ -321,7 +331,7 @@ def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
     for i in range(0, len(titles), 50):
         # ---
         # group = dict(list(liste.items())[i:i+50])
-        group = titles[i: i + 50]
+        group = titles[i:i + 50]
         # ---
         params["titles"] = "|".join(group)
         # ---
@@ -332,7 +342,15 @@ def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
             # ---
             for red in js_query.get('redirects', {}):
                 # redirects_table[ red["from"] ] = red["to"]
-                Main_table[red["from"]] = {'isRedirectPage': True, 'missing': True, 'from': red["from"], 'to': red["to"], 'title': red["from"], 'ns': '', 'q': ''}
+                Main_table[red["from"]] = {
+                    'isRedirectPage': True,
+                    'missing': True,
+                    'from': red["from"],
+                    'to': red["to"],
+                    'title': red["from"],
+                    'ns': '',
+                    'q': ''
+                }
             # ---
             for id in js_query.get('pages', {}):
                 kk = js_query['pages'][id]
@@ -396,13 +414,17 @@ def Getpageassessments_from_wikipedia(titles, site="en", find_redirects=False, p
         # ---
         if "missing" in tayo:
             printe.output(f"<<lightred>> page:{titley} is missing")
-            Tables[titley] = {'missing': True}
+            Tables[titley] = {
+                'missing': True
+            }
     # ---
     redirects = query.get("redirects", [])
     if find_redirects and redirects:
         for red in redirects:
             if titles == red["from"]:
-                Tables[titles] = {"is_redirect": True}
+                Tables[titles] = {
+                    "is_redirect": True
+                }
                 break
     # ---
     return Tables
@@ -551,7 +573,10 @@ def get_page_views(titles, site='en', days=30):
     while numb < 6 and to_work != []:
         views1, no_2 = _get_page_views_(to_work, site=site, days=days)
         to_work = no_2
-        views = {**views, **views1}
+        views = {
+            **views,
+            **views1
+        }
     # ---
     return views
 
@@ -613,7 +638,23 @@ def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20
         if not data or data == {}:
             pywikibot.output(url)
         # ---
-        sadasd = [{"project": "ar.wikipedia", "article": "نيلوتينيب", "granularity": "monthly", "timestamp": "2021070100", "access": "all-access", "agent": "all-agents", "views": 77}, {"project": "ar.wikipedia", "article": "نيلوتينيب", "granularity": "monthly", "timestamp": "2021080100", "access": "all-access", "agent": "all-agents", "views": 95}]
+        sadasd = [{
+            "project": "ar.wikipedia",
+            "article": "نيلوتينيب",
+            "granularity": "monthly",
+            "timestamp": "2021070100",
+            "access": "all-access",
+            "agent": "all-agents",
+            "views": 77
+        }, {
+            "project": "ar.wikipedia",
+            "article": "نيلوتينيب",
+            "granularity": "monthly",
+            "timestamp": "2021080100",
+            "access": "all-access",
+            "agent": "all-agents",
+            "views": 95
+        }]
         # ---
         number_all = 0
         # ---
@@ -627,14 +668,18 @@ def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20
             year = str(month)[:4]
             # ---
             if year not in tabl:
-                tabl[year] = {'all': 0}
+                tabl[year] = {
+                    'all': 0
+                }
             # ---
             tabl[year]['all'] += x["views"]
             tabl[year][month] = x["views"]
             # ---
         # ---
         if number_all > 0:
-            numbers[page] = {'all': number_all}
+            numbers[page] = {
+                'all': number_all
+            }
             # ---
             txt = f'all_views:{number_all}'
             # ---

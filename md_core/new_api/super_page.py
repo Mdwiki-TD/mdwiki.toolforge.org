@@ -63,9 +63,13 @@ purge       = page.purge()
 # ingr = txtlib.extract_templates_and_params(text)
 # for temp in ingr: name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
 # ---
-print_test = {1: False}
+print_test = {
+    1: False
+}
 # ---
-Edit_summary_line = {1: ' -Edit summary: %s:'}
+Edit_summary_line = {
+    1: ' -Edit summary: %s:'
+}
 # ---
 
 
@@ -76,7 +80,9 @@ def warn_err(err):
 
 
 # ---
-Save_Edit_Pages = {1: False}
+Save_Edit_Pages = {
+    1: False
+}
 # ---
 change_codes = {
     "nb": "no",
@@ -100,11 +106,14 @@ def login_def(lang, family):
 
 
 # ---
-not_loged_m = {1: ""}
+not_loged_m = {
+    1: ""
+}
 # ---
 
 
 class MainPage:
+
     def __init__(self, title, lang, family='wikipedia'):
         self.title = title
         # ---
@@ -139,7 +148,9 @@ class MainPage:
         self.iwlinks = []
         self.links_here = []
         # ---
-        self.info = {'done': False}
+        self.info = {
+            'done': False
+        }
         # ---
         self.categories = {}
         self.hidden_categories = {}
@@ -172,7 +183,14 @@ class MainPage:
         return self.log.post(params, addtoken=addtoken)
 
     def get_text(self, redirects=False):
-        params = {"action": "query", "prop": "revisions|pageprops|flagged", "titles": self.title, "ppprop": "wikibase_item", "rvprop": "timestamp|content|user|ids", "rvslots": "*"}  # pageprops  # revisions  # revisions
+        params = {
+            "action": "query",
+            "prop": "revisions|pageprops|flagged",
+            "titles": self.title,
+            "ppprop": "wikibase_item",
+            "rvprop": "timestamp|content|user|ids",
+            "rvslots": "*"
+        }  # pageprops  # revisions  # revisions
         # ---
         if redirects:
             params["redirects"] = 1
@@ -181,8 +199,33 @@ class MainPage:
         _dat_ = {
             "batchcomplete": "",
             "query": {
-                "normalized": [{"from": "وب:ملعب", "to": "ويكيبيديا:ملعب"}],
-                "pages": {"361534": {"pageid": 361534, "ns": 4, "title": "ويكيبيديا:ملعب", "revisions": [{"revid": 61421668, "parentid": 61421528, "user": "Al-shazali Sabeel", "timestamp": "2023-03-07T13:50:29Z", "slots": {"main": {"contentmodel": "wikitext", "contentformat": "text/x-wiki", "*": "{{عنوان الملعب}}"}}}], "pageprops": {"wikibase_item": "Q3938"}}},
+                "normalized": [{
+                    "from": "وب:ملعب",
+                    "to": "ويكيبيديا:ملعب"
+                }],
+                "pages": {
+                    "361534": {
+                        "pageid": 361534,
+                        "ns": 4,
+                        "title": "ويكيبيديا:ملعب",
+                        "revisions": [{
+                            "revid": 61421668,
+                            "parentid": 61421528,
+                            "user": "Al-shazali Sabeel",
+                            "timestamp": "2023-03-07T13:50:29Z",
+                            "slots": {
+                                "main": {
+                                    "contentmodel": "wikitext",
+                                    "contentformat": "text/x-wiki",
+                                    "*": "{{عنوان الملعب}}"
+                                }
+                            }
+                        }],
+                        "pageprops": {
+                            "wikibase_item": "Q3938"
+                        }
+                    }
+                },
             },
         }
         # ---
@@ -249,9 +292,19 @@ class MainPage:
                         "title": "طواف العالم للدراجات 2023",
                         "categories": [],
                         "langlinks": [],
-                        "templates": [{"ns": 10, "title": "قالب:-"}],
-                        "linkshere": [{"pageid": 189150, "ns": 0, "title": "طواف فرنسا"}],
-                        "iwlinks": [{"prefix": "commons", "*": "Category:2023_UCI_World_Tour"}],
+                        "templates": [{
+                            "ns": 10,
+                            "title": "قالب:-"
+                        }],
+                        "linkshere": [{
+                            "pageid": 189150,
+                            "ns": 0,
+                            "title": "طواف فرنسا"
+                        }],
+                        "iwlinks": [{
+                            "prefix": "commons",
+                            "*": "Category:2023_UCI_World_Tour"
+                        }],
                         "contentmodel": "wikitext",
                         "pagelanguage": "ar",
                         "pagelanguagehtmlcode": "ar",
@@ -269,25 +322,49 @@ class MainPage:
         xs = {
             'batchcomplete': True,
             'query': {
-                'pages': [
-                    {
-                        'pageid': 151314,
+                'pages': [{
+                    'pageid': 151314,
+                    'ns': 10,
+                    'title': 'قالب:أوب',
+                    'categories': [{
+                        'ns': 14,
+                        'title': 'تصنيف:قوالب تستخدم أنماط القوالب',
+                        'sortkey': '',
+                        'sortkeyprefix': '',
+                        'hidden': False
+                    }, {
+                        'ns': 14,
+                        'title': 'تصنيف:cc',
+                        'sortkey': 'v',
+                        'sortkeyprefix': 'أوب',
+                        'hidden': True
+                    }],
+                    'langlinks': [{
+                        'lang': 'bh',
+                        'title': 'टेम्पलेट:AWB'
+                    }],
+                    'templates': [{
                         'ns': 10,
-                        'title': 'قالب:أوب',
-                        'categories': [{'ns': 14, 'title': 'تصنيف:قوالب تستخدم أنماط القوالب', 'sortkey': '', 'sortkeyprefix': '', 'hidden': False}, {'ns': 14, 'title': 'تصنيف:cc', 'sortkey': 'v', 'sortkeyprefix': 'أوب', 'hidden': True}],
-                        'langlinks': [{'lang': 'bh', 'title': 'टेम्पलेट:AWB'}],
-                        'templates': [{'ns': 10, 'title': 'قالب:No redirect'}],
-                        'linkshere': [{'pageid': 308641, 'ns': 10, 'title': 'قالب:AWB', 'redirect': True}],
-                        'iwlinks': [{'prefix': 'd', 'title': 'Q4063270'}],
-                        'contentmodel': 'wikitext',
-                        'pagelanguage': 'ar',
-                        'pagelanguagehtmlcode': 'ar',
-                        'pagelanguagedir': 'rtl',
-                        'touched': '2023-03-05T22:10:23Z',
-                        'lastrevid': 61388266,
-                        'length': 3477,
-                    }
-                ]
+                        'title': 'قالب:No redirect'
+                    }],
+                    'linkshere': [{
+                        'pageid': 308641,
+                        'ns': 10,
+                        'title': 'قالب:AWB',
+                        'redirect': True
+                    }],
+                    'iwlinks': [{
+                        'prefix': 'd',
+                        'title': 'Q4063270'
+                    }],
+                    'contentmodel': 'wikitext',
+                    'pagelanguage': 'ar',
+                    'pagelanguagehtmlcode': 'ar',
+                    'pagelanguagedir': 'rtl',
+                    'touched': '2023-03-05T22:10:23Z',
+                    'lastrevid': 61388266,
+                    'length': 3477,
+                }]
             },
         }
         # ---
@@ -304,7 +381,13 @@ class MainPage:
         # ---
         for cat in ta.get('categories', []):
             # ---
-            _cat_ = {"ns": 14, "title": "تصنيف:بوابة سباق الدراجات الهوائية/مقالات متعلقة", "sortkey": "d8b7", "sortkeyprefix": "", "hidden": True}
+            _cat_ = {
+                "ns": 14,
+                "title": "تصنيف:بوابة سباق الدراجات الهوائية/مقالات متعلقة",
+                "sortkey": "d8b7",
+                "sortkeyprefix": "",
+                "hidden": True
+            }
             # ---
             if 'sortkey' in cat:
                 del cat['sortkey']
@@ -323,7 +406,10 @@ class MainPage:
             # ---
             # {"lang": "ca", "*": "UCI World Tour 2023"} or {'lang': 'bh', 'title': 'टेम्पलेट:AWB'}
             # ---
-            self.langlinks = {ta["lang"]: ta.get("*") or ta.get("title") for ta in ta.get('langlinks', [])}
+            self.langlinks = {
+                ta["lang"]: ta.get("*") or ta.get("title")
+                for ta in ta.get('langlinks', [])
+            }
         # ---
         if ta.get('templates', []) != []:
             # ---
@@ -350,7 +436,10 @@ class MainPage:
         while continue_params != {} or len(results) == 0:
             # ---
             if continue_params:
-                params = {**params, **continue_params}
+                params = {
+                    **params,
+                    **continue_params
+                }
             # ---
             json1 = self.post_params(params)
             # ---
@@ -372,7 +461,10 @@ class MainPage:
             if isinstance(results, list):
                 results.extend(data)
             else:
-                results = {**results, **data}
+                results = {
+                    **results,
+                    **data
+                }
         # ---
         return results
 
@@ -391,7 +483,35 @@ class MainPage:
             "gblredirect": 1,
         }
         # ---
-        x = {'batchcomplete': True, 'limits': {'backlinks': 2500}, 'query': {'redirects': [{'from': 'فريدريش زيمرمان', 'to': 'فريدريش تسيمرمان'}], 'pages': [{'pageid': 2941285, 'ns': 0, 'title': 'فولفغانغ شويبله'}, {'pageid': 4783977, 'ns': 0, 'title': 'وزارة الشؤون الرقمية والنقل'}, {'pageid': 5218323, 'ns': 0, 'title': 'فريدريش تسيمرمان'}, {'pageid': 6662649, 'ns': 0, 'title': 'غونتر كراوزه'}]}}
+        x = {
+            'batchcomplete': True,
+            'limits': {
+                'backlinks': 2500
+            },
+            'query': {
+                'redirects': [{
+                    'from': 'فريدريش زيمرمان',
+                    'to': 'فريدريش تسيمرمان'
+                }],
+                'pages': [{
+                    'pageid': 2941285,
+                    'ns': 0,
+                    'title': 'فولفغانغ شويبله'
+                }, {
+                    'pageid': 4783977,
+                    'ns': 0,
+                    'title': 'وزارة الشؤون الرقمية والنقل'
+                }, {
+                    'pageid': 5218323,
+                    'ns': 0,
+                    'title': 'فريدريش تسيمرمان'
+                }, {
+                    'pageid': 6662649,
+                    'ns': 0,
+                    'title': 'غونتر كراوزه'
+                }]
+            }
+        }
         # ---
         # data = self.post_params(params)
         # pages = data.get("query", {}).get("pages", [])
@@ -405,7 +525,12 @@ class MainPage:
         return self.back_links
 
     def page_links(self):
-        params = {"action": "parse", "prop": "links", "formatversion": "2", "page": self.title}
+        params = {
+            "action": "parse",
+            "prop": "links",
+            "formatversion": "2",
+            "page": self.title
+        }
         # data = self.post_params(params)
         # data = data.get('parse', {}).get('links', [])
         # ---
@@ -418,11 +543,27 @@ class MainPage:
         return self.links
 
     def get_text_html(self):
-        params = {"action": "parse", "page": self.title, "formatversion": "2", "prop": "text"}
+        params = {
+            "action": "parse",
+            "page": self.title,
+            "formatversion": "2",
+            "prop": "text"
+        }
         # ---
         data = self.post_params(params)
         # ---
-        _data_ = {'warnings': {'main': {'warnings': 'Unrecognized parameter: bot.'}}, 'parse': {'title': 'ويكيبيديا:ملعب', 'pageid': 361534, 'text': ''}}
+        _data_ = {
+            'warnings': {
+                'main': {
+                    'warnings': 'Unrecognized parameter: bot.'
+                }
+            },
+            'parse': {
+                'title': 'ويكيبيديا:ملعب',
+                'pageid': 361534,
+                'text': ''
+            }
+        }
         # ---
         self.text_html = data.get('parse', {}).get('text', '')
         # ---
@@ -430,13 +571,34 @@ class MainPage:
 
     def get_redirect_target(self):
         # ---
-        params = {"action": "query", "titles": self.title, "prop": "info", "redirects": 1}
+        params = {
+            "action": "query",
+            "titles": self.title,
+            "prop": "info",
+            "redirects": 1
+        }
         # ---
         data = self.post_params(params)
         # ---
-        _pages_ = {'batchcomplete': '', 'query': {'redirects': [{'from': 'Yemen', 'to': 'اليمن'}], 'pages': {}, 'normalized': [{'from': 'yemen', 'to': 'Yemen'}]}}
+        _pages_ = {
+            'batchcomplete': '',
+            'query': {
+                'redirects': [{
+                    'from': 'Yemen',
+                    'to': 'اليمن'
+                }],
+                'pages': {},
+                'normalized': [{
+                    'from': 'yemen',
+                    'to': 'Yemen'
+                }]
+            }
+        }
         # ---
-        __redirects__ = {'from': 'Yemen', 'to': 'اليمن'}
+        __redirects__ = {
+            'from': 'Yemen',
+            'to': 'اليمن'
+        }
         # ---
         redirects = data.get("query", {}).get("redirects", [{}])[0]
         # ---
@@ -472,7 +634,15 @@ class MainPage:
         return self.words
 
     def get_extlinks(self):
-        params = {"action": "query", "format": "json", "prop": "extlinks", "titles": self.title, "formatversion": "2", "utf8": 1, "ellimit": "max"}
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "extlinks",
+            "titles": self.title,
+            "formatversion": "2",
+            "utf8": 1,
+            "ellimit": "max"
+        }
         # ---
         elcontinue = 'x'
         # ---
@@ -542,7 +712,12 @@ class MainPage:
 
     def purge(self):
         # ---
-        params = {"action": "purge", "forcelinkupdate": 1, "forcerecursivelinkupdate": 1, "titles": self.title}
+        params = {
+            "action": "purge",
+            "forcelinkupdate": 1,
+            "forcerecursivelinkupdate": 1,
+            "titles": self.title
+        }
         # ---
         data = self.post_params(params, addtoken=True)
         # ---
@@ -709,11 +884,22 @@ class MainPage:
 
     def get_userinfo(self):
         if len(self.userinfo) == 0:
-            params = {"action": "query", "format": "json", "list": "users", "formatversion": "2", "usprop": "groups", "ususers": self.user}
+            params = {
+                "action": "query",
+                "format": "json",
+                "list": "users",
+                "formatversion": "2",
+                "usprop": "groups",
+                "ususers": self.user
+            }
             # ---
             data = self.post_params(params)
             # ---
-            _userinfo_ = {"id": 229481, "name": "Mr. Ibrahem", "groups": ["editor", "reviewer", "rollbacker", "*", "user", "autoconfirmed"]}
+            _userinfo_ = {
+                "id": 229481,
+                "name": "Mr. Ibrahem",
+                "groups": ["editor", "reviewer", "rollbacker", "*", "user", "autoconfirmed"]
+            }
             # ---
             ff = data.get("query", {}).get("users", [{}])
             # ---

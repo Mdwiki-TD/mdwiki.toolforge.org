@@ -67,7 +67,7 @@ def get_creator(links, lang):
     # ---
     # split links to 100 per group
     for i in range(0, len(links), 100):
-        titles = [x.replace(" ", "_") for x in links[i: i + 100]]
+        titles = [x.replace(" ", "_") for x in links[i:i + 100]]
         # ---
         titles = ", ".join([f'"{escape_string(x)}"' for x in titles])
         # ---
@@ -96,7 +96,12 @@ def get_creator(links, lang):
             # ---
             print(f"time:{time_stamp}", f"title:{page_title}", f"actor:{actor_name}")
             # ---
-            tab = {"time": time_stamp, "actor": actor_name, "comment": comment_text, "TD": TD}
+            tab = {
+                "time": time_stamp,
+                "actor": actor_name,
+                "comment": comment_text,
+                "TD": TD
+            }
             # ---
             ADDED += 1
             # ---

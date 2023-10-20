@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 إنشاء تحويلات من العنوان الإنجليزي
@@ -84,7 +83,16 @@ def create_redirect(target, mdtitle):
         # ---
         text = f'#redirect [[{target}]]'
         sus = f'Redirected page to [[{target}]]'
-        params = {"action": "edit", "format": "json", "title": mdtitle, "text": text, "summary": sus, "createonly": 1, "utf8": 1, "token": ""}
+        params = {
+            "action": "edit",
+            "format": "json",
+            "title": mdtitle,
+            "text": text,
+            "summary": sus,
+            "createonly": 1,
+            "utf8": 1,
+            "token": ""
+        }
         # ---
         uu = wpref.submitAPI(params, lang='or')
         # ---

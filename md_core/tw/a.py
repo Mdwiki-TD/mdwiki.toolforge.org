@@ -82,7 +82,11 @@ json_file = project + '/md_core/tw/done.json'
 
 def get_links():
     # ---
-    sects = do_api({"action": "parse", "page": title, "prop": "sections"})
+    sects = do_api({
+        "action": "parse",
+        "page": title,
+        "prop": "sections"
+    })
     # pri   nt(sects)
     sections = sects.get("parse", {}).get("sections", {})
     # ---
@@ -100,7 +104,12 @@ def get_links():
         # ---
         print(level)
         # ---
-        uxu = do_api({"action": "parse", "page": title, "prop": "sections|wikitext", "section": level})
+        uxu = do_api({
+            "action": "parse",
+            "page": title,
+            "prop": "sections|wikitext",
+            "section": level
+        })
         # ---
         section_text = uxu.get("parse", {}).get("wikitext", {}).get("*", "")
         # ---

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdpy/get_md_to_en nodump
@@ -52,7 +51,7 @@ def check():
     # ---
     for i in range(0, len(Listo), 100):
         # ---
-        newlist = Listo[i: i + 100]
+        newlist = Listo[i:i + 100]
         # ---
         line = "|".join(newlist)
         # ---
@@ -84,7 +83,18 @@ def check():
             # "pages": { "4195": {"pageid": 4195,"ns": 0,"title": "Aspirin","redirects": [{"pageid": 4953,"ns": 0,"title": "Acetylsalicylic acid"}]} }
             pages = query.get("pages", {})
             # ---
-            pages_example = {"-1": {"ns": 0, "title": "Fsdfdsf", "missing": ""}, "2767": {"pageid": 2767, "ns": 0, "title": "ACE inhibitor"}}
+            pages_example = {
+                "-1": {
+                    "ns": 0,
+                    "title": "Fsdfdsf",
+                    "missing": ""
+                },
+                "2767": {
+                    "pageid": 2767,
+                    "ns": 0,
+                    "title": "ACE inhibitor"
+                }
+            }
             # ---
             for page in pages:
                 # ---

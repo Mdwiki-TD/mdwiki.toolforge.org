@@ -109,7 +109,9 @@ def work():
             if page in all_reg:
                 all_reg[page][number] = title2
             else:
-                all_reg[page] = {number: title2}
+                all_reg[page] = {
+                    number: title2
+                }
             # ---
         else:
             nomatch += 1

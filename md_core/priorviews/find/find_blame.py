@@ -49,7 +49,11 @@ new_data = json.load(codecs.open(file, 'r', 'utf-8'))
 
 def gtblame_value(title, lang):
     # ---
-    tab = {"lang": lang, "article": title, "needle": ""}
+    tab = {
+        "lang": lang,
+        "article": title,
+        "needle": ""
+    }
     # ---
     infos = json_langs_by_langs.get(lang, {}).get(title)  # {'extlinks': extlinks, 'refsname': refsname}
     # ---

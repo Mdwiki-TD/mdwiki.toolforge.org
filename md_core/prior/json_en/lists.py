@@ -24,7 +24,10 @@ for filename in os.listdir(project_js_new):
         # ---
         data = json.load(open(filename2))
         # ---
-        json_en_a = {**json_en_a, **data}
+        json_en_a = {
+            **json_en_a,
+            **data
+        }
 # ---
 json_en_all = {}
 # ---
@@ -44,4 +47,7 @@ for en, tab in json_en_a.items():
     # refsname = list(set(refsname))
     # extlinks = list(set(extlinks))
     # ---
-    json_en_all[en] = {'extlinks': extlinks, 'refsname': refsname}
+    json_en_all[en] = {
+        'extlinks': extlinks,
+        'refsname': refsname
+    }

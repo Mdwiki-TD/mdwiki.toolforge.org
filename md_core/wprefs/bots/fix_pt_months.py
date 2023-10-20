@@ -22,7 +22,10 @@ months = {
     'December': 'dezembro',
 }
 # ---
-months_lower = {k.lower(): v for k, v in months.items()}
+months_lower = {
+    k.lower(): v
+    for k, v in months.items()
+}
 # ---
 months_line = "|".join(months.keys())
 # ---

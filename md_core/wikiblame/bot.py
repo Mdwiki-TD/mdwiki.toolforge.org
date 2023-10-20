@@ -29,9 +29,29 @@ class WikiBlame:
         self.base_url = "http://wikipedia.ramselehof.de/wikiblame.php"
         self.in_first = False
         self.oldids = []
-        self.params = {"lang": "", "article": "", "needle": "", "user_lang": "en", "project": "wikipedia", "tld": "org", "skipversions": "0", "ignorefirst": "0", "limit": "2500", "offtag": "22", "offmon": "7", "offjahr": "2023", "searchmethod": "int", "order": "asc", "force_wikitags": "on", "user": ""}  # desc
+        self.params = {
+            "lang": "",
+            "article": "",
+            "needle": "",
+            "user_lang": "en",
+            "project": "wikipedia",
+            "tld": "org",
+            "skipversions": "0",
+            "ignorefirst": "0",
+            "limit": "2500",
+            "offtag": "22",
+            "offmon": "7",
+            "offjahr": "2023",
+            "searchmethod": "int",
+            "order": "asc",
+            "force_wikitags": "on",
+            "user": ""
+        }  # desc
         if params is not None:
-            self.params.update({x: v for x, v in params.items() if v and v != ''})
+            self.params.update({
+                x: v
+                for x, v in params.items() if v and v != ''
+            })
         self.content = None
 
     def fetch_content(self) -> None:
@@ -51,7 +71,9 @@ class WikiBlame:
             return None
 
         soup = BeautifulSoup(self.content, 'html.parser')
-        results_div = soup.find("div", {"class": "results"})
+        results_div = soup.find("div", {
+            "class": "results"
+        })
         if not results_div:
             print("No results found.")
             return None

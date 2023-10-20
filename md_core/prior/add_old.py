@@ -43,6 +43,7 @@ project_js_new = f'{project}/json_en/'
 
 
 class PriorAddOld:
+
     def __init__(self):
         self.all_file = []
 

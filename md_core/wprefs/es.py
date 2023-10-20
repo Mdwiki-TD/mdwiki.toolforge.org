@@ -94,12 +94,8 @@ params = {
     "separador": ["separator"],
     "resumen": ["laysummary", "layurl"],
     "fecha-resumen": ["laydate"],
-    "apellidos1": [
-        "last1",
-    ],
-    "apellidos2": [
-        "last2",
-    ],
+    "apellidos1": ["last1", ],
+    "apellidos2": ["last2", ],
     "nombre2": ["first2", "given2"],
     "enlaceautor2": ["authorlink2", "author2-link", "authorlink2"],
     "apellidos3": ["last3", "surname3", "author3"],

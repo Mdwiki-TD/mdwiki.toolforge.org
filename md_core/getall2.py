@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python ./nash/mdpy/getall2.py

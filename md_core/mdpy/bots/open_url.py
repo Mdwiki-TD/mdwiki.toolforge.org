@@ -23,6 +23,7 @@ import pywikibot
 
 
 class classgetURL:
+
     def __init__(self, url):
         self.start = time.time()
         self.url = url

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 """
@@ -13,7 +12,10 @@ import codecs
 import sys
 
 # ---
-numbers = {1: 20000, 'done': 0}
+numbers = {
+    1: 20000,
+    'done': 0
+}
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -120,7 +122,10 @@ def main():
     file_name[2] = public_html + f'/find/log/{nn}-text.txt'
     # ---
     if 'newlist' in sys.argv:
-        Add_pa = {"srsort": "just_match", "srwhat": "text"}
+        Add_pa = {
+            "srsort": "just_match",
+            "srwhat": "text"
+        }
         # ---
         titles = api_new.Search(find, ns="0", srlimit="max", RETURN_dict=False, addparams=Add_pa)
     else:

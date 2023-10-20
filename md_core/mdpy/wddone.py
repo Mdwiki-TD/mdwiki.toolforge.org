@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 بوت قواعد البيانات
 
@@ -17,9 +16,7 @@ from pymysql.converters import escape_string
 # ---
 from mdpy.bots import py_tools
 
-
 # escape_string(string)
-
 
 # ---
 # ---

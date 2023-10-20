@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdpy/our
@@ -126,7 +125,10 @@ def check_urls(urls):
 
 
 def make_log(dad):
-    lists = {x: len(z) for x, z in dad.items()}
+    lists = {
+        x: len(z)
+        for x, z in dad.items()
+    }
     # ---
     global errors
     # ---

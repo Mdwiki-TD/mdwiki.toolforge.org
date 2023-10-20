@@ -16,6 +16,7 @@ def printn(s):
 
 
 class move_External_links_section:
+
     def __init__(self, text):
         self.text = text
         # ---
@@ -60,7 +61,7 @@ class move_External_links_section:
         while True:
             match = metadataR.search(tmpText)
             if match:
-                tmpText = tmpText[: match.start()]
+                tmpText = tmpText[:match.start()]
             else:
                 break
         # ---
@@ -109,7 +110,7 @@ class move_External_links_section:
             if mata:
                 # ---
                 # ---
-                index = len(l_c[: mata.end()])
+                index = len(l_c[:mata.end()])
                 # ---
                 l_c2 = l_c[index:]
                 # ---

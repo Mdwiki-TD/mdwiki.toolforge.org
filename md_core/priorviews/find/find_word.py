@@ -53,6 +53,7 @@ def get_w(links, lang):
         words_by_lang[lang] = {}
     # ---
     m = 0
+
     # ---
 
     def valid(x, tab, empty=''):

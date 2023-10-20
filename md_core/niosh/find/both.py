@@ -25,6 +25,7 @@ print(f'all pages:{len(both.keys())}')
 def do_all():
     # ---
     all_links = []
+
     # ---
 
     def fix_links(x):
@@ -51,7 +52,10 @@ def do_all():
     print(f'{len_all_links=}')
 
 
-aa = {k: v for k, v in sorted(both.items(), key=lambda item: len(item[1]), reverse=True)}
+aa = {
+    k: v
+    for k, v in sorted(both.items(), key=lambda item: len(item[1]), reverse=True)
+}
 
 n = 0
 

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 python3 core8/pwb.py mdpy/P11143
@@ -27,7 +26,10 @@ wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php")
 # ---
 qids_di = sql_for_mdwiki.get_all_qids()
 # ---
-qids = {q: title for title, q in qids_di.items() if q != ''}
+qids = {
+    q: title
+    for title, q in qids_di.items() if q != ''
+}
 # ---
 mdwiki_in_qids = list(qids.values())
 # ---
@@ -65,7 +67,10 @@ def add_missing():
 
 
 # ---
-newlist = {q: tt for q, tt in qids.items() if q not in in_wd.keys()}
+newlist = {
+    q: tt
+    for q, tt in qids.items() if q not in in_wd.keys()
+}
 # ---
 print('len of newlist: ' + str(len(newlist)))
 # ---
@@ -153,6 +158,9 @@ if len(new_qids) > 0:
     print("\n".join([f'{k}:{v}' for k, v in new_qids.items()]))
     printe.output('<<lightyellow>> add "addq" to sys.argv to add them to qids')
     if 'addq' in sys.argv:
-        newtitles = {title: qid for qid, title in new_qids.items()}
+        newtitles = {
+            title: qid
+            for qid, title in new_qids.items()
+        }
         sql_for_mdwiki.add_titles_to_qids(newtitles)
     # ---

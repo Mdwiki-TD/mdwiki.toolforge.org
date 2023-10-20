@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 تجميع المراجع المتشابهة
@@ -80,7 +79,10 @@ def merge_references(text):
                         # printe.output("get the name again:%s" % name )
             # ---
             if name not in ref_tab_new[Group]:
-                ref_tab_new[Group][name] = {"org": Match.group(), "others": []}
+                ref_tab_new[Group][name] = {
+                    "org": Match.group(),
+                    "others": []
+                }
             else:
                 ref_tab_new[Group][name]["others"].append(Match.group())
     # ---

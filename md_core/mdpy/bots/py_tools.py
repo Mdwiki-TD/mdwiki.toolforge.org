@@ -37,7 +37,7 @@ else:
         .. versionadded:: 5.4
         """
         if string.endswith(suffix):
-            return string[: -len(suffix)]
+            return string[:-len(suffix)]
         return string
 
 

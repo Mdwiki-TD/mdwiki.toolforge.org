@@ -23,7 +23,12 @@ if not os.path.exists(file):
 # ---
 words_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
-_data = {"ar": {"artitle": 0, "artitle2": 0}}
+_data = {
+    "ar": {
+        "artitle": 0,
+        "artitle2": 0
+    }
+}
 # ---
 count_words_by_lang = {}
 # ---

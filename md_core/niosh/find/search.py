@@ -59,6 +59,7 @@ def new_vals():
     # ---
     global new
     new = {}
+
     # ---
 
     def fix_links(x):
@@ -86,7 +87,10 @@ def new_vals():
         if tat:
             new[title] = tat
     # ---
-    new = {k: v for k, v in sorted(new.items(), key=lambda item: item[0].lower(), reverse=False)}
+    new = {
+        k: v
+        for k, v in sorted(new.items(), key=lambda item: item[0].lower(), reverse=False)
+    }
     # ---
     json.dump(new, codecs.open(file_json2, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
 

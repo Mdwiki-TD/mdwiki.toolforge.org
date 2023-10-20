@@ -103,7 +103,10 @@ def get_all_json():
             printe.output(f'filename: {filename2}..')
             # ---
             data = json.load(open(filename2))
-            All = {**All, **data}
+            All = {
+                **All,
+                **data
+            }
     # ---
     for filename in os.listdir(project_js_newen):
         if filename.endswith('.json'):
@@ -113,7 +116,10 @@ def get_all_json():
             # ---
             data = json.load(open(filename2))
             # ---
-            allen = {**allen, **data}
+            allen = {
+                **allen,
+                **data
+            }
     # ---
     for a, tab in allen.items():
         if a in All:
@@ -128,6 +134,7 @@ def get_all_json():
 
 
 class WorkAll:
+
     def __init__(self):
         self.title = "WikiProjectMed:List/Prior"
         # ---
@@ -166,7 +173,10 @@ class WorkAll:
             # ---
             t = t.replace('/', '-')
             # ---
-            _all_ = {a: self.All[a] for a in wikilinks if a in self.All}
+            _all_ = {
+                a: self.All[a]
+                for a in wikilinks if a in self.All
+            }
             # ---
             if len(_all_) < 150 or 'split' not in sys.argv:
                 self.all_sections[t] = _all_
@@ -186,7 +196,7 @@ class WorkAll:
             # ---
             for i in range(0, len(_all_), numb):
                 # ---
-                las = dict(list(_all_.items())[i: i + numb])
+                las = dict(list(_all_.items())[i:i + numb])
                 # ---
                 ta = f'{t}_{n}'
                 # ---

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 بوت إضافة التصنيف للمقالات بدون تصنيف في قواعد البيانات
 
@@ -14,7 +13,6 @@ import sys
 
 # ---
 from pymysql.converters import escape_string
-
 
 # ---
 from mdpy.bots import sql_for_mdwiki

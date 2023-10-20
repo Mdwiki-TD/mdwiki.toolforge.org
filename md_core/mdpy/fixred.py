@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 إيجاد التحويلات واصلاحها
@@ -67,13 +66,22 @@ def find_redirects(links):
     normalized_numb = 0
     # ---
     for i in range(0, len(titles), 300):
-        group = titles[i: i + 300]
+        group = titles[i:i + 300]
         # ---
         # printe.output(group)
         # ---
         line = "|".join(group)
         # ---
-        params = {"action": "query", "format": "json", "prop": "redirects", "titles": line, "redirects": 1, "converttitles": 1, "utf8": 1, "rdlimit": "max"}
+        params = {
+            "action": "query",
+            "format": "json",
+            "prop": "redirects",
+            "titles": line,
+            "redirects": 1,
+            "converttitles": 1,
+            "utf8": 1,
+            "rdlimit": "max"
+        }
         # ---
         jsone = mdwiki_api.post(params)
         # ---

@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 """
@@ -22,7 +21,9 @@ import requests
 
 Session = requests.Session()
 # ---
-La_si = {1: 2500000}
+La_si = {
+    1: 2500000
+}
 # ---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')

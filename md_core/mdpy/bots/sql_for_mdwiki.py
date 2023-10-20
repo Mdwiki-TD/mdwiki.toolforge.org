@@ -30,12 +30,14 @@ from mdpy import printe
 from pywikibot import config
 
 # ---
-can_use_sql_db = {1: True}
+can_use_sql_db = {
+    1: True
+}
 # ---
 
 py_v = pymysql.__version__
 if py_v.endswith('.None'):
-    py_v = py_v[: -len('.None')]
+    py_v = py_v[:-len('.None')]
 # ---
 pymysql_version = pkg_resources.parse_version(py_v)
 print(f'<<lightyellow>> pymysql_version: {pymysql_version}')
@@ -49,9 +51,14 @@ db_username = config.db_username
 db_password = config.db_password
 # ---
 if config.db_connect_file is None:
-    credentials = {'user': db_username, 'password': db_password}
+    credentials = {
+        'user': db_username,
+        'password': db_password
+    }
 else:
-    credentials = {'read_default_file': config.db_connect_file}
+    credentials = {
+        'read_default_file': config.db_connect_file
+    }
 # ---
 main_args = {
     'host': 'tools.db.svc.wikimedia.cloud',
@@ -65,7 +72,10 @@ main_args = {
 if 'localhost' in sys.argv or project == '/mdwiki':
     main_args['host'] = '127.0.0.1'
     main_args['db'] = 'mdwiki'
-    credentials = {'user': 'root', 'password': 'root11'}
+    credentials = {
+        'user': 'root',
+        'password': 'root11'
+    }
 # ---
 
 
@@ -73,7 +83,10 @@ def sql_connect_pymysql(query, return_dict=False):
     # ---
     # print('start sql_connect_pymysql:')
     # ---
-    args = {x: v for x, v in main_args.items()}
+    args = {
+        x: v
+        for x, v in main_args.items()
+    }
     # ---
     params = None
     # ---

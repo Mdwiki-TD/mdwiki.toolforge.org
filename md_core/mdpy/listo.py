@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 Pages in WikiProjectMed:List missing Category:RTT
@@ -42,7 +41,9 @@ from mdpy.bots import mdwiki_api
 # Session = requests.Session()
 # ---# ---
 # ---
-limit_m = {1: 0}
+limit_m = {
+    1: 0
+}
 # ---
 for arg in sys.argv:
     arg, sep, value = arg.partition(':')

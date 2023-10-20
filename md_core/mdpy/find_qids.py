@@ -42,7 +42,10 @@ def check_title(title):
 qids = sql_for_mdwiki.get_all_qids()
 # ---
 # qids_already = [q for title, q in qids.items() if q != '']
-qids_already = {q: title for title, q in qids.items() if q != ''}
+qids_already = {
+    q: title
+    for title, q in qids.items() if q != ''
+}
 # ---
 noqids = [title for title, q in qids.items() if q == '' and check_title(title)]
 # ---
@@ -84,7 +87,7 @@ def get_qids(noqids_list):
     num = 0
     # ---
     for i in range(0, len(noqids_list), 50):
-        group = noqids_list[i: i + 50]
+        group = noqids_list[i:i + 50]
         # ---
         params["titles"] = '|'.join(group)
         # ---
@@ -92,7 +95,10 @@ def get_qids(noqids_list):
         # ---
         if json1:
             redirects = json1.get("query", {}).get("redirects", [])
-            redirects = {x['to']: x['from'] for x in redirects}
+            redirects = {
+                x['to']: x['from']
+                for x in redirects
+            }
             # ---
             pages = json1.get("query", {}).get("pages", {})
             # ---

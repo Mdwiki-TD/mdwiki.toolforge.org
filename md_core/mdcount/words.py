@@ -74,7 +74,9 @@ def log(file, table):
 
 
 # ---
-Nore = {1: False}
+Nore = {
+    1: False
+}
 for arg in sys.argv:
     if arg in ['new', 'listnew', 'less100', 'more400']:
         Nore[1] = True
@@ -91,7 +93,9 @@ def mmain():
     # ---
     vaild_links = get_valid_Links(words_n)
     # ---
-    kkk = {1: vaild_links}
+    kkk = {
+        1: vaild_links
+    }
     # ---
     for x in kkk[1]:
         # ---

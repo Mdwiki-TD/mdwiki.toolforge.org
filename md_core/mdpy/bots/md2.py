@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 تجربة ملف mdd.py

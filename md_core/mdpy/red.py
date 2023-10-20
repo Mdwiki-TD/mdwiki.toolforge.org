@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 نسخ التحويلات من الإنجليزية إلى mdwiki
@@ -22,7 +21,9 @@ from mdpy.bots import mdwiki_api
 # ---
 Session = requests.Session()
 # ---
-offset = {1: 0}
+offset = {
+    1: 0
+}
 # ---
 to_make = {}
 # ---

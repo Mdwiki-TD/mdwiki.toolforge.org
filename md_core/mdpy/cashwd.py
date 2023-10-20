@@ -37,7 +37,11 @@ mis_qids = []
 # ---
 main_table_sites = {}
 # ---
-missing = {'all': 0, 'date': Day_History, 'langs': {}}
+missing = {
+    'all': 0,
+    'date': Day_History,
+    'langs': {}
+}
 # ---
 skip_codes = ["commons", "species", "ary", "arz", "meta"]
 # ---
@@ -71,9 +75,25 @@ def get_qids_sitelinks(qidslist):
         "utf8": 1,
     }
     # ---
-    TEST = {"heads": ["arwiki"], "qids": {"Q1": {"mdtitle": "test", "sitelinks": {"arwiki": "test"}}}}
-    table_d = {"heads": [], "qids": {}}
-    table_l = {"heads": [], "qids": {}}
+    TEST = {
+        "heads": ["arwiki"],
+        "qids": {
+            "Q1": {
+                "mdtitle": "test",
+                "sitelinks": {
+                    "arwiki": "test"
+                }
+            }
+        }
+    }
+    table_d = {
+        "heads": [],
+        "qids": {}
+    }
+    table_l = {
+        "heads": [],
+        "qids": {}
+    }
     # ---
     heads = []
     # ---
@@ -83,7 +103,7 @@ def get_qids_sitelinks(qidslist):
     # ---
     for i in range(0, len(qs_list), 100):
         # ---
-        qids = qs_list[i: i + 100]
+        qids = qs_list[i:i + 100]
         # ---
         params_wd["ids"] = '|'.join(qids)
         # ---
@@ -95,7 +115,10 @@ def get_qids_sitelinks(qidslist):
             # ---
             entities = json1.get("entities", {})
             # ---
-            all_entities = {**all_entities, **entities}
+            all_entities = {
+                **all_entities,
+                **entities
+            }
         # ---
         for qid_1, kk in all_entities.items():
             # ---
@@ -113,8 +136,14 @@ def get_qids_sitelinks(qidslist):
             qid = kk.get("id", '')
             # ---
             if qid != '' and qid not in table_d["qids"]:
-                table_d["qids"][qid] = {"mdtitle": '', "sitelinks": {}}
-                table_l["qids"][qid] = {"mdtitle": '', "sitelinks": []}
+                table_d["qids"][qid] = {
+                    "mdtitle": '',
+                    "sitelinks": {}
+                }
+                table_l["qids"][qid] = {
+                    "mdtitle": '',
+                    "sitelinks": []
+                }
             # ---
             mdwiki_title = qidslist.get(qid, '')
             if mdwiki_title != '':
@@ -223,7 +252,10 @@ def cash_wd():
         liste = list(set(liste))
         # ---
         leeen = int(len(titles)) - int(len(liste))
-        missing['langs'][site] = {'missing': leeen, 'exists': len(liste)}
+        missing['langs'][site] = {
+            'missing': leeen,
+            'exists': len(liste)
+        }
         # ---
         json_file = f'{Dashboard_path}/cash_exists/{site}.json'
         # ---

@@ -21,7 +21,10 @@ es_months_tab = {
     'December': 'diciembre',
 }
 # ---
-es_months_lower = {k.lower(): v for k, v in es_months_tab.items()}
+es_months_lower = {
+    k.lower(): v
+    for k, v in es_months_tab.items()
+}
 # ---
 es_months_line = "|".join(es_months_tab.keys())
 # ---

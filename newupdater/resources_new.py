@@ -12,7 +12,9 @@ from bots.Remove import remove_cite_web, portal_remove
 from lists.identifier_params import identifiers_params
 
 # ---
-printn_t = {1: False}
+printn_t = {
+    1: False
+}
 # ---
 
 

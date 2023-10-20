@@ -13,7 +13,9 @@ import re
 import sys
 
 # ---
-print_pywikibot = {1: False}
+print_pywikibot = {
+    1: False
+}
 try:
     import pywikibot
 

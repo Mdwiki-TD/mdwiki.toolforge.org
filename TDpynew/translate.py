@@ -34,16 +34,25 @@ import mdapi
 
 # mdapi.submitAPI( params )
 # ---
-wholearticle = {1: False}
+wholearticle = {
+    1: False
+}
 # ---
-SS = {"token": ''}
+SS = {
+    "token": ''
+}
 session = {}
 session[1] = requests.Session()
 session["url"] = ""
 # ---
-Url_To_login = {1: '', 'not': True}
+Url_To_login = {
+    1: '',
+    'not': True
+}
 # ---
-login_done = {1: False}
+login_done = {
+    1: False
+}
 # ---
 
 
@@ -169,7 +178,12 @@ def work(title):
     if 'test' in sys.argv:
         print(title)
     # ---
-    params2 = {"action": "parse", "format": "json", "page": title, "prop": "wikitext"}
+    params2 = {
+        "action": "parse",
+        "format": "json",
+        "page": title,
+        "prop": "wikitext"
+    }
     # ---
     json2 = mdapi.submitAPI(params2)
     # ---
@@ -180,7 +194,13 @@ def work(title):
     if wholearticle[1]:
         first = alltext
     else:
-        params = {"action": "parse", "format": "json", "page": title, "prop": "wikitext", "section": "0"}
+        params = {
+            "action": "parse",
+            "format": "json",
+            "page": title,
+            "prop": "wikitext",
+            "section": "0"
+        }
         json1 = mdapi.submitAPI(params)
         first = json1.get("parse", {}).get("wikitext", {}).get("*", '')
     # ---

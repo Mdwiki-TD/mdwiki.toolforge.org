@@ -32,7 +32,10 @@ def add_to_translators():
         if lang not in tra_by_lang:
             tra_by_lang[lang] = {}
         # ---
-        titles = {title: user for title, user in titles.items() if user != ''}
+        titles = {
+            title: user
+            for title, user in titles.items() if user != ''
+        }
         # ---
         if not titles:
             continue
@@ -40,7 +43,10 @@ def add_to_translators():
         # titles no bots
         titles_bots = [user for title, user in titles.items() if user != '' and user.lower().endswith('bot')]
 
-        titles_no_bots = {title: user for title, user in titles.items() if user != '' and not user.lower().endswith('bot')}
+        titles_no_bots = {
+            title: user
+            for title, user in titles.items() if user != '' and not user.lower().endswith('bot')
+        }
 
         # printe.output(f'<<blue>> lang:{lang} found {len(titles_bots)} bots, {len(titles_no_bots)} no bots')
 

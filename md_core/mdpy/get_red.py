@@ -40,7 +40,7 @@ def get_pages():
     titles = list(mdwiki_to_qid.keys())
     # ---
     for i in range(0, len(titles), 100):
-        group = titles[i: i + 100]
+        group = titles[i:i + 100]
         # ---
         asa = mdwiki_api.get_redirect(group)
         # ---

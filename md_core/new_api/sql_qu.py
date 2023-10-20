@@ -18,7 +18,6 @@ import os
 import pywikibot
 import traceback
 
-
 # ---
 import pymysql
 import pymysql.cursors
@@ -30,7 +29,7 @@ from new_api import printe
 # ---
 py_v = pymysql.__version__
 if py_v.endswith('.None'):
-    py_v = py_v[: -len('.None')]
+    py_v = py_v[:-len('.None')]
 # ---
 pymysql_version = pkg_resources.parse_version(py_v)
 # printe.output(f'<<lightyellow>> pymysql_version: {pymysql_version}')
@@ -39,11 +38,18 @@ db_username = config.db_username
 db_password = config.db_password
 # ---
 if config.db_connect_file is None:
-    credentials = {'user': db_username, 'password': db_password}
+    credentials = {
+        'user': db_username,
+        'password': db_password
+    }
 else:
-    credentials = {'read_default_file': config.db_connect_file}
+    credentials = {
+        'read_default_file': config.db_connect_file
+    }
 # ---
-can_use_sql_db = {1: True}
+can_use_sql_db = {
+    1: True
+}
 # ---
 dir1 = '/mnt/nfs/labstore-secondary-tools-project/mdwiki/'
 dir2 = '/data/project/mdwiki/'

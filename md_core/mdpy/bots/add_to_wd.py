@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 بوت فرعي من
 mdpy/sql.py
@@ -102,7 +101,11 @@ def work_with_2_qids(oldq, new_q):
     # ---
     if en.startswith('User:Mr. Ibrahem'):
         printe.output(f'<<lightblue>> remove sitelink {en}')
-        remove = wikidataapi.post({"action": "wbsetsitelink", "id": oldq, "linksite": "enwiki"}, apiurl=wikidataurl, token=True)
+        remove = wikidataapi.post({
+            "action": "wbsetsitelink",
+            "id": oldq,
+            "linksite": "enwiki"
+        }, apiurl=wikidataurl, token=True)
         if 'success' in remove:
             len_sites -= 1
             printe.output('<<lightgreen>> **remove sitelink true.')
@@ -110,7 +113,12 @@ def work_with_2_qids(oldq, new_q):
             printe.output('<<lightred>> **remove sitelink false.')
             printe.output(remove)
         # ---
-        remove2 = wikidataapi.post({"action": "wbsetlabel", "id": oldq, "language": "en", "value": ""}, apiurl=wikidataurl, token=True)
+        remove2 = wikidataapi.post({
+            "action": "wbsetlabel",
+            "id": oldq,
+            "language": "en",
+            "value": ""
+        }, apiurl=wikidataurl, token=True)
         if 'success' in remove2:
             len_sites -= 1
             printe.output('<<lightgreen>> **remove2 label true.')

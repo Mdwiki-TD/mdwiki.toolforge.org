@@ -33,7 +33,10 @@ from new_api import super_page as su_page
 from mdpy.bots import user_account_new
 
 # ---
-User_tables = {"username": user_account_new.my_username, "password": user_account_new.mdwiki_pass}
+User_tables = {
+    "username": user_account_new.my_username,
+    "password": user_account_new.mdwiki_pass
+}
 # ---
 # xxxxxxxxxxx
 # ---

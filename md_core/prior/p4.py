@@ -16,7 +16,6 @@ from mdpy import printe
 
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
-
 '''
 page      = md_MainPage(title, 'www', family='mdwiki')
 text        = page.get_text()
@@ -127,10 +126,20 @@ def advance_work_en(title, title2, page):
 def work_in_en_page(title):
     # ---
     if title not in All:
-        All[title] = {'langs': {}}
+        All[title] = {
+            'langs': {}
+        }
     # ---
     if title not in allen:
-        allen[title] = {'extlinks': [], 'refsname': [], 'en': title, 'lead': {'extlinks': [], 'refsname': []}}
+        allen[title] = {
+            'extlinks': [],
+            'refsname': [],
+            'en': title,
+            'lead': {
+                'extlinks': [],
+                'refsname': []
+            }
+        }
     # ---
     page = MainPage(title, 'en')
     # ---
@@ -165,7 +174,11 @@ def work_in_en_page(title):
         if lang == 'simple':
             continue
         # ---
-        tata = {'title': tit, 'extlinks': [], 'refsname': []}
+        tata = {
+            'title': tit,
+            'extlinks': [],
+            'refsname': []
+        }
         # ---
         tatnn = get_them.work_in_one_lang_link(lang, tit)
         # ---
@@ -258,12 +271,16 @@ def start_all():
     for i in range(0, len(links), 100):
         n += 1
         # ---
-        titles = links[i: i + 100]
+        titles = links[i:i + 100]
         # ---
         main_File = project_js_new + f'{n}.json'
         main_File_en = project_js_newen + f'en_{n}.json'
         # ---
-        tanko[str(n)] = {'file': main_File, 'file_en': main_File_en, 'links': titles}
+        tanko[str(n)] = {
+            'file': main_File,
+            'file_en': main_File_en,
+            'links': titles
+        }
         # ---
         printe.output(f'jsub -N s{n} python3 core8/pwb.py prior/p4 -s:{n}')
         # ---
@@ -279,7 +296,9 @@ def start_all():
     if valu in tanko:
         printe.output(f'list number:{valu} found')
         # ---
-        tanko = {valu: tanko[valu]}
+        tanko = {
+            valu: tanko[valu]
+        }
     else:
         printe.output(f'list number:{valu} not found.')
         # ---

@@ -165,7 +165,10 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     tablemember = Get_cat(title, print_url=True)
     # ---
     # result_table = { x : da for x, da in tablemember.items() if check_title(x) }
-    result_table = {x: da for x, da in tablemember.items() if int(da["ns"]) == 0}
+    result_table = {
+        x: da
+        for x, da in tablemember.items() if int(da["ns"]) == 0
+    }
     # ---
     # for x in tablemember: if check_title(x) :  result_table[x] = tablemember[x]
     # ---

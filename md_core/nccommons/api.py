@@ -32,8 +32,18 @@ pywikibot.output(f"username: {username}")
 yes_answer = ["y", "a", "", "Y", "A", "all"]
 # ---
 SS = {}
-r1_params = {"format": "json", "action": "query", "meta": "tokens", "type": "login"}
-r2_params = {"format": "json", "action": "login", "lgname": username, "lgpassword": password}
+r1_params = {
+    "format": "json",
+    "action": "query",
+    "meta": "tokens",
+    "type": "login"
+}
+r2_params = {
+    "format": "json",
+    "action": "login",
+    "lgname": username,
+    "lgpassword": password
+}
 # ---
 SS["ss"] = requests.Session()
 SS["login_not_done"] = True
@@ -75,7 +85,11 @@ def Log_to_wiki(family="nccommons", lang="www"):
     else:
         pywikibot.output("com.py login Success")
     # ---
-    SS["r33"] = SS["ss"].get(SS["url"], params={"format": "json", "action": "query", "meta": "tokens"})
+    SS["r33"] = SS["ss"].get(SS["url"], params={
+        "format": "json",
+        "action": "query",
+        "meta": "tokens"
+    })
     # ---
     SS["r3_token"] = SS["r33"].json()["query"]["tokens"]["csrftoken"]
     SS["login_not_done"] = False
@@ -189,7 +203,9 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
 
 
 # ---
-Save_all = {1: False}
+Save_all = {
+    1: False
+}
 # ---
 
 
@@ -258,7 +274,7 @@ def Find_pages_exists_or_not(liste):
     exists = 0
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i: i + 50]
+        titles = liste[i:i + 50]
         # ---
         done += len(titles)
         # ---

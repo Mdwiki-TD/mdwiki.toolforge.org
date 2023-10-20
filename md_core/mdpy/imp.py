@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 """
 
 نسخ التاريخ من الإنجليزية إلى mdwiki
@@ -22,7 +21,9 @@ from mdpy.bots import mdwiki_api
 from new_api.mdwiki_page import MainPage, NEW_API
 
 # ---
-offset = {1: 0}
+offset = {
+    1: 0
+}
 # ---
 to_make = {}
 # ---

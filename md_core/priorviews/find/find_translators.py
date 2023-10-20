@@ -60,6 +60,7 @@ def get_t(links, lang):
         tra_by_lang[lang] = {}
     # ---
     m = 0
+
     # ---
 
     def valid(x, tab, empty=''):
