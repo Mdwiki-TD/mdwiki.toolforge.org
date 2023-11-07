@@ -216,7 +216,7 @@ def main():
     # python3 fixred.py test -page:Tetracycline_antibiotics
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # ---
         if arg == "-page2" or arg == "page2":
             value = py_tools.ec_de_code(value.strip(), 'decode')

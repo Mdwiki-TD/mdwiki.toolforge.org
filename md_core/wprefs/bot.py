@@ -132,7 +132,7 @@ def work_one_lang(list_, lang):
 
 # ---
 for arg in sys.argv:
-    arg, sep, value = arg.partition(':')
+    arg, _, value = arg.partition(':')
     arg = arg[1:] if arg.startswith("-") else arg
     # ---
     if arg == 'infobox':
@@ -149,7 +149,7 @@ def maine():
     nolange = ''
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # remove the - from the argument
         arg = arg[1:] if arg.startswith("-") else arg
         # ---

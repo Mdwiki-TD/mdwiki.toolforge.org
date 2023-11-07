@@ -46,7 +46,7 @@ limit_m = {
 }
 # ---
 for arg in sys.argv:
-    arg, sep, value = arg.partition(':')
+    arg, _, value = arg.partition(':')
     # ---
     if arg.lower() == 'li' or arg.lower() == '-li' and value.isdigit():
         limit_m[1] = int(value)

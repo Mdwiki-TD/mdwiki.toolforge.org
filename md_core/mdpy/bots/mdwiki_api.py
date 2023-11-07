@@ -1311,7 +1311,7 @@ def Search(valu, lang="", family='', ns="", offset='', srlimit="max", RETURN_dic
     # ---
     if nsvalue == "":
         for arg in sys.argv:
-            arg, sep, value = arg.partition(':')
+            arg, _, value = arg.partition(':')
             # ---
             if arg == "-ns":
                 nsvalue = value
