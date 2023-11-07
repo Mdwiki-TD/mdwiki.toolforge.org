@@ -288,7 +288,7 @@ def start_all():
     valu = ''
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         if arg == '-s' and value != '':
             valu = value
             break

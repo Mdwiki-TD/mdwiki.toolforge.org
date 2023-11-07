@@ -57,7 +57,7 @@ print(f'len of in_wd: {len(in_wd)}')
 # ---
 
 
-def add_missing():
+def add_missing(newlist):
     # ---
     n = 0
     # ---
@@ -83,14 +83,14 @@ if len(newlist) > 0:
     print('add "add" to sys.argv to add them?')
 # ---
 if 'add' in sys.argv:
-    add_missing()
+    add_missing(newlist)
 # ---
 # merge_qids = {**newlist, **in_wd}
 merge_qids = newlist | in_wd
 # ---
 
 
-def fix():
+def fix(merge_qids):
     # mdwiki != P11143
     # تصحيح قيم الخاصية التي لا تساوي اسم المقالة
     # ---
@@ -126,7 +126,7 @@ def fix():
 
 # ---
 if 'fix' in sys.argv:
-    fix()
+    fix(merge_qids)
 # ---
 
 

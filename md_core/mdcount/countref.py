@@ -204,7 +204,7 @@ def mai():
     # python3 core8/pwb.py /data/project/mdwiki/mdpy/countref test1 -title:Testosterone_\(medication\)
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # ---
         if arg == "-title":
             vaild_links[1].append(value.replace('_', ' '))

@@ -88,7 +88,7 @@ def main():
     # python3 core8/pwb.py md2 -page:Hyoscine_butylbromide
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # ---
         if arg == "-page":
             ttab.append(value)

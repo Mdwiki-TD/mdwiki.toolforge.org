@@ -13,6 +13,7 @@ from mdpy.bots import catdepth2
 from mdpy.bots import wiki_api
 from mdpy.bots import mdwiki_api
 from mdpy import printe
+from mdpy.bots.check_title import valid_title #valid_title(title)
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -28,19 +29,6 @@ medwiki_to_enwiki = {}
 # sql_qids_others.add_titles_to_qids(tab, add_empty_qid=False)
 # sql_qids_others.set_title_where_qid(new_title, qid)
 # ---
-
-
-def valid_title(title):
-    # ---
-    title = title.lower().strip()
-    # ---
-    if title.find('(disambiguation)') != -1:
-        return False
-    # ---
-    if title.startswith('category:') or title.startswith('file:') or title.startswith('template:') or title.startswith('user:'):
-        return False
-    # ---
-    return True
 
 
 def add_sql(o_qids):

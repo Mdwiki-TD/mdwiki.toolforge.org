@@ -234,7 +234,7 @@ title = ''
 # python translate.py -title:Amoebiasis
 # ---
 for arg in sys.argv:
-    arg, sep, value = arg.partition(':')
+    arg, _, value = arg.partition(':')
     # ---
     if arg == "-title":
         title = value

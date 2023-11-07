@@ -219,7 +219,7 @@ def main():
     lang_o = ''
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         if arg == 'lang' or arg == '-lang':
             lang_o = value
     # ---

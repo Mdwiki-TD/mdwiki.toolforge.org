@@ -26,7 +26,7 @@ La_si = {
 }
 # ---
 for arg in sys.argv:
-    arg, sep, value = arg.partition(':')
+    arg, _, value = arg.partition(':')
     # ---
     if arg == "-lasi" or arg == "lasi" and value.isdigit():
         printe.output('<<lightyellow>> change La_si[1] from "%d" to %s' % (La_si[1], value))

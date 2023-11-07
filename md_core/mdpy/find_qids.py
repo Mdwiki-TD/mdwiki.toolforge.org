@@ -17,27 +17,11 @@ from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import wiki_api
 from mdpy.bots import wikidataapi
 from mdpy import printe
-
+from mdpy.bots.check_title import valid_title #valid_title(title)
 # ---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
     project = '/mdwiki'
-# ---
-
-
-def valid_title(title):
-    # ---
-    title = title.lower().strip()
-    # ---
-    if title.find('(disambiguation)') != -1:
-        return False
-    # ---
-    if title.startswith('category:') or title.startswith('file:') or title.startswith('template:') or title.startswith('user:'):
-        return False
-    # ---
-    return True
-
-
 # ---
 qids = sql_for_mdwiki.get_all_qids()
 # ---

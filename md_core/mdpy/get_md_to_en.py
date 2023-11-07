@@ -14,6 +14,7 @@ from mdpy.bots import catdepth2
 from mdpy.bots import wiki_api
 from mdpy.bots import mdwiki_api
 from mdpy import printe
+from mdpy.bots.check_title import valid_title #valid_title(title)
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -29,19 +30,6 @@ sames = []
 # ---
 json_ext = "_other.json" if 'other' in sys.argv else ".json"
 # ---
-
-
-def valid_title(title):
-    # ---
-    title = title.lower().strip()
-    # ---
-    if title.find('(disambiguation)') != -1:
-        return False
-    # ---
-    if title.startswith('category:') or title.startswith('file:') or title.startswith('template:') or title.startswith('user:'):
-        return False
-    # ---
-    return True
 
 
 def check():

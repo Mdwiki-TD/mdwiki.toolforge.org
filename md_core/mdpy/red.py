@@ -28,7 +28,7 @@ offset = {
 to_make = {}
 # ---
 for arg in sys.argv:
-    arg, sep, value = arg.partition(':')
+    arg, _, value = arg.partition(':')
     # ---
     if (arg.lower() == 'offset' or arg.lower() == '-offset') and value.isdigit():
         offset[1] = int(value)
@@ -141,7 +141,7 @@ def main():
     From = '0'
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # ---
         arg = arg.lower()
         # ---

@@ -56,7 +56,7 @@ def main():
     List = []
     # ---
     for arg in sys.argv:
-        arg, sep, value = arg.partition(':')
+        arg, _, value = arg.partition(':')
         # ---
         if arg == '-number' and value.isdigit():
             thenumbers[1] = int(value)
