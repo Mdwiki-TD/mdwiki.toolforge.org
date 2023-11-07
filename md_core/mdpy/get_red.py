@@ -76,7 +76,7 @@ def get_pages():
                 # ---
                 printe.output('<<lightyellow>>' + ll.strip())
                 # ---
-                sql_for_mdwiki.update_qid_title(new_title, old_title_qid)
+                sql_for_mdwiki.set_title_where_qid(new_title, old_title_qid)
                 # ---
                 to_del.append(old_title)
                 to_add[new_title] = old_title_qid

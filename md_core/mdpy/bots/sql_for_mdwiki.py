@@ -8,7 +8,7 @@ from mdpy.bots import sql_for_mdwiki
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # pages = sql_for_mdwiki.get_all_pages()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
-# sql_for_mdwiki.update_qid_title(new_title, qid)
+# sql_for_mdwiki.set_title_where_qid(new_title, qid)
 # ---
 
 """
@@ -24,17 +24,12 @@ import pymysql.cursors
 import pymysql
 import traceback
 import pywikibot
-
 # ---
 from mdpy import printe
 from pywikibot import config
-
 # ---
-can_use_sql_db = {
-    1: True
-}
+can_use_sql_db = {1: True}
 # ---
-
 py_v = pymysql.__version__
 if py_v.endswith('.None'):
     py_v = py_v[:-len('.None')]
@@ -140,16 +135,10 @@ def sql_connect_pymysql(query, return_dict=False):
         return results
 
 
-# ---
-
-
 def Decode_bytes(x):
     if isinstance(x, bytes):
         x = x.decode("utf-8")
     return x
-
-
-# ---
 
 
 def mdwiki_sql(query, return_dict=False, **kwargs):
@@ -167,9 +156,6 @@ def mdwiki_sql(query, return_dict=False, **kwargs):
     # ---
 
 
-# ---
-
-
 def get_all_qids():
     # ---
     mdtitle_to_qid = {}
@@ -182,9 +168,6 @@ def get_all_qids():
     return mdtitle_to_qid
 
 
-# ---
-
-
 def get_all_pages():
     # ---
     pages = []
@@ -193,9 +176,6 @@ def get_all_pages():
         pages.append(ta['title'])
     # ---
     return pages
-
-
-# ---
 
 
 def add_qid(title, qid):
@@ -207,31 +187,22 @@ def add_qid(title, qid):
     return mdwiki_sql(qua, return_dict=True)
 
 
-# ---
-
-
-def update_qid(title, qid):
+def set_qid_where_title(title, qid):
     title2 = escape_string(title)
     qua = f"""UPDATE qids set qid = '{qid}' where title = '{title2}';"""
     # ---
-    printe.output(f'<<yellow>> update_qid()  title:{title}, qid:{qid}')
+    printe.output(f'<<yellow>> set_qid_where_title()  title:{title}, qid:{qid}')
     # ---
     return mdwiki_sql(qua, return_dict=True)
 
 
-# ---
-
-
-def update_qid_title(new_title, qid):
+def set_title_where_qid(new_title, qid):
     title2 = escape_string(new_title)
     qua = f"""UPDATE qids set title = '{title2}' where qid = '{qid}';"""
     # ---
-    printe.output(f'<<yellow>> update_qid_title()  new_title:{new_title}, qid:{qid}')
+    printe.output(f'<<yellow>> set_title_where_qid()  new_title:{new_title}, qid:{qid}')
     # ---
     return mdwiki_sql(qua, return_dict=True)
-
-
-# ---
 
 
 def add_titles_to_qids(tab, add_empty_qid=False):
@@ -261,15 +232,12 @@ def add_titles_to_qids(tab, add_empty_qid=False):
         # ---
         if qid != '':
             if q_in == '':
-                update_qid(title, qid)
+                set_qid_where_title(title, qid)
             else:
-                # update_qid(title, qid)
-                printe.output(f'<<yellow>> update_qid() qid_in:{q_in}, new_qid:{qid}')
+                # set_qid_where_title(title, qid)
+                printe.output(f'<<yellow>> set_qid_where_title() qid_in:{q_in}, new_qid:{qid}')
         # ---
     # ---
-
-
-# ---
 
 
 def tests():
@@ -289,7 +257,7 @@ def tests():
     printe.output(f'<<yellow>> add: {aa}')
     # ---
     # test_update_qid
-    zz = update_qid('test11', 'xxx')
+    zz = set_qid_where_title('test11', 'xxx')
     printe.output(f'<<yellow>> update: {zz}')
     # ---
     '''
@@ -302,7 +270,5 @@ def tests():
 
     # ---
 
-
-# ---
 if __name__ == '__main__':
     tests()

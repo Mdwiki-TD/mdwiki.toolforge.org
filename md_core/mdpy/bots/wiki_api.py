@@ -20,34 +20,19 @@ from mdpy.bots import wiki_api
 #
 #
 import json
-
-# ---
 import traceback
 import pywikibot
-
-# ---
-
-# import datetime
-# import dateutil.parser
-# import time
 import sys
-
-# ---
-
-# ---
+from warnings import warn
 import urllib
 import urllib.request
 import urllib.parse
-
+import requests
 # ---
 from pywikibot.comms import http
-
-# ---
 import pywikibot.data.api as apit
-
-# ---
-# ---
-import requests
+from mdpy import printe
+from mdpy.bots import user_account_new
 
 # ---
 SS = {
@@ -67,8 +52,6 @@ login_done = {
 }
 # ---
 # ---
-from mdpy import printe
-from mdpy.bots import user_account_new
 
 # ---
 lgname = user_account_new.bot_username  # user_account_new.my_username
