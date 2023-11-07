@@ -16,6 +16,8 @@ import pywikibot
 import urllib.parse
 import requests
 
+from mdpy.bots import user_account_new
+from mdpy import printe
 # ---
 import sys
 
@@ -50,8 +52,6 @@ ar_lag = {
     1: maxlag
 }
 # ---
-from mdpy.bots import user_account_new
-from mdpy import printe
 
 # ---
 account = {

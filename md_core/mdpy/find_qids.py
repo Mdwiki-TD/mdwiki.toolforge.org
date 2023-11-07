@@ -12,7 +12,6 @@ python3 core8/pwb.py mdpy/find_qids
 #
 import os
 import sys
-
 # ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import wiki_api
@@ -26,13 +25,14 @@ if not os.path.isdir(project):
 # ---
 
 
-def check_title(title):
+def valid_title(title):
     # ---
     title = title.lower().strip()
     # ---
     if title.find('(disambiguation)') != -1:
         return False
-    if title.startswith('user:'):
+    # ---
+    if title.startswith('category:') or title.startswith('file:') or title.startswith('template:') or title.startswith('user:'):
         return False
     # ---
     return True
@@ -47,7 +47,7 @@ qids_already = {
     for title, q in qids.items() if q != ''
 }
 # ---
-noqids = [title for title, q in qids.items() if q == '' and check_title(title)]
+noqids = [title for title, q in qids.items() if q == '' and valid_title(title)]
 # ---
 
 
@@ -63,9 +63,6 @@ def create_qids(no_qids):
         print(new)
         # ---
         # break
-
-
-# ---
 
 
 def get_qids(noqids_list):
@@ -95,14 +92,11 @@ def get_qids(noqids_list):
         # ---
         if json1:
             redirects = json1.get("query", {}).get("redirects", [])
-            redirects = {
-                x['to']: x['from']
-                for x in redirects
-            }
+            redirects = { x['to']: x['from'] for x in redirects }
             # ---
             pages = json1.get("query", {}).get("pages", {})
             # ---
-            for p, kk in pages.items():
+            for _, kk in pages.items():
                 # ---
                 num += 1
                 # ---
@@ -174,7 +168,5 @@ def start():
             sql_for_mdwiki.add_titles_to_qids(to_add)
 
 
-# ---
 if __name__ == '__main__':
     start()
-# ---

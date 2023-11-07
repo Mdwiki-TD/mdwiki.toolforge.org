@@ -15,6 +15,7 @@ from mdpy.bots import sql_for_mdwiki
 import json
 
 # import pywikibot
+import traceback
 import codecs
 
 import time
@@ -123,7 +124,7 @@ def Get_cat(enlink, print_url=False):
             if 'langlinks' in caca:
                 tablese['langlinks'] = {}
                 for fo in caca['langlinks']:
-                    result = fo['*']
+                    # result = fo['*']
                     tablese['langlinks'][fo['lang']] = fo['*']
             # ---
             table[cate_title] = tablese
@@ -235,7 +236,7 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
     if not os.path.isfile(filename):
         # ---
         try:
-            with open(filename, 'w') as uu:
+            with open(filename, 'w', encoding='utf8') as uu:
                 json.dump({}, uu)
         except Exception as e:
             print('Traceback (most recent call last):')
@@ -247,7 +248,7 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
         textn = codecs.open(filename, "r", encoding="utf-8").read()
     except Exception:
         print('Traceback (most recent call last):')
-        pywikibot.output(traceback.format_exc())
+        print(traceback.format_exc())
         print('CRITICAL:')
         textn = ''
     # ---
