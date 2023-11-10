@@ -1,9 +1,20 @@
-#!/usr/bin/python3
-"""
-
-إيجاد الصفحات القديمة
-تحديث صفحة User:Mr. Ibrahem/pages
-python3 core8/pwb.py updates/Medicine_articles
+def sql_result():
+    """
+    Executes an SQL query to retrieve the count of page titles for each language in the 'Medicine' project. The function connects to the 'enwiki' database and returns a dictionary with language codes as keys and the corresponding counts as values.
+    """
+    query = """
+    select ll_lang, count(page_title) as counts
+        from page , langlinks , page_assessments , page_assessments_projects
+        where pap_project_title = "Medicine"
+        and pa_project_id = pap_project_id
+        and pa_page_id = page_id
+        and page_id = ll_from
+        and page_is_redirect = 0
+        and page_namespace = 0
+        group by ll_lang
+    """
+    # ---
+    result = wiki_sql.sql_new(query, 'enwiki')
 
 """
 import datetime
@@ -12,7 +23,12 @@ from new_api.mdwiki_page import MainPage as md_MainPage
 from mdpy.bots import wiki_sql
 
 
-def sql_result():
+def get_articles():
+    """
+    Retrieves the number of articles related to the "Medicine" project from the database.
+    
+    Returns:
+        int: The number of articles.
     """
     Executes an SQL query to retrieve the count of page titles for each language in the 'Medicine' project. The function connects to the 'enwiki' database and returns a dictionary with language codes as keys and the corresponding counts as values.
     """
