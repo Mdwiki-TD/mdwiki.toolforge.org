@@ -51,14 +51,20 @@
 
 # find old pages
 - name: io-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/io"
+  command: "$HOME/local/bin/python3 core8/pwb.py updates/io"
   schedule: '55 21 * * *'
   image: python3.9
   emails: onfailure
 
 - name: listo-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/listo"
+  command: "$HOME/local/bin/python3 core8/pwb.py updates/listo"
   schedule: '55 21 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: upstats
+  command: "$HOME/local/bin/python3 core8/pwb.py updates/Medicine_articles"
+  schedule: '1 1 1 * *'
   image: python3.9
   emails: onfailure
 
@@ -111,7 +117,7 @@
   emails: onfailure
 
 - name: p11143-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/P11143 add addq"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/P11143 add"
   schedule: '1 1 * * 2'
   image: python3.9
   emails: onfailure
