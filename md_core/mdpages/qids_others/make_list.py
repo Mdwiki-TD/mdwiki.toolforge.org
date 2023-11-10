@@ -172,10 +172,9 @@ def check():
     # ---
     o_qids = { x:v for x , v in o_qids.items() if x in all_pages }
     # ---
-    if 'add_sql' in sys.argv:
-        # write to sql
-        add_sql(o_qids)
-        # ---
+    # write to sql
+    add_sql(o_qids)
+    # ---
 
 
 if __name__ == '__main__':

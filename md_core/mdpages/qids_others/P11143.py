@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 """
 
+Usage:
 python3 core8/pwb.py mdpages/qids_others/P11143
 
 """
 import sys
+# ---
+from mdpages.qids_others import sql_qids_others
 from mdpy.bots import wikidataapi
 from mdpy import printe
 
@@ -13,7 +16,6 @@ sys.argv.append('workhimo')
 # ---
 wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php")
 # ---
-from mdpages.qids_others import sql_qids_others
 # mdtitle_to_qid = sql_qids_others.get_others_qids()
 # sql_qids_others.add_titles_to_qids(tab, add_empty_qid=False)
 # sql_qids_others.set_title_where_qid(new_title, qid)
@@ -41,40 +43,28 @@ for wd in wdlist:
     in_wd[qid] = prop
     # ---
 # ---
-print(f'len of in_wd: {len(in_wd)}')
-
 
 def add_missing(newlist):
     # ---
-    n = 0
+    print('len of newlist: ' + str(len(newlist)))
     # ---
-    for q, value in newlist.items():
-        n += 1
-        printe.output(f'<<yellow>> q {n} from {len(newlist)}')
-        wikidataapi.Claim_API_str(q, 'P11143', value)
-
-
-# ---
-newlist = {
-    q: tt
-    for q, tt in qids.items() if q not in in_wd.keys()
-}
-# ---
-print('len of newlist: ' + str(len(newlist)))
-# ---
-if len(newlist) > 0:
-    # ---
-    printe.output(f'<<yellow>>claims to add: {len(newlist.items())}')
-    if len(newlist.items()) < 100:
-        print("\n".join([f'{k}\t:\t{v}' for k, v in newlist.items()]))
-    # ---
-    print('add "add" to sys.argv to add them?')
-# ---
-if 'add' in sys.argv:
-    add_missing(newlist)
-# ---
-# merge_qids = {**newlist, **in_wd}
-merge_qids = {**newlist, **in_wd}
+    if len(newlist) > 0:
+        # ---
+        printe.output(f'<<yellow>>claims to add_missing: {len(newlist.items())}')
+        if len(newlist.items()) < 100:
+            print("\n".join([f'{k}\t:\t{v}' for k, v in newlist.items()]))
+        # ---
+        # ---
+        if 'add' not in sys.argv:
+            printe.output('<<puruple>> add "add" to sys.argv to add them?')
+            return
+        # ---
+        n = 0
+        # ---
+        for q, value in newlist.items():
+            n += 1
+            printe.output(f'<<yellow>> q {n} from {len(newlist)}')
+            wikidataapi.Claim_API_str(q, 'P11143', value)
 
 
 def fix(merge_qids):
@@ -111,12 +101,7 @@ def fix(merge_qids):
             print(f'Failed to add P11143:{md_title}')
 
 
-# ---
-if 'fix' in sys.argv:
-    fix(merge_qids)
-
-
-def duplicate():
+def duplicate(merge_qids):
     # ايجاد عناصر ويكي بيانات بها قيمة الخاصية في أكثر من عنصر
     va_tab = {}
     # ---
@@ -135,10 +120,30 @@ def duplicate():
         # ---
         for va, qs in va_tab_x.items():
             print(f'va:{va}, qs:{qs}')
-        # ---
-        printe.output('<<lightyellow>> duplicate() end...')
+    # ---
+    printe.output('<<lightyellow>> duplicate() end...')
 
 
-# ---
-duplicate()
-# ---
+def start():
+    # ---
+    print(f'len of in_wd: {len(in_wd)}')
+    # ---
+    newlist = {
+        q: tt
+        for q, tt in qids.items() if q not in in_wd.keys()
+    }
+    # ---
+    add_missing(newlist)
+    # ---
+    # merge_qids = {**newlist, **in_wd}
+    merge_qids = {**newlist, **in_wd}
+    # ---
+    if 'fix' in sys.argv:
+        fix(merge_qids)
+    # ---
+    duplicate(merge_qids)
+    # ---
+
+
+if __name__ == '__main__':
+    start()

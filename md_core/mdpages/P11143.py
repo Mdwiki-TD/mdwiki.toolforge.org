@@ -9,7 +9,6 @@ python3 core8/pwb.py mdpages/P11143
 #
 #
 import sys
-
 # ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import catdepth2
@@ -51,41 +50,28 @@ for wd in wdlist:
     # ---
     if qid not in qids and prop not in mdwiki_in_qids:
         new_qids[qid] = prop
-    # ---
-# ---
-print(f'len of in_wd: {len(in_wd)}')
 
 
 def add_missing(newlist):
     # ---
-    n = 0
+    print('len of newlist: ' + str(len(newlist)))
     # ---
-    for q, value in newlist.items():
-        n += 1
-        printe.output(f'<<yellow>> q {n} from {len(newlist)}')
-        wikidataapi.Claim_API_str(q, 'P11143', value)
-
-
-# ---
-newlist = {
-    q: tt
-    for q, tt in qids.items() if q not in in_wd.keys()
-}
-# ---
-print('len of newlist: ' + str(len(newlist)))
-# ---
-if len(newlist) > 0:
-    # ---
-    printe.output(f'<<yellow>>claims to add: {len(newlist.items())}')
-    print("\n".join([f'{k}\t:\t{v}' for k, v in newlist.items()]))
-    # ---
-    print('add "add" to sys.argv to add them?')
-# ---
-if 'add' in sys.argv:
-    add_missing(newlist)
-# ---
-# merge_qids = {**newlist, **in_wd}
-merge_qids = {**newlist, **in_wd}
+    if len(newlist) > 0:
+        # ---
+        printe.output(f'<<yellow>>claims to add_missing: {len(newlist.items())}')
+        if len(newlist.items()) < 100:
+            print("\n".join([f'{k}\t:\t{v}' for k, v in newlist.items()]))
+        # ---
+        if 'add' not in sys.argv:
+            printe.output('<<puruple>> add "add" to sys.argv to add them?')
+            return
+        # ---
+        n = 0
+        # ---
+        for q, value in newlist.items():
+            n += 1
+            printe.output(f'<<yellow>> q {n} from {len(newlist)}')
+            wikidataapi.Claim_API_str(q, 'P11143', value)
 
 
 def fix(merge_qids):
@@ -122,12 +108,7 @@ def fix(merge_qids):
             print(f'Failed to add P11143:{md_title}')
 
 
-# ---
-if 'fix' in sys.argv:
-    fix(merge_qids)
-
-
-def duplicate():
+def duplicate(merge_qids):
     # ايجاد عناصر ويكي بيانات بها قيمة الخاصية في أكثر من عنصر
     va_tab = {}
     # ---
@@ -139,36 +120,73 @@ def duplicate():
         if q not in va_tab[va]:
             va_tab[va].append(q)
     # ---
-    printe.output(f'<<lightyellow>> len of va_tab: {len(va_tab)}')
+    va_tab_x = { k: v for k, v in va_tab.items() if len(v) > 1 }
     # ---
-    for va, qs in va_tab.items():
-        if len(qs) > 1:
+    if va_tab_x:
+        printe.output(f'<<lightyellow>> len of va_tab_x: {len(va_tab_x)}')
+        # ---
+        for va, qs in va_tab_x.items():
             print(f'va:{va}, qs:{qs}')
     # ---
     printe.output('<<lightyellow>> duplicate() end...')
 
 
-# ---
-duplicate()
-# ---
-if len(new_qids) > 0:
+def add_q(new_qids):
     # ---
     TD_list = catdepth2.make_cash_to_cats(return_all_pages=True)
     # ---
     print('len of new_qids: ' + str(len(new_qids)))
-    print("\n".join([f'{k}:{v}' for k, v in new_qids.items()]))
-    printe.output('<<lightyellow>> add "addq" to sys.argv to add them to qids')
-    if 'addq' in sys.argv:
-        newtitles = {
-            title: qid
-            for qid, title in new_qids.items()
-        }
-        #---
-        titles_not_td = [ x for x in newtitles if x not in TD_list ]
-        #---
-        for title in titles_not_td:
-            printe.output(f'del {title}:{newtitles[title]} not in TD_list')
-            del newtitles[title]
-        #---
-        sql_for_mdwiki.add_titles_to_qids(newtitles)
     # ---
+    if len(new_qids) < 10:
+        print("\n".join([f'{k}:{v}' for k, v in new_qids.items()]))
+    # ---
+    newtitles = {
+        title: qid
+        for qid, title in new_qids.items()
+    }
+    # ---
+    titles_not_td = [x for x in newtitles if x not in TD_list]
+    # ---
+    delets = []
+    # ---
+    for title in titles_not_td:
+        # printe.output(f'del {title}:{newtitles[title]} not in TD_list')
+        del newtitles[title]
+        delets.append(title)
+    # ---
+    print(f'len of newtitles: {len(newtitles)}, len of delets: {len(delets)}')
+    # ---
+    if len(newtitles) > 0:
+        printe.output('<<puruple>> add "addq" to sys.argv to add them to qids')
+        # ---
+        if 'addq' not in sys.argv:
+            return
+        # ---
+        sql_for_mdwiki.add_titles_to_qids(newtitles)
+        # ---
+
+
+def start():
+    # ---
+    print(f'len of in_wd: {len(in_wd)}')
+    # ---
+    newlist = {
+        q: tt
+        for q, tt in qids.items() if q not in in_wd.keys()
+    }
+    # ---
+    add_missing(newlist)
+    # ---
+    # merge_qids = {**newlist, **in_wd}
+    merge_qids = {**newlist, **in_wd}
+    # ---
+    if 'fix' in sys.argv:
+        fix(merge_qids)
+    # ---
+    duplicate(merge_qids)
+    # ---
+    add_q(new_qids)
+
+
+if __name__ == '__main__':
+    start()

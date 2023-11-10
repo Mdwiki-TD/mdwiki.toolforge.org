@@ -40,17 +40,21 @@ def get_pages():
     # ---
     titles = list(mdwiki_to_qid.keys())
     # ---
-    for i in range(0, len(titles), 100):
-        group = titles[i:i + 100]
+    done = 0
+    # ---
+    len_grup = 100
+    # ---
+    for i in range(0, len(titles), len_grup):
+        group = titles[i:i + len_grup]
+        # ---
+        done += len_grup
         # ---
         asa = mdwiki_api.get_redirect(group)
         # ---
-        print(f'work on {len(group)} pagees.')
+        print(f'work on {len_grup} pagees, done: {done}/{len(titles)}.')
         # ---
-        for red, target in asa.items():
-            # ---
-            table[red] = target
-            # ---
+        table = { **table, **asa }
+        # ---
     # ---
     print(f'len of table {len(table)} ')
     # ---
