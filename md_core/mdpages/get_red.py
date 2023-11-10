@@ -47,7 +47,7 @@ def get_pages():
     for i in range(0, len(titles), len_grup):
         group = titles[i:i + len_grup]
         # ---
-        done += len_grup
+        done += len(group)
         # ---
         asa = mdwiki_api.get_redirect(group)
         # ---
