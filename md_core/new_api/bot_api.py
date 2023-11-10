@@ -5,7 +5,7 @@ from newapi.page import NEW_API
 # pages    = api_new.Find_pages_exists_or_not(liste)
 # json1    = api_new.post_params(params)
 # pages    = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
-# search   = api_new.Search(value, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
+# search   = api_new.Search(value='', ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
 # newpages = api_new.Get_Newpages(limit="max", namespace="0", rcstart="", user='', three_houers=False)
 # usercont = api_new.UserContribs(user, limit=5000, namespace="*", ucshow="")
 # l_links  = api_new.Get_langlinks_for_list(titles, targtsitecode="", numbes=50)
@@ -31,7 +31,7 @@ import pywikibot
 import datetime
 from datetime import timedelta
 
-if __file__.find('mdwiki') == -1:
+if __file__.find('new_api') == -1:
     from API import printe
 else:
     from new_api import printe
@@ -54,7 +54,7 @@ change_codes = {
 
 # ---
 def login_def(lang, family):
-    {}
+    return {}
 
 
 # ---
@@ -278,18 +278,18 @@ class NEW_API:
 
     # ---
 
-    def Search(self, valu, ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
+    def Search(self, value='', ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
         # ---
-        printe.output(f'bot_api.Search for "{valu}",ns:{ns}')
+        printe.output(f'bot_api.Search for "{value}",ns:{ns}')
         # ---
         if srlimit == "":
             srlimit = "max"
-        # ---
+        # ---valu
         params = {
             "action": "query",
             "format": "json",
             "list": "search",
-            "srsearch": valu,
+            "srsearch": value,
             "srnamespace": 0,
             "srlimit": srlimit,
         }

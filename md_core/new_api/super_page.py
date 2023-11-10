@@ -5,7 +5,7 @@ import sys
 import wikitextparser as wtp
 
 # ---
-if __file__.find('mdwiki') == -1:
+if __file__.find('new_api') == -1:
     from API import botEdit
     from API import txtlib
     from API import printe
@@ -102,7 +102,7 @@ change_codes = {
 
 # ---
 def login_def(lang, family):
-    {}
+    return {}
 
 
 # ---

@@ -125,7 +125,7 @@ def main():
             if value in searchlist:
                 value = searchlist[value]
             # ---
-            ccc = NEW_API.Search(value, ns="0", srlimit="max")
+            ccc = NEW_API.Search(value=value, ns="0", srlimit="max")
             for x in ccc:
                 pages.append(x)
     # ---

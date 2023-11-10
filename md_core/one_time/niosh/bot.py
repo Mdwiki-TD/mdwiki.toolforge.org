@@ -29,7 +29,6 @@ if not os.path.isfile(file_json2):
     json.dump({}, codecs.open(file_json2, 'w', encoding='utf-8'))
 
 new = json.load(codecs.open(file_json2, 'r', encoding='utf-8'))
-# ---
 
 
 def new_search():
@@ -39,7 +38,7 @@ def new_search():
     api_new = NEW_API('en', family='wikipedia')
     # ---
     value = 'insource:"cdc.gov/niosh/"'
-    search = api_new.Search(value, ns="0", offset='', srlimit="", RETURN_dict=False, addparams={})
+    search = api_new.Search(value=value, ns="0", offset='', srlimit="", RETURN_dict=False, addparams={})
     # ---
     na = 0
     nn = len(search)

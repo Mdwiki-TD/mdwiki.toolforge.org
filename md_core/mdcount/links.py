@@ -15,7 +15,6 @@ reg_links_with_allise = re.compile(r'(\[\[[^\]|[<>{}]*)\|(.*?)\]\]')
 reg_full_links = re.compile(r'(\[\[(?:[^][|]+)\|*(?:[^][]*(?:\[\[[^][]+\]\][^][]*)*)\]\])')
 reg_templates = re.compile(r'{{(?:msg:)?(?P<name>[^{\|]+?)'
                            r'(?:\|(?P<params>[^{]+?(?:{[^{]+?}[^{]*?)?)?)?}}')
-# ---
 
 
 def get_valid_Links(words_tab):

@@ -7,6 +7,7 @@ from mdpy.bots import sql_for_mdwiki
 # sql_for_mdwiki.mdwiki_sql(query, update = False)
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # pages = sql_for_mdwiki.get_all_pages()
+# cats = sql_for_mdwiki.get_db_categories() # title:depth
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 # sql_for_mdwiki.set_title_where_qid(new_title, qid)
 # ---
@@ -71,7 +72,6 @@ if 'localhost' in sys.argv or project == '/mdwiki':
         'user': 'root',
         'password': 'root11'
     }
-# ---
 
 
 def sql_connect_pymysql(query, return_dict=False):
@@ -176,6 +176,18 @@ def get_all_pages():
         pages.append(ta['title'])
     # ---
     return pages
+
+def get_db_categories():
+    # ---
+    cats = {}
+    # ---
+    for c in mdwiki_sql('select category, depth from categories;', return_dict=True):
+        cat = c['category']
+        dep = c['depth']
+        # ---
+        cats[cat] = dep
+    # ---
+    return cats
 
 
 def add_qid(title, qid):

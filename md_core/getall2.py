@@ -8,8 +8,6 @@ import os
 import re
 import chardet
 
-# ---
-
 
 def printe(color, text):
     color_table = {
@@ -45,9 +43,6 @@ def printe(color, text):
         print(color_table[color] % text)
     else:
         print(text)
-
-
-# ---
 
 
 def get_text(file_path):

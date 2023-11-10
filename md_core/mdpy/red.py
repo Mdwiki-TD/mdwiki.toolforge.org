@@ -8,16 +8,15 @@
 # (C) Ibrahem Qasim, 2022
 #
 #
-from new_api.mdwiki_page import MainPage, NEW_API
 import sys
 import codecs
 import requests
-
 # ---
+from new_api.mdwiki_page import MainPage, NEW_API
 from mdpy import printe
 from mdpy.bots import py_tools
 from mdpy.bots import mdwiki_api
-
+from mdpy.bots.check_title import valid_title #valid_title(title)
 # ---
 Session = requests.Session()
 # ---
@@ -39,7 +38,6 @@ api_new = NEW_API('www', family='mdwiki')
 api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
-# ---
 
 
 def get_red(title):
@@ -104,28 +102,14 @@ def work(title, num, lenth, From=''):
     num = 0
     for tit, o in ing.items():
         num += 1
-        if o == False:
-            # ---
-            okay = True
-            listr = ['user:', 'category:', 'template:', 'wikipedia:']
-            # ---
-            tit2 = tit.lower()
-            # ---
-            for iof in listr:
-                if tit2.startswith(iof):
-                    okay = False
-                    printe.output(f" tit2.startswith('{iof}') ")
-            # ---
-            if okay:
-                mdwiki_api.create_Page(text, sus, tit, False, family="mdwiki", sleep=1)
-            # ---
-        else:
+        if o:
             printe.output("page n:%d, title:'%s' already in mdwiki.org.." % (num, tit))
-
-    # ---
-
-
-#   printe.output("sleep 5 s")
+            continue
+        # ---
+        if not valid_title(tit):
+            continue
+        # ---
+        mdwiki_api.create_Page(text, sus, tit, False, family="mdwiki", sleep=1)
 
 
 def main():
@@ -219,7 +203,7 @@ def main():
             if value in searchlist:
                 value = searchlist[value]
             # ---
-            ccc = NEW_API.Search(value, ns="0", srlimit="max")
+            ccc = api_new.Search(value=value, ns="0", srlimit="max")
             for x in ccc:
                 pages.append(x)
         # ---
