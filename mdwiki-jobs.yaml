@@ -1,11 +1,36 @@
 # sql backup
-
 - name: days7-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
   image: python3.9
   emails: onfailure
+
+- name: sqly-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sql"
+  schedule: '11 */6 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: recheck-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
+  schedule: '11 */6 * * *'
+  image: python3.9
+  emails: onfailure
   
+# make views
+- name: views-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sqlviews 2023"
+  schedule: '15 5 * * *'
+  image: python3.9
+  emails: onfailure
+
+# important
+- name: getas-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/getas"
+  schedule: '12 2 * * *'
+  image: python3.9
+  emails: onfailure
+
 - name: enpv-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/enwiki_views"
   schedule: '1 1 * * 3'
@@ -18,35 +43,28 @@
   image: python3.9
   emails: onfailure
 
-- name: sqly-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sql"
-  schedule: '11 */6 * * *'
-  image: python3.9
-  emails: onfailure
-
 - name: wpreff-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
   schedule: '10 */6 * * *'
   image: python3.9
   emails: onfailure
 
+# find old pages
+- name: io-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/io"
+  schedule: '55 21 * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: listo-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/listo"
+  schedule: '55 21 * * *'
+  image: python3.9
+  emails: onfailure
+
 # create medwiki_to_enwiki.json
 - name: check-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/get_md_to_en"
-  schedule: '12 2 * * *'
-  image: python3.9
-  emails: onfailure
-
-# make views
-- name: views-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sqlviews 2023"
-  schedule: '15 5 * * *'
-  image: python3.9
-  emails: onfailure
-
-# important
-- name: getas-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/getas"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/get_md_to_en"
   schedule: '12 2 * * *'
   image: python3.9
   emails: onfailure
@@ -71,19 +89,6 @@
   image: python3.9
   emails: onfailure
 
-# find old pages
-- name: io-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/io"
-  schedule: '55 21 * * *'
-  image: python3.9
-  emails: onfailure
-
-- name: listo-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/listo"
-  schedule: '55 21 * * *'
-  image: python3.9
-  emails: onfailure
-
 # Generate categories files such as RTT.json
 - name: catdepth2-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/bots/catdepth2 newlist"
@@ -93,33 +98,27 @@
 
 # Create temporary files with lists of existing articles for all languages
 - name: cashwd-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/cashwd"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/cashwd"
   schedule: '10 1,6,12,18 * * *'
   image: python3.9
   emails: onfailure
 
 # Find the Wikidata qid for items without qid from English
 - name: findqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_qids redirects addthem"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/find_qids redirects addthem"
   schedule: '40 1,6,12,18 * * *'
   image: python3.9
   emails: onfailure
 
 - name: p11143-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/P11143 add addq"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/P11143 add addq"
   schedule: '1 1 * * 2'
-  image: python3.9
-  emails: onfailure
-
-- name: recheck-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
-  schedule: '11 */6 * * *'
   image: python3.9
   emails: onfailure
 
 # Fix Wikidata item conversions and add articles to qids spreadsheet
 - name: fixqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fixqids &&$HOME/local/bin/python3 core8/pwb.py mdpy/get_red"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/fixqids && $HOME/local/bin/python3 core8/pwb.py mdpages/get_red"
   schedule: '45 2,7,13,19 * * *'
   image: python3.9
   emails: onfailure
