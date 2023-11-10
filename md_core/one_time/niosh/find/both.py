@@ -26,7 +26,6 @@ def do_all():
     # ---
     all_links = []
 
-    # ---
 
     def fix_links(x):
         x = x.split("#")[0].strip()

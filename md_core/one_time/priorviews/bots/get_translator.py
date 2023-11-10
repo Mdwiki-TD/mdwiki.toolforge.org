@@ -90,7 +90,7 @@ class FindTranslator:
                         # print(r)
                         self.translator = user
                         return
-        # ---
+
 
     def Translator(self):
         printe.output(f'\t\t Translator: {self.translator}')

@@ -173,9 +173,7 @@ class MainPage:
             not_loged_m[1] = self.lang
             # ---
             self.username = self.log.username
-            # ---
 
-    # ---
 
     def post_params(self, params, addtoken=False):
         return self.log.post(params, addtoken=addtoken)
@@ -667,7 +665,7 @@ class MainPage:
         # ---
         self.extlinks = liste1
         return liste1
-        # ---
+
 
     def get_revisions(self, rvprops=[]):
         params = {
@@ -750,7 +748,6 @@ class MainPage:
         # ---
         return self.is_redirect
 
-    # ---
 
     def isDisambiguation(self):
         # ---
@@ -762,7 +759,6 @@ class MainPage:
         # ---
         return self.is_Disambig
 
-    # ---
 
     def get_categories(self, with_hidden=False):
         # ---

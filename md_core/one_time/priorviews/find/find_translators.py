@@ -58,7 +58,6 @@ def get_t(links, lang):
     # ---
     m = 0
 
-    # ---
 
     def valid(x, tab, empty=''):
         i = tab.get(x) or tab.get(x.lower())

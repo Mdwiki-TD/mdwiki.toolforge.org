@@ -50,7 +50,7 @@ class InOldText:
             # ---
         # ---
         text = self.oldtext
-        # ---
+
 
     def count(self, text):
         text = text.replace("'''", "").replace("''", "")
@@ -130,7 +130,7 @@ class InOldText:
         self.timestamp = revisions.get('timestamp', '')
         # print(f'timestamp: {self.timestamp}')
         self.oldtext = revisions.get('slots', {}).get('main', {}).get('content', '')
-        # ---
+
 
     def get_newtext(self):
         params = {
@@ -146,7 +146,7 @@ class InOldText:
         json1 = self.post_to_json(params)
         # ---
         self.newtext = json1.get('parse', {}).get('wikitext', '')
-        # ---
+
 
     def Words(self):
         printe.output(f'\t\twords: {self.words}')

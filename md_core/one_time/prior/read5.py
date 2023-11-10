@@ -199,7 +199,7 @@ class WorkAll:
                 self.all_sections[ta] = las
                 # ---
                 n += 1
-            # ---
+
 
     def run(self):
         # ---

@@ -84,7 +84,7 @@ class TextProcessor:
         # ---
         # create self.newdrugbox
         self.new_temp()
-        # ---
+
 
     def add_section(self, section):
         if section == "":
@@ -166,7 +166,6 @@ class TextProcessor:
         # ---
         return sec_text, sec_params
 
-    # ---
 
     def create_section(self, sectionname):
         # ---
@@ -229,7 +228,7 @@ class TextProcessor:
             sec_text = f'{section_title}\n{sec_text}'
         # ---
         return sec_text
-        # ---
+
 
     def new_temp(self):
         # ---

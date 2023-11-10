@@ -81,12 +81,10 @@ class Login:
         # ---
         # self.season = requests.Session()
 
-    # ---
 
     def Log_to_wiki(self):
         return True
 
-    # ---
 
     def make_response(self, params):
         # ---
@@ -162,7 +160,6 @@ class Login:
         # ---
         return {}
 
-    # ---
 
     def Log_to_wiki_1(self):
         # ---
@@ -247,9 +244,7 @@ class Login:
         tokens_by_lang[self.lang] = r3_token
         # ---
         printe.output(f'<<green>> r3_token: {self.r3_token}')
-        # ---
 
-    # ---
 
     def post(self, params, Type='get', addtoken=False, CSRF=True):
         # ---

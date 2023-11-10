@@ -21,7 +21,6 @@ black_list = [
 def work_in_jsfile(filename):
     data = json.load(open(filename))
 
-    # ---
 
     def fix_extlinks(extlinks):
         extlinks2 = extlinks

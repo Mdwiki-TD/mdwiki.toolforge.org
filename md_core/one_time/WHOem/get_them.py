@@ -157,7 +157,7 @@ class work_in_one_lang_link:
         # ---
         if self.lang == 'en':
             self.get_lead()
-        # ---
+
 
     def post_to_json(self, params):
         json1 = {}
@@ -186,7 +186,6 @@ class work_in_one_lang_link:
         # ---
         return newtext
 
-    # ---
 
     def get_expended(self):
         # ---
@@ -250,7 +249,7 @@ class work_in_one_lang_link:
         json1 = self.post_to_json(params)
         # ---
         self.text = json1.get('parse', {}).get('wikitext', {}).get('*', '')
-        # ---
+
 
     def get_extlinks(self):
         params = {
@@ -290,7 +289,7 @@ class work_in_one_lang_link:
             liste1 = filter_urls(liste1)
         # ---
         self.extlinks = liste1
-        # ---
+
 
     def get_lead(self):
         # ---
@@ -309,7 +308,7 @@ class work_in_one_lang_link:
         # ---
         self.lead['refsname'] = self.get_ref_names(tags0)
         self.lead['extlinks'] = self.get_lead_extlinks()
-        # ---
+
 
     def get_lead_extlinks(self):
         params = {
@@ -336,7 +335,7 @@ class work_in_one_lang_link:
             liste1 = filter_urls(liste1)
         # ---
         return liste1
-        # ---
+
 
     def make_new_text(self, tags):
         # ---
@@ -397,7 +396,7 @@ class get_old:
         self.get_expended()
         # ---
         self.get_lead()
-        # ---
+
 
     def post_to_json(self, params):
         json1 = {}
@@ -431,7 +430,6 @@ class get_old:
         # ---
         return newtext
 
-    # ---
 
     def get_expended(self):
         # ---
@@ -512,7 +510,7 @@ class get_old:
         self.timestamp = revisions.get('timestamp', '')
         print(f'timestamp: {self.timestamp}')
         self.oldtext = revisions.get('slots', {}).get('main', {}).get('content', '')
-        # ---
+
 
     def get_lead(self):
         # ---
@@ -531,7 +529,7 @@ class get_old:
         # ---
         self.lead['refsname'] = self.get_ref_names(tags0)
         self.lead['extlinks'] = self.get_extlinks_from_text(self.section0)
-        # ---
+
 
     def get_extlinks_from_text(self, text):
         params = {
@@ -558,7 +556,7 @@ class get_old:
             liste1 = filter_urls(liste1)
         # ---
         return liste1
-        # ---
+
 
     def make_new_text(self, tags):
         # ---

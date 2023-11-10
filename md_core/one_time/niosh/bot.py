@@ -58,7 +58,6 @@ def new_vals():
     global new
     new = {}
 
-    # ---
 
     def fix_links(x):
         # remove url suffix like https://web.archive.org/web/20150530203735/

@@ -95,7 +95,7 @@ def get_b(links, lang):
     # ---
     if lang not in new_data:
         new_data[lang] = {}
-    # ---
+
 
     def valid(x, tab, empty=''):
         i = tab.get(x) or tab.get(x.lower())
