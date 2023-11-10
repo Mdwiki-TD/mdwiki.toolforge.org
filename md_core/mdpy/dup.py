@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 نسخ التحويلات من الإنجليزية إلى mdwiki

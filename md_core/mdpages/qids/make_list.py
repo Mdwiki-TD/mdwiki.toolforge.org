@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 بوت يجمع بين وظيفة بوتين:
 * mdpy/get_md_to_en

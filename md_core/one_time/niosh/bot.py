@@ -37,8 +37,8 @@ def new_search():
     # ---
     api_new = NEW_API('en', family='wikipedia')
     # ---
-    value = 'insource:"cdc.gov/niosh/"'
-    search = api_new.Search(value=value, ns="0", offset='', srlimit="", RETURN_dict=False, addparams={})
+    vv = 'insource:"cdc.gov/niosh/"'
+    search = api_new.Search(value=vv, ns="0", offset='', srlimit="", RETURN_dict=False, addparams={})
     # ---
     na = 0
     nn = len(search)

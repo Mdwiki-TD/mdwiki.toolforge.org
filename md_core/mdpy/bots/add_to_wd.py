@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 بوت فرعي من
 mdpy/sql.py

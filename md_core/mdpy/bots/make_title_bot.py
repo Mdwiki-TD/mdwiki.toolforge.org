@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 # ---
 from mdpy.bots import make_title_bot

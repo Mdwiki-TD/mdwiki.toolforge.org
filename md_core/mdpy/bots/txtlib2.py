@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 from mdpy.bots import txtlib2
 # ingr = txtlib2.extract_templates_and_params(text)

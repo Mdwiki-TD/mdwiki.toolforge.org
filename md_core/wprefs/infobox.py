@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 from wprefs.wpref_text import fix_page
 # fix_page(text, title)

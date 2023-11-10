@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 # ---
 from mdpages.qids_others import sql_qids_others

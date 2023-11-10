@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 python3 core8/pwb.py mdpages/qids_others/P11143
