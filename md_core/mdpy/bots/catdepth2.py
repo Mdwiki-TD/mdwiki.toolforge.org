@@ -9,21 +9,18 @@ python3 core8/pwb.py mdpy/catdepth2
 # (C) Ibrahem Qasim, 2022
 #
 #
-
-from mdpy.bots import mdwiki_api
-from mdpy.bots import sql_for_mdwiki
+import sys
 import json
-
-# import pywikibot
 import traceback
 import codecs
-
 import time
 import os
-import sys
 import datetime
 from datetime import datetime
-
+#---
+from mdpy.bots import mdwiki_api
+from mdpy.bots import sql_for_mdwiki
+from mdpy.bots.check_title import valid_title #valid_title(title)
 # ---
 Day_History = datetime.now().strftime("%Y-%m-%d")
 # ---
@@ -36,7 +33,7 @@ if not os.path.isdir(project):
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 # ---
-# ---
+all_pages = []
 
 
 def Get_cat(enlink, print_url=False):
@@ -133,24 +130,6 @@ def Get_cat(enlink, print_url=False):
     return table
 
 
-# ---
-
-
-def check_title(title):
-    # ---
-    title = title.lower().strip()
-    # ---
-    if title.find('(disambiguation)') != -1:
-        return False
-    if title.startswith('user:'):
-        return False
-    # ---
-    return True
-
-
-# ---
-
-
 def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     # ---
     # إيجاد categorymembers والتصانيف الفرعية لتصنيف
@@ -165,13 +144,13 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     # ---
     tablemember = Get_cat(title, print_url=True)
     # ---
-    # result_table = { x : da for x, da in tablemember.items() if check_title(x) }
+    # result_table = { x : da for x, da in tablemember.items() if valid_title(x) }
     result_table = {
         x: da
         for x, da in tablemember.items() if int(da["ns"]) == 0
     }
     # ---
-    # for x in tablemember: if check_title(x) :  result_table[x] = tablemember[x]
+    # for x in tablemember: if valid_title(x) :  result_table[x] = tablemember[x]
     # ---
     cat_done = []
     # ---
@@ -224,9 +203,6 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     return result_tab
 
 
-# ---
-
-
 def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
     filename = project + f'/public_html/Translation_Dashboard/cats_cash/{cat}.json'
     # ---
@@ -264,7 +240,7 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
         Listo = subcatquery(cat, depth=depth, ns=ns, limit=limit, test=test)
         Table = {}
         # ---
-        Table['list'] = [x for x in Listo if check_title(x)]
+        Table['list'] = [x for x in Listo if valid_title(x)]
         # ---
         Table['Day_History'] = Day_History
         # ---
@@ -275,9 +251,6 @@ def subcatquery2(cat, depth=0, ns="all", limit=0, test=False):
         print(f"len of list:{len(Table['list'])}")
     # ---
     return Table
-
-
-# ---
 
 
 def get_RTT():
@@ -293,26 +266,9 @@ def get_RTT():
     return Listo
 
 
-# ---
-all_pages = []
-# ---
-
-
 def make_cash_to_cats(return_all_pages=False):
     # ---
-    cac = sql_for_mdwiki.mdwiki_sql('select category, depth from categories;', return_dict=True)
-    # ---
-    cats = {}
-    # ---
-    for c in cac:
-        cat = c['category']
-        dep = c['depth']
-        # ---
-        cat = cat.decode("utf-8") if isinstance(cat, bytes) else cat
-        # ---
-        dep = dep.decode("utf-8") if isinstance(dep, bytes) else dep
-        # ---
-        cats[cat] = dep
+    cats = sql_for_mdwiki.get_db_categories()
     # ---
     for cat, depth in cats.items():
         ca = subcatquery2(cat, depth=depth, ns='all')
@@ -326,9 +282,6 @@ def make_cash_to_cats(return_all_pages=False):
     if return_all_pages:
         return all_pages
 
-    # ---
 
-
-# ---
 if __name__ == '__main__':
     make_cash_to_cats()

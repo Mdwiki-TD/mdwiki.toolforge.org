@@ -30,7 +30,6 @@ api_new.Login_to_wiki()
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
 # ---
 file_name = {}
-# ---
 
 
 def work(title, Find, Replace, nn):
@@ -127,7 +126,7 @@ def main():
             "srwhat": "text"
         }
         # ---
-        titles = api_new.Search(find, ns="0", srlimit="max", RETURN_dict=False, addparams=Add_pa)
+        titles = api_new.Search(value=find, ns="0", srlimit="max", RETURN_dict=False, addparams=Add_pa)
     else:
         titles = api_new.Get_All_pages()
         # ---

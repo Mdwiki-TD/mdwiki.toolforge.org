@@ -8,6 +8,7 @@
 #
 # ---
 # import pywikibot
+import sys
 import traceback
 import json as JJson
 import time
@@ -19,8 +20,7 @@ import requests
 from mdpy.bots import user_account_new
 from mdpy import printe
 # ---
-import sys
-
+from mdpy.bots.check_title import valid_title #valid_title(title)
 # ---
 '''
 # ---
@@ -37,7 +37,7 @@ from mdpy.bots import mdwiki_api
 # mdwiki_api.Get_UserContribs(user, limit="max", namespace="*", ucshow="")
 # mdwiki_api.GetPageText(title)
 # mdwiki_api.Get_All_pages(start, limit="max", namespace="*", apfilterredir='')
-# mdwiki_api.Search(title, ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
+# mdwiki_api.Search(value="", ns="", offset='', srlimit="max", RETURN_dict=False, addparams={})
 # mdwiki_api.import_page(title)
 # mdwiki_api.Get_page_links(title, namespace="*", limit="max")
 # mdwiki_api.subcatquery(title, depth=0, ns="all", without_lang="", with_lang="", tempyes=[], limit=0)
@@ -70,7 +70,6 @@ timesleep = 0
 login_not_done = {
     1: True
 }
-# ---
 
 
 def py_input(s):
@@ -78,9 +77,6 @@ def py_input(s):
     sa = pywikibot.input(s)
     # ---
     return sa
-
-
-# ---
 
 
 def get_status(req):
@@ -93,9 +89,6 @@ def get_status(req):
         pywikibot.output('CRITICAL:')
         st = req.status
         return st
-
-
-# ---
 
 
 def post_all(params, addtoken=False, **kwargs):
@@ -138,9 +131,6 @@ def post_all(params, addtoken=False, **kwargs):
             return {}
     # ---
     return jsone
-
-
-# ---
 
 
 def Log_to_wiki(family='mdwiki', lang="www"):
@@ -208,9 +198,6 @@ def Log_to_wiki(family='mdwiki', lang="www"):
     login_not_done[1] = False
 
 
-# ---
-
-
 def post_s(params, addtoken=False, **kwargs):
     # ---
     if login_not_done[1]:
@@ -219,14 +206,8 @@ def post_s(params, addtoken=False, **kwargs):
     return post_all(params, addtoken=addtoken, **kwargs)
 
 
-# ---
-
-
 def post(p, **kwargs):
     return post_s(p, **kwargs)
-
-
-# ---
 
 
 def outbot(text2):
@@ -283,9 +264,6 @@ def outbot(text2):
         pywikibot.output(text2)
 
 
-# ---
-
-
 def import_history2(FILE_PATH, title):
     # ---
     printe.output(f'<<lightpurple>> import_history for page:{title}:')
@@ -331,9 +309,6 @@ def import_history2(FILE_PATH, title):
             printe.output('<<lightgreen>> ** true .. . ')
         # ---
         outbot(r4.text)
-
-
-# ---
 
 
 def import_history(FILE_PATH, title):
@@ -389,9 +364,6 @@ def import_history(FILE_PATH, title):
         # outbot(r4.text)
 
 
-# ---
-
-
 def import_page(title):
     params = {
         "action": "import",
@@ -409,9 +381,6 @@ def import_page(title):
     # ---
     return r4
     # ---
-
-
-# ---
 
 
 def page_put_new(NewText, summary, title, time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, return_table=False):
@@ -474,7 +443,6 @@ Save_2020 = {
 Save_2040 = {
     1: False
 }
-# ---
 
 
 def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, diff=True):
@@ -499,9 +467,6 @@ def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family
             return False
     # ---
     return page_put_new(newtext, summary, title, time_sleep=time_sleep, family=family, lang=lang, minor=minor, nocreate=nocreate, tags=tags, returntrue=returntrue)
-
-
-# ---
 
 
 def Add_To_Bottom2(aptext, summary, title, poss="", family="", minor=""):
@@ -536,9 +501,6 @@ def Add_To_Bottom2(aptext, summary, title, poss="", family="", minor=""):
         printe.output('** Add_To_Bottom2 ..  title == ""')
 
 
-# ---
-
-
 def Add_To_Head(prependtext, summary, title, Ask, minor=""):
     if title.strip() != "":
         # ---
@@ -563,9 +525,6 @@ def Add_To_Head(prependtext, summary, title, Ask, minor=""):
         printe.output('** Add_To_Head ..  title == ""')
 
 
-# ---
-
-
 def Add_To_Bottom(appendtext, summary, title, Ask, family="", minor=""):
     if title.strip() != "":
         # ---
@@ -587,9 +546,6 @@ def Add_To_Bottom(appendtext, summary, title, Ask, family="", minor=""):
         # ---
     else:
         printe.output('** Add_To_Bottom ..  title == ""')
-
-
-# ---
 
 
 def create_Page(text, summary, title, ask, sleep=0, family="", duplicate4="", minor="", printtext=True):
@@ -673,9 +629,6 @@ def create_Page(text, summary, title, ask, sleep=0, family="", duplicate4="", mi
     return False
 
 
-# ---
-
-
 def move(From, to, reason, lang='ar', nosleep=False):
     # ---
     printe.output(f'<<lightyellow>> ** move .. [[{lang}:{From}]] to [[{to}]] ')
@@ -731,9 +684,6 @@ def move(From, to, reason, lang='ar', nosleep=False):
     return False
 
 
-# ---
-
-
 def wordcount(title, srlimit='30'):
     # srlimit = "30"
     params = {
@@ -760,9 +710,6 @@ def wordcount(title, srlimit='30'):
             break
     # ---
     return words
-
-
-# ---
 
 
 def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True):
@@ -878,9 +825,6 @@ def Get_cat(enlink, ns, lllang="", tempyes=[], lang_no='', print_url=True):
     return table
 
 
-# ---
-
-
 def subcatquery(title, depth=0, ns="all", limit=0, test=False, without_lang="", with_lang="", tempyes=[]):
     # ---
     # ---
@@ -977,13 +921,10 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False, without_lang="", 
     # ---
     result_tab = list(result_table.keys())
     # ---
-    result_tab = [x for x in result_tab if not (x.startswith('Category:') or x.startswith('File:') or x.startswith('Template:') or x.startswith('User:') or x.endswith("(disambiguation)"))]
+    result_tab = [x for x in result_tab if valid_title(x)]
     # ---
     # return result_table
     return result_tab
-
-
-# ---
 
 
 def GetPageText(title, redirects=False):
@@ -1013,9 +954,6 @@ def GetPageText(title, redirects=False):
         printe.output(f'page {title} text == "".')
     # ---
     return text
-
-
-# ---
 
 
 def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
@@ -1057,9 +995,6 @@ def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
     Main_table = [x["title"] for x in newp]
     # ---
     return Main_table
-
-
-# ---
 
 
 def Get_page_links(title, namespace="0", limit="max"):
@@ -1108,16 +1043,10 @@ def Get_page_links(title, namespace="0", limit="max"):
     return Main_table
 
 
-# ---
-
-
 def Get_page_links_2(title):
     Main_table = Get_page_links(title)
     lista = Main_table.get('links', {}).keys()
     return lista
-
-
-# ---
 
 
 def Get_template_pages(title, namespace="*", limit="max"):
@@ -1159,9 +1088,6 @@ def Get_template_pages(title, namespace="*", limit="max"):
     printe.output(f"mdwiki_api.py Get_template_pages : find {len(Main_table)} pages.")
     # ---
     return Main_table
-
-
-# ---
 
 
 def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all=0):
@@ -1228,9 +1154,6 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
     return Main_table
 
 
-# ---
-
-
 def get_section(title, level):
     printe.output(f'get_section title:"{title}", level:"{level}"')
     # ---
@@ -1249,9 +1172,6 @@ def get_section(title, level):
     text = json1.get("parse", {}).get("wikitext", {}).get("*", '')
     # ---
     return text
-
-
-# ---
 
 
 def Get_UserContribs(user, limit="max", namespace="*", ucshow=""):
@@ -1286,14 +1206,11 @@ def Get_UserContribs(user, limit="max", namespace="*", ucshow=""):
     return Main_table
 
 
-# ---
-
-
-def Search(valu, lang="", family='', ns="", offset='', srlimit="max", RETURN_dict=False, addparams={}):
+def Search(value="", lang="", family='', ns="", offset='', srlimit="max", RETURN_dict=False, addparams={}):
     # ---
     Lidy = []
     # ---
-    printe.output(f'mdwiki_api.Search for "{valu}",ns:{ns}')
+    printe.output(f'mdwiki_api.Search for "{value}",ns:{ns}')
     # ---
     if srlimit == "":
         srlimit = "max"
@@ -1302,7 +1219,7 @@ def Search(valu, lang="", family='', ns="", offset='', srlimit="max", RETURN_dic
     params = {
         "action": "query",
         "list": "search",
-        "srsearch": valu,
+        "srsearch": value,
         "srnamespace": 0,
         "srlimit": srlimit,
     }
@@ -1341,9 +1258,6 @@ def Search(valu, lang="", family='', ns="", offset='', srlimit="max", RETURN_dic
     return Lidy
 
 
-# ---
-
-
 def get_redirect(liste):
     # ---
     redirects = {}
@@ -1369,9 +1283,6 @@ def get_redirect(liste):
                 redirects[red["from"]] = red["to"]
     # ---
     return redirects
-
-
-# ---
 
 
 def Find_pages_exists_or_not(liste):

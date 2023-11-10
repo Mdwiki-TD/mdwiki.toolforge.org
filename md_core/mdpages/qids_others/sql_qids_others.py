@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """
 # ---
-from mdpy.qids_others import sql_qids_others
+from mdpages.qids_others import sql_qids_others
 # mdtitle_to_qid = sql_qids_others.get_others_qids()
 # sql_qids_others.add_titles_to_qids(tab, add_empty_qid=False)
 # sql_qids_others.set_title_where_qid(new_title, qid)

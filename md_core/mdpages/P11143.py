@@ -1,10 +1,18 @@
 #!/usr/bin/python
 """
 
-python3 core8/pwb.py mdpages/qids_others/P11143
+python3 core8/pwb.py mdpages/P11143
 
 """
+#
+# (C) Ibrahem Qasim, 2023
+#
+#
 import sys
+
+# ---
+from mdpy.bots import sql_for_mdwiki
+from mdpy.bots import catdepth2
 from mdpy.bots import wikidataapi
 from mdpy import printe
 
@@ -13,12 +21,11 @@ sys.argv.append('workhimo')
 # ---
 wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php")
 # ---
-from mdpages.qids_others import sql_qids_others
-# mdtitle_to_qid = sql_qids_others.get_others_qids()
-# sql_qids_others.add_titles_to_qids(tab, add_empty_qid=False)
-# sql_qids_others.set_title_where_qid(new_title, qid)
+# sql_for_mdwiki.mdwiki_sql(query , update = False)
+# mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
+# sql_for_mdwiki.add_titles_to_qids(tab)
 # ---
-qids_di = sql_qids_others.get_others_qids()
+qids_di = sql_for_mdwiki.get_all_qids()
 # ---
 qids = {
     q: title
@@ -31,6 +38,8 @@ query = '''select distinct ?item ?prop where { ?item wdt:P11143 ?prop .}'''
 # ---
 in_wd = {}
 # ---
+new_qids = {}
+# ---
 wdlist = wikidataapi.sparql_generator_url(query, printq=False, add_date=True)
 # ---
 for wd in wdlist:
@@ -39,6 +48,9 @@ for wd in wdlist:
     qid = wd['item'].split('/entity/')[1]
     # ---
     in_wd[qid] = prop
+    # ---
+    if qid not in qids and prop not in mdwiki_in_qids:
+        new_qids[qid] = prop
     # ---
 # ---
 print(f'len of in_wd: {len(in_wd)}')
@@ -66,8 +78,7 @@ print('len of newlist: ' + str(len(newlist)))
 if len(newlist) > 0:
     # ---
     printe.output(f'<<yellow>>claims to add: {len(newlist.items())}')
-    if len(newlist.items()) < 100:
-        print("\n".join([f'{k}\t:\t{v}' for k, v in newlist.items()]))
+    print("\n".join([f'{k}\t:\t{v}' for k, v in newlist.items()]))
     # ---
     print('add "add" to sys.argv to add them?')
 # ---
@@ -131,17 +142,36 @@ def duplict():
         if q not in va_tab[va]:
             va_tab[va].append(q)
     # ---
-    va_tab_x = { k: v for k, v in va_tab.items() if len(v) > 1 }
+    printe.output(f'<<lightyellow>> len of va_tab: {len(va_tab)}')
     # ---
-    if va_tab_x:
-        printe.output(f'<<lightyellow>> len of va_tab_x: {len(va_tab_x)}')
-        # ---
-        for va, qs in va_tab_x.items():
+    for va, qs in va_tab.items():
+        if len(qs) > 1:
             print(f'va:{va}, qs:{qs}')
-        # ---
-        printe.output('<<lightyellow>> duplict() end...')
+    # ---
+    printe.output('<<lightyellow>> duplict() end...')
 
 
 # ---
 duplict()
 # ---
+if len(new_qids) > 0:
+    # ---
+    TD_list = catdepth2.make_cash_to_cats(return_all_pages=True)
+    # ---
+    print('len of new_qids: ' + str(len(new_qids)))
+    print("\n".join([f'{k}:{v}' for k, v in new_qids.items()]))
+    printe.output('<<lightyellow>> add "addq" to sys.argv to add them to qids')
+    if 'addq' in sys.argv:
+        newtitles = {
+            title: qid
+            for qid, title in new_qids.items()
+        }
+        #---
+        titles_not_td = [ x for x in newtitles if x not in TD_list ]
+        #---
+        for title in titles_not_td:
+            printe.output(f'del {title}:{newtitles[title]} not in TD_list')
+            del newtitles[title]
+        #---
+        sql_for_mdwiki.add_titles_to_qids(newtitles)
+    # ---

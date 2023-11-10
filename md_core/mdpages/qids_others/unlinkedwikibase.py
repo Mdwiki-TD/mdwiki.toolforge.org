@@ -4,11 +4,11 @@ This script performs various operations related to MediaWiki pages and Wikibase 
 It includes functions for filtering and processing page titles, checking page existence, 
 retrieving and modifying page content, and adding tags based on QIDs.
 """
-# python3 core8/pwb.py mdpy/qids_others/unlinkedwikibase
+# python3 core8/pwb.py mdpages/qids_others/unlinkedwikibase
 # ---
 import sys
 from mdpy.bots import sql_for_mdwiki
-from mdpy.qids_others import sql_qids_others
+from mdpages.qids_others import sql_qids_others
 from mdpy.bots import mdwiki_api
 from mdpy import printe
 from mdpy.bots.check_title import valid_title #valid_title(title)

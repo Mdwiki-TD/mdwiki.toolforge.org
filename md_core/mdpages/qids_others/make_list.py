@@ -3,12 +3,12 @@
 
 
 """
-# python3 core8/pwb.py mdpy/qids_others/make_list
-# python3 core8/pwb.py mdpy/qids_others/make_list add_sql
+# python3 core8/pwb.py mdpages/qids_others/make_list
+# python3 core8/pwb.py mdpages/qids_others/make_list add_sql
 import sys
 import os
 # ---
-from mdpy.qids_others import sql_qids_others
+from mdpages.qids_others import sql_qids_others
 from mdpy.bots import catdepth2
 from mdpy.bots import wiki_api
 from mdpy.bots import mdwiki_api
