@@ -79,7 +79,7 @@ class Sectios_links:
 
             wikilinks = [str(x.title) for x in wikilinks if str(x.title).lower() not in self.titles_done]
 
-            # remove duplicts
+            # remove duplicates
             wikilinks = list(set(wikilinks))
 
             # expend self.titles_done

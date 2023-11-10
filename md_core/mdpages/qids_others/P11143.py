@@ -74,7 +74,7 @@ if 'add' in sys.argv:
     add_missing(newlist)
 # ---
 # merge_qids = {**newlist, **in_wd}
-merge_qids = newlist | in_wd
+merge_qids = {**newlist, **in_wd}
 
 
 def fix(merge_qids):
@@ -116,7 +116,7 @@ if 'fix' in sys.argv:
     fix(merge_qids)
 
 
-def duplict():
+def duplicate():
     # ايجاد عناصر ويكي بيانات بها قيمة الخاصية في أكثر من عنصر
     va_tab = {}
     # ---
@@ -136,9 +136,9 @@ def duplict():
         for va, qs in va_tab_x.items():
             print(f'va:{va}, qs:{qs}')
         # ---
-        printe.output('<<lightyellow>> duplict() end...')
+        printe.output('<<lightyellow>> duplicate() end...')
 
 
 # ---
-duplict()
+duplicate()
 # ---

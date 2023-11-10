@@ -18,7 +18,7 @@ mdlist = sql_for_mdwiki.get_all_qids()
 qs_list = { q: title for title, q in mdlist.items() if q != '' }
 
 
-def fix_redirects():
+def fix_redirects(qs_list):
     # ---
     # python3 core8/pwb.py mdpy/fixqids redirects
     # ---
@@ -47,7 +47,7 @@ def fix_redirects():
             printe.output('add "fix" to sys.argv to fix them..')
 
 
-def add_to_qids():
+def add_to_qids(mdlist):
     # ---
     printe.output('<<lightyellow>> start add_to_qids()')
     # ---
@@ -68,8 +68,8 @@ def add_to_qids():
 
 
 if __name__ == '__main__':
-    fix_redirects()
+    fix_redirects(qs_list)
     print('_______________d')
     print('_______________d')
     print('_______________d')
-    add_to_qids()
+    add_to_qids(mdlist)
