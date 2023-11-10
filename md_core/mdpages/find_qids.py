@@ -2,7 +2,11 @@
 #   himo
 """
 إيجاد معرف ويكيداتا للعناصر بدون معرف
+The script checks if the project directory exists and changes the path if it doesn't. This is a good practice for handling file paths.
 
+The script retrieves all Wikidata identifiers (QIDs) and filters them based on whether they are empty or not.
+
+Usage:
 python3 core8/pwb.py mdpy/find_qids
 
 """
@@ -35,7 +39,9 @@ noqids = [title for title, q in qids.items() if q == '' and valid_title(title)]
 
 
 def create_qids(no_qids):
-    # create wikidata item for qids
+    """create wikidata item for qids
+    creates new Wikidata items for those without QIDs. It uses a for loop to iterate over the list of items without QIDs and makes a POST request to the Wikidata API for each item. The function also prints the response from the API, which can be useful for debugging.
+    """
     # ---
     for x in no_qids:
         # ---
@@ -49,6 +55,9 @@ def create_qids(no_qids):
 
 
 def get_qids(noqids_list):
+    """
+    function retrieves QIDs for a list of items. It uses the MediaWiki API to query for page properties and extracts the Wikidata item property. The function handles redirects and normalizes the titles. It also groups the items into batches of 50 to avoid exceeding the API's limit for the number of titles in a single request. This is a good practice for working with APIs.
+    """
     # ---
     new_title_qids = {}
     # ---
