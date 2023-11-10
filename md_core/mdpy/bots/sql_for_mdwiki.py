@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 python3 core8/pwb.py mdpy/sql_for_mdwiki
 
@@ -153,7 +153,6 @@ def mdwiki_sql(query, return_dict=False, **kwargs):
     # ---
     # print('<<lightyellow>> newsql::')
     return sql_connect_pymysql(query, return_dict=return_dict)
-    # ---
 
 
 def get_all_qids():
@@ -248,8 +247,6 @@ def add_titles_to_qids(tab, add_empty_qid=False):
             else:
                 # set_qid_where_title(title, qid)
                 printe.output(f'<<yellow>> set_qid_where_title() qid_in:{q_in}, new_qid:{qid}')
-        # ---
-    # ---
 
 
 def tests():

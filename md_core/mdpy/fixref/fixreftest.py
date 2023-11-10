@@ -68,7 +68,6 @@ text = '''
 | lay-source = Science Daily
 }}</ref>
 '''
-# ---
 
 
 def test():

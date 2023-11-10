@@ -26,7 +26,6 @@ text_main = '''
 !urls/refs
 !lead<br>urls/refs
 !'''
-# ---
 
 
 def match_p(refs, p_ref):
@@ -52,7 +51,6 @@ def match_p(refs, p_ref):
 # ---
 t_sections = {}
 all_langs_states = {}
-# ---
 
 
 def get_t_sections():
@@ -141,9 +139,6 @@ def get_t_sections():
     return text
 
 
-# ---
-
-
 def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_refsname):
     # ---
     _sa_11 = False
@@ -188,7 +183,6 @@ def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_ref
 
 # ---
 all_pages_states = {}
-# ---
 
 
 def log_all_pages_states():
@@ -204,7 +198,6 @@ def log_all_pages_states():
 
 # ---
 log_all_pages_states()
-# ---
 
 
 def make_text(allo, ttt=''):

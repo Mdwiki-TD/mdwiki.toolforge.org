@@ -8,8 +8,6 @@ if not os.path.isdir(project):
     project = '/mdwiki'
 # ---
 project_json = f'{project}/md_core/prior/json/'
-# ---
-# ---
 
 
 def start_test(links=[]):

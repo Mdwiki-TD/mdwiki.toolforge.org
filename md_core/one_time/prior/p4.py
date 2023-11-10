@@ -34,7 +34,6 @@ if not os.path.isdir(project):
 # ---
 project_js_new = f'{project}/md_core/prior/json_langs/'
 project_js_newen = f'{project}/md_core/prior/json_en/'
-# ---
 
 
 def main_links():
@@ -59,7 +58,6 @@ def main_links():
 # ---
 All = {}
 allen = {}
-# ---
 
 
 def log_all(main_File):
@@ -70,14 +68,8 @@ def log_all(main_File):
     codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(All))
 
 
-# ---
-
-
 def log_allen(main_File):
     codecs.open(main_File, 'w', encoding='utf-8').write(json.dumps(allen))
-
-
-# ---
 
 
 def advance_work_en(title, title2, page):
@@ -117,10 +109,6 @@ def advance_work_en(title, title2, page):
     # ---
     printe.output(f'p0/\told\t\t{lenex1} extlinks, {lenre1} refsname')
     printe.output(f'p0/\told\t\t{lenex_lead1} lead_extlinks, {lenre_lead1} lead_refsname')
-    # ---
-
-
-# ---
 
 
 def work_in_en_page(title):
@@ -202,7 +190,6 @@ def work_in_en_page(title):
 
 # ---
 n_al = 0
-# ---
 
 
 def work_in_links(links, main_File, main_File_en, Log=True):
@@ -253,9 +240,6 @@ def work_in_links(links, main_File, main_File_en, Log=True):
     # ---
     if Log:
         log_allen(main_File_en)
-
-
-# ---
 
 
 def start_all():

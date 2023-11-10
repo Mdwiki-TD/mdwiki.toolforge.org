@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 
@@ -29,7 +29,6 @@ missing_in_enwiki = []
 sames = []
 # ---
 json_ext = "_other.json" if 'other' in sys.argv else ".json"
-# ---
 
 
 def check():

@@ -4,16 +4,9 @@ from bots.old_params import rename_params
 # ---
 import wikitextparser as wtp
 
-# ---
-
-# ---
-
 
 def printn(s):
     return
-
-
-# ---
 
 
 def rename_params(temptext):

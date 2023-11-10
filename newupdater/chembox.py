@@ -7,8 +7,6 @@ Dir = Path(__file__).parent
 # ---
 from lists.chem_params import rename_chem_params
 
-# ---
-
 
 def printn(s):
     return
@@ -23,7 +21,7 @@ class fix_Chembox:
         self.all_params = {}
         self.oldchembox = ""
         self.newchembox = "{{drugbox"
-        # ---
+
 
     def run(self):
         self.get_params()
@@ -80,8 +78,7 @@ class fix_Chembox:
                     continue
                 # ---
                 self.all_params[x] = v
-            # ---
-        # ---
+
 
     def new_temp(self):
         # ---

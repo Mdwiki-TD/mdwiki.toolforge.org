@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 إنشاء تحويلات من العنوان الإنجليزي
@@ -27,7 +27,6 @@ from mdpy import wpref
 # wpref.submitAPI( params , lang = 'or' , returnjson = False )
 # ---
 or_url = 'https://' + 'or.wikipedia.org/w/api.php'
-# ---
 
 
 def Find_pages_exists_or_not(liste, apiurl=''):
@@ -60,9 +59,6 @@ def Find_pages_exists_or_not(liste, apiurl=''):
                     table[tit] = True
         # ---
     return table
-
-
-# ---
 
 
 def create_redirect(target, mdtitle):
@@ -100,9 +96,6 @@ def create_redirect(target, mdtitle):
             printe.output(f'<<lightgreen>>** true .. [[{mdtitle}]] ')
         else:
             printe.output(uu)
-
-
-# ---
 
 
 def dodo_sql():

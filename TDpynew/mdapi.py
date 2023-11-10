@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 """
@@ -43,7 +43,6 @@ try:
     print_pywikibot[1] = True
 except BaseException:
     print_pywikibot[1] = False
-# ---
 
 
 def printt(s):
@@ -51,9 +50,6 @@ def printt(s):
         pywikibot.output(s)
     # else:
     # print(s)
-
-
-# ---
 
 
 def start_sea():
@@ -116,7 +112,6 @@ def start_sea():
 start_sea()
 # ---
 # mdapi.submitAPI( params, type ="get" )
-# ---
 
 
 def submitAPI(params, type='get'):

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 إيجاد التحويلات واصلاحها
@@ -18,7 +18,6 @@ from mdpy import printe
 
 # ---
 NewList = {}
-# ---
 
 
 def printtest(s):
@@ -47,8 +46,6 @@ normalized = {}
 from mdpy.bots import py_tools
 
 
-# ---
-# ---
 def find_redirects(links):
     # ---
     # titles = [ x for x in links if links[x].get('ns','') == '0' ]
@@ -122,9 +119,6 @@ def find_redirects(links):
     # printe.output( "def find_redirects: find %d for normalized" % normalized_numb )
 
 
-# ---
-
-
 def replace_links2(text, oldlink, newlink):
     # ---
     oldlink2 = normalized.get(oldlink, oldlink)
@@ -144,9 +138,6 @@ def replace_links2(text, oldlink, newlink):
             text = text.replace(f'[[{oldlink2}|', f'[[{newlink}|')
     # ---
     return text
-
-
-# ---
 
 
 def treat_page(title):
@@ -201,9 +192,6 @@ def treat_page(title):
             # ---
     # ---
     mdwiki_api.page_put(oldtext=text, newtext=newtext, summary='Fix redirects', title=title, returntrue=False, diff=True)
-
-
-# ---
 
 
 def main():

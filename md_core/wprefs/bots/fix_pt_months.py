@@ -28,7 +28,6 @@ months_lower = {
 }
 # ---
 months_line = "|".join(months.keys())
-# ---
 
 
 def make_new_val(val):
@@ -75,9 +74,6 @@ def make_new_val(val):
         return newval
     # ---
     return newval
-
-
-# ---
 
 
 def pt_months(text):

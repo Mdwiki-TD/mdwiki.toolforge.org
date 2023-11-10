@@ -79,7 +79,7 @@ class Sectios_links:
 
             wikilinks = [str(x.title) for x in wikilinks if str(x.title).lower() not in self.titles_done]
 
-            # remove duplicts
+            # remove duplicates
             wikilinks = list(set(wikilinks))
 
             # expend self.titles_done
@@ -99,9 +99,6 @@ class Sectios_links:
             self.SectionsToLinks[t] = wikilinks
 
 
-# ---
-
-
 def dump_secs_links(secs_links):
     # ---
     global sect_file
@@ -109,9 +106,6 @@ def dump_secs_links(secs_links):
     if secs_links != {}:
         printe.output(f'<<lightyellow>> secs_links(): lenth: {len(secs_links.keys())}')
         json.dump(secs_links, codecs.open(sect_file, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
-
-
-# ---
 
 
 def get_section_links(new=False):

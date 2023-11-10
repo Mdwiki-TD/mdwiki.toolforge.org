@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 
@@ -28,7 +28,6 @@ medwiki_to_enwiki = {}
 # mdtitle_to_qid = sql_qids_others.get_others_qids()
 # sql_qids_others.add_titles_to_qids(tab, add_empty_qid=False)
 # sql_qids_others.set_title_where_qid(new_title, qid)
-# ---
 
 
 def add_sql(o_qids):
@@ -57,7 +56,6 @@ def add_sql(o_qids):
     # ---
     if 'add' in sys.argv:
         sql_qids_others.add_titles_to_qids(o_qids_new, add_empty_qid=True)
-    # ---
 
 
 def check():

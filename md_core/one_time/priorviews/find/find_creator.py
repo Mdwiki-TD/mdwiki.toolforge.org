@@ -47,7 +47,7 @@ def get_creator(links, lang):
     # ---
     if lang not in CreatorsData:
         CreatorsData[lang] = {}
-    # ---
+
 
     def valid(x, tab, empty=''):
         i = tab.get(x) or tab.get(x.lower())

@@ -55,7 +55,6 @@ change_codes = su_page.change_codes
 
 # ---
 # xxxxxxxxxxx
-# ---
 
 
 def test():

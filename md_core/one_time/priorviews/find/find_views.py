@@ -31,16 +31,12 @@ if not os.path.exists(file):
 # ---
 # ---
 ViewsData = json.load(codecs.open(file, 'r', 'utf-8'))
-# ---
 
 
 def log_views():
     printe.output(f'<<yellow>> log_views {len(ViewsData)} views')
     # dump ViewsData
     helps.dump_data(file, ViewsData)
-
-
-# ---
 
 
 def api_views(title, lang):
@@ -65,7 +61,6 @@ def api_views(title, lang):
 
 # ---
 N_g = 0
-# ---
 
 
 def get_v(links):
@@ -118,10 +113,6 @@ def get_v(links):
             # ---
             if N_g % 100 == 0:
                 log_views()
-    # ---
-
-
-# ---
 
 
 def start():
@@ -139,10 +130,6 @@ def start():
         # ---
     # ---
     log_views()
-    # ---
-
-
-# ---
 
 
 def test():

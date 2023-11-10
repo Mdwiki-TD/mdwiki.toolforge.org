@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 """
@@ -39,7 +39,6 @@ text        = page.get_text()
 save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 # ---
 '''
-# ---
 
 
 def work(title):
@@ -75,9 +74,6 @@ def work(title):
         numbers['done'] += 1
         # ---
         save_page = page.save(newtext=newtext, summary=sus)
-
-
-# ---
 
 
 def main():

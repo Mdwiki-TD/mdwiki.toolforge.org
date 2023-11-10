@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 This script performs various operations related to MediaWiki pages and Wikibase QIDs.
 It includes functions for filtering and processing page titles, checking page existence, 
@@ -58,7 +58,8 @@ def work_page(title, qid):
     # ---
     newtext = tag + text
     page.save(newtext=newtext, summary='add tag:' + tag, nocreate=1, minor='')
-    # ---
+
+
 def add_tag():
     # ---
     printe.output('Get all pages...')

@@ -20,7 +20,6 @@ from priorviews.bots import helps
 Dir = Path(__file__).parent
 # ---
 skip_users = ["doc james"]
-# ---
 
 
 def add_to_translators():
@@ -76,7 +75,6 @@ def add_to_translators():
     # ---
     helps.dump_data(file, tra_by_lang)
     # with codecs.open(file, 'w', 'utf-8') as zf: json.dump(tra_by_lang, zf, ensure_ascii=False)
-    # ---
 
 
 def sea55():

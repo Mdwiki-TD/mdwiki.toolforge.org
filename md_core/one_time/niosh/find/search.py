@@ -38,8 +38,8 @@ def new_search():
     # ---
     api_new = NEW_API('en', family='wikipedia')
     # ---
-    value = 'insource:"cdc.gov/niosh/"'
-    search = api_new.Search(value=value, ns="0", offset='', srlimit="", RETURN_dict=False, addparams={})
+    bb = 'insource:"cdc.gov/niosh/"'
+    search = api_new.Search(value=bb, ns="0", offset='', srlimit="", RETURN_dict=False, addparams={})
     # ---
     na = 0
     nn = len(search)
@@ -59,7 +59,6 @@ def new_vals():
     global new
     new = {}
 
-    # ---
 
     def fix_links(x):
         # remove url suffix like https://web.archive.org/web/20150530203735/

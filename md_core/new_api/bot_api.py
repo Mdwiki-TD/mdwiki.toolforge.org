@@ -52,7 +52,6 @@ change_codes = {
 }
 
 
-# ---
 def login_def(lang, family):
     return {}
 
@@ -211,7 +210,6 @@ class NEW_API:
         # ---
         return table
 
-    # ---
 
     def Get_All_pages(self, start='', namespace="0", limit="max", apfilterredir='', limit_all=0):
         # ---
@@ -276,7 +274,6 @@ class NEW_API:
         # ---
         return Main_table
 
-    # ---
 
     def Search(self, value='', ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
         # ---
@@ -319,7 +316,6 @@ class NEW_API:
         # ---
         return results
 
-    # ---
 
     def Get_Newpages(self, limit=5000, namespace="0", rcstart="", user='', three_houers=False):
         # ---
@@ -402,7 +398,6 @@ class NEW_API:
         # ---
         return Main_table
 
-    # ---
 
     def UserContribs(self, user, limit=5000, namespace="*", ucshow=""):
         # ---
@@ -428,7 +423,6 @@ class NEW_API:
         # ---
         return results
 
-    # ---
 
     def Get_langlinks_for_list(self, titles, targtsitecode="", numbes=50):
         # ---
@@ -493,7 +487,6 @@ class NEW_API:
         # ---
         return table
 
-    # ---
 
     def expandtemplates(self, text):
         # ---
@@ -514,7 +507,6 @@ class NEW_API:
         # ---
         return newtext
 
-    # ---
 
     def Prase_Text(self, line, title):
         # ---
@@ -549,7 +541,6 @@ class NEW_API:
         # ---
         return textnew
 
-    # ---
 
     def get_extlinks(self, title):
         params = {
@@ -594,9 +585,7 @@ class NEW_API:
         # ---
         # ---
         return liste1
-        # ---
 
-    # ---
 
     def get_revisions(self, title):
         params = {

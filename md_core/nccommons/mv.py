@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 python3 core8/pwb.py nccommons/mv
 """
@@ -52,7 +52,6 @@ to_update = cats
 # ---
 # ---
 n = 0
-# ---
 
 
 def delete_it(cat):

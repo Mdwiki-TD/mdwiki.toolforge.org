@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 from wprefs.wpref_text import fix_page
 # fix_page(text, title)
@@ -18,8 +18,6 @@ from wprefs.bots.fix_pt_months import pt_months
 from wprefs.helps import print_s
 from wprefs.es import fix_es
 from wprefs.infobox import Expend_Infobox
-
-# ---
 
 
 def add_lang_en(text, lang=''):

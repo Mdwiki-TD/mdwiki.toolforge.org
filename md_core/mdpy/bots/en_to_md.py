@@ -41,7 +41,6 @@ mdwiki_to_enwiki = {}
 mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # ---
 lala = ''
-# ---
 
 
 def make_mdwiki_list():

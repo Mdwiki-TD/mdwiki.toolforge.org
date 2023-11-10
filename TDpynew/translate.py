@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 """
@@ -53,15 +53,11 @@ Url_To_login = {
 login_done = {
     1: False
 }
-# ---
 
 
 def print_py(s):
     if sys.stdin.isatty():
         print(s)
-
-
-# ---
 
 
 def log_to_enwiki():
@@ -118,9 +114,6 @@ def log_to_enwiki():
     session["token"] = token
 
 
-# ---
-
-
 def submit_to_enwiki(params):
     # ---
     log_to_enwiki()
@@ -137,7 +130,6 @@ def submit_to_enwiki(params):
         return {}
     # ---
     return json1
-    # ---
 
 
 def put(title, text):
@@ -164,9 +156,6 @@ def put(title, text):
         print('true')
     else:
         print(str(js))
-
-
-# ---
 
 
 def work(title):

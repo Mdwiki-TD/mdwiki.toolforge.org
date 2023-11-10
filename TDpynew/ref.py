@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 اصلاح المراجع في ميدويكي
 
@@ -22,7 +22,6 @@ try:
     print_pywikibot[1] = True
 except BaseException:
     print_pywikibot[1] = False
-# ---
 
 
 def outputnew(s):
@@ -33,7 +32,6 @@ def outputnew(s):
 # ---
 ref_complite = re.compile(r'(<ref\s*name\s*\=*\s*[\"\']*([^>]*)[\"\']*\s*>[^<>]+</ref>)')
 ref_short = re.compile(r'(<ref\s*name\s*\=\s*[\"\']*([^>]*)[\"\']*\s*\/\s*>)')
-# ---
 
 
 def fix_ref(first, alltext):

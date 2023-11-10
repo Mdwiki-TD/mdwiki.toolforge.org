@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 بوت للعمل على ويكيبيانات أو ويكيبيديا
@@ -85,7 +85,6 @@ timesleep = 0
 login_not_done = {
     1: True
 }
-# ---
 
 
 def Log_to_wiki(url=''):
@@ -134,10 +133,6 @@ def Log_to_wiki(url=''):
     # printe.output( ' r3_token:%s' % SS["r3_token"] )
     # ---
     login_not_done[1] = False
-    # ---
-
-
-# ---
 
 
 def get_status(req):
@@ -147,9 +142,6 @@ def get_status(req):
     except BaseException:
         st = req.status
         return st
-
-
-# ---
 
 
 def post(params, apiurl='', token=True):
@@ -183,9 +175,6 @@ def post(params, apiurl='', token=True):
     return jsone
 
 
-# ---
-
-
 def post_to_qs(data):
     menet = datetime.now().strftime("%Y-%b-%d %H:%M:%S")
     # ---
@@ -212,9 +201,6 @@ def post_to_qs(data):
     return r2.json()
 
 
-# ---
-
-
 def QS_New_API(data2):
     # ---
     CREATE = 'CREATE||'
@@ -238,9 +224,6 @@ def QS_New_API(data2):
     CREATE = CREATE.replace("||XX", "")
     # ---
     return post_to_qs(CREATE)
-
-
-# ---
 
 
 def Get_sitelinks_From_Qid(q):
@@ -279,9 +262,6 @@ def Get_sitelinks_From_Qid(q):
             return {}
     # ---
     return table
-
-
-# ---
 
 
 def WD_Merge(q1, q2):
@@ -343,9 +323,6 @@ def WD_Merge(q1, q2):
         return False
 
 
-# ---
-
-
 def Labels_API(Qid, label, lang, remove=False):
     # ---
     if Qid == '':
@@ -383,9 +360,6 @@ def Labels_API(Qid, label, lang, remove=False):
             printe.output('<<lightred>> r5' + str(req))
     # ---
     return False
-
-
-# ---
 
 
 def get_redirects(liste):
@@ -446,7 +420,8 @@ def Sitelink_API(Qid, title, wiki):
         return True
     # ---
     return False
-# ---
+
+
 def Remove_Sitelink(Qid, wiki):
     # ---
     if wiki.endswith("wiki") : wiki = wiki[:-4]
@@ -467,7 +442,6 @@ def Remove_Sitelink(Qid, wiki):
     # ---
     return False
 '''
-# ---
 
 
 def Claim_API_str(qid, property, string):
@@ -500,9 +474,6 @@ def Claim_API_str(qid, property, string):
     return False
 
 
-# ---
-
-
 def Delete_claim(claimid):
     # ---
     params = {
@@ -523,9 +494,6 @@ def Delete_claim(claimid):
         printe.output('<<lightred>> req' + str(req))
     # ---
     return False
-
-
-# ---
 
 
 def Claim_API_qid(qid, property, numeric):
@@ -560,9 +528,6 @@ def Claim_API_qid(qid, property, numeric):
         printe.output('<<lightred>> req' + str(req))
     # ---
     return False
-
-
-# ---
 
 
 def open_url(url, return_json=False):
@@ -601,9 +566,6 @@ def open_url(url, return_json=False):
     return jsontab
 
 
-# ---
-
-
 def sparql_generator_url(quary, printq=False, add_date=True):
     # ---
     if add_date:
@@ -638,9 +600,6 @@ def sparql_generator_url(quary, printq=False, add_date=True):
     # ---
     printe.output(f'#sparql_generator_url:<<lightgreen>> {len(qlist)} items found. {menet}')
     return qlist
-
-
-# ---
 
 
 def wbsearchentities(search, language):
@@ -704,9 +663,6 @@ def wbsearchentities(search, language):
             # ---
     # ---
     return table
-
-
-# ---
 
 
 def Get_claim(q, property, get_claim_id=False):

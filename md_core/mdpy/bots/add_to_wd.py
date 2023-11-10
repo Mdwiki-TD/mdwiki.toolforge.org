@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 بوت فرعي من
 mdpy/sql.py
@@ -78,7 +78,6 @@ for tab in sq_dd:
 from mdpy.bots import wikidataapi
 
 wikidataurl = "https://www.wikidata.org/w/api.php"
-# ---
 
 
 def work_with_2_qids(oldq, new_q):
@@ -134,9 +133,6 @@ def work_with_2_qids(oldq, new_q):
     return False
 
 
-# ---
-
-
 def add_wd(qid, enlink, lang, target):
     params = {
         "action": "wbsetsitelink",
@@ -188,9 +184,6 @@ def add_wd(qid, enlink, lang, target):
     return False
 
 
-# ---
-
-
 def Add_to_wikidata(mdtitle, lang, target, user):
     # ---
     qid = en_to_md.mdtitle_to_qid.get(mdtitle, "")
@@ -229,9 +222,6 @@ def Add_to_wikidata(mdtitle, lang, target, user):
     # ---
     if lang == "or":
         orred.create_redirect(target, mdtitle)
-
-
-# ---
 
 
 def add_tab_to_wd(table):

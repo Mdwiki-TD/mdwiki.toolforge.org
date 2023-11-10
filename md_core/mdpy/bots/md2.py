@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 تجربة ملف mdd.py
@@ -23,7 +23,6 @@ from medUpdater import med
 # ---
 
 printe.output(sys.argv)
-# ---
 
 
 def treat_page(title, textn):
@@ -75,9 +74,6 @@ def treat_page(title, textn):
 <!--Chemical data-->
 |drug_name=|alt=|caption=|licence_EU=|licence_US=}}
 '''
-
-
-# ---
 
 
 def main():

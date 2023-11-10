@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 # ---
 from mdpy.bots import open_url
@@ -63,15 +63,9 @@ class classgetURL:
         return self.html
 
 
-# ---
-
-
 def getURL(url, maxsleeps=0):
     bot = classgetURL(url)
     return bot.open_it()
-
-
-# ---
 
 
 def open_json_url(url, maxsleeps=0, **kwargs):

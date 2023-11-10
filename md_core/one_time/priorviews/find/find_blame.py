@@ -44,7 +44,6 @@ if not os.path.exists(file):
         json.dump({}, f)
 # ---
 new_data = json.load(codecs.open(file, 'r', 'utf-8'))
-# ---
 
 
 def gtblame_value(title, lang):
@@ -84,9 +83,6 @@ def gtblame_value(title, lang):
     return ''
 
 
-# ---
-
-
 def logem():
     printe.output(f'<<yellow>> logem {len(new_data)} words')
     # dump new_data
@@ -99,7 +95,7 @@ def get_b(links, lang):
     # ---
     if lang not in new_data:
         new_data[lang] = {}
-    # ---
+
 
     def valid(x, tab, empty=''):
         i = tab.get(x) or tab.get(x.lower())
@@ -165,7 +161,6 @@ def get_b(links, lang):
         # ---
     # ---
     # logem()
-    # ---
 
 
 def start():

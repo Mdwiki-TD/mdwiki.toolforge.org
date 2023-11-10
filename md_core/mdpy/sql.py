@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 بوت قواعد البيانات
 
@@ -54,7 +54,6 @@ to_update_lang_user_mdtitle = {}
 printsql = {
     1: False
 }
-# ---
 
 
 def add_to_mdwiki_sql(table):
@@ -112,7 +111,6 @@ def add_to_mdwiki_sql(table):
 
 # ---
 tit_user_lang = {}
-# ---
 
 
 def dodo_sql():
@@ -248,7 +246,6 @@ query_main = '''
     #and p.page_namespace = 0
     group by p.page_title, a.actor_name, c.comment_text
 '''
-# ---
 
 
 def main():

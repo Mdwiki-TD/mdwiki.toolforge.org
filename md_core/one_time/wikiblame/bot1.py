@@ -11,7 +11,6 @@ import requests
 
 # ---
 session = requests.Session()
-# ---
 
 
 def get_url(url):
@@ -21,9 +20,6 @@ def get_url(url):
     except Exception as e:
         printe.output(f'except: {e}')
     return ''
-
-
-# ---
 
 
 def wikiblame(table):

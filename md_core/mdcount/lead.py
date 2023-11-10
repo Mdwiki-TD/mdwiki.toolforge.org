@@ -6,8 +6,6 @@ import wikitextparser as wtp
 # ---
 from mdpy.bots import mdwiki_api
 
-# ---
-
 
 def count_text(text):
     # ---
@@ -44,9 +42,6 @@ def count_text(text):
     return tem_text, lenth
 
 
-# ---
-
-
 def count_lead(x):
     # ---
     page_text = mdwiki_api.GetPageText(x)
@@ -60,9 +55,6 @@ def count_lead(x):
     pywikibot.showDiff(te_1, f'count_text:\n{te_2}')
     # ---
     return lenth1
-
-
-# ---
 
 
 def count_all(title='', text=''):

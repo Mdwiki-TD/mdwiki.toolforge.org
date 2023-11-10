@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 from wprefs.api import log, submitAPI, GetPageText, missingtitles, page_put
 """
@@ -51,7 +51,6 @@ ask_a = {
 }
 # ---
 missingtitles = {}
-# ---
 
 
 def log(lang):

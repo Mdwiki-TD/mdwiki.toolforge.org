@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 بوت قواعد البيانات
@@ -56,7 +56,6 @@ dir2 = '/data/project/mdwiki/'
 # ---
 if not os.path.isdir(dir1) and not os.path.isdir(dir2):
     can_use_sql_db[1] = False
-# ---
 
 
 def sql_connect_pymysql(query, db='', host='', update=False, Return=[], return_dict=False):
@@ -121,9 +120,6 @@ def sql_connect_pymysql(query, db='', host='', update=False, Return=[], return_d
         return results
 
 
-# ---
-
-
 def decode_value(value):
     try:
         value = value.decode('utf-8')  # Assuming UTF-8 encoding
@@ -133,9 +129,6 @@ def decode_value(value):
         except BaseException:
             return ''
     return value
-
-
-# ---
 
 
 def resolve_bytes(rows):
@@ -150,9 +143,6 @@ def resolve_bytes(rows):
         decoded_rows.append(decoded_row)
     # ---
     return decoded_rows
-
-
-# ---
 
 
 def make_sql_connect(query, db='', host='', update=False, Return=[], return_dict=False):

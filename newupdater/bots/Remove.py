@@ -9,15 +9,11 @@ import sys
 printn_t = {
     1: False
 }
-# ---
 
 
 def printn(s):
     if printn_t[1] or 'test' in sys.argv:
         print(s)
-
-
-# ---
 
 
 def remove_cite_web(text, resources_get_NLM, line, title):
@@ -53,9 +49,6 @@ def remove_cite_web(text, resources_get_NLM, line, title):
                     new_text = new_text.replace(vas, "")  # حذف قالب الاستشهاد
     # ---
     return new_text
-
-
-# ---
 
 
 def portal_remove(text):

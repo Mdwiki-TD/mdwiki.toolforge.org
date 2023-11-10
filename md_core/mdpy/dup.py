@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 نسخ التحويلات من الإنجليزية إلى mdwiki
@@ -33,7 +33,6 @@ for arg in sys.argv:
         offset[1] = int(value)
 # ---
 from_to = {}
-# ---
 
 
 def fix_dup(From, To):
@@ -48,7 +47,6 @@ def fix_dup(From, To):
     oldtext = mdwiki_api.GetPageText(From)
     sus = f'fix duplicate redirect to [[{To}]]'
     mdwiki_api.page_put(oldtext=oldtext, newtext=newtext, summary=sus, title=From, returntrue=False, diff=True)
-    # ---
 
 
 def main():

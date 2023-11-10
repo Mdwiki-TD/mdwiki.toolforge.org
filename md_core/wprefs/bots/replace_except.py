@@ -74,9 +74,6 @@ else:
         return string
 
 
-# ---
-
-
 def compileLinkR(withoutBracketed: bool = False, onlyBracketed: bool = False):
     """Return a regex that matches external links."""
     notAtEnd = r'\]\s\.:;,<>"\|\)'

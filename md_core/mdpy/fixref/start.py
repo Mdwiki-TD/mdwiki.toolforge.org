@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 Change refs to newlines
 python3 core8/pwb.py mdpy/fixref
@@ -26,8 +26,6 @@ thenumbers = {
     1: 20000,
     'done': 0
 }
-# ---
-# ---
 
 
 def work(title):
@@ -48,7 +46,6 @@ def work(title):
         mdwiki_api.page_put(oldtext=text, newtext=new_text, summary=summary, title=title, returntrue=False, diff=True)
     else:
         printe.output('no changes.')
-    # ---
 
 
 def main():

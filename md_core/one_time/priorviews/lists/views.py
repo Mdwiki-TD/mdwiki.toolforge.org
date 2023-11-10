@@ -49,7 +49,6 @@ count_views_by_mdtitle = {}
 count_tra_by_lang = {}
 count_views_by_lang = {}
 views_by_lang = {}
-# ---
 
 
 def makeviews():

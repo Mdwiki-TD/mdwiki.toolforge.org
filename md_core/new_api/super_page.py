@@ -70,7 +70,6 @@ print_test = {
 Edit_summary_line = {
     1: ' -Edit summary: %s:'
 }
-# ---
 
 
 def warn_err(err):
@@ -100,7 +99,6 @@ change_codes = {
 }
 
 
-# ---
 def login_def(lang, family):
     return {}
 
@@ -175,9 +173,7 @@ class MainPage:
             not_loged_m[1] = self.lang
             # ---
             self.username = self.log.username
-            # ---
 
-    # ---
 
     def post_params(self, params, addtoken=False):
         return self.log.post(params, addtoken=addtoken)
@@ -669,7 +665,7 @@ class MainPage:
         # ---
         self.extlinks = liste1
         return liste1
-        # ---
+
 
     def get_revisions(self, rvprops=[]):
         params = {
@@ -752,7 +748,6 @@ class MainPage:
         # ---
         return self.is_redirect
 
-    # ---
 
     def isDisambiguation(self):
         # ---
@@ -764,7 +759,6 @@ class MainPage:
         # ---
         return self.is_Disambig
 
-    # ---
 
     def get_categories(self, with_hidden=False):
         # ---

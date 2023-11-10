@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 بوت يجمع بين وظيفة بوتين:
 * mdpy/get_md_to_en
@@ -30,7 +30,7 @@ medwiki_to_enwiki = {}
 # mdtitle_to_qid = sql_for_mdwiki.get_all_qids()
 # sql_for_mdwiki.add_titles_to_qids(tab, add_empty_qid=False)
 # sql_for_mdwiki.set_title_where_qid(new_title, qid)
-# ---
+
 
 def add_sql(o_qids):
     printe.output('write to sql')
@@ -58,7 +58,6 @@ def add_sql(o_qids):
     # ---
     if 'add' in sys.argv:
         sql_for_mdwiki.add_titles_to_qids(o_qids_new, add_empty_qid=True)
-    # ---
 
 
 def check():

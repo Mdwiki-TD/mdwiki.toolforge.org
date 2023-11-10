@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 """
@@ -10,7 +10,7 @@
 # import pywikibot
 import sys
 import traceback
-import json as JJson
+import json
 import time
 import urllib
 import pywikibot
@@ -217,9 +217,9 @@ def outbot(text2):
         text = text2
     else:
         try:
-            text = JJson.loads(text2)
+            text = json.loads(text2)
         except BaseException:
-            pywikibot.output("error when JJson loads text2")
+            pywikibot.output("error when json loads text2")
     # ---{'error': {'*': 'See https://mdwiki.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.', 'info': 'Invalid CSRF token.', 'code': 'badtoken'}}
     # {'error': {'info': 'Invalid CSRF token.', '*': 'See https://mdwiki.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.', 'code': 'badtoken'}}
     # ---
@@ -380,7 +380,6 @@ def import_page(title):
     outbot(r4)
     # ---
     return r4
-    # ---
 
 
 def page_put_new(NewText, summary, title, time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, return_table=False):

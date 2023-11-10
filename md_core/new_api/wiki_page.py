@@ -27,7 +27,6 @@ change_codes = super_page.change_codes
 
 # ---
 # xxxxxxxxxxx
-# ---
 
 
 def test():

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 @WikiProjectMed
@@ -24,8 +24,6 @@ import random
 # ---
 import twet_config
 
-# ---
-
 
 def send(link):
     # ---
@@ -47,9 +45,6 @@ def send(link):
     if data and getattr(data, 'id') is not None:
         print(data.id)
         return True
-
-
-# ---
 
 
 def do_api(params):
@@ -77,7 +72,6 @@ project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
     project = '/mdwiki'
 json_file = project + '/md_core/tw/done.json'
-# ---
 
 
 def get_links():
@@ -131,9 +125,6 @@ def get_links():
     return vaild_links
 
 
-# ---
-
-
 def get_done():
     # ---
     # ---
@@ -149,9 +140,6 @@ def get_done():
         jsj = json.load(f)
     f.close()
     return jsj
-
-
-# ---
 
 
 def get_one_link(done, links):

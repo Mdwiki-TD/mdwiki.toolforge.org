@@ -5,8 +5,6 @@ from pathlib import Path
 import codecs
 import wikitextparser
 
-# ---
-
 
 def printn(s):
     return
@@ -44,7 +42,7 @@ class move_External_links_section:
             return
         # ---
         self.add_ext_section()
-        # ---
+
 
     def add_ext_section(self):
         # ---
@@ -126,14 +124,7 @@ class move_External_links_section:
                 self.new_ext_sec = self.ext_sec
                 # ---
                 self.text_to_work = self.text_to_work.replace(str(self.last_sec).strip(), l_c2.strip())
-                # ---
 
-                # ---
-
-                # ---
-            # ---
-
-        # ---
 
     def make_new_txt(self):
         # ---

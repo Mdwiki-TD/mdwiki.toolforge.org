@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 """
@@ -47,7 +47,6 @@ r2_params = {
 # ---
 SS["ss"] = requests.Session()
 SS["login_not_done"] = True
-# ---
 
 
 def py_input(s):
@@ -55,9 +54,6 @@ def py_input(s):
     sa = input()
     # ---
     return sa
-
-
-# ---
 
 
 def Log_to_wiki(family="nccommons", lang="www"):
@@ -95,9 +91,6 @@ def Log_to_wiki(family="nccommons", lang="www"):
     SS["login_not_done"] = False
 
 
-# ---
-
-
 def post_s(params):
     # ---
     params['format'] = 'json'
@@ -133,9 +126,6 @@ def post_s(params):
         SS["login_not_done"] = True
     # ---
     return jj
-
-
-# ---
 
 
 def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all=0):
@@ -206,7 +196,6 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
 Save_all = {
     1: False
 }
-# ---
 
 
 def create_Page(text, title, summary="create page"):
@@ -258,9 +247,6 @@ def create_Page(text, title, summary="create page"):
     # pywikibot.output("end of create_Page def return False title:(%s)" % title)
     # ---
     return False
-
-
-# ---
 
 
 def Find_pages_exists_or_not(liste):

@@ -35,7 +35,6 @@ with codecs.open(file, 'r', encoding='utf-8') as f:
     ViewsData = json.load(f)
 # ---
 N_g = 0
-# ---
 
 
 def log_views():
@@ -100,7 +99,6 @@ def get_v(lang, links):
             # ---
             if N_g % 100 == 0:
                 log_views()
-    # ---
 
 
 def start():

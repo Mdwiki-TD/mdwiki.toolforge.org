@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 page views bot
@@ -30,7 +30,6 @@ project = '/data/project/mdwiki/'
 # ---
 if not os.path.isdir(project):
     project = '/mdwiki'
-# ---
 
 
 def get_RTT():
@@ -55,9 +54,6 @@ def get_RTT():
     printe.output(f'len of RTT: {len(RTT)}')
     # ---
     return RTT
-
-
-# ---
 
 
 def get_RTT2():
@@ -87,9 +83,6 @@ def get_RTT2():
     printe.output(f'len of RTT:{len(RTT)}, len of qids:{len(qids.keys())}, diff:{diff}')
     # ---
     return RTT
-
-
-# ---
 
 
 def main():

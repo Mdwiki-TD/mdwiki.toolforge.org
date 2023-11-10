@@ -22,9 +22,6 @@ def print_s(s):
         printe.output(s)
 
 
-# ---
-
-
 def ec_de_code(tt, type1):
     fao = tt
     if type1 == 'encode':
@@ -33,9 +30,6 @@ def ec_de_code(tt, type1):
     elif type1 == 'decode':
         fao = urllib.parse.unquote(tt)
     return fao
-
-
-# ---
 
 
 def exepts():

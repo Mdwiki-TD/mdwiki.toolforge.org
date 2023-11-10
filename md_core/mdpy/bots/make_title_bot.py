@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 # ---
 from mdpy.bots import make_title_bot
@@ -60,7 +60,6 @@ globalbadtitles = r"""
 # ---
 # open_url.getURL(url)
 # open_url.open_json_url(url)
-# ---
 
 
 def make_title(url):

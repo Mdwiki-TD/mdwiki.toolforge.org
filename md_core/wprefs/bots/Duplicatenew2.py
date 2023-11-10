@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 تجميع المراجع المتشابهة
@@ -18,8 +18,6 @@ from contextlib import suppress
 # ---
 from wprefs.bots.replace_except import replaceExcept, removeprefix
 
-# ---
-
 
 def get_html_attributes_value(text, param):
     # rar = r'(?i){0}\s*=\s*[\'"]?(?P<{0}>[^\'" >]+)[\'"]?'.format(param)
@@ -30,9 +28,6 @@ def get_html_attributes_value(text, param):
     if m:
         return m.group(param)
     return ''
-
-
-# ---
 
 
 def merge_references(text):
@@ -95,9 +90,6 @@ def merge_references(text):
                     text = text.replace(other, org)
     # ---
     return text
-
-
-# ---
 
 
 def DuplicateReferences(text):

@@ -30,7 +30,6 @@ text_v = '''
 # ---
 section_langs_views = {}
 all_section_views = 0
-# ---
 
 
 def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
@@ -96,9 +95,6 @@ def make_lang_text(mdtitle, langlinks, langs_keys_sorted, section):
 
     # Return the overall formatted string containing view counts for all available languages
     return lang_text
-
-
-# ---
 
 
 def make_text(section, links):

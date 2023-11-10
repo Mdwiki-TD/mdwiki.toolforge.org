@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 
 إنشاء قائمة بالاهمية من الانجليزية
@@ -77,11 +77,6 @@ Nore = {
 for arg in sys.argv:
     if arg in ['new', 'listnew', 'less100', 'more400']:
         Nore[1] = True
-# ---
-# ---
-
-# ---
-# ---
 
 
 def split_list_to_numbers(lll):
@@ -106,10 +101,6 @@ def split_list_to_numbers(lll):
     return List
 
 
-# ---
-# ---
-
-
 def log():
     with open(json_file[0], 'w') as outfile:
         json.dump(assessments, outfile, sort_keys=True)
@@ -117,9 +108,6 @@ def log():
     # ---
     printe.output(f'<<lightgreen>> {len(assessments)} lines to {json_file[0]}')
     printe.output('<<lightgreen>> len old assessments %d' % len_old)
-
-
-# ---
 
 
 def work_for_list(list):
@@ -146,10 +134,6 @@ def work_for_list(list):
         assessments[title] = importance
     # ---
     print(f'len of new assessments:{lenn}')
-    # ---
-
-
-# ---
 
 
 def mmain():
