@@ -59,7 +59,6 @@ change_codes = {
     "zh_min_nan": "zh-min-nan",
     "zh_yue": "zh-yue",
 }
-# ---
 
 
 def get_qids_sitelinks(qidslist):
@@ -190,9 +189,6 @@ def get_qids_sitelinks(qidslist):
     table_l["heads"] = heads
     # ---
     return table_d, table_l
-
-
-# ---
 
 
 def cash_wd():

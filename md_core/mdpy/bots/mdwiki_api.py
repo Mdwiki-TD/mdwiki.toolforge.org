@@ -380,7 +380,6 @@ def import_page(title):
     outbot(r4)
     # ---
     return r4
-    # ---
 
 
 def page_put_new(NewText, summary, title, time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, return_table=False):

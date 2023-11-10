@@ -32,7 +32,6 @@ if not os.path.exists(file):
 # ---
 # ---
 words_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
-# ---
 
 
 def log_words():
@@ -42,7 +41,6 @@ def log_words():
 
 # ---
 N_g = 0
-# ---
 
 
 def get_w(links, lang):
@@ -96,10 +94,6 @@ def get_w(links, lang):
         # ---
         if N_g % 100 == 0:
             log_words()
-    # ---
-
-
-# ---
 
 
 def start():
@@ -126,10 +120,6 @@ def start():
         # ---
     # ---
     log_words()
-    # ---
-
-
-# ---
 
 
 def test():

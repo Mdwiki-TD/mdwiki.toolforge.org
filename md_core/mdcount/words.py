@@ -37,7 +37,6 @@ json_file = {}
 words_n = {}
 # ---
 all_words_n = {}
-# ---
 
 
 def get_word_files():
@@ -64,7 +63,6 @@ def get_word_files():
 
 # ---
 get_word_files()
-# ---
 
 
 def log(file, table):
@@ -80,7 +78,6 @@ Nore = {
 for arg in sys.argv:
     if arg in ['new', 'listnew', 'less100', 'more400']:
         Nore[1] = True
-# ---
 
 
 def mmain():

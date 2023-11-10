@@ -41,9 +41,6 @@ else:
         return string
 
 
-# ---
-
-
 def quoteurl(fao):
     endash = False
     # ---
@@ -66,16 +63,10 @@ def quoteurl(fao):
     return fao
 
 
-# ---
-
-
 def Decode_bytes(x):
     if isinstance(x, bytes):
         x = x.decode("utf-8")
     return x
-
-
-# ---
 
 
 def ec_de_code(tt, Type):

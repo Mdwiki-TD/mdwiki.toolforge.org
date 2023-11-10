@@ -37,8 +37,6 @@ if not os.path.exists(file):
         json.dump({}, f)
 # ---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
-# ---
-# ---
 
 
 def logem():
@@ -49,7 +47,6 @@ def logem():
 
 # ---
 N_g = 0
-# ---
 
 
 def get_t(links, lang):
@@ -105,10 +102,6 @@ def get_t(links, lang):
         # ---
         if N_g % 100 == 0:
             logem()
-    # ---
-
-
-# ---
 
 
 def start():
@@ -135,10 +128,6 @@ def start():
         # ---
     # ---
     logem()
-    # ---
-
-
-# ---
 
 
 def test():
@@ -157,10 +146,6 @@ def test():
                 if tra != '':
                     n += 1
                     print(n, lang, title, tra)
-    # ---
-
-
-# ---
 
 
 def removeip():

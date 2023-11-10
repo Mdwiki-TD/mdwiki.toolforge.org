@@ -12,7 +12,6 @@ import wikitextparser as wtp
 
 # ---
 temps_to_delete = ["short description", "toc limit", 'use american english', 'use dmy dates', 'about', 'redirect']
-# ---
 
 
 def work(text):

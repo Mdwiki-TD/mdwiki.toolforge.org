@@ -60,7 +60,6 @@ globalbadtitles = r"""
 # ---
 # open_url.getURL(url)
 # open_url.open_json_url(url)
-# ---
 
 
 def make_title(url):

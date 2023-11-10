@@ -59,7 +59,6 @@ for section, links in sects_links_langlinks.items():
 sql_file = f'{Dir}/lists/tab_new.json'
 # ---
 tab_new['translates'] = []  # ['mdtitle', 'target', 'lang', 'views', 'words', 'translator', 'type']
-# ---
 
 
 def authors_table(authors, lang):
@@ -93,9 +92,6 @@ def authors_table(authors, lang):
     authors_text += '\n|}'
     # ---
     return authors_text
-
-
-# ---
 
 
 def make_lang_textso(lang):
@@ -251,9 +247,6 @@ def make_lang_textso(lang):
     newtext += secs_texts
     # ---
     return newtext
-
-
-# ---
 
 
 def work(lang):

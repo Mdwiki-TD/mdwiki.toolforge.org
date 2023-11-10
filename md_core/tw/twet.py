@@ -102,7 +102,8 @@ def auth22(tweet):
     if data and getattr(data, 'id') != None:
         print(data['id'])
         return True
-# ---
+
+
 def auth(tweet):
     # ---
     api = twitter.Api(consumer_key=consumer_key,
@@ -123,7 +124,8 @@ def auth(tweet):
     return u
 # ---
 from TwitterAPI import TwitterAPI
-# ---
+
+
 def auth(twet):
     api = TwitterAPI(consumer_key, consumer_secret, access_token, access_token_secret)
     r = api.request('statuses/update', {'status': twet })
@@ -131,8 +133,8 @@ def auth(twet):
         print('SUCCESS')
     else:
         print('FAILURE')
-    # ---
-# ---
+
+
 def auth(twet):
     BEARER = twitter.oauth2_dance(consumer_key, consumer_secret)
 
@@ -150,7 +152,6 @@ def auth(twet):
     # ---
 # ---
 '''
-# ---
 
 
 def auth(twet):
@@ -160,11 +161,6 @@ def auth(twet):
     # ---
     # auth = tweepy.OAuth2AppHandler(consumer_key, consumer_secret)
     # api = tweepy.API(auth)
-    # ---
-
-
-# ---
-# ---
 
 
 def do_api(params):
@@ -192,7 +188,6 @@ project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
     project = '/mdwiki'
 json_file = project + '/md_core/tw/done.json'
-# ---
 
 
 def get_links():
@@ -246,9 +241,6 @@ def get_links():
     return vaild_links
 
 
-# ---
-
-
 def get_done():
     # ---
     # ---
@@ -266,9 +258,6 @@ def get_done():
     return jsj
 
 
-# ---
-
-
 def get_one_link(done, links):
     # ---
     # chose one link
@@ -277,9 +266,6 @@ def get_one_link(done, links):
         link = random.choice(links)
     # ---
     return link
-
-
-# ---
 
 
 def start_md():

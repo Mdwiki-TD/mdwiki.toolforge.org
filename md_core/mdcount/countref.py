@@ -44,8 +44,6 @@ file_lead = project + '/public_html/Translation_Dashboard/Tables/lead_refcount.j
 # ---
 from mdpy.bots import catdepth2
 
-# ---
-
 
 def Decode_bytes(x):
     if isinstance(x, bytes):
@@ -78,7 +76,6 @@ list_fu = list(set(all_ref.keys()) & set(lead_ref.keys()))
 # remove duplicates from list
 list_fu = list(set(list_fu))
 list_ma[1] = [x for x in list_fu if (x in all_ref and x in lead_ref)]
-# ---
 
 
 def count_ref_from_text(text, get_short=False):
@@ -123,7 +120,6 @@ def count_ref_from_text(text, get_short=False):
 from TDpynew import ref
 
 # ref.fix_ref( first, alltext )
-# ---
 
 
 def count_refs(title):
@@ -143,18 +139,12 @@ def count_refs(title):
     printe.output('<<lightgreen>> all:%d \t lead:%d' % (all_c, lead_c))
 
 
-# ---
-
-
 def logaa(file, table):
     with open(file, 'w') as outfile:
         json.dump(table, outfile, sort_keys=True, indent=4)
     outfile.close()
     # ---
     printe.output(f'<<lightgreen>> {len(table)} lines to {file}')
-
-
-# ---
 
 
 def from_sql():
@@ -171,9 +161,6 @@ def from_sql():
     return titles
 
 
-# ---
-
-
 def get_links():
     tabe = catdepth2.subcatquery2('RTT', depth='1', ns='0')
     lale = tabe['list']
@@ -185,9 +172,6 @@ def get_links():
         lale = [x for x in lale if (x not in list_ma[1])]
     # ---
     return lale
-
-
-# ---
 
 
 def mai():

@@ -45,7 +45,6 @@ project = '/data/project/mdwiki'
 # ---
 if not os.path.isdir(project):
     project = 'I:/mdwiki'
-# ---
 
 
 def fix_page_here(text, title, langcode):
@@ -70,9 +69,6 @@ def fix_page_here(text, title, langcode):
     newtext = fix_page(newtext, title, move_dots=dots, infobox=expend, section_0=section_0_text, lang=langcode, add_en_lang=adden)
     # ---
     return newtext
-
-
-# ---
 
 
 def work_one_lang(list_, lang):
@@ -139,7 +135,6 @@ for arg in sys.argv:
         expend_infobox[1] = True
     if arg == 'movedots':
         move_dot[1] = True
-# ---
 
 
 def maine():

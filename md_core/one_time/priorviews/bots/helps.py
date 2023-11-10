@@ -21,7 +21,6 @@ from datetime import timedelta
 from mdpy import printe
 
 Dir = Path(__file__).parent
-# ---
 
 
 def views_url(title, lang, view):
@@ -44,9 +43,6 @@ def views_url(title, lang, view):
     return view
 
 
-# ---
-
-
 def isv(comment):
     # ---
     comment = comment.lower()
@@ -65,9 +61,6 @@ def isv(comment):
     return False
 
 
-# ---
-
-
 def is_ip(user):
     # skip user match ip address
     if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', user):
@@ -82,9 +75,6 @@ def is_ip(user):
     return False
 
 
-# ---
-
-
 def talk_url(lang, user, labl):
     old = f'[[w:{lang}:User talk:{user}|{user}]]'
     # --
@@ -96,9 +86,6 @@ def talk_url(lang, user, labl):
     url = f"//{lang}.wikipedia.org/w/index.php?" + urlencode(pas)
     # ---
     return f'[{url} {labl}]'
-
-
-# ---
 
 
 def dump_data(file, data):

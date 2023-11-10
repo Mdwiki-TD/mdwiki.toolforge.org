@@ -52,7 +52,6 @@ to_update = cats
 # ---
 # ---
 n = 0
-# ---
 
 
 def delete_it(cat):

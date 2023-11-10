@@ -32,9 +32,6 @@ consumer_secret = twet_config.consumer_secret
 access_token = twet_config.access_token
 access_token_secret = twet_config.access_token_secret
 bearer_token = twet_config.bearer_token
-# ---
-# ---
-# ---
 
 
 def auth_ready(tweet, link=None):
@@ -63,7 +60,6 @@ project = '/data/project/mdwiki'
 if not os.path.isdir(project):
     print(f'{project} is not dir')
     project = '/mdwiki'
-# ---
 
 
 def auth(tweet, link=None):
@@ -79,9 +75,6 @@ def auth(tweet, link=None):
     if dataid is not None:
         print(dataid)
         return True
-
-
-# ---
 
 
 def do_api(params):
@@ -106,7 +99,6 @@ def do_api(params):
 title = 'WikiProjectMed:List'
 # ---
 json_file = project + '/md_core/tw/done.json'
-# ---
 
 
 def get_links():
@@ -163,9 +155,6 @@ def get_links():
     return vaild_links
 
 
-# ---
-
-
 def get_done():
     # ---
     jsj = []
@@ -184,9 +173,6 @@ def get_done():
     return jsj
 
 
-# ---
-
-
 def get_one_link(done, links):
     # ---
     # chose one link
@@ -195,9 +181,6 @@ def get_one_link(done, links):
         link = random.choice(links)
     # ---
     return link
-
-
-# ---
 
 
 def start_md():

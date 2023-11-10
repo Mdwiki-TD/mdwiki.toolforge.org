@@ -51,7 +51,6 @@ ask_a = {
 }
 # ---
 missingtitles = {}
-# ---
 
 
 def log(lang):

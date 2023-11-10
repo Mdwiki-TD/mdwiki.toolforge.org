@@ -44,7 +44,6 @@ if not os.path.exists(file):
         json.dump({}, f)
 # ---
 new_data = json.load(codecs.open(file, 'r', 'utf-8'))
-# ---
 
 
 def gtblame_value(title, lang):
@@ -82,9 +81,6 @@ def gtblame_value(title, lang):
                 return 'creator'
     # ---
     return ''
-
-
-# ---
 
 
 def logem():
@@ -165,7 +161,6 @@ def get_b(links, lang):
         # ---
     # ---
     # logem()
-    # ---
 
 
 def start():

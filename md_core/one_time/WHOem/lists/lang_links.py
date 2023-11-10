@@ -57,7 +57,6 @@ def find_wd(title):
         return
     # ---
     printe.output(f'qid: {qid}')
-    # ---
 
 
 def work_in_page(title):

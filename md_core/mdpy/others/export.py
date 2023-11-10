@@ -38,8 +38,6 @@ for arg in sys.argv:
 himoBOT3.log('https://' + 'en.wikipedia.org/w/api.php')
 # ---
 # himoBOT3.get_Export_xml( title )
-# ---
-# ---
 
 
 def export_en_history(title):
@@ -144,9 +142,6 @@ def export_en_history(title):
         printe.output(' revisions in one file.')
         # ---
         return FILE_PATH
-
-
-# ---
 
 
 def export(title):

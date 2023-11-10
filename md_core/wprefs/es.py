@@ -128,7 +128,6 @@ params = {
 for _new, _lal in params.items():
     for _old in _lal:
         args_to[_old] = _new
-# ---
 
 
 def fix_temps(text):
@@ -199,9 +198,6 @@ def add_lang_en(text, lang=''):
             text = text.replace(pap + ref, pap + ref2)
     # ---
     return text
-
-
-# ---
 
 
 def fix_es(text, title):

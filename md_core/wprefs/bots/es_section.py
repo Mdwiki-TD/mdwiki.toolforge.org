@@ -13,7 +13,6 @@ m_keys = {}
 for k, v in es_months_tab.items():
     n += 1
     m_keys[n] = v
-# ---
 
 
 def make_date(timestamp):
@@ -41,7 +40,6 @@ def make_date(timestamp):
         return timestamp
     # ---
     return f"{d} de {m_ky} de {y}"
-    # ---
 
 
 def add_section(text, title):

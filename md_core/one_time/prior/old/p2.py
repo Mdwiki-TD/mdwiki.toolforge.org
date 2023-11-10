@@ -21,7 +21,8 @@ project = '/mnt/nfs/labstore-secondary-tools-project/mdwiki'
 if not os.path.isdir(project): project = '/mdwiki'
 #---
 project += '/md_core/prior/json/'
-#---
+
+
 def main_links():
     title = "WikiProjectMed:List/Prior"
     text  = mdwiki_api.GetPageText(title)
@@ -38,10 +39,12 @@ def main_links():
     return links
 #---
 from new_api.wiki_page import MainPage
-#---
+
+
 def print_test(s):
     if 'test' in sys.argv:print(s)
-#---
+
+
 def get_weblinks(refs, text):
     liste = []
     #---
@@ -86,7 +89,8 @@ def get_weblinks(refs, text):
 #---
 # all = json.loads(codecs.open(project + 'allen2.json', 'r', encoding='utf-8').read())
 all = {}
-#---
+
+
 def work_in_one_lang_link(lang, title):
     #---
     params = { "action": "parse", "format": "json", "prop": "wikitext", "page": title, "utf8": 1}
@@ -113,7 +117,8 @@ def work_in_one_lang_link(lang, title):
     weblinks = get_weblinks(refs, text)
     #---
     return weblinks
-#---
+
+
 def work_in_en_page(title):
     #---
     if not title in all : all[title] = {'refs':0, 'langs':{}}
@@ -161,9 +166,8 @@ def work_in_en_page(title):
         printe.output(f'p{n}/{len(langlinks)}:\t{lang}\t{tata["refs"]} refs, {tata["same"]} same')
         #---
         all[title]['langs'][lang] = tata
-        #---
-    #---
-#---
+
+
 def start():
     #---
     if 'test' in sys.argv:

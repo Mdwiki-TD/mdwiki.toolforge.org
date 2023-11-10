@@ -30,7 +30,6 @@ if not os.path.isdir(project):
 public_html = project + '/public_html'
 # ---
 values = {}
-# ---
 
 
 def fix_p(title, text, param):
@@ -42,9 +41,6 @@ def fix_p(title, text, param):
         newtext = newtext.replace(uu, nn)
         # ---
     return newtext
-
-
-# ---
 
 
 def work(title):
@@ -103,7 +99,6 @@ def work(title):
 # ---
 # ---
 errors = {}
-# ---
 
 
 def check_urls(urls):
@@ -121,7 +116,6 @@ def check_urls(urls):
         if 500 <= req.status_code < 600:
             printe.output(f'<<lightred>> received {req.uri} status from {req.status_code}')
             errors[u] = True
-        # ---
 
 
 def make_log(dad):
@@ -161,9 +155,6 @@ def make_log(dad):
     te += '= no errors = \n' + text + '\n'
     # ---
     mdwiki_api.page_put(newtext=te, summary='update', title='User:Mr. Ibrahem/Ourworldindatamirror', diff=False)
-
-
-# ---
 
 
 def main():

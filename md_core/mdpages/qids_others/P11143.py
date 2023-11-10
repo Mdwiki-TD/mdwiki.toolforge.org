@@ -42,7 +42,6 @@ for wd in wdlist:
     # ---
 # ---
 print(f'len of in_wd: {len(in_wd)}')
-# ---
 
 
 def add_missing(newlist):
@@ -76,7 +75,6 @@ if 'add' in sys.argv:
 # ---
 # merge_qids = {**newlist, **in_wd}
 merge_qids = newlist | in_wd
-# ---
 
 
 def fix(merge_qids):
@@ -116,7 +114,6 @@ def fix(merge_qids):
 # ---
 if 'fix' in sys.argv:
     fix(merge_qids)
-# ---
 
 
 def duplict():

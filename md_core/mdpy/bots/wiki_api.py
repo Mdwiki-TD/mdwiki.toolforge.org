@@ -56,7 +56,6 @@ login_done = {
 # ---
 lgname = user_account_new.bot_username  # user_account_new.my_username
 lgpassword = user_account_new.bot_password  # user_account_new.my_password      #user_account_new.mdwiki_pass
-# ---
 
 
 def log(api_urle):
@@ -123,9 +122,6 @@ def log(api_urle):
     session["token"] = token
 
 
-# ---
-
-
 def split_list_to_numbers(lise, numbs=100):
     # ---
     titles = {}
@@ -150,9 +146,6 @@ def split_list_to_numbers(lise, numbs=100):
                 # ---
     # ---
     return titles
-
-
-# ---
 
 
 def submitAPI_token(params, apiurl='', returnjson=False):
@@ -181,9 +174,6 @@ def submitAPI_token(params, apiurl='', returnjson=False):
     # ---
     # ---
     return json1
-
-
-# ---
 
 
 def submitAPI(params, apiurl='', returnjson=False):
@@ -219,9 +209,6 @@ def submitAPI(params, apiurl='', returnjson=False):
     return json1
 
 
-# ---
-
-
 def Find_pages_exists_or_not(liste, apiurl=''):
     # ---
     params = {
@@ -254,9 +241,6 @@ def Find_pages_exists_or_not(liste, apiurl=''):
     return table
 
 
-# ---
-
-
 def get_langlinks(title, lang):
     # ---
     params = {
@@ -278,9 +262,6 @@ def get_langlinks(title, lang):
     }
     # ---
     return langlinks
-
-
-# ---
 
 
 def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
@@ -350,9 +331,6 @@ def Get_page_qids(sitecode, titles, apiurl='', normalize=0):
     return Main_table
 
 
-# ---
-
-
 def Getpageassessments_from_wikipedia(titles, site="en", find_redirects=False, pasubprojects=0):
     # Tables = { "stub" : False }
     # ---
@@ -413,9 +391,6 @@ def Getpageassessments_from_wikipedia(titles, site="en", find_redirects=False, p
     return Tables
 
 
-# ---
-
-
 def GetPageText(title, lang, redirects=False):
     # printe.output( '**GetarPageText: ')
     # ---
@@ -445,9 +420,6 @@ def GetPageText(title, lang, redirects=False):
         printe.output(f'page {title} text == "".')
     # ---
     return text
-
-
-# ---
 
 
 def _get_page_views_(titles, site='en', days=30):
@@ -542,9 +514,6 @@ def _get_page_views_(titles, site='en', days=30):
     return Main_table, no_pv
 
 
-# ---
-
-
 def get_page_views(titles, site='en', days=30):
     # ---
     numb = 0
@@ -562,9 +531,6 @@ def get_page_views(titles, site='en', days=30):
         }
     # ---
     return views
-
-
-# ---
 
 
 def get_views_with_rest_v1(langcode, titles, date_start='20150701', date_end='20300101', printurl=False, printstr=False, Type=''):

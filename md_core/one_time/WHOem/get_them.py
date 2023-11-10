@@ -31,7 +31,6 @@ change_codes = {
     "zh_min_nan": "zh-min-nan",
     "zh_yue": "zh-yue",
 }
-# ---
 
 
 def url_parser(url):
@@ -61,9 +60,6 @@ def url_parser(url):
     }
 
     return elements
-
-
-# ---
 
 
 def filter_urls(links):

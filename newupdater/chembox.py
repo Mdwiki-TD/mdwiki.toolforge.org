@@ -7,8 +7,6 @@ Dir = Path(__file__).parent
 # ---
 from lists.chem_params import rename_chem_params
 
-# ---
-
 
 def printn(s):
     return

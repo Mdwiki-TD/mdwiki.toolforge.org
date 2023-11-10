@@ -82,7 +82,6 @@ def work(title, Find, Replace, nn):
             # ---
     # ---
     codecs.open(file_name[1], 'a', encoding="utf-8").write(line)
-    # ---
 
 
 def main():

@@ -34,7 +34,6 @@ api_new = NEW_API('www', family='mdwiki')
 api_new.Login_to_wiki()
 # pages   = api_new.Find_pages_exists_or_not(liste)
 # pages   = api_new.Get_All_pages(start='', namespace="0", limit="max", apfilterredir='', limit_all=0)
-# ---
 
 
 def work_on_title(title, returntext=False, text_O=""):

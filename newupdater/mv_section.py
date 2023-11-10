@@ -5,8 +5,6 @@ from pathlib import Path
 import codecs
 import wikitextparser
 
-# ---
-
 
 def printn(s):
     return

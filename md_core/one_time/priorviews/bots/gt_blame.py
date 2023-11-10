@@ -24,7 +24,6 @@ from priorviews.bots import helps
 
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)
-# ---
 
 
 def match_ref_names(r, refnames, lang):

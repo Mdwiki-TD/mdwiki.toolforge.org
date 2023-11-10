@@ -36,7 +36,6 @@ or
 
     pip install "wikitextparser>=0.47.5"
 """) from None
-# ---
 
 
 def extract_templates_and_params(text):
@@ -106,9 +105,6 @@ def extract_templates_and_params(text):
     return result
 
 
-# ---
-
-
 def get_one_temp_params(text, tempname="", templates=[], lowers=False, get_all_temps=False):
     ingr = extract_templates_and_params(text)
     # ---
@@ -148,9 +144,6 @@ def get_one_temp_params(text, tempname="", templates=[], lowers=False, get_all_t
             # ---
     # ---
     return named
-
-
-# ---
 
 
 def get_all_temps_params(text, templates=[], lowers=False):

@@ -24,7 +24,6 @@ from mdpy import printe
 
 # ---
 cat_for_pages = {}
-# ---
 
 
 def get_cats_and_pages():
@@ -63,7 +62,6 @@ def get_cats_and_pages():
 
 # ---
 get_cats_and_pages()
-# ---
 
 
 def get_pages_with_no_cat():

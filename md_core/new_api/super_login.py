@@ -39,8 +39,6 @@ seasons_by_lang = {}
 ar_lag = {
     1: 3
 }
-# ---
-# ---
 
 
 def warn_err(err):

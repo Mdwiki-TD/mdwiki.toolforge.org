@@ -2,8 +2,6 @@ import re
 
 import wikitextparser as wtp
 
-# ---
-
 
 def printn(s):
     return

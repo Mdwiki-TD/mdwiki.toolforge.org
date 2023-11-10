@@ -16,7 +16,6 @@ Dir = Path(__file__).parent
 # _views = helps.views_url(title, lang, view)
 # helps.is_ip(user)
 # helps.talk_url(lang, user, labl)
-# ---
 
 
 def make_by_lang(one_langs_only):

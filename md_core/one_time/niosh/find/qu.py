@@ -37,7 +37,6 @@ json.dump(result, codecs.open(file, 'w', encoding='utf-8'))
 titles = sorted(data.keys())
 # ---
 all_links = []
-# ---
 
 
 def fix_links(x):

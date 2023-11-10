@@ -61,7 +61,6 @@ if 'onlyread' in sys.argv:
 # ---
 all_reg = {}
 # all_reg['Abdominal_aortic_aneurysm_(Radiopaedia_10122-10660_Axial_C+_portal_venous_phase)'] = []
-# ---
 
 
 def make_page(x, tab):
@@ -85,10 +84,6 @@ def make_page(x, tab):
     text += "\n}}\n[[Category:Image set]]"
     # ---
     api.create_Page(text, x)
-    # ---
-
-
-# ---
 
 
 def work():

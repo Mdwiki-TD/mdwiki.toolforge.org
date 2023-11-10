@@ -58,7 +58,8 @@ def work_page(title, qid):
     # ---
     newtext = tag + text
     page.save(newtext=newtext, summary='add tag:' + tag, nocreate=1, minor='')
-    # ---
+
+
 def add_tag():
     # ---
     printe.output('Get all pages...')

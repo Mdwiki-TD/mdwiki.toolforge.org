@@ -40,7 +40,6 @@ from mdpy.bots import wiki_api
 
 # ---
 targets_done = {}
-# ---
 
 
 def dodo_sql():
@@ -93,7 +92,6 @@ def dodo_sql():
 wd_tt = {}
 # ---
 dodo_sql()
-# ---
 
 
 def do_it_sql(lange, targets):
@@ -155,10 +153,6 @@ def do_it_sql(lange, targets):
             if len_missing > 0:
                 printe.output("recheck.py %d missing from %d" % (diff, len(group)))
                 printe.output("recheck.py missing:(%d):%s" % (len_missing, ",".join(itemdiff)))
-        # ---
-
-
-# ---
 
 
 def do_it_api(lange, targets):
@@ -296,7 +290,6 @@ for target in wd_tt:
     }
 # ---
 printe.output(f'len(qids_to_merge) = "{len(qids_to_merge)}"')
-# ---
 
 
 def work_with_2_qids(oldq, new_q):

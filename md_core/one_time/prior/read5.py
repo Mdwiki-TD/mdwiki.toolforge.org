@@ -43,7 +43,6 @@ save_page   = page.save(newtext='', summary='', nocreate=1, minor='')
 replaces = {
     "Syncope": "Syncope (medicine)",
 }
-# ---
 
 
 def work_test(All, allen):
@@ -86,9 +85,6 @@ def work_test(All, allen):
 
     # Return the updated 'text' variable.
     return text
-
-
-# ---
 
 
 def get_all_json():
@@ -233,12 +229,6 @@ class WorkAll:
                     page_x_text = page_x.get_text()
                     # ---
                     page_x.save(newtext=text, summary='update', nocreate=0)
-        # ---
-
-    # ---
-
-
-# ---
 
 
 def work_all():

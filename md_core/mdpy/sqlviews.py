@@ -28,15 +28,11 @@ from mdpy import printe
 already_in_sql = {}
 # ---
 Lang_to_targets = {}
-# ---
 
 
 def print_test(strr):
     if 'print' in sys.argv or 'nosql' in sys.argv:
         printe.output(strr)
-
-
-# ---
 
 
 def update_2023(lang, table):

@@ -37,7 +37,6 @@ if '200' in sys.argv:
     listo = listo[:200]
 # ---
 print(f'len of listo: {len(listo)}')
-# ---
 
 
 def get_timestamp(titles):

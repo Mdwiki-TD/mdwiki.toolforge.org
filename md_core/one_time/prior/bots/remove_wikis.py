@@ -16,7 +16,6 @@ black_list = [
     "wikimedia.org",
     "wikipedia.org",
 ]
-# ---
 
 
 def work_in_jsfile(filename):

@@ -35,7 +35,8 @@ if True:
     #---
     all_langs = list(set(all_langs))
     all_langs.sort()
-#---
+
+
 def match_p(refs, same):
     if same < 1: return False
     if 11 > same < ((refs/2)-1): return False
@@ -65,7 +66,8 @@ change_codes = {
     "zh_min_nan" : "zh-min-nan",
     "zh_yue" : "zh-yue",
 }
-#---
+
+
 def make_text(allo):
     # create wikitable from json
     #---

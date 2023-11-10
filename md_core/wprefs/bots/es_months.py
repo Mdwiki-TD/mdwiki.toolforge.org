@@ -27,7 +27,6 @@ es_months_lower = {
 }
 # ---
 es_months_line = "|".join(es_months_tab.keys())
-# ---
 
 
 def make_new_val(val):
@@ -62,9 +61,6 @@ def make_new_val(val):
         return newval
     # ---
     return newval
-
-
-# ---
 
 
 def fix_es_months(text):

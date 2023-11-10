@@ -100,7 +100,6 @@ def get_v(mdtitle, langslinks):
         # ---
         if N_g % 100 == 0:
             log_views()
-    # ---
 
 
 def start():

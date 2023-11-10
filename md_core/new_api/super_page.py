@@ -70,7 +70,6 @@ print_test = {
 Edit_summary_line = {
     1: ' -Edit summary: %s:'
 }
-# ---
 
 
 def warn_err(err):
@@ -100,7 +99,6 @@ change_codes = {
 }
 
 
-# ---
 def login_def(lang, family):
     return {}
 

@@ -32,7 +32,6 @@ qids_already = {
 }
 # ---
 noqids = [title for title, q in qids.items() if q == '' and valid_title(title)]
-# ---
 
 
 def create_qids(no_qids):

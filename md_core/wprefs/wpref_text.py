@@ -19,8 +19,6 @@ from wprefs.helps import print_s
 from wprefs.es import fix_es
 from wprefs.infobox import Expend_Infobox
 
-# ---
-
 
 def add_lang_en(text, lang=''):
     # ---

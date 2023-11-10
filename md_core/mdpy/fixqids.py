@@ -28,7 +28,6 @@ qs_list = {
     q: title
     for title, q in mdlist.items() if q != ''
 }
-# ---
 
 
 def fix_redirects():
@@ -60,10 +59,6 @@ def fix_redirects():
             printe.output('add "fix" to sys.argv to fix them..')
 
 
-# ---
-# ---
-
-
 def check_title(title):
     # ---
     title = title.lower().strip()
@@ -74,9 +69,6 @@ def check_title(title):
         return False
     # ---
     return True
-
-
-# ---
 
 
 def add_to_qids():
