@@ -16,7 +16,7 @@ def mv_es_refs(text):
     # ---
     for x in tags:
         # ---
-        if not x or not x.name:
+        if not x or not x.name:  # Ensure consistent indentation
             continue
         if x.name != 'ref':
             continue
