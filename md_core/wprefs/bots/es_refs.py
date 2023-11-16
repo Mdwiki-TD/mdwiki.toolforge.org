@@ -56,6 +56,8 @@ def mv_es_refs(text):
             # ---
             line += la
     # ---
+    line = line.strip()
+    # ---
     tempin = False
     # ---
     for template in parsed.templates:
