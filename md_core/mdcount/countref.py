@@ -21,7 +21,7 @@ list_ma = {1: []}
 file_all = project + '/public_html/Translation_Dashboard/Tables/all_refcount.json'
 file_lead = project + '/public_html/Translation_Dashboard/Tables/lead_refcount.json'
 
-python3 core8/pwb.py mdpy/countref newpages
+# Removed the line 'python3 core8/pwb.py mdpy/countref newpages'
 
 """
 #
