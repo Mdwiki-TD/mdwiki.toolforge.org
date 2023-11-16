@@ -113,62 +113,68 @@ def count_refs(title):
     # ---
     lead_ref[title] = lead_c
     # ---
-    printe.output('<<lightgreen>> all:%d \t lead:%d' % (all_c, lead_c))
-
-
-def logaa(file, table):
-    with open(file, 'w') as outfile:
-        json.dump(table, outfile, sort_keys=True, indent=4)
-    outfile.close()
+    # count = 0
     # ---
-    printe.output(f'<<lightgreen>> {len(table)} lines to {file}')
-
-
-def from_sql():
+    if get_short:
+        for m in short_ref.finditer(text):
+            name = m.group('name')
+            if name.strip() != '':
+                if name.strip() not in ref_list:
+                    ref_list.append(name.strip())
     # ---
-    que = '''select title, word from pages;'''
+    # refreg = re.compile(r'(<ref[^>]*>[^<>]+</ref>|<ref[^>]*\/\s*>)')
+    refreg = re.compile(r'(?i)<ref(?P<name>[^>/]*)>(?P<content>.*?)</ref>', re.IGNORECASE | re.DOTALL)
     # ---
-    sq = sql_for_mdwiki.mdwiki_sql(que, return_dict=True)
-    # ---
-    titles2 = [q['title'] for q in sq]
-    # ---
-    titles = [x for x in titles2 if x not in list_ma[1]]
-    # ---
-    printe.output(f'<<lightyellow>> sql: find {len(titles2)} titles, {len(titles)} to work. ')
-    return titles
-
-
-def get_links():
-    tabe = catdepth2.subcatquery2('RTT', depth='1', ns='0')
-    lale = tabe['list']
-    # ---
-    if 'sql' in sys.argv:
-        lale = from_sql()
-    # ---
-    if 'newpages' in sys.argv:
-        lale = [x for x in lale if (x not in list_ma[1])]
-    # ---
-    return lale
-
-
-def mai():
-    # ---
-    numb = 0
-    # ---
-    vaild_links[1] = get_links()
-    # ---
-    limit = 10000
-    if 'limit100' in sys.argv:
-        limit = 100
-    # ---
-    # python pwb.py mdwiki/public_html/Translation_Dashboard/countref test1 local -title:Testosterone_\(medication\)
-    # python3 core8/pwb.py /data/project/mdwiki/mdpy/countref test1 -title:Testosterone_\(medication\)
-    # ---
-    for arg in sys.argv:
-        arg, _, value = arg.partition(':')
+    for m in refreg.finditer(text):
+        # content = m.group('content')
+        # if content.strip() != '' : if not content.strip() in ref_list : ref_list.append(content.strip())
         # ---
-        if arg == "-title":
-            vaild_links[1].append(value.replace('_', ' '))
+        name = m.group('name')
+        content = m.group('content')
+        # ---
+        if name.strip() != '':
+            if name.strip() not in ref_list:
+                ref_list.append(name.strip())
+        elif content.strip() != '':
+            if content.strip() not in ref_list:
+                ref_list.append(content.strip())
+            # count += 1
+    # ---
+    count = len(ref_list)
+    # ---
+    return count
+def count_ref_from_text(text, get_short=False):
+    # ---
+    # count = 0
+    # ---
+    if get_short:
+        for m in short_ref.finditer(text):
+            name = m.group('name')
+            if name.strip() != '':
+                if name.strip() not in ref_list:
+                    ref_list.append(name.strip())
+    # ---
+    # refreg = re.compile(r'(<ref[^>]*>[^<>]+</ref>|<ref[^>]*\/\s*>)')
+    refreg = re.compile(r'(?i)<ref(?P<name>[^>/]*)>(?P<content>.*?)</ref>', re.IGNORECASE | re.DOTALL)
+    # ---
+    for m in refreg.finditer(text):
+        # content = m.group('content')
+        # if content.strip() != '' : if not content.strip() in ref_list : ref_list.append(content.strip())
+        # ---
+        name = m.group('name')
+        content = m.group('content')
+        # ---
+        if name.strip() != '':
+            if name.strip() not in ref_list:
+                ref_list.append(name.strip())
+        elif content.strip() != '':
+            if content.strip() not in ref_list:
+                ref_list.append(content.strip())
+            # count += 1
+    # ---
+    count = len(ref_list)
+    # ---
+    return count
         # ---
     # ---
     for x in vaild_links[1]:
