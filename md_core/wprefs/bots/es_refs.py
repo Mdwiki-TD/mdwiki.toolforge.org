@@ -18,40 +18,40 @@ def mv_es_refs(text):
         # ---
         if not x or not x.name:  # Ensure consistent indentation
             continue
-        if x.name != 'ref':
+        if x.name != "ref":
             continue
         if not x.contents:
             continue
         # ---
         attrs = x.attrs
-        name = attrs.get('name', '').strip()
-        group = attrs.get('group', '').strip()
+        name = attrs.get("name", "").strip()
+        group = attrs.get("group", "").strip()
         # ---
         if group not in refs:
             refs[group] = {}
         # ---
-        if name == '':
+        if name == "":
             numb += 1
-            name = f'autogen_{numb}'
-            x.set_attr('name', name)
+            name = f"autogen_{numb}"
+            x.set_attr("name", name)
         # ---
         if name not in refs[group]:
             refs[group][name] = x.contents
         elif refs[group][name] != x.contents:
-            print_s(f'x.contents = {x.contents}')
+            print_s(f"x.contents = {x.contents}")
         # ---
         asas = f'<ref name="{name}" />'
-        if group != '':
+        if group != "":
             asas = f'<ref group="{group}" name="{name}" />'
         # ---
         x.string = asas
     # ---
-    line = '\n'
+    line = "\n"
     # ---
     for g, gag in refs.items():
         for name, ref in gag.items():
             la = f'<ref name="{name}">{ref}</ref>\n'
-            if g != '':
+            if g != "":
                 la = f'<ref group="{g}" name="{name}">{ref}</ref>\n'
             # ---
             line += la
@@ -63,9 +63,9 @@ def mv_es_refs(text):
     for template in parsed.templates:
         # ---
         template_name = str(template.normal_name()).strip()
-        if template_name.lower() in ['reflist', 'listaref']:
-            refs_arg = template.get_arg('refs')
-            template.set_arg('refs', line)
+        if template_name.lower() in ["reflist", "listaref"]:
+            refs_arg = template.get_arg("refs")
+            template.set_arg("refs", line)
             tempin = True
     # ---
     if not tempin:
@@ -74,7 +74,7 @@ def mv_es_refs(text):
     return parsed.string
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import pywikibot
 
     text = """{{Ficha de medicamento
