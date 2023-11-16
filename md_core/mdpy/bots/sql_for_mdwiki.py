@@ -135,12 +135,6 @@ def sql_connect_pymysql(query, return_dict=False):
         return results
 
 
-def Decode_bytes(x):
-    if isinstance(x, bytes):
-        x = x.decode("utf-8")
-    return x
-
-
 def mdwiki_sql(query, return_dict=False, **kwargs):
     # ---
     if not can_use_sql_db[1]:

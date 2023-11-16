@@ -18,39 +18,22 @@ import re
 import os
 import sys
 from mdpy.bots import sql_for_mdwiki
-
-# sql_for_mdwiki.mdwiki_sql(query , update = False)
+from TDpynew import ref
+from mdpy.bots import mdwiki_api
+from mdpy import printe
+from mdpy.bots import catdepth2
 # ---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
     project = '/mdwiki'
 # ---
-# start of mdwiki_api.py file
-from mdpy.bots import mdwiki_api
-from mdpy import printe
-
-# ---
 all_ref = {}
 lead_ref = {}
-vaild_links = {
-    1: []
-}
-list_ma = {
-    1: []
-}
+vaild_links = {1: []}
+list_ma = {1: []}
 # ---
 file_all = project + '/public_html/Translation_Dashboard/Tables/all_refcount.json'
 file_lead = project + '/public_html/Translation_Dashboard/Tables/lead_refcount.json'
-# ---
-from mdpy.bots import catdepth2
-
-
-def Decode_bytes(x):
-    if isinstance(x, bytes):
-        x = x.decode("utf-8")
-    return x
-
-
 # ---
 a = {}
 # ---
@@ -114,12 +97,6 @@ def count_ref_from_text(text, get_short=False):
     count = len(ref_list)
     # ---
     return count
-
-
-# ---
-from TDpynew import ref
-
-# ref.fix_ref( first, alltext )
 
 
 def count_refs(title):
@@ -214,7 +191,5 @@ def mai():
     logaa(file_all, all_ref)
 
 
-# ---
 if __name__ == '__main__':
     mai()
-# ---
