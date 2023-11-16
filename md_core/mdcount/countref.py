@@ -22,6 +22,16 @@ from TDpynew import ref
 from mdpy.bots import mdwiki_api
 from mdpy import printe
 from mdpy.bots import catdepth2
+import config
+import codecs
+import re
+import os
+import sys
+from mdpy.bots import sql_for_mdwiki
+from TDpynew import ref
+from mdpy.bots import mdwiki_api
+from mdpy import printe
+from mdpy.bots import catdepth2
 # ---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
@@ -33,7 +43,7 @@ vaild_links = {1: []}
 list_ma = {1: []}
 # ---
 file_all = project + '/public_html/Translation_Dashboard/Tables/all_refcount.json'
-file_lead = project + '/public_html/Translation_Dashboard/Tables/lead_refcount.json'
+file_lead = config.project + '/public_html/Translation_Dashboard/Tables/lead_refcount.json'
 # ---
 a = {}
 # ---
@@ -161,9 +171,35 @@ def mai():
     if 'limit100' in sys.argv:
         limit = 100
     # ---
-    # python pwb.py mdwiki/public_html/Translation_Dashboard/countref test1 local -title:Testosterone_\(medication\)
-    # python3 core8/pwb.py /data/project/mdwiki/mdpy/countref test1 -title:Testosterone_\(medication\)
+    file_lead = config.project + '/public_html/Translation_Dashboard/Tables/lead_refcount.json'
     # ---
+    a = {}
+    # ---
+    a = json.loads(codecs.open(file_all, "r", encoding="utf-8").read())
+    # ---
+    all_ref = {
+        x: ref
+        for x, ref in a.items() if ref > 0
+    }
+    # ---
+    la = {}
+    # ---
+    la = json.loads(codecs.open(file_lead, "r", encoding="utf-8").read())
+    # ---
+    lead_ref = {
+        x: ref
+        for x, ref in la.items() if ref > 0
+    }
+    # ---
+    # list for titles in both all_ref and lead_ref
+    list_fu = list(set(all_ref.keys()) & set(lead_ref.keys()))
+    # ---
+    # remove duplicates from list
+    list_fu = list(set(list_fu))
+    list_ma[1] = [x for x in list_fu if (x in all_ref and x in lead_ref)]
+    
+    
+    def count_ref_from_text(text, get_short=False):
     for arg in sys.argv:
         arg, _, value = arg.partition(':')
         # ---
