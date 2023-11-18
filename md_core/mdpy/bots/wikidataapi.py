@@ -12,34 +12,6 @@
 
 import traceback
 
-new line(s) to replace
-        return False
-    # ---
-    if r22.json()['login']['result'] != 'Success':
-        printe.output(r22.json()['login']['reason'])
-        # raise RuntimeError(r22.json()['login']['reason'])
-    else:
-        printe.output('wikidataapi.py login Success')
-    # ---
-    # get edit token
-    SS["r33"] = SS["ss"].get(
-        SS["url"],
-        params={
-            'format': 'json',
-            'action': 'query',
-            'meta': 'tokens',
-        },
-    )
-    # ---
-    SS["url"] = url
-    # ---
-    SS["r3_token"] = SS["r33"].json()['query']['tokens']['csrftoken']
-    # ---
-    # printe.output( ' r3_token:%s' % SS["r3_token"] )
-    # ---
-    login_not_done[1] = False
-
-
 def get_status(req):
     try:
         st = req.status_code
