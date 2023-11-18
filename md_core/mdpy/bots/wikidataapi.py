@@ -18,63 +18,7 @@ import urllib
 import json
 import sys
 
-# ---
-import pywikibot
-
-# ---
-from datetime import datetime
-
-# ---
-menet = datetime.now().strftime("%Y-%b-%d  %H:%M:%S")
-# ---
-from mdpy import printe
-from mdpy.bots import py_tools
-
-# ---
-'''
-# ---
-from mdpy.bots import wikidataapi
-# wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
-# wikidataapi.post( params , apiurl = "https://www.wikidata.org/w/api.php" )
-# wikidataapi.Get_sitelinks_From_Qid( q )
-# wikidataapi.WD_Merge( q1, q2)
-# wikidataapi.Labels_API(Qid, label, lang, remove = False)
-# wikidataapi.sparql_generator_url(quary, printq = False, add_date = True)
-# wikidataapi.wbsearchentities(search, language)
-# wikidataapi.Claim_API_qid(qid, property, numeric)
-# wikidataapi.Claim_API_str(qid, property, string)
-# wikidataapi.
-# wikidataapi.
-# ---
-'''
-# ---
-import requests
-
-# ---
-from mdpy.bots import user_account_new
-
-# ---
-username = user_account_new.bot_username  # user_account_new.my_username
-password = user_account_new.bot_password  # user_account_new.my_password      #user_account_new.mdwiki_pass
-# ---
-if 'workhimo' in sys.argv:
-    username = user_account_new.my_username
-    password = user_account_new.my_password
-# ---
-yes_answer = ["y", "a", "", "Y", "A", "all"]
-# ---
-SS = {}
-r1_params = {
-    'format': 'json',
-    'action': 'query',
-    'meta': 'tokens',
-    'type': 'login',
-}
-r2_params = {
-    # fz'assert': 'user',
-    'format': 'json',
-    'action': 'login',
-    'lgname': username,
+new line(s) to replace
     'lgpassword': password,
 }
 # ---
