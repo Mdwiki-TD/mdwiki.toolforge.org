@@ -3,9 +3,8 @@ from warnings import warn
 import pywikibot
 import sys
 import wikitextparser as wtp
-
 # ---
-if __file__.find('new_api') == -1:
+if __file__.find('mdwiki') == -1:
     from API import botEdit
     from API import txtlib
     from API import printe
@@ -110,7 +109,7 @@ not_loged_m = {
 # ---
 
 
-class MainPage:
+class MainPage():
 
     def __init__(self, title, lang, family='wikipedia'):
         self.title = title
@@ -183,10 +182,10 @@ class MainPage:
             "action": "query",
             "prop": "revisions|pageprops|flagged",
             "titles": self.title,
-            "ppprop": "wikibase_item",
-            "rvprop": "timestamp|content|user|ids",
-            "rvslots": "*"
-        }  # pageprops  # revisions  # revisions
+            "ppprop": "wikibase_item",  # pageprops
+            "rvprop": "timestamp|content|user|ids",  # revisions
+            "rvslots": "*"  # revisions
+        }
         # ---
         if redirects:
             params["redirects"] = 1
@@ -221,8 +220,8 @@ class MainPage:
                             "wikibase_item": "Q3938"
                         }
                     }
-                },
-            },
+                }
+            }
         }
         # ---
         pages = data.get("query", {}).get("pages", {})
@@ -232,7 +231,7 @@ class MainPage:
             if print_test[1] or 'printdata' in sys.argv:
                 warn(warn_err('v:' + str(v)), UserWarning)
             # ---
-            if 'missing' in v:
+            if 'missing' in v or k == "-1":
                 self.Exists = False
                 break
             else:
@@ -275,7 +274,7 @@ class MainPage:
             "iwlimit": "max",  # iwlinks
             "formatversion": "2",
             # "normalize": 1,
-            "tlnamespace": "10",
+            "tlnamespace": "10"
         }
         # ---
         _data_ = {
@@ -307,10 +306,10 @@ class MainPage:
                         "pagelanguagedir": "rtl",
                         "touched": "2023-03-07T11:53:53Z",
                         "lastrevid": 61366100,
-                        "length": 985,
+                        "length": 985
                     }
                 }
-            },
+            }
         }
         # ---
         data = self.post_params(params)
@@ -359,9 +358,9 @@ class MainPage:
                     'pagelanguagedir': 'rtl',
                     'touched': '2023-03-05T22:10:23Z',
                     'lastrevid': 61388266,
-                    'length': 3477,
+                    'length': 3477
                 }]
-            },
+            }
         }
         # ---
         ta = data.get("query", {}).get("pages", [{}])[0]
@@ -392,7 +391,7 @@ class MainPage:
             # ---
             self.all_categories_with_hidden[tit] = cat
             # ---
-            if cat.get('hidden') == True:
+            if cat.get('hidden') is True:
                 self.hidden_categories[tit] = cat
             else:
                 del cat['hidden']
@@ -476,7 +475,7 @@ class MainPage:
             "gblnamespace": ns,
             "gbllimit": "max",
             "formatversion": "2",
-            "gblredirect": 1,
+            "gblredirect": 1
         }
         # ---
         x = {
@@ -678,7 +677,7 @@ class MainPage:
             # "rvprop": "comment|timestamp|user|content|ids",
             "rvdir": "newer",
             "rvslots": "*",
-            "rvlimit": "max",
+            "rvlimit": "max"
         }
         # ---
         rvprop = [
@@ -686,7 +685,7 @@ class MainPage:
             "timestamp",
             "user",
             # "content",
-            "ids",
+            "ids"
         ]
         # ---
         for x in rvprops:
@@ -867,7 +866,7 @@ class MainPage:
         return self.Exists
 
     def namespace(self):
-        if self.ns == False:
+        if self.ns is False:
             self.get_text()
         return self.ns
 
@@ -977,7 +976,7 @@ class MainPage:
             self.summary = summary
         # ---
         ask = self.ask_put(nodiff=nodiff)
-        if ask == False:
+        if ask is False:
             return False
         # ---
         params = {
@@ -1040,7 +1039,7 @@ class MainPage:
         # ---
         ask = self.ask_put()
         # ---
-        if ask == False:
+        if ask is False:
             return False
         # ---
         params = {

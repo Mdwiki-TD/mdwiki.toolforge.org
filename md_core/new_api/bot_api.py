@@ -30,8 +30,7 @@ if login_done_lang[1] != code:
 import pywikibot
 import datetime
 from datetime import timedelta
-
-if __file__.find('new_api') == -1:
+if __file__.find('mdwiki') == -1:
     from API import printe
 else:
     from new_api import printe
@@ -281,7 +280,7 @@ class NEW_API:
         # ---
         if srlimit == "":
             srlimit = "max"
-        # ---valu
+        # ---
         params = {
             "action": "query",
             "format": "json",
@@ -333,7 +332,7 @@ class NEW_API:
             "rcnamespace": namespace,
             "rclimit": 'max',
             "utf8": 1,
-            "rctype": "new",
+            "rctype": "new"
         }
         # ---
         if rcstart != "":

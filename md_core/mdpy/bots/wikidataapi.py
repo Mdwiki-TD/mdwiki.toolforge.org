@@ -35,7 +35,7 @@ from mdpy.bots import py_tools
 # ---
 from mdpy.bots import wikidataapi
 # wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php" )
-# wikidataapi.post( params , apiurl = '' )
+# wikidataapi.post( params , apiurl = "https://www.wikidata.org/w/api.php" )
 # wikidataapi.Get_sitelinks_From_Qid( q )
 # wikidataapi.WD_Merge( q1, q2)
 # wikidataapi.Labels_API(Qid, label, lang, remove = False)
