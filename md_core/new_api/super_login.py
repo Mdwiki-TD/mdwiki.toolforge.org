@@ -15,9 +15,8 @@ import urllib.parse
 import traceback
 from warnings import warn
 import pywikibot
-
 # ---
-if __file__.find('new_api') == -1:
+if __file__.find('mdwiki') == -1:
     from API import printe
 else:
     from new_api import printe
@@ -54,7 +53,7 @@ login_lang = {
 # ---
 
 
-class Login:
+class Login():
 
     def __init__(self, lang, family='wikipedia'):
         self.lang = lang
