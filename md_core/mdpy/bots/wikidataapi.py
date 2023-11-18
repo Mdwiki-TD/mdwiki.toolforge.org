@@ -12,46 +12,7 @@
 
 import traceback
 
-# import pywikibot
-import re
-import urllib
-import json
-import sys
-
 new line(s) to replace
-    'lgpassword': password,
-}
-# ---
-SS["ss"] = requests.Session()
-# ---
-timesleep = 0
-# ---
-login_not_done = {
-    1: True
-}
-
-
-def Log_to_wiki(url=''):
-    # ---
-    if not login_not_done[1]:
-        return ''
-    # ---
-    printe.output(f"wikidataapi.py: log to {url} user:{r2_params['lgname']}")
-    SS["url"] = url
-    SS["ss"] = requests.Session()
-    # ---
-    if SS:
-        # try:
-        r11 = SS["ss"].get(SS["url"], params=r1_params)
-        r11.raise_for_status()
-        # except:
-        # printe.output( "wikidataapi.py: Can't log in . ")
-        # log in
-        r2_params['lgtoken'] = r11.json()['query']['tokens']['logintoken']
-        r22 = SS["ss"].post(SS["url"], data=r2_params)
-    # except:
-    else:
-        printe.output("wikidataapi.py: Can't log in . ")
         return False
     # ---
     if r22.json()['login']['result'] != 'Success':
