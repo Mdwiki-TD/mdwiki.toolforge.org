@@ -58,23 +58,34 @@ purge       = page.purge()
 '''
 
 """
-# ---
-# ingr = txtlib.extract_templates_and_params(text)
-# for temp in ingr: name, namestrip, params, template = temp['name'], temp['namestrip'], temp['params'], temp['item']
-# ---
-print_test = {
-    1: False
-}
-# ---
-Edit_summary_line = {
-    1: ' -Edit summary: %s:'
+change_codes = {
+    "nb": "no",
+    "bat_smg": "bat-smg",
+    "be_x_old": "be-tarask",
+    "be-x-old": "be-tarask",
+    "cbk_zam": "cbk-zam",
+    "fiu_vro": "fiu-vro",
+    "map_bms": "map-bms",
+    "nds_nl": "nds-nl",
+    "roa_rup": "roa-rup",
+    "zh_classical": "zh-classical",
+    "zh_min_nan": "zh-min-nan",
+    "zh_yue": "zh-yue",
 }
 
 
-def warn_err(err):
-    err = str(err)
-    nn = inspect.stack()[1][3]
-    return f'\ndef {nn}(): {err}'
+def login_def(lang, family):
+    return {}
+
+
+# ---
+not_loged_m = {
+    1: ""
+}
+# ---
+
+
+class MainPage():
 
 
 # ---
@@ -573,6 +584,170 @@ class MainPage():
             "redirects": 1
         }
         # ---
+        if with_hidden:
+            return self.all_categories_with_hidden
+        # ---
+        return self.categories
+
+    def get_hidden_categories(self):
+        # ---
+        if self.categories == {} and self.hidden_categories == {}:
+            self.get_infos()
+        # ---
+        return self.hidden_categories
+
+    def get_langlinks(self):
+        # ---
+        if not self.info['done']:
+            self.get_infos()
+        # ---
+        return self.langlinks
+
+    def get_templates_API(self):
+        # ---
+        if not self.info['done']:
+            self.get_infos()
+        # ---
+        return self.templates_API
+
+    def get_links_here(self):
+        # ---
+        if not self.info['done']:
+            self.get_infos()
+        # ---
+        return self.links_here
+
+    def get_wiki_links_from_text(self):
+        if self.text == '':
+            self.text = self.get_text()
+        # ---
+        parsed = wtp.parse(self.text)
+        wikilinks = parsed.wikilinks
+        # ---
+        printe.output(f'wikilinks:{str(wikilinks)}')
+        # ---
+        for x in wikilinks:
+            print(x.title)
+        # ---
+        return self.can_be_edit
+
+    def Get_tags(self, tag=''):
+        if self.text == '':
+            self.text = self.get_text()
+        # ---
+        self.text = self.text.replace('<ref>', '<ref name="ss">', 1)
+        # ---
+        parsed = wtp.parse(self.text)
+        tags = parsed.get_tags()
+        # ---
+        # printe.output(f'tags:{str(tags)}')
+        # ---
+        if tag == '':
+            return tags
+        # ---
+        new_tags = []
+        # ---
+        for x in tags:
+            if x.name == tag:
+                new_tags.append(x)
+        # ---
+        return new_tags
+
+    def can_edit(self, script=''):
+        # ---
+        if self.family != 'wikipedia':
+            return True
+        # ---
+        if self.text == '':
+            self.text = self.get_text()
+        # ---
+        self.can_be_edit = botEdit.botMayEdit(False, text=self.text, title_page=self.title, botjob=script)
+        # ---
+        return self.can_be_edit
+
+    def is_flagged(self):
+        # ---
+        if self.text == '':
+            self.text = self.get_text()
+        # ---
+        return self.flagged
+
+    def get_timestamp(self):
+        if self.timestamp == '':
+            self.get_text()
+        return self.timestamp
+
+    def exists(self):
+        if self.Exists == '':
+            self.get_text()
+        if not self.Exists:
+            printe.output(f'page "{self.title}" not exists in {self.lang}:{self.family}')
+        return self.Exists
+
+    def namespace(self):
+        if self.ns is False:
+            self.get_text()
+        return self.ns
+
+    def get_user(self):
+        if self.user == '':
+            self.get_text()
+        return self.user
+
+    def get_userinfo(self):
+        if len(self.userinfo) == 0:
+            params = {
+                "action": "query",
+                "format": "json",
+                "list": "users",
+                "formatversion": "2",
+                "usprop": "groups",
+                "ususers": self.user
+            }
+            # ---
+            data = self.post_params(params)
+            # ---
+            _userinfo_ = {
+                "id": 229481,
+                "name": "Mr. Ibrahem",
+                "groups": ["editor", "reviewer", "rollbacker", "*", "user", "autoconfirmed"]
+            }
+            # ---
+            ff = data.get("query", {}).get("users", [{}])
+            # ---
+            if ff:
+                self.userinfo = ff[0]
+        # ---
+        return self.userinfo
+
+    def get_templates(self):
+        if self.text == '':
+            self.text = self.get_text()
+        self.templates = txtlib.extract_templates_and_params(self.text)
+        return self.templates
+
+    def ask_put(self, nodiff=False):
+        yes_answer = ["y", "a", "", "Y", "A", "all", "aaa"]
+        # ---
+        if 'ask' in sys.argv and not Save_Edit_Pages[1] or print_test[1]:
+            # ---
+            if "nodiff" not in sys.argv and not nodiff:
+                if len(self.newtext) < 70000 and len(self.text) < 70000 or 'diff' in sys.argv:
+                    printe.showDiff(self.text, self.newtext)
+                else:
+                    printe.output('showDiff error..')
+                    printe.output(f'diference in bytes: {len(self.newtext) - len(self.text)}')
+                    printe.output(f'length of text: {len(self.text)}, length of newtext: {len(self.newtext)}')
+            # ---
+            printe.output(Edit_summary_line[1] % self.summary)
+            # ---
+            sa = pywikibot.input(f'<<lightyellow>>page.py: Do you want to accept these changes? (yes, no): for page {self.lang}:{self.title} user:{self.username}')
+            # ---
+            if sa == "a":
+                printe.output('<<lightgreen>> ---------------------------------')
+                printe.output(f'<<lightgreen>> {__file__} save all without asking.')
+                printe.output('<<lightgreen>> ---------------------------------')
+                Save_Edit_Pages[1] = True
         data = self.post_params(params)
         # ---
         _pages_ = {
