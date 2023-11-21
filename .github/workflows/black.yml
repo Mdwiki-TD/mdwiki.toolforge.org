@@ -13,11 +13,10 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10.1
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install dependencies
       run: |
@@ -25,4 +24,4 @@ jobs:
         pip install black
 
     - name: Run Black
-      run: black -t py38 -t py39 -t py310 -t py311 --line-length 450 --skip-string-normalization .
+      run: black -t py38 -t py39 -t py310 -t py311 --line-length ${{ env.LINE_LENGTH }} --skip-string-normalization .
