@@ -25,3 +25,5 @@ jobs:
 
     - name: Run Black
       run: black -t py38 -t py39 -t py310 -t py311 --line-length ${{ env.LINE_LENGTH }} --skip-string-normalization .
+    +      env:
+    +        LINE_LENGTH: ${{ env.LINE_LENGTH }}
