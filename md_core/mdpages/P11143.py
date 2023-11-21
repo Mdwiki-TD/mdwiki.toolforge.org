@@ -9,6 +9,7 @@ python3 core8/pwb.py mdpages/P11143
 #
 #
 import sys
+
 # ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import catdepth2
@@ -26,10 +27,7 @@ wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php")
 # ---
 qids_di = sql_for_mdwiki.get_all_qids()
 # ---
-qids = {
-    q: title
-    for title, q in qids_di.items() if q != ''
-}
+qids = {q: title for title, q in qids_di.items() if q != ''}
 # ---
 mdwiki_in_qids = list(qids.values())
 # ---
@@ -120,7 +118,7 @@ def duplicate(merge_qids):
         if q not in va_tab[va]:
             va_tab[va].append(q)
     # ---
-    va_tab_x = { k: v for k, v in va_tab.items() if len(v) > 1 }
+    va_tab_x = {k: v for k, v in va_tab.items() if len(v) > 1}
     # ---
     if va_tab_x:
         printe.output(f'<<lightyellow>> len of va_tab_x: {len(va_tab_x)}')
@@ -140,10 +138,7 @@ def add_q(new_qids):
     if len(new_qids) < 10:
         print("\n".join([f'{k}:{v}' for k, v in new_qids.items()]))
     # ---
-    newtitles = {
-        title: qid
-        for qid, title in new_qids.items()
-    }
+    newtitles = {title: qid for qid, title in new_qids.items()}
     # ---
     titles_not_td = [x for x in newtitles if x not in TD_list]
     # ---
@@ -170,10 +165,7 @@ def start():
     # ---
     print(f'len of in_wd: {len(in_wd)}')
     # ---
-    newlist = {
-        q: tt
-        for q, tt in qids.items() if q not in in_wd.keys()
-    }
+    newlist = {q: tt for q, tt in qids.items() if q not in in_wd.keys()}
     # ---
     add_missing(newlist)
     # ---

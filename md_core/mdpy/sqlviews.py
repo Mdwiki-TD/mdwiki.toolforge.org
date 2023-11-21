@@ -200,12 +200,7 @@ def get_views_sql(lang_o):
         if lang not in already_in_sql:
             already_in_sql[lang] = {}
         # ---
-        already_in_sql[lang][target] = {
-            'all': countall,
-            '2021': count2021,
-            '2022': count2022,
-            '2023': count2023
-        }
+        already_in_sql[lang][target] = {'all': countall, '2021': count2021, '2022': count2022, '2023': count2023}
 
 
 def main():
@@ -263,10 +258,7 @@ def main():
             if 'numbers' in sys.argv and title_list[0] == 'Tacalcitol':
                 printe.output(numbers)
             # ---
-            numbs = {
-                **numbs,
-                **numbers
-            }
+            numbs = {**numbs, **numbers}
         # ---
         if 'testtest' in sys.argv:
             continue

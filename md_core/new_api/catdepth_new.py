@@ -9,7 +9,6 @@ def login_def(lang, family):
 
 
 class CategoryDepth:
-
     def __init__(self, title, sitecode, depth=0, family="wikipedia", ns="all", nslist=[], without_lang="", with_lang="", tempyes=[], no_gcmsort=False, **kwargs):
         # ---
         self.title = title
@@ -45,19 +44,7 @@ class CategoryDepth:
         return self.log.post(params, addtoken=True)
 
     def make_params(self):
-        params = {
-            "action": "query",
-            "format": "json",
-            "utf8": 1,
-            "generator": "categorymembers",
-            "gcmprop": "title",
-            "prop": [],
-            "gcmtype": "page|subcat",
-            "gcmlimit": "max",
-            "formatversion": "1",
-            "gcmsort": "timestamp",
-            "gcmdir": "newer"
-        }
+        params = {"action": "query", "format": "json", "utf8": 1, "generator": "categorymembers", "gcmprop": "title", "prop": [], "gcmtype": "page|subcat", "gcmlimit": "max", "formatversion": "1", "gcmsort": "timestamp", "gcmdir": "newer"}
         if self.no_gcmsort:
             del params["gcmsort"]
             del params["gcmdir"]
@@ -134,10 +121,7 @@ class CategoryDepth:
                             continue
                 # ---
                 tablese['templates'] = [x['title'] for x in caca.get('templates', {})]
-                tablese['langlinks'] = {
-                    fo['lang']: fo.get('title') or fo.get('*') or ''
-                    for fo in caca.get('langlinks', [])
-                }
+                tablese['langlinks'] = {fo['lang']: fo.get('title') or fo.get('*') or '' for fo in caca.get('langlinks', [])}
                 # ---
                 table[cate_title] = tablese
             # ---

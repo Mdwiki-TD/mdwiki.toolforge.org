@@ -49,11 +49,7 @@ tab_new['links'] = {}
 for section, links in sects_links_langlinks.items():
     # ---
     for x in links:
-        tab_new['links'][x] = {
-            'section': section,
-            'words': 0,
-            'views': 0
-        }
+        tab_new['links'][x] = {'section': section, 'words': 0, 'views': 0}
     # ---
 # ---
 sql_file = f'{Dir}/lists/tab_new.json'
@@ -111,10 +107,7 @@ def make_lang_textso(lang):
     # ---
     for section, links in sects_links_langlinks.items():
         # ---
-        tab = {
-            x: v[lang]
-            for x, v in links.items() if lang in v
-        }
+        tab = {x: v[lang] for x, v in links.items() if lang in v}
         # ---
         all_links += len(links)
         all_links_with_ar += len(tab)
@@ -194,10 +187,7 @@ def make_lang_textso(lang):
                     authors_2[ar_tra] += 1
                     # ---
                     if ar_tra not in translators_all:
-                        translators_all[ar_tra] = {
-                            'all': 0,
-                            'by_lang': {}
-                        }
+                        translators_all[ar_tra] = {'all': 0, 'by_lang': {}}
                     # ---
                     if lang not in translators_all[ar_tra]['by_lang']:
                         translators_all[ar_tra]['by_lang'][lang] = 0
@@ -205,15 +195,7 @@ def make_lang_textso(lang):
                     # ---
                     translators_all[ar_tra]['all'] += 1
                 # ---
-                fafo = {
-                    'mdtitle': x,
-                    'target': ar,
-                    'lang': lang,
-                    'views': arviews,
-                    'words': arwords,
-                    'translator': ar_tra,
-                    'tr_type': tr_type
-                }
+                fafo = {'mdtitle': x, 'target': ar, 'lang': lang, 'views': arviews, 'words': arwords, 'translator': ar_tra, 'tr_type': tr_type}
                 # ---
                 tab_new['translates'].append(fafo)
                 # ---
@@ -234,10 +216,7 @@ def make_lang_textso(lang):
     print(newtext)
     # ----
     # authors = sorted(authors.items(), key=lambda x: x[1])
-    authors_2 = {
-        x: v
-        for x, v in sorted(authors_2.items(), key=lambda item: item[1], reverse=True)
-    }
+    authors_2 = {x: v for x, v in sorted(authors_2.items(), key=lambda item: item[1], reverse=True)}
     authors_text = "\n==Translators==\n"
     # ----
     authors_text += authors_table(authors_2, lang)

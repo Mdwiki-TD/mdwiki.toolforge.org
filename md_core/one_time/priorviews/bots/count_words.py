@@ -21,7 +21,6 @@ tt = count_words.get_words(title, lang)
 
 
 class InOldText:
-
     def __init__(self, title, lang="en"):
         # ---
         self.lang = lang
@@ -50,7 +49,6 @@ class InOldText:
             # ---
         # ---
         text = self.oldtext
-
 
     def count(self, text):
         text = text.replace("'''", "").replace("''", "")
@@ -102,27 +100,9 @@ class InOldText:
         return json1
 
     def get_oldtext(self):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "prop": "wikitext",
-            "page": self.title,
-            "utf8": 1
-        }
+        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         # ---
-        params = {
-            "action": "query",
-            "format": "json",
-            "prop": "revisions",
-            "titles": self.title,
-            "redirects": 1,
-            "formatversion": "2",
-            "rvprop": "timestamp|content",
-            "rvslots": "*",
-            "rvlimit": "1",
-            "rvstart": "2020-05-31T22:00:00.000Z",
-            "rvdir": "older"
-        }
+        params = {"action": "query", "format": "json", "prop": "revisions", "titles": self.title, "redirects": 1, "formatversion": "2", "rvprop": "timestamp|content", "rvslots": "*", "rvlimit": "1", "rvstart": "2020-05-31T22:00:00.000Z", "rvdir": "older"}
         # ---
         json1 = self.post_to_json(params)
         # ---
@@ -131,22 +111,12 @@ class InOldText:
         # print(f'timestamp: {self.timestamp}')
         self.oldtext = revisions.get('slots', {}).get('main', {}).get('content', '')
 
-
     def get_newtext(self):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "prop": "wikitext",
-            "page": self.title,
-            "redirects": 1,
-            "utf8": 1,
-            "formatversion": "2"
-        }
+        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "redirects": 1, "utf8": 1, "formatversion": "2"}
         # ---
         json1 = self.post_to_json(params)
         # ---
         self.newtext = json1.get('parse', {}).get('wikitext', '')
-
 
     def Words(self):
         printe.output(f'\t\twords: {self.words}')

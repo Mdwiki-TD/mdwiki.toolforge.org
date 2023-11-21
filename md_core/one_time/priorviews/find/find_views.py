@@ -104,10 +104,7 @@ def get_v(links):
             if viws_in != 0 and viws == 0:
                 continue
             # ---
-            ViewsData[mdtitle][lang] = {
-                "title": title,
-                "views": viws
-            }
+            ViewsData[mdtitle][lang] = {"title": title, "views": viws}
             # ---
             N_g += 1
             # ---

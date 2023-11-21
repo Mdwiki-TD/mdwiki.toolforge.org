@@ -55,10 +55,7 @@ config.read(project + "/confs/nccommons_user.ini")
 username = config["DEFAULT"]["username"].strip()
 password = config["DEFAULT"]["password"].strip()
 # ---
-User_tables = {
-    "username": username,
-    "password": password
-}
+User_tables = {"username": username, "password": password}
 # ---
 # xxxxxxxxxxx
 # ---

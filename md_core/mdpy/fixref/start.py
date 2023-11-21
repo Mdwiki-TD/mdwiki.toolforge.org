@@ -22,10 +22,7 @@ if not os.path.isdir(project):
     project = '/mdwiki'
 # ---
 # ---
-thenumbers = {
-    1: 20000,
-    'done': 0
-}
+thenumbers = {1: 20000, 'done': 0}
 
 
 def work(title):

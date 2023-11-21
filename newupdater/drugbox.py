@@ -18,7 +18,6 @@ from lists.bot_params import all_params, params_to_add, params_placeholders, all
 
 
 class TextProcessor:
-
     def __init__(self, text):
         self.text = text
         self.new_text = text
@@ -59,10 +58,7 @@ class TextProcessor:
                 # ---
                 txt = template.string
                 # ---
-                params = {
-                    str(param.name).strip(): str(param.value)
-                    for param in template.arguments
-                }
+                params = {str(param.name).strip(): str(param.value) for param in template.arguments}
                 # ---
                 break
         # ---
@@ -85,7 +81,6 @@ class TextProcessor:
         # create self.newdrugbox
         self.new_temp()
 
-
     def add_section(self, section):
         if section == "":
             return
@@ -96,11 +91,7 @@ class TextProcessor:
 
     def get_combo(self):
         # ---
-        combo_titles = {
-            "mab": "Monoclonal antibody data",
-            "vaccine": "Vaccine data",
-            "combo": "Combo data"
-        }
+        combo_titles = {"mab": "Monoclonal antibody data", "vaccine": "Vaccine data", "combo": "Combo data"}
         # ---
         Type = self.drugbox_params.get("type", "").lower().strip()
         # ---
@@ -166,22 +157,9 @@ class TextProcessor:
         # ---
         return sec_text, sec_params
 
-
     def create_section(self, sectionname):
         # ---
-        sections_titles = {
-            "first": "",
-            "combo": "",
-            "names": "Names",
-            "gene": "GENE THERAPY",
-            "clinical": "Clinical data",
-            "external": "External links",
-            "legal": "Legal data",
-            "physiological": "Physiological data",
-            "pharmacokinetic": "Pharmacokinetic data",
-            "chemical": "Chemical and physical data",
-            "last": ""
-        }
+        sections_titles = {"first": "", "combo": "", "names": "Names", "gene": "GENE THERAPY", "clinical": "Clinical data", "external": "External links", "legal": "Legal data", "physiological": "Physiological data", "pharmacokinetic": "Pharmacokinetic data", "chemical": "Chemical and physical data", "last": ""}
         # ---
         sec_title = sections_titles[sectionname]
         # ---
@@ -228,7 +206,6 @@ class TextProcessor:
             sec_text = f'{section_title}\n{sec_text}'
         # ---
         return sec_text
-
 
     def new_temp(self):
         # ---

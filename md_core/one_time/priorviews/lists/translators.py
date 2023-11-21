@@ -25,11 +25,7 @@ if not os.path.exists(file):
 # ---
 tra_by_lang = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
-_data = {
-    "ar": {
-        "artitle": "بيت الحكمة"
-    }
-}
+_data = {"ar": {"artitle": "بيت الحكمة"}}
 # ---
 # v_comm = helps.isv(comment)
 # _views = helps.views_url(title, lang, view)

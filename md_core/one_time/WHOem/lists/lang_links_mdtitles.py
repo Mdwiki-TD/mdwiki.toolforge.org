@@ -14,17 +14,10 @@ Dir = Path(__file__).parent
 with codecs.open(f'{Dir}/lang_links.json', 'r', encoding='utf-8') as f:
     lang_links = json.load(f)  # {'en': 'enwiki', 'redirect_to': '', 'langs': {'ar': 'arwiki'}}
 # ---
-lang_links_mdtitles = {
-    lang: {}
-    for mdtitle, tab in lang_links.items()
-    for lang in tab['langs'].keys()
-}
+lang_links_mdtitles = {lang: {} for mdtitle, tab in lang_links.items() for lang in tab['langs'].keys()}
 # ---
 for lang in lang_links_mdtitles.keys():
-    lang_links_mdtitles[lang] = {
-        tab['langs'][lang]: md
-        for md, tab in lang_links.items() if lang in tab['langs']
-    }
+    lang_links_mdtitles[lang] = {tab['langs'][lang]: md for md, tab in lang_links.items() if lang in tab['langs']}
 # ---
 with codecs.open(f'{Dir}/lang_links_mdtitles.json', 'w', encoding='utf-8') as f:
     json.dump(lang_links_mdtitles, f, ensure_ascii=False, indent=4)

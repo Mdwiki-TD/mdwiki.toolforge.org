@@ -9,12 +9,14 @@
 import json
 import sys
 import os
+
 # ---
 from mdpy.bots import catdepth2
 from mdpy.bots import wiki_api
 from mdpy.bots import mdwiki_api
 from mdpy import printe
-from mdpy.bots.check_title import valid_title #valid_title(title)
+from mdpy.bots.check_title import valid_title  # valid_title(title)
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -39,7 +41,7 @@ def check():
     # ---
     if 'other' in sys.argv:
         Listo_other = mdwiki_api.Get_All_pages('!', namespace='0', apfilterredir='nonredirects')
-        listo2 = [ x for x in Listo_other if x not in Listo ]
+        listo2 = [x for x in Listo_other if x not in Listo]
         Listo = listo2
     # ---
     printe.output(f'len of cat pages: {len(Listo)}')
@@ -48,7 +50,7 @@ def check():
     # ---
     for i in range(0, len(Listo), 100):
         # ---
-        newlist = Listo[i:i + 100]
+        newlist = Listo[i : i + 100]
         # ---
         line = "|".join(newlist)
         # ---

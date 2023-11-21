@@ -69,11 +69,7 @@ def work_in_page(title):
         return find_wd(title)
     # ---
     if title not in lang_links:
-        lang_links[title] = {
-            'en': title,
-            'redirect_to': "",
-            'langs': {}
-        }
+        lang_links[title] = {'en': title, 'redirect_to': "", 'langs': {}}
     # ---
     if page.isRedirect():
         target = page.get_redirect_target()

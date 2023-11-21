@@ -10,12 +10,14 @@
 # python3 core8/pwb.py mdpages/qids/make_list add_sql add
 import sys
 import os
+
 # ---
 from mdpy.bots import sql_for_mdwiki
 from mdpy.bots import catdepth2
 from mdpy.bots import wiki_api
 from mdpy import printe
-from mdpy.bots.check_title import valid_title #valid_title(title)
+from mdpy.bots.check_title import valid_title  # valid_title(title)
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -38,21 +40,21 @@ def add_sql(o_qids):
     all_in = sql_for_mdwiki.get_all_qids()
     # all_in = { x: y for x, y in all_in.items() if y != ''}
     # ---
-    same = [ x for x in o_qids if x in all_in and all_in[x] == o_qids[x]]
+    same = [x for x in o_qids if x in all_in and all_in[x] == o_qids[x]]
     # ---
-    diff = [ x for x in o_qids if x in all_in and all_in[x] != o_qids[x] and o_qids[x] != '']
+    diff = [x for x in o_qids if x in all_in and all_in[x] != o_qids[x] and o_qids[x] != '']
     # ---
     printe.output(f'len of same: {len(same)}')
     printe.output(f'len of diff: {len(diff)}')
     # ---
     # del all same from o_qids
-    o_qids_new = { x: y for x, y in o_qids.items() if x not in same and x not in diff}
+    o_qids_new = {x: y for x, y in o_qids.items() if x not in same and x not in diff}
     # ---
     for x in diff:
         printe.output(f'x: {x}, qid_in: {all_in[x]} != new qid: {o_qids[x]}')
     # ---
     printe.output(f'<<lightgreen>> new len of o_qids_new:{len(o_qids_new)}')
-    #---
+    # ---
     len_empty = [x for x in o_qids_new if o_qids_new[x] == '']
     printe.output(f'<<lightgreen>> new len of len_empty:{len(len_empty)}')
     # ---
@@ -77,7 +79,7 @@ def check():
     # ---
     for i in range(0, len(Listo), 100):
         # ---
-        newlist = Listo[i:i + 100]
+        newlist = Listo[i : i + 100]
         # ---
         line = "|".join(newlist)
         # ---
@@ -106,7 +108,7 @@ def check():
                 else:
                     medwiki_to_enwiki_conflic[red["from"]] = red["to"]
             # ---
-            redirects_x = { x['to']: x['from'] for x in Redirects }
+            redirects_x = {x['to']: x['from'] for x in Redirects}
             # ---
             # "pages": { "4195": {"pageid": 4195,"ns": 0,"title": "Aspirin","redirects": [{"pageid": 4953,"ns": 0,"title": "Acetylsalicylic acid"}]} }
             pages = query.get("pages", {})
@@ -164,7 +166,7 @@ def check():
         if not x in o_qids:
             o_qids[x] = ''
     # ---
-    o_qids = { x:v for x , v in o_qids.items() if x in Listo }
+    o_qids = {x: v for x, v in o_qids.items() if x in Listo}
     # ---
     # write to sql
     add_sql(o_qids)

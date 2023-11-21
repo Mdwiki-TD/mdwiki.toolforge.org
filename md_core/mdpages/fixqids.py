@@ -11,11 +11,12 @@ from mdpy.bots import catdepth2
 from mdpy.bots import wikidataapi
 from mdpy import printe
 from mdpy.bots import sql_for_mdwiki
-from mdpy.bots.check_title import valid_title #valid_title(title)
+from mdpy.bots.check_title import valid_title  # valid_title(title)
+
 # ---
 mdlist = sql_for_mdwiki.get_all_qids()
 # ---
-qs_list = { q: title for title, q in mdlist.items() if q != '' }
+qs_list = {q: title for title, q in mdlist.items() if q != ''}
 
 
 def fix_redirects(qs_list):
@@ -57,10 +58,7 @@ def add_to_qids(mdlist):
     # ---
     all_in = [x for x in mdlist]
     # ---
-    new_list = {
-        title: ''
-        for title in all_pages if title not in all_in
-    }
+    new_list = {title: '' for title in all_pages if title not in all_in}
     # ---
     printe.output(f'len of new_list: {len(new_list)}')
     # ---

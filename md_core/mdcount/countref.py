@@ -22,6 +22,7 @@ from TDpynew import ref
 from mdpy.bots import mdwiki_api
 from mdpy import printe
 from mdpy.bots import catdepth2
+
 # ---
 project = '/data/project/mdwiki/'
 if not os.path.isdir(project):
@@ -39,19 +40,13 @@ a = {}
 # ---
 a = json.loads(codecs.open(file_all, "r", encoding="utf-8").read())
 # ---
-all_ref = {
-    x: ref
-    for x, ref in a.items() if ref > 0
-}
+all_ref = {x: ref for x, ref in a.items() if ref > 0}
 # ---
 la = {}
 # ---
 la = json.loads(codecs.open(file_lead, "r", encoding="utf-8").read())
 # ---
-lead_ref = {
-    x: ref
-    for x, ref in la.items() if ref > 0
-}
+lead_ref = {x: ref for x, ref in la.items() if ref > 0}
 # ---
 # list for titles in both all_ref and lead_ref
 list_fu = list(set(all_ref.keys()) & set(lead_ref.keys()))

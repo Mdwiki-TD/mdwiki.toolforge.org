@@ -51,9 +51,7 @@ targets_done = {}
 Langs_to_title_and_user = {}
 to_update_lang_user_mdtitle = {}
 # ---
-printsql = {
-    1: False
-}
+printsql = {1: False}
 
 
 def add_to_mdwiki_sql(table):
@@ -193,14 +191,8 @@ def dodo_sql():
             # targets_done[lang][mdtitle] = { "user" : user , "target" : target }
             # targets_done[lang][py_tools.ec_de_code(target , 'encode')] = { "user" : user , "target" : target }
             # ---
-            targets_done[lang][target] = {
-                "user": user,
-                "target": target
-            }
-            targets_done[lang][target2] = {
-                "user": user,
-                "target": target
-            }
+            targets_done[lang][target] = {"user": user, "target": target}
+            targets_done[lang][target2] = {"user": user, "target": target}
     # ---
     printe.output('<<lightyellow>> find %d with target, and %s without in mdwiki database. ' % (len_done_target, len_no_target))
     # ---
@@ -258,19 +250,10 @@ def main():
     Skip_titles_global = ['جامعة نورث كارولاينا', 'جامعة ولاية كارولينا الشمالية إيه آند تي', 'نيشان راجاميترابورن', 'موميتازون']
     # ---
     Skip_titles = {}
-    Skip_titles['Mr. Ibrahem'] = {
-        'targets': ['جامعة نورث كارولاينا', 'جامعة ولاية كارولينا الشمالية إيه آند تي', 'نيشان راجاميترابورن'],
-        'mdtitles': []
-    }
-    Skip_titles['Avicenno'] = {
-        'targets': ['ألم فرجي', 'لقاح المكورة السحائية', 'استئصال اللوزتين'],
-        'mdtitles': []
-    }
+    Skip_titles['Mr. Ibrahem'] = {'targets': ['جامعة نورث كارولاينا', 'جامعة ولاية كارولينا الشمالية إيه آند تي', 'نيشان راجاميترابورن'], 'mdtitles': []}
+    Skip_titles['Avicenno'] = {'targets': ['ألم فرجي', 'لقاح المكورة السحائية', 'استئصال اللوزتين'], 'mdtitles': []}
     # ---
-    Skip_titles['Subas Chandra Rout'] = {
-        'targets': [],
-        'mdtitles': ["Wilms' tumor", "Sheehan's syndrome", "Membranous nephropathy"]
-    }
+    Skip_titles['Subas Chandra Rout'] = {'targets': [], 'mdtitles': ["Wilms' tumor", "Sheehan's syndrome", "Membranous nephropathy"]}
     # ---
     n = 0
     # ---
@@ -339,14 +322,7 @@ def main():
                 if md_title in Skip_titles.get(user, {}).get('mdtitles', []):
                     continue
                 # ---
-                Taba2 = {
-                    "mdtitle": md_title,
-                    "target": target,
-                    "user": user,
-                    "lang": lange,
-                    "pupdate": pupdate,
-                    "namespace": namespace
-                }
+                Taba2 = {"mdtitle": md_title, "target": target, "user": user, "lang": lange, "pupdate": pupdate, "namespace": namespace}
                 # ---
                 lineout = '<<lightyellow>> target:%s:%s, ns:%s for mdtit:<<lightyellow>>%s, user:<<lightyellow>>%s'
                 laloly = lineout % (lange, target.ljust(40), namespace.ljust(3), md_title.ljust(30), user)
@@ -379,13 +355,9 @@ def main():
                         printe.output(laloly)
                 # ---
         # ---
-        add_to_wd.add_tab_to_wd({
-            lange: New_Table_by_lang[lange]
-        })
+        add_to_wd.add_tab_to_wd({lange: New_Table_by_lang[lange]})
         # ---
-        add_to_mdwiki_sql({
-            lange: New_Table_by_lang[lange]
-        })
+        add_to_mdwiki_sql({lange: New_Table_by_lang[lange]})
 
     # ---
 

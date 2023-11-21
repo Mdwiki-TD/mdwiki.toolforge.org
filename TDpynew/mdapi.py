@@ -34,9 +34,7 @@ passe = user_account_new.mdwiki_pass  # user_account_new.bot_password     #user_
 # ---
 SS = {}
 # ---
-print_pywikibot = {
-    1: False
-}
+print_pywikibot = {1: False}
 try:
     import pywikibot
 

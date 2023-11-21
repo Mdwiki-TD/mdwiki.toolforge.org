@@ -45,7 +45,7 @@ def get_pages():
     len_grup = 100
     # ---
     for i in range(0, len(titles), len_grup):
-        group = titles[i:i + len_grup]
+        group = titles[i : i + len_grup]
         # ---
         done += len(group)
         # ---
@@ -53,7 +53,7 @@ def get_pages():
         # ---
         print(f'work on {len_grup} pagees, done: {done}/{len(titles)}.')
         # ---
-        table = { **table, **asa }
+        table = {**table, **asa}
         # ---
     # ---
     print(f'len of table {len(table)} ')

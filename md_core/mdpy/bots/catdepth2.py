@@ -17,10 +17,12 @@ import time
 import os
 import datetime
 from datetime import datetime
-#---
+
+# ---
 from mdpy.bots import mdwiki_api
 from mdpy.bots import sql_for_mdwiki
-from mdpy.bots.check_title import valid_title #valid_title(title)
+from mdpy.bots.check_title import valid_title  # valid_title(title)
+
 # ---
 Day_History = datetime.now().strftime("%Y-%m-%d")
 # ---
@@ -145,10 +147,7 @@ def subcatquery(title, depth=0, ns="all", limit=0, test=False):
     tablemember = Get_cat(title, print_url=True)
     # ---
     # result_table = { x : da for x, da in tablemember.items() if valid_title(x) }
-    result_table = {
-        x: da
-        for x, da in tablemember.items() if int(da["ns"]) == 0
-    }
+    result_table = {x: da for x, da in tablemember.items() if int(da["ns"]) == 0}
     # ---
     # for x in tablemember: if valid_title(x) :  result_table[x] = tablemember[x]
     # ---

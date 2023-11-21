@@ -9,10 +9,7 @@
 import re
 
 # ---
-numbers = {
-    1: 20000,
-    'done': 0
-}
+numbers = {1: 20000, 'done': 0}
 # ---
 import os
 
