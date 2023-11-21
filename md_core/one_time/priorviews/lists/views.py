@@ -30,18 +30,7 @@ if not os.path.exists(file):
 # ---
 ViewsData = json.load(codecs.open(file, 'r', 'utf-8'))
 # ---
-_data = {
-    "mdtitle": {
-        "ar": {
-            "title": "artitle",
-            "views": 0
-        },
-        "en": {
-            "title": "entitle",
-            "views": 0
-        }
-    }
-}
+_data = {"mdtitle": {"ar": {"title": "artitle", "views": 0}, "en": {"title": "entitle", "views": 0}}}
 # ---
 views_by_mdtitle_langs = {}
 count_views_by_mdtitle = {}

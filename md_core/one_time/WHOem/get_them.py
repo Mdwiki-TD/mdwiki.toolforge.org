@@ -123,7 +123,6 @@ def filter_urls(links):
 
 
 class work_in_one_lang_link:
-
     def __init__(self, lang, title):
         self.lang = change_codes.get(lang) or lang
         # ---
@@ -131,10 +130,7 @@ class work_in_one_lang_link:
         self.url = 'https://' + self.lang + '.wikipedia.org/w/api.php'
         self.text = ''
         self.section0 = ''
-        self.lead = {
-            'extlinks': [],
-            'refsname': {}
-        }
+        self.lead = {'extlinks': [], 'refsname': {}}
         self.extlinks = []
         self.refsname = {}
         self.contents_all = {}
@@ -158,7 +154,6 @@ class work_in_one_lang_link:
         if self.lang == 'en':
             self.get_lead()
 
-
     def post_to_json(self, params):
         json1 = {}
         # ---
@@ -172,20 +167,13 @@ class work_in_one_lang_link:
 
     def expandtemplates(self, text):
         # ---
-        params = {
-            "action": "expandtemplates",
-            "format": "json",
-            "text": text,
-            "prop": "wikitext",
-            "formatversion": "2"
-        }
+        params = {"action": "expandtemplates", "format": "json", "text": text, "prop": "wikitext", "formatversion": "2"}
         # ---
         data = self.post_to_json(params)
         # ---
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         # ---
         return newtext
-
 
     def get_expended(self):
         # ---
@@ -195,10 +183,7 @@ class work_in_one_lang_link:
         # ---
         refsn = self.get_ref_names(tags)
         # ---
-        refsn = {
-            k: v
-            for k, v in refsn.items() if k not in self.refsname
-        }
+        refsn = {k: v for k, v in refsn.items() if k not in self.refsname}
         # ---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -238,29 +223,14 @@ class work_in_one_lang_link:
         return _tags_
 
     def get_text(self):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "prop": "wikitext",
-            "page": self.title,
-            "utf8": 1
-        }
+        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         # ---
         json1 = self.post_to_json(params)
         # ---
         self.text = json1.get('parse', {}).get('wikitext', {}).get('*', '')
 
-
     def get_extlinks(self):
-        params = {
-            "action": "query",
-            "format": "json",
-            "prop": "extlinks",
-            "titles": self.title,
-            "formatversion": "2",
-            "utf8": 1,
-            "ellimit": "max"
-        }
+        params = {"action": "query", "format": "json", "prop": "extlinks", "titles": self.title, "formatversion": "2", "utf8": 1, "ellimit": "max"}
         # ---
         elcontinue = 'x'
         # ---
@@ -290,7 +260,6 @@ class work_in_one_lang_link:
         # ---
         self.extlinks = liste1
 
-
     def get_lead(self):
         # ---
         parsed = wikitextparser.parse(self.text)
@@ -309,17 +278,8 @@ class work_in_one_lang_link:
         self.lead['refsname'] = self.get_ref_names(tags0)
         self.lead['extlinks'] = self.get_lead_extlinks()
 
-
     def get_lead_extlinks(self):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "title": self.title,
-            "text": self.section0,
-            "prop": "externallinks",
-            "utf8": 1,
-            "formatversion": "2"
-        }
+        params = {"action": "parse", "format": "json", "title": self.title, "text": self.section0, "prop": "externallinks", "utf8": 1, "formatversion": "2"}
         # ---
         json1 = self.post_to_json(params)
         # ---
@@ -335,7 +295,6 @@ class work_in_one_lang_link:
             liste1 = filter_urls(liste1)
         # ---
         return liste1
-
 
     def make_new_text(self, tags):
         # ---
@@ -362,7 +321,6 @@ class work_in_one_lang_link:
 
 
 class get_old:
-
     def __init__(self, title, lang="en"):
         # ---
         self.lang = lang
@@ -371,10 +329,7 @@ class get_old:
         self.oldtext = ''
         self.text = ''
         self.section0 = ''
-        self.lead = {
-            'extlinks': [],
-            'refsname': {}
-        }
+        self.lead = {'extlinks': [], 'refsname': {}}
         self.extlinks = []
         self.refsname = {}
         self.contents_all = {}
@@ -397,7 +352,6 @@ class get_old:
         # ---
         self.get_lead()
 
-
     def post_to_json(self, params):
         json1 = {}
         # ---
@@ -416,20 +370,13 @@ class get_old:
 
     def expandtemplates(self, text):
         # ---
-        params = {
-            "action": "expandtemplates",
-            "format": "json",
-            "text": text,
-            "prop": "wikitext",
-            "formatversion": "2"
-        }
+        params = {"action": "expandtemplates", "format": "json", "text": text, "prop": "wikitext", "formatversion": "2"}
         # ---
         data = self.post_to_json(params)
         # ---
         newtext = data.get("expandtemplates", {}).get("wikitext") or text
         # ---
         return newtext
-
 
     def get_expended(self):
         # ---
@@ -439,10 +386,7 @@ class get_old:
         # ---
         refsn = self.get_ref_names(tags)
         # ---
-        refsn = {
-            k: v
-            for k, v in refsn.items() if k not in self.refsname
-        }
+        refsn = {k: v for k, v in refsn.items() if k not in self.refsname}
         # ---
         if len(refsn) > 0:
             printe.output(f' new refsn: {len(refsn)}')
@@ -482,13 +426,7 @@ class get_old:
         return _tags_
 
     def get_oldtext(self):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "prop": "wikitext",
-            "page": self.title,
-            "utf8": 1
-        }
+        params = {"action": "parse", "format": "json", "prop": "wikitext", "page": self.title, "utf8": 1}
         # ---
         params = {
             "action": "query",
@@ -511,7 +449,6 @@ class get_old:
         print(f'timestamp: {self.timestamp}')
         self.oldtext = revisions.get('slots', {}).get('main', {}).get('content', '')
 
-
     def get_lead(self):
         # ---
         parsed = wikitextparser.parse(self.oldtext)
@@ -530,17 +467,8 @@ class get_old:
         self.lead['refsname'] = self.get_ref_names(tags0)
         self.lead['extlinks'] = self.get_extlinks_from_text(self.section0)
 
-
     def get_extlinks_from_text(self, text):
-        params = {
-            "action": "parse",
-            "format": "json",
-            "title": self.title,
-            "text": text,
-            "prop": "externallinks",
-            "utf8": 1,
-            "formatversion": "2"
-        }
+        params = {"action": "parse", "format": "json", "title": self.title, "text": text, "prop": "externallinks", "utf8": 1, "formatversion": "2"}
         # ---
         json1 = self.post_to_json(params)
         # ---
@@ -556,7 +484,6 @@ class get_old:
             liste1 = filter_urls(liste1)
         # ---
         return liste1
-
 
     def make_new_text(self, tags):
         # ---

@@ -50,16 +50,13 @@ def get_v(lang, links):
     len_p = len(links)
     # -- -
     if 'new' in sys.argv:
-        links = {
-            x: t
-            for x, t in links.items() if ViewsData[t].get(lang, {}).get('views', 0) == 0
-        }
+        links = {x: t for x, t in links.items() if ViewsData[t].get(lang, {}).get('views', 0) == 0}
         de = len_p - len(links)
         printe.output(f'de: {de}')
     # ---
     # split links to groups by 10 titles
     for i in range(0, len(links), 10):
-        group = dict(list(links.items())[i:i + 10])
+        group = dict(list(links.items())[i : i + 10])
         # ---
         views_tab = wiki_api.get_views_with_rest_v1(lang, group.keys())
         # ---
@@ -90,10 +87,7 @@ def get_v(lang, links):
             if viws_in > 0 and views == 0:
                 continue
             # ---
-            ViewsData[mdtitle][lang] = {
-                "title": title,
-                "views": views
-            }
+            ViewsData[mdtitle][lang] = {"title": title, "views": views}
             # ---
             N_g += 1
             # ---
@@ -112,9 +106,7 @@ def start():
         arg, _, value = arg.partition(':')
         if arg == 'lang' and value in lang_links_mdtitles.keys():
             all_lenth = len(lang_links_mdtitles.get(value, {}))
-            to_work = {
-                value: lang_links_mdtitles[value]
-            }
+            to_work = {value: lang_links_mdtitles[value]}
             printe.output(f'<<purple>> work in lang: {value}')
     # ---
     n = 0
@@ -123,10 +115,7 @@ def start():
         # ---
         n += 1
         # ---
-        ViewsData.update({
-            x: {}
-            for x in tab.values() if x not in ViewsData
-        })
+        ViewsData.update({x: {} for x in tab.values() if x not in ViewsData})
         # ---
         printe.output(f'<<blue>> p:{n}/{all_lenth} lang: {lang}, titles: {len(tab)}')
         # ---
@@ -138,10 +127,7 @@ def start():
 
 if __name__ == '__main__':
     if 'fix' in sys.argv:
-        ViewsData = {
-            x: z
-            for x, z in ViewsData.items() if x in lang_links.keys()
-        }
+        ViewsData = {x: z for x, z in ViewsData.items() if x in lang_links.keys()}
         with codecs.open(file, 'w', encoding='utf-8') as f:
             json.dump(ViewsData, f, ensure_ascii=False, indent=4)
         print(f'len ViewsData: {len(ViewsData)}')

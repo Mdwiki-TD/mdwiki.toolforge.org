@@ -6,9 +6,7 @@ import re
 import sys
 
 # ---
-printn_t = {
-    1: False
-}
+printn_t = {1: False}
 
 
 def printn(s):

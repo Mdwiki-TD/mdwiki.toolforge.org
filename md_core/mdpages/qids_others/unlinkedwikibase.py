@@ -11,15 +11,17 @@ from mdpy.bots import sql_for_mdwiki
 from mdpages.qids_others import sql_qids_others
 from mdpy.bots import mdwiki_api
 from mdpy import printe
-from mdpy.bots.check_title import valid_title #valid_title(title)
+from mdpy.bots.check_title import valid_title  # valid_title(title)
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
+
 # ---
 qids1 = sql_for_mdwiki.get_all_qids()
 qids2 = sql_qids_others.get_others_qids()
 # ---
-qids1 = { x : v for x, v in qids1.items() if v != '' }
-qids2 = { x : v for x, v in qids2.items() if v != '' }
+qids1 = {x: v for x, v in qids1.items() if v != ''}
+qids2 = {x: v for x, v in qids2.items() if v != ''}
 # ---
 vals_d = {}
 # ---
@@ -28,9 +30,9 @@ for tab in [qids1, qids2]:
         if q not in vals_d:
             vals_d[q] = [x]
         elif x not in vals_d[q]:
-            vals_d[q].append(x)    
+            vals_d[q].append(x)
 # ---
-qids = { v[0] : q for q, v in vals_d.items() if len(v) == 1 }
+qids = {v[0]: q for q, v in vals_d.items() if len(v) == 1}
 # ---
 for q, v in vals_d.items():
     if len(v) > 1:
@@ -39,16 +41,17 @@ for q, v in vals_d.items():
 
 def work_page(title, qid):
     # ---
-    page      = md_MainPage(title, 'www', family='mdwiki')
-    exists    = page.exists()
-    if not exists: return
+    page = md_MainPage(title, 'www', family='mdwiki')
+    exists = page.exists()
+    if not exists:
+        return
     # ---
     # if page.isRedirect() :  return
     # target = page.get_redirect_target()
     # ---
-    text        = page.get_text()
+    text = page.get_text()
     # refs        = page.Get_tags(tag='ref')# for x in ref: name, contents = x.name, x.contents
-    templates   = page.get_templates()
+    templates = page.get_templates()
     # ---
     if text.find('{{#unlinkedwikibase:id=') != -1:
         printe.output('page already tagged')

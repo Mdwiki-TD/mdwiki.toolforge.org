@@ -24,10 +24,7 @@ for filename in os.listdir(project_js_new):
         # ---
         data = json.load(open(filename2))
         # ---
-        json_langs_all = {
-            **json_langs_all,
-            **data
-        }
+        json_langs_all = {**json_langs_all, **data}
 # ---
 json_langs_by_langs = {}
 # ---
@@ -40,9 +37,5 @@ for en, tab in json_langs_all.items():
         extlinks = ta['extlinks']
         refsname = ta['refsname']
         # ---
-        json_langs_by_langs[lang][title] = {
-            'extlinks': extlinks,
-            'refsname': refsname,
-            'en': en
-        }
+        json_langs_by_langs[lang][title] = {'extlinks': extlinks, 'refsname': refsname, 'en': en}
 # ---

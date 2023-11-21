@@ -19,8 +19,10 @@ import requests
 
 from mdpy.bots import user_account_new
 from mdpy import printe
+
 # ---
-from mdpy.bots.check_title import valid_title #valid_title(title)
+from mdpy.bots.check_title import valid_title  # valid_title(title)
+
 # ---
 '''
 # ---
@@ -48,9 +50,7 @@ from mdpy.bots import mdwiki_api
 '''
 # ---
 maxlag = 3
-ar_lag = {
-    1: maxlag
-}
+ar_lag = {1: maxlag}
 # ---
 
 # ---
@@ -67,9 +67,7 @@ SS["r3_token"] = ""
 # ---
 timesleep = 0
 # ---
-login_not_done = {
-    1: True
-}
+login_not_done = {1: True}
 
 
 def py_input(s):
@@ -141,12 +139,7 @@ def Log_to_wiki(family='mdwiki', lang="www"):
     SS["url"] = 'https://' + f'{lang}.{family}.org/w/api.php'
     SS["ss"] = requests.Session()
     # ---
-    r1_params = {
-        'format': 'json',
-        'action': 'query',
-        'meta': 'tokens',
-        'type': 'login'
-    }
+    r1_params = {'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
     # ---
     r22 = {}
     # if SS:
@@ -159,12 +152,7 @@ def Log_to_wiki(family='mdwiki', lang="www"):
         pywikibot.output('CRITICAL:')
         return False
     # ---
-    r2_params = {
-        'format': 'json',
-        'action': 'login',
-        'lgname': account['u'],
-        'lgpassword': account['p']
-    }
+    r2_params = {'format': 'json', 'action': 'login', 'lgname': account['u'], 'lgpassword': account['p']}
     r2_params['lgtoken'] = r11.json()['query']['tokens']['logintoken']
     # ---
     r22 = post_all(r2_params)
@@ -295,9 +283,7 @@ def import_history2(FILE_PATH, title):
     # ---
     for fff in NewList:
         printe.output(f' file:"{fff}"')
-        FILE = {
-            'xml': ('file.xml', open(fff))
-        }
+        FILE = {'xml': ('file.xml', open(fff))}
         # DATA = R.json()
         # print(DATA)
         r4 = SS["ss"].post(url=SS["url"], files=FILE, data=pp)
@@ -341,9 +327,7 @@ def import_history(FILE_PATH, title):
     # ---
     for fff in NewList:
         printe.output(f' file:"{fff}"')
-        FILE = {
-            'xml': ('file.xml', open(fff))
-        }
+        FILE = {'xml': ('file.xml', open(fff))}
         # DATA = R.json()
         # print(DATA)
         # ---
@@ -365,14 +349,7 @@ def import_history(FILE_PATH, title):
 
 
 def import_page(title):
-    params = {
-        "action": "import",
-        "format": "json",
-        "interwikisource": "wikipedia",
-        "interwikipage": title,
-        "fullhistory": 1,
-        "assignknownusers": 1
-    }
+    params = {"action": "import", "format": "json", "interwikisource": "wikipedia", "interwikipage": title, "fullhistory": 1, "assignknownusers": 1}
     # ---
     r4 = post_s(params, addtoken=True)
     # ---
@@ -386,13 +363,7 @@ def page_put_new(NewText, summary, title, time_sleep="", family="", lang="", min
     # ---
     printe.output(f' page_put {title}:')
     # ---
-    pparams = {
-        "action": "edit",
-        "title": title,
-        "text": NewText,
-        "summary": summary,
-        "nocreate": nocreate
-    }
+    pparams = {"action": "edit", "title": title, "text": NewText, "summary": summary, "nocreate": nocreate}
     # ---
     if sys.argv and "workibrahem" in sys.argv:
         pparams["summary"] = ""
@@ -436,12 +407,8 @@ def page_put_new(NewText, summary, title, time_sleep="", family="", lang="", min
 
 
 # ---
-Save_2020 = {
-    1: False
-}
-Save_2040 = {
-    1: False
-}
+Save_2020 = {1: False}
+Save_2040 = {1: False}
 
 
 def page_put(oldtext='', newtext='', summary='', title='', time_sleep="", family="", lang="", minor="", nocreate=1, tags="", returntrue=False, diff=True):
@@ -570,14 +537,7 @@ def create_Page(text, summary, title, ask, sleep=0, family="", duplicate4="", mi
     if sys.argv and "workibrahem" in sys.argv:
         params["summary"] = "+"
     # ---
-    sa = {
-        "error": {
-            "code": "articleexists",
-            "info": "The article you tried to create has been created already.",
-            "*": "See https://ar.wikipedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes."
-        },
-        "servedby": "mw1284"
-    }
+    sa = {"error": {"code": "articleexists", "info": "The article you tried to create has been created already.", "*": "See https://ar.wikipedia.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes."}, "servedby": "mw1284"}
     Faco = False
     # ---
     if not Save_2040[1] and (ask or "ask" in sys.argv and "save" not in sys.argv):
@@ -980,16 +940,7 @@ def Get_Newpages(limit="max", namespace="0", rcstart="", user=''):
     # ---
     newp = json1.get("query", {}).get("recentchanges", {})
     # ---
-    ccc = {
-        "type": "new",
-        "ns": 0,
-        "title": "تشارلز مسيون ريمي",
-        "pageid": 7004776,
-        "revid": 41370093,
-        "old_revid": 0,
-        "rcid": 215347464,
-        "timestamp": "2019-12-15T13:14:34Z"
-    }
+    ccc = {"type": "new", "ns": 0, "title": "تشارلز مسيون ريمي", "pageid": 7004776, "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"}
     # ---
     Main_table = [x["title"] for x in newp]
     # ---
@@ -1030,10 +981,7 @@ def Get_page_links(title, namespace="0", limit="max"):
         for page in pages:
             tab = pages[page]
             for pa in tab.get('links', []):
-                Main_table['links'][pa["title"]] = {
-                    'ns': pa["ns"],
-                    'title': pa["title"]
-                }
+                Main_table['links'][pa["title"]] = {'ns': pa["ns"], 'title': pa["title"]}
     else:
         printe.output("mdwiki_api.py no json1")
     # ---
@@ -1052,14 +1000,7 @@ def Get_template_pages(title, namespace="*", limit="max"):
     # ---
     printe.output(f'Get_template_pages for template:"{title}", limit:"{limit}",namespace:"{namespace}"')
     # ---
-    params = {
-        "action": "query",
-        "prop": "info",
-        "titles": title,
-        "generator": "transcludedin",
-        "gtinamespace": namespace,
-        "gtilimit": limit
-    }
+    params = {"action": "query", "prop": "info", "titles": title, "generator": "transcludedin", "gtinamespace": namespace, "gtilimit": limit}
     # ---
     Main_table = []
     gticontinue = 'x'
@@ -1156,12 +1097,7 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
 def get_section(title, level):
     printe.output(f'get_section title:"{title}", level:"{level}"')
     # ---
-    params = {
-        "action": "parse",
-        "page": title,
-        "prop": "wikitext",
-        "section": level
-    }
+    params = {"action": "parse", "page": title, "prop": "wikitext", "section": level}
     # ---
     json1 = post_s(params)
     # ---
@@ -1262,7 +1198,7 @@ def get_redirect(liste):
     redirects = {}
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i:i + 50]
+        titles = liste[i : i + 50]
         # ---
         params = {
             "action": "query",
@@ -1290,7 +1226,7 @@ def Find_pages_exists_or_not(liste):
     table = {}
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i:i + 50]
+        titles = liste[i : i + 50]
         # ---
         params = {
             "action": "query",

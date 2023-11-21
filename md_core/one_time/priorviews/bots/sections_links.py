@@ -35,7 +35,6 @@ replaces = {
 
 
 class Sectios_links:
-
     def __init__(self):
         """
         Initializes an instance of the class.

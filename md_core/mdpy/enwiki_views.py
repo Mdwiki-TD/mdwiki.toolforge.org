@@ -113,10 +113,7 @@ def main():
     # ---
     old_views = json.loads(codecs.open(enwiki_pageviews, "r", encoding="utf-8-sig").read())
     # ---
-    n_views = {
-        x: z
-        for x, z in old_views.items()
-    }
+    n_views = {x: z for x, z in old_views.items()}
     # ---
     for k, view in enviews.items():
         if view == 0:

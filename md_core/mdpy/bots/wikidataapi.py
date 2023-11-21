@@ -82,9 +82,7 @@ SS["ss"] = requests.Session()
 # ---
 timesleep = 0
 # ---
-login_not_done = {
-    1: True
-}
+login_not_done = {1: True}
 
 
 def Log_to_wiki(url=''):
@@ -235,10 +233,7 @@ def Get_sitelinks_From_Qid(q):
         "utf8": 1,
     }
     # ---
-    table = {
-        "sitelinks": {},
-        "q": ""
-    }
+    table = {"sitelinks": {}, "q": ""}
     # ---
     json1 = post(params, apiurl="https://www.wikidata.org/w/api.php")
     # ---
@@ -303,13 +298,7 @@ def WD_Merge(q1, q2):
         else:
             printe.output('<<lightgreen>> ** true.')
             # ---
-            pams2 = {
-                "action": "wbcreateredirect",
-                "from": From,
-                "to": To,
-                "ignoreconflicts": "description",
-                "summary": ""
-            }
+            pams2 = {"action": "wbcreateredirect", "from": From, "to": To, "ignoreconflicts": "description", "summary": ""}
             # ---
             r5 = post(pams2, apiurl="https://www.wikidata.org/w/api.php", token=True)
             # ---
@@ -369,7 +358,7 @@ def get_redirects(liste):
     for i in range(0, len(liste), 50):
         # ---
         # group = dict(list(liste.items())[i:i+50])
-        group = liste[i:i + 50]
+        group = liste[i : i + 50]
         params = {
             "action": "query",
             "format": "json",
@@ -451,13 +440,7 @@ def Claim_API_str(qid, property, string):
     if string == '' or qid == '' or property == '':
         return ''
     # ---
-    params = {
-        "action": "wbcreateclaim",
-        "entity": qid,
-        "snaktype": "value",
-        "property": property,
-        "value": json.JSONEncoder().encode(string)
-    }
+    params = {"action": "wbcreateclaim", "entity": qid, "snaktype": "value", "property": property, "value": json.JSONEncoder().encode(string)}
     # ---
     req = post(params, apiurl="https://www.wikidata.org/w/api.php", token=True)
     # ---
@@ -476,10 +459,7 @@ def Claim_API_str(qid, property, string):
 
 def Delete_claim(claimid):
     # ---
-    params = {
-        "action": "wbremoveclaims",
-        "claim": claimid
-    }
+    params = {"action": "wbremoveclaims", "claim": claimid}
     # ---
     req = post(params, apiurl="https://www.wikidata.org/w/api.php", token=True)
     # ---
@@ -603,15 +583,7 @@ def sparql_generator_url(quary, printq=False, add_date=True):
 
 
 def wbsearchentities(search, language):
-    params = {
-        "action": "wbsearchentities",
-        "format": "json",
-        "search": search,
-        "language": language,
-        "strictlanguage": 1,
-        "type": "item",
-        "utf8": 1
-    }
+    params = {"action": "wbsearchentities", "format": "json", "search": search, "language": language, "strictlanguage": 1, "type": "item", "utf8": 1}
     # ---
     req = post(params, apiurl="https://www.wikidata.org/w/api.php")
     # ---
@@ -632,21 +604,12 @@ def wbsearchentities(search, language):
                 "id": "Q111587429",
                 "title": "Q111587429",
                 "pageid": 106531075,
-                "display": {
-                    "label": {
-                        "value": "User:Mr. Ibrahem/Sodium nitrite (medical use)",
-                        "language": "en"
-                    }
-                },
+                "display": {"label": {"value": "User:Mr. Ibrahem/Sodium nitrite (medical use)", "language": "en"}},
                 "repository": "wikidata",
                 "url": "//www.wikidata.org/wiki/Q111587429",
                 "concepturi": "http://www.wikidata.org/entity/Q111587429",
                 "label": "User:Mr. Ibrahem/Sodium nitrite (medical use)",
-                "match": {
-                    "type": "label",
-                    "language": "en",
-                    "text": "User:Mr. Ibrahem/Sodium nitrite (medical use)"
-                },
+                "match": {"type": "label", "language": "en", "text": "User:Mr. Ibrahem/Sodium nitrite (medical use)"},
             }
             # ---
             id = s['id']
@@ -693,10 +656,7 @@ def Get_claim(q, property, get_claim_id=False):
                 value = value.get("id")
         # ---
         if get_claim_id:
-            listo.append({
-                "id": claim_id,
-                "value": value
-            })
+            listo.append({"id": claim_id, "value": value})
         else:
             listo.append(value)
     # ---

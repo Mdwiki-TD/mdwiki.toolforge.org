@@ -119,10 +119,7 @@ def check_urls(urls):
 
 
 def make_log(dad):
-    lists = {
-        x: len(z)
-        for x, z in dad.items()
-    }
+    lists = {x: len(z) for x, z in dad.items()}
     # ---
     global errors
     # ---
