@@ -61,7 +61,7 @@ else:
         .. versionadded:: 5.4
         """
         if string.startswith(prefix):
-            return string[len(prefix):]
+            return string[len(prefix) :]
         return string
 
     def removesuffix(string: str, suffix: str) -> str:
@@ -70,7 +70,7 @@ else:
         .. versionadded:: 5.4
         """
         if string.endswith(suffix):
-            return string[:-len(suffix)]
+            return string[: -len(suffix)]
         return string
 
 
@@ -104,40 +104,40 @@ def _tag_pattern(tag_name: str) -> str:
 
 def _create_default_regexes() -> None:
     """Fill (and possibly overwrite) _regex_cache with default regexes."""
-    _regex_cache.update({
-        # categories
-        'category': (r'\[\[ *(?:%s)\s*:.*?\]\]', lambda site: '|'.join(site.namespaces[14])),
-        'comment': re.compile(r'<!--[\s\S]*?-->'),
-        # files
-        'file': (FILE_LINK_REGEX, lambda site: '|'.join(site.namespaces[6])),
-        # section headers
-        'header': re.compile(r'(?:(?<=\n)|\A)(?:<!--[\s\S]*?-->)*'
-                             r'=(?:[^\n]|<!--[\s\S]*?-->)+='
-                             r' *(?:<!--[\s\S]*?--> *)*(?=\n|\Z)'),
-        # external links
-        'hyperlink': compileLinkR(),
-        # also finds links to foreign sites with preleading ":"
-        'interwiki': (r'\[\[:?(%s)\s?:[^\]]*\]\]\s*', lambda site: '|'.join(ignore_case(i) for i in site.validLanguageLinks() + list(site.family.obsolete.keys()))),
-        # Module invocations (currently only Lua)
-        'invoke': (r'\{\{\s*\#(?:%s):[\s\S]*?\}\}', lambda site: '|'.join(ignore_case(mw) for mw in site.getmagicwords('invoke'))),
-        # this matches internal wikilinks, but also interwiki, categories, and
-        # images.
-        'link': re.compile(r'\[\[[^\]|]*(\|[^\]]*)?\]\]'),
-        # pagelist tag (used in Proofread extension).
-        'pagelist': re.compile(r'<{}[\s\S]*?/>'.format(ignore_case('pagelist'))),
-        # Wikibase property inclusions
-        'property': (r'\{\{\s*\#(?:%s):\s*[Pp]\d+.*?\}\}', lambda site: '|'.join(ignore_case(mw) for mw in site.getmagicwords('property'))),
-        # lines that start with a colon or more will be indented
-        'startcolon': re.compile(r'(?:(?<=\n)|\A):(.*?)(?=\n|\Z)'),
-        # lines that start with a space are shown in a monospace font and
-        # have whitespace preserved.
-        'startspace': re.compile(r'(?:(?<=\n)|\A) (.*?)(?=\n|\Z)'),
-        # tables often have whitespace that is used to improve wiki
-        # source code readability.
-        # TODO: handle nested tables.
-        'table': re.compile(r'(?:(?<=\n)|\A){\|[\S\s]*?\n\|}|%s' % _tag_pattern('table')),
-        'template': NESTED_TEMPLATE_REGEX,
-    })
+    _regex_cache.update(
+        {
+            # categories
+            'category': (r'\[\[ *(?:%s)\s*:.*?\]\]', lambda site: '|'.join(site.namespaces[14])),
+            'comment': re.compile(r'<!--[\s\S]*?-->'),
+            # files
+            'file': (FILE_LINK_REGEX, lambda site: '|'.join(site.namespaces[6])),
+            # section headers
+            'header': re.compile(r'(?:(?<=\n)|\A)(?:<!--[\s\S]*?-->)*' r'=(?:[^\n]|<!--[\s\S]*?-->)+=' r' *(?:<!--[\s\S]*?--> *)*(?=\n|\Z)'),
+            # external links
+            'hyperlink': compileLinkR(),
+            # also finds links to foreign sites with preleading ":"
+            'interwiki': (r'\[\[:?(%s)\s?:[^\]]*\]\]\s*', lambda site: '|'.join(ignore_case(i) for i in site.validLanguageLinks() + list(site.family.obsolete.keys()))),
+            # Module invocations (currently only Lua)
+            'invoke': (r'\{\{\s*\#(?:%s):[\s\S]*?\}\}', lambda site: '|'.join(ignore_case(mw) for mw in site.getmagicwords('invoke'))),
+            # this matches internal wikilinks, but also interwiki, categories, and
+            # images.
+            'link': re.compile(r'\[\[[^\]|]*(\|[^\]]*)?\]\]'),
+            # pagelist tag (used in Proofread extension).
+            'pagelist': re.compile(r'<{}[\s\S]*?/>'.format(ignore_case('pagelist'))),
+            # Wikibase property inclusions
+            'property': (r'\{\{\s*\#(?:%s):\s*[Pp]\d+.*?\}\}', lambda site: '|'.join(ignore_case(mw) for mw in site.getmagicwords('property'))),
+            # lines that start with a colon or more will be indented
+            'startcolon': re.compile(r'(?:(?<=\n)|\A):(.*?)(?=\n|\Z)'),
+            # lines that start with a space are shown in a monospace font and
+            # have whitespace preserved.
+            'startspace': re.compile(r'(?:(?<=\n)|\A) (.*?)(?=\n|\Z)'),
+            # tables often have whitespace that is used to improve wiki
+            # source code readability.
+            # TODO: handle nested tables.
+            'table': re.compile(r'(?:(?<=\n)|\A){\|[\S\s]*?\n\|}|%s' % _tag_pattern('table')),
+            'template': NESTED_TEMPLATE_REGEX,
+        }
+    )
 
 
 def _tag_regex(tag_name: str):
@@ -253,14 +253,14 @@ def replaceExcept(text: str, old, new, exceptions: list, caseInsensitive: bool =
                         group_id = int(group_id)
 
                     try:
-                        replacement += new[last:group_match.start()]
+                        replacement += new[last : group_match.start()]
                         replacement += match.group(group_id) or ''
                     except IndexError:
                         raise IndexError(f'Invalid group reference: {group_id}\n Groups found: {match.groups()}')
                     last = group_match.end()
                 replacement += new[last:]
 
-            text = text[:match.start()] + replacement + text[match.end():]
+            text = text[: match.start()] + replacement + text[match.end() :]
 
             # continue the search on the remaining text
             if allowoverlap:

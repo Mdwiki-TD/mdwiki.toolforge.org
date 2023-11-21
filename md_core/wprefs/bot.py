@@ -34,12 +34,8 @@ from wprefs.files import reffixed_list, setting, append_reffixed_file, save_wpre
 from wprefs.wpref_text import fix_page
 
 # ---
-move_dot = {
-    1: False
-}
-expend_infobox = {
-    1: False
-}
+move_dot = {1: False}
+expend_infobox = {1: False}
 # ---
 project = '/data/project/mdwiki'
 # ---

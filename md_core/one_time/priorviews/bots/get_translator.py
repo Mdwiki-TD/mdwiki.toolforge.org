@@ -24,7 +24,6 @@ from priorviews.bots import get_translator
 
 
 class FindTranslator:
-
     def __init__(self, title, lang="en"):
         # ---
         self.lang = lang
@@ -53,16 +52,7 @@ class FindTranslator:
         return json1
 
     def start(self):
-        params = {
-            "action": "query",
-            "format": "json",
-            "prop": "revisions",
-            "titles": self.title,
-            "formatversion": "2",
-            "rvprop": "comment|user",
-            "rvdir": "newer",
-            "rvlimit": "max"
-        }
+        params = {"action": "query", "format": "json", "prop": "revisions", "titles": self.title, "formatversion": "2", "rvprop": "comment|user", "rvdir": "newer", "rvlimit": "max"}
         # ---
         rvcontinue = 'x'
         # ---
@@ -90,7 +80,6 @@ class FindTranslator:
                         # print(r)
                         self.translator = user
                         return
-
 
     def Translator(self):
         printe.output(f'\t\t Translator: {self.translator}')

@@ -79,11 +79,7 @@ def dodo_sql():
             targets_done[lang] = {}
         target = target.replace("_", " ")
         # targets_done[lang][py_tools.ec_de_code(target , 'encode')] = { "user" : user , "target" : target, "mdtitle" : title }
-        targets_done[lang][target] = {
-            "user": user,
-            "target": target,
-            "mdtitle": title
-        }
+        targets_done[lang][target] = {"user": user, "target": target, "mdtitle": title}
     # ---
     printe.output("<<lightyellow>> find %d with target, and %s without " % (len_done_target, len_no_target))
 
@@ -99,7 +95,7 @@ def do_it_sql(lange, targets):
     titles = list(targets.keys())
     # ---
     for i in range(0, len(titles), 100):
-        group = titles[i:i + 100]
+        group = titles[i : i + 100]
         # ---
         ase = [escape_string(t.strip().replace(" ", "_")) for t in group if t.strip() != ""]
         # ---
@@ -139,11 +135,7 @@ def do_it_sql(lange, targets):
                 # ---
                 md_title = targets.get(target, {}).get("mdtitle", "")
                 # ---
-                wd_tt[target] = {
-                    "mdtitle": md_title,
-                    "lang": lange,
-                    "qid": pp_value
-                }
+                wd_tt[target] = {"mdtitle": md_title, "lang": lange, "qid": pp_value}
         # ---
         if res_len < len(group):
             diff = len(group) - res_len
@@ -170,7 +162,7 @@ def do_it_api(lange, targets):
     nomd = 0
     # ---
     for i in range(0, len(New_targets), limits):
-        group = New_targets[i:i + limits]
+        group = New_targets[i : i + limits]
         # ---
         # get all pages qid
         qids_from_wiki = wiki_api.Get_page_qids(lange, group)
@@ -210,11 +202,7 @@ def do_it_api(lange, targets):
                 nomd += 1
                 # printe.output( '<<lightred>> %d md_title is empty for "%s"' % ( nomd, target ) )
             # ---
-            wd_tt[target] = {
-                "mdtitle": md_title,
-                "lang": lange,
-                "qid": qid
-            }
+            wd_tt[target] = {"mdtitle": md_title, "lang": lange, "qid": qid}
     # ---
     printe.output("<<lightyellow>> noqid %d" % noqid)
     printe.output("<<lightyellow>> nomd  %d" % nomd)
@@ -283,11 +271,7 @@ for target in wd_tt:
     # ---
     # printe.output( '<<lightred>> qid_target != qid_mdwiki' )
     # ---
-    qids_to_merge[qid_target] = {
-        "wd_qid": qid_mdwiki,
-        "md_title": mdtitle,
-        "lang": lang
-    }
+    qids_to_merge[qid_target] = {"wd_qid": qid_mdwiki, "md_title": mdtitle, "lang": lang}
 # ---
 printe.output(f'len(qids_to_merge) = "{len(qids_to_merge)}"')
 
@@ -312,11 +296,7 @@ def work_with_2_qids(oldq, new_q):
     # ---
     if en.startswith("User:Mr. Ibrahem"):
         printe.output(f"<<lightblue>> remove sitelink {en}")
-        remove = wikidataapi.post({
-            "action": "wbsetsitelink",
-            "id": oldq,
-            "linksite": "enwiki"
-        }, apiurl=wikidataurl, token=True)
+        remove = wikidataapi.post({"action": "wbsetsitelink", "id": oldq, "linksite": "enwiki"}, apiurl=wikidataurl, token=True)
         if "success" in remove:
             len_sites -= 1
             printe.output("<<lightgreen>> **remove sitelink true.")

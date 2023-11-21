@@ -4,6 +4,7 @@ from mdpy.bots.check_title import valid_title #valid_title(title)
 
 falses = ['category:', 'file:', 'template:', 'user:', 'wikipedia:']
 
+
 def valid_title(title):
     # ---
     title = title.lower().strip()

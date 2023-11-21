@@ -5,7 +5,6 @@ from prior.p4 import *
 
 
 class testmycode:
-
     def __init__(self):
         self.test_incomplete_links()
 

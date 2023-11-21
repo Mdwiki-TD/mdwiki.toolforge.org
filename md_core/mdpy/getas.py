@@ -18,11 +18,13 @@ import json
 import codecs
 import os
 import sys
+
 # ---
 from mdpy.bots.en_to_md import mdwiki_to_enwiki, enwiki_to_mdwiki
 from mdpy.bots import wiki_api
 from mdpy.bots import catdepth2
 from mdpy import printe
+
 # ---
 project = '/data/project/mdwiki/'
 # ---
@@ -36,9 +38,7 @@ vaild_links = tabe['list']
 # ---
 printe.output(f'len of vaild_links: {len(vaild_links)}')
 # ---
-json_file = {
-    0:  project + '/public_html/Translation_Dashboard/Tables/assessments.json'
-}
+json_file = {0: project + '/public_html/Translation_Dashboard/Tables/assessments.json'}
 # ---
 old_assessments = {}
 lala = ''
@@ -54,7 +54,7 @@ if fa != '':
 # ---
 len_old = len(old_assessments)
 # ---
-assessments = {x: z for x, z in old_assessments.items() }
+assessments = {x: z for x, z in old_assessments.items()}
 # ---
 if 'newpages' in sys.argv:  # vaild_links
     vaild_links2 = vaild_links
@@ -107,9 +107,7 @@ def work_for_list(listn):
 def mmain():
     numb = 0
     # ---
-    kkk = {
-        1: vaild_links
-    }
+    kkk = {1: vaild_links}
     # ---
     if 'new' not in sys.argv:
         # kkk = [ x for x in vaild_links if not x in old_assessments ]
@@ -120,7 +118,7 @@ def mmain():
             kkk[1].append(x2)
     # ---
     for i in range(0, len(kkk[1]), 50):
-        group = kkk[1][i:i + 50]
+        group = kkk[1][i : i + 50]
         work_for_list(group)
         # ---
         # log()

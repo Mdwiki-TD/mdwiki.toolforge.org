@@ -7,6 +7,7 @@ python3 core8/pwb.py updates/Medicine_articles
 
 """
 import datetime
+
 # ---
 from new_api.mdwiki_page import MainPage as md_MainPage
 from mdpy.bots import wiki_sql
@@ -32,14 +33,15 @@ def sql_result():
     # ---
     result = wiki_sql.sql_new(query, 'enwiki')
     # ---
-    languages = { x['ll_lang'] : x['counts'] for x in result }
+    languages = {x['ll_lang']: x['counts'] for x in result}
     # ---
     return languages
+
 
 def get_articles():
     """
     Retrieves the number of articles related to the "Medicine" project from the database.
-    
+
     Returns:
         int: The number of articles.
     """
@@ -56,20 +58,21 @@ def get_articles():
     # ---
     result = wiki_sql.sql_new(query, 'enwiki')
     # ---
-    articles = [ x['articles'] for x in result ]
+    articles = [x['articles'] for x in result]
     # ---
     if articles:
         return articles[0]
     # ---
     return 0
 
+
 def start():
     """
-    This function generates a statistical report of the number of articles by language for the WikiProject Medicine. It retrieves the current year using the `datetime` module and constructs a title for the report. It then fetches the result of an SQL query using the `sql_result` function and obtains a list of articles using the `get_articles` function. If the language 'en' is not present in the `languages` dictionary, it adds the 'en' key with the corresponding number of articles. 
+    This function generates a statistical report of the number of articles by language for the WikiProject Medicine. It retrieves the current year using the `datetime` module and constructs a title for the report. It then fetches the result of an SQL query using the `sql_result` function and obtains a list of articles using the `get_articles` function. If the language 'en' is not present in the `languages` dictionary, it adds the 'en' key with the corresponding number of articles.
 
-    The function then constructs a text string with the title, current month and year, and the total number of articles across all languages. It appends a table header to the text string. 
+    The function then constructs a text string with the title, current month and year, and the total number of articles across all languages. It appends a table header to the text string.
 
-    Next, the `languages` dictionary is sorted in descending order based on the count of articles. The function iterates over the sorted dictionary and appends each language and its corresponding count to the text string. 
+    Next, the `languages` dictionary is sorted in descending order based on the count of articles. The function iterates over the sorted dictionary and appends each language and its corresponding count to the text string.
 
     Finally, the function appends a table closing tag to the text string and uses the `md_MainPage` class to save the generated text as a new version of a wiki page. The page is saved with the specified title, update summary, and other optional parameters.
 

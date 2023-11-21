@@ -13,7 +13,6 @@ def printn(s):
 
 
 class fix_Chembox:
-
     def __init__(self, text):
         self.text = text
         self.new_text = text
@@ -21,7 +20,6 @@ class fix_Chembox:
         self.all_params = {}
         self.oldchembox = ""
         self.newchembox = "{{drugbox"
-
 
     def run(self):
         self.get_params()
@@ -65,10 +63,7 @@ class fix_Chembox:
             elif name.lower() not in boxes:
                 continue
             # ---
-            params = {
-                str(param.name).strip(): str(param.value)
-                for param in template.arguments
-            }
+            params = {str(param.name).strip(): str(param.value) for param in template.arguments}
             # ---
             for x, v in params.items():
                 if v.strip() == '':
@@ -78,7 +73,6 @@ class fix_Chembox:
                     continue
                 # ---
                 self.all_params[x] = v
-
 
     def new_temp(self):
         # ---

@@ -28,7 +28,7 @@ else:
         .. versionadded:: 5.4
         """
         if string.startswith(prefix):
-            return string[len(prefix):]
+            return string[len(prefix) :]
         return string
 
     def removesuffix(string: str, suffix: str) -> str:
@@ -37,7 +37,7 @@ else:
         .. versionadded:: 5.4
         """
         if string.endswith(suffix):
-            return string[:-len(suffix)]
+            return string[: -len(suffix)]
         return string
 
 

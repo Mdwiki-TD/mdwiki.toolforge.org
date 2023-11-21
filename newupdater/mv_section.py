@@ -14,7 +14,6 @@ def printn(s):
 
 
 class move_External_links_section:
-
     def __init__(self, text):
         self.text = text
         # ---
@@ -43,7 +42,6 @@ class move_External_links_section:
         # ---
         self.add_ext_section()
 
-
     def add_ext_section(self):
         # ---
         categoryPattern = r'\[\[\s*(Category)\s*:[^\n]*\]\]\s*'
@@ -59,7 +57,7 @@ class move_External_links_section:
         while True:
             match = metadataR.search(tmpText)
             if match:
-                tmpText = tmpText[:match.start()]
+                tmpText = tmpText[: match.start()]
             else:
                 break
         # ---
@@ -108,7 +106,7 @@ class move_External_links_section:
             if mata:
                 # ---
                 # ---
-                index = len(l_c[:mata.end()])
+                index = len(l_c[: mata.end()])
                 # ---
                 l_c2 = l_c[index:]
                 # ---
@@ -124,7 +122,6 @@ class move_External_links_section:
                 self.new_ext_sec = self.ext_sec
                 # ---
                 self.text_to_work = self.text_to_work.replace(str(self.last_sec).strip(), l_c2.strip())
-
 
     def make_new_txt(self):
         # ---

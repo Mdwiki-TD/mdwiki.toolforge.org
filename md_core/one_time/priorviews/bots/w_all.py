@@ -24,10 +24,7 @@ def make_by_lang(one_langs_only):
     for user, tab in one_langs_only.items():
         for lang, cunts in tab['by_lang'].items():
             if lang not in tab2:
-                tab2[lang] = {
-                    'list': {},
-                    'all': 0
-                }
+                tab2[lang] = {'list': {}, 'all': 0}
             # ---
             tab2[lang]['all'] += cunts
             # ---
@@ -69,10 +66,7 @@ def work_all(translators_all):
     alllll = 0
     # ---
     # sort translators_all by count
-    translators_a = {
-        x: v
-        for x, v in sorted(translators_all.items(), key=lambda item: item[1]['all'], reverse=True)
-    }
+    translators_a = {x: v for x, v in sorted(translators_all.items(), key=lambda item: item[1]['all'], reverse=True)}
     # ---
     all_usrs = len(translators_a.keys())
     # ---
@@ -85,14 +79,8 @@ def work_all(translators_all):
         # ---
         alllll += translators_a[x]['all']
     # ---
-    one_langs_only = {
-        x: v
-        for x, v in translators_a.items() if len(v['by_lang']) == 1
-    }
-    multiple_langs = {
-        x: v
-        for x, v in translators_a.items() if len(v['by_lang']) > 1
-    }
+    one_langs_only = {x: v for x, v in translators_a.items() if len(v['by_lang']) == 1}
+    multiple_langs = {x: v for x, v in translators_a.items() if len(v['by_lang']) > 1}
     # ---
     text = f"* all articles in the report: {alllll}\n"
     text += f"* all users in the report: {all_usrs}\n==multi langs==\n"
@@ -102,10 +90,7 @@ def work_all(translators_all):
         text += f"\n# [[w:en:User talk:{x}|User:{x}]]: {v['all']}\n#*"
         bylang = v['by_lang']
         # sort by lang
-        bylang = {
-            o: v
-            for o, v in sorted(bylang.items(), key=lambda item: item[1], reverse=True)
-        }
+        bylang = {o: v for o, v in sorted(bylang.items(), key=lambda item: item[1], reverse=True)}
         text += ", ".join([helps.talk_url(langg, x, langg) + f": {v}" for langg, v in bylang.items()])
         # ---
     # ---
@@ -114,10 +99,7 @@ def work_all(translators_all):
     langs_a = make_by_lang(one_langs_only)
     # ---
     # sort langs_a by count
-    langs_a = {
-        x: v
-        for x, v in sorted(langs_a.items(), key=lambda item: item[1]['all'], reverse=True)
-    }
+    langs_a = {x: v for x, v in sorted(langs_a.items(), key=lambda item: item[1]['all'], reverse=True)}
     # ---
     for lang, users in langs_a.items():
         # ---

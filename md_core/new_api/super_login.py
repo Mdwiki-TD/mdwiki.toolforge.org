@@ -15,29 +15,21 @@ import urllib.parse
 import traceback
 from warnings import warn
 import pywikibot
+
 # ---
 if __file__.find('mdwiki') == -1:
     from API import printe
 else:
     from new_api import printe
 # ---
-print_test = {
-    1: False
-}
+print_test = {1: False}
 # ---
-User_tables = {
-    "mdwiki": {},
-    "wikidata": {},
-    "wikipedia": {},
-    "nccommons": {}
-}
+User_tables = {"mdwiki": {}, "wikidata": {}, "wikipedia": {}, "nccommons": {}}
 # ---
 tokens_by_lang = {}
 seasons_by_lang = {}
 # ---
-ar_lag = {
-    1: 3
-}
+ar_lag = {1: 3}
 
 
 def warn_err(err):
@@ -47,14 +39,11 @@ def warn_err(err):
 
 
 # ---
-login_lang = {
-    1: True
-}
+login_lang = {1: True}
 # ---
 
 
-class Login():
-
+class Login:
     def __init__(self, lang, family='wikipedia'):
         self.lang = lang
         self.family = family
@@ -80,10 +69,8 @@ class Login():
         # ---
         # self.season = requests.Session()
 
-
     def Log_to_wiki(self):
         return True
-
 
     def make_response(self, params):
         # ---
@@ -159,37 +146,22 @@ class Login():
         # ---
         return {}
 
-
     def Log_to_wiki_1(self):
         # ---
         login_lang[1] = self.lang
         # ---
-        colors = {
-            "ar": "yellow",
-            "en": "lightpurple"
-        }
+        colors = {"ar": "yellow", "en": "lightpurple"}
         # ---
         color = colors.get(self.lang, '')
         # ---
         # self.season = requests.Session()
         printe.output(f"<<{color}>> newapi/page.py: Log_to_wiki {self.endpoint}")
         # ---
-        r2_params = {
-            'format': 'json',
-            'action': 'login',
-            'lgname': self.username,
-            'lgpassword': self.password,
-            'lgtoken': ''
-        }
+        r2_params = {'format': 'json', 'action': 'login', 'lgname': self.username, 'lgpassword': self.password, 'lgtoken': ''}
         # ---
         printe.output(f"newapi/page.py: log to {self.lang}.{self.family}.org user:{self.username}")
         # ---
-        r1_params = {
-            'format': 'json',
-            'action': 'query',
-            'meta': 'tokens',
-            'type': 'login'
-        }
+        r1_params = {'format': 'json', 'action': 'query', 'meta': 'tokens', 'type': 'login'}
         # ---
         # WARNING: /data/project/himo/core/newapi/page.py:101: UserWarning: Exception:502 Server Error: Server Hangup for url: https://ar.wikipedia.org/w/api.php
         # ---
@@ -222,11 +194,7 @@ class Login():
         # ---
         printe.output(f'<<green>> {__file__} login Success')
         # ---
-        r3_params = {
-            'format': 'json',
-            'action': 'query',
-            'meta': 'tokens'
-        }
+        r3_params = {'format': 'json', 'action': 'query', 'meta': 'tokens'}
         # ---
         r33 = self.make_response(r3_params)
         # ---
@@ -243,7 +211,6 @@ class Login():
         tokens_by_lang[self.lang] = r3_token
         # ---
         printe.output(f'<<green>> r3_token: {self.r3_token}')
-
 
     def post(self, params, Type='get', addtoken=False, CSRF=True):
         # ---

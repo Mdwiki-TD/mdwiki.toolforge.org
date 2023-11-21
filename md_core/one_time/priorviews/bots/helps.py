@@ -24,14 +24,7 @@ Dir = Path(__file__).parent
 
 
 def views_url(title, lang, view):
-    params = {
-        'project': f"{lang}.wikipedia.org",
-        'platform': 'all-access',
-        'agent': 'all-agents',
-        'start': "2015-07-01",
-        'redirects': '0',
-        'pages': title
-    }
+    params = {'project': f"{lang}.wikipedia.org", 'platform': 'all-access', 'agent': 'all-agents', 'start': "2015-07-01", 'redirects': '0', 'pages': title}
     d_end = datetime.datetime.utcnow() - timedelta(days=1)
     d_end = d_end.strftime('%Y-%m-%d')
     # params['end'] = d_end
@@ -78,11 +71,7 @@ def is_ip(user):
 def talk_url(lang, user, labl):
     old = f'[[w:{lang}:User talk:{user}|{user}]]'
     # --
-    pas = {
-        'title': f'User_talk:{user}',
-        'action': 'edit',
-        'section': 'new'
-    }
+    pas = {'title': f'User_talk:{user}', 'action': 'edit', 'section': 'new'}
     url = f"//{lang}.wikipedia.org/w/index.php?" + urlencode(pas)
     # ---
     return f'[{url} {labl}]'

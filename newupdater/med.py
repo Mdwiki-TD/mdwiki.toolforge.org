@@ -93,13 +93,7 @@ def GetPageText(title):
     # ---
     print_new(f'get text for {title}')
     # ---
-    params = {
-        "action": "parse",
-        "format": "json",
-        "prop": "wikitext",
-        "page": title,
-        "utf8": 1
-    }
+    params = {"action": "parse", "format": "json", "prop": "wikitext", "page": title, "utf8": 1}
     # ---
     url = "https://" + "mdwiki.org/w/api.php?action=parse&prop=wikitext&utf8=1&format=json&page=" + title
     # ---

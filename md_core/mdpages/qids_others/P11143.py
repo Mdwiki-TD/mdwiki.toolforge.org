@@ -6,6 +6,7 @@ python3 core8/pwb.py mdpages/qids_others/P11143
 
 """
 import sys
+
 # ---
 from mdpages.qids_others import sql_qids_others
 from mdpy.bots import wikidataapi
@@ -22,10 +23,7 @@ wikidataapi.Log_to_wiki(url="https://www.wikidata.org/w/api.php")
 # ---
 qids_di = sql_qids_others.get_others_qids()
 # ---
-qids = {
-    q: title
-    for title, q in qids_di.items() if q != ''
-}
+qids = {q: title for title, q in qids_di.items() if q != ''}
 # ---
 mdwiki_in_qids = list(qids.values())
 # ---
@@ -43,6 +41,7 @@ for wd in wdlist:
     in_wd[qid] = prop
     # ---
 # ---
+
 
 def add_missing(newlist):
     # ---
@@ -113,7 +112,7 @@ def duplicate(merge_qids):
         if q not in va_tab[va]:
             va_tab[va].append(q)
     # ---
-    va_tab_x = { k: v for k, v in va_tab.items() if len(v) > 1 }
+    va_tab_x = {k: v for k, v in va_tab.items() if len(v) > 1}
     # ---
     if va_tab_x:
         printe.output(f'<<lightyellow>> len of va_tab_x: {len(va_tab_x)}')
@@ -128,10 +127,7 @@ def start():
     # ---
     print(f'len of in_wd: {len(in_wd)}')
     # ---
-    newlist = {
-        q: tt
-        for q, tt in qids.items() if q not in in_wd.keys()
-    }
+    newlist = {q: tt for q, tt in qids.items() if q not in in_wd.keys()}
     # ---
     add_missing(newlist)
     # ---

@@ -172,11 +172,7 @@ def make_color(en_extlinks, en_refsname, p_ext, p_names, lead_extlinks, lead_ref
                     break
         # ---
     # ---
-    tab = {
-        'same1': same1,
-        'same2': same2,
-        'color': color
-    }
+    tab = {'same1': same1, 'same2': same2, 'color': color}
     # ---
     return tab
 
@@ -291,22 +287,13 @@ def make_text(allo, ttt=''):
         for l in langs_keys:
             # ---
             if l not in all_langs_states:
-                all_langs_states[l] = {
-                    'red': 0,
-                    'green': 0
-                }
+                all_langs_states[l] = {'red': 0, 'green': 0}
             if l not in langs_green_red:
-                langs_green_red[l] = {
-                    'red': 0,
-                    'green': 0
-                }
+                langs_green_red[l] = {'red': 0, 'green': 0}
             # ---
             tit = langs.get(l, {}).get('title', '')
             # ---
-            all_pages_states[en][l] = {
-                'color': '',
-                'title': tit
-            }
+            all_pages_states[en][l] = {'color': '', 'title': tit}
             # ---
             p_ext = langs.get(l, {}).get('extlinks', [])
             p_ext = [x.lower() for x in p_ext]
@@ -421,7 +408,8 @@ def make_text(allo, ttt=''):
         # ---
         red_line += f'{ta["red"]} || '
     # ---
-    te_langs = (f'''
+    te_langs = (
+        f'''
 {te_langs}
 
 |- style="position: sticky;top: 0; z-index: 2;"
@@ -431,7 +419,9 @@ def make_text(allo, ttt=''):
 |- style="position: sticky;top: 0; z-index: 2;"
 ! style="position: sticky;top: 0;left: 0;" | red
 | {red_line}
-''' + '\n|}\n</div>')
+'''
+        + '\n|}\n</div>'
+    )
     # ---
     lrnn = len(allo.keys())
     # ---

@@ -23,21 +23,14 @@ sys.path.append('/data/project/mdwiki/md_core/')
 from wprefs.helps import print_s
 
 # ---
-SS = {
-    "token": ''
-}
+SS = {"token": ''}
 session = {}
 session[1] = requests.Session()
 session["url"] = ""
 # ---
-Url_To_login = {
-    1: '',
-    'not': True
-}
+Url_To_login = {1: '', 'not': True}
 # ---
-login_done = {
-    1: False
-}
+login_done = {1: False}
 # ---
 project = '/data/project/mdwiki'
 # ---
@@ -46,9 +39,7 @@ if not os.path.isdir(project):
 # ---
 yes_answer = ["y", "a", "", "Y", "A", "all"]
 # ---
-ask_a = {
-    1: False
-}
+ask_a = {1: False}
 # ---
 missingtitles = {}
 
@@ -157,16 +148,7 @@ def submitAPI(params, lang='', Type='post'):
 
 
 def get_revisions(title, lang=''):
-    params = {
-        "action": "query",
-        "format": "json",
-        "prop": "revisions",
-        "titles": title,
-        "formatversion": "2",
-        "rvprop": "comment|user|timestamp",
-        "rvdir": "newer",
-        "rvlimit": "max"
-    }
+    params = {"action": "query", "format": "json", "prop": "revisions", "titles": title, "formatversion": "2", "rvprop": "comment|user|timestamp", "rvdir": "newer", "rvlimit": "max"}
     # ---
     rvcontinue = 'x'
     # ---

@@ -34,10 +34,7 @@ by_lang_tra = views.count_tra_by_lang
 by_lang = views.count_views_by_lang.copy()
 # ---
 # sort by_lang
-keys_1 = {
-    x: v
-    for x, v in sorted(by_lang.items(), key=lambda item: item[1], reverse=True)
-}
+keys_1 = {x: v for x, v in sorted(by_lang.items(), key=lambda item: item[1], reverse=True)}
 # ---
 total_tra = 0
 with_trator = 0

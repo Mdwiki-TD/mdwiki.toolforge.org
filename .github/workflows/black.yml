@@ -1,7 +1,6 @@
 name: Black
 
 on:
-  pull_request:
   push:
     branches:
       - update  # اسم الفرع الخاص بك
@@ -25,4 +24,13 @@ jobs:
         pip install black
 
     - name: Run Black
-      run: black -t py38 -t py39 -t py310 -t py311 --line-length 450 --skip-string-normalization .
+      run:  |
+        black -t py38 -t py39 -t py310 -t py311 --line-length 450 --skip-string-normalization .
+        
+    - name: Commit and push changes
+      run: |
+        git config user.name "MrIbrahem"
+        git config user.email "ibrahem.al-radaei@outlook.com"
+        git add .
+        git commit -m "Auto-format code with Black"
+        git push
