@@ -45,6 +45,7 @@ main_dir = os.path.join(str(main_dir), 'images')
 if not os.path.exists(main_dir):
     os.makedirs(main_dir)
 
+
 def remove_session_id_from_url(url):
     # Define a regular expression to match the session ID pattern
     session_id_pattern = re.compile(r';jsessionid=[^?&]+')
@@ -53,6 +54,8 @@ def remove_session_id_from_url(url):
     cleaned_url = session_id_pattern.sub('', url)
 
     return cleaned_url
+
+
 # Function to download and save an image
 def save_image(url, folder_name, file_name):
     response = requests.get(url, stream=True)
@@ -61,6 +64,7 @@ def save_image(url, folder_name, file_name):
     with open(image_path, 'wb') as file:
         for chunk in response.iter_content(chunk_size=128):
             file.write(chunk)
+
 
 # Function to process disease page and return image information
 def process_disease_page(disease_url, disease_name):
@@ -75,11 +79,12 @@ def process_disease_page(disease_url, disease_name):
     for index, link in enumerate(image_links):
         image_url = urljoin("https://www.atlasdermatologico.com.br/", link['href'])
         image_url = remove_session_id_from_url(image_url)
-        
+
         image_name = f"{disease_name} (Dermatology Atlas {index + 1}).jpg"
         images_info[image_name] = image_url
 
     return images_info
+
 
 # Main function to scrape data from the given URL
 def scrape_data(url):
@@ -93,7 +98,7 @@ def scrape_data(url):
     for item in disease_items:
         disease_name = item.find('span', itemprop='name').get_text().strip()
         disease_name = disease_name.title()
-        
+
         disease_href = item.find('a')['href']
         disease_url = urljoin("https://www.atlasdermatologico.com.br/", disease_href)
         disease_url = remove_session_id_from_url(disease_url)
@@ -111,19 +116,17 @@ def scrape_data(url):
             save_image(image_url, folder_name, image_name)
             print(f"  - Downloaded image: {image_name}")
 
+
 def create_folder(folder_name, disease_name, disease_url, images_info):
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
-    info_data = {
-        "disease_name": disease_name,
-        "disease_url": disease_url,
-        "images_info": images_info
-    }
+    info_data = {"disease_name": disease_name, "disease_url": disease_url, "images_info": images_info}
 
     info_file_path = os.path.join(folder_name, "info.json")
     with open(info_file_path, 'w') as info_file:
         json.dump(info_data, info_file, indent=4)
+
 
 if __name__ == "__main__":
     atlas_url = "https://www.atlasdermatologico.com.br/browse.jsf"
