@@ -91,7 +91,7 @@ def process_folders(root_folder):
         if disease_name in done:
             print(f"Skipping {disease_name}")
             continue
-        
+
         disease_url = info_data.get("disease_url")
         images_info = info_data.get("images_info", {})
 
@@ -100,7 +100,6 @@ def process_folders(root_folder):
             continue
         print(f'Processing {disease_name}')
         # Create category
-        image_set = create_set(disease_name, images_info)
         category = create_category(disease_name)
 
         if category:
@@ -108,6 +107,8 @@ def process_folders(root_folder):
             for image_name, image_url in images_info.items():
                 image_path = os.path.join(root, image_name)
                 upload_image(category, image_path, image_url, image_name, disease_url)
+                
+        image_set = create_set(disease_name, images_info)
         break
 
 

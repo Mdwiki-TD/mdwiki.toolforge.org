@@ -192,6 +192,10 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
 
 
 def upload_by_url(file_name, text, url, comment=''):
+    # ---
+    if file_name.startswith("File:"):
+        file_name = file_name.replace("File:", "")
+    # ---
     params = {'action': 'upload', 'format': 'json', 'filename': file_name, 'url': url, 'comment': comment, 'text': text}
     # ---
     if not upload_all[1] and "ask" in sys.argv:
@@ -221,7 +225,7 @@ def upload_by_url(file_name, text, url, comment=''):
     error_code = result.get("error", {}).get("code", '')
     # ---
     if success:
-        pywikibot.output(f"<<lightgreen>> ** true ..  {SS['family']} : [[{file_name}]] ")
+        pywikibot.output(f"<<lightgreen>> ** true ..  {SS['family']} : [[File:{file_name}]] ")
         return True
     elif error != {}:
         pywikibot.output(f"<<lightred>> error when create_Page, error_code:{error_code}")
@@ -263,7 +267,9 @@ def create_Page(text, title, summary="create page"):
     # ---
     result = post_s(params, addtoken=True)
     # ---
-    success = result.get("success") or result.get("Success")
+    upload_result = result.get("edit", {})
+    # ---
+    success = upload_result.get("result") == "Success"
     error = result.get("error", {})
     error_code = result.get("error", {}).get("code", '')
     # ---
@@ -276,6 +282,7 @@ def create_Page(text, title, summary="create page"):
         pywikibot.output(f"<<lightred>> error when create_Page, error_code:{error_code}")
         pywikibot.output(error)
     else:
+        pywikibot.output(result)
         return False
     # ---
     # pywikibot.output("end of create_Page def return False title:(%s)" % title)
