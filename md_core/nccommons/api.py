@@ -187,15 +187,9 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
     # ---
     return Main_table
 
+
 def upload_by_url(file_name, text, url, comment=''):
-    params = {
-        'action' : 'upload',
-        'format' : 'json',
-        'filename' : file_name,
-        'url' : url,
-        'comment' : comment,
-        'text' : text
-    }
+    params = {'action': 'upload', 'format': 'json', 'filename': file_name, 'url': url, 'comment': comment, 'text': text}
     # ---
     if not upload_all[1] and "ask" in sys.argv:
         pywikibot.output(text)

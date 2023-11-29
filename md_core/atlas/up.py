@@ -13,8 +13,10 @@ python3 md_core/atlas/up.py
 """
 import os
 import json
+
 # ---
 from nccommons import api
+
 # newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
 # new = api.create_Page(text=, title)
 # exists = api.Find_pages_exists_or_not(titles)
@@ -57,6 +59,7 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
     file_name = f'File:{image_name}'
     upload = api.upload_by_url(file_name, image_text, image_url, comment='')
     print(f"upload result: {upload}")
+
 
 # Main function
 

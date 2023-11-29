@@ -5,10 +5,9 @@
 #
 # Distributed under the terms of the MIT license.
 #
-# find      :   \s*\n(\s*#\s*[-]+\s*)+\n*^def 
-# find      :   \s*\n(#\s*[-]+\s*)+\n*def 
-# replace   :   \n\n\ndef 
-
+# find      :   \s*\n(\s*#\s*[-]+\s*)+\n*^def
+# find      :   \s*\n(#\s*[-]+\s*)+\n*def
+# replace   :   \n\n\ndef
 
 
 # find      :   \s*\n(\s*#\s*[-]+\s*)+\n*^(\s*def )
