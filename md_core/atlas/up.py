@@ -62,7 +62,7 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
 
 
 def process_folders(root_folder):
-    for root, dirs, files in os.walk(root_folder): 
+    for root, dirs, files in os.walk(root_folder):
         # Check if there's an info.json file in the current folder
         if "info.json" not in files:
             print(f"No info.json file found in {root}")
