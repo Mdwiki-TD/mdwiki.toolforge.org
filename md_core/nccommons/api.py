@@ -241,14 +241,7 @@ def create_Page(text, title, summary="create page"):
     pywikibot.output(f" create Page {title}:")
     time_sleep = 0
     # ---
-    params = {
-        "action": "edit",
-        "title": title,
-        "text": text,
-        "summary": summary,
-        "notminor": 1,
-        "createonly": 1
-    }
+    params = {"action": "edit", "title": title, "text": text, "summary": summary, "notminor": 1, "createonly": 1}
     # ---
     if not Save_all[1] and ("ask" in sys.argv and "save" not in sys.argv):
         pywikibot.output(text)
