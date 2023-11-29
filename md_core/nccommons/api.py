@@ -87,13 +87,16 @@ def Log_to_wiki(family="nccommons", lang="www"):
     SS["login_not_done"] = False
 
 
-def post_s(params):
+def post_s(params, addtoken=False):
     # ---
     params['format'] = 'json'
     params['utf8'] = 1
     # ---
     if SS["login_not_done"]:
         Log_to_wiki()
+    # ---
+    if addtoken:
+        params['token'] = SS["r3_token"]
     # ---
     jj = {}
     # ---
@@ -206,7 +209,7 @@ def upload_by_url(file_name, text, url, comment=''):
             upload_all[1] = True
         # ---
     # ---
-    result = post_s(params)
+    result = post_s(params, addtoken=True)
     # ---
     success = result.get("success") or result.get("Success")
     error = result.get("error", {})
@@ -234,8 +237,7 @@ def create_Page(text, title, summary="create page"):
         "text": text,
         "summary": summary,
         "notminor": 1,
-        "createonly": 1,
-        "token": SS["r3_token"],
+        "createonly": 1
     }
     # ---
     if not Save_all[1] and ("ask" in sys.argv and "save" not in sys.argv):
@@ -253,7 +255,7 @@ def create_Page(text, title, summary="create page"):
             Save_all[1] = True
         # ---
     # ---
-    result = post_s(params)
+    result = post_s(params, addtoken=True)
     # ---
     success = result.get("success") or result.get("Success")
     error = result.get("error", {})
