@@ -9,20 +9,18 @@ write python code to do:
 * upload images to nccommons.org using def upload_image(category_name, image_path, image_url)
 
 python3 md_core/atlas/up.py
+python3 core8/pwb.py atlas/up ask
 
 """
 import os
 import json
-
-# ---
+from pathlib import Path
 from nccommons import api
 
-# newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
-# new = api.create_Page(text=, title)
-# exists = api.Find_pages_exists_or_not(titles)
-# ---
 # Specify the root folder
-root_folder = "images"
+main_dir = Path(__file__).parent
+root_folder = os.path.join(str(main_dir), 'images')
+
 # Base URL for nccommons.org API
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
 
@@ -65,9 +63,10 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
 
 
 def process_folders(root_folder):
-    for root, dirs, files in os.walk(root_folder):
+    for root, dirs, files in os.walk(root_folder): 
         # Check if there's an info.json file in the current folder
         if "info.json" not in files:
+            print(f"No info.json file found in {root}")
             continue
         info_file_path = os.path.join(root, "info.json")
 
@@ -79,6 +78,7 @@ def process_folders(root_folder):
         images_info = info_data.get("images_info", {})
 
         if not disease_name:
+            print(f"No disease_name found in {info_file_path}")
             continue
 
         # Create category
