@@ -32,7 +32,6 @@ python3 md_core/atlas/bot.py
 #
 import re
 import os
-from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
