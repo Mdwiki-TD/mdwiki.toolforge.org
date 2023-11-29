@@ -211,12 +211,17 @@ def upload_by_url(file_name, text, url, comment=''):
     # ---
     result = post_s(params, addtoken=True)
     # ---
-    success = result.get("success") or result.get("Success")
+    # {'upload': {'result': 'Success', 'filename': 'Pediculosis_Palpebrarum_(Dermatology_Atlas_1).jpg', 'imageinfo': {'timestamp': '2023-11-29T20:12:26Z', 'user': 'Mr. Ibrahem', 'userid': 13, 'size': 52289, 'width': 506, 'height': 379, 'parsedcomment': '', 'comment': '', 'html': '', 'canonicaltitle': 'File:Pediculosis Palpebrarum (Dermatology Atlas 1).jpg', 'url': 'https://nccommons.org/media/f/fd/Pediculosis_Palpebrarum_%28Dermatology_Atlas_1%29.jpg', 'descriptionurl': 'https://nccommons.org/wiki/File:Pediculosis_Palpebrarum_(Dermatology_Atlas_1).jpg', 'sha1': '1df195d80a496c6aadcefbc6d7b8adf13caddafc', 'metadata': [{'name': 'JPEGFileComment', 'value': [{'name': 0, 'value': 'File written by Adobe Photoshop¨ 4.0'}]}, {'name': 'MEDIAWIKI_EXIF_VERSION', 'value': 2}], 'commonmetadata': [{'name': 'JPEGFileComment', 'value': [{'name': 0, 'value': 'File written by Adobe Photoshop¨ 4.0'}]}], 'extmetadata': {'DateTime': {'value': '2023-11-29T20:12:26Z', 'source': 'mediawiki-metadata', 'hidden': ''}, 'ObjectName': {'value': 'Pediculosis Palpebrarum (Dermatology Atlas 1)', 'source': 'mediawiki-metadata', 'hidden': ''}}, 'mime': 'image/jpeg', 'mediatype': 'BITMAP', 'bitdepth': 8}}}
+
+    # ---
+    upload_result = result.get("upload", {})
+    # ---
+    success = upload_result.get("result") == "Success"
     error = result.get("error", {})
     error_code = result.get("error", {}).get("code", '')
     # ---
     if success:
-        pywikibot.output(f"** true ..  {SS['family']} : [[{file_name}]] ")
+        pywikibot.output(f"<<lightgreen>> ** true ..  {SS['family']} : [[{file_name}]] ")
         return True
     elif error != {}:
         pywikibot.output(f"<<lightred>> error when create_Page, error_code:{error_code}")

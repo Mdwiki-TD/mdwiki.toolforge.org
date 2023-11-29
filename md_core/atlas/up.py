@@ -38,27 +38,25 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
     # split disease_url to get last text after =
     diseaseid = disease_url.split('=')[-1]
     image_id = image_url.split('=')[-1]
-    image_text = f'''== {{int:summary}} ==
-{{Information
+
+    image_text = '== {{int:summary}} ==\n{{Information'
+
+    image_text += f'''
 |Description = 
 * Atlasdermatologico disease ID: [{disease_url} {diseaseid}]
 * Image ID: [{image_url} {image_id}]
 |Date = 
 |Source = {disease_url}
 |Author = https://www.atlasdermatologico.com.br/
-|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/
-}}
+|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/'''
 
-== {{int:license}} ==
-{{CC-BY-NC-SA-3.0}}
+    image_text += '\n}}\n== {{int:license}} ==\n{{CC-BY-NC-SA-3.0}}'
 
-[[{category_name}]]
-[[Category:Atlasdermatologico]]'''
+    image_text += f'\n[[{category_name}]]\n[[Category:Atlasdermatologico]]'
+
     upload = api.upload_by_url(image_name, image_text, image_url, comment='')
+
     print(f"upload result: {upload}")
-
-
-# Main function
 
 
 def process_folders(root_folder):
