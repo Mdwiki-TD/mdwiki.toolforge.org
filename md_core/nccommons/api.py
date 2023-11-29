@@ -1,6 +1,13 @@
 #!/usr/bin/python3
 """
-
+Usage:
+# ---
+from nccommons import api
+# newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
+# new = api.create_Page(text=, title)
+# exists = api.Find_pages_exists_or_not(titles)
+# upload = api.upload_by_url(file_name, text, url, comment='')
+# ---
 """
 #
 # (C) Ibrahem Qasim, 2023
@@ -31,10 +38,13 @@ pywikibot.output(f"username: {username}")
 # ---
 yes_answer = ["y", "a", "", "Y", "A", "all"]
 # ---
-SS = {}
+Save_all = {1: False}
+upload_all = {1: False}
+# ---
 r1_params = {"format": "json", "action": "query", "meta": "tokens", "type": "login"}
 r2_params = {"format": "json", "action": "login", "lgname": username, "lgpassword": password}
 # ---
+SS = {}
 SS["ss"] = requests.Session()
 SS["login_not_done"] = True
 
@@ -177,9 +187,47 @@ def Get_All_pages(start, namespace="0", limit="max", apfilterredir='', limit_all
     # ---
     return Main_table
 
-
-# ---
-Save_all = {1: False}
+def upload_by_url(file_name, text, url, comment=''):
+    params = {
+        'action' : 'upload',
+        'format' : 'json',
+        'filename' : file_name,
+        'url' : url,
+        'comment' : comment,
+        'text' : text
+    }
+    # ---
+    if not upload_all[1] and "ask" in sys.argv:
+        pywikibot.output(text)
+        sa = py_input(f"<<lightyellow>> nccommons/com.py: upload file:'{file_name}' ? ([y]es, [N]o)")
+        # ---
+        if sa.strip() not in yes_answer:
+            pywikibot.output("<<lightred>> wrong answer")
+            return False
+        # ---
+        if sa.strip() == "a":
+            pywikibot.output("---------------------------------------------")
+            pywikibot.output("nccommons.py upload_by_url save all without asking.")
+            pywikibot.output("---------------------------------------------")
+            upload_all[1] = True
+        # ---
+    # ---
+    result = post_s(params)
+    # ---
+    success = result.get("success") or result.get("Success")
+    error = result.get("error", {})
+    error_code = result.get("error", {}).get("code", '')
+    # ---
+    if success:
+        pywikibot.output(f"** true ..  {SS['family']} : [[{file_name}]] ")
+        return True
+    elif error != {}:
+        pywikibot.output(f"<<lightred>> error when create_Page, error_code:{error_code}")
+        pywikibot.output(error)
+    else:
+        return False
+    # ---
+    return False
 
 
 def create_Page(text, title, summary="create page"):
@@ -289,16 +337,5 @@ def Find_pages_exists_or_not(liste):
     return table
 
 
-# ---
-'''
-# ---
-from nccommons import api
-# newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
-# new = api.create_Page(text=, title)
-# exists = api.Find_pages_exists_or_not(titles)
-# ---
-'''
-# ---
 if __name__ == '__main__':
     Get_All_pages('')
-# ---
