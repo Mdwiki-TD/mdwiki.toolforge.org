@@ -9,22 +9,38 @@ write python code to do:
 * upload images to nccommons.org using def upload_image(category_name, image_path, image_url)
 
 python3 md_core/atlas/up.py
+python3 core8/pwb.py atlas/up ask
 
 """
 import os
 import json
-
-# ---
+from pathlib import Path
 from nccommons import api
 
-# newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
-# new = api.create_Page(text=, title)
-# exists = api.Find_pages_exists_or_not(titles)
-# ---
 # Specify the root folder
-root_folder = "images"
+main_dir = Path(__file__).parent
+root_folder = os.path.join(str(main_dir), 'images')
+
 # Base URL for nccommons.org API
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
+done = ["Pediculosis Palpebrarum"]
+
+
+def create_set(disease_name, image_infos):
+    title = disease_name
+    text = '{{Imagestack\n|width=850\n'
+    text += f'|title={disease_name}\n|align=centre\n|loop=no\n'
+
+    for image_name, image_url in image_infos.items():
+        # |File:Pediculosis Palpebrarum (Dermatology Atlas 1).jpg|
+        text += f'|File:{image_name}|\n'
+
+    text += '\n}}\n[[Category:Image set]]\n'
+    text += f'[[Category:{disease_name}]]'
+    # ---
+    new = api.create_Page(text, title)
+    # ---
+    return new
 
 
 def create_category(disease_name):
@@ -40,47 +56,51 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
     # split disease_url to get last text after =
     diseaseid = disease_url.split('=')[-1]
     image_id = image_url.split('=')[-1]
-    image_text = f'''== {{int:summary}} ==
-{{Information
+
+    image_text = '== {{int:summary}} ==\n{{Information'
+
+    image_text += f'''
 |Description = 
 * Atlasdermatologico disease ID: [{disease_url} {diseaseid}]
 * Image ID: [{image_url} {image_id}]
 |Date = 
 |Source = {disease_url}
 |Author = https://www.atlasdermatologico.com.br/
-|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/
-}}
+|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/'''
 
-== {{int:license}} ==
-{{CC-BY-NC-SA-3.0}}
+    image_text += '\n}}\n== {{int:license}} ==\n{{CC-BY-NC-SA-3.0}}'
 
-[[{category_name}]]
-[[Category:Atlasdermatologico]]'''
-    file_name = f'File:{image_name}'
-    upload = api.upload_by_url(file_name, image_text, image_url, comment='')
+    image_text += f'\n[[{category_name}]]\n[[Category:Atlasdermatologico]]'
+
+    upload = api.upload_by_url(image_name, image_text, image_url, comment='')
+
     print(f"upload result: {upload}")
-
-
-# Main function
 
 
 def process_folders(root_folder):
     for root, dirs, files in os.walk(root_folder):
         # Check if there's an info.json file in the current folder
         if "info.json" not in files:
+            print(f"No info.json file found in {root}")
             continue
         info_file_path = os.path.join(root, "info.json")
 
         # Read information from info.json
         with open(info_file_path, "r") as info_file:
             info_data = json.load(info_file)
+
         disease_name = info_data.get("disease_name")
+        if disease_name in done:
+            print(f"Skipping {disease_name}")
+            continue
+
         disease_url = info_data.get("disease_url")
         images_info = info_data.get("images_info", {})
 
         if not disease_name:
+            print(f"No disease_name found in {info_file_path}")
             continue
-
+        print(f'Processing {disease_name}')
         # Create category
         category = create_category(disease_name)
 
@@ -89,6 +109,8 @@ def process_folders(root_folder):
             for image_name, image_url in images_info.items():
                 image_path = os.path.join(root, image_name)
                 upload_image(category, image_path, image_url, image_name, disease_url)
+
+        image_set = create_set(disease_name, images_info)
         break
 
 
