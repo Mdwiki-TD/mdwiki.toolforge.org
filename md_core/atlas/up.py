@@ -25,21 +25,23 @@ root_folder = os.path.join(str(main_dir), 'images')
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
 done = ["Pediculosis Palpebrarum"]
 
+
 def create_set(disease_name, image_infos):
     title = disease_name
-    text  = '{{Imagestack\n|width=850\n'
+    text = '{{Imagestack\n|width=850\n'
     text += f'|title={disease_name}\n|align=centre\n|loop=no\n'
 
     for image_name, image_url in image_infos.items():
         # |File:Pediculosis Palpebrarum (Dermatology Atlas 1).jpg|
         text += f'|File:{image_name}|\n'
-    
+
     text += '\n}}\n[[Category:Image set]]\n'
     text += f'[[Category:{disease_name}]]'
     # ---
     new = api.create_Page(text, title)
     # ---
     return new
+
 
 def create_category(disease_name):
     cat_text = '[[Category:Atlasdermatologico]]'
@@ -107,7 +109,7 @@ def process_folders(root_folder):
             for image_name, image_url in images_info.items():
                 image_path = os.path.join(root, image_name)
                 upload_image(category, image_path, image_url, image_name, disease_url)
-                
+
         image_set = create_set(disease_name, images_info)
         break
 
