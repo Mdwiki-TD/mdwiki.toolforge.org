@@ -11,6 +11,6 @@ unzip MdCoreNew.zip
 # Copy all the remaining files and directories from the 'mdwiki.toolforge.org-main' directory
 
 # Into a new directory called 'md_core/' in the current working directory
-cp -rf mdwiki.toolforge.org-main/md_core/* md_core/
+cp -rf -v mdwiki.toolforge.org-main/md_core/* md_core/
 # Remove the `mdwiki.toolforge.org-main` directory.
 rm -rf mdwiki.toolforge.org-main
