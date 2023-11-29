@@ -222,6 +222,7 @@ def upload_by_url(file_name, text, url, comment=''):
         pywikibot.output(f"<<lightred>> error when create_Page, error_code:{error_code}")
         pywikibot.output(error)
     else:
+        pywikibot.output(result)
         return False
     # ---
     return False

@@ -54,8 +54,7 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
 
 [[{category_name}]]
 [[Category:Atlasdermatologico]]'''
-    file_name = f'File:{image_name}'
-    upload = api.upload_by_url(file_name, image_text, image_url, comment='')
+    upload = api.upload_by_url(image_name, image_text, image_url, comment='')
     print(f"upload result: {upload}")
 
 
@@ -73,6 +72,7 @@ def process_folders(root_folder):
         # Read information from info.json
         with open(info_file_path, "r") as info_file:
             info_data = json.load(info_file)
+
         disease_name = info_data.get("disease_name")
         disease_url = info_data.get("disease_url")
         images_info = info_data.get("images_info", {})
@@ -80,7 +80,7 @@ def process_folders(root_folder):
         if not disease_name:
             print(f"No disease_name found in {info_file_path}")
             continue
-
+        print(f'Processing {disease_name}')
         # Create category
         category = create_category(disease_name)
 
