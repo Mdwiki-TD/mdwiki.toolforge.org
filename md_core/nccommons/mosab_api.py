@@ -2,11 +2,11 @@
 """
 Usage:
 # ---
-from nccommons import api
-# newpages = api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
-# new = api.create_Page(text=, title)
-# exists = api.Find_pages_exists_or_not(titles)
-# upload = api.upload_by_url(file_name, text, url, comment='')
+from nccommons import mosab_api
+# newpages = mosab_api.Get_All_pages(start="", namespace="0", limit="max", apfilterredir="", limit_all="")
+# new = mosab_api.create_Page(text=, title)
+# exists = mosab_api.Find_pages_exists_or_not(titles)
+# upload = mosab_api.upload_by_url(file_name, text, url, comment='')
 # ---
 """
 #
@@ -31,8 +31,8 @@ if not os.path.isdir(project):
 config = configparser.ConfigParser()
 config.read(project + "/confs/nccommons_user.ini")
 # ---
-username = config["DEFAULT"]["username"].strip()
-password = config["DEFAULT"]["password"].strip()
+username = config["MOSSAB"]["username"].strip()
+password = config["MOSSAB"]["password"].strip()
 # ---
 pywikibot.output(f"username: {username}")
 # ---
@@ -199,7 +199,7 @@ def upload_by_url(file_name, text, url, comment=''):
     params = {'action': 'upload', 'format': 'json', 'filename': file_name, 'url': url, 'comment': comment, 'text': text}
     # ---
     if not upload_all[1] and "ask" in sys.argv:
-        pywikibot.output(text)
+        # pywikibot.output(text)
         sa = py_input(f"<<lightyellow>> nccommons.py: upload file:'{file_name}' ? ([y]es, [N]o):user:{r2_params['lgname']}")
         # ---
         if sa.strip() not in yes_answer:

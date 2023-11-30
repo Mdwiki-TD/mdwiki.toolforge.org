@@ -12,10 +12,12 @@ python3 md_core/atlas/up.py
 python3 core8/pwb.py atlas/up ask
 
 """
+import sys
 import os
 import json
 from pathlib import Path
 from nccommons import api
+from nccommons import mosab_api
 
 # Specify the root folder
 main_dir = Path(__file__).parent
@@ -23,20 +25,24 @@ root_folder = os.path.join(str(main_dir), 'images')
 
 # Base URL for nccommons.org API
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
-done = ["Pediculosis Palpebrarum"]
+done = ["Pediculosis Palpebrarum", "Onychomycosis"]
 
 
 def create_set(disease_name, image_infos):
     title = disease_name
-    text = '{{Imagestack\n|width=850\n'
+    text = ''
+    # ---
+    text += '{{Imagestack\n|width=850\n'
     text += f'|title={disease_name}\n|align=centre\n|loop=no\n'
+    # ---
 
-    for image_name, image_url in image_infos.items():
+    # for image_name, image_url in image_infos.items():
+    for image_name in image_infos.keys():
         # |File:Pediculosis Palpebrarum (Dermatology Atlas 1).jpg|
         text += f'|File:{image_name}|\n'
 
     text += '\n}}\n[[Category:Image set]]\n'
-    text += f'[[Category:{disease_name}]]'
+    text += f'[[Category:{disease_name}|*]]'
     # ---
     new = api.create_Page(text, title)
     # ---
@@ -44,10 +50,10 @@ def create_set(disease_name, image_infos):
 
 
 def create_category(disease_name):
-    cat_text = '[[Category:Atlasdermatologico]]'
+    cat_text = f'* Image set: [[{disease_name}]]\n[[Category:Atlasdermatologico]]'
     cat_title = f'Category:{disease_name}'
     # ---
-    new = api.create_Page(cat_text, cat_title)
+    mosab_api.create_Page(cat_text, cat_title)
     # ---
     return cat_title
 
@@ -72,9 +78,50 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
 
     image_text += f'\n[[{category_name}]]\n[[Category:Atlasdermatologico]]'
 
-    upload = api.upload_by_url(image_name, image_text, image_url, comment='')
+    upload = mosab_api.upload_by_url(image_name, image_text, image_url, comment='')
 
     print(f"upload result: {upload}")
+
+
+def get_info(root):
+    info_file_path = os.path.join(root, 'info.json')
+
+    # Read information from info.json
+    with open(info_file_path, "r", encoding="utf-8") as info_file:
+        info_data = json.load(info_file)
+
+    return info_data
+
+
+def process_folder(root):
+    info_data = get_info(root)
+    disease_name = info_data.get("disease_name", "").replace("_", " ")
+
+    if not disease_name:
+        print(f"No disease_name found in {os.path.join(root, 'info.json')}")
+        return
+
+    if disease_name in done:
+        print(f"Skipping {disease_name}")
+        return
+
+    disease_url = info_data.get("disease_url")
+    images_info = info_data.get("images_info", {})
+
+    print(f'Processing {disease_name}')
+    # Create category
+    category = create_category(disease_name)
+
+    if category and 'noup' not in sys.argv:
+        # Upload images
+        n = 0
+        for image_name, image_url in images_info.items():
+            n += 1
+            image_path = os.path.join(root, image_name)
+            print(f"Uploading image {n}/{len(images_info.keys())}: {image_name}")
+            upload_image(category, image_path, image_url, image_name, disease_url)
+
+    create_set(disease_name, images_info)
 
 
 def process_folders(root_folder):
@@ -83,35 +130,11 @@ def process_folders(root_folder):
         if "info.json" not in files:
             print(f"No info.json file found in {root}")
             continue
-        info_file_path = os.path.join(root, "info.json")
 
-        # Read information from info.json
-        with open(info_file_path, "r") as info_file:
-            info_data = json.load(info_file)
+        process_folder(root)
 
-        disease_name = info_data.get("disease_name")
-        if disease_name in done:
-            print(f"Skipping {disease_name}")
-            continue
-
-        disease_url = info_data.get("disease_url")
-        images_info = info_data.get("images_info", {})
-
-        if not disease_name:
-            print(f"No disease_name found in {info_file_path}")
-            continue
-        print(f'Processing {disease_name}')
-        # Create category
-        category = create_category(disease_name)
-
-        if category:
-            # Upload images
-            for image_name, image_url in images_info.items():
-                image_path = os.path.join(root, image_name)
-                upload_image(category, image_path, image_url, image_name, disease_url)
-
-        image_set = create_set(disease_name, images_info)
-        break
+        if 'break' in sys.argv:
+            break
 
 
 if __name__ == "__main__":

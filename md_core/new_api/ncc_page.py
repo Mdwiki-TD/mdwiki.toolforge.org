@@ -3,7 +3,7 @@
 
 from new_api.ncc_page import MainPage as ncc_MainPage
 '''
-page      = MainPage(title, 'www', family='nccommons')
+page      = ncc_MainPage(title, 'www', family='nccommons')
 exists    = page.exists()
 if not exists: return
 # ---

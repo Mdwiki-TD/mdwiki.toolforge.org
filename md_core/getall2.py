@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
 
-python ./nash/mdpy/getall2.py
+python3 I:/mdwiki/md_core/getall2.py
 
 """
 import os
@@ -15,28 +15,6 @@ def printe(color, text):
         'green': "\033[92m%s\033[00m",
         'yellow': "\033[93m%s\033[00m",
         'blue': "\033[94m%s\033[00m",
-        'purple': "\033[95m%s\033[00m",
-        'cyan': "\033[96m%s\033[00m",
-        'white': "\033[97m%s\033[00m",
-        'black': "\033[98m%s\033[00m",
-        'grey': "\033[99m%s\033[00m",
-        'lightred': "\033[101m%s\033[00m",
-        'lightgreen': "\033[102m%s\033[00m",
-        'lightyellow': "\033[103m%s\033[00m",
-        'lightblue': "\033[104m%s\033[00m",
-        'lightpurple': "\033[105m%s\033[00m",
-        'lightcyan': "\033[106m%s\033[00m",
-        'lightwhite': "\033[107m%s\033[00m",
-        'lightblack': "\033[108m%s\033[00m",
-        'lightgrey': "\033[109m%s\033[00m",
-        'bold': "\033[1m%s\033[00m",
-        'underline': "\033[4m%s\033[00m",
-        'invert': "\033[7m%s\033[00m",
-        'blink': "\033[5m%s\033[00m",
-        'aqua': "\033[106m%s\033[00m",
-        'lightaqua': "\033[107m%s\033[00m",
-        'lightgray': "\033[107m%s\033[00m",
-        'gray': "\033[100m%s\033[00m",
     }
     # ---
     if color in color_table:
@@ -46,9 +24,6 @@ def printe(color, text):
 
 
 def get_text(file_path):
-    # ---
-    # find out what encoding the file is
-    # ---
     # ---
     # find out what encoding the file is
     # ---
@@ -86,11 +61,9 @@ def get_text(file_path):
     return text, enc
 
 
-# ---
-# ---
 shared_paths = {}
 # ---
-drivepath = "I:\\mdwiki\\mdpy"
+drivepath = "I:\\mdwiki"
 # ---
 for pyfile in os.listdir(drivepath):
     # ---
