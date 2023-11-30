@@ -60,7 +60,7 @@ def Log_to_wiki(family="nccommons", lang="www"):
     # ---
     user = r2_params["lgname"]
     # ---
-    pywikibot.output(f"nccommons/com.py: log to {lang}.{family}.org user:{user}")
+    pywikibot.output(f"nccommons.py: log to {lang}.{family}.org user:{user}")
     # ---
     SS["family"] = family
     SS["lang"] = lang
@@ -74,7 +74,7 @@ def Log_to_wiki(family="nccommons", lang="www"):
     r22 = SS["ss"].post(SS["url"], data=r2_params)
     # ---
     if r22.json()["login"]["result"] != "Success":
-        pywikibot.output(f"nccommons/com.py: login failed, reason: {r22.json()['login']['reason']}")
+        pywikibot.output(f"nccommons.py: login failed, reason: {r22.json()['login']['reason']}")
         # sys.exit(1)
         SS["login_not_done"] = True
         return False
@@ -108,7 +108,7 @@ def post_s(params, addtoken=False):
     try:
         r4 = SS["ss"].post(SS["url"], data=params)
     except Exception as e:
-        pywikibot.output(f"nccommons/com.py: {e}")
+        pywikibot.output(f"nccommons.py: {e}")
         SS["login_not_done"] = True
         return {}
     # ---
@@ -200,7 +200,7 @@ def upload_by_url(file_name, text, url, comment=''):
     # ---
     if not upload_all[1] and "ask" in sys.argv:
         pywikibot.output(text)
-        sa = py_input(f"<<lightyellow>> nccommons/com.py: upload file:'{file_name}' ? ([y]es, [N]o)")
+        sa = py_input(f"<<lightyellow>> nccommons.py: upload file:'{file_name}' ? ([y]es, [N]o):user:{r2_params['lgname']}")
         # ---
         if sa.strip() not in yes_answer:
             pywikibot.output("<<lightred>> wrong answer")
@@ -245,7 +245,7 @@ def create_Page(text, title, summary="create page"):
     # ---
     if not Save_all[1] and ("ask" in sys.argv and "save" not in sys.argv):
         pywikibot.output(text)
-        sa = py_input(f"<<lightyellow>> nccommons/com.py: create:\"{title}\" page ? ([y]es, [N]o):user:{r2_params['lgname']}")
+        sa = py_input(f"<<lightyellow>> nccommons.py: create:\"{title}\" page ? ([y]es, [N]o):user:{r2_params['lgname']}")
         # ---
         if sa.strip() not in yes_answer:
             pywikibot.output("<<lightred>> wrong answer")
