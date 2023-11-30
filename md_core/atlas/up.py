@@ -12,11 +12,12 @@ python3 md_core/atlas/up.py
 python3 core8/pwb.py atlas/up ask
 
 """
+import sys
 import os
 import json
 from pathlib import Path
 from nccommons import api
-
+from nccommons import mosab_api
 # Specify the root folder
 main_dir = Path(__file__).parent
 root_folder = os.path.join(str(main_dir), 'images')
@@ -25,15 +26,17 @@ root_folder = os.path.join(str(main_dir), 'images')
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
 done = ["Pediculosis Palpebrarum"]
 
+
 def create_set(disease_name, image_infos):
     title = disease_name
-    text  = '{{Imagestack\n|width=850\n'
+    text = '{{Imagestack\n|width=850\n'
     text += f'|title={disease_name}\n|align=centre\n|loop=no\n'
 
-    for image_name, image_url in image_infos.items():
+    # for image_name, image_url in image_infos.items():
+    for image_name in image_infos.keys():
         # |File:Pediculosis Palpebrarum (Dermatology Atlas 1).jpg|
         text += f'|File:{image_name}|\n'
-    
+
     text += '\n}}\n[[Category:Image set]]\n'
     text += f'[[Category:{disease_name}]]'
     # ---
@@ -41,11 +44,12 @@ def create_set(disease_name, image_infos):
     # ---
     return new
 
+
 def create_category(disease_name):
     cat_text = '[[Category:Atlasdermatologico]]'
     cat_title = f'Category:{disease_name}'
     # ---
-    new = api.create_Page(cat_text, cat_title)
+    mosab_api.create_Page(cat_text, cat_title)
     # ---
     return cat_title
 
@@ -70,7 +74,7 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
 
     image_text += f'\n[[{category_name}]]\n[[Category:Atlasdermatologico]]'
 
-    upload = api.upload_by_url(image_name, image_text, image_url, comment='')
+    upload = mosab_api.upload_by_url(image_name, image_text, image_url, comment='')
 
     print(f"upload result: {upload}")
 
@@ -84,7 +88,7 @@ def process_folders(root_folder):
         info_file_path = os.path.join(root, "info.json")
 
         # Read information from info.json
-        with open(info_file_path, "r") as info_file:
+        with open(info_file_path, "r", encoding="utf-8") as info_file:
             info_data = json.load(info_file)
 
         disease_name = info_data.get("disease_name")
@@ -107,9 +111,11 @@ def process_folders(root_folder):
             for image_name, image_url in images_info.items():
                 image_path = os.path.join(root, image_name)
                 upload_image(category, image_path, image_url, image_name, disease_url)
-                
-        image_set = create_set(disease_name, images_info)
-        break
+
+        create_set(disease_name, images_info)
+
+        if 'break' in sys.arg:
+            break
 
 
 if __name__ == "__main__":
