@@ -60,6 +60,7 @@ def get_text(file_path):
     # ---
     return text, enc
 
+
 shared_paths = {}
 # ---
 drivepath = "I:\\mdwiki"

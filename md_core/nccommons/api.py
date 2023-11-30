@@ -294,7 +294,7 @@ def Find_pages_exists_or_not(liste):
     exists = 0
     # ---
     for i in range(0, len(liste), 50):
-        titles = liste[i: i + 50]
+        titles = liste[i : i + 50]
         # ---
         done += len(titles)
         # ---

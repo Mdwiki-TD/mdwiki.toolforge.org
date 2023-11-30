@@ -18,6 +18,7 @@ import json
 from pathlib import Path
 from nccommons import api
 from nccommons import mosab_api
+
 # Specify the root folder
 main_dir = Path(__file__).parent
 root_folder = os.path.join(str(main_dir), 'images')
@@ -25,7 +26,6 @@ root_folder = os.path.join(str(main_dir), 'images')
 # Base URL for nccommons.org API
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
 done = ["Pediculosis Palpebrarum", "Onychomycosis"]
-
 
 
 def create_set(disease_name, image_infos):
