@@ -40,7 +40,7 @@ def create_set(disease_name, image_infos):
         text += f'|File:{image_name}|\n'
 
     text += '\n}}\n[[Category:Image set]]\n'
-    text += f'[[Category:{disease_name}]]'
+    text += f'[[Category:{disease_name}|*]]'
     # ---
     new = api.create_Page(text, title)
     # ---
