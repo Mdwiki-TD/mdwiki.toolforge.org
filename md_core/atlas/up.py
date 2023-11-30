@@ -27,6 +27,7 @@ NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
 done = ["Pediculosis Palpebrarum", "Onychomycosis"]
 
 
+
 def create_set(disease_name, image_infos):
     title = disease_name
     text = ''
