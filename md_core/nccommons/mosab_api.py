@@ -199,7 +199,8 @@ def upload_by_url(file_name, text, url, comment=''):
     params = {'action': 'upload', 'format': 'json', 'filename': file_name, 'url': url, 'comment': comment, 'text': text}
     # ---
     if not upload_all[1] and "ask" in sys.argv:
-        # pywikibot.output(text)
+        if 'nodiff' not in sys.argv:
+            pywikibot.output(text)
         sa = py_input(f"<<lightyellow>> nccommons.py: upload file:'{file_name}' ? ([y]es, [N]o):user:{r2_params['lgname']}")
         # ---
         if sa.strip() not in yes_answer:
@@ -244,7 +245,8 @@ def create_Page(text, title, summary="create page"):
     params = {"action": "edit", "title": title, "text": text, "summary": summary, "notminor": 1, "createonly": 1}
     # ---
     if not Save_all[1] and ("ask" in sys.argv and "save" not in sys.argv):
-        pywikibot.output(text)
+        if 'nodiff' not in sys.argv:
+            pywikibot.output(text)
         sa = py_input(f"<<lightyellow>> nccommons.py: create:\"{title}\" page ? ([y]es, [N]o):user:{r2_params['lgname']}")
         # ---
         if sa.strip() not in yes_answer:

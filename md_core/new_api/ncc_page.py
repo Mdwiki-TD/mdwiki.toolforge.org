@@ -100,10 +100,17 @@ def test():
 
     # ---
     print('---------------------------')
-    cat_members = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommons", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
+    cat_members = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommons", ns="all")
     print('cat_members:')
     print(len(cat_members))
-
+    # ---
+    # sort cat_members
+    cat_members = dict(sorted(cat_members.items()))
+    # ---
+    for x in cat_members:
+        if not x.startswith('File:'):
+            print(x)
+    # ---
     # ex = page.page_backlinks()
     # print('---------------------------')
     # print(f'page_backlinks:{ex}')
