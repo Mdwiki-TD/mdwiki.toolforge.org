@@ -72,8 +72,6 @@ def create_category(disease_name):
     mosab_api.create_Page(cat_text, cat_title)
     # ---
     return cat_title
-
-
 def upload_image(category_name, image_path, image_url, image_name, disease_url):
     # split disease_url to get last text after =
     if f'File:{image_name}' in pages:
@@ -90,8 +88,6 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
     upload = mosab_api.upload_by_url(image_name, image_text, image_url, comment='')
 
     print(f"upload result: {upload}")
-
-
 def get_info(root):
     info_file_path = os.path.join(root, 'info.json')
 
@@ -100,8 +96,6 @@ def get_info(root):
         info_data = json.load(info_file)
 
     return info_data
-
-
 def process_folder(root):
     info_data = get_info(root)
     disease_name = info_data.get("disease_name", "").replace("_", " ")
