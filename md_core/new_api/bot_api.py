@@ -10,7 +10,7 @@ from newapi.page import NEW_API
 # usercont = api_new.UserContribs(user, limit=5000, namespace="*", ucshow="")
 # l_links  = api_new.Get_langlinks_for_list(titles, targtsitecode="", numbes=50)
 # text_w   = api_new.expandtemplates(text)
-# subst    = api_new.Prase_Text('{{subst:page_name}}', title)
+# subst    = api_new.Parse_Text('{{subst:page_name}}', title)
 
 Usage:
 from newapi.page import NEW_API
@@ -469,7 +469,7 @@ class NEW_API:
         # ---
         return newtext
 
-    def Prase_Text(self, line, title):
+    def Parse_Text(self, line, title):
         # ---
         params = {"action": "parse", "prop": "wikitext", "text": line, "title": title, "pst": 1, "contentmodel": "wikitext", "utf8": 1, "formatversion": "2"}
         # ---

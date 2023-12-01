@@ -1,42 +1,44 @@
 name: Black
 
 on:
-  push:
-    branches:
-      - update  # اسم الفرع الخاص بك
+  pull_request:
+    types:
+      - closed
 
 jobs:
   build:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.11.1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.1
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install black
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install black
 
-    - name: Run Black
-      run:  |
-        black -t py38 -t py39 -t py310 -t py311 --line-length 450 --skip-string-normalization .
-        
-    - name: Commit and push changes
-      run: |
-        git config user.name "MrIbrahem"
-        git config user.email "ibrahem.al-radaei@outlook.com"
-        git add .
-        git status
-        if git status | grep modified
-        then
-          git commit -m "Auto-format code with Black"
-          git push
-        else
-          echo "No changes since last run"
-        fi
+      - name: Run Black
+        run:  |
+          black -t py38 -t py39 -t py310 -t py311 --line-length 450 --skip-string-normalization .
+          
+      - name: Commit and push changes
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git status
+          # if git status | grep modified
+          if ! git diff --quiet
+          then
+            git commit -m "Auto-format code with Black"
+            # git push || { echo "Push failed"; exit 1; }
+            git push
+          else
+            echo "No changes since last run"
+          fi

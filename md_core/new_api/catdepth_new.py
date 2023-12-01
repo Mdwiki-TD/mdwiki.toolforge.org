@@ -174,9 +174,9 @@ class CategoryDepth:
             new_list = new_tab2
         # ---
         return self.result_table
-
-
 def subcatquery(title, sitecode='en', family="wikipedia", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[], **kwargs):
+    # ---
+    printe.output(f'<<lightyellow>> catdepth.py sub cat query for {sitecode}:{title}, depth:{depth}, ns:{ns}')
     # ---
     start = time.time()
     final = time.time()

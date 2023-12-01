@@ -16,6 +16,7 @@ import sys
 import os
 import time
 import json
+from tqdm import tqdm
 from new_api import printe
 from pathlib import Path
 from nccommons import api
@@ -30,8 +31,9 @@ root_folder = os.path.join(str(main_dir), 'images')
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
 done = ["Pediculosis Palpebrarum", "Onychomycosis"]
 
-pages = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommons", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
-time.sleep(1)
+pages = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommons", depth=1, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
+time.sleep(5)
+print('time.sleep(5)')
 
 
 def create_set(disease_name, image_infos):
@@ -122,7 +124,7 @@ def process_folder(root):
     if category and 'noup' not in sys.argv:
         # Upload images
         n = 0
-        for image_name, image_url in images_info.items():
+        for image_name, image_url in tqdm(images_info.items(), desc="Uploading images", total=len(images_info.keys())):
             n += 1
             image_path = os.path.join(root, image_name)
             print(f"Uploading image {n}/{len(images_info.keys())}: {image_name}")
@@ -132,7 +134,7 @@ def process_folder(root):
 
 
 def process_folders(root_folder):
-    for root, dirs, files in os.walk(root_folder):
+    for root, dirs, files in tqdm(os.walk(root_folder), desc="Processing folders"):
         # Check if there's an info.json file in the current folder
         if "info.json" not in files:
             print(f"No info.json file found in {root}")
