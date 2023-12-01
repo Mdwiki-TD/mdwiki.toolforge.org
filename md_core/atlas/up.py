@@ -21,6 +21,7 @@ from pathlib import Path
 from nccommons import api
 from nccommons import mosab_api
 from new_api.ncc_page import CatDepth
+
 # Specify the root folder
 main_dir = Path(__file__).parent
 root_folder = os.path.join(str(main_dir), 'images')
@@ -31,6 +32,7 @@ done = ["Pediculosis Palpebrarum", "Onychomycosis"]
 
 pages = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommons", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
 time.sleep(1)
+
 
 def create_set(disease_name, image_infos):
     title = disease_name
@@ -81,20 +83,7 @@ def upload_image(category_name, image_path, image_url, image_name, disease_url):
 
     image_text = '== {{int:summary}} ==\n'
 
-    image_text += (
-        '{{Information\n'
-        f'|Description = \n* Atlasdermatologico disease ID: [{disease_url} {diseaseid}]\n'
-        f'* Image ID: [{image_url} {image_id}]\n'
-        f'|Date = \n|Source = {disease_url}\n'
-        '|Author = https://www.atlasdermatologico.com.br/\n'
-        '|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/\n'
-        '}}\n'
-        '== {{int:license}} ==\n'
-        '{{CC-BY-NC-SA-3.0}}\n'
-        f'[[{category_name}]]\n'
-        '[[Category:Atlasdermatologico]]'
-    )
-
+    image_text += '{{Information\n' f'|Description = \n* Atlasdermatologico disease ID: [{disease_url} {diseaseid}]\n' f'* Image ID: [{image_url} {image_id}]\n' f'|Date = \n|Source = {disease_url}\n' '|Author = https://www.atlasdermatologico.com.br/\n' '|Permission = http://creativecommons.org/licenses/by-nc-sa/3.0/\n' '}}\n' '== {{int:license}} ==\n' '{{CC-BY-NC-SA-3.0}}\n' f'[[{category_name}]]\n' '[[Category:Atlasdermatologico]]'
 
     upload = mosab_api.upload_by_url(image_name, image_text, image_url, comment='')
 
