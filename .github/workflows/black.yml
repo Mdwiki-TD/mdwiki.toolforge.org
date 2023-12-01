@@ -36,7 +36,7 @@ jobs:
       run: |
         git add .
         # Check if there are changes to commit
-        if git diff --cached --exit-code --quite
+        if git diff --cached --exit-code --name-only
         then
           echo "No changes since last run"
         else
