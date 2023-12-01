@@ -46,7 +46,4 @@ jobs:
 
     - name: Merge changes
       run: |
-        git fetch origin pull/${{ github.event.pull_request.number }}/merge:PR_MERGE
-        git checkout PR_MERGE
-        git merge --ff-only ${{ github.event.pull_request.head.sha }}
-        git push origin HEAD:${{ github.event.pull_request.base.ref }}
+        git push origin HEAD:${{ github.event.pull_request.head.ref }}
