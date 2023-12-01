@@ -35,9 +35,11 @@ pages = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommon
 time.sleep(5)
 print('time.sleep(5)')
 
-
-def create_set(disease_name, image_infos):
+def create_set( disease_name, image_infos ):
     title = disease_name
+
+
+
     text = ''
     # ---
     if title in pages:
@@ -59,8 +61,6 @@ def create_set(disease_name, image_infos):
     new = api.create_Page(text, title)
     # ---
     return new
-
-
 def create_category(disease_name):
     cat_text = f'* Image set: [[{disease_name}]]\n[[Category:Atlasdermatologico]]'
     cat_title = f'Category:{disease_name}'

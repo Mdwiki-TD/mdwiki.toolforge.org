@@ -2,8 +2,6 @@ name: Black
 
 on:
   pull_request:
-    branches:
-      - update
     types:
       - closed
 
