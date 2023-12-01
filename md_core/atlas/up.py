@@ -54,7 +54,6 @@ def create_set( disease_name, image_infos ):
     for image_name in image_infos.keys():
         # |File:Pediculosis Palpebrarum (Dermatology Atlas 1).jpg|
         text += f'|File:{image_name}|\n'
-
     text += '\n}}\n[[Category:Image set]]\n'
     text += f'[[Category:{disease_name}|*]]'
     # ---
