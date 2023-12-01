@@ -32,5 +32,11 @@ jobs:
         git config user.name "MrIbrahem"
         git config user.email "ibrahem.al-radaei@outlook.com"
         git add .
-        git commit -m "Auto-format code with Black"
-        git push
+        git status
+        if git status | grep modified
+        then
+          git commit -m "Auto-format code with Black"
+          git push
+        else
+          echo "No changes since last run"
+        fi
