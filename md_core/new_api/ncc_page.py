@@ -1,5 +1,7 @@
 # ---
 """
+from new_api.ncc_page import CatDepth
+# cat_members = CatDepth(title, sitecode='en', family="wikipedia", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
 
 from new_api.ncc_page import MainPage as ncc_MainPage
 '''
@@ -33,13 +35,12 @@ timestamp   = page.get_timestamp()
 user        = page.get_user()
 purge       = page.purge()
 '''
-
 """
-# ---
 # ---
 from new_api import super_login
 from new_api import bot_api
 from new_api import super_page
+from new_api import catdepth_new
 import os
 import configparser
 
@@ -67,11 +68,12 @@ Login = super_login.Login
 # ---
 bot_api.login_def = Login
 super_page.login_def = Login
+catdepth_new.login_def = Login
 # ---
 NEW_API = bot_api.NEW_API
 MainPage = super_page.MainPage
 change_codes = super_page.change_codes
-
+CatDepth = catdepth_new.subcatquery
 # ---
 # xxxxxxxxxxx
 
@@ -97,12 +99,24 @@ def test():
     print(text)
 
     # ---
+    print('---------------------------')
+    cat_members = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommons", ns="all")
+    print('cat_members:')
+    print(len(cat_members))
+    # ---
+    # sort cat_members
+    cat_members = dict(sorted(cat_members.items()))
+    # ---
+    for x in cat_members:
+        if not x.startswith('File:'):
+            print(x)
+    # ---
     # ex = page.page_backlinks()
-    # print(f'---------------------------')
+    # print('---------------------------')
     # print(f'page_backlinks:{ex}')
     # ---
     # hidden_categories= page.get_hidden_categories()
-    # print(f'---------------------------')
+    # print('---------------------------')
     # print(f'hidden_categories:{hidden_categories}')
     # ---
     # red = page.page_links()
@@ -113,7 +127,7 @@ def test():
 
 # ---
 if __name__ == '__main__':
-    # python3 core8/pwb.py new_api/page
+    # python3 core8/pwb.py new_api/ncc_page
     super_page.print_test[1] = True
     super_login.print_test[1] = True
     test()

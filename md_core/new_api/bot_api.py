@@ -11,9 +11,8 @@ from newapi.page import NEW_API
 # l_links  = api_new.Get_langlinks_for_list(titles, targtsitecode="", numbes=50)
 # text_w   = api_new.expandtemplates(text)
 # subst    = api_new.Prase_Text('{{subst:page_name}}', title)
-'''
-# ---
-'''
+
+Usage:
 from newapi.page import NEW_API
 # ---
 login_done_lang = {1:''}
@@ -214,6 +213,9 @@ class NEW_API:
             "apfilterredir": "nonredirects",
         }
         # ---
+        if str(namespace) in ['*', '', 'all']:
+            del params['apnamespace']
+        # ---
         if apfilterredir in ['redirects', 'all', 'nonredirects']:
             params['apfilterredir'] = apfilterredir
         # ---
@@ -262,7 +264,10 @@ class NEW_API:
         # ---
         return Main_table
 
-    def Search(self, value='', ns="*", offset='', srlimit="max", RETURN_dict=False, addparams={}):
+    def Search(self, value='', ns="*", offset='', srlimit="max", RETURN_dict=False, addparams=None):
+        # ---
+        if addparams is None:
+            addparams = {}
         # ---
         printe.output(f'bot_api.Search for "{value}",ns:{ns}')
         # ---
@@ -357,7 +362,7 @@ class NEW_API:
             # ---
             rccontinue = json1.get("continue", {}).get("rccontinue", '')
             # ---
-            ccc = {"type": "new", "ns": 0, "title": "تشارلز مسيون ريمي", "pageid": 7004776, "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"}
+            # {"type": "new", "ns": 0, "title": "تشارلز مسيون ريمي", "pageid": 7004776, "revid": 41370093, "old_revid": 0, "rcid": 215347464, "timestamp": "2019-12-15T13:14:34Z"}
             # ---
             Main_table.extend([x["title"] for x in newp])
             # ---
@@ -433,7 +438,7 @@ class NEW_API:
                 normalized[red["to"]] = red["from"]
             # ---
             query_pages = json1.get("query", {}).get("pages", {})
-            for page, kk in query_pages.items():
+            for _, kk in query_pages.items():
                 if "title" in kk:
                     titlle = kk.get("title", "")
                     titlle = normalized.get(titlle, titlle)
@@ -468,7 +473,7 @@ class NEW_API:
         # ---
         params = {"action": "parse", "prop": "wikitext", "text": line, "title": title, "pst": 1, "contentmodel": "wikitext", "utf8": 1, "formatversion": "2"}
         # ---
-        _data_ = {"parse": {"title": "كريس فروم", "pageid": 2639244, "wikitext": "{{subst:user:Mr._Ibrahem/line2|Q76|P31}}", "psttext": "\"Q76\":{\n\"P31\":\"إنسان\"\n\n\n\n\n},"}}
+        # {"parse": {"title": "كريس فروم", "pageid": 2639244, "wikitext": "{{subst:user:Mr._Ibrahem/line2|Q76|P31}}", "psttext": "\"Q76\":{\n\"P31\":\"إنسان\"\n\n\n\n\n},"}}
         # ---
         data = self.post_params(params)
         # ---
@@ -500,7 +505,7 @@ class NEW_API:
             # ---
             continue_params = json1.get("continue", {})
             # ---
-            elcontinue = json1.get('continue', {}).get('elcontinue', '')
+            # elcontinue = json1.get('continue', {}).get('elcontinue', '')
             # ---
             linkso = json1.get('query', {}).get('pages', [{}])[0].get('extlinks', [])
             # ---

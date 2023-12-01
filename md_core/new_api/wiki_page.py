@@ -1,7 +1,15 @@
+"""
+Usage:
+
+from new_api.wiki_page import CatDepth
+# cat_members = CatDepth(title, sitecode='en', family="wikipedia", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
+
+"""
 # ---
 from new_api import super_login
 from new_api import bot_api
 from new_api import super_page
+from new_api import catdepth_new
 from mdpy.bots import user_account_new
 
 # ---
@@ -17,11 +25,12 @@ Login = super_login.Login
 # ---
 bot_api.login_def = Login
 super_page.login_def = Login
+catdepth_new.login_def = Login
 # ---
 NEW_API = bot_api.NEW_API
 MainPage = super_page.MainPage
 change_codes = super_page.change_codes
-
+CatDepth = catdepth_new.subcatquery
 # ---
 # xxxxxxxxxxx
 
@@ -55,7 +64,7 @@ def test():
 
     # ---
     # hidden_categories= page.get_hidden_categories()
-    # print(f'---------------------------')
+    # print('---------------------------')
     # print(f'hidden_categories:{hidden_categories}')
     # ---
     # red = page.page_links()
