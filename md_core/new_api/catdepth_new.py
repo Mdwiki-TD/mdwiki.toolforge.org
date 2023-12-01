@@ -1,15 +1,14 @@
-# ---
 
+import time
+import sys
+from new_api import printe
 
 def login_def(lang, family):
     return {}
 
 
-# ---
-
-
 class CategoryDepth:
-    def __init__(self, title, sitecode, depth=0, family="wikipedia", ns="all", nslist=[], without_lang="", with_lang="", tempyes=[], no_gcmsort=False, **kwargs):
+    def __init__(self, title, sitecode='en', depth=0, family="wikipedia", ns="all", nslist=[], without_lang="", with_lang="", tempyes=[], no_gcmsort=False, **kwargs):
         # ---
         self.title = title
         self.no_gcmsort = no_gcmsort
@@ -35,7 +34,7 @@ class CategoryDepth:
         self.params = {}
         self.make_params()
 
-        # return self._subcatquery_(title)
+        # return self.subcatquery_(title)
 
     def Login_to_wiki(self):
         self.log.Log_to_wiki()
@@ -143,16 +142,16 @@ class CategoryDepth:
 
         self.result_table[x] = tab
 
-    def _subcatquery_(self):
+    def subcatquery_(self):
         # ---
         print(f'catdepyh_new.py cat:{self.title}, ns:{self.ns}')
         # ---
         tablemember = self.get_cat(self.title)
         # ---
-        for x in tablemember:
-            self.add_to_result_table(x, tablemember[x])
+        for x, zz in tablemember.items():
+            self.add_to_result_table(x, zz)
         # ---
-        new_list = [x for x in tablemember if int(tablemember[x]["ns"]) == 14]
+        new_list = [x for x, xx in tablemember.items() if int(xx["ns"]) == 14]
         # ---
         depth_done = 0
         # ---
@@ -165,16 +164,35 @@ class CategoryDepth:
                 # ---
                 table2 = self.get_cat(cat)
                 # ---
-                for x in table2:
+                for x, v in table2.items():
                     # ---
-                    if int(table2[x]["ns"]) == 14:
+                    if int(v["ns"]) == 14:
                         new_tab2.append(x)
                     # ---
-                    self.add_to_result_table(x, table2[x])
+                    self.add_to_result_table(x, v)
             # ---
             new_list = new_tab2
         # ---
         return self.result_table
 
 
-# ---
+def subcatquery(title, sitecode='en', family="wikipedia", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[], **kwargs):
+    # ---
+    start = time.time()
+    final = time.time()
+    # ---
+    bot = CategoryDepth(title, sitecode=sitecode, family=family, depth=depth, ns=ns, nslist=nslist, without_lang=without_lang, with_lang=with_lang, tempyes=tempyes, **kwargs)
+    # ---
+    bot.Login_to_wiki()
+    # ---
+    result = bot.subcatquery_()
+    # ---
+    final = time.time()
+    delta = int(final - start)
+    # ---
+    if "printresult" in sys.argv:
+        printe.output(result)
+    # ---
+    printe.output(f'<<lightblue>>catdepth.py: find {len(result)} pages({ns}) in {sitecode}:{title}, depth:{depth} in {delta} seconds')
+    # ---
+    return result

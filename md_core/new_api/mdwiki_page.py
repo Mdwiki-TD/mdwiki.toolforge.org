@@ -1,16 +1,25 @@
+# ---
+"""
+from new_api.ncc_page import CatDepth
+# cat_members = CatDepth(title, sitecode='en', family="wikipedia", depth=0, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
+
 # from new_api.mdwiki_page import MainPage as md_MainPage
 '''
 page      = md_MainPage(title, 'www', family='mdwiki')
 exists    = page.exists()
 if not exists: return
 # ---
-# if page.isRedirect() :  return
+page_edit = page.can_edit()
+if not page_edit: return
+# ---
+if page.isRedirect() :  return
 # target = page.get_redirect_target()
 # ---
 text        = page.get_text()
 ns          = page.namespace()
 links       = page.page_links()
 categories  = page.get_categories(with_hidden=False)
+langlinks   = page.get_langlinks()
 wiki_links  = page.get_wiki_links_from_text()
 refs        = page.Get_tags(tag='ref')# for x in ref: name, contents = x.name, x.contents
 words       = page.get_words()
@@ -26,10 +35,12 @@ timestamp   = page.get_timestamp()
 user        = page.get_user()
 purge       = page.purge()
 '''
+"""
 # ---
 from new_api import super_login as su_login
 from new_api import bot_api
 from new_api import super_page as su_page
+from new_api import catdepth_new
 from mdpy.bots import user_account_new
 
 # ---
@@ -45,11 +56,12 @@ Login = su_login.Login
 # ---
 bot_api.login_def = Login
 su_page.login_def = Login
+catdepth_new.login_def = Login
 # ---
 NEW_API = bot_api.NEW_API
 MainPage = su_page.MainPage
 change_codes = su_page.change_codes
-
+CatDepth = catdepth_new.subcatquery
 # ---
 # xxxxxxxxxxx
 
@@ -75,11 +87,11 @@ def test():
     print(text)
     # ---
     # ex = page.page_backlinks()
-    # print(f'---------------------------')
+    # print('---------------------------')
     # print(f'page_backlinks:{ex}')
     # ---
     # hidden_categories= page.get_hidden_categories()
-    # print(f'---------------------------')
+    # print('---------------------------')
     # print(f'hidden_categories:{hidden_categories}')
     # ---
     # red = page.page_links()
