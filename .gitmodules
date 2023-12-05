@@ -1,3 +1,6 @@
 [submodule "public_html/Translation_Dashboard"]
 	path = public_html/Translation_Dashboard
 	url = https://github.com/MrIbrahem/Translation-Dashboard
+[submodule "pybot"]
+	path = pybot
+	url = https://github.com/MrIbrahem/pybot

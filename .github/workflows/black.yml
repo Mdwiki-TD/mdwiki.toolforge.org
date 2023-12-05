@@ -34,6 +34,7 @@ jobs:
 
     - name: Commit and push changes
       run: |
+        git status
         git add .
         # Check if there are changes to commit
         if git diff --cached --exit-code --name-only
@@ -42,5 +43,6 @@ jobs:
         else
           git commit -m "Auto-format code with Black"
           git push
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          # git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          git merge
         fi
