@@ -29,19 +29,20 @@ root_folder = os.path.join(str(main_dir), 'images')
 
 # Base URL for nccommons.org API
 NCCOMMONS_API_BASE_URL = "https://nccommons.org/api/"
-done = ["Pediculosis Palpebrarum", "Onychomycosis"]
+done = []
 
 pages = CatDepth('Category:Atlasdermatologico', sitecode='www', family="nccommons", depth=1, ns="all", nslist=[], without_lang="", with_lang="", tempyes=[])
 time.sleep(5)
 print('time.sleep(5)')
+len_all_images = []
 
 def create_set( disease_name, image_infos ):
     title = disease_name
-
-
-
     text = ''
     # ---
+    if 'noset' in sys.argv: return
+    # ---
+    title = title.replace('_', ' ').replace('  ', ' ')
     if title in pages:
         printe.output(f'<<lightyellow>>{title} already exists')
         return
@@ -64,6 +65,9 @@ def create_category(disease_name):
     cat_text = f'* Image set: [[{disease_name}]]\n[[Category:Atlasdermatologico]]'
     cat_title = f'Category:{disease_name}'
     # ---
+    if 'nocat' in sys.argv: return cat_title
+    # ---
+    disease_name = disease_name.replace('_', ' ').replace('  ', ' ')
     if cat_title in pages:
         printe.output(f'<<lightyellow>>{cat_title} already exists')
         return
@@ -72,7 +76,10 @@ def create_category(disease_name):
     # ---
     return cat_title
 def upload_image(category_name, image_path, image_url, image_name, disease_url):
+    global len_all_images
     # split disease_url to get last text after =
+    image_name = image_name.replace('_', ' ').replace('  ', ' ')
+    len_all_images.append(image_name)
     if f'File:{image_name}' in pages:
         printe.output(f'<<lightyellow>> File:{image_name} already exists')
         return
@@ -127,17 +134,18 @@ def process_folder(root):
 
 
 def process_folders(root_folder):
-    for root, dirs, files in tqdm(os.walk(root_folder), desc="Processing folders"):
+    global len_all_images
+    for root, dirs, files in os.walk(root_folder):
         # Check if there's an info.json file in the current folder
         if "info.json" not in files:
             print(f"No info.json file found in {root}")
             continue
 
         process_folder(root)
-
-        if 'break' in sys.argv:
-            break
-
+    # ---
+    len_all_images = list(set(len_all_images))
+    # ---
+    print(f'len_all_images: {len(len_all_images)}')
 
 if __name__ == "__main__":
     # Process all subfolders in the specified root folder

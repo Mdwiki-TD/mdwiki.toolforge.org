@@ -34,6 +34,7 @@ jobs:
 
     - name: Commit and push changes
       run: |
+        git status
         git add .
         # Check if there are changes to commit
         if git diff --cached --exit-code --name-only
