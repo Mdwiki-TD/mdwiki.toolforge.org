@@ -43,5 +43,6 @@ jobs:
         else
           git commit -m "Auto-format code with Black"
           git push
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          # git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          git merge
         fi
