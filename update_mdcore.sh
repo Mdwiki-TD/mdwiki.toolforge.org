@@ -6,7 +6,7 @@ rm MdCoreNew.zip
 git clone --recurse-submodules https://github.com/MrIbrahem/mdwiki.toolforge.org.git mdwiki
 
 # Into a new directory called 'md_core/' in the current working directory
-cp -rf -v mdwiki/pybot/* pybot/
+cp -rf -v mdwiki/pybot/* /
 
 # Remove the `mdwiki.toolforge.org-main` directory.
 rm -rf mdwiki
