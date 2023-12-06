@@ -50,5 +50,5 @@ if ($title == '') {
 //---
 echo '</div>';
 //---
-require('foter.php');
+require 'foter.php';
 ?>

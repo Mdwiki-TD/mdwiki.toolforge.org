@@ -1,6 +1,6 @@
 <?PHP
 //---
-require('header.php');
+require 'header.php';
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -114,6 +114,6 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
 //---
 echo "</div>";
 //---
-require('foter.php');
+require 'foter.php';
 //---
 ?>

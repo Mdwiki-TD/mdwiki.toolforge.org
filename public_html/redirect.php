@@ -110,4 +110,4 @@ if ($title == '' and $titlelist == '') {
 };
 ?>
 </div>
-<?php require('foter.php'); ?>
+<?php require 'foter.php'; ?>

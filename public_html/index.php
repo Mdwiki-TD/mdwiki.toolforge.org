@@ -1,6 +1,6 @@
 <?php
 
-require('header.php');
+require 'header.php';
 
 ?>
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -37,6 +37,6 @@ require('header.php');
     </div>
 <?php
 
-require('foter.php');
+require 'foter.php';
 
 ?>

@@ -32,4 +32,4 @@ if ($start == '') {
 //---
 ?>
 </div>
-<?php require('foter.php'); ?>
+<?php require 'foter.php'; ?>

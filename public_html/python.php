@@ -1,7 +1,7 @@
 <?php
 //---
 /*
-require('python.php');
+require 'python.php';
 $result = do_py($params);
 
 /////////

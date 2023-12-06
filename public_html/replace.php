@@ -147,4 +147,4 @@ if ( $find == '' or $replace == '' or $code == '' or ( $code != '' and $code != 
 //---
 ?>
 </div>
-<?php require('foter.php'); ?>
+<?php require 'foter.php'; ?>
