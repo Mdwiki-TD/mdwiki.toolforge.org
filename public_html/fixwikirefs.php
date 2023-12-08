@@ -54,7 +54,7 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
         </form>
 <?php
 //---
-require('python.php');
+require 'python.php';
 //---
 function get_results() { 
     //---
@@ -156,5 +156,5 @@ if ($title != '' && $lang != '') worknew();
 //---
 echo '</div>';
 //---
-require('foter.php');
+require 'foter.php';
 ?>

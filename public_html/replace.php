@@ -104,18 +104,18 @@ function worknew($find, $replace, $number) {
         writee( $nn . '_replace.txt' , $replace );
     }
     //---
-    // python3 /data/project/mdwiki/mdpy/replace1.py -rand:84230289 ask newlist
-    $jsub = 'python3 /data/project/mdwiki/core8/pwb.py mdpy/replace1 -rand:' . $nn . ' -number:' . $number ;
+    $rann = '-rand:' . $nn . ' -number:' . $number ;
     //---
     if ($listtype == 'newlist') {
-        $jsub .= ' newlist';
+        $rann .= ' newlist';
     };
     //---
-    $jsub = '/usr/bin/jsub -N replace' . $nn . ' ' . $jsub ;
+    $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/replace1 $rann";
+    $sii = "toolforge jobs run replace$nn --command '$command' --image python3.9";
     //---
     $test = $_REQUEST['test'];
     //---
-    if ($test != '') { echo $jsub;};
+    if ($test != '') { echo $sii;};
     //---
     echo "<span style='font-size:15pt;color:green'>";
     echo "<br>";
@@ -125,15 +125,8 @@ function worknew($find, $replace, $number) {
     echo '</span>';
     //---
     echo "<br>";
-    $result = shell_exec($jsub);
+    $result = shell_exec($sii);
     print $result;
-    //---
-    //} else {
-        //echo "<span style='font-size:15pt;color:red'>Wrong code.</span>";
-        //print( "<br>" );
-        //print( "<br>" );
-        //Get_Value();
-    //};
     //---
     }
 //---
@@ -143,8 +136,7 @@ if ( $find == '' or $replace == '' or $code == '' or ( $code != '' and $code != 
     echo worknew($find, $replace, $number) ;
 };
 //---
-
+echo '</div>';
 //---
+require 'foter.php';
 ?>
-</div>
-<?php require('foter.php'); ?>

@@ -58,7 +58,8 @@ if ($number == '' && $titlelist == '') {
 } else {
 	//---
 	$nn = rand();
-	$jsub = "jsub -N fixref$nn /data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixref/start";
+	//---
+	$command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixref/start";
 	//---
 	$titlelist = trim($titlelist);
 	//---
@@ -69,7 +70,7 @@ if ($number == '' && $titlelist == '') {
 		//---
 		if (count($lines) == 1) {
 			$title = $lines[0];
-			$jsub .= " -title:$title";
+			$command .= " -title:$title";
 		} else {
 			$filename = $nn . '_fix_ref_list.txt';
 			//---
@@ -77,18 +78,20 @@ if ($number == '' && $titlelist == '') {
 			fwrite($myfile , $titlelist);
 			fclose($myfile);
 			//---
-			$jsub .= " -file:$filename";
+			$command .= " -file:$filename";
 			//---
 		}
 	} elseif ($number != '') {
-		$jsub .= " allpages -number:$number";
+		$command .= " allpages -number:$number";
 	}
+	//---
+	$jobs_run = "toolforge jobs run fixref$nn --command '$command' --image python3.9";
 	//---
 	echo "<h4 style='color:green'>The bot will start in seconds.</h4>";
 	//---
-	if ($test != '') print $jsub;
+	if ($test != '') print $jobs_run;
 	//---
-	$result = shell_exec($jsub);
+	$result = shell_exec($jobs_run);
 	print $result;
 }
 //---

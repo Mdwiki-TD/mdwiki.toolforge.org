@@ -56,25 +56,15 @@ function Get_Value() {
 function worknew() {
     //---
     global $title, $titlelist;
-    //$dir = '/data/project/mdwiki/mdpy/'; 
     //---
     //echo $_SERVER['SERVER_NAME'];
     echo "<span style='font-size:15pt;color:green'>";
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     //---
-    //$dir = '';  
-    $dir = '/data/project/mdwiki/core8'; 
-    $filee = 'texts/redirectlist.txt';
-    $jsub = '';
+	$filee = '/data/project/mdwiki/public_html/texts/redirectlist.txt';
     //---
-    if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' ) { 
-        $jsub = 'jsub -N redirect ';
-        $filee = '/data/project/mdwiki/public_html/texts/redirectlist.txt';
-    };
-    //---
-    // python3 /data/project/mdwiki/mdpy/red.py -page2:Aneurysmal_bone_cyst save
     if ($title != '') {
-        $python3 = "python3 $dir/pwb.py mdpy/red -page2:" . rawurlencode($title) . ' save' ;
+        $python3 = "-page2:" . rawurlencode($title);
         //---
         echo '<span class="">The Bot will create redirects for ' . rawurldecode($title) . ' in seconds.</span>';
         //---
@@ -84,13 +74,13 @@ function worknew() {
         fwrite($myfile , $titlelist);
         fclose($myfile);
         //---
-        //$python3 = ' ' . $dir . 'red.py -file:' . $filee . ' save' ;
-        $python3 = "python3 $dir/pwb.py mdpy/red  -file:$filee save";
+        $python3 = "python3 -file:$filee";
         echo '<span class="">The Bot will create redirects for titles in the list in seconds.</span>';
         //---
     };
     //---
-	$nana = $jsub . $python3;
+	$command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/red $python3 save";
+	$nana = "toolforge jobs run redirectx --command '$command' --image python3.9";
     //---
     echo '</span>';
     print "<br>";
@@ -110,4 +100,4 @@ if ($title == '' and $titlelist == '') {
 };
 ?>
 </div>
-<?php require('foter.php'); ?>
+<?php require 'foter.php'; ?>

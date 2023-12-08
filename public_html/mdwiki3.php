@@ -1,5 +1,5 @@
 <?php 
-require('header.php');
+require 'header.php';
 //---
 $save  = isset($_GET['save']) ? 'checked' : '';
 $title = $_GET['title'] ?? '';
@@ -169,6 +169,6 @@ if ($title != '') {
 //---
 echo "</div>";
 //---
-require('foter.php');
+require 'foter.php';
 //---
 ?>

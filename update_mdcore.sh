@@ -1,12 +1,12 @@
 cd /data/project/mdwiki/
-rm -rf mdwiki.toolforge.org-main
-rm MdCoreNew.zip
+rm -rf mdwikix
 
 # Download the md-core repository from GitHub.
-git clone --recurse-submodules https://github.com/MrIbrahem/mdwiki.toolforge.org.git mdwiki
+git clone --recurse-submodules https://github.com/MrIbrahem/mdwiki.toolforge.org.git mdwikix
 
 # Into a new directory called 'md_core/' in the current working directory
-cp -rf -v mdwiki/pybot/* /
-
-# Remove the `mdwiki.toolforge.org-main` directory.
-rm -rf mdwiki
+cp -rf -v mdwikix/pybot/md_core/* md_core/
+cp -rf -v mdwikix/pybot/TDpynew/* TDpynew/
+cp -rf -v mdwikix/pybot/newupdater/* newupdater/
+# Remove the `mdwikix` directory.
+rm -rf mdwikix

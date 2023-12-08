@@ -8,12 +8,12 @@ if ($_REQUEST['test'] != '') {
 //---
 $path = explode('/public_html', __FILE__)[0];
 //---
-$jsub2 = "jsub -N updatemd $path/update_mdcore.sh";
+$jobsc = "toolforge jobs run updatemd --command '$path/update_mdcore.sh' --image mariadb";
 //---
-echo '<br>' . $jsub2 . '<br>';
+echo '<br>' . $jobsc . '<br>';
 //---
-$result = shell_exec( $jsub2 );
+$result = shell_exec( $jobsc );
 //---
 echo $result;
 //---
-?>
+
