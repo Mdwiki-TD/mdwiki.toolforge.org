@@ -1,27 +1,26 @@
-<?php require ('header.php'); ?>
+<?php
+require('header.php');
+
+echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>qdels</h3>
+            <h3>qdels</h3>
     </div>
     <div class="card-body">
-<?php
-//---
-$job = $_GET['job'];
-$qdel = "qdel $job";
-//---
-$qstat = $_GET['qstat'];
-$jsub1 = "$qstat";
-//---
-if ($job != '') { 
-    $result = shell_exec($qdel);
+HTML;
+
+$job = isset($_GET['job']) ? $_GET['job'] : '';
+$qstat = isset($_GET['qstat']) ? $_GET['qstat'] : '';
+
+if (!empty($job)) {
+    $result = shell_exec("qdel $job");
     echo $result;
-	
-} elseif ($jsub1 != '') { 
-    $result = shell_exec($jsub1);
+} elseif (!empty($qstat)) {
+    $result = shell_exec($qstat);
     print_r($result);
 } else {
-    echo "<meta http-equiv='refresh' content='0; url=index.php'>";
+    header('Location: index.php');
+    exit();
 }
-//---
+
+require('foter.php');
 ?>
-	</div>
-<?php require ('foter.php'); ?>

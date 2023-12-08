@@ -1,13 +1,20 @@
-<?php require ('header.php'); ?>
+<?php
+// Include header
+require('header.php');
+
+// Output HTML structure
+echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Fix duplicte redirects.</h3>
+        <h3>Fix duplicate redirects.</h3>
     </div>
     <div class="card-body">
-<?php
-//---
+HTML;
+
+// Process request parameters
 $start = $_REQUEST['start'] ?? '';
 $test = $_REQUEST['test'] ?? '';
-//---
+
+// Handle form submission or execute command
 if ($start == '') {
     echo "
     <form action='dup.php' method='POST'>
@@ -18,16 +25,21 @@ if ($start == '') {
         </div>
     </form>";
 } else {
-    //---
+    // Define command
     $faf = "toolforge jobs run fixduplict --command '/data/project/mdwiki/local/bin/python3 ./core8/pwb.py mdpy/dup save' --image python3.9";
-    //---
-    if ($test != '') print $faf;
-    //---
+
+    // Output command if in test mode
+    if ($test != '') {
+        echo $faf;
+    }
+
+    // Execute command and output result
     $result = shell_exec($faf);
-    print $result;
-    //---
-};
-//---
+    echo $result;
+}
+
+echo '</div>';
+
+// Include footer
+require 'foter.php';
 ?>
-</div>
-<?php require 'foter.php'; ?>
