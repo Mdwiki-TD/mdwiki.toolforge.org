@@ -19,9 +19,7 @@ if ($start == '') {
     </form>";
 } else {
     //---
-    $dir = './core'; 
-    //---
-    $faf = "jsub -N fixduplict python3 $dir/pwb.py mdpy/dup save";
+    $faf = "toolforge jobs run fixduplict --command '/data/project/mdwiki/local/bin/python3 ./core8/pwb.py mdpy/dup save' --image python3.9";
     //---
     if ($test != '') print $faf;
     //---

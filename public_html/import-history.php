@@ -75,12 +75,12 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
 } else {
     //---
-    $jsub = 'jsub -N historyy /data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/imp ';
+    $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/imp";
     //---
     $text = "";
     //---
     if ($title != '') {
-        $jsub .= " -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save' ;
+        $command .= " -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save';
         //---
         $text .= 'The Bot will import ' . rawurldecode($title) . ' history';
         //---
@@ -96,18 +96,19 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         fwrite($myfile , $titlelist);
         fclose($myfile);
         //---
-        $jsub .= " -file:" . $filee . ' save' ;
+        $command .= " -file:" . $filee . ' save' ;
         //---
         $text .= 'The Bot will import history for titles in the list in seconds.';
         //---
     };
     $text = "<span style='font-size:15pt;color:green'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$text</span>";
     //---
-	if ($test != '') echo $jsub;
+    $runj = "toolforge jobs run historyy --command '$command' --image python3.9";
+	if ($test != '') echo $runj;
     //---
     echo "<br>";
     //---
-    $result = shell_exec($jsub);
+    $result = shell_exec($runj);
     print $result;
     //---
     }

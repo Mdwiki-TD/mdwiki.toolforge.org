@@ -6,13 +6,13 @@
 <?php
 //---
 $job = $_GET['job'];
-$jsub = "qdel $job";
+$qdel = "qdel $job";
 //---
 $qstat = $_GET['qstat'];
 $jsub1 = "$qstat";
 //---
 if ($job != '') { 
-    $result = shell_exec($jsub);
+    $result = shell_exec($qdel);
     echo $result;
 	
 } elseif ($jsub1 != '') { 

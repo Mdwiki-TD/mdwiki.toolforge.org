@@ -38,7 +38,9 @@ if ($title == '') {
     //---
 } else {
     //---
-    $python3 = "jsub -N fixred python3 ./core8/pwb.py mdpy/fixred -page2:" . rawurlencode($title) . ' save' ;
+	$t3 = rawurlencode($title);
+    //---
+    $python3 = "toolforge jobs run fixred --command '/data/project/mdwiki/local/bin/python3 ./core8/pwb.py mdpy/fixred -page2:$t3 save' --image python3.9";
     //---
     if (isset($_REQUEST['test'])) print $python3;
     //---

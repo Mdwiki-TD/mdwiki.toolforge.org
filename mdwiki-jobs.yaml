@@ -1,4 +1,10 @@
 # sql backup
+- name: backup-yaml
+  command: "$HOME/databasebackup.sh"
+  schedule: '11 1 * * *'
+  image: mariadb
+  emails: onfailure
+
 - name: days7-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
