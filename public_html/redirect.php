@@ -95,7 +95,7 @@ function createRedirects() {
         $myfile = fopen($file, "w");
         fwrite($myfile, $titlelist);
         fclose($myfile);
-        $pythonCommand = "python3 -file:$file";
+        $pythonCommand = "-file:$file";
         echo '<span class="">The Bot will create redirects for titles in the list in seconds.</span>';
     }
 

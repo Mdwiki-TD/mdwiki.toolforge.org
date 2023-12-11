@@ -12,7 +12,12 @@ if ($title != '') {
     $href = 'https://mdwiki.org/wiki/$encoded_title';
     $url = "<a target='_blank' href='$href'>$title</a>";
 }
-//---
+// ---
+$pathParts = explode('public_html', __FILE__);
+// the root path is the first part of the split file path
+$ROOT_PATH = $pathParts[0];
+// echo "ROOT_PATH:$ROOT_PATH<br>";
+// ---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <span class="h3">Med updater</span> <!-- $url -->
@@ -57,16 +62,13 @@ function endsWith($string, $endString) {
 //---
 function get_results($title) { 
     //---
-    global $save;
-    //---
-    $dir = 'I:/mdwiki';  
-    if ( $_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org' )    $dir = '/data/project/mdwiki'; 
+    global $save, $ROOT_PATH;
     //---
     $title2 = rawurlencode($title);
     //---
     $sa = ($save != '') ? ' save' : '';
     //---
-    $ccc = "python3 $dir/newupdater/med.py $title2 from_toolforge $sa"; 
+    $ccc = "/data/project/mdwiki/local/bin/python3 $ROOT_PATH/pybot/newupdater/med.py $title2 from_toolforge $sa"; 
     //---
     if ( $_SERVER['SERVER_NAME'] != 'mdwiki.toolforge.org' or isset($_GET['test']) ) { 
         echo "<span style='font-size: 18px;'>$ccc</span>

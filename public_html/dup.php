@@ -26,7 +26,7 @@ if ($start == '') {
     </form>";
 } else {
     // Define command
-    $faf = "toolforge jobs run fixduplict --command '/data/project/mdwiki/local/bin/python3 ./core8/pwb.py mdpy/dup save' --image python3.9";
+    $faf = "toolforge jobs run fixduplict --command '/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/dup save' --image python3.9";
 
     // Output command if in test mode
     if ($test != '') {
