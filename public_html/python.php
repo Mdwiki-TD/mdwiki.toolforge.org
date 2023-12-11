@@ -39,7 +39,7 @@ function do_py($params) {
     if ( $_SERVER['SERVER_NAME'] == 'localhost' ) $my_dir = $localdir;
     //---
     if ($pyfile != '' && $my_dir != '') {
-        $command = "python3 $my_dir/$pyfile $other";
+        $command = "/data/project/mdwiki/local/bin/python3 $my_dir/$pyfile $other";
         //---
         if ( $_SERVER['SERVER_NAME'] == 'localhost' or $test != '' ) { 
             echo "<h6>$command</h6>";

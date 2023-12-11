@@ -130,7 +130,7 @@
 
 # Fix Wikidata item conversions and add articles to qids spreadsheet
 - name: fixqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/fixqids && $HOME/local/bin/python3 core8/pwb.py mdpages/get_red"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/fixqids fix && $HOME/local/bin/python3 core8/pwb.py mdpages/get_red"
   schedule: '45 2,7,13,19 * * *'
   image: python3.9
   emails: onfailure
