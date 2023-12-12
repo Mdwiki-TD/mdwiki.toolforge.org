@@ -1,12 +1,10 @@
 <?php
 require 'header.php';
+
+print_h3_title("WikiProjectMed Tools");
+//---
 ?>
 
-<div class="card-header aligncenter" style="font-weight:bold;">
-	<h3>WikiProjectMed Tools</h3>
-</div>
-
-<div class="card-body">
 	<ul>
 		<li><a href="Translation_Dashboard/index.php">Translation Dashboard</a></li>
 		<li><a href="prior/index.php">Prior List</a></li>
@@ -36,8 +34,7 @@ require 'header.php';
 			</div>
 		</div>
 	</div>
-</div>
 
 <?php
-require 'foter.php';
+require 'footer.php';
 ?>

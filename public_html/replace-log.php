@@ -1,33 +1,37 @@
-<?php require ('header.php'); ?>
+<?php
+require('header.php');
+//---
+?>
 
 <style>
-  .filterDiv {
-    display: none;
-  }
+    .filterDiv {
+        display: none;
+    }
 
-  .show2 {
-    display: list-item;
-  }
+    .show2 {
+        display: list-item;
+    }
 
-  .container {
-    overflow: hidden;
-  }
+    .container {
+        overflow: hidden;
+    }
 
-  .btne {
-    border: none;
-    outline: none;
-    padding: 12px 16px;
-    background-color: #f1f1f1;
-    cursor: pointer;
-  }
+    .btne {
+        border: none;
+        outline: none;
+        padding: 12px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
 
-  .btne:hover {
-    background-color: #ddd;
-  }
-  .btne.active {
-    background-color: #5d8aa8;
-  }
-  </style>
+    .btne:hover {
+        background-color: #ddd;
+    }
+
+    .btne.active {
+        background-color: #5d8aa8;
+    }
+</style>
 <?php
 //---
 $test = $_REQUEST['test'];
@@ -46,11 +50,13 @@ echo "
     
 ";
 //---
-function str_end_with($haystack, $needle) {
+function str_end_with($haystack, $needle)
+{
     return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 };
 //---
-function open_dir() {
+function open_dir()
+{
     $files = array();
     if ($handle = opendir("find/log/")) {
         while (false !== ($file = readdir($handle))) {
@@ -89,20 +95,20 @@ function open_dir() {
     //---
     $n = 0;
     //---
-    foreach ($files AS $file_name => $file_time) {
+    foreach ($files as $file_name => $file_time) {
         //---
-        $n ++;
+        $n++;
         //---
-        $lastModified = date('d F Y, H:i',$file_time);
+        $lastModified = date('d F Y, H:i', $file_time);
         //---
         $file_name = str_replace('.txt', '', $file_name);
         //---
         if ($n >= $ln2) {
-          echo "
+            echo "
           $nd
           $fs
           ";
-          $n = 0;
+            $n = 0;
         };
         //---
         echo "
@@ -132,8 +138,8 @@ if ($id == '') {
     //---
     $textx_file = "find/log/$id-text.txt";
     if (is_file($textx_file)) {
-      $textlog = file_get_contents($textx_file);
-      echo '<pre>' . $textlog . '</pre>';
+        $textlog = file_get_contents($textx_file);
+        echo '<pre>' . $textlog . '</pre>';
     };
     //---
     $f1 = "find/" . $id . "_find.txt";
@@ -177,13 +183,13 @@ if ($id == '') {
     $done = 0;
     $nodone = 0;
     //---
-    foreach ( $table AS $title => $diffid ) {
+    foreach ($table as $title => $diffid) {
         //---
         if ($title != '0') {
             //--- 
             $all += 1;
             //--- 
-	      		$url = "https://mdwiki.org/w/index.php?title=" . $title;
+            $url = "https://mdwiki.org/w/index.php?title=" . $title;
             //---
             $type = '';
             $color = '';
@@ -217,7 +223,7 @@ if ($id == '') {
             //---
             $rows .= "$sta $type'>page: <a href='$url'><b><span style='color:$color'>$title</span></b></a> $text. $end";
             //---
-            };
+        };
     };
     //---
     // if ($nodone == 0) $rows .= "<li class='filterDiv nodone'>a</li>";
@@ -247,44 +253,47 @@ if ($id == '') {
 
 
 <script>
-filterSelection("all")
-function filterSelection(c) {
-  $('.btne').removeClass('active');
-  $('#' + c).addClass('active');
+    filterSelection("all")
 
-  var x, i;
-  x = document.getElementsByClassName("filterDiv");
-  if (c == "all") c = "";
-  for (i = 0; i < x.length; i++) {
-    w3RemoveClass(x[i], "show2");
-    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show2");
-  }
-}
+    function filterSelection(c) {
+        $('.btne').removeClass('active');
+        $('#' + c).addClass('active');
 
-function w3AddClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
-  }
-}
-
-function w3RemoveClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    while (arr1.indexOf(arr2[i]) > -1) {
-      arr1.splice(arr1.indexOf(arr2[i]), 1);     
+        var x, i;
+        x = document.getElementsByClassName("filterDiv");
+        if (c == "all") c = "";
+        for (i = 0; i < x.length; i++) {
+            w3RemoveClass(x[i], "show2");
+            if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show2");
+        }
     }
-  }
-  element.className = arr1.join(" ");
-}
+
+    function w3AddClass(element, name) {
+        var i, arr1, arr2;
+        arr1 = element.className.split(" ");
+        arr2 = name.split(" ");
+        for (i = 0; i < arr2.length; i++) {
+            if (arr1.indexOf(arr2[i]) == -1) {
+                element.className += " " + arr2[i];
+            }
+        }
+    }
+
+    function w3RemoveClass(element, name) {
+        var i, arr1, arr2;
+        arr1 = element.className.split(" ");
+        arr2 = name.split(" ");
+        for (i = 0; i < arr2.length; i++) {
+            while (arr1.indexOf(arr2[i]) > -1) {
+                arr1.splice(arr1.indexOf(arr2[i]), 1);
+            }
+        }
+        element.className = arr1.join(" ");
+    }
 </script>
 <?php
 echo '<!-- start foter -->
 ';
-require ('foter.php');
+require('footer.php');
 //---
 ?>

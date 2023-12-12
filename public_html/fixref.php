@@ -1,12 +1,6 @@
 <?php 
 require 'header.php';
-
-echo <<<HTML
-	<div class="card-header aligncenter" style="font-weight:bold;">
-		<h3>Normalize references (mdwiki).</h3>
-	</div>
-	<div class="card-body">
-HTML;
+print_h3_title("Normalize references (mdwiki).");
 //---
 $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
@@ -85,15 +79,14 @@ if ($number == '' && $titlelist == '') {
 		$command .= " allpages -number:$number";
 	}
 	//---
-	$jobs_run = "toolforge jobs run fixref$nn --command '$command' --image python3.9";
+	$jobs_run = "/usr/bin/toolforge jobs run fixref$nn --image python3.9 --command \"$command\"";
 	//---
 	echo "<h4 style='color:green'>The bot will start in seconds.</h4>";
 	//---
-	if ($test != '') print $jobs_run;
+	if ($test != '') echo $jobs_run;
 	//---
 	$result = shell_exec($jobs_run);
-	print $result;
+	echo $result;
 }
 //---
-echo "</div>";
-require 'foter.php';
+require 'footer.php';

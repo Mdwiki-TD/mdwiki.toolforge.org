@@ -2,13 +2,9 @@
 
 require('header.php');
 
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Create redirects.</h3>
-    </div>
-    <div class="card-body">
-HTML;
-
+print_h3_title("Create redirects.");
+//---
+$test       = $_REQUEST['test'] ?? '';
 $title      = $_REQUEST['title'] ?? '';
 $titlelist  = $_REQUEST['titlelist'] ?? '';
 
@@ -52,10 +48,11 @@ function printSubmitButton() {
 HTML;
 }
 
-function printForm() {
-    global $title, $titlelist;
+function printForm($title, $titlelist, $test) {
+	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
     echo <<<HTML
         <form action='redirect.php' method='POST'>
+            $testinput
             <div class='container'>
                 <div class='container'>
                     <div class='row'>
@@ -79,8 +76,7 @@ function printForm() {
     HTML;
 }
 
-function createRedirects() {
-    global $title, $titlelist;
+function createRedirects($title, $titlelist, $test) {
 
     //echo $_SERVER['SERVER_NAME'];
     echo "<span style='font-size:15pt;color:green'>";
@@ -100,25 +96,24 @@ function createRedirects() {
     }
 
     $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/red $pythonCommand save";
-    $toolforgeCommand = "toolforge jobs run redirectx --command '$command' --image python3.9";
+    $toolforgeCommand = "/usr/bin/toolforge jobs run redirectx --image python3.9 --command \"$command\"";
 
     echo '</span>';
-    print "<br>";
+    echo "<br>";
 
-    if (isset($_REQUEST['test'])) {
-        print $toolforgeCommand;
+    if ($test != '') {
+        echo $toolforgeCommand;
     }
 
     $result = shell_exec($toolforgeCommand);
-    print $result;
+    echo $result;
 }
 
 if ($title == '' && $titlelist == '') {
-    printForm();
+    printForm($title, $titlelist, $test);
 } else {
-    createRedirects();
+    createRedirects($title, $titlelist, $test);
 }
 
-echo '</div>';
-require 'foter.php';
+require 'footer.php';
 ?>

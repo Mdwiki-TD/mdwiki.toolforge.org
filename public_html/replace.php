@@ -1,11 +1,7 @@
 <?php
 require 'header.php';
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Find and replace.</h3>
-    </div>
-    <div class="card-body">
-HTML;
+print_h3_title("Find and replace.");
+//---
 // Initialize variables with default values
 $listtype   = $_REQUEST['listtype'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
@@ -108,7 +104,7 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
     }
 
     $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/replace1 $rann";
-    $sii = "toolforge jobs run replace$nn --command '$command' --image python3.9";
+    $sii = "/usr/bin/toolforge jobs run replace$nn --image python3.9 --command \"$command\"";
 
     if ($test != '') {
         echo $sii;
@@ -125,7 +121,7 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
     HTML;
 
     $result = shell_exec($sii);
-    print $result;
+    echo $result;
 }
 
 // Main logic
@@ -136,6 +132,5 @@ if ($find == '' || $replace == '' || $code == '' || ($code != '' && $code != 'ja
     performReplacement($find, $replace, $number, $listtype, $test);
 }
 
-echo '</div>';
-require 'foter.php';
+require 'footer.php';
 ?>

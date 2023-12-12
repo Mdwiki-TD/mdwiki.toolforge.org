@@ -1,9 +1,6 @@
-<?php require ('header.php'); ?>
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Fix redirects</h3>
-    </div>
-    <div class="card-body">
-<?php
+<?php 
+require ('header.php');
+print_h3_title("Fix redirects");
 //---
 $title = $_REQUEST['title'] ?? '';
 //---
@@ -40,17 +37,15 @@ if ($title == '') {
     //---
 	$t3 = rawurlencode($title);
     //---
-    $python3 = "toolforge jobs run fixred --command '/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixred -page2:$t3 save' --image python3.9";
+    $python3 = "/usr/bin/toolforge jobs run fixred --image python3.9 --command \"/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixred -page2:$t3 save\"";
     //---
-    if (isset($_REQUEST['test'])) print $python3;
+    if (isset($_REQUEST['test'])) echo $python3;
     //---
     $result = shell_exec($python3);
     //---
-    print $result;
+    echo $result;
     //---
     };
 //---
-echo '</div>';
-//---
-require 'foter.php';
+require 'footer.php';
 ?>

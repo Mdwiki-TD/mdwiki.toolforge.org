@@ -11,8 +11,8 @@ if (!empty($_REQUEST['test'])) {
 $path = explode('/public_html', __FILE__)[0];
 $path_escaped = escapeshellarg($path . '/pybot/update_mdcore.sh');
 
-// Define the command for toolforge jobs
-$command = "toolforge jobs run updatemd --command '$path_escaped' --image mariadb";
+// Define the command for /usr/bin/toolforge jobs
+$command = "/usr/bin/toolforge jobs run updatemd --command $path_escaped --image mariadb";
 
 // Display the command
 echo "<br>$command<br>";
