@@ -22,7 +22,7 @@ if ($start == '') {
     HTML;
 } else {
     // Define command
-    $faf = "/usr/bin/toolforge jobs run fixduplict --image python3.9 --command \"/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/dup save\"";
+    $faf = "kubectl exec -q mdwiki-6fd7885d59-sn5pl -- /bin/sh -c /data/project/mdwiki/public_html/dup.sh";
 
     // Output command if in test mode
     if ($test != '') {
