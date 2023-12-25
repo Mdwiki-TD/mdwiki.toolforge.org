@@ -27,7 +27,8 @@ function do_tfj($params) {
     $command    = $params['command'] ?? '';
     //---
     if ($name != '' && $command != '') {
-        $toolforge = "/usr/bin/toolforge jobs run $name --image python3.9 --command \"$command\"";
+        $escapedCommand = escapeshellcmd($command);
+        $toolforge = "/usr/bin/toolforge jobs run $name --image python3.9 --command \"$escapedCommand\"";
         //---
         if ( $_SERVER['SERVER_NAME'] == 'localhost' or $test != '' ) { 
             echo "<h6>$toolforge</h6>";
