@@ -9,6 +9,12 @@
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
   image: python3.9
+  emails: 
+
+- name: dup-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/dup save"
+  schedule: '1 1 * * 0'
+  image: python3.9
   emails: onfailure
 
 - name: sqly-yaml

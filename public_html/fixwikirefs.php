@@ -1,6 +1,8 @@
 <?php
 require ('header.php');
 //---
+print_h3_title("Fix references in Wikipedia's:");
+//---
 $test       = $_GET['test'] ?? '';
 $lang       = $_GET['lang'] ?? '';
 $title      = $_GET['title'] ?? '';
@@ -9,9 +11,6 @@ $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
 //---
 ?>
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Fix references in Wikipedia's:</h3>
-    </div>
     <div class="card-body">
         <form action='fixwikirefs.php' method='GET'>
             <div class='container'>
@@ -54,7 +53,7 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
         </form>
 <?php
 //---
-require 'python.php';
+require 'bots/python.php';
 //---
 function get_results() { 
     //---
@@ -99,7 +98,7 @@ function worknew() {
     //---
     $new = "https://$lang.wikipedia.org/w/index.php?title=$title&action=submit";
     //---
-    print "<br>";
+    echo "<br>";
     $form = "
 	<span style='font-size: 18px;'>New text :</span><br>
 	<form id='editform' name='editform' method='POST' action='" . $new . "'>
@@ -117,7 +116,7 @@ function worknew() {
     $resultb = get_results();
     $resultb = trim($resultb);
     //---
-    $t1  = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
+    $t1 = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
     $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/wprefcash/' );
     //---
     $t3 = endsWith( $resultb , '.txt' );
@@ -130,9 +129,9 @@ function worknew() {
     ";
     //---
     if ($resultb == 'no changes') {
-        print "no changes";
+        echo "no changes";
     } elseif ($resultb == "notext") {
-        print("text == ''");
+        echo("text == ''");
     } elseif ($t1 || $t2 || $t3 || isset($_REQUEST['test'])) {
         $newtext = file_get_contents( $resultb );
         $form = $form . "<textarea id='wikitext-new' class='form-control' name='wpTextbox1'>" . $newtext . "</textarea>
@@ -154,7 +153,5 @@ function worknew() {
 //--
 if ($title != '' && $lang != '') worknew();
 //---
-echo '</div>';
-//---
-require 'foter.php';
+require 'footer.php';
 ?>

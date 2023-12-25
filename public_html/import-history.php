@@ -2,12 +2,10 @@
 //---
 require 'header.php';
 //---
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Import history from enwiki</h3>
-    </div>
-    <div class="card-body">
-HTML;
+print_h3_title("Import history from enwiki");
+//---
+require 'bots/tfj.php';
+// $result = do_tfj(array( 'name' => "", 'command' => $command));
 //---
 $test       = $_REQUEST['test'] ?? '';
 $from       = $_REQUEST['from'] ?? '';
@@ -103,18 +101,18 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     };
     $text = "<span style='font-size:15pt;color:green'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$text</span>";
     //---
-    $runj = "toolforge jobs run historyy --command '$command' --image python3.9";
-	if ($test != '') echo $runj;
-    //---
     echo "<br>";
     //---
-    $result = shell_exec($runj);
-    print $result;
+    // $runj = "/usr/bin/toolforge jobs run historyy --image python3.9 --command \"$command\"";
+	// if ($test != '') echo $runj;
+    // $result = shell_exec($runj);
+    //---
+    $result = do_tfj(array( 'name' => "historyy", 'command' => $command));
+    //---
+    echo $result;
     //---
     }
 //---
-echo "</div>";
-//---
-require 'foter.php';
+require 'footer.php';
 //---
 ?>

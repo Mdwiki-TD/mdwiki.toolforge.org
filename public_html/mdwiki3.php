@@ -1,6 +1,8 @@
 <?php 
 require 'header.php';
 //---
+print_h3_title("Med updater");
+//---
 $save  = isset($_GET['save']) ? 'checked' : '';
 $title = $_GET['title'] ?? '';
 //---
@@ -19,9 +21,6 @@ $ROOT_PATH = $pathParts[0];
 // echo "ROOT_PATH:$ROOT_PATH<br>";
 // ---
 echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <span class="h3">Med updater</span> <!-- $url -->
-    </div>
     <div class="card-body">
         <form action='mdwiki3.php' method='GET'>
             <div class='container-fluid'>
@@ -169,8 +168,6 @@ if ($title != '') {
     worknew($title);
 };
 //---
-echo "</div>";
-//---
-require 'foter.php';
+require 'footer.php';
 //---
 ?>

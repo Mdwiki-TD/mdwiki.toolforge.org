@@ -16,6 +16,15 @@ if ($_REQUEST['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 //---
 $hoste = '';
 //---
+function print_h3_title($h3_title) {
+	echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>$h3_title</h3>
+    </div>
+    <div class="card-body">
+HTML;
+}
+//---
 function print_head() {
 	global $hoste;
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';

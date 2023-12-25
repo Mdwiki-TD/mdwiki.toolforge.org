@@ -1,5 +1,6 @@
-﻿        </div>
-    </div>
+﻿        	</div>  <!-- <div class="card-body"> -->
+        </div> <!-- <div class="card"> -->
+    </div> <!-- <div id="maindiv" class="container"> -->
 </main>
 <!-- Footer -->
 <footer class='app-footer'>

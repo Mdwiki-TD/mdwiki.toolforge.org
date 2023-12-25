@@ -1,13 +1,8 @@
 <?php
 require('header.php');
 
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-            <h3>qdels</h3>
-    </div>
-    <div class="card-body">
-HTML;
-
+print_h3_title("qdels");
+//---
 $job = isset($_GET['job']) ? $_GET['job'] : '';
 $qstat = isset($_GET['qstat']) ? $_GET['qstat'] : '';
 
@@ -22,5 +17,5 @@ if (!empty($job)) {
     exit();
 }
 
-require('foter.php');
+require('footer.php');
 ?>
