@@ -4,6 +4,9 @@ print_h3_title("Fix redirects");
 //---
 $title = $_REQUEST['title'] ?? '';
 //---
+require 'bots/tfj.php';
+// $result = do_tfj(array( 'name' => '', 'command' => ''));
+//---
 if ($title == '') {
     //---
     echo <<<HTML
@@ -37,11 +40,9 @@ if ($title == '') {
     //---
 	$t3 = rawurlencode($title);
     //---
-    $python3 = "/usr/bin/toolforge jobs run fixred --image python3.9 --command \"/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixred -page2:$t3 save\"";
+    $python3 = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixred -page2:$t3 save";
     //---
-    if (isset($_REQUEST['test'])) echo $python3;
-    //---
-    $result = shell_exec($python3);
+    $result = do_tfj(array( 'name' => 'fixred', 'command' => $python3));
     //---
     echo $result;
     //---

@@ -6,6 +6,9 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
 //---
+require 'bots/tfj.php';
+// $result = do_tfj(array( 'name' => '', 'command' => ''));
+//---
 function make_form($titlelist, $number, $test) {
 	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 	//---
@@ -83,9 +86,11 @@ if ($number == '' && $titlelist == '') {
 	//---
 	echo "<h4 style='color:green'>The bot will start in seconds.</h4>";
 	//---
-	if ($test != '') echo $jobs_run;
+	// if ($test != '') echo $jobs_run;
+	// $result = shell_exec($jobs_run);
 	//---
-	$result = shell_exec($jobs_run);
+	$result = do_tfj(array( 'name' => "fixref$nn", 'command' => $command ));
+	//---
 	echo $result;
 }
 //---

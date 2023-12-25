@@ -2,6 +2,9 @@
 require 'header.php';
 print_h3_title("Find and replace.");
 //---
+require 'bots/tfj.php';
+// $result = do_tfj(array( 'name' => "", 'command' => $command));
+//---
 // Initialize variables with default values
 $listtype   = $_REQUEST['listtype'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
@@ -104,11 +107,7 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
     }
 
     $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/replace1 $rann";
-    $sii = "/usr/bin/toolforge jobs run replace$nn --image python3.9 --command \"$command\"";
-
-    if ($test != '') {
-        echo $sii;
-    }
+    // $sii = "/usr/bin/toolforge jobs run replace$nn --image python3.9 --command \"$command\"";
 
     echo <<<HTML
         <span style='font-size:15pt;color:green'>
@@ -120,7 +119,10 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
         <br>
     HTML;
 
-    $result = shell_exec($sii);
+    // $result = shell_exec($sii);
+    // ---
+    $result = do_tfj(array( 'name' => "replace$nn", 'command' => $command));
+    // ---
     echo $result;
 }
 

@@ -4,6 +4,9 @@ require('header.php');
 
 print_h3_title("Create redirects.");
 //---
+require 'bots/tfj.php';
+// $result = do_tfj(array( 'name' => "", 'command' => $command));
+//---
 $test       = $_REQUEST['test'] ?? '';
 $title      = $_REQUEST['title'] ?? '';
 $titlelist  = $_REQUEST['titlelist'] ?? '';
@@ -96,16 +99,15 @@ function createRedirects($title, $titlelist, $test) {
     }
 
     $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/red $pythonCommand save";
-    $toolforgeCommand = "/usr/bin/toolforge jobs run redirectx --image python3.9 --command \"$command\"";
+    // $toolforgeCommand = "/usr/bin/toolforge jobs run redirectx --image python3.9 --command \"$command\"";
 
     echo '</span>';
     echo "<br>";
 
-    if ($test != '') {
-        echo $toolforgeCommand;
-    }
-
-    $result = shell_exec($toolforgeCommand);
+    // $result = shell_exec($toolforgeCommand);
+    // ---
+    $result = do_tfj(array( 'name' => "redirectx", 'command' => $command));
+    // ---
     echo $result;
 }
 

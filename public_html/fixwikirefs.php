@@ -53,7 +53,7 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
         </form>
 <?php
 //---
-require 'python.php';
+require 'bots/python.php';
 //---
 function get_results() { 
     //---
@@ -116,7 +116,7 @@ function worknew() {
     $resultb = get_results();
     $resultb = trim($resultb);
     //---
-    $t1  = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
+    $t1 = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
     $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/wprefcash/' );
     //---
     $t3 = endsWith( $resultb , '.txt' );

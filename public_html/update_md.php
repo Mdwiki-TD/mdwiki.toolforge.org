@@ -21,4 +21,14 @@ echo "<br>$command<br>";
 $result = shell_exec($command);
 echo $result;
 
+// Define the command for /usr/bin/toolforge jobs
+$command2 = "jsub -N upd_jsub $path_escaped";
+
+// Display command2 command
+echo "<br>$command<br>";
+
+// Execute the command and display the result
+$result = shell_exec($command2);
+echo $result;
+
 ?>

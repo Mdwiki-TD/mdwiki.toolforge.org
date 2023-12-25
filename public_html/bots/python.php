@@ -1,7 +1,7 @@
 <?php
 //---
 /*
-require 'python.php';
+require 'bots/python.php';
 $result = do_py($params);
 
 /////////
@@ -13,7 +13,7 @@ $params = array(
     'test' => $_REQUEST['test']
 );
 $params['other'] .= '';
-$url = "python.php?" . http_build_query( $params );
+$url = "bots/python.php?" . http_build_query( $params );
 //---
 $output = file_get_contents($url);
 */
