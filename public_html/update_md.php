@@ -7,8 +7,8 @@ error_reporting(E_ALL);
 // Define the command for /usr/bin/toolforge jobs
 $command = "sh /data/project/mdwiki/update_mdcore.sh";
 
-if (!empty($_GET['o'])) {
-    $command = "sh /data/project/mdwiki/public_html/update_md.sh";
+if (!empty($_GET['td'])) {
+    $command = "sh /data/project/mdwiki/update_td.sh";
 }
 // Display command command
 echo "<br>$command<br>";
