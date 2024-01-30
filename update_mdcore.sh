@@ -15,3 +15,5 @@ chmod -R 6770 pybot
 
 # Remove the `mdwikix` directory.
 rm -rf mdwikix
+
+sh updaate_api.sh

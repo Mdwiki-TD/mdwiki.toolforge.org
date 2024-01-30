@@ -10,6 +10,9 @@ $command = "sh /data/project/mdwiki/update_mdcore.sh";
 if (!empty($_GET['td'])) {
     $command = "sh /data/project/mdwiki/update_td.sh";
 }
+if (!empty($_GET['api'])) {
+    $command = "sh /data/project/mdwiki/update_api.sh";
+}
 // Display command command
 echo "<br>$command<br>";
 
