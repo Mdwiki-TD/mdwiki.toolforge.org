@@ -1,4 +1,3 @@
-
 cd /data/project/mdwiki/
 rm -rf tdx
 
