@@ -15,3 +15,9 @@ chmod -R 6770 pybot
 
 # Remove the `mdwikix` directory.
 rm -rf mdwikix
+
+
+rm -rf pybot/md_core/newapi
+
+# Download the wd-core repository from GitHub.
+git clone https://github.com/MrIbrahem/newapi.git pybot/md_core/newapi
