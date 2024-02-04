@@ -19,7 +19,7 @@
 
 - name: sqly-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sql"
-  schedule: '11 */6 * * *'
+  schedule: '1 */6 * * *'
   image: python3.9
   emails: onfailure
 
