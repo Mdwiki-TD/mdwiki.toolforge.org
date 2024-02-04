@@ -18,8 +18,14 @@
   emails: onfailure
 
 - name: sqly-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sql"
-  schedule: '11 */6 * * *'
+  command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql"
+  schedule: '1 * * * *'
+  image: python3.9
+  emails: onfailure
+
+- name: wpreff-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
+  schedule: '10 * * * *'
   image: python3.9
   emails: onfailure
 
@@ -52,12 +58,6 @@
 - name: twitter-job-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
   schedule: '21 2 * * *'
-  image: python3.9
-  emails: onfailure
-
-- name: wpreff-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
-  schedule: '10 */6 * * *'
   image: python3.9
   emails: onfailure
 
