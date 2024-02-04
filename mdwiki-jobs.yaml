@@ -37,7 +37,7 @@
   
 # make views
 - name: views-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sqlviews 2023"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sqlviews"
   schedule: '15 5 * * *'
   image: python3.9
   emails: onfailure
