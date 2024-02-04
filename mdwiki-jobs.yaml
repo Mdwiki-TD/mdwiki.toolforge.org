@@ -23,6 +23,12 @@
   image: python3.9
   emails: onfailure
 
+- name: wpreff-yaml
+  command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
+  schedule: '10 */6 * * *'
+  image: python3.9
+  emails: onfailure
+
 - name: recheck-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
   schedule: '11 */6 * * *'
@@ -52,12 +58,6 @@
 - name: twitter-job-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
   schedule: '21 2 * * *'
-  image: python3.9
-  emails: onfailure
-
-- name: wpreff-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
-  schedule: '10 */6 * * *'
   image: python3.9
   emails: onfailure
 
