@@ -34,6 +34,13 @@
   schedule: '11 */6 * * *'
   image: python3.9
   emails: onfailure
+
+# check_titles
+- name: check-titles
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/check_titles"
+  schedule: '30 */6 * * *'
+  image: python3.9
+  emails: onfailure
   
 # make views
 - name: views-yaml
