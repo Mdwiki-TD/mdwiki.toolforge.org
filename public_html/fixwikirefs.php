@@ -63,7 +63,7 @@ require 'bots/python.php';
 //---
 function get_results() { 
     //---
-    global $test, $lang, $title, $movedots, $infobox;
+    global $test, $lang, $title, $movedots, $infobox, $save;
     //---
     $title2 = str_replace( '+' , '_' , $title );
     $title2 = str_replace( ' ' , '_' , $title2 );
