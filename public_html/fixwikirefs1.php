@@ -134,7 +134,7 @@ function worknew() {
     </div>
     ";
     //---
-    if isset($_REQUEST['test']) echo "<br>($resultb)<br>";
+    if (isset($_REQUEST['test'])) echo "<br>($resultb)<br>";
     if ($resultb == 'no changes') {
         echo "no changes";
     } elseif ($resultb == "notext") {
