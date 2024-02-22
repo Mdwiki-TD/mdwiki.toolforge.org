@@ -6,6 +6,7 @@ print_h3_title("Fix references in Wikipedia's:");
 $test       = $_GET['test'] ?? '';
 $lang       = $_GET['lang'] ?? '';
 $title      = $_GET['title'] ?? '';
+$save       = isset($_GET['save']) ? 'save' : '';
 // $title      = str_replace("'", "", $title);
 $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
@@ -33,6 +34,11 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
                         <div class='col-md-3'>
 
                             <div class='form-check form-switch'>
+                                <input class='form-check-input' type='checkbox' id='save' name='save' value='1' <?php echo isset($_GET['save']) ? 'checked' : '' ?>>
+                                <label class='check-label' for='save'>Auto save</label>
+			    </div>
+				
+				<div class='form-check form-switch'>
                                 <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' <?php echo $movedots ?>>
                                 <label class='form-check-label' for='movedots'>Move dots after references</label>
                             </div>
@@ -68,7 +74,7 @@ function get_results() {
     if ($movedots != '') $mv .= 'movedots';
     if ($infobox != '')  $mv .= ' infobox';
     //---
-    $ccc = "returnfile -page:$title2 -lang:$lang $mv";
+    $ccc = "returnfile -page:$title2 -lang:$lang $mv $save";
     //---
     $params = array(
         'dir' => '/data/project/mdwiki/pybot/md_core/wprefs',
