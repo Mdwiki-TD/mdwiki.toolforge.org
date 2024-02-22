@@ -138,6 +138,10 @@ function worknew() {
         echo "no changes";
     } elseif ($resultb == "notext") {
         echo("text == ''");
+	    
+    } elseif ($resultb == "ok") {
+        echo("save done.");
+	    
     } elseif ($t1 || $t2 || $t3 || isset($_REQUEST['test'])) {
         $newtext = file_get_contents( $resultb );
         $form = $form . "<textarea id='wikitext-new' class='form-control' name='wpTextbox1'>" . $newtext . "</textarea>
