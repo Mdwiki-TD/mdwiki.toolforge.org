@@ -100,7 +100,7 @@ function endsWith($string, $endString) {
 //---
 function worknew() {
     //---
-    global $lang, $title;
+    global $lang, $title, $test;
     //---
     $new = "https://$lang.wikipedia.org/w/index.php?title=$title&action=submit";
     //---
@@ -134,7 +134,9 @@ function worknew() {
     </div>
     ";
     //---
-    if (isset($_REQUEST['test'])) echo "<br>($resultb)<br>";
+    if ($test != '') {
+	echo "<br>($resultb)<br>";
+    };
     if ($resultb == 'no changes') {
         echo "no changes";
     } elseif ($resultb == "notext") {
