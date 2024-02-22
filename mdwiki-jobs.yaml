@@ -18,7 +18,7 @@
   emails: onfailure
 
 - name: sqly-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql"
+  command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql_new pages_users"
   schedule: '1 * * * *'
   image: python3.9
   emails: onfailure
@@ -32,6 +32,13 @@
 - name: recheck-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
   schedule: '11 */6 * * *'
+  image: python3.9
+  emails: onfailure
+
+# check_titles
+- name: check-titles
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/check_titles"
+  schedule: '30 */6 * * *'
   image: python3.9
   emails: onfailure
   
