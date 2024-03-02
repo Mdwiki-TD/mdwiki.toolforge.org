@@ -23,7 +23,7 @@
   schedule: '40 */5 * * *'
   image: tf-python39
   emails: onfailure
-  
+
 - name: days7
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
