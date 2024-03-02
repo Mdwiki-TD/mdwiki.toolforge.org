@@ -1,12 +1,12 @@
 # sql backup
 - name: backup-yaml
-  command: "$HOME/databasebackup.sh"
+  command: "$HOME/shs/databasebackup.sh"
   schedule: '11 1 * * *'
   image: mariadb
   emails: onfailure
 
 - name: countca
-  command: "$HOME/local/bin/python3 c8/pwb.py mass/radio/cases_in_ids && $HOME/local/bin/python3 c8/pwb.py mass/radio/st3/count"
+  command: "$HOME/shs/radiocount.sh"
   schedule: '1 21 * * *'
   image: python3.9
   emails: onfailure
