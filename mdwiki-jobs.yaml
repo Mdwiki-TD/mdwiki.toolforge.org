@@ -11,6 +11,19 @@
   image: tf-python39
   emails: onfailure
 
+- name: countref
+  command: "$HOME/shs/countref.sh"
+  schedule: '30 3 * * *'
+  image: tf-python39
+  emails: onfailure
+
+# Find qids and fix qids
+- name: qids1
+  command: "$HOME/shs/qids.sh"
+  schedule: '40 */5 * * *'
+  image: tf-python39
+  emails: onfailure
+  
 - name: days7-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
@@ -106,20 +119,7 @@
   schedule: '10 3 * * *'
   image: python3.9
   emails: onfailure
-
-# countref
-- name: countref1-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/countref newpages"
-  schedule: '30 3 * * *'
-  image: python3.9
-  emails: onfailure
-
-- name: countref2-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/countref sql"
-  schedule: '40 3 * * *'
-  image: python3.9
-  emails: onfailure
-
+  
 # Generate categories files such as RTT.json
 - name: catdepth2-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/bots/catdepth2 newlist"
@@ -134,22 +134,9 @@
   image: python3.9
   emails: onfailure
 
-# Find the Wikidata qid for items without qid from English
-- name: findqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/find_qids redirects addthem"
-  schedule: '40 1,6,12,18 * * *'
-  image: python3.9
-  emails: onfailure
-
 - name: p11143-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpages/P11143 add"
   schedule: '1 1 * * 2'
   image: python3.9
   emails: onfailure
-
-# Fix Wikidata item conversions and add articles to qids spreadsheet
-- name: fixqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/fixqids fix && $HOME/local/bin/python3 core8/pwb.py mdpages/get_red"
-  schedule: '45 2,7,13,19 * * *'
-  image: python3.9
-  emails: onfailure
+  
