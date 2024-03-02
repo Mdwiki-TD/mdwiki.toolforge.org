@@ -1,4 +1,7 @@
-cd /data/project/mdwiki/
+#!/bin/bash
+cd $HOME
+# cd /data/project/mdwiki/
+
 rm -rf tdx
 
 # Download the md-core repository from GitHub.
