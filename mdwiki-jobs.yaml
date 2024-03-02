@@ -5,12 +5,18 @@
   image: mariadb
   emails: onfailure
 
+- name: countca
+  command: "$HOME/local/bin/python3 c8/pwb.py mass/radio/cases_in_ids && $HOME/local/bin/python3 c8/pwb.py mass/radio/st3/count"
+  schedule: '1 21 * * *'
+  image: python3.9
+  emails: onfailure
+
 - name: days7-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
   image: python3.9
-  emails: 
-
+  emails: onfailure
+  
 - name: dup-yaml
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/dup save"
   schedule: '1 1 * * 0'
