@@ -1,5 +1,5 @@
 # sql backup
-- name: backup-yaml
+- name: backup
   command: "$HOME/shs/databasebackup.sh"
   schedule: '11 1 * * *'
   image: mariadb
@@ -11,31 +11,44 @@
   image: tf-python39
   emails: onfailure
 
-- name: days7-yaml
+- name: countref
+  command: "$HOME/shs/countref.sh"
+  schedule: '30 3 * * *'
+  image: tf-python39
+  emails: onfailure
+
+# Find qids and fix qids
+- name: qids1
+  command: "$HOME/shs/qids.sh"
+  schedule: '40 */5 * * *'
+  image: tf-python39
+  emails: onfailure
+
+- name: days7
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/days_7"
   schedule: '1 1 * * 1'
   image: python3.9
   emails: onfailure
   
-- name: dup-yaml
+- name: dup
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/dup save"
   schedule: '1 1 * * 0'
   image: python3.9
   emails: onfailure
 
-- name: sqly-yaml
+- name: sqly
   command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql_new pages_users"
   schedule: '1 * * * *'
   image: python3.9
   emails: onfailure
 
-- name: wpreff-yaml
+- name: wpreff
   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
   schedule: '10 * * * *'
   image: python3.9
   emails: onfailure
 
-- name: recheck-yaml
+- name: recheck
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
   schedule: '11 */6 * * *'
   image: python3.9
@@ -49,39 +62,39 @@
   emails: onfailure
   
 # make views
-- name: views-yaml
+- name: views
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/sqlviews"
   schedule: '15 5 * * *'
   image: python3.9
   emails: onfailure
 
 # important
-- name: getas-yaml
+- name: getas
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/getas"
   schedule: '12 2 * * *'
   image: python3.9
   emails: onfailure
 
-- name: enpv-yaml
+- name: enpv
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/enwiki_views"
   schedule: '1 1 * * 3'
   image: python3.9
   emails: onfailure
 
-- name: twitter-job-yaml
+- name: twitter-job
   command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
   schedule: '21 2 * * *'
   image: python3.9
   emails: onfailure
 
 # find old pages
-- name: io-yaml
+- name: io
   command: "$HOME/local/bin/python3 core8/pwb.py updates/io"
   schedule: '55 21 * * *'
   image: python3.9
   emails: onfailure
 
-- name: listo-yaml
+- name: listo
   command: "$HOME/local/bin/python3 core8/pwb.py updates/listo"
   schedule: '55 21 * * *'
   image: python3.9
@@ -94,62 +107,36 @@
   emails: onfailure
 
 # create medwiki_to_enwiki.json
-- name: check-yaml
+- name: check
   command: "$HOME/local/bin/python3 core8/pwb.py mdpages/get_md_to_en"
   schedule: '12 2 * * *'
   image: python3.9
   emails: onfailure
 
 # words
-- name: words-yaml
+- name: words
   command: "$HOME/local/bin/python3 core8/pwb.py mdcount/words"
   schedule: '10 3 * * *'
   image: python3.9
   emails: onfailure
-
-# countref
-- name: countref1-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/countref newpages"
-  schedule: '30 3 * * *'
-  image: python3.9
-  emails: onfailure
-
-- name: countref2-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/countref sql"
-  schedule: '40 3 * * *'
-  image: python3.9
-  emails: onfailure
-
+  
 # Generate categories files such as RTT.json
-- name: catdepth2-yaml
+- name: catdepth2
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/bots/catdepth2 newlist"
   schedule: '30 1,6,12,18 * * *'
   image: python3.9
   emails: onfailure
 
 # Create temporary files with lists of existing articles for all languages
-- name: cashwd-yaml
+- name: cashwd
   command: "$HOME/local/bin/python3 core8/pwb.py mdpages/cashwd"
   schedule: '10 1,6,12,18 * * *'
   image: python3.9
   emails: onfailure
 
-# Find the Wikidata qid for items without qid from English
-- name: findqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/find_qids redirects addthem"
-  schedule: '40 1,6,12,18 * * *'
-  image: python3.9
-  emails: onfailure
-
-- name: p11143-yaml
+- name: p11143
   command: "$HOME/local/bin/python3 core8/pwb.py mdpages/P11143 add"
   schedule: '1 1 * * 2'
   image: python3.9
   emails: onfailure
-
-# Fix Wikidata item conversions and add articles to qids spreadsheet
-- name: fixqids-yaml
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/fixqids fix && $HOME/local/bin/python3 core8/pwb.py mdpages/get_red"
-  schedule: '45 2,7,13,19 * * *'
-  image: python3.9
-  emails: onfailure
+  
