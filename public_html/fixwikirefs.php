@@ -134,8 +134,8 @@ function worknew() {
     </div>
     ";
     //---
-    if ($test == 'x') {
-	echo "<br>($resultb)<br>";
+    if ($test != '') {
+		echo "<br>($resultb)<br>";
     };
     if ($resultb == 'no changes') {
         echo "no changes";
