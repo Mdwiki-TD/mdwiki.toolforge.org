@@ -14,9 +14,9 @@ git clone --recurse-submodules https://github.com/MrIbrahem/mdwiki-python-files.
 
 cp -rf -v mdwikix/* pybot/
 
+sh shs/update_api.sh
+
 chmod -R 6770 pybot
 
 # Remove the `mdwikix` directory.
 rm -rf mdwikix
-
-sh update_api.sh
