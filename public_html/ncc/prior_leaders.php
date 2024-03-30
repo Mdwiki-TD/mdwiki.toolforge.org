@@ -23,7 +23,7 @@ function NumbsTableNew(): string {
         </thead>
         <tbody>
             <tr><td><b>Files</b></td><td><span id="all_files">$Files</span></td></tr>
-            <tr><td><b>Languages</b></td><td><span id="all_langs" id="all_langs">$Languages</span></td></tr>
+            <tr><td><b>Languages</b></td><td><span id="all_langs">$Languages</span></td></tr>
             <tr><td><b>Views</b></td><td><span id="all_views">$Views</span></td></tr>
         </tbody>
     </table>
