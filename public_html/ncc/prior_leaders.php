@@ -3,8 +3,8 @@ namespace LeaderTables;
 
 include_once('tables.php');
 
-$mainlang = $_REQUEST['lang'] ?? '';
-$cat = $_REQUEST['cat'] ?? '';
+$mainlang = $_GET['lang'] ?? '';
+$cat = $_GET['cat'] ?? '';
 
 function NumbsTableNew(): string {
     global $numbers, $mainlang;

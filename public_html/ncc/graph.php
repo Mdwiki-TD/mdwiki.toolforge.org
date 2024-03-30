@@ -47,7 +47,7 @@ function print_graph_tab() {
     HTML;
 }
 //---
-if (isset($_REQUEST['x'])) {
+if (isset($_GET['x'])) {
     print_graph();
 }
 //---
