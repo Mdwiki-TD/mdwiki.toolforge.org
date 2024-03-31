@@ -3,8 +3,8 @@ namespace LeaderTables;
 
 include_once('tables.php');
 
-$mainlang = $_REQUEST['lang'] ?? '';
-$cat = $_REQUEST['cat'] ?? '';
+$mainlang = $_GET['lang'] ?? '';
+$cat = $_GET['cat'] ?? '';
 
 function NumbsTableNew(): string {
     global $numbers, $mainlang;
@@ -23,7 +23,7 @@ function NumbsTableNew(): string {
         </thead>
         <tbody>
             <tr><td><b>Files</b></td><td><span id="all_files">$Files</span></td></tr>
-            <tr><td><b>Languages</b></td><td><span id="all_langs" id="all_langs">$Languages</span></td></tr>
+            <tr><td><b>Languages</b></td><td><span id="all_langs">$Languages</span></td></tr>
             <tr><td><b>Views</b></td><td><span id="all_views">$Views</span></td></tr>
         </tbody>
     </table>

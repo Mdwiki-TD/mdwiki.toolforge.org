@@ -27,7 +27,7 @@ function make_lang_tab(): void {
     global $titles_by_lang;
 
     // Get the main language from the request or use an empty string as default
-    $mainlang = $_REQUEST['lang'] ?? '';
+    $mainlang = $_GET['lang'] ?? '';
 
     // Generate and sort the table of  for the specified language
     $dd = $titles_by_lang[$mainlang]['titles'];

@@ -1,6 +1,6 @@
 <?php
 // Only display errors and startup errors if 'test' is set in the request
-if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
 	ini_set('display_errors', '1');
 	ini_set('display_startup_errors', '1');
 	error_reporting(E_ALL);
@@ -10,7 +10,7 @@ if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
 // $langs = ["af"];
 $langs = ["af", "ar", "es", "fa", "ha", "it", "ja", "or", "pl", "sq"];
 
-$get_lang = $_REQUEST['lang'] ?? '';
+$get_lang = $_GET['lang'] ?? '';
 
 
 // Initialize an array to hold our various counts
@@ -25,8 +25,8 @@ $numbers['Files'] = 0;
 
 // $main_cat = 'Translated_from_MDWiki';
 $main_cat = 'Files_imported_from_NC_Commons';
-if (isset($_REQUEST['cat'])) {
-	$main_cat = $_REQUEST['cat'];
+if (isset($_GET['cat'])) {
+	$main_cat = $_GET['cat'];
 }
 
 function get_views_data_by_lang($lang) {

@@ -6,7 +6,7 @@ use function Functions\ColSm;
 use function LeaderTables\NumbsTableNew;
 use function LeaderTables\LangsTableNew;
 
-if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

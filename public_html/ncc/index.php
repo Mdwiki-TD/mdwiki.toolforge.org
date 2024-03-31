@@ -3,8 +3,8 @@ require 'header.php';
 require 'filter.php';
 use function FilterCat\filter_cat_form;
 
-$cat   = $_REQUEST['cat'] ?? '';
-$lang  = $_REQUEST['lang'] ?? '';
+$cat   = $_GET['cat'] ?? '';
+$lang  = $_GET['lang'] ?? '';
 
 $all_langs_table = <<<HTML
     <div class="row">
@@ -23,7 +23,7 @@ $all_langs_table = <<<HTML
                         </thead>
                         <tbody>
                             <tr><td><b>Files</b></td><td><span id="all_files">0</span></td></tr>
-                            <tr><td><b>Languages</b></td><td><span id="all_langs" id="all_langs">0</span></td></tr>
+                            <tr><td><b>Languages</b></td><td><span id="all_langs">0</span></td></tr>
                             <tr><td><b>Views</b></td><td><span id="all_views">0</span></td></tr>
                         </tbody>
                     </table>

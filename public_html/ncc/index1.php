@@ -15,13 +15,13 @@ use function FilterCat\filter_cat_form;
 // use function LeaderGraph\print_graph_tab;
 
 // Enable error reporting for debugging (Only if 'test' request parameter is set)
-if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-$langs = $_REQUEST['lang'] ?? '';
-$cat   = $_REQUEST['cat'] ?? '';
+$langs = $_GET['lang'] ?? '';
+$cat   = $_GET['cat'] ?? '';
 
 echo filter_cat_form("index1.php", $cat);
 
