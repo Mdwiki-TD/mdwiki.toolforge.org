@@ -50,7 +50,7 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
                         </div>
                         <div class='col-md-5'>
                             <h4 class='aligncenter'>
-                            <input class='btn btn-primary' type='submit' value='send' />
+                            <input class='btn btn-outline-primary' type='submit' value='send' />
                             </h4>
                         </div>
                     </div>
@@ -130,7 +130,7 @@ function worknew() {
     //---
     $edit_line = "<br>
     <div class='aligncenter'>
-        <a class='btn btn-primary' href='$new'>Go to edit page.</a>
+        <a class='btn btn-outline-primary' href='$new'>Go to edit page.</a>
     </div>
     ";
     //---
@@ -150,8 +150,8 @@ function worknew() {
         $form = $form . "<textarea id='wikitext-new' class='form-control' name='wpTextbox1'>" . $newtext . "</textarea>
         <br>
     <div class='editOptions aligncenter'>
-        <input id='wpPreview' type='submit' class='btn btn-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
-        <input id='wpDiff' type='submit' class='btn btn-primary' tabindex='7' name='wpDiff' value='Make edits' accesskey='v' title='show changes.'>
+        <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
+        <input id='wpDiff' type='submit' class='btn btn-outline-primary' tabindex='7' name='wpDiff' value='Make edits' accesskey='v' title='show changes.'>
     <div class='editButtons'>
     </div>
     </div>

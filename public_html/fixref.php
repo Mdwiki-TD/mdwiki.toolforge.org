@@ -40,7 +40,7 @@ function make_form($titlelist, $number, $test) {
 					</div>
 					<div class='col-lg-12'>
 						<h4 class='aligncenter'>
-							<input class='btn btn-primary' type='submit' value='send'>
+							<input class='btn btn-outline-primary' type='submit' value='send'>
 						</h4>
 					</div>
 				</div>

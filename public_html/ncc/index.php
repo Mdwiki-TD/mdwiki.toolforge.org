@@ -1,6 +1,7 @@
 <?php
 require 'header.php';
 require 'filter.php';
+
 use function FilterCat\filter_cat_form;
 
 $cat   = $_GET['cat'] ?? '';
@@ -136,4 +137,3 @@ echo <<<HTML
 
 </html>
 HTML;
-

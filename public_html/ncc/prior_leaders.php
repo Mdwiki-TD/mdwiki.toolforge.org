@@ -1,4 +1,5 @@
 <?PHP
+
 namespace LeaderTables;
 
 include_once('tables.php');
@@ -6,9 +7,10 @@ include_once('tables.php');
 $mainlang = $_GET['lang'] ?? '';
 $cat = $_GET['cat'] ?? '';
 
-function NumbsTableNew(): string {
+function NumbsTableNew(): string
+{
     global $numbers, $mainlang;
-    
+
     $Files = number_format($numbers['Files']);
     $Languages = number_format($numbers['Languages']);
     $Views = number_format($numbers['Views']);
@@ -33,7 +35,8 @@ function NumbsTableNew(): string {
     return $Numbers_table;
 };
 
-function LangsTableNew(): string {
+function LangsTableNew(): string
+{
     global $titles_by_lang, $cat;
     // Sort the array in reverse order by value
     arsort($titles_by_lang);
@@ -53,22 +56,22 @@ function LangsTableNew(): string {
     HTML;
 
     // Initialize row number
-    $numb=0;
+    $numb = 0;
     // Loop through each language in the array
-    foreach ( $titles_by_lang as $langcode => $table ) {
+    foreach ($titles_by_lang as $langcode => $table) {
         // Get the Files numbers, words and views
         $comp  = count($table['titles']);
         $views = number_format($table['views']);
 
         // Only add a table row if there are Files for this language
         // if ( $comp > 0 ) {
-            $numb++;
-            $url = "index.php?lang=$langcode";
-            if ($cat !== '') {
-                $url .= "&cat=$cat";
-            }
-            // Add a table row with the language details
-            $text .= <<<HTML
+        $numb++;
+        $url = "index.php?lang=$langcode";
+        if ($cat !== '') {
+            $url .= "&cat=$cat";
+        }
+        // Add a table row with the language details
+        $text .= <<<HTML
                 <tr>
                     <td>$numb</td>
                     <td><a href='$url'>$langcode</a></td>

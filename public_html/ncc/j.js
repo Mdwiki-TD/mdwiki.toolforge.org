@@ -1,6 +1,7 @@
 
-function fetch_url(endpoint, params, callback) {
+function fetch_api(params, callback) {
     // ---
+    const endpoint = window.location.origin + '/ncc/api/files.php';
     url = endpoint;
     // ---
     if (jQuery.isEmptyObject(params) === false) {
@@ -65,64 +66,59 @@ function add_to_value(id, value) {
 
 function lang_work(lang, cat, callback) {
     // ---
-    const endpoint = window.location.origin + '/ncc/api/files.php';
     const params = {
+        action: 'get_cat_members',
         lang: lang,
         cat: cat
     };
     // ---
-    fetch_url(endpoint, params, callback);
-}
-
-function get_langs(cat) {
-    var cats = {
-        "Files_imported_from_NC_Commons": ["af", "ar"],
-        "Translated_from_MDWiki": ["af", "ar", "es", "fa", "ha", "it", "ja", "or", "pl", "sq"]
-    }
-    return cats[cat];
+    fetch_api(params, callback);
 }
 
 function start_all_langs(cat) {
-    // ---    
-    var langs = get_langs(cat);
     // ---
-    // work for each lang
-    for (var i = 0; i < langs.length; i++) {
-        // ---
-        var lang = langs[i];
-        // ---
-        var urlv = "index.php?lang=" + lang + "&cat=" + cat;
-        // ---
-        add_to_value("all_langs", 1);
-        //---
-        var tr = $("<tr></tr>");
-        // ---
-        tr.append($("<td></td>").text(i + 1));
-        tr.append($("<td></td>").html("<a href='" + urlv + "'>" + lang + "</a>"));
-        tr.append($("<td></td>").html("<a href='https://" + lang + ".wikipedia.org/wiki/Category:" + cat + "'>Category</a>"));
-        tr.append($("<td></td>").html("<span id='" + lang + "_files'>0</span>"));
-        tr.append($("<td></td>").html("<span id='" + lang + "_views'>0</span>"));
-        // ---
-        // add row to table id="langs" tbody
-        $("#langs tbody").append(tr);
-        // ---
-    }
+    const params = {
+        action: 'get_langs',
+        cat: cat,
+        addlenth: 1
+    };
     // ---
-    // work for each lang
-    for (var i = 0; i < langs.length; i++) {
-        // ---
-        var lang = langs[i];
-        // ---
-        lang_work(lang, cat, function (data, lang) {
+    fetch_api(params,
+        function (langs) {
             // ---
-            all_files = data.length;
+            var i = 0;
             // ---
-            add_to_value("all_files", all_files);
-            // ---
-            $("#" + lang + "_files").text(all_files);
-        });
-    }
+            // langs = {"af":0,"ar":30,"es":8,"fa":0,"ha":38,"it":0,"ja":45,"or":734,"pl":2,"sq":5}
+            // work for each lang
+            for (const [lang, count] of Object.entries(langs)) {
+                // ---
+                i++;
+                // ---
+                console.log(lang, count);
+                // ---
+                var urlv = "index.php?lang=" + lang + "&cat=" + cat;
+                // ---
+                add_to_value("all_langs", 1);
+                add_to_value("all_files", count);
+                //---
+                var tr = $("<tr></tr>");
+                // ---
+                tr.append($("<td></td>").text(i + 1));
+                tr.append($("<td></td>").html("<a href='" + urlv + "'>" + lang + "</a>"));
+                tr.append($("<td></td>").html("<a href='https://" + lang + ".wikipedia.org/wiki/Category:" + cat + "'>Category</a>"));
+                tr.append($("<td></td>").html("<span id='" + lang + "_files'>" + count + "</span>"));
+                tr.append($("<td></td>").html("<span id='" + lang + "_views'>0</span>"));
+                // ---
+                // $("#" + lang + "_files").text(count);
+                // ---
+                // add row to table id="langs" tbody
+                $("#langs tbody").append(tr);
+                // ---            
+            }
+        }
+    );
 }
+
 function start_one_lang(mainlang, cat) {
     lang_work(mainlang, cat, function (data, mainlang) {
         // ---
@@ -146,7 +142,7 @@ function start_one_lang(mainlang, cat) {
             $("#files_table tbody").append(tr);
         }
     });
-    }
+}
 
 function start(mainlang, cat) {
     // if mainlang then start_one_lang(mainlang) else start_all_langs();
