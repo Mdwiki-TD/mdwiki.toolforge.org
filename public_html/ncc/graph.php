@@ -51,4 +51,3 @@ if (isset($_GET['x'])) {
     print_graph();
 }
 //---
-?>

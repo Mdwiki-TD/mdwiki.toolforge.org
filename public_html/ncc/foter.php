@@ -2,9 +2,8 @@
 </main>
 
 <script>
-	
 	$(document).ready(function() {
-		var table = $('.soro2').DataTable( {
+		var table = $('.soro2').DataTable({
 			// paging: false,
 			info: false,
 			lengthMenu: [
@@ -13,13 +12,14 @@
 			],
 			searching: false,
 			// lengthChange: false
-		} );
-	
+		});
+
 		$('[data-toggle="tooltip"]').tooltip();
 
 		$('.sortable').DataTable({
 			lengthMenu: [
-				[50, 100, 150],[50, 100, 150]
+				[50, 100, 150],
+				[50, 100, 150]
 			],
 		});
 		$('.datatable').DataTable({

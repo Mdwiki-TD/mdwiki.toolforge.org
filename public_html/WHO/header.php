@@ -19,7 +19,7 @@ if ($_REQUEST['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 };
 
 include_once('functions.php');
-include_once('../Translation_Dashboard/login5.php');
+// include_once('../Translation_Dashboard/login5.php');
 $hoste = '';
 
 function print_head() {

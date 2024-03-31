@@ -1,4 +1,5 @@
 <?php
+
 namespace Functions;
 
 if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
@@ -42,14 +43,15 @@ function make_target_url($target, $lang, $name = '')
     return $target;
 }
 
-function make_view_by_number($target, $numb, $lang) {
+function make_view_by_number($target, $numb, $lang)
+{
     // remove spaces and tab characters
     $target = trim($target);
     $numb2 = ($numb != '') ? $numb : "?";
     $start = '2019-01-01';
     $end = date("Y-m-d", strtotime("yesterday"));
     // https://pageviews.wmcloud.org/?project=sq.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=Sindroma_Asperger
-    $url = 'https://pageviews.wmcloud.org/?' . http_build_query( array(
+    $url = 'https://pageviews.wmcloud.org/?' . http_build_query(array(
         'project' => "$lang.wikipedia.org",
         'platform' => 'all-access',
         'agent' => 'all-agents',

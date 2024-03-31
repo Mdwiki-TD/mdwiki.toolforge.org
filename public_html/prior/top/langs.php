@@ -18,7 +18,7 @@ function print_cat_table_lang(): string {
     $usersTable = UsersTableNew();
     $usersCol   = ColSm('Top Translators', $usersTable, $numb=6);
     $targets    = UsersTableTarget();
-    $targetsCol = ColSm('<button class="btn btn-success" onclick="copy()">Copy</button>', $targets, $numb=3);
+    $targetsCol = ColSm('<button class="btn btn-outline-primary" onclick="copy()">Copy</button>', $targets, $numb=3);
 
     return <<<HTML
         <div class="row">

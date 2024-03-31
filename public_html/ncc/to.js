@@ -1,20 +1,20 @@
 
 function to_get() {
 	// get the data from the hrefjson if the server not localhost
-    if ( window.location.hostname !== 'localhostx') {
+	if (window.location.hostname !== 'localhostx') {
 		var ele = $("[hrefjson]");
-		ele.each(function(){
+		ele.each(function () {
 			var item = $(this);
 			var hrefjson = item.attr("hrefjson");
 			// get the data from the hrefjson then add it to the value
 			// ---
 			// console.log(hrefjson);
-			
+
 			// console.log(item.text());
 			// ---
 			var proxy = window.location.origin + '/ncc/all.php?type=json&url=';
 			// if localhost use proxy
-			if ( window.location.hostname === 'localhost' ) {
+			if (window.location.hostname === 'localhost') {
 				hrefjson = proxy + encodeURIComponent(hrefjson);
 			}
 			// ---
@@ -22,7 +22,7 @@ function to_get() {
 				url: hrefjson,
 				// data: params,
 				type: 'GET',
-				success: function(data) {
+				success: function (data) {
 					// ---
 					console.log("to.js success:");
 					console.log(hrefjson);
@@ -30,7 +30,7 @@ function to_get() {
 					var view = 0;
 					var items = data.items;
 					// get view count from items array
-					items.forEach(function(aa) {
+					items.forEach(function (aa) {
 						view += aa['views'];
 						// console.log(view);
 					});
@@ -48,7 +48,7 @@ function to_get() {
 					$('#hrefjsontoadd').text(nu);
 					//---
 				},
-				error: function(data) {
+				error: function (data) {
 					console.log("to.js error:");
 					console.log(hrefjson);
 				}

@@ -1,4 +1,5 @@
 <?php
+
 namespace Prior;
 
 require 'header.php';

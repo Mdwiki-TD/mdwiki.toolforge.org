@@ -29,19 +29,20 @@ if (isset($_GET['cat'])) {
 	$main_cat = $_GET['cat'];
 }
 
-function get_views_data_by_lang($lang) {
+function get_views_data_by_lang($lang)
+{
 	global $main_cat;
 	$endpoint = "https://pageviews.wmcloud.org/massviews/api.php";
-    // ---
-    $params = [
+	// ---
+	$params = [
 		"project" => "$lang.wikipedia.org",
 		"category" => $main_cat
 	];
-    // ---
-    // result example: [{"title":"Chondrosarcoma_of_the_nasal_septum_(Radiopaedia_165701-135935_Sagittal_2).jpeg","ns":6}]
-    // ---
+	// ---
+	// result example: [{"title":"Chondrosarcoma_of_the_nasal_septum_(Radiopaedia_165701-135935_Sagittal_2).jpeg","ns":6}]
+	// ---
 	$url = $endpoint . '?' . http_build_query($params);
-    // ---
+	// ---
 	$req = file_get_contents($url);
 	// ---
 	$data = json_decode($req, true);
@@ -56,7 +57,8 @@ function get_views_data_by_lang($lang) {
 	// ---
 	return $data2;
 }
-function get_views_data($get_lang, $langs) {
+function get_views_data($get_lang, $langs)
+{
 	global $numbers;
 	if ($get_lang != '') {
 		$langs = [$get_lang];

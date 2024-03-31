@@ -1,15 +1,17 @@
 <?PHP
+
 namespace FilterCat;
 
-function makeDropdown($tab, $cat, $id, $add) {
+function makeDropdown($tab, $cat, $id, $add)
+{
     //---
     $options = "";
     //---
-    foreach ( $tab AS $dd ) {
+    foreach ($tab as $dd) {
         //---
         $se = '';
         //---
-        if ( $cat == $dd ) $se = 'selected';
+        if ($cat == $dd) $se = 'selected';
         //---
         $options .= <<<HTML
             <option value='$dd' $se>$dd</option>
@@ -17,14 +19,14 @@ function makeDropdown($tab, $cat, $id, $add) {
         //---
     };
     //---
-	$sel_line = "";
-	//---
-    if ($add != '' ) {
-	    $sel = "";
-	    if ( $cat == $add ) $sel = "celected";
+    $sel_line = "";
+    //---
+    if ($add != '') {
+        $sel = "";
+        if ($cat == $add) $sel = "celected";
         $sel_line = "<option value='$add' $sel>$add</option>";
     }
-	//---
+    //---
     return <<<HTML
         <select dir="ltr" id="$id" name="$id" class="form-select" data-bs-theme="auto">
             $sel_line
@@ -33,40 +35,42 @@ function makeDropdown($tab, $cat, $id, $add) {
     HTML;
 };
 //---
-function filter_stat($cat) {
-	$cats_titles = [
+function filter_stat($cat)
+{
+    $cats_titles = [
         "Files_imported_from_NC_Commons",
         "Translated_from_MDWiki",
     ];
-	//---
-	$d33 = <<<HTML
+    //---
+    $d33 = <<<HTML
 		<div class="input-group">
 			<span class="input-group-text">%s</span>
 			%s
 		</div>
 	HTML;
-	//---
-	$y1 = makeDropdown($cats_titles, $cat, 'cat', '');
-	$uuu = sprintf($d33, 'Category:', $y1);
-	//---
+    //---
+    $y1 = makeDropdown($cats_titles, $cat, 'cat', '');
+    $uuu = sprintf($d33, 'Category:', $y1);
+    //---
     return $uuu;
 }
-function filter_cat_form($index, $cat) {
+function filter_cat_form($index, $cat)
+{
     $uuu = filter_stat($cat);
     //---
     $lang = $_GET['lang'] ?? '';
     $lang_input = "<input type='hidden' name='lang' value='$lang' />";
     //---
     $filter_cat = <<<HTML
-        <div class='card-body'>
+        <div class='card-body p-2'>
             <form method='get' action='$index'>
                 $lang_input
                 <div class='row'>
-                    <div class='col-md-5'>
+                    <div class='col-md-6'>
                         $uuu
                     </div>
                     <div class='aligncenter col-md-2'>
-                        <input class='btn btn-primary' type='submit' name='start' value='Filter' />
+                        <input class='btn btn-outline-primary' type='submit' value='Filter'>
                     </div>
                 </div>
             </form>

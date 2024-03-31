@@ -40,7 +40,7 @@ echo <<<HTML
                         </div>
                     </div>
                     <div class='col-md-2'>
-                        <input class='btn btn-primary' type='submit' value='send' />
+                        <input class='btn btn-outline-primary' type='submit' value='send' />
                     </div>
                 </div>
                 <div class='input-group'>

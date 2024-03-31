@@ -15,7 +15,7 @@ if ($start == '') {
     <form action='dup.php' method='POST'>
         <div class='col-lg-12'>
             <h4 class='aligncenter'>
-                <input class='btn btn-primary' type='submit' name='start' value='Start' />
+                <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
             </h4>
         </div>
     </form>

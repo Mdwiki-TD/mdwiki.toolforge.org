@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <HTML lang=en dir=ltr data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark" />
+	<meta name="color-scheme" content="light dark" />
 
-    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)" />
+	<meta name="theme-color" content="#111111" media="(prefers-color-scheme: light)" />
+	<meta name="theme-color" content="#eeeeee" media="(prefers-color-scheme: dark)" />
 	<title>NC Commons Import Bot</title>
-<?php
+	<?php
 
-if ($_GET['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-};
+	if ($_GET['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
+		ini_set('display_errors', 1);
+		ini_set('display_startup_errors', 1);
+		error_reporting(E_ALL);
+	};
 
-include_once('functions.php');
-$hoste = '';
+	include_once('functions.php');
+	$hoste = '';
 
-function print_head() {
-	global $hoste;
-	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
-	if ( $_SERVER['SERVER_NAME'] == 'localhost' )  $hoste = 'https://cdnjs.cloudflare.com';
+	function print_head()
+	{
+		global $hoste;
+		$hoste = 'https://tools-static.wmflabs.org/cdnjs';
+		if ($_SERVER['SERVER_NAME'] == 'localhost')  $hoste = 'https://cdnjs.cloudflare.com';
 
-	if (isset($_GET['noboot']) == '') {
-		echo <<<HTML
+		if (isset($_GET['noboot']) == '') {
+			echo <<<HTML
 		<link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
 		<link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
 		<link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
@@ -50,16 +52,15 @@ function print_head() {
 			text-decoration: none;
 		}</style>
 		HTML;
+		};
 	};
 
-};
+	print_head();
 
-print_head();
-
-echo "
+	echo "
 </head>";
 
-$them_li = <<<HTML
+	$them_li = <<<HTML
 	<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
 	<svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
 	<span class="d-lg-none ms-2" id="bd-theme-text"></span>
@@ -89,7 +90,7 @@ $them_li = <<<HTML
 	</ul>
 HTML;
 
-echo <<<HTML
+	echo <<<HTML
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
       <symbol id="bootstrap" viewBox="0 0 512 408" fill="currentcolor">
@@ -144,8 +145,8 @@ echo <<<HTML
 	</nav>
 </header>
 HTML;
-?>
-<main id="body">
-	<!-- <div id="maindiv" class="container-fluid"> -->
-	<div id="maindiv" class="container-fluid">
-	<br>
+	?>
+	<main id="body">
+		<!-- <div id="maindiv" class="container-fluid"> -->
+		<div id="maindiv" class="container-fluid">
+			<br>
