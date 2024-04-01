@@ -1,18 +1,28 @@
 <?php
-
+// https://mdwiki.toolforge.org/update_md.php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Define the command for /usr/bin/toolforge jobs
+// Define the command mappings
+$commands = [
+    'api' => 'update_api.sh',
+    'td' => 'update_td.sh',
+    'mdcore' => 'update_mdcore.sh',
+    'html' => 'update_html.sh', 
+];
+
+// Default command
 $command = "sh /data/project/mdwiki/shs/update_mdcore.sh";
 
-if (!empty($_GET['td'])) {
-    $command = "sh /data/project/mdwiki/shs/update_td.sh";
+// Check if any query parameter is set
+foreach ($commands as $param => $script) {
+    if (!empty($_GET[$param])) {
+        $command = "sh /data/project/mdwiki/shs/$script";
+        break;
+    }
 }
-if (!empty($_GET['api'])) {
-    $command = "sh /data/project/mdwiki/shs/update_api.sh";
-}
+
 // Display command command
 echo "<br>$command<br>";
 
