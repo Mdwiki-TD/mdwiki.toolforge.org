@@ -109,8 +109,8 @@
   image: python3.9
   emails: onfailure
 
-- name: twitter-job
-  command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
-  schedule: '21 2 * * *'
-  image: python3.9
-  emails: onfailure
+# - name: twitter-job
+  # command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
+  # schedule: '21 2 * * *'
+  # image: python3.9
+  # emails: onfailure

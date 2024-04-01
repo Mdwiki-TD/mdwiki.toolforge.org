@@ -4,7 +4,7 @@ cd $HOME
 
 rm -rf tdx
 
-# Download the md-core repository from GitHub.
+# Download the wd-core repository from GitHub.
 git clone --recurse-submodules https://github.com/MrIbrahem/Translation-Dashboard.git tdx
 
 # delete composer.json and composer.lock

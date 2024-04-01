@@ -19,7 +19,6 @@ public_html/adminer.php
 */back/**
 */old/**
 */pywikibot.py
-.pylintrc
 __pycache__/**
 databasebackup/**
 desktop.ini
@@ -30,31 +29,8 @@ imp.sh
 import.py
 import_xml.py
 md.js
-md_core-x/**
-md_core/.vscode/settings.json
-md_core/mdcount/old/allwords.py
-md_core/mdpy/sql_test.py
-md_core/mdpy/x.py
-md_core/mdpy/‫md_core - رمز اختصار.lnk
-md_core/nccommons/mv.json
-md_core/niosh/*/*.json
-md_core/one_time/WHOem/priorviews/**
-md_core/one_time/prior/*.json
-md_core/one_time/prior/*.json
-md_core/one_time/prior/*/*.json
-md_core/one_time/prior/.pylintrc
-md_core/one_time/prior/en_old.py
-md_core/one_time/prior/new_1.json
-md_core/one_time/prior/old/**
-md_core/one_time/prior/test.py
-md_core/one_time/prior/test1.py
-md_core/one_time/priorviews/lists/blames.json_1
-md_core/tw/twet_config.py
 n.js
-nccommons/all_files.json
-nccommons/ns_0_pages.json
 o.js
-old code/**
 old/**
 printe.py
 public_html/Translation_Dashboard/**
