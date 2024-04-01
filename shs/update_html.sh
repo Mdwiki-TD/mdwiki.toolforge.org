@@ -2,22 +2,22 @@
 cd $HOME
 # cd /data/project/mdwiki/
 
-rm -rf tdx
+rm -rf mdall
 
-# Download the wd-core repository from GitHub.
-git clone --recurse-submodules https://github.com/MrIbrahem/Translation-Dashboard.git tdx
+# Download the repository from GitHub.
+git clone https://github.com/MrIbrahem/mdwiki.toolforge.org.git mdall
 
-# delete composer.json and composer.lock
-rm -rf tdx/composer.json tdx/composer.lock
+mv mdall/public_html htmlx
+
+rm -rf mdall
+
+rm -rf htmlx/Translation_Dashboard
 
 # delete all json files in all subdirectories
-find tdx -name *.json -delete
-
-# delete vendor
-rm -rf tdx/vendor
+find htmlx -name *.json -delete
 
 # copy all files to public_html
-cp -rf -v tdx/* public_html/Translation_Dashboard
+cp -rf -v htmlx/* public_html/
 
-# Remove the `tdx` directory.
-rm -rf tdx
+# Remove the `htmlx` directory.
+rm -rf htmlx
