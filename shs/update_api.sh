@@ -14,3 +14,5 @@ find pybot/md_core/newapi -name "*.pyc" -exec rm -f {} +
 chmod -R 6770 pybot/md_core/newapi
 
 rm -rf newapi_x
+
+$HOME/local/bin/python3 -m pip install -r pybot/md_core/newapi/requirements.in

@@ -24,4 +24,4 @@ chmod -R 6770 pybot
 # Remove the `mdwikix` directory.
 rm -rf mdwikix
 
-
+$HOME/local/bin/python3 -m pip install -r pybot/requirements.in
