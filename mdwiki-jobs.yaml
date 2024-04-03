@@ -1,6 +1,6 @@
 # sql backup
 - name: backup
-  command: "$HOME/shs/databasebackup.sh"
+  command: "$HOME/shs/db_backup.sh"
   schedule: '11 1 * * *'
   image: mariadb
   emails: onfailure

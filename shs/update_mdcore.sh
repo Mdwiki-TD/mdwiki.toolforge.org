@@ -1,27 +1,36 @@
 #!/bin/bash
 
-cd /data/project/mdwiki
+echo ">>> Cd to home directory..."
+cd "$HOME" || { echo ">>> Failed to change directory to home directory"; exit 1; }
 
-rm -rf mdwikix
 
-# Download the md-core repository from GitHub.
-git clone https://github.com/MrIbrahem/mdwiki-python-files.git mdwikix
+if [ -d "mdwikix" ]; then
+	echo ">>> Removing old mdwikix directory:"
+    rm -rf mdwikix || { echo "Failed to remove mdwikix directory"; exit 1; }
+fi
 
-# Into a new directory called 'md_core/' in the current working directory
-# cp -rf -v mdwikix/pybot/md_core/* md_core/
-# cp -rf -v mdwikix/pybot/TDpynew/* TDpynew/
-# cp -rf -v mdwikix/pybot/newupdater/* newupdater/
+echo ">>> Cloning repository from GitHub..."
+git clone https://github.com/MrIbrahem/mdwiki-python-files.git mdwikix || { echo ">>> Failed to clone repository"; exit 1; }
 
-# sh shs/update_api.sh
-rm -rf mdwikix/md_core/newapi
 
-cp -rf -v mdwikix/* pybot/
+if [ -d "mdwikix/md_core/newapi" ]; then
+	echo ">>> Removing mdwikix/md_core/newapi directory..."
+    rm -rf mdwikix/md_core/newapi || { echo "Failed to remove mdwikix/md_core/newapi directory";}
+fi
 
-find pybot -name "*.pyc" -exec rm -f {} +
+echo ">>> Copying files to pybot..."
 
-chmod -R 6770 pybot
+cp -rf -v mdwikix/* pybot/ || { echo ">>> Failed to copy files to pybot directory"; exit 1; }
 
-# Remove the `mdwikix` directory.
-rm -rf mdwikix
+
+if [ -d "mdwikix" ]; then
+	echo ">>> Removing mdwikix directory..."
+    rm -rf mdwikix || { echo "Failed to remove mdwikix directory"; }
+fi
 
 $HOME/local/bin/python3 -m pip install -r pybot/requirements.in
+pip install --upgrade pip
+
+find pybot -type f ! -name "*.pyc" -exec chmod 6770 {} \;
+
+echo ">>> Script execution completed successfully."
