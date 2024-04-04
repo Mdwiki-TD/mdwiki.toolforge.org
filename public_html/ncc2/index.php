@@ -2,7 +2,15 @@
 
 namespace Prior;
 
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+
+
 require 'header.php';
+require 'tables/index.php';
 require 'graph.php';
 require 'prior_leaders.php';
 require 'top/lead_help.php';
@@ -13,17 +21,11 @@ use function TopIndex\generateLeaderboardTable;
 use function TopLangs\make_lang_tab;
 // use function LeaderGraph\print_graph_tab;
 
-// Enable error reporting for debugging (Only if 'test' request parameter is set)
-if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-}
-$langs = $_GET['lang'] ?? '';
+$lang = $_GET['lang'] ?? '';
 
 // Display the appropriate top page based on 'lang' request parameter
-if ($langs !== '') {
-    make_lang_tab();
+if ($lang != '') {
+    make_lang_tab($lang);
 } else {
     generateLeaderboardTable();
 }

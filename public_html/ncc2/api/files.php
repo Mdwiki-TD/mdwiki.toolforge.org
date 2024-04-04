@@ -3,8 +3,7 @@
 header("Content-type: application/json");
 $data = [];
 // ---
-function get_cat_members($cat, $lang)
-{
+function get_cat_members($cat, $lang) : array {
     $files = [];
     // ---    
     if ($cat == '' || $lang == '') {
@@ -29,8 +28,7 @@ function get_cat_members($cat, $lang)
     return $files;
 }
 // ---
-function get_langs($cat)
-{
+function get_langs($cat) : array {
     $addlenth = $_GET['addlenth'] ?? '';
     // ---
     $langs_by_cat = [];
@@ -52,8 +50,17 @@ function get_langs($cat)
     return $langs;
 }
 // ---
+function get_views($lang, $titles) : array {
+    $data = [];
+    // ---
+    // $data = get_views_for_lang($lang, $titles);
+    // ---
+    return $data;
+}
+// ---
 $cat    = $_GET['cat'] ?? '';
 $lang   = $_GET['lang'] ?? '';
+$titles = $_GET['titles'] ?? '';
 $action = $_GET['action'] ?? '';
 // ---
 $data = [];
@@ -64,7 +71,7 @@ switch ($action) {
         break;
 
     case 'get_views':
-        $url = '';
+        $data = get_views($lang, $titles);
         break;
 
     case 'get_langs':

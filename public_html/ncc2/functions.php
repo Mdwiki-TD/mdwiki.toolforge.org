@@ -1,15 +1,31 @@
 <?php
-
 namespace Functions;
 
 if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
+};
+function fix_name_space($target, $lang) : string {
+    $file_ns = [
+        'en' => 'File',
+        'ar' => 'ملف',
+        'af' => 'Lêer',
+    ];
+    // ---
+    $ns = $file_ns[$lang] ?? '';
+    // ---
+    if ($ns == '') {
+        return $target;
+    }
+    // ---
+    // replace 'File' in the start of the string
+    $target = preg_replace('/^File/', $ns, $target);
+    // ---
+    return $target;
+    // ---
 }
-
-function ColSm($title, $table)
-{
+function ColSm($title, $table) : string {
     return <<<HTML
         <div class="card">
             <div class="card-header aligncenter" style="font-weight:bold;">
@@ -24,17 +40,7 @@ function ColSm($title, $table)
     HTML;
 };
 
-function make_mdwiki_title($title)
-{
-    if ($title != '') {
-        $encoded_title = rawurlencode(str_replace(' ', '_', $title));
-        return "<a target='_blank' href='https://mdwiki.org/wiki/$encoded_title'>$title</a>";
-    }
-    return $title;
-}
-
-function make_target_url($target, $lang, $name = '')
-{
+function make_target_url($target, $lang, $name = '') : string {
     $display_name = ($name != '') ? $name : $target;
     if ($target != '') {
         $encoded_target = rawurlencode(str_replace(' ', '_', $target));
@@ -43,13 +49,11 @@ function make_target_url($target, $lang, $name = '')
     return $target;
 }
 
-function make_view_by_number($target, $numb, $lang)
-{
+function make_view_by_number($target, $numb, $lang) : string {
     // remove spaces and tab characters
-    $target = trim($target);
+    $target = fix_name_space($target, $lang);
+
     $numb2 = ($numb != '') ? $numb : "?";
-    $start = '2019-01-01';
-    $end = date("Y-m-d", strtotime("yesterday"));
     // https://pageviews.wmcloud.org/?project=sq.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&range=all-time&pages=Sindroma_Asperger
     $url = 'https://pageviews.wmcloud.org/?' . http_build_query(array(
         'project' => "$lang.wikipedia.org",
@@ -61,9 +65,9 @@ function make_view_by_number($target, $numb, $lang)
         'redirects' => '0',
         'pages' => $target,
     ));
-    $start2 = '20190101';
+    $start2 = '2015070100';
 
-    $hrefjson = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/monthly/' . $start2 . '/2030010100';
+    $hrefjson = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/' . $start2 . '/2030010100';
 
     $link = "<a target='_blank' href='$url'>$numb2</a>";
 

@@ -1,16 +1,21 @@
 <?PHP
 namespace LeaderGraph;
-//---
-require_once('tables.php');
+
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+
 //---
 echo '
 <script src="/Translation_Dashboard/js/g.js"></script>';
 //---
 function print_graph() {
-	global $top_langs;
+	global $langs_count_files;
     //---
-    $ms = array_keys($top_langs);
-    $cs = array_values($top_langs);
+    $ms = array_keys($langs_count_files);
+    $cs = array_values($langs_count_files);
     //---
     $ms = json_encode($ms);
     $cs = json_encode($cs);

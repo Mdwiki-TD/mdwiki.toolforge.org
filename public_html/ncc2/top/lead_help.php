@@ -1,11 +1,16 @@
 <?PHP
 namespace LeadHelp;
-
 use function Functions\make_target_url;
-use function Functions\make_mdwiki_title;
 use function Functions\make_view_by_number;
 
-function make_table_lead($dd, $lang='') {
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+
+function make_table_lead($lang) {
+    global $langs_to_titles, $langs_to_titles_views;
 
     $sato = <<<HTML
         <table class='table table-striped compact soro'>
@@ -18,17 +23,18 @@ function make_table_lead($dd, $lang='') {
             </thead>
             <tbody>
         HTML;
+    // Generate and sort the table of  for the specified language
+    $dd = $langs_to_titles[$lang] ?? [];
+    krsort($dd);
 
-
+    $views_tab = $langs_to_titles_views[$lang] ?? [];
     $noo = 0;
-    foreach ( $dd AS $tat => $tabe ) {
+    foreach ( $dd AS $tat => $title ) {
 
         $noo += 1;
-
-        $title = $tabe['title'];
         $title_url = make_target_url($title, $lang);
 
-        $views   = $tabe['views'] ?? "?";
+        $views   = $views_tab[$title] ?? "?";
         $views_url = make_view_by_number($title, $views, $lang);
 
         $laly = <<<HTML

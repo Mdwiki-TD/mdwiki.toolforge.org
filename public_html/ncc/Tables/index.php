@@ -6,11 +6,9 @@ if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     error_reporting(E_ALL);
 }
 
-// read file files.json
-$json = file_get_contents('files.json');
-$files = json_decode($json, true);
-// langs is $files keys
-$langs = array_keys($files);
+// Get the 'cat' parameter from the request, defaulting to 'all' if it's not present
+// $langs = ["af"];
+$langs = ["af", "ar", "es", "fa", "ha", "it", "ja", "or", "pl", "sq"];
 
 $get_lang = $_GET['lang'] ?? '';
 
