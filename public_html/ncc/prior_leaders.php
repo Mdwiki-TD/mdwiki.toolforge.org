@@ -5,7 +5,7 @@ namespace LeaderTables;
 include_once('tables.php');
 
 $mainlang = $_GET['lang'] ?? '';
-$cat = $_GET['cat'] ?? '';
+$cat = $_GET['cat'] ?? 'Files_imported_from_NC_Commons';
 
 function NumbsTableNew(): string
 {
@@ -75,7 +75,7 @@ function LangsTableNew(): string
                 <tr>
                     <td>$numb</td>
                     <td><a href='$url'>$langcode</a></td>
-                    <td><a href='https://$langcode.wikipedia.org/wiki/$cat'>$cat</a></td>
+                    <td><a href='https://$langcode.wikipedia.org/wiki/$cat'>Category</a></td>
                     <td>$comp</td>
                     <td>$views</td>
                 </tr>

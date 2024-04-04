@@ -4,7 +4,7 @@ require 'filter.php';
 
 use function FilterCat\filter_cat_form;
 
-$cat   = $_GET['cat'] ?? '';
+$cat   = $_GET['cat'] ?? 'Files_imported_from_NC_Commons';
 $lang  = $_GET['lang'] ?? '';
 
 $all_langs_table = <<<HTML
@@ -103,7 +103,7 @@ if ($lang != '') {
 
 $start = "start('$lang', '$cat');";
 echo <<<HTML
-    <script src="j.js"></script>
+    <script src="js/j.js"></script>
     <main id="body">
         <div id="maindiv" class="container">
             <div class="container">

@@ -22,7 +22,7 @@ if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     error_reporting(E_ALL);
 }
 $langs = $_GET['lang'] ?? '';
-$cat   = $_GET['cat'] ?? '';
+$cat   = $_GET['cat'] ?? 'Files_imported_from_NC_Commons';
 
 echo filter_cat_form("index1.php", $cat);
 
