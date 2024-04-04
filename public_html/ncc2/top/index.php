@@ -17,7 +17,7 @@ function generateLeaderboardTable(): void
     $numbersTable = NumbsTableNew();
     $numbersCol   = ColSm('Numbers', $numbersTable);
     $cat = "Files_imported_from_NC_Commons";
-    $languagesTable = LangsTableNew();
+    $languagesTable = LangsTableNew($cat);
     $languagesCol = ColSm('Languages', $languagesTable);
 
     echo <<<HTML

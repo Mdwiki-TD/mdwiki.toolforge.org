@@ -1,18 +1,16 @@
-
 function to_get() {
 	// get the data from the hrefjson if the server not localhost
 	if (window.location.hostname !== 'localhostx') {
-		var ele = $("[hrefjson]");
+		const ele = $("[hrefjson]");
 		ele.each(function () {
-			var item = $(this);
-			var hrefjson = item.attr("hrefjson");
+			const item = $(this);
+			let hrefjson = item.attr("hrefjson");
 			// get the data from the hrefjson then add it to the value
 			// ---
 			// console.log(hrefjson);
-
 			// console.log(item.text());
 			// ---
-			var proxy = window.location.origin + '/ncc/all.php?type=json&url=';
+			const proxy = window.location.origin + '/ncc/all.php?type=json&url=';
 			// if localhost use proxy
 			if (window.location.hostname === 'localhost') {
 				hrefjson = proxy + encodeURIComponent(hrefjson);
@@ -27,8 +25,8 @@ function to_get() {
 					console.log("to.js success:");
 					console.log(hrefjson);
 					// ---
-					var view = 0;
-					var items = data.items;
+					let view = 0;
+					const items = data.items;
 					// get view count from items array
 					items.forEach(function (aa) {
 						view += aa['views'];
@@ -36,15 +34,15 @@ function to_get() {
 					});
 					//---
 					item.text(view);
-					var pa = item.parent();
+					const pa = item.parent();
 					pa.attr('data-sort', view);
 					//---
 					// var txt2 = $("<span></span>").text(view).hide();     // Create with jQuery
 					// item.before(txt2);
 					//---
-					var p = $('#hrefjsontoadd').text();
+					const p = $('#hrefjsontoadd').text();
 					// add the view to hrefjsontoadd value
-					var nu = parseFloat(p) + view;
+					let nu = parseFloat(p) + view;
 					$('#hrefjsontoadd').text(nu);
 					//---
 				},
@@ -55,4 +53,4 @@ function to_get() {
 			});
 		});
 	}
-};
+}
