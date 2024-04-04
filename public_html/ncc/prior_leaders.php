@@ -2,8 +2,6 @@
 
 namespace LeaderTables;
 
-include_once('tables.php');
-
 $mainlang = $_GET['lang'] ?? '';
 $cat = $_GET['cat'] ?? 'Files_imported_from_NC_Commons';
 

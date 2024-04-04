@@ -9,6 +9,7 @@ require 'prior_leaders.php';
 require 'top/lead_help.php';
 require 'top/index.php';
 require 'top/langs.php';
+require 'tables/index.php';
 
 use function TopIndex\generateLeaderboardTable;
 use function TopLangs\make_lang_tab;

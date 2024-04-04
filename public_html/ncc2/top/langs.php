@@ -1,16 +1,23 @@
 <?php
 namespace TopLangs;
 use function LeadHelp\make_table_lead;
-use function Functions\ColSm;
-use function LeaderTables\NumbsTableNew;
+// use function Functions\ColSm;
+// use function LeaderTables\NumbsTableNew;
+
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+
 
 
 function LangTable($mainlang): string {
-    global $titles_by_lang;
+    global $langs_count_files, $langs_count_views;
 
     // Define the keys that should be skipped
-    $total_views = $titles_by_lang[$mainlang]['views'];
-    $total_Articles = count($titles_by_lang[$mainlang]['titles']);
+    $total_views = number_format($langs_count_views[$mainlang] ?? 0);
+    $total_Articles = number_format($langs_count_files[$mainlang] ?? 0);
     
     $table1 = <<<HTML
             <!-- <table class='table table-sm table-striped' style='width:70%;'> -->
@@ -23,16 +30,9 @@ function LangTable($mainlang): string {
     return $table1;
 };
 
-function make_lang_tab(): void {
-    global $titles_by_lang;
+function make_lang_tab($mainlang): void {
 
-    // Get the main language from the request or use an empty string as default
-    $mainlang = $_GET['lang'] ?? '';
-
-    // Generate and sort the table of  for the specified language
-    $dd = $titles_by_lang[$mainlang]['titles'];
-    krsort($dd);
-    $tat = make_table_lead($dd, $lang = $mainlang);
+    $tat = make_table_lead($mainlang);
 
     // Generate the category table HTML for the main language
     $Numbs = LangTable($mainlang);

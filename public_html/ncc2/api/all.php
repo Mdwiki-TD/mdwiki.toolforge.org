@@ -1,5 +1,10 @@
 <?php
 
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
 // header("Access-Control-Allow-Origin: http://localhost:9001");
 // header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 

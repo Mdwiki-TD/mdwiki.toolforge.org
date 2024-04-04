@@ -1,23 +1,48 @@
 <?php
-// Only display errors and startup errors if 'test' is set in the request
-if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
-    ini_set('display_errors', '1');
-    ini_set('display_startup_errors', '1');
-    error_reporting(E_ALL);
-}
-// read file nc_files.jsonl
-$json = file_get_contents('nc_files.jsonl');
-$files = [];
-foreach (explode("\n", $json) as $line) {
-    $line = trim($line);
-    if ($line != '') {
-        $files[] = json_decode($line, true);
-    }
-}
-// langs is $files keys
-$langs = array_keys($files);
 
+if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+};
+require 'tables/views.php';
+
+use function ViewsTable\get_views_data;
+
+function get_jsonl_data(): array {
+    // read file nc_files.jsonl
+    $json = file_get_contents(__DIR__ . '/nc_files.jsonl');
+    $data = [];
+    foreach (explode("\n", $json) as $line) {
+        $line = trim($line);
+        if ($line != '') {
+            $line_js = json_decode($line, true);
+            $lang = $line_js['lang'];
+            // ---
+            if (!isset($data[$lang])) {
+                $data[$lang] = [];
+            }
+            // ---
+            $title = $line_js['title'];
+            $data[$lang][] = $title;
+        }
+    }
+
+    return $data;
+}
+
+// $main_cat = 'Translated_from_MDWiki';
+$main_cat = 'Files_imported_from_NC_Commons';
 $get_lang = $_GET['lang'] ?? '';
+
+$data_oo = get_jsonl_data();
+
+// use array_unique to remove duplicates
+$langs_to_titles = array_map('array_unique', $data_oo);
+
+$langs_keys = array_keys($langs_to_titles);
+
+$langs_count_views = [];
 
 // Initialize an array to hold our various counts
 $numbers = [
@@ -26,88 +51,34 @@ $numbers = [
     'Views' =>  0,
 ];
 
-// Count the number of Files (each link is an article)
-$numbers['Files'] = 0;
-
-// $main_cat = 'Translated_from_MDWiki';
-$main_cat = 'Files_imported_from_NC_Commons';
-if (isset($_GET['cat'])) {
-    $main_cat = $_GET['cat'];
-}
-
-function get_views_data_by_lang($lang)
-{
-    global $main_cat;
-    $endpoint = "https://pageviews.wmcloud.org/massviews/api.php";
-    // ---
-    $params = [
-        "project" => "$lang.wikipedia.org",
-        "category" => $main_cat
-    ];
-    // ---
-    // result example: [{"title":"Chondrosarcoma_of_the_nasal_septum_(Radiopaedia_165701-135935_Sagittal_2).jpeg","ns":6}]
-    // ---
-    $url = $endpoint . '?' . http_build_query($params);
-    // ---
-    $req = file_get_contents($url);
-    // ---
-    $data = json_decode($req, true);
-    // ---
-    $data2 = [];
-    // ---
-    // add "File:" to each title if ns == 6
-    foreach ($data as $key => $value) {
-        $data2[$key] = $value;
-        $data2[$key]['title'] = ($value['ns'] == 6) ? "File:" . $value['title'] : $value['title'];
-    }
-    // ---
-    return $data2;
-}
-function get_views_data($get_lang, $langs)
-{
-    global $numbers;
-    if ($get_lang != '') {
-        $langs = [$get_lang];
-    }
-    $views_data = [];
-    foreach ($langs as $lang) {
-        $views_data[$lang] = get_views_data_by_lang($lang);
-        $numbers['Files'] += count($views_data[$lang]);
-    }
-
-    return $views_data;
-}
-
-$views_data = get_views_data($get_lang, $langs);
-
-$titles_by_lang = [];
-
-// echo json_encode($views_data);
 // ---
-foreach ($views_data as $lang => $table) {
-    $titles_by_lang[$lang] = [];
-    $titles_by_lang[$lang]['views'] = 0;
-    $titles_by_lang[$lang]['titles'] = [];
-    foreach ($table as $_ => $tab) {
-        // echo json_encode($tab);
-        $title = $tab['title'];
-        $views = $tab['views'] ?? 0;
-        // ---
-        if (!array_key_exists($lang, $titles_by_lang)) {
-            $titles_by_lang[$lang] = ['titles' => [], 'views' => 0];
-        };
-        // ---
-        $titles_by_lang[$lang]['titles'][$title] = ['title' => $title, 'lang' => $lang, 'views' => $views];
-        $titles_by_lang[$lang]['views'] += $views;
-        // ---
-    }
+$numbers['Languages'] = count($langs_keys);
+
+$langs_to_titles_views = get_views_data($get_lang, $langs_keys, $langs_to_titles);
+// ---
+foreach ($langs_to_titles_views as $lang => $tits) {
+    // ---
+    // echo "<br>lang: $lang, tits: " . json_encode($tits);
+    // ---
+    $vis = array_sum(array_values($tits));
+    // ---
+    $langs_count_views[$lang] = $vis;
+    // $numbers['Views'] += $vis;
 }
 // ---
-# sum views from each lang
-$numbers['Views'] = array_sum(array_column($titles_by_lang, 'views'));
+// $langs_count_views["af"] = 500;
 // ---
-$top_langs = array_map(function ($data) {
-    return count($data['titles']);
-}, $titles_by_lang);
+$numbers['Views'] = array_sum($langs_count_views);
 // ---
-$numbers['Languages'] = count($titles_by_lang);
+foreach ($langs_to_titles as $lang => $table) {
+    $numbers['Files'] += count($table);
+}
+// ---
+$langs_count_files = array_map('count', $langs_to_titles);
+// ---
+// echo "<br>langs_to_titles: " . json_encode($langs_to_titles);
+// echo "<br>langs_count_files: " . json_encode($langs_count_files);
+// echo "<br>langs_count_views: " . json_encode($langs_count_views);
+// echo "<br>numbers: " . json_encode($numbers);
+// echo "<br>langs_to_titles_views: " . json_encode($langs_to_titles_views);
+// ---

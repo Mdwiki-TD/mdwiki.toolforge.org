@@ -1,7 +1,8 @@
 <?php
 require 'header.php';
 require 'filter.php';
-
+require 'tables/index.php';
+//---
 use function FilterCat\filter_cat_form;
 
 $cat   = $_GET['cat'] ?? 'Files_imported_from_NC_Commons';
