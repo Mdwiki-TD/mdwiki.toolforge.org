@@ -11,20 +11,28 @@ use function ViewsTable\get_views_data;
 
 function get_jsonl_data(): array {
     // read file nc_files.jsonl
-    $json = file_get_contents(__DIR__ . '/nc_files.jsonl');
     $data = [];
+    $json = file_get_contents(__DIR__ . '/nc_files.jsonl');
+    // ---
+    if ($json == '' || $json === false) {
+        return $data;
+    }
+    // ---
     foreach (explode("\n", $json) as $line) {
         $line = trim($line);
         if ($line != '') {
             $line_js = json_decode($line, true);
-            $lang = $line_js['lang'];
             // ---
-            if (!isset($data[$lang])) {
-                $data[$lang] = [];
+            if (!is_null($data)) {
+                $lang = $line_js['lang'];
+                // ---
+                if (!isset($data[$lang])) {
+                    $data[$lang] = [];
+                }
+                // ---
+                $title = $line_js['title'];
+                $data[$lang][] = $title;
             }
-            // ---
-            $title = $line_js['title'];
-            $data[$lang][] = $title;
         }
     }
 

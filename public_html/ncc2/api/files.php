@@ -14,8 +14,16 @@ function get_cat_members($cat, $lang) : array {
     // ---
     $content = file_get_contents($url);
     // ---
+    if ($content == '' || $content === false) {
+        return [];
+    }
+    // ---
     $data = json_decode($content, true);
     // [{"title":"Chondrosarcoma_of_the_nasal_septum_(Radiopaedia_165701-135935_Sagittal_2).jpeg","ns":6}]
+    // ---
+    if (is_null($data)) {
+        return [];
+    }
     // ---
     foreach ($data as $key => $tab) {
         // if ns == 6 : title = "File:$title"
