@@ -9,6 +9,7 @@ print_h3_title("WikiProjectMed Tools");
 		<li><a href="Translation_Dashboard/index.php">Translation Dashboard</a></li>
 		<li><a href="prior/index.php">Prior List</a></li>
 		<li><a href="WHO/index.php">World Health Organization essential medicines list</a></li>
+		<li><a href="ncc2/index.php">NC Commons Import Bot Leaderboard</a></li>
 	</ul>
 
 	<div class='container'>
