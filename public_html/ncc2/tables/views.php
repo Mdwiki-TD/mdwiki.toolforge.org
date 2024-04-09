@@ -11,7 +11,7 @@ function get_title_views($title, $lang) {
     $hrefjson = 'https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/' . $lang . '.wikipedia/all-access/all-agents/' . rawurlencode($target) . '/daily/2015070100/2030010100';
     // ---
     $req = file_get_contents($hrefjson) ?? '';
-    if ($req == '' || $req === false) {
+    if (empty($req)) {
         return 0;
     }
     // ---
