@@ -8,12 +8,12 @@ error_reporting(E_ALL);
 $commands = [
     'api' => 'update_api.sh',
     'td' => 'update_td.sh',
-    'mdcore' => 'update_mdcore.sh',
+    'pybot' => 'update_pybot.sh',
     'html' => 'update_html.sh', 
 ];
 
 // Default command
-$command = "sh /data/project/mdwiki/shs/update_mdcore.sh";
+$command = "sh /data/project/mdwiki/shs/update_pybot.sh";
 
 // Check if any query parameter is set
 foreach ($commands as $param => $script) {
