@@ -70,13 +70,14 @@ function LangsTableNew($cat): string
         $url = "index.php?lang=$langcode&cat=$cat";
         // Add a table row with the language details
         $trarget = make_target_url("Category:$cat", $langcode, $name = 'Category');
+        $viewsurl = "<a target='_blank' href='https://pageviews.wmcloud.org/massviews/?platform=all-access&agent=all-agents&source=category&range=all-time&subjectpage=0&subcategories=0&sort=views&direction=1&view=list&target=https://af.wikipedia.org/wiki/Category:$cat'>$views</a>";
         $text .= <<<HTML
                 <tr>
                     <td>$numb</td>
                     <td><a href='$url'>$langcode</a></td>
                     <td>$trarget</td>
                     <td>$comp</td>
-                    <td>$views</td>
+                    <td>$viewsurl</td>
                 </tr>
             HTML;
         // };

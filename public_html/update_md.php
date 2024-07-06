@@ -3,22 +3,26 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+//---
+// the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
+$ROOT_PATH = $pathParts[0];
+//---
 // Define the command mappings
 $commands = [
     'api' => 'update_api.sh',
     'td' => 'update_td.sh',
-    'mdcore' => 'update_mdcore.sh',
-    'html' => 'update_html.sh', 
+    'pybot' => 'update_pybot.sh',
+    'html' => 'update_html.sh',
 ];
 
 // Default command
-$command = "sh /data/project/mdwiki/shs/update_mdcore.sh";
+$command = "sh $ROOT_PATH/shs/update_pybot.sh";
 
 // Check if any query parameter is set
 foreach ($commands as $param => $script) {
     if (!empty($_GET[$param])) {
-        $command = "sh /data/project/mdwiki/shs/$script";
+        $command = "sh $ROOT_PATH/shs/$script";
         break;
     }
 }

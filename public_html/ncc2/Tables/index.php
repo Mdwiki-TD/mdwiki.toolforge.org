@@ -14,7 +14,7 @@ function get_jsonl_data(): array {
     $data = [];
     $json = file_get_contents(__DIR__ . '/nc_files.jsonl');
     // ---
-    if ($json == '' || $json === false) {
+    if (empty($json)) {
         return $data;
     }
     // ---

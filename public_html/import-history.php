@@ -4,8 +4,9 @@ require 'header.php';
 //---
 print_h3_title("Import history from enwiki");
 //---
-require 'bots/tfj.php';
-// $result = do_tfj(array( 'name' => "", 'command' => $command));
+// the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
+$ROOT_PATH = $pathParts[0];
 //---
 $test       = $_REQUEST['test'] ?? '';
 $from       = $_REQUEST['from'] ?? '';
@@ -73,7 +74,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
 } else {
     //---
-    $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/imp";
+    $command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/imp";
     //---
     $text = "";
     //---
@@ -88,7 +89,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         //---
     } else {
         //---
-        $filee = '/data/project/mdwiki/public_html/texts/importlist.txt';
+        $filee = "$ROOT_PATH/public_html/texts/importlist.txt";
         //---
         $myfile = fopen($filee, "w");
         fwrite($myfile , $titlelist);
@@ -103,11 +104,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
     echo "<br>";
     //---
-    // $runj = "/usr/bin/toolforge jobs run historyy --image python3.9 --command \"$command\"";
-	// if ($test != '') echo $runj;
-    // $result = shell_exec($runj);
-    //---
-    $result = do_tfj(array( 'name' => "historyy", 'command' => $command));
+    $result = shell_exec($command);
     //---
     echo $result;
     //---

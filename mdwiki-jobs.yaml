@@ -3,114 +3,120 @@
   command: "$HOME/shs/db_backup.sh"
   schedule: '11 1 * * *'
   image: mariadb
-  emails: onfailure
+  emails: none
 
 - name: countref
-  command: "$HOME/shs/countref.sh" 
+  command: "$HOME/shs/countref.sh"
   schedule: '30 3 * * *'
   image: tf-python39
-  emails: onfailure
+  emails: none
 
 # Find qids and fix qids
 - name: qids1
   command: "$HOME/pybot/md_core/mdpages/findqids.sh"
   schedule: '40 */5 * * *'
   image: tf-python39
-  emails: onfailure
+  emails: none
 
 - name: sql-new
   command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql_new pages_users"
   schedule: '1 * * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
+
+- name: sql-fr
+  command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql_new pages_users -lang:fr"
+  schedule: '*/6 * * * *'
+  image: python3.9
+  emails: none
 
 - name: wpreff
   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
   schedule: '10 * * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 - name: days7
   command: "$HOME/local/bin/python3 core8/pwb.py db_work/days_7"
   schedule: '1 1 * * 1'
   image: python3.9
-  emails: onfailure
-  
+  emails: none
+
 # make views
 - name: views
   command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews"
   schedule: '15 5 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 # important
 - name: getas
   command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/getas"
   schedule: '12 2 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 - name: enpv
   command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/enwiki_views"
   schedule: '1 1 * * 3'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 # find old pages
 - name: updates
   command: "$HOME/local/bin/python3 core8/pwb.py updates/io && $HOME/local/bin/python3 core8/pwb.py updates/listo"
   schedule: '55 21 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 - name: upstats
   command: "$HOME/local/bin/python3 core8/pwb.py updates/Medicine_articles"
   schedule: '1 1 1 * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 # words
 - name: words
   command: "$HOME/local/bin/python3 core8/pwb.py mdcount/words"
   schedule: '10 3 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 - name: dup
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
   schedule: '1 1 * * 0'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 - name: recheck
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
   schedule: '11 */6 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 # check_titles
 - name: check-titles
   command: "$HOME/local/bin/python3 core8/pwb.py db_work/check_titles"
   schedule: '30 */6 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 # Generate categories files such as RTT.json
 - name: catdepth2
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/bots/catdepth2 newlist"
   schedule: '20 */6 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 # Create temporary files with lists of existing articles for all languages
 - name: cashwd
   command: "$HOME/local/bin/python3 core8/pwb.py mdpages/cashwd"
   schedule: '10 1,6,12,18 * * *'
   image: python3.9
-  emails: onfailure
+  emails: none
 
 # - name: twitter-job
   # command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
   # schedule: '21 2 * * *'
   # image: python3.9
-  # emails: onfailure
+  # emails: none

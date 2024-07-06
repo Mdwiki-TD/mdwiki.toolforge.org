@@ -1,4 +1,4 @@
-<?php 
+<?php
 require 'header.php';
 //---
 print_h3_title("Med updater");
@@ -15,8 +15,8 @@ if ($title != '') {
     $url = "<a target='_blank' href='$href'>$title</a>";
 }
 // ---
-$pathParts = explode('public_html', __FILE__);
 // the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
 $ROOT_PATH = $pathParts[0];
 // echo "ROOT_PATH:$ROOT_PATH<br>";
 // ---
@@ -44,7 +44,7 @@ echo <<<HTML
                     </div>
                 </div>
                 <div class='input-group'>
-                    
+
                 </div>
             </div>
         </form>
@@ -59,7 +59,7 @@ function endsWith($string, $endString) {
     return substr($string, -$len) === $endString;
 };
 //---
-function get_results($title) { 
+function get_results($title) {
     //---
     global $save, $ROOT_PATH;
     //---
@@ -67,9 +67,9 @@ function get_results($title) {
     //---
     $sa = ($save != '') ? ' save' : '';
     //---
-    $ccc = "/data/project/mdwiki/local/bin/python3 $ROOT_PATH/pybot/newupdater/med.py $title2 from_toolforge $sa"; 
+    $ccc = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/pybot/newupdater/med.py $title2 from_toolforge $sa";
     //---
-    if ( $_SERVER['SERVER_NAME'] != 'mdwiki.toolforge.org' or isset($_GET['test']) ) { 
+    if ( $_SERVER['SERVER_NAME'] != 'mdwiki.toolforge.org' or isset($_GET['test']) ) {
         echo "<span style='font-size: 18px;'>$ccc</span>
         <br>";
     };
@@ -84,7 +84,7 @@ function get_results($title) {
 //---
 function worknew($title) {
     //---
-    global $save;
+    global $save, $ROOT_PATH;
     //---
     $articleurl = 'https://mdwiki.org' . '/w/index.php?title=' . $title;
     $new = 'https://mdwiki.org' . '/w/index.php?title=' . $title . '&action=submit';
@@ -105,7 +105,8 @@ function worknew($title) {
     $resultb = get_results($title);
     //---
     $t1 = strstartswith( $resultb , '/mdwiki/public_html/updatercash/' );
-    $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/updatercash/' );
+    // $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/updatercash/' );
+    $t2 = strstartswith( $resultb , $ROOT_PATH . 'public_html/updatercash/' );
     $t3 = endsWith( $resultb , '.txt' );
     //---
     if (isset($_REQUEST['test'])) echo "results:($resultb)<br>";
@@ -150,7 +151,7 @@ function worknew($title) {
             if ($resultb == "True") {
                 echo 'changes has published';
             } else {
-                echo 'Changes are not published, try to do it manually.'; 
+                echo 'Changes are not published, try to do it manually.';
                 echo $form;
             };
         } else {

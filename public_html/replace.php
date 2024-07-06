@@ -2,8 +2,9 @@
 require 'header.php';
 print_h3_title("Find and replace.");
 //---
-require 'bots/tfj.php';
-// $result = do_tfj(array( 'name' => "", 'command' => $command));
+// the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
+$ROOT_PATH = $pathParts[0];
 //---
 // Initialize variables with default values
 $listtype   = $_REQUEST['listtype'] ?? '';
@@ -69,7 +70,7 @@ function generateForm($find, $replace, $number, $code, $test) {
                 <div class='row'>
                     <div class='col-sm'>$findRow</div>
                     <div class='col-sm'>$replaceRow</div>
-                </div> 
+                </div>
                 <div class='row'>
                     <div class='col-sm'>$input_1</div>
                     <div class='col-sm'>$input_2</div>
@@ -93,6 +94,9 @@ function writeToFile($file, $text) {
 
 // Function to perform the replacement
 function performReplacement($find, $replace, $number, $listtype, $test) {
+    //---
+    global $ROOT_PATH;
+    //---
     $nn = rand();
 
     if ($find != '' && $replace != '') {
@@ -106,9 +110,7 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
         $rann .= ' newlist';
     }
 
-    $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/replace1 $rann";
-    // $sii = "/usr/bin/toolforge jobs run replace$nn --image python3.9 --command \"$command\"";
-
+    $command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/replace1 $rann";
     echo <<<HTML
         <span style='font-size:15pt;color:green'>
         <br>
@@ -118,10 +120,8 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
         </span>
         <br>
     HTML;
-
-    // $result = shell_exec($sii);
     // ---
-    $result = do_tfj(array( 'name' => "replace$nn", 'command' => $command));
+    $result = shell_exec($command);
     // ---
     echo $result;
 }

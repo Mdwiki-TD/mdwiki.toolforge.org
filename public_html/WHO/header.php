@@ -12,7 +12,8 @@
 	<title>World Health Organization essential medicines list</title>
 <?php
 
-if ($_REQUEST['test'] != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
+$test   = $_REQUEST['test'] ?? '';
+if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
@@ -144,7 +145,7 @@ echo <<<HTML
 						</a>
 					</li>
 					<li class="nav-item col-4 col-lg-auto">
-						<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/mdwiki.toolforge.org/tree/main/public_html" target="_blank">
+						<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/mdwiki.toolforge.org/tree/main/public_html" target="_blank" rel="noopener noreferrer">
 							<span class="navtitles">Github</span>
 						</a>
 					</li>
