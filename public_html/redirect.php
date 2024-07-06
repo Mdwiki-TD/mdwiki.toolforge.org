@@ -12,7 +12,8 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $pathParts = explode('public_html', __FILE__);
 $ROOT_PATH = $pathParts[0];
 //---
-function printTitleInput($id, $label, $name, $value) {
+function printTitleInput($id, $label, $name, $value)
+{
     echo <<<HTML
         <div class='col-lg-12'>
             <div class='form-group'>
@@ -27,7 +28,8 @@ function printTitleInput($id, $label, $name, $value) {
     HTML;
 }
 
-function printTextAreaInput($id, $name, $value) {
+function printTextAreaInput($id, $name, $value)
+{
     echo <<<HTML
         <div class='col-lg-12'>
             <div class='form-group'>
@@ -42,7 +44,8 @@ function printTextAreaInput($id, $name, $value) {
     HTML;
 }
 
-function printSubmitButton() {
+function printSubmitButton()
+{
     echo <<<HTML
     <div class='col-lg-12'>
         <h4 class='aligncenter'>
@@ -52,8 +55,9 @@ function printSubmitButton() {
 HTML;
 }
 
-function printForm($title, $titlelist, $test) {
-	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+function printForm($title, $titlelist, $test)
+{
+    $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
     echo <<<HTML
         <form action='redirect.php' method='POST'>
             $testinput
@@ -80,7 +84,8 @@ function printForm($title, $titlelist, $test) {
     HTML;
 }
 
-function createRedirects($title, $titlelist, $test) {
+function createRedirects($title, $titlelist, $test)
+{
     //---
     global $ROOT_PATH;
     //---
@@ -89,7 +94,7 @@ function createRedirects($title, $titlelist, $test) {
     echo "<span style='font-size:15pt;color:green'>";
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-    $file = '$ROOT_PATH/public_html/texts/redirectlist.txt';
+    $file = "$ROOT_PATH/public_html/texts/redirectlist.txt";
 
     if ($title != '') {
         $pythonCommand = "-page2:" . rawurlencode($title);

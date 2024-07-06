@@ -89,7 +89,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         //---
     } else {
         //---
-        $filee = '$ROOT_PATH/public_html/texts/importlist.txt';
+        $filee = "$ROOT_PATH/public_html/texts/importlist.txt";
         //---
         $myfile = fopen($filee, "w");
         fwrite($myfile , $titlelist);

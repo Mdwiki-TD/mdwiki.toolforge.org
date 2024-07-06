@@ -81,7 +81,7 @@ function get_results() {
     $ccc = "returnfile -page:$title2 -lang:$lang $mv $save";
     //---
     $params = array(
-        'dir' => '$ROOT_PATH/pybot/md_core/wprefs',
+        'dir' => "$ROOT_PATH/pybot/md_core/wprefs",
         'localdir' => '../wprefs',
         'pyfile' => 'bot1.py',
         'other' => $ccc,
