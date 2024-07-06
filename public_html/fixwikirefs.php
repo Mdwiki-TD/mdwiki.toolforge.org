@@ -11,6 +11,10 @@ $save       = isset($_GET['save']) ? 'save' : '';
 $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
 //---
+// the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
+$ROOT_PATH = $pathParts[0];
+//---
 ?>
     <div class="card-body">
         <form action='fixwikirefs.php' method='GET'>
@@ -37,7 +41,7 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
                                 <input class='form-check-input' type='checkbox' id='save' name='save' value='1' <?php echo isset($_GET['save']) ? 'checked' : '' ?>>
                                 <label class='check-label' for='save'>Auto save</label>
 			    </div>
-				
+
 				<div class='form-check form-switch'>
                                 <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' <?php echo $movedots ?>>
                                 <label class='form-check-label' for='movedots'>Move dots after references</label>
@@ -61,9 +65,9 @@ $infobox    = isset($_GET['infobox']) ? 'checked' : '';
 //---
 require 'bots/python.php';
 //---
-function get_results() { 
+function get_results() {
     //---
-    global $test, $lang, $title, $movedots, $infobox, $save;
+    global $test, $lang, $title, $movedots, $infobox, $save, $ROOT_PATH;
     //---
     $title2 = str_replace( '+' , '_' , $title );
     $title2 = str_replace( ' ' , '_' , $title2 );
@@ -77,7 +81,7 @@ function get_results() {
     $ccc = "returnfile -page:$title2 -lang:$lang $mv $save";
     //---
     $params = array(
-        'dir' => '/data/project/mdwiki/pybot/md_core/wprefs',
+        'dir' => '$ROOT_PATH/pybot/md_core/wprefs',
         'localdir' => '../wprefs',
         'pyfile' => 'bot1.py',
         'other' => $ccc,
@@ -100,7 +104,7 @@ function endsWith($string, $endString) {
 //---
 function worknew() {
     //---
-    global $lang, $title, $test;
+    global $lang, $title, $test, $ROOT_PATH;
     //---
     $new = "https://$lang.wikipedia.org/w/index.php?title=$title&action=submit";
     //---
@@ -123,7 +127,8 @@ function worknew() {
     $resultb = trim($resultb);
     //---
     $t1 = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
-    $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/wprefcash/' );
+    // $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/wprefcash/' );
+    $t2 = strstartswith( $resultb , $ROOT_PATH . 'public_html/wprefcash/' );
     //---
     $t3 = endsWith( $resultb , '.txt' );
     // $t3 = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
@@ -141,10 +146,10 @@ function worknew() {
         echo "no changes";
     } elseif ($resultb == "notext") {
         echo("text == ''");
-	    
+
     } elseif ($resultb == "ok") {
         echo("save done.");
-	    
+
     } elseif ($t1 || $t2 || $t3 || isset($_REQUEST['test'])) {
         $newtext = file_get_contents( $resultb );
         $form = $form . "<textarea id='wikitext-new' class='form-control' name='wpTextbox1'>" . $newtext . "</textarea>

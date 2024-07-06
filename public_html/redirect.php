@@ -4,13 +4,14 @@ require('header.php');
 
 print_h3_title("Create redirects.");
 //---
-require 'bots/tfj.php';
-// $result = do_tfj(array( 'name' => "", 'command' => $command));
-//---
 $test       = $_REQUEST['test'] ?? '';
 $title      = $_REQUEST['title'] ?? '';
 $titlelist  = $_REQUEST['titlelist'] ?? '';
-
+//---
+// the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
+$ROOT_PATH = $pathParts[0];
+//---
 function printTitleInput($id, $label, $name, $value) {
     echo <<<HTML
         <div class='col-lg-12'>
@@ -80,12 +81,15 @@ function printForm($title, $titlelist, $test) {
 }
 
 function createRedirects($title, $titlelist, $test) {
+    //---
+    global $ROOT_PATH;
+    //---
 
     //echo $_SERVER['SERVER_NAME'];
     echo "<span style='font-size:15pt;color:green'>";
     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-    $file = '/data/project/mdwiki/public_html/texts/redirectlist.txt';
+    $file = '$ROOT_PATH/public_html/texts/redirectlist.txt';
 
     if ($title != '') {
         $pythonCommand = "-page2:" . rawurlencode($title);
@@ -98,15 +102,12 @@ function createRedirects($title, $titlelist, $test) {
         echo '<span class="">The Bot will create redirects for titles in the list in seconds.</span>';
     }
 
-    $command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/red $pythonCommand save";
-    // $toolforgeCommand = "/usr/bin/toolforge jobs run redirectx --image python3.9 --command \"$command\"";
+    $command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/red $pythonCommand save";
 
     echo '</span>';
     echo "<br>";
 
-    // $result = shell_exec($toolforgeCommand);
-    // ---
-    $result = do_tfj(array( 'name' => "redirectx", 'command' => $command));
+    $result = shell_exec($command);
     // ---
     echo $result;
 }
@@ -118,4 +119,3 @@ if ($title == '' && $titlelist == '') {
 }
 
 require 'footer.php';
-?>

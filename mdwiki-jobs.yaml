@@ -19,104 +19,104 @@
   emails: none
 
 - name: sql-new
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py after_translate/sql_new pages_users"
+  command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql_new pages_users"
   schedule: '1 * * * *'
   image: python3.9
   emails: none
 
 - name: sql-fr
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py after_translate/sql_new pages_users -lang:fr"
+  command: "$HOME/local/bin/python3 core8/pwb.py after_translate/sql_new pages_users -lang:fr"
   schedule: '*/6 * * * *'
   image: python3.9
   emails: none
 
 - name: wpreff
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py wprefs/bot"
+  command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
   schedule: '10 * * * *'
   image: python3.9
   emails: none
 
 - name: days7
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py db_work/days_7"
+  command: "$HOME/local/bin/python3 core8/pwb.py db_work/days_7"
   schedule: '1 1 * * 1'
   image: python3.9
   emails: none
 
 # make views
 - name: views
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdpyget/sqlviews"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews"
   schedule: '15 5 * * *'
   image: python3.9
   emails: none
 
 # important
 - name: getas
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdpyget/getas"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/getas"
   schedule: '12 2 * * *'
   image: python3.9
   emails: none
 
 - name: enpv
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdpyget/enwiki_views"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/enwiki_views"
   schedule: '1 1 * * 3'
   image: python3.9
   emails: none
 
 # find old pages
 - name: updates
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py updates/io && $HOME/pyvenv/bin/python3 core8/pwb.py updates/listo"
+  command: "$HOME/local/bin/python3 core8/pwb.py updates/io && $HOME/local/bin/python3 core8/pwb.py updates/listo"
   schedule: '55 21 * * *'
   image: python3.9
   emails: none
 
 - name: upstats
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py updates/Medicine_articles"
+  command: "$HOME/local/bin/python3 core8/pwb.py updates/Medicine_articles"
   schedule: '1 1 1 * *'
   image: python3.9
   emails: none
 
 # words
 - name: words
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdcount/words"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/words"
   schedule: '10 3 * * *'
   image: python3.9
   emails: none
 
 - name: dup
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
   schedule: '1 1 * * 0'
   image: python3.9
   emails: none
 
 - name: recheck
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdpy/recheck"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
   schedule: '11 */6 * * *'
   image: python3.9
   emails: none
 
 # check_titles
 - name: check-titles
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py db_work/check_titles"
+  command: "$HOME/local/bin/python3 core8/pwb.py db_work/check_titles"
   schedule: '30 */6 * * *'
   image: python3.9
   emails: none
 
 # Generate categories files such as RTT.json
 - name: catdepth2
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdpy/bots/catdepth2 newlist"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/bots/catdepth2 newlist"
   schedule: '20 */6 * * *'
   image: python3.9
   emails: none
 
 # Create temporary files with lists of existing articles for all languages
 - name: cashwd
-  command: "$HOME/pyvenv/bin/python3 core8/pwb.py mdpages/cashwd"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/cashwd"
   schedule: '10 1,6,12,18 * * *'
   image: python3.9
   emails: none
 
 # - name: twitter-job
-  # command: "$HOME/pyvenv/bin/python3 core8/pwb.py tw/t"
+  # command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
   # schedule: '21 2 * * *'
   # image: python3.9
   # emails: none

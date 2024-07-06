@@ -1,4 +1,4 @@
-<?php 
+<?php
 require 'header.php';
 print_h3_title("Normalize references (mdwiki).");
 //---
@@ -6,14 +6,16 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
 //---
-require 'bots/tfj.php';
-// $result = do_tfj(array( 'name' => '', 'command' => ''));
+// the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
+$ROOT_PATH = $pathParts[0];
 //---
-function make_form($titlelist, $number, $test) {
+function make_form($titlelist, $number, $test)
+{
 	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 	//---
 	echo <<<HTML
-	<form action='fixref.php' method='POST'>    
+	<form action='fixref.php' method='POST'>
 		$testinput
 		<div class='container'>
 			<div class='container'>
@@ -56,7 +58,7 @@ if ($number == '' && $titlelist == '') {
 	//---
 	$nn = rand();
 	//---
-	$command = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixref/start";
+	$command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/fixref/start";
 	//---
 	$titlelist = trim($titlelist);
 	//---
@@ -72,7 +74,7 @@ if ($number == '' && $titlelist == '') {
 			$filename = $nn . '_fix_ref_list.txt';
 			//---
 			$myfile = fopen('find/' . $filename, "w");
-			fwrite($myfile , $titlelist);
+			fwrite($myfile, $titlelist);
 			fclose($myfile);
 			//---
 			$command .= " -file:$filename";
@@ -82,14 +84,11 @@ if ($number == '' && $titlelist == '') {
 		$command .= " allpages -number:$number";
 	}
 	//---
-	$jobs_run = "/usr/bin/toolforge jobs run fixref$nn --image python3.9 --command \"$command\"";
-	//---
 	echo "<h4 style='color:green'>The bot will start in seconds.</h4>";
 	//---
-	// if ($test != '') echo $jobs_run;
-	// $result = shell_exec($jobs_run);
+	if ($test != '') echo $command;
 	//---
-	$result = do_tfj(array( 'name' => "fixref$nn", 'command' => $command ));
+	$result = shell_exec($command);
 	//---
 	echo $result;
 }

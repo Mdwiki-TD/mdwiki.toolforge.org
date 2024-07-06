@@ -1,11 +1,12 @@
-<?php 
+<?php
 require ('header.php');
 print_h3_title("Fix redirects");
 //---
 $title = $_REQUEST['title'] ?? '';
 //---
-require 'bots/tfj.php';
-// $result = do_tfj(array( 'name' => '', 'command' => ''));
+// the root path is the first part of the split file path
+$pathParts = explode('public_html', __FILE__);
+$ROOT_PATH = $pathParts[0];
 //---
 if ($title == '') {
     //---
@@ -40,13 +41,12 @@ if ($title == '') {
     //---
 	$t3 = rawurlencode($title);
     //---
-    $python3 = "/data/project/mdwiki/local/bin/python3 core8/pwb.py mdpy/fixred -page2:$t3 save";
+    $python3 = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/fixred -page2:$t3 save";
     //---
-    $result = do_tfj(array( 'name' => 'fixred', 'command' => $python3));
-    //---
+    $result = shell_exec($python3);
+    // ---
     echo $result;
     //---
     };
 //---
 require 'footer.php';
-?>
