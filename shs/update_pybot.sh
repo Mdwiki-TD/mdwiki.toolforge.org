@@ -5,6 +5,7 @@ cd "$HOME"
 rm -rf mdwikix
 
 git clone https://github.com/MrIbrahem/mdwiki-python-files.git mdwikix || { echo ">>> Failed to clone repository"; exit 1; }
+# git clone -b update --single-branch https://github.com/MrIbrahem/mdwiki-python-files.git mdwikix
 
 rm -rf mdwikix/md_core/newapi
 

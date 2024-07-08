@@ -3,6 +3,7 @@ require 'header.php';
 //---
 print_h3_title("Med updater");
 //---
+$test  = $_GET['test'] ?? '';
 $save  = isset($_GET['save']) ? 'checked' : '';
 $title = $_GET['title'] ?? '';
 //---
@@ -59,27 +60,32 @@ function endsWith($string, $endString) {
     return substr($string, -$len) === $endString;
 };
 //---
+require 'bots/python.php';
+//---
 function get_results($title) {
     //---
-    global $save, $ROOT_PATH;
+    global $save, $ROOT_PATH, $test;
     //---
-    $title2 = rawurlencode($title);
+    $title2 = str_replace( '+' , '_' , $title );
+    $title2 = str_replace( ' ' , '_' , $title2 );
+    $title2 = str_replace( '"' , '\\"' , $title2 );
+    $title2 = str_replace( "'" , "\\'" , $title2 );
     //---
     $sa = ($save != '') ? ' save' : '';
     //---
-    $ccc = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/pybot/newupdater/med.py $title2 from_toolforge $sa";
+    $ccc = "-page:$title2 from_toolforge $sa";
     //---
-    if ( $_SERVER['SERVER_NAME'] != 'mdwiki.toolforge.org' or isset($_GET['test']) ) {
-        echo "<span style='font-size: 18px;'>$ccc</span>
-        <br>";
-    };
+    $params = array(
+        'dir' => "$ROOT_PATH/pybot/newupdater",
+        'localdir' => 'newupdater',
+        'pyfile' => 'med.py',
+        'other' => $ccc,
+        'test' => $test
+    );
     //---
-    $resultb = shell_exec($ccc);
+    $result = do_py($params);
     //---
-    // $resultb = trim($resultb);
-    $resultb = trim((string) $resultb);
-    //---
-    return $resultb;
+    return $result;
 }
 //---
 function worknew($title) {
@@ -103,10 +109,8 @@ function worknew($title) {
     HTML;
     //---
     $resultb = get_results($title);
+    $resultb = trim($resultb);
     //---
-    $t1 = strstartswith( $resultb , '/mdwiki/public_html/updatercash/' );
-    // $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/updatercash/' );
-    $t2 = strstartswith( $resultb , $ROOT_PATH . 'public_html/updatercash/' );
     $t3 = endsWith( $resultb , '.txt' );
     //---
     if (isset($_REQUEST['test'])) echo "results:($resultb)<br>";
@@ -128,7 +132,7 @@ function worknew($title) {
     } elseif ($resultb == "notext") {
         echo "text == ''";
         echo $edt_link_row;
-    } elseif ($t1 || $t2 || $t3 || isset($_REQUEST['test'])) {
+    } elseif ($t3 || isset($_REQUEST['test'])) {
         //---
         $newtext = '';
         if ($resultb != "") $newtext = file_get_contents( $resultb );
@@ -171,4 +175,3 @@ if ($title != '') {
 //---
 require 'footer.php';
 //---
-?>
