@@ -70,6 +70,7 @@ function get_results($title) {
     $title2 = str_replace( ' ' , '_' , $title2 );
     $title2 = str_replace( '"' , '\\"' , $title2 );
     $title2 = str_replace( "'" , "\\'" , $title2 );
+    $title2 = rawurlencode($title2);
     //---
     $sa = ($save != '') ? ' save' : '';
     //---
@@ -77,13 +78,13 @@ function get_results($title) {
     //---
     $params = array(
         'dir' => "$ROOT_PATH/pybot/newupdater",
-        'localdir' => 'newupdater',
+        'localdir' => '../newupdater',
         'pyfile' => 'med.py',
         'other' => $ccc,
         'test' => $test
     );
     //---
-    $result = do_py($params);
+    $result = do_py_sh($params);
     //---
     return $result;
 }
