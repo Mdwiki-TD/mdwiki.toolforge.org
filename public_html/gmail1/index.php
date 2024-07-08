@@ -55,7 +55,9 @@ function getClient() {
             $client->setAccessToken($accessToken);
 
             // Check to see if there was an error.
-            if (array_key_exists('error', $accessToken)) {
+            // if (array_key_exists('error', $accessToken)) {
+            $error = $accessToken['error'] ?? null;
+            if ($error) {
                 throw new Exception(join(', ', $accessToken));
             }
         }
@@ -162,7 +164,9 @@ $msg1->setRaw($rawmsg);
 // Send the email
 $snd = $service->users_messages->send('me', $msg1);
 // check for errors
-if (array_key_exists('error', $snd)) {
+// if (array_key_exists('error', $snd)) {
+$errors = $snd['error'] ?? null;
+if ($errors) {
     print "Error: " . $snd['error']['message'] . "\n";
     exit;
 } else {
