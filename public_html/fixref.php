@@ -10,6 +10,8 @@ $test       = $_REQUEST['test'] ?? '';
 $pathParts = explode('public_html', __FILE__);
 $ROOT_PATH = $pathParts[0];
 //---
+require  'bots/tfj.php';
+//---
 function make_form($titlelist, $number, $test)
 {
 	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
@@ -51,14 +53,34 @@ function make_form($titlelist, $number, $test)
 	</form>
 HTML;
 }
-//---
+
+// require 'bots/python.php';
+function get_results($aargs)
+{
+    //---
+    global $test;
+    //---
+    $ccc = " mdpy/fixref/start $aargs save";
+    //---
+    $params = array(
+        'dir' => "core8",
+        'localdir' => "core8",
+        'pyfile' => 'pwb.py',
+        'other' => $ccc,
+        'test' => $test
+    );
+    //---
+	$result = do_tfj_sh($params, "fixref");
+    //---
+    return $result;
+}
 if ($number == '' && $titlelist == '') {
 	make_form($titlelist, $number, $test);
 } else {
 	//---
 	$nn = rand();
 	//---
-	$command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/fixref/start";
+	$command = "";
 	//---
 	$titlelist = trim($titlelist);
 	//---
@@ -88,7 +110,7 @@ if ($number == '' && $titlelist == '') {
 	//---
 	if ($test != '') echo $command;
 	//---
-	$result = shell_exec($command);
+	$result = get_results($command);
 	//---
 	echo $result;
 }

@@ -20,9 +20,11 @@ $output = file_get_contents($url);
 //---
 // the root path is the first part of the split file path
 $pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+$root_paath = $pathParts[0];
+$root_paath = str_replace('\\', '/', $root_paath);
 //---
-
+// require  'tfj.php';
+//---
 $test   = $_REQUEST['test'] ?? '';
 if ($test != '') {
     ini_set('display_errors', 1);
@@ -33,19 +35,27 @@ if ($test != '') {
 function do_py($params)
 {
     //---
-    global $ROOT_PATH, $test;
+    global $root_paath, $test;
     //---
     $dir        = $params['dir'] ?? '';
     $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
     //---
+    $py3 = $root_paath . "/local/bin/python3";
+    //---
     $my_dir = $dir;
     //---
-    if ($_SERVER['SERVER_NAME'] == 'localhost') $my_dir = $localdir;
+    if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        $my_dir = $localdir;
+        $py3 = "python3";
+    };
     //---
     if ($pyfile != '' && $my_dir != '') {
-        $command = "$ROOT_PATH/local/bin/python3 $my_dir/$pyfile $other";
+        $command = $py3 . " $my_dir/$pyfile $other";
+        //---
+        // replace // with /
+        $command = str_replace('//', '/', $command);
         //---
         if ($_SERVER['SERVER_NAME'] == 'localhost' or $test != '') {
             echo "<h6>$command</h6>";
@@ -77,9 +87,8 @@ function make_sh_file($string)
     // ---
     $text = "#!/bin/bash" . "\n";
     $text .= 'export PATH=$HOME/local/bin:$HOME/local/bin:/usr/local/bin:/usr/bin:/bin' . "\n";
+    $text .= 'export PYWIKIBOT_DIR=$HOME/core8' . "\n";
     $text .= 'cd $PWD' . "\n" . "\n" . $string . "\n";
-    //---
-
     //---
     fwrite($myfile, $text);
     fclose($myfile);
@@ -89,19 +98,32 @@ function make_sh_file($string)
 function do_py_sh($params)
 {
     //---
-    global $test;
+    global $test, $root_paath;
+    //---
+    if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        return do_py($params);
+    };
     //---
     $dir        = $params['dir'] ?? '';
-    $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
     //---
     $my_dir = $dir;
     //---
-    if ($_SERVER['SERVER_NAME'] == 'localhost') $my_dir = $localdir;
-    //---
     if ($pyfile != '' && $my_dir != '') {
-        $command = "python3 $my_dir/$pyfile $other";
+        //---
+        // $root_paath
+        //---
+        $uu = "$my_dir/$pyfile";
+        //---
+        if ($uu == "core8/pwb.py" || $uu == "c8/pwb.py") {
+            $uu = $root_paath . "/" . $uu;
+        }
+        //---
+        $command = "python3 $uu $other";
+        //---
+        // replace // with /
+        $command = str_replace('//', '/', $command);
         //---
         // write commnd to sh file
         $file = make_sh_file($command);

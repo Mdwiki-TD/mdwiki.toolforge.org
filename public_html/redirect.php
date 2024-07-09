@@ -11,79 +11,76 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 // the root path is the first part of the split file path
 $pathParts = explode('public_html', __FILE__);
 $ROOT_PATH = $pathParts[0];
+
+require 'bots/tfj.php';
 //---
-function printTitleInput($id, $label, $name, $value)
-{
-    echo <<<HTML
-        <div class='col-lg-12'>
-            <div class='form-group'>
-                <div class='input-group mb-3'>
-                    <div class='input-group-prepend'>
-                        <span class='input-group-text'>$label:</span>
-                    </div>
-                    <input class='form-control' type='text' id='$id' name='$name' value='$value'/>
-                </div>
-            </div>
-        </div>
-    HTML;
-}
-
-function printTextAreaInput($id, $name, $value)
-{
-    echo <<<HTML
-        <div class='col-lg-12'>
-            <div class='form-group'>
-                <div class='input-group mb-3'>
-                    <div class='input-group-prepend'>
-                        <span class='input-group-text'>$name:</span>
-                    </div>
-                    <textarea class='form-control' cols='20' rows='7' id='$id' name='$name'>$value</textarea>
-                </div>
-            </div>
-        </div>
-    HTML;
-}
-
-function printSubmitButton()
-{
-    echo <<<HTML
-    <div class='col-lg-12'>
-        <h4 class='aligncenter'>
-            <input class='btn btn-outline-primary' type='submit' value='send'>
-        </h4>
-    </div>
-HTML;
-}
-
 function printForm($title, $titlelist, $test)
 {
     $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+    //---
+    $rows = <<<HTML
+        <div class='col-lg-12'>
+            <div class='form-group'>
+                <div class='input-group mb-3'>
+                    <div class='input-group-prepend'>
+                        <span class='input-group-text'>Title:</span>
+                    </div>
+                    <input class='form-control' type='text' id='title' name='title' value='$title'/>
+                </div>
+            </div>
+        </div>
+        <div class='col-lg-12'>
+            <h3 class='aligncenter'>or</h3>
+        </div>
+        <div class='col-lg-12'>
+            <div class='form-group'>
+                <div class='input-group mb-3'>
+                    <div class='input-group-prepend'>
+                        <span class='input-group-text'>List of titles:</span>
+                    </div>
+                    <textarea class='form-control' cols='20' rows='7' id='titlelist' name='titlelist'>$titlelist</textarea>
+                </div>
+            </div>
+        </div>
+        <div class='col-lg-12'>
+            <h4 class='aligncenter'>
+                <input class='btn btn-outline-primary' type='submit' value='send'>
+            </h4>
+        </div>
+    HTML;
+
     echo <<<HTML
         <form action='redirect.php' method='POST'>
             $testinput
             <div class='container'>
                 <div class='container'>
                     <div class='row'>
-    HTML;
-
-    printTitleInput('title', 'Title', 'title', $title);
-    echo <<<HTML
-        <div class='col-lg-12'>
-            <h3 class='aligncenter'>or</h3>
-        </div>
-    HTML;
-    printTextAreaInput('titlelist', 'List of titles', $titlelist);
-    printSubmitButton();
-
-    echo <<<HTML
-                        </div>
+                        $rows
                     </div>
                 </div>
             </div>
         </form>
     HTML;
 }
-
+function get_results($aargs)
+{
+    //---
+    global $test;
+    //---
+    $ccc = " mdpy/red $aargs save";
+    //---
+    $params = array(
+        'dir' => "core8",
+        'localdir' => "core8",
+        'pyfile' => 'pwb.py',
+        'other' => $ccc,
+        'test' => $test
+    );
+    //---
+    $result = do_tfj_sh($params, "redirect");
+    //---
+    return $result;
+}
 function createRedirects($title, $titlelist, $test)
 {
     //---
@@ -107,12 +104,10 @@ function createRedirects($title, $titlelist, $test)
         echo '<span class="">The Bot will create redirects for titles in the list in seconds.</span>';
     }
 
-    $command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/red $pythonCommand save";
-
     echo '</span>';
     echo "<br>";
 
-    $result = shell_exec($command);
+    $result = get_results($pythonCommand);
     // ---
     echo $result;
 }

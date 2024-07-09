@@ -20,10 +20,34 @@ if ( $code != 'James#99' && $code != 'james#99' && $code != '') {
     $err = "<span style='font-size:13pt;'>! (" . $code . ")</span><span style='font-size:13pt;color:red'> is wrong code.</span>";
 };
 //---
+require  'bots/tfj.php';
+
+function get_results($aargs)
+{
+    //---
+    global $test;
+    //---
+    $ccc = " mdpy/imp $aargs save";
+    //---
+    $params = array(
+        'dir' => "core8",
+        'localdir' => "core8",
+        'pyfile' => 'pwb.py',
+        'other' => $ccc,
+        'test' => $test
+    );
+    //---
+    $result = do_tfj_sh($params, "import");
+    //---
+    return $result;
+}
+$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+//---
 if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' && $code != 'james#99' ) ) {
     //---
     echo <<<HTML
         <form action='import-history.php' method='POST'>
+            $testinput
             <div class='container'>
                 <div class='container'>
                     <div class='row'>
@@ -74,12 +98,12 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
 } else {
     //---
-    $command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/imp";
+    $command = "";
     //---
     $text = "";
     //---
     if ($title != '') {
-        $command .= " -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from) . ' save';
+        $command .= " -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from);
         //---
         $text .= 'The Bot will import ' . rawurldecode($title) . ' history';
         //---
@@ -95,7 +119,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         fwrite($myfile , $titlelist);
         fclose($myfile);
         //---
-        $command .= " -file:" . $filee . ' save' ;
+        $command .= " -file:" . $filee;
         //---
         $text .= 'The Bot will import history for titles in the list in seconds.';
         //---
@@ -104,7 +128,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
     echo "<br>";
     //---
-    $result = shell_exec($command);
+    $result = get_results($command);
     //---
     echo $result;
     //---
@@ -112,4 +136,3 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
 //---
 require 'footer.php';
 //---
-?>
