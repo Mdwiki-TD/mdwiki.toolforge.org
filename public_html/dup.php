@@ -13,10 +13,13 @@ print_h3_title("Fix duplicate redirects.");
 $start = $_REQUEST['start'] ?? '';
 $test = $_REQUEST['test'] ?? '';
 
+$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+//---
 // Handle form submission or execute command
 if ($start == '') {
     echo <<<HTML
     <form action='dup.php' method='POST'>
+        $testinput
         <div class='col-lg-12'>
             <h4 class='aligncenter'>
                 <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />

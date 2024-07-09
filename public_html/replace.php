@@ -2,10 +2,6 @@
 require 'header.php';
 print_h3_title("Find and replace.");
 //---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
-//---
 // Initialize variables with default values
 $listtype   = $_REQUEST['listtype'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
@@ -14,6 +10,8 @@ $replace    = $_REQUEST['replace'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $code       = $_REQUEST['code'] ?? '';
 
+require  'bots/tfj.php';
+//---
 // Function to generate radio button
 function generateRadioButton($id, $name, $value, $label, $checked = '') {
     return <<<HTML
@@ -92,10 +90,28 @@ function writeToFile($file, $text) {
     fclose($myfile);
 }
 
+function get_results($numb)
+{
+	//---
+	global $test;
+	//---
+	$ccc = " mdpy/replace1 $numb";
+	//---
+	$params = array(
+		'dir' => "core8",
+		'localdir' => "core8",
+		'pyfile' => 'pwb.py',
+		'other' => $ccc,
+		'test' => $test
+	);
+	//---
+	$result = do_tfj_sh($params, "replace");
+	//---
+	return $result;
+}
+
 // Function to perform the replacement
-function performReplacement($find, $replace, $number, $listtype, $test) {
-    //---
-    global $ROOT_PATH;
+function performReplacement($find, $replace, $number, $listtype) {
     //---
     $nn = rand();
 
@@ -110,7 +126,6 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
         $rann .= ' newlist';
     }
 
-    $command = "$ROOT_PATH/local/bin/python3 $ROOT_PATH/core8/pwb.py mdpy/replace1 $rann";
     echo <<<HTML
         <span style='font-size:15pt;color:green'>
         <br>
@@ -121,7 +136,7 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
         <br>
     HTML;
     // ---
-    $result = shell_exec($command);
+    $result = get_results($rann);
     // ---
     echo $result;
 }
@@ -131,7 +146,7 @@ function performReplacement($find, $replace, $number, $listtype, $test) {
 if ($find == '' || $replace == '' || $code == '' || ($code != '' && $code != 'james#99')) {
     generateForm($find, $replace, $number, $code, $test);
 } else {
-    performReplacement($find, $replace, $number, $listtype, $test);
+    performReplacement($find, $replace, $number, $listtype);
 }
 
 require 'footer.php';

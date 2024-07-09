@@ -1,78 +1,95 @@
 <?php
-require ('header.php');
+require 'header.php';
 //---
 print_h3_title("Fix references in Wikipedia's:");
 //---
 $test       = $_GET['test'] ?? '';
-$lang       = $_GET['lang'] ?? '';
 $title      = $_GET['title'] ?? '';
 $save       = isset($_GET['save']) ? 'save' : '';
-// $title      = str_replace("'", "", $title);
+$save_checked  = isset($_GET['save']) ? 'checked' : '';
+$lang       = $_GET['lang'] ?? '';
 $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
 //---
 // the root path is the first part of the split file path
 $pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+$root_paath = $pathParts[0];
+$root_paath = str_replace('\\', '/', $root_paath);
+// echo "root_paath:$root_paath<br>";
+// ---
+$title2 = add_quotes($title);
+// ---
+$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 //---
-?>
-    <div class="card-body">
-        <form action='fixwikirefs.php' method='GET'>
-            <div class='container'>
-                <div class='container'>
-                    <div class='row'>
-                        <div class='col-md-4'>
-                            <div class='input-group mb-3'>
-                                <div class='input-group-prepend'>
-                                    <span class='input-group-text'>Title</span>
-                                </div>
-                                <input class='form-control' type='text' id='title' name='title' value=<?php echo add_quotes($title); ?> required/>
-                            </div>
-                            <div class='input-group mb-3'>
-                                <div class='input-group-prepend'>
-                                    <span class='input-group-text'>Langcode</span>
-                                </div>
-                                <input class='form-control' type='text' name='lang' value='<?php echo $lang ?>' required/>
-                            </div>
+echo <<<HTML
+    <form action='fixwikirefs.php' method='GET'>
+        $testinput
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-4'>
+                    <div class='input-group mb-3'>
+                        <div class='input-group-prepend'>
+                            <span class='input-group-text'>Langcode</span>
                         </div>
-                        <div class='col-md-3'>
-
-                            <div class='form-check form-switch'>
-                                <input class='form-check-input' type='checkbox' id='save' name='save' value='1' <?php echo isset($_GET['save']) ? 'checked' : '' ?>>
-                                <label class='check-label' for='save'>Auto save</label>
-			    </div>
-
-				<div class='form-check form-switch'>
-                                <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' <?php echo $movedots ?>>
-                                <label class='form-check-label' for='movedots'>Move dots after references</label>
-                            </div>
-
-                            <div class='form-check form-switch'>
-                                <input class='form-check-input' type='checkbox' id='infobox' name='infobox' value='1' <?php echo $infobox ?>>
-                                <label class='form-check-label' for='infobox'>Expand Infobox</label>
-                            </div>
+                        <input class='form-control' type='text' name='lang' value='$lang' required />
+                    </div>
+                    <div class='input-group mb-3'>
+                        <div class='input-group-prepend'>
+                            <span class='input-group-text'>Title</span>
                         </div>
-                        <div class='col-md-5'>
-                            <h4 class='aligncenter'>
-                            <input class='btn btn-outline-primary' type='submit' value='send' />
-                            </h4>
-                        </div>
+                        <input class='form-control' type='text' id='title' name='title' value=$title2 required />
                     </div>
                 </div>
+                <div class='col-md-3'>
+                    <div class='form-check form-switch'>
+                        <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
+                        <label class='check-label' for='save'>Auto save</label>
+                    </div>
+
+                    <div class='form-check form-switch'>
+                        <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' $movedots>
+                        <label class='form-check-label' for='movedots'>Move dots after references</label>
+                    </div>
+
+                    <div class='form-check form-switch'>
+                        <input class='form-check-input' type='checkbox' id='infobox' name='infobox' value='1' $infobox>
+                        <label class='form-check-label' for='infobox'>Expand Infobox</label>
+                    </div>
+                </div>
+                <div class='col-md-5'>
+                    <h4 class='aligncenter'>
+                        <input class='btn btn-outline-primary' type='submit' value='send' />
+                    </h4>
+                </div>
             </div>
-        </form>
-<?php
+        </div>
+    </form>
+HTML;
+//---
+function strstartswith($text, $start)
+{
+    return strpos($text, $start) === 0;
+};
+//---
+function endsWith($string, $endString)
+{
+    $len = strlen($endString);
+    return substr($string, -$len) === $endString;
+};
 //---
 require 'bots/python.php';
 //---
-function get_results() {
+function get_results($title, $lang)
+{
     //---
-    global $test, $lang, $title, $movedots, $infobox, $save, $ROOT_PATH;
+    global $save, $root_paath, $test;
+    global $movedots, $infobox;
     //---
-    $title2 = str_replace( '+' , '_' , $title );
-    $title2 = str_replace( ' ' , '_' , $title2 );
-    $title2 = str_replace( '"' , '\\"' , $title2 );
-    $title2 = str_replace( "'" , "\\'" , $title2 );
+    $title2 = str_replace('+', '_', $title);
+    $title2 = str_replace(' ', '_', $title2);
+    $title2 = str_replace('"', '\\"', $title2);
+    $title2 = str_replace("'", "\\'", $title2);
+    $title2 = rawurlencode($title2);
     //---
     $mv = '';
     if ($movedots != '') $mv .= 'movedots';
@@ -81,8 +98,8 @@ function get_results() {
     $ccc = "returnfile -page:$title2 -lang:$lang $mv $save";
     //---
     $params = array(
-        'dir' => "$ROOT_PATH/pybot/md_core/wprefs",
-        'localdir' => '../wprefs',
+        'dir' => $root_paath . "/pybot/wprefs",
+        'localdir' => $root_paath . "/pybot/wprefs",
         'pyfile' => 'bot1.py',
         'other' => $ccc,
         'test' => $test
@@ -93,83 +110,118 @@ function get_results() {
     return $result;
 }
 //---
-function strstartswith($text, $end) {
-    return strpos($text, $end) === 0;
-}
-//---
-function endsWith($string, $endString) {
-    $len = strlen($endString);
-    return substr($string, -$len) === $endString;
-};
-//---
-function worknew() {
+function worknew($title, $lang)
+{
     //---
-    global $lang, $title, $test, $ROOT_PATH;
+    global $save, $test;
     //---
-    $new = "https://$lang.wikipedia.org/w/index.php?title=$title&action=submit";
+    $site = "$lang.wikipedia.org";
     //---
-    echo "<br>";
-    $form = "
-	<span style='font-size: 18px;'>New text :</span><br>
-	<form id='editform' name='editform' method='POST' action='" . $new . "'>
-	<input type='hidden' value='' name='wpEdittime'/>
-	<input type='hidden' value='' name='wpStarttime'/>
-	<input type='hidden' value='' name='wpScrolltop' id='wpScrolltop'/>
-	<input type='hidden' value='12' name='parentRevId'/>
-	<input type='hidden' value='wikitext' name='model'/>
-	<input type='hidden' value='text/x-wiki' name='format'/>
-	<input type='hidden' value='1' name='wpUltimateParam'/>
-	<input type='hidden' name='wpSummary' value='Fix references, Expend infobox mdwiki.toolforge.org.'>
-	<input type='hidden' id='wikitext-old' value=''>
-    ";
+    $new = "https://$site/w/index.php?title=$title&action=submit";
+    $articleurl = "https://$site/w/index.php?title=$title";
     //---
-    $resultb = get_results();
+    echo <<<HTML
+        <h3>
+            page: <a target='_blank' href='$articleurl'>$title</a>
+        </h3>
+    HTML;
+    //---
+    $summary = "Fix references, Expend infobox mdwiki.toolforge.org.";
+    //---
+    $form = <<<HTML
+        <form id='editform' name='editform' method='POST' action='$new'>
+        <input type='hidden' value='' name='wpEdittime'/>
+        <input type='hidden' value='' name='wpStarttime'/>
+        <input type='hidden' value='' name='wpScrolltop' id='wpScrolltop'/>
+        <input type='hidden' value='12' name='parentRevId'/>
+        <input type='hidden' value='wikitext' name='model'/>
+        <input type='hidden' value='text/x-wiki' name='format'/>
+        <input type='hidden' value='1' name='wpUltimateParam'/>
+        <input type='hidden' name='wpSummary' value='$summary'>
+        <input type='hidden' id='wikitext-old' value=''>
+    HTML;
+    //---
+    $resultb = get_results($title, $lang);
     $resultb = trim($resultb);
     //---
-    $t1 = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
-    // $t2 = strstartswith( $resultb , '/data/project/mdwiki/public_html/wprefcash/' );
-    $t2 = strstartswith( $resultb , $ROOT_PATH . 'public_html/wprefcash/' );
+    $t3 = endsWith($resultb, '.txt');
     //---
-    $t3 = endsWith( $resultb , '.txt' );
-    // $t3 = strstartswith( $resultb , '/mdwiki/public_html/wprefcash/' );
+    if ($test) echo "results:({$resultb})<br>";
     //---
-    $edit_line = "<br>
-    <div class='aligncenter'>
-        <a class='btn btn-outline-primary' href='$new'>Go to edit page.</a>
-    </div>
-    ";
+    $edit_link = <<<HTML
+        <a type='button' target='_blank' class='btn btn-outline-primary' href='$new'>Open edit new tab.</a>
+        <a type='button' target='_blank' class='btn btn-outline-primary' href='$articleurl'>Open page new tab.</a>
+    HTML;
     //---
-    if ($test != '') {
-		echo "<br>($resultb)<br>";
-    };
+    $edt_link_row = <<<HTML
+        <div class='aligncenter'>
+            <div class='col-sm'>
+                $edit_link
+            </div>
+        </div>
+    HTML;
+    //---
     if ($resultb == 'no changes') {
         echo "no changes";
+        echo $edt_link_row;
     } elseif ($resultb == "notext") {
-        echo("text == ''");
-
-    } elseif ($resultb == "ok") {
-        echo("save done.");
-
-    } elseif ($t1 || $t2 || $t3 || isset($_REQUEST['test'])) {
-        $newtext = file_get_contents( $resultb );
-        $form = $form . "<textarea id='wikitext-new' class='form-control' name='wpTextbox1'>" . $newtext . "</textarea>
-        <br>
-    <div class='editOptions aligncenter'>
-        <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
-        <input id='wpDiff' type='submit' class='btn btn-outline-primary' tabindex='7' name='wpDiff' value='Make edits' accesskey='v' title='show changes.'>
-    <div class='editButtons'>
-    </div>
-    </div>
-    </form>";
-        echo $form;
-        $edit_line = '';
+        echo "text == ''";
+        echo $edt_link_row;
+        // } elseif ($resultb == "ok") { echo ("save done.");
+    } elseif ($t3 || $test) {
+        //---
+        $newtext = '';
+        if ($resultb != "") $newtext = file_get_contents($resultb);
+        //---
+        $form = $form . <<<HTML
+            <div class='form-group'>
+                <label for='find'>new text:</label>
+                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
+            </div>
+            <div class='editOptions aligncenter'>
+                <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
+                <input id='wpDiff' type='submit' class='btn btn-outline-primary' tabindex='7' name='wpDiff' value='show changes' accesskey='v' title='show changes.'>
+                <div class='editButtons'>
+                </div>
+            </div>
+        </form>
+        HTML;
+        //---
+        if ($save != "") {
+            if ($resultb == "save ok") {
+                echo 'changes has published';
+            } else {
+                echo 'Changes are not published, try to do it manually.';
+                echo $form;
+            };
+        } else {
+            echo $form;
+        };
+        //---
+    } else {
+        echo $resultb;
+        echo $edt_link_row;
     };
     //---
-    echo "$edit_line";
-    //---
 };
-//--
-if ($title != '' && $lang != '') worknew();
+//---
+echo "</div></div>";
+//---
+echo <<<HTML
+<hr />
+    <div class='card'>
+        <div class="card-header aligncenter" style="font-weight:bold;">
+            <h3>
+                page: <a target='_blank' href="https://$lang.wikipedia.org/w/index.php?title=$title">$title</a>
+            </h3>
+        </div>
+        <div class='card-body'>
+HTML;
+// ---
+if ($title != '' && $lang != '') {
+    worknew($title, $lang);
+};
+//---
+echo "</div></div>";
 //---
 require 'footer.php';
-?>
