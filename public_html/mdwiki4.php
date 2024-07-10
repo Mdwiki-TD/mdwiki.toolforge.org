@@ -29,7 +29,7 @@ $test  = $_GET['test'] ?? '';
 $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 //---
 echo <<<HTML
-    <form action='mdwiki3.php' method='GET'>
+    <form action='mdwiki4.php' method='GET'>
         $testinput
         <div class='container'>
             <div class='row'>
