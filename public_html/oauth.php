@@ -7,10 +7,8 @@ $domain = "";
 
 if ($_SERVER['SERVER_NAME'] == 'mdwiki.toolforge.org') {
     $inifile = '/data/project/mdwiki/confs/OAuthConfig.ini';
-    $domain = "mdwiki.org";
 } elseif ($_SERVER['SERVER_NAME'] == 'medwiki.toolforge.org') {
     $inifile = '/data/project/medwiki/confs/OAuthConfig.ini';
-    $domain = "mdwiki.org";
 } elseif ($_SERVER['SERVER_NAME'] == 'ncc2commons.toolforge.org') {
     $inifile = '/data/project/ncc2commons/confs/OAuthConfig_commons_new.ini';
     $domain = "commons.wikimedia.org";
