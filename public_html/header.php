@@ -21,11 +21,11 @@ include_once 'Translation_Dashboard/auth/index.php';
 //---
 // $username
 //---
-if (isset($_GET['db'])) {
-	require '../d/db.php';
-} else {
-	require '../d/db1.php';
-}
+//if (isset($_GET['db'])) {
+//	require '../d/db.php';
+//} else {
+//	require '../d/db1.php';
+//}
 //---
 $hoste = '';
 //---
