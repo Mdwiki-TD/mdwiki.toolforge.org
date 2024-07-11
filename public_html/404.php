@@ -1,5 +1,5 @@
 <?php
-require '../d/db1.php';
+include_once __DIR__ . '/../d/db1.php';
 http_response_code(404);
 
 echo <<<HTML

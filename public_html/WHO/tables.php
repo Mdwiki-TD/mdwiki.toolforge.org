@@ -33,8 +33,8 @@ $translators_views = [];
 // ---
 foreach ($views_data as $mdtitle => $table) {
 	foreach ($table as $langcode => $tab) {
-		$title = $tab['title'];
-		$views = $tab['views'];
+		$title = $tab['title'] ?? "";
+		$views = $tab['views'] ?? "";
 		// ---
 		if (!array_key_exists($langcode, $titles_by_lang)) {
 			$titles_by_lang[$langcode] = ['titles' => [], 'views' => 0];
@@ -54,7 +54,7 @@ $numbers['LangLinks'] = array_sum(array_map(function ($data) {
 }, $titles_by_lang));
 // ---
 $translators = [];
-// Identify the top translators by number of 
+// Identify the top translators by number of
 $top_translators = array_map('count', $translators);
 arsort($top_translators);
 $top_translators = array_slice($top_translators, 0, 156, true);

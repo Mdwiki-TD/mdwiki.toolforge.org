@@ -204,14 +204,6 @@ if ($title != '' && $username != '') {
     worknew($title);
 } else {
     echo 'log in!!';
-    // write $_SERVER to file
-    $txt = var_export($_SERVER, true);
-    // if text has 47. then save
-    if (substr_count($txt, '47.') > 0) {
-        $fp = fopen('server.txt', 'w');
-        fwrite($fp, $txt);
-        fclose($fp);
-    };
 };
 //---
 echo "</div></div>";

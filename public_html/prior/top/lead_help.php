@@ -31,12 +31,12 @@ function make_table_lead($dd, $lang='') {
 
         $noo += 1;
 
-        $mdtitle = $tabe['mdtitle'];
-        $target  = $tabe['target'];
+        $mdtitle = $tabe['mdtitle'] ?? "";
+        $target  = $tabe['target'] ?? "";
         $views   = number_format($tabe['views']);
         $word    = number_format($tabe['words']);
-        $translator = $tabe['translator'];
-        // $tr_type = $tabe['tr_type'];
+        $translator = $tabe['translator'] ?? "";
+        // $tr_type = $tabe['tr_type'] ?? "";
 
         $section = $md_titles_to_section[$mdtitle] ?? '';
 

@@ -26,8 +26,8 @@ $file = file_get_contents("Tables/tab_new.json");
 $tab_new = json_decode($file, true);
 
 // Extract the links and translations from the data
-$links_by_section = $tab_new['links'];
-$translations = $tab_new['translates'];
+$links_by_section = $tab_new['links'] ?? [];
+$translations = $tab_new['translates'] ?? [];
 
 // Count the number of articles (each link is an article)
 $numbers['Articles'] = count($links_by_section);
@@ -62,17 +62,17 @@ function is_ip_address(string $ip_address): bool
 // Process each translation
 foreach ($translations as $key => $value) {
 	// {"mdtitle": "Furosemide","target": "","lang": "th","views": 41123,"words": 253,"translator": "Horus","tr_type": "translator"}
-	$lang   = $value['lang'];
-	$target = $value['target'];
+	$lang   = $value['lang'] ?? "";
+	$target = $value['target'] ?? "";
 
 	// Initialize this language's data if it hasn't been already
 	if (!array_key_exists($lang, $translates_by_lang)) {
 		$translates_by_lang[$lang] = ['titles' => [], 'views' => 0, 'words' => 0];
 	}
 
-	$views = $value['views'];
-	$words = $value['words'];
-	$translator = $value['translator'];
+	$views = $value['views'] ?? "";
+	$words = $value['words'] ?? "";
+	$translator = $value['translator'] ?? "";
 
 	// chceck if translator is ip address
 	if (is_ip_address($translator)) {

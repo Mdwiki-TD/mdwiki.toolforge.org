@@ -15,6 +15,7 @@ if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 	error_reporting(E_ALL);
 };
 //---
+include_once __DIR__ . '/../d/db1.php';
 ini_set('session.use_strict_mode', '1');
 //---
 include_once 'Translation_Dashboard/auth/index.php';

@@ -34,8 +34,15 @@ require('header.php');
 </style>
 <?php
 //---
-$test = $_REQUEST['test'];
-$id = $_REQUEST['id'];
+// find:
+// (\$[^=\s]+\s*=\s*\$_(?:REQUEST|GET|POST|SESSION)\[["'][^"']+["']\]\s*);
+// (\$[^=\s]+\s*=\s*\$_(?:\w+)\[["'][^"']+["']\]\s*);
+// (\$[^=\s]+\s*=\s*\$[^\$\s\[\]]+\[["'][^"']+["']\]\s*);  # bad
+// replace by:
+// $1 ?? "";
+//---
+$test = $_REQUEST['test'] ?? "";
+$id = $_REQUEST['id'] ?? "";
 //---
 $strs = "Replace log for id:$id";
 //---
@@ -47,7 +54,7 @@ echo "
 </div>
 <div class='card-body'>
   <div class='container'>
-    
+
 ";
 //---
 function str_end_with($haystack, $needle)
@@ -186,9 +193,9 @@ if ($id == '') {
     foreach ($table as $title => $diffid) {
         //---
         if ($title != '0') {
-            //--- 
+            //---
             $all += 1;
-            //--- 
+            //---
             $url = "https://mdwiki.org/w/index.php?title=" . $title;
             //---
             $type = '';
