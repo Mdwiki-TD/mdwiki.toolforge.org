@@ -63,3 +63,7 @@ public_html/gmail1/index1.php
 /vendor
 /public_html/bots/sh
 /d
+public_html/.lighttpd.conf
+/public_html/td_with_ns
+/public_html/Translation_Dashboard_x
+/public_html/td_no_ns
