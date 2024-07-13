@@ -87,6 +87,12 @@ echo "</head>";
 require("Translation_Dashboard/darkmode.php");
 $them_li = dark_mode_icon();
 //---
+$login_icon = <<<HTML
+	<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/auth.php?a=login">
+		<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+	</a>
+HTML;
+//---
 echo <<<HTML
 <body>
 	<header class="mb-3 border-bottom">
@@ -128,9 +134,7 @@ echo <<<HTML
 							</a>
 						</li>
 						<li class="nav-item col-4 col-lg-auto" id="loginli">
-							<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/auth.php?a=login">
-								<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-							</a>
+							$login_icon
 						</li>
 						<li class="nav-item col-4 col-lg-auto">
 							<a id="logout_btn" class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/auth.php?a=logout" style="display:none">

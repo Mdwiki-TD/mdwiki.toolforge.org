@@ -24,6 +24,7 @@ function generateRadioButton($id, $name, $value, $label, $checked = '') {
 
 // Function to generate the form
 function generateForm($find, $replace, $number, $code, $test) {
+    global $username;
     $codeNote = ($code != '' && $code != 'james#99') ? "<span style='font-size:12pt;color:red'>! ($code) is the wrong code.</span>" : '';
 
     $findRow = <<<HTML
@@ -62,6 +63,11 @@ function generateForm($find, $replace, $number, $code, $test) {
         generateRadioButton('customRadio', 'listtype', 'oldlist', 'Work in all pages') .
         $test_1;
 
+    // ---
+    $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
+    // ---
+    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    // ---
     echo <<<HTML
         <form action='replace.php' method='POST'>
             <div class='container-fluid'>
@@ -75,7 +81,7 @@ function generateForm($find, $replace, $number, $code, $test) {
                 </div>
                 <div class='col-lg-12'>
                     <h4 class='aligncenter'>
-                        <input class='btn btn-outline-primary' type='submit' value='send'>
+                        $start_icon
                     </h4>
                 </div>
             </div>
@@ -150,4 +156,3 @@ if ($find == '' || $replace == '' || $code == '' || ($code != '' && $code != 'ja
 }
 
 require 'footer.php';
-?>
