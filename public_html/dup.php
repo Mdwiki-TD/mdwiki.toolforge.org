@@ -15,6 +15,12 @@ $test = $_REQUEST['test'] ?? '';
 
 $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 //---
+// global $username;
+// ---
+$start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
+// ---
+if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+// ---
 // Handle form submission or execute command
 if ($start == '') {
     echo <<<HTML
@@ -22,7 +28,7 @@ if ($start == '') {
         $testinput
         <div class='col-lg-12'>
             <h4 class='aligncenter'>
-                <input class='btn btn-outline-primary' type='submit' name='start' value='Start' />
+                $start_icon
             </h4>
         </div>
     </form>

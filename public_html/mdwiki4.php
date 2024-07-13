@@ -28,8 +28,12 @@ $title2 = add_quotes($title);
 $test  = $_GET['test'] ?? '';
 $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 //---
+$start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
+// ---
+if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+// ---
 echo <<<HTML
-    <form action='mdwiki3.php' method='GET'>
+    <form action='mdwiki4.php' method='GET'>
         $testinput
         <div class='container'>
             <div class='row'>
@@ -49,7 +53,7 @@ echo <<<HTML
                 </div>
                 <div class='col-md-5'>
                     <h4 class='aligncenter'>
-                        <input class='btn btn-outline-primary' type='submit' value='send' />
+                        $start_icon
                     </h4>
                 </div>
             </div>
@@ -200,7 +204,10 @@ echo <<<HTML
         <div class='card-body'>
 HTML;
 // ---
-if ($title != '') {
+if ($username == '') {
+    echo 'log in!!';
+};
+if ($title != '' && $username != '') {
     worknew($title);
 };
 //---

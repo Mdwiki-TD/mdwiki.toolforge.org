@@ -1,11 +1,13 @@
 <?PHP
+
 namespace LeadHelp;
 
 use function Functions\make_target_url;
 use function Functions\make_mdwiki_title;
 use function Functions\make_view_by_number;
 
-function make_table_lead($dd, $lang='') {
+function make_table_lead($dd, $lang = '')
+{
 
     global $md_titles_to_cat;
 
@@ -25,16 +27,16 @@ function make_table_lead($dd, $lang='') {
 
 
     $noo = 0;
-    foreach ( $dd AS $tat => $tabe ) {
+    foreach ($dd as $tat => $tabe) {
 
         $noo += 1;
 
-        $mdtitle = $tabe['mdtitle'];
+        $mdtitle = $tabe['mdtitle'] ?? "";
         $nana = make_mdwiki_title($mdtitle);
 
         $section = $md_titles_to_cat[$mdtitle] ?? '';
 
-        $title = $tabe['title'];
+        $title = $tabe['title'] ?? "";
         $title_url = make_target_url($title, $lang);
 
         $views   = number_format($tabe['views']);
@@ -51,7 +53,6 @@ function make_table_lead($dd, $lang='') {
             HTML;
 
         $sato .= $laly;
-
     };
 
     $sato .= <<<HTML
@@ -60,5 +61,4 @@ function make_table_lead($dd, $lang='') {
     HTML;
 
     return $sato;
-
 };

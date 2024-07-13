@@ -16,11 +16,11 @@ $code       = $_REQUEST['code'] ?? '';
 //---
 $err = '';
 //---
-if ( $code != 'James#99' && $code != 'james#99' && $code != '') {
+if ($code != 'James#99' && $code != 'james#99' && $code != '') {
     $err = "<span style='font-size:13pt;'>! (" . $code . ")</span><span style='font-size:13pt;color:red'> is wrong code.</span>";
 };
 //---
-require  'bots/tfj.php';
+require 'bots/tfj.php';
 
 function get_results($aargs)
 {
@@ -41,11 +41,19 @@ function get_results($aargs)
     //---
     return $result;
 }
-$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+
 //---
-if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' && $code != 'james#99' ) ) {
-    //---
-    echo <<<HTML
+function make_form($test, $title, $titlelist, $code, $err)
+{
+    global $username;
+    // ---
+    $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
+    // ---
+    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    // ---
+    $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+    // ---
+    return <<<HTML
         <form action='import-history.php' method='POST'>
             $testinput
             <div class='container'>
@@ -87,7 +95,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
                         </div>
                         <div class='col-lg-12'>
                             <h4 class='aligncenter'>
-                                <input class='btn btn-outline-primary' type='submit' value='send'>
+                                $start_icon
                             </h4>
                         </div>
                     </div>
@@ -95,6 +103,11 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
             </div>
         </form>
     HTML;
+    //---
+}
+if (($titlelist == '' && $title == '') or $code == '' or ($code != 'James#99' && $code != 'james#99')) {
+    //---
+    echo make_form($test, $title, $titlelist, $code, $err);
     //---
 } else {
     //---
@@ -116,7 +129,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
         $filee = "$ROOT_PATH/public_html/texts/importlist.txt";
         //---
         $myfile = fopen($filee, "w");
-        fwrite($myfile , $titlelist);
+        fwrite($myfile, $titlelist);
         fclose($myfile);
         //---
         $command .= " -file:" . $filee;
@@ -132,7 +145,7 @@ if ( ($titlelist == '' && $title == '') or $code == '' or ( $code != 'James#99' 
     //---
     echo $result;
     //---
-    }
+}
 //---
 require 'footer.php';
 //---

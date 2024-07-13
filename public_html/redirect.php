@@ -16,6 +16,12 @@ require 'bots/tfj.php';
 //---
 function printForm($title, $titlelist, $test)
 {
+    global $username;
+    // ---
+    $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
+    // ---
+    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    // ---
     $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
     //---
     $rows = <<<HTML
@@ -44,7 +50,7 @@ function printForm($title, $titlelist, $test)
         </div>
         <div class='col-lg-12'>
             <h4 class='aligncenter'>
-                <input class='btn btn-outline-primary' type='submit' value='send'>
+                $start_icon
             </h4>
         </div>
     HTML;

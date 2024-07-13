@@ -19,6 +19,12 @@ $root_paath = str_replace('\\', '/', $root_paath);
 // ---
 $title2 = add_quotes($title);
 // ---
+// global $username;
+// ---
+$start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
+// ---
+if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+// ---
 $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
 //---
 echo <<<HTML
@@ -58,7 +64,7 @@ echo <<<HTML
                 </div>
                 <div class='col-md-5'>
                     <h4 class='aligncenter'>
-                        <input class='btn btn-outline-primary' type='submit' value='send' />
+                        $start_icon
                     </h4>
                 </div>
             </div>
