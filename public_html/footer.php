@@ -23,6 +23,7 @@
         							format: "json",
         							pssearch: request.term,
         							psnamespace: 0,
+        							psbackend: "CirrusSearch",
         							cirrusUseCompletionSuggester: "yes"
         						},
         						success: function(data) {
