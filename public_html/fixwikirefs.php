@@ -3,6 +3,8 @@ require 'header.php';
 //---
 print_h3_title("Fix references in Wikipedia's:");
 //---
+// https://hashtags.wmcloud.org/graph/?query=mdwiki&project=&startdate=&enddate=&search_type=or&user=
+
 $test       = $_GET['test'] ?? '';
 $title      = $_GET['title'] ?? '';
 $save       = isset($_GET['save']) ? 'save' : '';
