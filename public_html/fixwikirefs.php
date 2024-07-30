@@ -237,7 +237,7 @@ echo <<<HTML
         <div class='card-body'>
 HTML;
 // ---
-if ($title != '' && $lang != '') {
+if ($title != '' && $lang != '' && $lang !='en') {
     worknew($title, $lang);
 };
 //---
