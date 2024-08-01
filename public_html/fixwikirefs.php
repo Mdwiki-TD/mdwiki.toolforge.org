@@ -9,9 +9,12 @@ $test       = $_GET['test'] ?? '';
 $title      = $_GET['title'] ?? '';
 $save       = isset($_GET['save']) ? 'save' : '';
 $save_checked  = isset($_GET['save']) ? 'checked' : '';
-$lang       = $_GET['lang'] ?? '';
 $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
+//---
+$lang       = $_GET['lang'] ?? '';
+// trim the spaces
+$lang = trim($lang);
 //---
 // the root path is the first part of the split file path
 $pathParts = explode('public_html', __FILE__);

@@ -1,26 +1,26 @@
 
 - name: rmv
-  command: "$HOME/shs/rmc.sh"
+  command: "$HOME/jobs/rmc.sh"
   schedule: '@hourly'
   image: bullseye
   emails: none
 
 # sql backup
 - name: backup
-  command: "$HOME/shs/db_backup.sh"
+  command: "$HOME/jobs/db_backup.sh"
   schedule: '11 1 * * *'
   image: mariadb
   emails: none
 
 - name: countref
-  command: "$HOME/shs/countref.sh"
+  command: "$HOME/jobs/countref.sh"
   schedule: '30 3 * * *'
   image: tf-python39
   emails: none
 
 # Find qids and fix qids
 - name: qids1
-  command: "$HOME/pybot/md_core/mdpages/findqids.sh"
+  command: "$HOME/pybot/td_core/mdpages/findqids.sh"
   schedule: '40 */5 * * *'
   image: tf-python39
   emails: none
@@ -82,44 +82,20 @@
   image: python3.9
   emails: none
 
-# words
-- name: words
-  command: "$HOME/local/bin/python3 core8/pwb.py mdcount/words"
-  schedule: '10 3 * * *'
-  image: python3.9
-  emails: none
-
 - name: dup
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
   schedule: '1 1 * * 0'
   image: python3.9
   emails: none
 
-- name: recheck
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/recheck"
-  schedule: '11 */6 * * *'
-  image: python3.9
-  emails: none
-
-# check_titles
-- name: check-titles
-  command: "$HOME/local/bin/python3 core8/pwb.py db_work/check_titles"
-  schedule: '30 */6 * * *'
-  image: python3.9
-  emails: none
-
-# Generate categories files such as RTT.json
-- name: cat_cach
-  command: "$HOME/local/bin/python3 core8/pwb.py apis/cat_cach newlist"
-  schedule: '20 */6 * * *'
-  image: python3.9
-  emails: none
-
-# Create temporary files with lists of existing articles for all languages
-- name: cashwd
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpages/cashwd"
-  schedule: '10 1,6,12,18 * * *'
-  image: python3.9
+# $HOME/local/bin/python3 core8/pwb.py mdpages/cashwd
+# $HOME/local/bin/python3 core8/pwb.py apis/cat_cach newlist
+# $HOME/local/bin/python3 core8/pwb.py wd_works/recheck
+# $HOME/local/bin/python3 core8/pwb.py db_work/check_titles
+- name: cach-jobs
+  command: "$HOME/jobs/cach_jobs.sh"
+  schedule: '10 */6 * * *'
+  image: tf-python39
   emails: none
 
 # - name: twitter-job
