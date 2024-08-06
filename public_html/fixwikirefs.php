@@ -1,7 +1,7 @@
 <?php
 require 'header.php';
 //---
-print_h3_title("Fix references in Wikipedia's:");
+print_h3_title("Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a>");
 //---
 // https://hashtags.wmcloud.org/graph/?query=mdwiki&project=&startdate=&enddate=&search_type=or&user=
 
