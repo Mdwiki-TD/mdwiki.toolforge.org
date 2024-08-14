@@ -1,15 +1,20 @@
 <?php
 require 'header.php';
 //---
-print_h3_title("Fix references in Wikipedia's:");
+print_h3_title("Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a>");
 //---
+// https://hashtags.wmcloud.org/graph/?query=mdwiki&project=&startdate=&enddate=&search_type=or&user=
+
 $test       = $_GET['test'] ?? '';
 $title      = $_GET['title'] ?? '';
 $save       = isset($_GET['save']) ? 'save' : '';
 $save_checked  = isset($_GET['save']) ? 'checked' : '';
-$lang       = $_GET['lang'] ?? '';
 $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
+//---
+$lang       = $_GET['lang'] ?? '';
+// trim the spaces
+$lang = trim($lang);
 //---
 // the root path is the first part of the split file path
 $pathParts = explode('public_html', __FILE__);
@@ -83,7 +88,8 @@ function endsWith($string, $endString)
     return substr($string, -$len) === $endString;
 };
 //---
-require 'bots/python.php';
+include_once __DIR__ . '/bots/python.php';
+include_once __DIR__ . '/Translation_Dashboard/auth/send_edit.php';
 //---
 function get_results($title, $lang)
 {
@@ -115,7 +121,16 @@ function get_results($title, $lang)
     //---
     return $result;
 }
-//---
+
+function saveit($title, $lang, $text)
+{
+    $result = do_edit($title, $text, "Fix references, Expend infobox mdwiki.toolforge.org.", $lang);
+    // ---
+    $Success = $result->edit->result == 'Success';
+    // ---
+    return $Success;
+}
+
 function worknew($title, $lang)
 {
     //---
@@ -194,12 +209,13 @@ function worknew($title, $lang)
         HTML;
         //---
         if ($save != "") {
-            if ($resultb == "save ok") {
+            $save2 = saveit($title, $lang, $newtext);
+            if ($save2) {
                 echo 'changes has published';
             } else {
                 echo 'Changes are not published, try to do it manually.';
                 echo $form;
-            };
+            }
         } else {
             echo $form;
         };
@@ -224,7 +240,7 @@ echo <<<HTML
         <div class='card-body'>
 HTML;
 // ---
-if ($title != '' && $lang != '') {
+if ($title != '' && $lang != '' && $lang !='en') {
     worknew($title, $lang);
 };
 //---

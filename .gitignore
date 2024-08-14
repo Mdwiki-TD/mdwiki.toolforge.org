@@ -68,3 +68,5 @@ public_html/.lighttpd.conf
 /public_html/Translation_Dashboard_x
 /public_html/td_no_ns
 /d1
+public_html/cc.php
+public_html/x.html
