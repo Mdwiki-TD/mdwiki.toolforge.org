@@ -4,7 +4,7 @@
 // https://mdwiki.org/w/rest.php/v1/revision/1420795/html
 
 header("Content-type: application/json");
-header("Access-Control-Allow-Origin: http://localhost:300");
+header("Access-Control-Allow-Origin: *");
 
 if (isset($_GET['test'])) {
     error_reporting(E_ALL);
@@ -30,7 +30,7 @@ if ($title != '' || $revision != '') {
 // Decode HTML_text using htmlentities
 
 $jsonData = [
-    "sourceLanguage" => "mdwiki",
+    "sourceLanguage" => "en",
     "title" => $title,
     "revision" => $revid,
     "segmentedContent" => $HTML_text

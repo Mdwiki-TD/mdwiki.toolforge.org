@@ -9,8 +9,8 @@ function get_url_params_result(string $url): string
 
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-    curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
+    // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
+    // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
     curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
