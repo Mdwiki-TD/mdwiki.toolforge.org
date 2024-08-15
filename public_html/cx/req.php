@@ -59,11 +59,7 @@ function get_text_html($title, $revision) {
     // replace " " by "_"
     $title = str_replace(" ", "_", $title);
     // ---
-    $url = "https://mdwiki.org/w/rest.php/v1/page/" . $title . "/html";
-    // ---
-    if ($revision != '') {
-        $url = "https://mdwiki.org/w/rest.php/v1/revision/" . $revision . "/html";
-    }
+	$url = $revision !== '' ? "https://mdwiki.org/w/rest.php/v1/revision/$revision/html"  : "https://mdwiki.org/w/rest.php/v1/page/$title/html";
     // ---
     $text = "";
     // ---
