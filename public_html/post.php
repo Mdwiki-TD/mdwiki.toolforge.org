@@ -33,7 +33,7 @@ function get_url_params_result(string $endPoint, array $params = []): string
 $post = $_REQUEST;
 
 if (!$post) {
-    echo '{"error": "No POST data"}';
+	echo json_encode(["error" => "No POST data"]);
     exit;
 };
 
@@ -42,5 +42,7 @@ try {
     $content = get_url_params_result($end_point, $post);
     echo $content;
 } catch (Exception $e) {
-    echo "{}";
+	error_log($e->getMessage());
+	// http_response_code(500);
+	echo json_encode([]);
 };
