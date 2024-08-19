@@ -147,7 +147,7 @@ function worknew($title, $lang)
         </h3>
     HTML;
     //---
-    $summary = "Fix references, Expend infobox mdwiki.toolforge.org.";
+    $summary = "Fix references, Expand infobox mdwiki.toolforge.org.";
     //---
     $form = <<<HTML
         <form id='editform' name='editform' method='POST' action='$new'>
