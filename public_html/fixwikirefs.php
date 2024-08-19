@@ -124,7 +124,7 @@ function get_results($title, $lang)
 
 function saveit($title, $lang, $text)
 {
-    $result = do_edit($title, $text, "Fix references, Expend infobox mdwiki.toolforge.org.", $lang);
+    $result = do_edit($title, $text, "Fix references, Expand infobox mdwiki.toolforge.org.", $lang);
     // ---
     $Success = $result->edit->result == 'Success';
     // ---
