@@ -70,3 +70,4 @@ public_html/.lighttpd.conf
 /d1
 public_html/cc.php
 public_html/x.html
+public_html/web.config
