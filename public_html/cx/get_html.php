@@ -14,6 +14,7 @@ require __DIR__ . '/req.php';
 
 $title    = $_GET['title'] ?? '';
 $revision = $_GET['revision'] ?? '';
+$returntext = $_GET['returntext'] ?? '';
 
 $HTML_text = "";
 $revid = "";
@@ -26,7 +27,10 @@ if ($title != '' || $revision != '') {
         $HTML_text = utf8_encode($HTML_text);
     };
 }
-
+if ($returntext != '') {
+    echo $HTML_text;
+    exit;
+}
 // Decode HTML_text using htmlentities
 
 $jsonData = [
