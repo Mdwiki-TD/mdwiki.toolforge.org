@@ -71,3 +71,4 @@ public_html/.lighttpd.conf
 public_html/cc.php
 public_html/x.html
 public_html/web.config
+/public_html/fixwikirefs/wprefs
