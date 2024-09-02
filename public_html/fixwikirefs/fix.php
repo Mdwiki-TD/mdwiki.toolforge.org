@@ -36,3 +36,31 @@ function get_results($title, $lang, $movedots, $infobox, $test)
     //---
     return $result;
 }
+
+function get_text_results($text, $lang)
+{
+
+    global $root_paath;
+    //---
+    $test = $_GET['test'] ?? '';
+    //---
+    // write $text to file
+    $file_name = rand(10000, 99999) . '.txt';
+    $file_name = "texts/$file_name";
+    // ---
+    file_put_contents(__DIR__ . "/$file_name", $text);
+    //---
+    $ccc = "returnfile -file:$file_name -lang:$lang";
+    //---
+    $params = array(
+        'dir' => $root_paath . "/pybot/wprefs",
+        'localdir' => $root_paath . "/pybot/wprefs",
+        'pyfile' => 'bot1.py',
+        'other' => $ccc,
+        'test' => $test
+    );
+    //---
+    $result = do_py2($params);
+    //---
+    return $result;
+}
