@@ -164,7 +164,6 @@ HTML;
 	// });
 </script>
 <main id="body">
-	<br>
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container">
 		<div class="card">

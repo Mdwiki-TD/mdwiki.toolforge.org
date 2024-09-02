@@ -231,4 +231,4 @@ if ($title != '' && $lang != '' && $lang != 'en') {
 //---
 echo "</div></div>";
 //---
-require 'footer.php';
+require __DIR__ . '/../footer.php';
