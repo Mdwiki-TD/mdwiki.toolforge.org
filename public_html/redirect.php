@@ -20,9 +20,9 @@ function printForm($title, $titlelist, $test)
     // ---
     $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
     // ---
-    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
     // ---
-    $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+    $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
     //---
     $rows = <<<HTML
         <div class='col-lg-12'>
@@ -99,7 +99,7 @@ function createRedirects($title, $titlelist, $test)
 
     $file = "$ROOT_PATH/public_html/texts/redirectlist.txt";
 
-    if ($title != '') {
+    if (!empty($title)) {
         $pythonCommand = "-page2:" . rawurlencode($title);
         echo '<span class="">The Bot will create redirects for ' . rawurldecode($title) . ' in seconds.</span>';
     } else {
@@ -118,7 +118,7 @@ function createRedirects($title, $titlelist, $test)
     echo $result;
 }
 
-if ($title == '' && $titlelist == '') {
+if ((empty($title) && empty($titlelist)) || empty($username)) {
     printForm($title, $titlelist, $test);
 } else {
     createRedirects($title, $titlelist, $test);

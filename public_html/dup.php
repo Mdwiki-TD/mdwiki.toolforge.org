@@ -11,18 +11,18 @@ print_h3_title("Fix duplicate redirects.");
 
 // Process request parameters
 $start = $_REQUEST['start'] ?? '';
-$test = $_REQUEST['test'] ?? '';
+$test  = $_REQUEST['test'] ?? '';
 
-$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
 // global $username;
 // ---
-$start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
+$start_icon = "<input class='btn btn-outline-primary' type='submit' name='start' value='start'>";
 // ---
-if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
 // ---
 // Handle form submission or execute command
-if ($start == '') {
+if (empty($start) || empty($username)) {
     echo <<<HTML
     <form action='dup.php' method='POST'>
         $testinput
@@ -35,12 +35,13 @@ if ($start == '') {
     HTML;
 } else {
     // Define command
+    echo "starting....";
     // $faf = "kubectl exec -q mdwiki-6fd7885d59-sn5pl -- /bin/sh -c $ROOT_PATH/public_html/dup.sh";
 
     $faf = "kubectl create job dup --output=json --image=busybox -- public_html/dup.sh";
 
     // Output command if in test mode
-    if ($test != '') {
+    if (!empty($test)) {
         echo $faf;
     }
 
