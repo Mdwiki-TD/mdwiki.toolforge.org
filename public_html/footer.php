@@ -6,6 +6,12 @@
         	<footer class='app-footer'>
         	</footer>
         	<script>
+				$(document).ready(function() {
+					// $('[data-toggle="tooltip"]').tooltip();
+					const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+					const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+				});
+
         		$(function() {
         			// attach autocomplete behavior to input field
         			$("#title").autocomplete({
