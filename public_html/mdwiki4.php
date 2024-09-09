@@ -11,7 +11,7 @@ $save_checked  = isset($_GET['save']) ? 'checked' : '';
 $href = '';
 $url = '';
 //---
-if ($title != '') {
+if (!empty($title)) {
     $encoded_title = rawurlencode(str_replace(' ', '_', $title));
     $href = 'https://mdwiki.org/wiki/$encoded_title';
     $url = "<a target='_blank' href='$href'>$title</a>";
@@ -26,11 +26,11 @@ $root_paath = str_replace('\\', '/', $root_paath);
 $title2 = add_quotes($title);
 // ---
 $test  = $_GET['test'] ?? '';
-$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
 $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
 // ---
-if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
 // ---
 echo <<<HTML
     <form action='mdwiki4.php' method='GET'>
@@ -85,7 +85,7 @@ function get_results($title)
     $title2 = str_replace("'", "\\'", $title2);
     $title2 = rawurlencode($title2);
     //---
-    $sa = ($save != '') ? ' save' : '';
+    $sa = (!empty($save)) ? ' save' : '';
     //---
     $ccc = "-page:$title2 from_toolforge $sa";
     //---
@@ -157,7 +157,7 @@ function worknew($title)
     } elseif ($t3 || $test) {
         //---
         $newtext = '';
-        if ($resultb != "") $newtext = file_get_contents($resultb);
+        if (!empty($resultb)) $newtext = file_get_contents($resultb);
         //---
         $form = $form . <<<HTML
             <div class='form-group'>
@@ -173,7 +173,7 @@ function worknew($title)
         </form>
         HTML;
         //---
-        if ($save != "") {
+        if (!empty($save)) {
             if ($resultb == "save ok") {
                 echo 'changes has published';
             } else {
@@ -204,10 +204,10 @@ echo <<<HTML
         <div class='card-body'>
 HTML;
 // ---
-if ($username == '') {
+if (empty($username)) {
     echo 'log in!!';
 };
-if ($title != '' && $username != '') {
+if (!empty($title) && !empty($username)) {
     worknew($title);
 };
 //---

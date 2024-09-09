@@ -17,77 +17,6 @@ print_h3_title("Fix references in Wikipedia's: <a href='https://hashtags.wmcloud
 //---
 // https://hashtags.wmcloud.org/graph/?query=mdwiki&project=&startdate=&enddate=&search_type=or&user=
 
-$test       = $_GET['test'] ?? '';
-$title      = $_GET['title'] ?? '';
-$save       = isset($_GET['save']) ? 'save' : '';
-$save_checked  = isset($_GET['save']) ? 'checked' : '';
-$movedots   = isset($_GET['movedots']) ? 'checked' : '';
-$infobox    = isset($_GET['infobox']) ? 'checked' : '';
-//---
-$lang       = $_GET['lang'] ?? '';
-// trim the spaces
-$lang = trim($lang);
-
-$title2 = add_quotes($title);
-// ---
-// global $username;
-// ---
-$start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
-// ---
-if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
-// ---
-$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
-//---
-echo <<<HTML
-    <form action='fixwikirefs.php' method='GET'>
-        $testinput
-        <div class='container'>
-            <div class='row'>
-                <div class='col-md-4'>
-                    <div class='input-group mb-3'>
-                        <div class='input-group-prepend'>
-                            <span class='input-group-text'>Langcode</span>
-                        </div>
-                        <input class='form-control' type='text' name='lang' value='$lang' required />
-                    </div>
-                    <div class='input-group mb-3'>
-                        <div class='input-group-prepend'>
-                            <span class='input-group-text'>Title</span>
-                        </div>
-                        <input class='form-control' type='text' id='title' name='title' value=$title2 required />
-                    </div>
-                </div>
-                <div class='col-md-3'>
-                    <div class='form-check form-switch'>
-                        <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
-                        <label class='check-label' for='save'>Auto save</label>
-                    </div>
-
-                    <div class='form-check form-switch'>
-                        <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' $movedots>
-                        <label class='form-check-label' for='movedots'>Move dots after references</label>
-                    </div>
-
-                    <div class='form-check form-switch'>
-                        <input class='form-check-input' type='checkbox' id='infobox' name='infobox' value='1' $infobox>
-                        <label class='form-check-label' for='infobox'>Expand Infobox</label>
-                    </div>
-                </div>
-                <div class='col-md-5'>
-                    <h4 class='aligncenter'>
-                        $start_icon
-                    </h4>
-                </div>
-            </div>
-        </div>
-    </form>
-HTML;
-//---
-function strstartswith($text, $start)
-{
-    return strpos($text, $start) === 0;
-};
-//---
 function endsWith($string, $endString)
 {
     $len = strlen($endString);
@@ -116,17 +45,14 @@ function saveit($title, $lang, $text)
     return $Success;
 }
 
-function worknew($title, $lang)
+function worknew($title, $lang, $save, $test, $movedots, $infobox)
 {
-    //---
-    global $save, $test, $movedots, $infobox;
-    //---
     $site = "$lang.wikipedia.org";
     //---
     $new = "https://$site/w/index.php?title=$title&action=submit";
     $articleurl = "https://$site/w/index.php?title=$title";
     //---
-    echo <<<HTML
+    $text_re =  <<<HTML
         <h3>
             page: <a target='_blank' href='$articleurl'>$title</a>
         </h3>
@@ -152,7 +78,7 @@ function worknew($title, $lang)
     //---
     $t3 = endsWith($resultb, '.txt');
     //---
-    if ($test) echo "results:({$resultb})<br>";
+    if ($test) $text_re .= "results:({$resultb})<br>";
     //---
     $edit_link = <<<HTML
         <a type='button' target='_blank' class='btn btn-outline-primary' href='$new'>Open edit new tab.</a>
@@ -168,12 +94,12 @@ function worknew($title, $lang)
     HTML;
     //---
     if ($resultb == 'no changes') {
-        echo "no changes";
-        echo $edt_link_row;
+        $text_re .= "no changes";
+        $text_re .= $edt_link_row;
     } elseif ($resultb == "notext") {
-        echo "text == ''";
-        echo $edt_link_row;
-        // } elseif ($resultb == "ok") { echo ("save done.");
+        $text_re .= "text == ''";
+        $text_re .= $edt_link_row;
+        // } elseif ($resultb == "ok") { $text_re .= ("save done.");
     } elseif ($t3 || $test) {
         //---
         $newtext = '';
@@ -196,23 +122,97 @@ function worknew($title, $lang)
         if ($save != "") {
             $save2 = saveit($title, $lang, $newtext);
             if ($save2) {
-                echo 'changes has published';
+                $text_re .= 'changes has published';
             } else {
-                echo 'Changes are not published, try to do it manually.';
-                echo $form;
+                $text_re .= 'Changes are not published, try to do it manually.';
+                $text_re .= $form;
             }
         } else {
-            echo $form;
+            $text_re .= $form;
         };
         //---
     } else {
-        echo $resultb;
-        echo $edt_link_row;
+        $text_re .= $resultb;
+        $text_re .= $edt_link_row;
     };
     //---
+    return $text_re;
 };
-//---
+
+function print_form($title, $lang, $save, $movedots, $infobox, $test, $username)
+{
+    $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+    //---
+    $title2 = add_quotes($title);
+    $save_checked  = ($save != "") ? 'checked' : '';
+    //---
+    $start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
+    // ---
+    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    // ---
+    return <<<HTML
+        <form action='fixwikirefs.php' method='GET'>
+            $testinput
+            <div class='container'>
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <div class='input-group mb-3'>
+                            <div class='input-group-prepend'>
+                                <span class='input-group-text'>Langcode</span>
+                            </div>
+                            <input class='form-control' type='text' name='lang' value='$lang' required />
+                        </div>
+                        <div class='input-group mb-3'>
+                            <div class='input-group-prepend'>
+                                <span class='input-group-text'>Title</span>
+                            </div>
+                            <input class='form-control' type='text' id='title' name='title' value=$title2 required />
+                        </div>
+                    </div>
+                    <div class='col-md-3'>
+                        <div class='form-check form-switch'>
+                            <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
+                            <label class='check-label' for='save'>Auto save</label>
+                        </div>
+
+                        <div class='form-check form-switch'>
+                            <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' $movedots>
+                            <label class='form-check-label' for='movedots'>Move dots after references</label>
+                        </div>
+
+                        <div class='form-check form-switch'>
+                            <input class='form-check-input' type='checkbox' id='infobox' name='infobox' value='1' $infobox>
+                            <label class='form-check-label' for='infobox'>Expand Infobox</label>
+                        </div>
+                    </div>
+                    <div class='col-md-5'>
+                        <h4 class='aligncenter'>
+                            $start_icon
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </form>
+    HTML;
+    //---
+}
+
+$test       = $_GET['test'] ?? '';
+$title      = $_GET['title'] ?? '';
+$save       = isset($_GET['save']) ? 'save' : '';
+$movedots   = isset($_GET['movedots']) ? 'checked' : '';
+$infobox    = isset($_GET['infobox']) ? 'checked' : '';
+$lang       = isset($_GET['lang']) ? trim($_GET['lang']) : '';
+
+echo print_form($title, $lang, $save, $movedots, $infobox, $test, $username);
+// ---
 echo "</div></div>";
+//---
+$new_tt = "";
+//---
+if (!empty($title) && !empty($lang) && $lang != 'en' && !empty($username)) {
+    $new_tt = worknew($title, $lang, $save, $test, $movedots, $infobox);
+};
 //---
 echo <<<HTML
 <hr />
@@ -223,12 +223,11 @@ echo <<<HTML
             </h3>
         </div>
         <div class='card-body'>
+            $new_tt
+        </div>
+    </div>
 HTML;
 // ---
-if ($title != '' && $lang != '' && $lang != 'en') {
-    worknew($title, $lang);
-};
-//---
 echo "</div></div>";
 //---
 require __DIR__ . '/../footer.php';

@@ -12,13 +12,8 @@ $test       = $_REQUEST['test'] ?? '';
 $from       = $_REQUEST['from'] ?? '';
 $title      = $_REQUEST['title'] ?? '';
 $titlelist  = $_REQUEST['titlelist'] ?? '';
-$code       = $_REQUEST['code'] ?? '';
 //---
-$err = '';
-//---
-if ($code != 'James#99' && $code != 'james#99' && $code != '') {
-    $err = "<span style='font-size:13pt;'>! (" . $code . ")</span><span style='font-size:13pt;color:red'> is wrong code.</span>";
-};
+$valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
 //---
 require 'bots/tfj.php';
 
@@ -43,15 +38,19 @@ function get_results($aargs)
 }
 
 //---
-function make_form($test, $title, $titlelist, $code, $err)
+function make_form($test, $title, $titlelist)
 {
-    global $username;
+    global $username, $valid_user;
     // ---
-    $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
+    $codeNote = (!$valid_user && !empty($username)) ? "<span style='font-size:12pt;color:red'>! ($username) Access denied.</span>" : '';
     // ---
-    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    $start_icon = (empty($username)) ? '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>' : "";
     // ---
-    $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+    if ($valid_user) {
+        $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
+    }
+    // ---
+    $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
     // ---
     return <<<HTML
         <form action='import-history.php' method='POST'>
@@ -83,14 +82,8 @@ function make_form($test, $title, $titlelist, $code, $err)
                             </div>
                         </div>
                         <div class='col-lg-12'>
-                            <div class='form-group'>
-                                <div class='input-group mb-3'>
-                                    <div class='input-group-prepend'>
-                                        <span class='input-group-text'>Code:</span>
-                                    </div>
-                                    <input class='form-control' type='text' name='code' value='$code' required/>
-                                    $err
-                                </div>
+                            <div class='input-group mb-3'>
+                                $codeNote
                             </div>
                         </div>
                         <div class='col-lg-12'>
@@ -105,9 +98,9 @@ function make_form($test, $title, $titlelist, $code, $err)
     HTML;
     //---
 }
-if (($titlelist == '' && $title == '') or $code == '' or ($code != 'James#99' && $code != 'james#99')) {
+if ((empty($titlelist) && empty($title)) || !$valid_user) {
     //---
-    echo make_form($test, $title, $titlelist, $code, $err);
+    echo make_form($test, $title, $titlelist);
     //---
 } else {
     //---
@@ -115,12 +108,12 @@ if (($titlelist == '' && $title == '') or $code == '' or ($code != 'James#99' &&
     //---
     $text = "";
     //---
-    if ($title != '') {
+    if (!empty($title)) {
         $command .= " -page:" . rawurlencode($title) . ' -from:' . rawurlencode($from);
         //---
         $text .= 'The Bot will import ' . rawurldecode($title) . ' history';
         //---
-        if ($from != '') $text .= ' from (' . rawurldecode($from) . ') in seconds.';
+        if (!empty($from)) $text .= ' from (' . rawurldecode($from) . ') in seconds.';
         //---
         $text .= ' in seconds.';
         //---

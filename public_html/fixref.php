@@ -18,9 +18,9 @@ function make_form($titlelist, $number, $test)
 	// ---
 	$start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
 	// ---
-	if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+	if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
 	// ---
-	$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+	$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 	//---
 	echo <<<HTML
 	<form action='fixref.php' method='POST'>
@@ -80,7 +80,7 @@ function get_results($aargs)
     //---
     return $result;
 }
-if ($number == '' && $titlelist == '') {
+if ((empty($number) && empty($titlelist)) || empty($username)) {
 	make_form($titlelist, $number, $test);
 } else {
 	//---
@@ -90,7 +90,7 @@ if ($number == '' && $titlelist == '') {
 	//---
 	$titlelist = trim($titlelist);
 	//---
-	if ($titlelist != '') {
+	if (!empty($titlelist)) {
 		// split py lines
 		$lines = explode("\n", $titlelist);
 		// if lenth of lines == 1 then
@@ -108,13 +108,13 @@ if ($number == '' && $titlelist == '') {
 			$command .= " -file:$filename";
 			//---
 		}
-	} elseif ($number != '') {
+	} elseif (!empty($number)) {
 		$command .= " allpages -number:$number";
 	}
 	//---
 	echo "<h4 style='color:green'>The bot will start in seconds.</h4>";
 	//---
-	if ($test != '') echo $command;
+	if (!empty($test)) echo $command;
 	//---
 	$result = get_results($command);
 	//---

@@ -14,13 +14,13 @@ echo <<<HTML
 	<div class='container'>
 HTML;
 //---
-$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
 // global $username;
 // ---
 $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
 // ---
-if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
 // ---
 echo <<<HTML
 	<form action='fixred.php' method='GET'>
@@ -77,7 +77,7 @@ function get_results($title)
 	return $result;
 }
 //---
-if ($title != '') {
+if (!empty($title) && !empty($username)) {
 	echo "starting:<br>";
 	//---
 	$resultb = get_results($title);

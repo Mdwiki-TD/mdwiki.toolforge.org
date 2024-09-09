@@ -8,12 +8,14 @@ $test       = $_REQUEST['test'] ?? '';
 $find       = $_REQUEST['find'] ?? '';
 $replace    = $_REQUEST['replace'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
-$code       = $_REQUEST['code'] ?? '';
 
 require  'bots/tfj.php';
 //---
+$valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
+//---
 // Function to generate radio button
-function generateRadioButton($id, $name, $value, $label, $checked = '') {
+function generateRadioButton($id, $name, $value, $label, $checked = '')
+{
     return <<<HTML
         <div class='custom-control custom-radio custom-control-inline'>
             <input type='radio' class='custom-control-input' id='$id' name='$name' value='$value' $checked>
@@ -23,9 +25,10 @@ function generateRadioButton($id, $name, $value, $label, $checked = '') {
 }
 
 // Function to generate the form
-function generateForm($find, $replace, $number, $code, $test) {
-    global $username;
-    $codeNote = ($code != '' && $code != 'james#99') ? "<span style='font-size:12pt;color:red'>! ($code) is the wrong code.</span>" : '';
+function generateForm($find, $replace, $number, $test)
+{
+    global $username, $valid_user;
+    $codeNote = (!$valid_user && !empty($username)) ? "<span style='font-size:12pt;color:red'>! ($username) Access denied.</span>" : '';
 
     $findRow = <<<HTML
         <div class='form-group'>
@@ -50,13 +53,13 @@ function generateForm($find, $replace, $number, $code, $test) {
         </div>
         <div class='input-group mb-3'>
             <div class='input-group-prepend'>
-                <span class='input-group-text'>Code</span>
+                $codeNote
             </div>
-            <input class='form-control' type='text' name='code' value='$code' required/>$codeNote
+
         </div>
     HTML;
 
-    $test_1 = ($test != '') ? generateRadioButton('c1', 'test', '1', 'Test', '') : '';
+    $test_1 = (!empty($test)) ? generateRadioButton('c1', 'test', '1', 'Test', '') : '';
 
     $input_2 =
         generateRadioButton('customRadio2', 'listtype', 'newlist', 'Use API search', 'checked') .
@@ -64,9 +67,11 @@ function generateForm($find, $replace, $number, $code, $test) {
         $test_1;
 
     // ---
-    $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
+    $start_icon = (empty($username)) ? '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>' : "";
     // ---
-    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    if ($valid_user) {
+        $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
+    }
     // ---
     echo <<<HTML
         <form action='replace.php' method='POST'>
@@ -90,7 +95,8 @@ function generateForm($find, $replace, $number, $code, $test) {
 }
 
 // Function to write to a file
-function writeToFile($file, $text) {
+function writeToFile($file, $text)
+{
     $myfile = fopen('find/' . $file, 'w');
     fwrite($myfile, $text);
     fclose($myfile);
@@ -98,30 +104,31 @@ function writeToFile($file, $text) {
 
 function get_results($numb)
 {
-	//---
-	global $test;
-	//---
-	$ccc = " mdpy/replace1 $numb";
-	//---
-	$params = array(
-		'dir' => "core8",
-		'localdir' => "core8",
-		'pyfile' => 'pwb.py',
-		'other' => $ccc,
-		'test' => $test
-	);
-	//---
-	$result = do_tfj_sh($params, "replace");
-	//---
-	return $result;
+    //---
+    global $test;
+    //---
+    $ccc = " mdpy/replace1 $numb";
+    //---
+    $params = array(
+        'dir' => "core8",
+        'localdir' => "core8",
+        'pyfile' => 'pwb.py',
+        'other' => $ccc,
+        'test' => $test
+    );
+    //---
+    $result = do_tfj_sh($params, "replace");
+    //---
+    return $result;
 }
 
 // Function to perform the replacement
-function performReplacement($find, $replace, $number, $listtype) {
+function performReplacement($find, $replace, $number, $listtype)
+{
     //---
     $nn = rand();
 
-    if ($find != '' && $replace != '') {
+    if (!empty($find) && !empty($replace)) {
         writeToFile($nn . '_find.txt', $find);
         writeToFile($nn . '_replace.txt', $replace);
     }
@@ -147,10 +154,8 @@ function performReplacement($find, $replace, $number, $listtype) {
     echo $result;
 }
 
-// Main logic
-
-if ($find == '' || $replace == '' || $code == '' || ($code != '' && $code != 'james#99')) {
-    generateForm($find, $replace, $number, $code, $test);
+if (empty($find) || empty($replace) || !$valid_user) {
+    generateForm($find, $replace, $number, $test);
 } else {
     performReplacement($find, $replace, $number, $listtype);
 }
