@@ -14,6 +14,7 @@ use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
 use MediaWiki\OAuthClient\Consumer;
 use MediaWiki\OAuthClient\Token;
+use function Publish\Helps\pub_test_print;
 
 function get_edits_token($client, $accessToken, $apiUrl)
 {
@@ -23,7 +24,7 @@ function get_edits_token($client, $accessToken, $apiUrl)
     // ---
     if ($data == null || !isset($data->query->tokens->csrftoken)) {
         // Handle error
-        echo "<br>get_edits_token Error: " . json_last_error() . " " . json_last_error_msg();
+        pub_test_print("<br>get_edits_token Error: " . json_last_error() . " " . json_last_error_msg());
         return null;
     }
     // ---
