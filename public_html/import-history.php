@@ -104,6 +104,8 @@ if ((empty($titlelist) && empty($title)) || !$valid_user) {
     //---
 } else {
     //---
+    echo "starting...";
+    //---
     $command = "";
     //---
     $text = "";

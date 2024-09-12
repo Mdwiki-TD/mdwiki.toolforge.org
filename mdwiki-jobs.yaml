@@ -26,7 +26,7 @@
   emails: none
 
 - name: medwiki
-  command: "$HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki"
+  command: "$HOME/local/bin/python3 core8/pwb.py copy_to_en/revid && $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki"
   schedule: '1 * * * 1'
   image: python3.9
   emails: none

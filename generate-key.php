@@ -1,6 +1,6 @@
 <?php
 
-require_once('public_html/Translation_Dashboard/vendor/autoload.php');
+require_once('Translation_Dashboard/vendor/autoload.php');
 
 use Defuse\Crypto\Key;
 
