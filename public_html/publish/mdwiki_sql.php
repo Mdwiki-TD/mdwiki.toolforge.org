@@ -15,6 +15,7 @@ if (isset($_REQUEST['test'])) {
 //---
 use PDO;
 use PDOException;
+use function Publish\Helps\pub_test_print;
 //---
 class Database
 {
@@ -46,7 +47,7 @@ class Database
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            pub_test_print($e->getMessage());
             exit();
         }
     }
@@ -71,7 +72,7 @@ class Database
                 return array();
             }
         } catch (PDOException $e) {
-            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
+            pub_test_print("sql error:" . $e->getMessage() . "<br>" . $sql_query);
             return array();
         }
     }
@@ -90,7 +91,7 @@ class Database
             $result = $q->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
+            pub_test_print("sql error:" . $e->getMessage() . "<br>" . $sql_query);
             return array();
         }
     }

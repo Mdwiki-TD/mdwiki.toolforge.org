@@ -7,6 +7,7 @@ namespace Publish\TextFix;
 use function Publish\TextFix\DoChangesToText;
 
 */
+use function Publish\Helps\pub_test_print;
 
 function sw_fixes($text)
 {
@@ -22,7 +23,7 @@ function es_section($sourcetitle, $text, $revid)
     // if text has /\{\{\s*Traducido ref\s*\|/ then return text
     preg_match('/\{\{\s*Traducido\s*ref\s*\|/', $text, $ma);
     if (!empty($ma)) {
-        echo "return text;";
+        pub_test_print("return text;");
         return $text;
     }
     // ---
