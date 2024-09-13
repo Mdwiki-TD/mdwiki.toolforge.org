@@ -40,15 +40,15 @@ function get_csrftoken($client, $access_key, $access_secret, $apiUrl)
     // ---
     $response = $client->makeOAuthCall($accessToken, "$apiUrl?action=query&meta=tokens&format=json");
     // ---
-    $data = json_decode($response);
+    $data = json_decode($response, true);
     // ---
-    if ($data == null || !isset($data->query->tokens->csrftoken)) {
+    if ($data == null || !isset($data['query']['tokens']['csrftoken'])) {
         // Handle error
         pub_test_print("<br>get_csrftoken Error: " . json_last_error() . " " . json_last_error_msg());
-        return null;
+        pub_test_print($data);
     }
     // ---
-    return $data->query->tokens->csrftoken;
+    return $data;
 }
 
 function post_params($apiParams, $https_domain, $access_key, $access_secret)
@@ -60,10 +60,11 @@ function post_params($apiParams, $https_domain, $access_key, $access_secret)
     // ---
     $accessToken = new Token($access_key, $access_secret);
     // ---
-    $csrftoken = get_csrftoken($client, $access_key, $access_secret, $apiUrl);
+    $csrftoken_data = get_csrftoken($client, $access_key, $access_secret, $apiUrl);
+    $csrftoken = $csrftoken_data['query']['tokens']['csrftoken'];
     // ---
     if ($csrftoken == null) {
-        return json_encode(['error' => 'get_csrftoken failed', "rand" => rand()]);
+        return json_encode(['error' => 'get_csrftoken failed', "rand" => rand(), "csrftoken_data" => $csrftoken_data], JSON_PRETTY_PRINT);
     }
     // ---
     $apiParams["format"] = "json";
@@ -86,43 +87,11 @@ function get_cxtoken($wiki, $access_key, $access_secret)
     // ---
     $response = post_params($apiParams, $https_domain, $access_key, $access_secret);
     // ---
-    $apiResult = json_decode($response);
+    $apiResult = json_decode($response, true);
     // ---
-    if ($apiResult == null || isset($apiResult->error)) {
+    if ($apiResult == null || isset($apiResult['error'])) {
         pub_test_print("<br>get_cxtoken: Error: " . json_last_error() . " " . json_last_error_msg());
     }
     // ---
     return $apiResult;
-}
-
-function get_cxtoken_old($wiki, $access_key, $access_secret)
-{
-    // ---
-    $apiUrl = "https://$wiki.wikipedia.org/w/api.php";
-    // ---
-    $client = get_client($wiki);
-    // ---
-    $accessToken = new Token($access_key, $access_secret);
-    // ---
-    $csrftoken = get_csrftoken($client, $access_key, $access_secret, $apiUrl);
-    // ---
-    if ($csrftoken == null) {
-        return json_encode(['error' => 'get_csrftoken failed', "rand" => rand()]);
-    }
-    // ---
-    $apiParams = [
-        'action' => 'cxtoken',
-        'token' => $csrftoken,
-        'format' => 'json',
-    ];
-    // ---
-    $response = $client->makeOAuthCall($accessToken, $apiUrl, true, $apiParams);
-    // ---
-    $editResult = json_decode($response);
-    // ---
-    if ($editResult == null || isset($editResult->error)) {
-        pub_test_print("<br>get_cxtoken: Error: " . json_last_error() . " " . json_last_error_msg());
-    }
-    // ---
-    return $editResult;
 }

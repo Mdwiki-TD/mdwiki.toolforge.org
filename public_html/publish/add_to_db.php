@@ -70,6 +70,9 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
     // if target contains user
     if (strpos($target, $user) !== false) {
         $use_user_sql = true;
+        if ($user == "Mr. Ibrahem") {
+            return;
+        }
     }
     // ---
     // today date like: 2024-08-21
@@ -104,4 +107,6 @@ function InsertPageTarget($title, $tr_type, $cat, $lang, $user, $test, $target)
         echo "<br>$query<br>";
     }
     execute_query($query, $params = $params);
+    // ---
+    return $use_user_sql;
 }
