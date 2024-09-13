@@ -4,3 +4,6 @@
 [submodule "pybot"]
 	path = pybot
 	url = https://github.com/MrIbrahem/pybot
+[submodule "public_html/publish"]
+	path = public_html/publish
+	url = https://github.com/MrIbrahem/cx-publish
