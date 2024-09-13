@@ -5,6 +5,7 @@ namespace Publish\Helps;
 Usage:
 include_once __DIR__ . '/../publish/helps.php';
 use function Publish\Helps\get_access_from_db;
+use function Publish\Helps\del_access_from_db;
 use function Publish\Helps\add_access_to_db;
 use function Publish\Helps\pub_test_print;
 */
@@ -15,6 +16,18 @@ use Defuse\Crypto\Crypto;
 use function Publish\MdwikiSql\execute_query;
 use function Publish\MdwikiSql\fetch_query;
 
+function pub_test_print($s)
+{
+    //---
+    if (!isset($_REQUEST['test'])) return;
+    //---
+    if (gettype($s) == 'string') {
+        echo "\n<br>\n$s";
+    } else {
+        echo "\n<br>\n";
+        print_r($s);
+    }
+}
 
 function decode_value($value)
 {
@@ -36,19 +49,6 @@ function encode_value($value)
         $value = $value;
     };
     return $value;
-}
-
-function pub_test_print($s)
-{
-    //---
-    if (!isset($_REQUEST['test'])) return;
-    //---
-    if (gettype($s) == 'string') {
-        echo "\n<br>\n$s";
-    } else {
-        echo "\n<br>\n";
-        print_r($s);
-    }
 }
 
 function get_url_curl(string $url): string
@@ -120,4 +120,16 @@ function get_access_from_db($user)
         // إذا لم يتم العثور على نتيجة، إرجاع null أو يمكنك تخصيص رد معين
         return null;
     }
+}
+
+function del_access_from_db($user)
+{
+    $user = trim($user);
+
+    $query = <<<SQL
+        DELETE FROM access_keys WHERE user_name = ?;
+    SQL;
+
+    $result = execute_query($query, [$user]);
+
 }

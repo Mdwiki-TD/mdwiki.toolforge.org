@@ -51,14 +51,14 @@ function make_summary($revid, $sourcetitle, $to)
     return "Created by translating the page [[:mdwiki:Special:Redirect/revision/$revid|$sourcetitle]] to:$to #mdwikicx";
 }
 
-function to_do($tab)
+function to_do($tab, $dir)
 {
+    if (!is_dir(__DIR__ . "/$dir")) {
+        mkdir(__DIR__ . "/$dir", 0755, true);
+    }
     try {
         // dump $tab to file in folder to_do
-        $file_name = __DIR__ . '/to_do/' . rand(0, 999999999) . '.json';
-        if (!is_dir(__DIR__ . '/to_do')) {
-            mkdir(__DIR__ . '/to_do', 0755, true);
-        }
+        $file_name = __DIR__ . "/$dir/" . rand(0, 999999999) . '.json';
         file_put_contents($file_name, json_encode($tab, JSON_PRETTY_PRINT));
     } catch (Exception $e) {
         pub_test_print($e->getMessage());
@@ -82,8 +82,25 @@ $summary  = make_summary($revid, $sourcetitle, $lang);
 
 $access = get_access_from_db($user);
 
+$tab = [
+    'title' => $title,
+    'summary' => $summary,
+    'lang' => $lang,
+    'user' => $user,
+    'campaign' => $campaign,
+    'result' => "",
+    'edit' => [],
+    'sourcetitle' => $sourcetitle
+
+];
+// ---
+$to_do_dir = "to_do";
+// ---
+
 if ($access == null) {
-    $editit = ['edit' => ['error' => 'no access'], 'username' => $user];
+    $ee = ['code' => 'noaccess', 'info' => 'noaccess'];
+    $editit = ['error' => $ee, 'edit' => ['error' => $ee, 'username' => $user], 'username' => $user];
+    $to_do_dir = "errors";
 } else {
     $access_key = $access['access_key'];
     $access_secret = $access['access_secret'];
@@ -95,18 +112,7 @@ if ($access == null) {
     // ---
     $Success = $editit['edit']['result'] ?? '';
     // ---
-    $tab = [
-        'title' => $title,
-        'summary' => $summary,
-        'lang' => $lang,
-        'user' => $user,
-        'campaign' => $campaign,
-        'result' => $Success,
-        'sourcetitle' => $sourcetitle
-
-    ];
-    // ---
-    to_do($tab);
+    $tab['result'] = $Success;
     // ---
     if ($Success === 'Success') {
         // ---
@@ -114,14 +120,19 @@ if ($access == null) {
         $cat         = $camp_to_cat[$campaign] ?? '';
         // ---
         try {
-            InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, "", $title);
+            $is_user_page = InsertPageTarget($sourcetitle, 'lead', $cat, $lang, $user, "", $title);
+            // ---
             $editit['LinkToWikidata'] = LinkToWikidata($sourcetitle, $lang, $user, $title, $access_key, $access_secret);
         } catch (Exception $e) {
             pub_test_print($e->getMessage());
         }
         // ---
-    };
+    } else {
+        $to_do_dir = "errors";
+    }
 }
+$tab['edit'] = $editit;
+to_do($tab, $to_do_dir);
 
 pub_test_print("\n<br>");
 pub_test_print("\n<br>");
