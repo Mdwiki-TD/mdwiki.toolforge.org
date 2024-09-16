@@ -76,3 +76,4 @@ public_html/web.config
 /public_html/u
 public_html/oauth_test.php
 public_html/qdel.php.o
+/public_html/publish/**
