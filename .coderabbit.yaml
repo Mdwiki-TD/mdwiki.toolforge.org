@@ -16,5 +16,10 @@ reviews:
         drafts: false
     path_filters:
         - "!**/old/**"
+    path_instructions:
+        - path: "changelog.md"
+          instructions: |
+            update changelog.md with new changes
+
 chat:
     auto_reply: true
