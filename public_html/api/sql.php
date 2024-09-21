@@ -45,7 +45,10 @@ class Database
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->password);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            // Log the error message
+            error_log($e->getMessage());
+            // Display a generic message
+            echo "Unable to connect to the database. Please try again later.";
             exit();
         }
     }
@@ -64,7 +67,8 @@ class Database
             $result = $q->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
-            echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
+            // echo "sql error:" . $e->getMessage() . "<br>" . $sql_query;
+            error_log("SQL Error: " . $e->getMessage() . " | Query: " . $sql_query);
             return array();
         }
     }
