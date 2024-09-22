@@ -23,22 +23,28 @@ function make_status_query()
         WHERE p.target != ''
     SQL;
     $params = [];
-    if (isset($_GET['year']) && preg_match('/^\d+$/', $_GET['year'])) {
-        $added = filter_input(INPUT_GET, 'year', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $year = $_GET['year'] ?? '';
+    $user_group = $_GET['user_group'] ?? '';
+    $campaign = $_GET['campaign'] ?? '';
+
+    if (!empty($year) && preg_match('/^\d+$/', $year) && $year != "all") {
+        $added = filter_var($year, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
         $query .= " AND YEAR(p.pupdate) = ?";
         $params[] = $added;
     }
 
     // Check if user_group is set and valid
-    if (isset($_GET['user_group']) && preg_match('/^[a-zA-Z]+$/', $_GET['user_group'])) {
-        $filtered_group = filter_var($_GET['user_group'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    if (!empty($user_group) && preg_match('/^[a-zA-Z ]+$/', $user_group) && $user_group != "all") {
+        $filtered_group = filter_var($user_group, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+        // $filtered_group = filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_SPECIAL_CHARS);
         $query .= " AND p.user IN (SELECT username FROM users WHERE user_group = ?)";
         $params[] = $filtered_group;
     }
 
     // Check if campaign is set and valid
-    if (isset($_GET['campaign']) && preg_match('/^[a-zA-Z]+$/', $_GET['campaign'])) {
-        $filtered_v = filter_var($_GET['campaign'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    if (!empty($campaign) && preg_match('/^[a-zA-Z ]+$/', $campaign) && $campaign != "all") {
+        $filtered_v = filter_var($campaign, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
         $query .= " AND p.cat IN (SELECT category FROM categories WHERE campaign = ?)";
         $params[] = $filtered_v;
     }
