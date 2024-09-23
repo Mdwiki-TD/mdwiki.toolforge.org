@@ -11,7 +11,13 @@ include_once __DIR__ . '/sql.php';
 
 use function API\SQL\fetch_query;
 
-$get = $_GET['get'];
+function sanitize_input($input, $pattern)
+{
+    if (!empty($input) && preg_match($pattern, $input) && $input !== "all") {
+        return filter_var($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    }
+    return null;
+}
 
 function make_status_query()
 {
@@ -22,31 +28,27 @@ function make_status_query()
         FROM pages p
         WHERE p.target != ''
     SQL;
+
     $params = [];
 
-    $year = $_GET['year'] ?? '';
-    $user_group = $_GET['user_group'] ?? '';
-    $campaign = $_GET['campaign'] ?? '';
+    $year       = sanitize_input($_GET['year'] ?? '', '/^\d+$/');
+    $user_group = sanitize_input($_GET['user_group'] ?? '', '/^[a-zA-Z ]+$/');
+    $campaign   = sanitize_input($_GET['campaign'] ?? '', '/^[a-zA-Z ]+$/');
 
-    if (!empty($year) && preg_match('/^\d+$/', $year) && $year != "all") {
-        $added = filter_var($year, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    if ($year !== null) {
+        $added = $year;
         $query .= " AND YEAR(p.pupdate) = ?";
         $params[] = $added;
     }
 
-    // Check if user_group is set and valid
-    if (!empty($user_group) && preg_match('/^[a-zA-Z ]+$/', $user_group) && $user_group != "all") {
-        $filtered_group = filter_var($user_group, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-        // $filtered_group = filter_input(INPUT_GET, 'user_group', FILTER_SANITIZE_SPECIAL_CHARS);
+    if ($user_group !== null) {
         $query .= " AND p.user IN (SELECT username FROM users WHERE user_group = ?)";
-        $params[] = $filtered_group;
+        $params[] = $user_group;
     }
 
-    // Check if campaign is set and valid
-    if (!empty($campaign) && preg_match('/^[a-zA-Z ]+$/', $campaign) && $campaign != "all") {
-        $filtered_v = filter_var($campaign, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    if ($campaign !== null) {
         $query .= " AND p.cat IN (SELECT category FROM categories WHERE campaign = ?)";
-        $params[] = $filtered_v;
+        $params[] = $campaign;
     }
 
     $query .= <<<SQL
@@ -69,6 +71,8 @@ function  add_li($qua, $types)
     }
     return $qua;
 }
+
+$get = $_GET['get'];
 
 switch ($get) {
     case 'users':
