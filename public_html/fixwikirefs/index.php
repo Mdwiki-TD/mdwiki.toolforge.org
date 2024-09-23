@@ -7,11 +7,11 @@ if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
 
 include_once __DIR__ . '/../header.php';
 include_once __DIR__ . '/../Translation_Dashboard/auth/send_edit.php';
-include_once __DIR__ . '/../Translation_Dashboard/publish/helps.php';
+include_once __DIR__ . '/../Translation_Dashboard/actions/access_helps.php';
 include_once __DIR__ . '/fix.php';
 //---
 use function OAuth\SendEdit\auth_do_edit;
-use function Publish\Helps\get_access_from_db;
+use function Actions\AccessHelps\get_access_from_db;
 //---
 print_h3_title("Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a>");
 //---

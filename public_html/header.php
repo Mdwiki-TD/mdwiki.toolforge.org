@@ -20,7 +20,7 @@ if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-include_once 'Translation_Dashboard/auth/user_infos.php';
+include_once __DIR__ . '/Translation_Dashboard/auth/user_infos.php';
 //---
 echo "
 <span id='myusername' style='display:none'>" . $username . "</span>";
@@ -83,7 +83,7 @@ print_head();
 //---
 echo "</head>";
 //---
-require("Translation_Dashboard/darkmode.php");
+include_once __DIR__ . "/helps/darkmode.php";
 $them_li = dark_mode_icon();
 //---
 $login_icon = <<<HTML

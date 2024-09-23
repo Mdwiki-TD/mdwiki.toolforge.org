@@ -20,7 +20,8 @@ use Google\Service\Gmail\Draft;
  * Returns an authorized API client.
  * @return Client the authorized client object
  */
-function getClient() {
+function getClient()
+{
     $client = new Client();
     $client->setApplicationName('Gmail API PHP Quickstart');
     $client->setScopes('https://mail.google.com/');
@@ -101,6 +102,7 @@ if (empty($msg)) {
     exit;
 };
 //---
+$no_format  = $_REQUEST['no_format'] ?? '';
 $email_to   = $_REQUEST['email_to'] ?? '';
 $email_from = $_REQUEST['email_from'] ?? 'mdwiki.org@gmail.com';
 $msg_title  = $_REQUEST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
@@ -136,7 +138,12 @@ $msg1 = <<<HTML
     </html>
 HTML;
 //---
-function createEmail() {
+if ($no_format !=  "") {
+    $msg1 = $msg;
+}
+//---
+function createEmail()
+{
     global $email_from, $email_to, $msg_title, $msg1, $ccme, $cc_to;
     $email = "From: WikiProjectMed<$email_from>\r\n";
     $email .= "To: $email_to\r\n";
@@ -149,7 +156,7 @@ function createEmail() {
     $email .= "MIME-Version: 1.0\r\n";
     $email .= "Content-Type: text/html; charset=utf-8\r\n";
     $email .= "\r\n";
-    echo($email);
+    echo ($email);
     $email .= $msg1;
     return $email;
 }
@@ -158,11 +165,11 @@ $data = createEmail();
 $rawmsg = rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
 
 // Create the email
-$msg1 = new Google_Service_Gmail_Message();
-$msg1->setRaw($rawmsg);
+$msgo = new Google_Service_Gmail_Message();
+$msgo->setRaw($rawmsg);
 
 // Send the email
-$snd = $service->users_messages->send('me', $msg1);
+$snd = $service->users_messages->send('me', $msgo);
 // check for errors
 // if (array_key_exists('error', $snd)) {
 $errors = $snd['error'] ?? null;
@@ -170,7 +177,7 @@ if ($errors) {
     print "Error: " . $snd['error']['message'] . "\n";
     exit;
 } else {
-    echo "<p style='color: green;'>Your message send to $email_to successfully...</p>";
+    echo "<p style='color: blue;'>Your message send to $email_to successfully...</p>";
     print "Message ID: " . $snd['id'] . "\n";
 }
 //---

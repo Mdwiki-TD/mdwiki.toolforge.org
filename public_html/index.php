@@ -1,5 +1,5 @@
 <?php
-require 'header.php';
+include_once __DIR__ . '/header.php';
 
 print_h3_title("WikiProjectMed Tools");
 //---
@@ -37,5 +37,5 @@ print_h3_title("WikiProjectMed Tools");
 	</div>
 
 <?php
-require 'footer.php';
+include_once __DIR__ . '/footer.php';
 ?>

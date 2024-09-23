@@ -11,7 +11,53 @@ include_once __DIR__ . '/sql.php';
 
 use function API\SQL\fetch_query;
 
-$get = $_GET['get'];
+function sanitize_input($input, $pattern)
+{
+    if (!empty($input) && preg_match($pattern, $input) && $input !== "all") {
+        return filter_var($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    }
+    return null;
+}
+
+function make_status_query()
+{
+    // https://mdwiki.toolforge.org/api.php?get=status&year=2022&user_group=Wiki&campaign=Main
+
+    $query = <<<SQL
+        SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
+        FROM pages p
+        WHERE p.target != ''
+    SQL;
+
+    $params = [];
+
+    $year       = sanitize_input($_GET['year'] ?? '', '/^\d+$/');
+    $user_group = sanitize_input($_GET['user_group'] ?? '', '/^[a-zA-Z ]+$/');
+    $campaign   = sanitize_input($_GET['campaign'] ?? '', '/^[a-zA-Z ]+$/');
+
+    if ($year !== null) {
+        $added = $year;
+        $query .= " AND YEAR(p.pupdate) = ?";
+        $params[] = $added;
+    }
+
+    if ($user_group !== null) {
+        $query .= " AND p.user IN (SELECT username FROM users WHERE user_group = ?)";
+        $params[] = $user_group;
+    }
+
+    if ($campaign !== null) {
+        $query .= " AND p.cat IN (SELECT category FROM categories WHERE campaign = ?)";
+        $params[] = $campaign;
+    }
+
+    $query .= <<<SQL
+        GROUP BY LEFT(p.pupdate, 7)
+        ORDER BY LEFT(p.pupdate, 7) ASC;
+    SQL;
+
+    return ["qua" => $query, "params" => $params];
+}
 
 function  add_li($qua, $types)
 {
@@ -25,6 +71,8 @@ function  add_li($qua, $types)
     }
     return $qua;
 }
+
+$get = $_GET['get'];
 
 switch ($get) {
     case 'users':
@@ -40,7 +88,21 @@ switch ($get) {
     case 'full_translators':
         $qua = "SELECT * FROM full_translators";
         $results = fetch_query($qua);
-        $results = array_map(function ($row) { return $row['user']; }, $results);
+        $results = array_map(function ($row) {
+            return $row['user'];
+        }, $results);
+        break;
+
+    case 'status':
+        $d = make_status_query();
+        $query = $d["qua"];
+        $params = $d["params"];
+
+        $results = fetch_query($query, $params);
+
+        // apply $params to $qua
+        $qua = sprintf(str_replace('?', "'%s'", $query), ...$params);
+
         break;
 
     case 'views':
@@ -78,8 +140,8 @@ switch ($get) {
 }
 
 $out = [
-    "results" => $results,
-    "query" => $qua
+    "query" => $qua,
+    "results" => $results
 ];
 
 echo json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
