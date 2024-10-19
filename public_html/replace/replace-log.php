@@ -44,16 +44,16 @@ if (!is_file($done_file)) {
     $restart_text = "<a href='job.php?id=$id&to=stop' class='btn btn-danger' target='_blank'>Stop</a>";
 }
 // ---
-$strs = "Replace log for id:$id $restart_text";
+$strs = "Log file for id:$id $restart_text";
 //---
-if ($id == '') $strs = 'Replace log files';
+if ($id == '') $strs = 'log files';
 //---
 echo "
-<div class='card-header aligncenter' style='font-weight:bold;'>
-  <h3>$strs</h3>
-</div>
-<div class='card-body'>
-  <div class='container'>
+    <div class='card-header aligncenter' style='font-weight:bold;'>
+        <h3>$strs</h3>
+    </div>
+    <div class='card-body'>
+        <div class='container'>
 
 ";
 //---
@@ -61,7 +61,68 @@ function str_end_with($haystack, $needle)
 {
     return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 };
-//---
+
+function make_rows($dirs)
+{
+
+    $fs = "
+        <div class='col-md'>
+            <ul>";
+    //---
+    $nd = "
+            </ul>
+        </div>
+        ";
+    //---
+    $row = "
+        <div class='row'>
+        $fs
+        ";
+    //---
+    // len of $dirs
+    $ln = count($dirs);
+    //---
+    // divid $ln by 3
+    $ln2 = $ln / 3;
+    $ln2 = $ln2 + 1;
+    //---
+    $n = 0;
+    //---
+    foreach ($dirs as $dir) {
+        //---
+        $file_name = basename($dir);
+        //---
+        $lastModified = date('m/d/Y H:i:s', filemtime($dir));
+        //---
+        $n++;
+        //---
+        if (
+            $n >= $ln2
+        ) {
+            $row .= "
+          $nd
+          $fs
+          ";
+            $n = 0;
+        };
+        //---
+        $row .= "
+        <li>
+          <div class='group'>
+              <a href='replace-log.php?id=$file_name'><b><span>$file_name</span></b></a>
+              $lastModified
+          </div>
+        </li>
+        ";
+    }
+    //---
+    $row .= "
+    $nd
+    </div>
+    ";
+    //---
+    return $row;
+}
 function open_dir()
 {
     //---
@@ -75,59 +136,29 @@ function open_dir()
         return filemtime($b) - filemtime($a);
     });
     // ---
-    // len of $dirs
-    $ln = count($dirs);
-    //---
-    // divid $ln by 3
-    $ln2 = $ln / 3;
-    $ln2 = $ln2 + 1;
-    //---
-    $fs = "
-      <div class='col-md'>
-        <ul>";
-    //---
-    $nd = "
-        </ul>
-      </div>
+    $dirs_notdone = array_filter($dirs, function ($dir) {
+        return !is_file($dir . '/done.txt');
+    });
+    // ---
+    $dirs_done = array_filter($dirs, function ($dir) {
+        return is_file($dir . '/done.txt');
+    });
+    // ---
+    echo "
+        <div class='card-title' style='font-weight:bold;'>
+            <h3>Jobs not done:</h3>
+        </div>
     ";
+    // ---
+    echo make_rows($dirs_notdone);
     //---
     echo "
-    <div class='row'>
-    $fs
-    ";
+        <div class='card-title' style='font-weight:bold;'>
+            <h3>Jobs done:</h3>
+        </div>";
+    // ---
+    echo make_rows($dirs_done);
     //---
-    $n = 0;
-    //---
-    foreach ($dirs as $dir) {
-        //---
-        $file_name = basename($dir);
-        //---
-        $lastModified = date('m/d/Y H:i:s', filemtime($dir));
-        //---
-        $n++;
-        //---
-        if ($n >= $ln2) {
-            echo "
-          $nd
-          $fs
-          ";
-            $n = 0;
-        };
-        //---
-        echo "
-        <li>
-          <div class='group'>
-              <a href='replace-log.php?id=$file_name'><b><span>$file_name</span></b></a>
-              $lastModified
-          </div>
-        </li>
-        ";
-    }
-    //---
-    echo "
-    $nd
-    </div>
-    ";
 };
 //---
 if ($id == '') {
