@@ -1,37 +1,39 @@
 <?php
 require __DIR__ . '/../header.php';
-//---
-$test = $_GET['test'] ?? "";
-$id  = $_GET['id'] ?? "";
-$to  = $_GET['to'] ?? "";
-//---
+
+$test = isset($_GET['test']) ? htmlspecialchars($_GET['test']) : '';
+$id = isset($_GET['id']) ? filter_var($_GET['id']) : '';
+$to = isset($_GET['to']) ? filter_var($_GET['to']) : '';
+
 $valid_to = in_array($to, ['stop', 'restart']);
-//---
-if (!$valid_to || empty($id)) {
+
+if (!$valid_to || empty($id) || !ctype_alnum($id)) {
     echo "Invalid request";
     exit;
 }
 //---
-$id_folder = $id_dir = __DIR__ . "/find/$id";
+// $id_folder = __DIR__ . "/find/$id";
+$id_folder = __DIR__ . "/find/" . basename($id);
 //---
-if (!is_dir($id_folder)) {
+if (!is_dir($id_folder) || !ctype_alnum(basename($id))) {
     echo "Invalid id";
     exit;
 }
 //---
 if ($to == 'stop') {
-    $stop_file = $id_dir = __DIR__ . "/find/$id/done.txt";
-    // ---
-    if (!is_file($stop_file)) {
-        $myfile = fopen($stop_file, 'w');
-        fwrite($myfile, "stop");
-        fclose($myfile);
-    };
-    // ---
+    $stop_file = $id_folder . "/done.txt";
+
+    $fp = fopen($stop_file, 'w');
+    if (flock($fp, LOCK_EX)) {
+        fwrite($fp, "stop");
+        flock($fp, LOCK_UN);
+    }
+    fclose($fp);
+
     echo "The job will be stopped in seconds.";
     exit;
 } elseif ($to == 'restart') {
-    $done_file = $id_dir = __DIR__ . "/find/$id/done.txt";
+    $done_file = $id_folder . "/done.txt";
     // ---
     if (is_file($done_file)) {
         unlink($done_file);
