@@ -133,7 +133,7 @@ function open_dir()
     // ---
     // sort $dirs by last modified time
     usort($dirs, function ($a, $b) {
-        return filemtime($b) - filemtime($a);
+        return filemtime($b) <=> filemtime($a);
     });
     // ---
     $dirs_notdone = array_filter($dirs, function ($dir) {

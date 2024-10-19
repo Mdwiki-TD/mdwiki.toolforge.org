@@ -9,10 +9,15 @@ $find       = $_REQUEST['find'] ?? '';
 $replace    = $_REQUEST['replace'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 //---
-$valid_user = true; //$username == 'Doc James' || $username == 'Mr. Ibrahem';
+$valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
 //---
 function generateRadioButton($id, $name, $value, $label, $checked = '')
 {
+    $id = htmlspecialchars($id, ENT_QUOTES, 'UTF-8');
+    $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    $label = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
+
     return <<<HTML
         <div class='custom-control custom-radio custom-control-inline'>
             <input type='radio' class='custom-control-input' id='$id' name='$name' value='$value' $checked>
@@ -96,7 +101,7 @@ function writeToFile($dir, $file, $text)
     $folder = __DIR__ . '/find/' . $dir;
     // ---
     if (!file_exists($folder)) {
-        mkdir($folder, 0777, true);
+        mkdir($folder, 0755, true);
     }
     // ---
     $myfile = fopen($folder . '/' . $file, 'w');

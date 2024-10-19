@@ -35,9 +35,13 @@ if ($to == 'stop') {
 } elseif ($to == 'restart') {
     $done_file = $id_folder . "/done.txt";
     // ---
-    if (is_file($done_file)) {
-        unlink($done_file);
+    if (file_exists($done_file)) {
+        if (!unlink($done_file)) {
+            echo "Failed to restart the job. Please try again.";
+            exit;
+        }
     }
+
     echo "The job will be restarted in seconds.";
     exit;
 }
