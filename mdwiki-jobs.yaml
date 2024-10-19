@@ -5,6 +5,12 @@
   image: bullseye
   emails: none
 
+- name: findreplace
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
+  schedule: '*/10 0 * * *'
+  image: python3.9
+  emails: none
+
 # sql backup
 - name: backup
   command: "$HOME/jobs/db_backup.sh"
