@@ -36,7 +36,15 @@ require __DIR__ . '/../header.php';
 $test = $_REQUEST['test'] ?? "";
 $id = $_REQUEST['id'] ?? "";
 //---
-$strs = "Replace log for id:$id";
+$restart_text = "<a href='job.php?id=$id&to=restart' class='btn btn-primary' target='_blank'>Restart</a>";
+// ---
+$done_file = $id_dir = __DIR__ . "/find/$id/done.txt";
+// ---
+if (!is_file($done_file)) {
+    $restart_text = "<a href='job.php?id=$id&to=stop' class='btn btn-danger' target='_blank'>Stop</a>";
+}
+// ---
+$strs = "Replace log for id:$id $restart_text";
 //---
 if ($id == '') $strs = 'Replace log files';
 //---
@@ -127,9 +135,6 @@ if ($id == '') {
     open_dir();
     //---
 } else {
-    //---
-    echo "
-    You can stop this job (if it working now!) by click <a href='qdel.php?job=replace$id'><b><span style='color:red'>here</span></b></a>.";
     //---
     $id_dir = __DIR__ . "/find/$id";
     //---
