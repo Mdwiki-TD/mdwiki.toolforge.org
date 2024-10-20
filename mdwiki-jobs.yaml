@@ -5,6 +5,12 @@
   image: bullseye
   emails: none
 
+- name: findreplace
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
+  schedule: '*/10 0 * * *'
+  image: python3.9
+  emails: none
+
 # sql backup
 - name: backup
   command: "$HOME/jobs/db_backup.sh"
@@ -26,16 +32,16 @@
   emails: none
 
 - name: medwiki
-  command: "$HOME/local/bin/python3 core8/pwb.py copy_to_en/revid && $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki"
+  command: "$HOME/local/bin/python3 core8/pwb.py copy_to_en/revid && $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki nodone"
   schedule: '1 * * * 1'
   image: python3.9
   emails: none
 
-- name: wpreff
-  command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
-  schedule: '10 * * * *'
-  image: python3.9
-  emails: none
+# - name: wpreff
+#   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
+#   schedule: '10 * * * *'
+#   image: python3.9
+#   emails: none
 
 - name: days7
   command: "$HOME/local/bin/python3 core8/pwb.py db_work/days_7"

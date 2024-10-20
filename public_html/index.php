@@ -20,7 +20,7 @@ print_h3_title("WikiProjectMed Tools");
 					<li><a href="mdwiki3.php">Med updater</a></li>
 					<li><a href="redirect.php">Create redirects</a>*</li>
 					<li><a href="import-history.php">Import history</a>*</li>
-					<li><a href="replace.php">Find and replace</a>* (<a href="replace-log.php">Logs</a>)</li>
+					<li><a href="replace.php">Find and replace</a> (<a href="replace-log.php">Logs</a>)</li>
 					<!-- <li><a href="dup.php">Fix duplicate redirects</a>*</li> -->
 					<li><a href="fixred.php">Fix redirects</a>*</li>
 					<li><a href="fixref.php">Normalize references</a>*</li>
