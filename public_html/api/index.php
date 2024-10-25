@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 include_once __DIR__ . '/sql.php';
 include_once __DIR__ . '/lang_pairs.php';
 
-use function API\Langs\get_lang_names_no;
+use function API\Langs\get_lang_names_new;
 use function API\Langs\get_lang_names;
 use function API\SQL\fetch_query;
 
@@ -133,8 +133,8 @@ switch ($get) {
         break;
 
 
-    case 'lang_names_no':
-        $results = get_lang_names_no();
+    case 'lang_names_new':
+        $results = get_lang_names_new();
         break;
 
 
