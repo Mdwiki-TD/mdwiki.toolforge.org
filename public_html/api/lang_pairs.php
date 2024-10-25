@@ -469,10 +469,17 @@ function get_lang_names_new()
         "zh-yue",
         "zu"
     ];
+
+    $lang_names2 = get_langs_list();
+
+    $pairs = array_unique(array_merge($pairs, $lang_names2));
+
     $names = get_names();
 
     $results = array();
-    sort($pairs);
+
+    ksort($pairs);
+
     foreach ($pairs as $pair) {
         $data = ["code" => $pair, "autonym" => "", "name" => ""];
 
