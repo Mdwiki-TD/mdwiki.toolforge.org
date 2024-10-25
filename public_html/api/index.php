@@ -1,14 +1,15 @@
 <?php
 
 if (isset($_REQUEST['test'])) {
-    $print_t = true;
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
 header('Content-Type: application/json');
 include_once __DIR__ . '/sql.php';
+include_once __DIR__ . '/lang_pairs.php';
 
+use function API\Langs\get_lang_names;
 use function API\SQL\fetch_query;
 
 function sanitize_input($input, $pattern)
@@ -123,6 +124,11 @@ switch ($get) {
         // {"id":18638,"title":"11p deletion syndrome","qid":"Q1892153"}
         $qua = "SELECT * FROM qids";
         $results = fetch_query($qua);
+        break;
+
+
+    case 'lang_names':
+        $results = get_lang_names();
         break;
 
 
