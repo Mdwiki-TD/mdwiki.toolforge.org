@@ -670,6 +670,6 @@ foreach ($codes as $code) {
         "autonym" => $code_to_wikiname[$code] ?? "",
         "name" => $names_dict[$code] ?? "",
     ];
-    $result[] = $data;
+    $result[$code] = $data;
 }
 echo json_encode($result);
