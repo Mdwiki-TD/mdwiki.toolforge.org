@@ -9,7 +9,7 @@ use function API\SiteMatrix\get_site_matrix;
 use function API\Langs\get_url_result_curl;
 use function API\Langs\get_lang_names;
 
-function site_maxtrix()
+function site_matrix()
 {
     // ---
     $params = [
@@ -43,8 +43,8 @@ function by_code($data)
             continue;
         }
         // ---
-        if (isset($item["site"])) unset($item['site']);
-        if (isset($item["dir"])) unset($item['dir']);
+        if (array_key_exists('site', $item)) unset($item['site']);
+        if (array_key_exists('dir', $item)) unset($item['dir']);
         // ---
         $item_data = [
             "code" => $code,
@@ -59,7 +59,7 @@ function by_code($data)
 }
 
 
-function fiter_last($data)
+function filter_last($data)
 {
     $u = get_lang_names();
     // return only if not in $u
@@ -69,7 +69,7 @@ function fiter_last($data)
 
     return $data;
 }
-function fiter_codes($data)
+function filter_codes($data)
 {
     $skip_t = [
         "wg-en",
@@ -88,13 +88,13 @@ function fiter_codes($data)
 
 function get_site_matrix($ty)
 {
-    $data = site_maxtrix();
+    $data = site_matrix();
     $data = by_code($data);
 
-    // $data = fiter_codes($data);
+    // $data = filter_codes($data);
 
     if ($ty == "only") {
-        $data = fiter_last($data);
+        $data = filter_last($data);
     };
 
     ksort($data);

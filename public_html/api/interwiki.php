@@ -44,6 +44,7 @@ function by_code($data)
             continue;
         }
         $url = str_replace('https://', '', $url);
+        // $url = preg_replace('#^https?://#', '', $url);
         // split before .wikipedia.org
 
         $code = substr($url, 0, strpos($url, '.wikipedia.org'));
@@ -96,7 +97,7 @@ function filter_data($data)
     return $data;
 }
 
-function fiter_last($data)
+function filter_last($data)
 {
     $u = get_lang_names();
     // return only if not in $u
@@ -106,7 +107,7 @@ function fiter_last($data)
 
     return $data;
 }
-function fiter_codes($data)
+function filter_codes($data)
 {
     $skip_t = [
         "wg-en",
@@ -130,10 +131,10 @@ function get_inter_wiki($ty)
 
     $data = by_code($data);
 
-    $data = fiter_codes($data);
+    $data = filter_codes($data);
 
     if ($ty == "only") {
-        $data = fiter_last($data);
+        $data = filter_last($data);
     };
 
     ksort($data);
