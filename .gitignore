@@ -5,7 +5,6 @@ public_html/adminer.php
 *.7z
 *.csv
 *.ini
-*.json
 *.log
 *.log_2
 *.pyc
@@ -78,3 +77,5 @@ public_html/oauth_test.php
 public_html/qdel.php.o
 /public_html/publish/**
 /public_html/Translation_Dashboard1
+*.json
+!public_html/api/langs_table.json
