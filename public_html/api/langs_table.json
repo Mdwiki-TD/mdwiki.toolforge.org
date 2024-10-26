@@ -1114,6 +1114,11 @@
 		"autonym": "Napulitano",
 		"name": "Neapolitan"
 	},
+	"no": {
+		"code": "no",
+		"autonym": "norsk",
+		"name": "Norwegian"
+	},
 	"nb": {
 		"code": "nb",
 		"autonym": "norsk bokmål",
@@ -1158,11 +1163,6 @@
 		"code": "nn",
 		"autonym": "norsk nynorsk",
 		"name": "Norwegian Nynorsk"
-	},
-	"no": {
-		"code": "no",
-		"autonym": "norsk",
-		"name": "Norwegian"
 	},
 	"nov": {
 		"code": "nov",

@@ -3,6 +3,8 @@
 namespace API\Langs;
 /*
 Usage:
+use function API\Langs\get_url_result_curl;
+
 use function API\Langs\get_lang_names_all;
 use function API\Langs\get_lang_names;
 */
@@ -35,7 +37,7 @@ function test_print($s)
     }
 }
 
-function get_url_result_curl(string $url, array $params = null): string
+function get_url_result_curl(string $url): string
 {
     global $usr_agent;
 

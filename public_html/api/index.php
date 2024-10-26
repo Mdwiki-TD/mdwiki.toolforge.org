@@ -7,11 +7,15 @@ if (isset($_REQUEST['test'])) {
 }
 header('Content-Type: application/json');
 include_once __DIR__ . '/sql.php';
+include_once __DIR__ . '/interwiki.php';
 include_once __DIR__ . '/lang_pairs.php';
+include_once __DIR__ . '/site_matrix.php';
 
 use function API\Langs\get_lang_names_new;
 use function API\Langs\get_lang_names;
 use function API\SQL\fetch_query;
+use function API\InterWiki\get_inter_wiki;
+use function API\SiteMatrix\get_site_matrix;
 
 function sanitize_input($input, $pattern)
 {
@@ -75,7 +79,7 @@ function  add_li($qua, $types)
 }
 
 $get = $_GET['get'];
-
+$qua = "";
 switch ($get) {
     case 'users':
         $qua = "SELECT username FROM users";
@@ -137,6 +141,15 @@ switch ($get) {
         $results = get_lang_names_new();
         break;
 
+    case 'inter_wiki':
+        $ty = sanitize_input($_GET['type'] ?? 'all', '/^[a-zA-Z ]+$/');
+        $results = get_inter_wiki($ty);
+        break;
+
+    case 'site_matrix':
+        $ty = sanitize_input($_GET['type'] ?? 'all', '/^[a-zA-Z ]+$/');
+        $results = get_site_matrix($ty);
+        break;
 
     default:
         if (in_array($get, ['pages', 'pages_users'])) {
