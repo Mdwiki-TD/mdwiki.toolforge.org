@@ -80,14 +80,14 @@ function leaderboard_table()
         $query = "SELECT p.title,
             p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
             FROM pages p, users u
-            AND p.user = u.username
+            WHERE p.user = u.username
             AND u.user_group = ?
         ";
         // ---
         $params[] = $user_group;
-    }
+    };
     // ---
-    $year = sanitize_input($_GET['year'] ?? '', '/^[a-zA-Z ]+$/');
+    $year = sanitize_input($_GET['year'] ?? '', '/^\d+$/');
     // ---
     if ($year !== null) {
         $query .= " AND YEAR(p.pupdate) = ?";
