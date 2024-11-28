@@ -67,8 +67,8 @@ function make_status_query()
 }
 
 $DISTINCT = (isset($_GET['distinct'])) ? 'DISTINCT ' : '';
-$SELECT   = (isset($_GET['select'])) ? $_GET['select'] : '*';
-$get = $_GET['get'];
+$SELECT   = (isset($_GET['select'])) ? filter_input(INPUT_GET, 'select', FILTER_SANITIZE_SPECIAL_CHARS) : '*';
+$get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_SPECIAL_CHARS); //$_GET['get'];
 
 $qua = "";
 $query = "";

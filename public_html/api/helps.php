@@ -43,11 +43,12 @@ function add_limit($qua)
     return $qua;
 }
 
-function add_li($qua, $types)
+function add_li(string $qua, array $types): string
 {
     // ---
     $not_empty_keys = ['target_notempty' => 'target'];
     $empty_keys = ['target_empty' => 'target'];
+
     // ---
     foreach ($types as $type) {
         if (isset($_GET[$type])) {
@@ -56,7 +57,7 @@ function add_li($qua, $types)
             // ---
             $where_or_and = (strpos($qua, 'WHERE') !== false) ? ' AND ' : ' WHERE ';
             // ---
-            $add_str = " $where_or_and $type = '$added' ";
+            $add_str = " $where_or_and $type = `$added` ";
             // ---
             if (isset($not_empty_keys[$type])) {
                 $key2 = $not_empty_keys[$type];
