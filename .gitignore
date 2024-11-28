@@ -79,3 +79,4 @@ public_html/qdel.php.o
 /public_html/Translation_Dashboard1
 *.json
 !public_html/api/langs_table.json
+public_html/api/index0.php
