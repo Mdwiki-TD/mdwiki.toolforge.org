@@ -24,6 +24,14 @@
   image: tf-python39
   emails: none
 
+# $HOME/local/bin/python3 core8/pwb.py fix_cs1/bot
+# $HOME/local/bin/python3 core8/pwb.py fix_cs1/fix_cs_params/bot all
+- name: fixrefs
+  command: "$HOME/jobs/fix_refs.sh"
+  schedule: '@weekly'
+  image: tf-python39
+  emails: none
+
 # Find qids and fix qids
 - name: qids1
   command: "$HOME/pybot/td_core/mdpages/findqids.sh"

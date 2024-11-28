@@ -6,30 +6,31 @@ if (isset($_REQUEST['test'])) {
     error_reporting(E_ALL);
 }
 header('Content-Type: application/json');
+
+include_once __DIR__ . '/helps.php';
 include_once __DIR__ . '/sql.php';
 include_once __DIR__ . '/interwiki.php';
 include_once __DIR__ . '/lang_pairs.php';
 include_once __DIR__ . '/site_matrix.php';
+include_once __DIR__ . '/pages.php';
 
 use function API\Langs\get_lang_names_new;
 use function API\Langs\get_lang_names;
 use function API\SQL\fetch_query;
 use function API\InterWiki\get_inter_wiki;
 use function API\SiteMatrix\get_site_matrix;
-
-function sanitize_input($input, $pattern)
-{
-    if (!empty($input) && preg_match($pattern, $input) && $input !== "all") {
-        return filter_var($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    }
-    return null;
-}
+use function API\Helps\sanitize_input;
+use function API\Helps\add_order;
+use function API\Helps\add_group;
+use function API\Helps\add_limit;
+use function API\Helps\add_li;
+use function API\Pages\get_pages_qua;
 
 function make_status_query()
 {
     // https://mdwiki.toolforge.org/api.php?get=status&year=2022&user_group=Wiki&campaign=Main
 
-    $query = <<<SQL
+    $qu_ery = <<<SQL
         SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
         FROM pages p
         WHERE p.target != ''
@@ -43,43 +44,38 @@ function make_status_query()
 
     if ($year !== null) {
         $added = $year;
-        $query .= " AND YEAR(p.pupdate) = ?";
+        $qu_ery .= " AND YEAR(p.pupdate) = ?";
         $params[] = $added;
     }
 
     if ($user_group !== null) {
-        $query .= " AND p.user IN (SELECT username FROM users WHERE user_group = ?)";
+        $qu_ery .= " AND p.user IN (SELECT username FROM users WHERE user_group = ?)";
         $params[] = $user_group;
     }
 
     if ($campaign !== null) {
-        $query .= " AND p.cat IN (SELECT category FROM categories WHERE campaign = ?)";
+        $qu_ery .= " AND p.cat IN (SELECT category FROM categories WHERE campaign = ?)";
         $params[] = $campaign;
     }
 
-    $query .= <<<SQL
+    $qu_ery .= <<<SQL
         GROUP BY LEFT(p.pupdate, 7)
         ORDER BY LEFT(p.pupdate, 7) ASC;
     SQL;
 
-    return ["qua" => $query, "params" => $params];
+    return ["qua" => $qu_ery, "params" => $params];
 }
 
-function  add_li($qua, $types)
-{
-    foreach ($types as $type) {
-        if (isset($_GET[$type])) {
-            // filter input
-            $added = filter_input(INPUT_GET, $type, FILTER_SANITIZE_SPECIAL_CHARS);
-            $where_or_and = (strpos($qua, 'WHERE') !== false) ? ' AND ' : ' WHERE ';
-            $qua .= " $where_or_and $type = '$added' ";
-        }
-    }
-    return $qua;
-}
-
+$DISTINCT = (isset($_GET['distinct'])) ? 'DISTINCT ' : '';
+$SELECT   = (isset($_GET['select'])) ? $_GET['select'] : '*';
 $get = $_GET['get'];
+
 $qua = "";
+$query = "";
+$params = [];
+$results = [];
+$execution_time = 0;
+
 switch ($get) {
     case 'users':
         $qua = "SELECT username FROM users";
@@ -87,16 +83,21 @@ switch ($get) {
             $added = filter_input(INPUT_GET, 'userlike', FILTER_SANITIZE_SPECIAL_CHARS);
             $qua .= " WHERE username like '$added%'";
         }
-        $results = fetch_query($qua);
-        // $results = array_map(function ($row) { return $row['username']; }, $results);
+        // $results = fetch_query($qua);
+        break;
+
+    case 'coordinator':
+        $qua = "SELECT $SELECT FROM coordinator";
+        // $results = fetch_query($qua);
         break;
 
     case 'full_translators':
         $qua = "SELECT * FROM full_translators";
-        $results = fetch_query($qua);
-        $results = array_map(function ($row) {
-            return $row['user'];
-        }, $results);
+        // ---
+        // $results = fetch_query($qua);
+        // ---
+        // $results = array_map(function ($row) {return $row['user']; }, $results);
+        // ---
         break;
 
     case 'status':
@@ -104,7 +105,7 @@ switch ($get) {
         $query = $d["qua"];
         $params = $d["params"];
 
-        $results = fetch_query($query, $params);
+        // $results = fetch_query($query, $params);
 
         // apply $params to $qua
         $qua = sprintf(str_replace('?', "'%s'", $query), ...$params);
@@ -115,22 +116,70 @@ switch ($get) {
         $qua = "SELECT * FROM views ";
         $qua = add_li($qua, ['lang']);
 
-        $results = fetch_query($qua);
+        // $results = fetch_query($qua);
+        break;
+
+    case 'categories':
+        $qua = "SELECT * FROM categories ";
+        // $qua = add_li($qua, ['lang']);
+
+        // $results = fetch_query($qua);
         break;
 
     case 'words':
         // {"w_id":1,"w_title":"Second-degree atrioventricular block","w_lead_words":278,"w_all_words":1267}
         $qua = "SELECT * FROM words";
-        $results = fetch_query($qua);
+        // $results = fetch_query($qua);
         break;
 
 
     case 'qids':
         // {"id":18638,"title":"11p deletion syndrome","qid":"Q1892153"}
         $qua = "SELECT * FROM qids";
-        $results = fetch_query($qua);
+        // $results = fetch_query($qua);
         break;
 
+
+    case 'count_pages':
+        $target_t = (isset($_GET['target_empty'])) ? " target = '' " : " target != '' ";
+        $qua = "SELECT DISTINCT user, count(target) as count from pages where $target_t group by user order by count desc";
+
+        // $results = fetch_query($qua);
+        break;
+
+    case 'users_by_last_pupdate_old':
+        $qua = <<<SQL
+            select DISTINCT p1.target, p1.title, p1.cat, p1.user, p1.pupdate, p1.lang
+            from pages p1
+            where target != ''
+            and p1.pupdate = (select p2.pupdate from pages p2 where p2.user = p1.user ORDER BY p2.pupdate DESC limit 1)
+            group by p1.user
+            ORDER BY p1.pupdate DESC
+        SQL;
+
+        // $results = fetch_query($qua);
+        break;
+
+    case 'users_by_last_pupdate':
+        $qua = <<<SQL
+            WITH RankedPages AS (
+                SELECT
+                    p1.target,
+                    p1.user,
+                    p1.pupdate,
+                    p1.lang,
+                    ROW_NUMBER() OVER (PARTITION BY p1.user ORDER BY p1.pupdate DESC) AS rn
+                FROM pages p1
+                WHERE p1.target != ''
+            )
+            SELECT target, user, pupdate, lang
+            FROM RankedPages
+            WHERE rn = 1
+            ORDER BY pupdate DESC;
+        SQL;
+
+        // $results = fetch_query($qua);
+        break;
 
     case 'lang_names':
         $results = get_lang_names();
@@ -153,18 +202,45 @@ switch ($get) {
 
     default:
         if (in_array($get, ['pages', 'pages_users'])) {
-            $qua = "SELECT * FROM $get";
+            $qua = get_pages_qua($get, $DISTINCT, $SELECT);
 
-            $qua = add_li($qua, ['lang', 'user', 'translate_type', 'cat', 'title']);
-
-            $results = fetch_query($qua);
+            // $results = fetch_query($qua);
             break;
         }
         $results = ["error" => "invalid get request"];
         break;
 }
 
+// ---
+if ($results === [] && $qua !== "") {
+    // ---
+    $start_time = microtime(true);
+    // ---
+    if ($query !== "") {
+        $results = fetch_query($query, $params);
+    } else {
+        $results = fetch_query($qua);
+    }
+    // ---
+    $end_time = microtime(true);
+    // ---
+    $execution_time = $end_time - $start_time;
+    $execution_time = number_format($execution_time, 2);
+    // ---
+    if ($get === 'full_translators') {
+        $results = array_map(function ($row) {
+            return $row['user'];
+        }, $results);
+    }
+    // ---
+};
+// ---
+$qua = str_replace(["\n", "\r"], " ", $qua);
+// remove extra spaces
+$qua = preg_replace("/ +/", " ", $qua);
+// ---
 $out = [
+    "time" => $execution_time,
     "query" => $qua,
     "results" => $results
 ];
