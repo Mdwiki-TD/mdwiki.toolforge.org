@@ -13,6 +13,7 @@ include_once __DIR__ . '/interwiki.php';
 include_once __DIR__ . '/lang_pairs.php';
 include_once __DIR__ . '/site_matrix.php';
 include_once __DIR__ . '/pages.php';
+include_once __DIR__ . '/qids.php';
 
 use function API\Langs\get_lang_names_new;
 use function API\Langs\get_lang_names;
@@ -20,45 +21,10 @@ use function API\SQL\fetch_query;
 use function API\InterWiki\get_inter_wiki;
 use function API\SiteMatrix\get_site_matrix;
 use function API\Helps\sanitize_input;
-use function API\Helps\add_order;
-use function API\Helps\add_group;
-use function API\Helps\add_limit;
 use function API\Helps\add_li;
 use function API\Pages\get_pages_qua;
+use function API\Qids\qids_qua;
 
-function qids_qua($get, $dis)
-{
-    // ---
-    $valid_tables = ["qids", "qids_others"];
-    // ---
-    if (!in_array($get, $valid_tables)) {
-        $get = "qids";
-    }
-    // ---
-    $quaries = [
-        'empty' => "select id, title, qid from xx where qid = '';",
-        'all' => "select id, title, qid from xx;",
-        'duplicate' => <<<SQL
-            SELECT
-            A.id AS id, A.title AS title, A.qid AS qid,
-            B.id AS id2, B.title AS title2, B.qid AS qid2
-        FROM
-            xx A
-        JOIN
-            xx B ON A.qid = B.qid
-        WHERE
-            A.qid != '' AND A.title != B.title AND A.id != B.id;
-        SQL
-    ];
-    //---
-    $dis = filter_input(INPUT_GET, 'dis', FILTER_SANITIZE_SPECIAL_CHARS);
-    //---
-    $qua = $quaries[$dis] ?? $quaries['all'];
-    //---
-    $qua = str_replace("xx", $get, $qua);
-    //---
-    return $qua;
-}
 
 function leaderboard_table()
 {

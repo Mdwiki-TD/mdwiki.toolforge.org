@@ -61,11 +61,11 @@ function add_li(string $qua, array $types): string
             $add_str = " $where_or_and $type = '$added' ";
             // ---
             if ($added == "not_mt" || $added == "not_empty") {
-                $add_str = " $where_or_and $type != '' AND $type IS NOT NULL ";
+                $add_str = " $where_or_and ($type != '' AND $type IS NOT NULL) ";
             }
             // ---
             if ($added == "mt" || $added == "empty") {
-                $add_str = " $where_or_and $type = '' OR $type IS NULL ";
+                $add_str = " $where_or_and ($type = '' OR $type IS NULL) ";
             }
             // ---
             if (isset($not_empty_keys[$type])) {
