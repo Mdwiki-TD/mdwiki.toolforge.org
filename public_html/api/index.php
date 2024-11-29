@@ -13,6 +13,7 @@ include_once __DIR__ . '/interwiki.php';
 include_once __DIR__ . '/lang_pairs.php';
 include_once __DIR__ . '/site_matrix.php';
 include_once __DIR__ . '/pages.php';
+include_once __DIR__ . '/qids.php';
 
 use function API\Langs\get_lang_names_new;
 use function API\Langs\get_lang_names;
@@ -20,11 +21,47 @@ use function API\SQL\fetch_query;
 use function API\InterWiki\get_inter_wiki;
 use function API\SiteMatrix\get_site_matrix;
 use function API\Helps\sanitize_input;
-use function API\Helps\add_order;
-use function API\Helps\add_group;
-use function API\Helps\add_limit;
 use function API\Helps\add_li;
 use function API\Pages\get_pages_qua;
+use function API\Qids\qids_qua;
+
+
+function leaderboard_table()
+{
+    // ---
+    $params = [];
+    // ---
+    $query = "SELECT p.title,
+        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, LEFT(p.pupdate, 7) as m,
+        p.user,
+        (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
+        FROM pages p
+        WHERE p.target != ''
+    ";
+    // ---
+    $user_group = sanitize_input($_GET['user_group'] ?? '', '/^[a-zA-Z ]+$/');
+    // ---
+    if ($user_group !== null && $user_group !== 'all') {
+        // ---
+        $query = "SELECT p.title,
+            p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
+            FROM pages p, users u
+            WHERE p.user = u.username
+            AND u.user_group = ?
+        ";
+        // ---
+        $params[] = $user_group;
+    };
+    // ---
+    $year = sanitize_input($_GET['year'] ?? '', '/^\d+$/');
+    // ---
+    if ($year !== null) {
+        $query .= " AND YEAR(p.pupdate) = ?";
+        $params[] = $year;
+    }
+    // ---
+    return ["qua" => $query, "params" => $params];
+}
 
 function make_status_query()
 {
@@ -88,16 +125,18 @@ switch ($get) {
 
     case 'coordinator':
         $qua = "SELECT $SELECT FROM coordinator";
-        // $results = fetch_query($qua);
         break;
 
-    case 'full_translators':
-        $qua = "SELECT * FROM full_translators";
-        // ---
-        // $results = fetch_query($qua);
-        // ---
-        // $results = array_map(function ($row) {return $row['user']; }, $results);
-        // ---
+    case 'leaderboard_table':
+        $de = leaderboard_table();
+        $query = $de["qua"];
+        $params = $de["params"];
+
+        // $results = fetch_query($query, $params);
+
+        // apply $params to $qua
+        $qua = sprintf(str_replace('?', "'%s'", $query), ...$params);
+
         break;
 
     case 'status':
@@ -119,24 +158,19 @@ switch ($get) {
         // $results = fetch_query($qua);
         break;
 
-    case 'categories':
-        $qua = "SELECT * FROM categories ";
-        // $qua = add_li($qua, ['lang']);
-
-        // $results = fetch_query($qua);
+    case 'user_access':
+        $qua = "SELECT id, user_name, created_at FROM access_keys";
+        $qua = add_li($qua, ['user_name']);
         break;
-
-    case 'words':
-        // {"w_id":1,"w_title":"Second-degree atrioventricular block","w_lead_words":278,"w_all_words":1267}
-        $qua = "SELECT * FROM words";
-        // $results = fetch_query($qua);
-        break;
-
 
     case 'qids':
         // {"id":18638,"title":"11p deletion syndrome","qid":"Q1892153"}
-        $qua = "SELECT * FROM qids";
-        // $results = fetch_query($qua);
+        $qua = qids_qua($get, $dis);
+        break;
+
+    case 'qids_others':
+        // {"id":18638,"title":"11p deletion syndrome","qid":"Q1892153"}
+        $qua = qids_qua($get, $dis);
         break;
 
 
@@ -200,7 +234,49 @@ switch ($get) {
         $results = get_site_matrix($ty);
         break;
 
+    case 'user_views':
+        if (isset($_GET['user'])) {
+            $user_name = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_SPECIAL_CHARS);
+            $qua = <<<SQL
+                    select p.target, v.countall
+                from pages p, views v
+                where p.user = '{$user_name}'
+                and p.lang = v.lang
+                and p.target = v.target
+            SQL;
+        };
+        break;
+
+    case 'graph_data':
+        $qua = <<<SQL
+            SELECT LEFT(pupdate, 7) as m, COUNT(*) as c
+            FROM pages
+            WHERE target != ''
+            GROUP BY LEFT(pupdate, 7)
+            ORDER BY LEFT(pupdate, 7) ASC;
+        SQL;
+        break;
+
+    case 'lang_views':
+        if (isset($_GET['lang'])) {
+            $lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_SPECIAL_CHARS);
+            $qua = <<<SQL
+                    select p.target, v.countall
+                from pages p, views v
+                where p.lang = '{$lang}'
+                and p.lang = v.lang
+                and p.target = v.target
+            SQL;
+        };
+        break;
+
     default:
+        // ---
+        if (in_array($get, ['categories', 'full_translators', 'projects', 'settings', 'words', 'translate_type'])) {
+            $qua = "SELECT * FROM $get";
+            break;
+        }
+        // ---
         if (in_array($get, ['pages', 'pages_users'])) {
             $qua = get_pages_qua($get, $DISTINCT, $SELECT);
 
@@ -227,11 +303,7 @@ if ($results === [] && $qua !== "") {
     $execution_time = $end_time - $start_time;
     $execution_time = number_format($execution_time, 2);
     // ---
-    if ($get === 'full_translators') {
-        $results = array_map(function ($row) {
-            return $row['user'];
-        }, $results);
-    }
+    // if ($get === 'full_translators') { $results = array_map(function ($row) { return $row['user']; }, $results); }
     // ---
 };
 // ---
@@ -242,6 +314,7 @@ $qua = preg_replace("/ +/", " ", $qua);
 $out = [
     "time" => $execution_time,
     "query" => $qua,
+    "length" => count($results),
     "results" => $results
 ];
 

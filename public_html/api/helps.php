@@ -57,7 +57,16 @@ function add_li(string $qua, array $types): string
             // ---
             $where_or_and = (strpos($qua, 'WHERE') !== false) ? ' AND ' : ' WHERE ';
             // ---
-            $add_str = " $where_or_and $type = `$added` ";
+            // $add_str = " $where_or_and $type = `$added` ";
+            $add_str = " $where_or_and $type = '$added' ";
+            // ---
+            if ($added == "not_mt" || $added == "not_empty") {
+                $add_str = " $where_or_and ($type != '' AND $type IS NOT NULL) ";
+            }
+            // ---
+            if ($added == "mt" || $added == "empty") {
+                $add_str = " $where_or_and ($type = '' OR $type IS NULL) ";
+            }
             // ---
             if (isset($not_empty_keys[$type])) {
                 $key2 = $not_empty_keys[$type];
