@@ -80,3 +80,5 @@ public_html/qdel.php.o
 *.json
 !public_html/api/langs_table.json
 public_html/api/index0.php
+public_html/api/test/script copy.js
+/public_html/api/test
