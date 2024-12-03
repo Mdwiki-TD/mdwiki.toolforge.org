@@ -336,7 +336,7 @@ $qua = preg_replace("/ +/", " ", $qua);
 
 $out = [
     "time" => $execution_time,
-    "query" => $qua,
+    // "query" => $qua,
     "length" => count($results),
     "results" => $results
 ];
