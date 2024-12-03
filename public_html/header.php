@@ -51,6 +51,7 @@ function print_head()
 		<link href='$hoste/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
 		<link href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css' rel='stylesheet' type='text/css'>
+		<link href="$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel='stylesheet' type='text/css'>
 
 		<script src='$hoste/ajax/libs/jquery/3.7.0/jquery.min.js'></script>
 		<script src='$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js'></script>
