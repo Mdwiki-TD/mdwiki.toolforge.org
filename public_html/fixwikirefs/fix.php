@@ -7,6 +7,8 @@ $root_paath = $pathParts[0];
 $root_paath = str_replace('\\', '/', $root_paath);
 // echo "root_paath:$root_paath<br>";
 // ---
+if ($root_paath === "I:/mdwiki/mdwiki/") $root_paath = "I:/mdwiki/";
+// ---
 function get_results($title, $lang, $movedots, $infobox, $test)
 {
     //---
@@ -14,8 +16,8 @@ function get_results($title, $lang, $movedots, $infobox, $test)
     //---
     $title2 = str_replace('+', '_', $title);
     $title2 = str_replace(' ', '_', $title2);
-    $title2 = str_replace('"', '\\"', $title2);
-    $title2 = str_replace("'", "\\'", $title2);
+    // $title2 = str_replace('"', '\\"', $title2);
+    // $title2 = str_replace("'", "\\'", $title2);
     $title2 = rawurlencode($title2);
     //---
     $mv = '';
