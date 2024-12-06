@@ -44,7 +44,7 @@ function make_form($test, $title, $titlelist)
     // ---
     $codeNote = (!$valid_user && !empty($username)) ? "<span style='font-size:12pt;color:red'>! ($username) Access denied.</span>" : '';
     // ---
-    $start_icon = (empty($username)) ? '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>' : "";
+    $start_icon = (empty($username)) ? '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>' : "";
     // ---
     if ($valid_user) {
         $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";

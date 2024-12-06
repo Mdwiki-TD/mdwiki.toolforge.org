@@ -4,14 +4,21 @@ if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-
+//---
 include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/../Translation_Dashboard/auth/send_edit.php';
-include_once __DIR__ . '/../Translation_Dashboard/actions/access_helps.php';
+//---
+if (strpos(__FILE__, "I:\\") !== false) {
+    include_once __DIR__ . '/../../../auth/auth/send_edit.php';
+    include_once __DIR__ . '/../../../auth/auth/access_helps.php';
+} else {
+    include_once __DIR__ . '/auth/auth/send_edit.php';
+    include_once __DIR__ . '/auth/auth/access_helps.php';
+};
+//---
 include_once __DIR__ . '/fix.php';
 //---
 use function OAuth\SendEdit\auth_do_edit;
-use function Actions\AccessHelps\get_access_from_db;
+use function OAuth\AccessHelps\get_access_from_db;
 //---
 print_h3_title("Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a>");
 //---
@@ -148,7 +155,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $username)
     //---
     $start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
     // ---
-    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+    if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
     // ---
     return <<<HTML
         <form action='fixwikirefs.php' method='GET'>
