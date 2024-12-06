@@ -38,6 +38,7 @@ function print_head()
 			<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
 			<link rel="stylesheet" href="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css" rel='stylesheet' type='text/css'>
 
+			<script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
 			<script src='$hoste/ajax/libs/jquery/3.7.0/jquery.min.js'></script>
 			<script src='$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js'></script>
 			<script src='$hoste/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js'></script>
@@ -55,9 +56,32 @@ function print_head()
 };
 
 print_head();
-
-require __DIR__ . '/../helps/darkmode.php';
-$them_li = dark_mode_icon();
+$them_li = <<<HTML
+	<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
+		data-bs-display="static" aria-label="Toggle theme (light)">
+		<span class="theme-icon-active my-1">
+			<i class="bi bi-sun-fill"></i>
+		</span>
+		<span class="d-lg-none ms-2" id="bd-theme-text"></span>
+	</button>
+	<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+		<li>
+			<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+				<i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i> Light
+			</button>
+		</li>
+		<li>
+			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+				<i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i> Dark
+			</button>
+		</li>
+		<li>
+			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+				<i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i> Auto
+			</button>
+		</li>
+	</ul>
+HTML;
 
 echo <<<HTML
 <body>
