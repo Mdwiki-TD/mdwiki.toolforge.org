@@ -22,9 +22,7 @@ ini_set('session.use_strict_mode', '1');
 //---
 $dir_t = __DIR__;
 //---
-if (strpos(__FILE__, "I:\\") !== false) {
-	$dir_t = "I:/mdwiki/";
-}
+if (strpos(__FILE__, "I:\\") !== false) $dir_t = "I:/mdwiki/";
 //---
 include_once $dir_t  . '/auth/auth/user_infos.php';
 //---

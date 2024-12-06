@@ -2,13 +2,18 @@
 http_response_code(404);
 
 // Include header
-require('header.php');
+include_once __DIR__ . '/header.php';
 //---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+function print_h3_title($h3_title)
+{
+	echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>$h3_title</h3>
+    </div>
+    <div class="card-body">
+HTML;
+}
 //---
-// Output HTML structure
 print_h3_title("404 Error.");
 
 echo <<<HTML
@@ -20,4 +25,4 @@ echo <<<HTML
 HTML;
 
 // Include footer
-require 'footer.php';
+include_once __DIR__ . '/footer.php';
