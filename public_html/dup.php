@@ -19,7 +19,7 @@ $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' :
 // ---
 $start_icon = "<input class='btn btn-outline-primary' type='submit' name='start' value='start'>";
 // ---
-if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>';
+if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
 // ---
 // Handle form submission or execute command
 if (empty($start) || empty($username)) {

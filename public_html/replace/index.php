@@ -69,7 +69,7 @@ function generateForm($find, $replace, $number, $test)
         $test_1;
 
     // ---
-    $start_icon = (empty($username)) ? '<a role="button" class="btn btn-primary" href="/Translation_Dashboard/auth.php?a=login">Log in</a>' : "";
+    $start_icon = (empty($username)) ? '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>' : "";
     // ---
     if ($valid_user) {
         $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";

@@ -20,10 +20,13 @@ if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-include_once __DIR__ . '/Translation_Dashboard/auth/user_infos.php';
+$dir_t = __DIR__;
 //---
-echo "
-<span id='myusername' style='display:none'>" . $username . "</span>";
+if (strpos(__FILE__, "I:\\") !== false) {
+	$dir_t = "I:/mdwiki/";
+}
+//---
+include_once $dir_t  . '/auth/auth/user_infos.php';
 //---
 $hoste = '';
 //---
@@ -111,10 +114,22 @@ $them_li = <<<HTML
 	</ul>
 HTML;
 //---
-$login_icon = <<<HTML
-	<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/auth.php?a=login">
-		<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
-	</a>
+$$li_user = <<<HTML
+	<li class="nav-item col-4 col-lg-auto">
+		<a href="#" class="nav-link py-2 px-0 px-lg-2" style="display:none">
+			<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
+		</a>
+	</li>
+	<li class="nav-item col-4 col-lg-auto" id="loginli">
+		<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=login">
+			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
+		</a>
+	</li>
+	<li class="nav-item col-4 col-lg-auto">
+		<a id="logout_btn" class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=logout" style="display:none">
+			<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
+		</a>
+	</li>
 HTML;
 //---
 echo <<<HTML
@@ -152,19 +167,7 @@ echo <<<HTML
 						<li class="nav-item col-4 col-lg-auto dropdown">
 							$them_li
 						</li>
-						<li class="nav-item col-4 col-lg-auto" id="">
-							<a id="username_li" href="#" class="nav-link py-2 px-0 px-lg-2" style="display:none">
-								<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
-							</a>
-						</li>
-						<li class="nav-item col-4 col-lg-auto" id="loginli">
-							$login_icon
-						</li>
-						<li class="nav-item col-4 col-lg-auto">
-							<a id="logout_btn" class="nav-link py-2 px-0 px-lg-2" href="/Translation_Dashboard/auth.php?a=logout" style="display:none">
-								<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
-							</a>
-						</li>
+						$li_user
 					</ul>
 				</div>
 			</div>
@@ -172,22 +175,6 @@ echo <<<HTML
 	</header>
 HTML;
 ?>
-<script>
-	// $(document).ready(function() {
-	var lo = $('#myusername').text();
-	if (lo != '') {
-		$('#myboard').show();
-		$('#user_name').text(lo);
-
-		$('#login_btn, #loginli').hide();
-		$("#doit_btn, #username_li, #logout_btn").show();
-
-	} else {
-		$('#login_btn, #loginli').show();
-		$("#doit_btn, #username_li, #logout_btn").hide();
-	};
-	// });
-</script>
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container">
