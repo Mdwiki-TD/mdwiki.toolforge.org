@@ -114,30 +114,36 @@ $them_li = <<<HTML
 	</ul>
 HTML;
 //---
-$$li_user = <<<HTML
+$li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
-		<a href="#" class="nav-link py-2 px-0 px-lg-2" style="display:none">
-			<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles" id="user_name"></span>
-		</a>
-	</li>
-	<li class="nav-item col-4 col-lg-auto" id="loginli">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=login">
 			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
 		</a>
 	</li>
+HTML;
+//---
+if (defined('global_username') && global_username != '') {
+	$u_name = global_username;
+	$li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
-		<a id="logout_btn" class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=logout" style="display:none">
+		<a href="leaderboard.php?user=$username" class="nav-link py-2 px-0 px-lg-2">
+			<i class="fas fa-user fa-sm fa-fw mr-2"></i> <span class="navtitles">$u_name</span>
+		</a>
+	</li>
+	<li class="nav-item col-4 col-lg-auto">
+		<a class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=logout">
 			<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
 		</a>
 	</li>
 HTML;
+};
 //---
 echo <<<HTML
 <body>
 	<header class="mb-3 border-bottom">
 		<nav id="mainnav" class="navbar navbar-expand-lg shadow">
 			<div class="container-fluid" id="navbardiv">
-				<a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
+				<a class="navbar-brand mb-0 h1" href="/index.php" style="color:#0d6efd;">
 					WikiProjectMed Tools
 				</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
