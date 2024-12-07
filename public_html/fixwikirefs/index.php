@@ -11,8 +11,8 @@ if (strpos(__FILE__, "I:\\") !== false) {
     include_once __DIR__ . '/../../../auth/auth/send_edit.php';
     include_once __DIR__ . '/../../../auth/auth/access_helps.php';
 } else {
-    include_once __DIR__ . '/auth/auth/send_edit.php';
-    include_once __DIR__ . '/auth/auth/access_helps.php';
+    include_once __DIR__ . '/../auth/auth/send_edit.php';
+    include_once __DIR__ . '/../auth/auth/access_helps.php';
 };
 //---
 include_once __DIR__ . '/fix.php';

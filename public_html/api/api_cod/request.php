@@ -118,6 +118,7 @@ $execution_time = 0;
 
 $select_valids = [
     'count(title) as count',
+    'YEAR(date) AS year',
     'YEAR(pupdate) AS year',
     'lang',
     'user',
