@@ -17,8 +17,8 @@ if (strpos(__FILE__, "I:\\") !== false) {
 //---
 include_once __DIR__ . '/fix.php';
 //---
-use function OAuth\SendEdit\auth_do_edit;
-use function OAuth\AccessHelps\get_access_from_db;
+use function OAuth\SendEdit\auth_make_edit;
+use function OAuth\AccessHelps\get_access_from_dbs;
 //---
 print_h3_title("Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a>");
 //---
@@ -36,7 +36,7 @@ function saveit($title, $lang, $text)
     // ---
     $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
     // ---
-    $access = get_access_from_db($username);
+    $access = get_access_from_dbs($username);
     // ---
     if ($access == null) {
         return false;
@@ -45,7 +45,7 @@ function saveit($title, $lang, $text)
     $access_key = $access['access_key'];
     $access_secret = $access['access_secret'];
     // ---
-    $result = auth_do_edit($title, $text, $summary, $lang, $access_key, $access_secret);
+    $result = auth_make_edit($title, $text, $summary, $lang, $access_key, $access_secret);
     // ---
     $Success = $result['edit']['result'] == 'Success';
     // ---
