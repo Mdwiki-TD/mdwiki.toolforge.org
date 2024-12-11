@@ -83,3 +83,5 @@ public_html/api/index0.php
 public_html/api/test/script copy.js
 /public_html/api/test
 /public_html/vendor
+*.html
+/public_html/mdtexts
