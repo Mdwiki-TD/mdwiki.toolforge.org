@@ -70,7 +70,6 @@ public_html/.lighttpd.conf
 public_html/cc.php
 public_html/x.html
 public_html/web.config
-/public_html/fixwikirefs/wprefs
 /‏‏pybot - نسخة (2)
 /public_html/u
 public_html/oauth_test.php
@@ -85,3 +84,4 @@ public_html/api/test/script copy.js
 /public_html/vendor
 *.html
 /public_html/mdtexts
+/public_html/fixwikirefs/wprefs
