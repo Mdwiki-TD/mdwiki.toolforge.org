@@ -46,7 +46,7 @@ function print_head()
 			<script src='$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js'></script>
 			<script src='$hoste/ajax/libs/datatables.net-bs5/1.13.5/dataTables.bootstrap5.min.js'></script>
 			<script src="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
-			<script src='/Translation_Dashboard/plugins/chart.js/Chart.min.js'></script>
+			<script src='/td/plugins/chart.js/Chart.min.js'></script>
 
 			<style>
 			a {
