@@ -7,7 +7,7 @@ echo "Removing old mdall directory if exists..."
 rm -rf mdall
 
 echo "Cloning repository from GitHub..."
-git clone https://github.com/MrIbrahem/mdwiki.toolforge.org.git mdall || { echo "Failed to clone repository"; exit 1; }
+git clone https://github.com/Mdwiki-TD/mdwiki.toolforge.org.git mdall || { echo "Failed to clone repository"; exit 1; }
 
 echo "Moving files to htmlx directory..."
 mv mdall/public_html htmlx || { echo "Failed to move files to htmlx directory"; exit 1; }
@@ -30,3 +30,4 @@ echo "Removing htmlx directory..."
 rm -rf htmlx
 
 echo "Script execution completed successfully."
+
