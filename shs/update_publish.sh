@@ -6,7 +6,7 @@ TARGET_DIR="public_html/publish"
 TARGET_DIR_2="public_html/publish2"
 
 # Navigate to the project directory
-cd /data/project/mdwiki/ || exit 1
+cd $HOME || exit 1
 
 # Remove any existing backup directory
 rm -rf "$TARGET_DIR_2"
@@ -17,7 +17,7 @@ if git clone "$REPO_URL" "$TARGET_DIR_2"; then
     if [ -f "$TARGET_DIR_2/all_pages_revids.json" ]; then
         rm "$TARGET_DIR_2/all_pages_revids.json"
     fi
-    cp "$TARGET_DIR_2/*" "$TARGET_DIR/.json"
+    cp -rf "$TARGET_DIR_2"/* "$TARGET_DIR/"
 
     # Remove backup directory
     rm -rf "$TARGET_DIR_2"

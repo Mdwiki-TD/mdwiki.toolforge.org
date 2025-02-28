@@ -6,14 +6,14 @@ TARGET_DIR="public_html/tdc"
 TARGET_DIR_2="public_html/tdc2"
 
 # Navigate to the project directory
-cd /data/project/mdwiki/ || exit 1
+cd $HOME || exit 1
 
 # Remove any existing backup directory
 rm -rf "$TARGET_DIR_2"
 
 # Clone the repository
 if git clone "$REPO_URL" "$TARGET_DIR_2"; then
-    cp "$TARGET_DIR_2/*" "$TARGET_DIR/"
+    cp -rf "$TARGET_DIR_2"/* "$TARGET_DIR/" -v
 
     # Remove backup directory
     rm -rf "$TARGET_DIR_2"
