@@ -5,7 +5,7 @@ cd $HOME
 rm -rf tdx
 
 # Download the wd-core repository from GitHub.
-git clone --recurse-submodules https://github.com/Mdwiki-TD/Translation-Dashboard.git tdx
+git clone -b update https://github.com/MrIbrahem/Translation-Dashboard.git tdx
 
 # delete composer.json and composer.lock
 rm -rf tdx/composer.json tdx/composer.lock
@@ -21,5 +21,3 @@ cp -rf -v tdx/* public_html/Translation_Dashboard
 
 # Remove the `tdx` directory.
 rm -rf tdx
-
-echo "Repository cloned and cleaned successfully."
