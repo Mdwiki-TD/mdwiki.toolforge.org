@@ -1,38 +1,22 @@
 #!/bin/bash
-set -e  # إيقاف التنفيذ عند حدوث أي خطأ
+cd $HOME
+# cd /data/project/mdwiki/
 
-# تحديد المسارات
-HOME_DIR="$HOME"
-TARGET_DIR="$HOME_DIR/pybot/new/newapi"
-TEMP_DIR="$HOME_DIR/newapi_x"
-REPO_URL="https://github.com/MrIbrahem/newapi.git"
-PYTHON_BIN="$HOME_DIR/local/bin/python3"
+rm -rf newapi_x
 
-# الانتقال إلى مجلد المستخدم
-cd "$HOME_DIR"
+mkdir  pybot/new
+mkdir  pybot/new/newapi
 
-# إزالة أي مجلد مؤقت قديم
-rm -rf "$TEMP_DIR"
+# Download the wd-core repository from GitHub.
+git clone https://github.com/MrIbrahem/newapi.git newapi_x
 
-# إنشاء المجلدات إذا لم تكن موجودة
-mkdir -p "$TARGET_DIR"
+cp -rf newapi_x/* pybot/new/newapi -v
 
-# استنساخ المستودع إلى المجلد المؤقت
-git clone "$REPO_URL" "$TEMP_DIR"
+find pybot/new/newapi -name "*.pyc" -exec rm -f {} +
 
-# نسخ الملفات من المجلد المؤقت إلى الوجهة
-cp -rf "$TEMP_DIR"/* "$TARGET_DIR" -v
+#chmod -R 6770 pybot/new/newapi
+find pybot/new/newapi -type f ! -name "*.pyc" -exec chmod 6770 {} \;
 
-# حذف ملفات الـ .pyc غير الضرورية
-find "$TARGET_DIR" -name "*.pyc" -exec rm -f {} +
+rm -rf newapi_x
 
-# ضبط الصلاحيات (عدم تغيير ملفات .pyc)
-find "$TARGET_DIR" -type f ! -name "*.pyc" -exec chmod 6770 {} \;
-
-# حذف المجلد المؤقت بعد الانتهاء
-rm -rf "$TEMP_DIR"
-
-# تثبيت المتطلبات
-"$PYTHON_BIN" -m pip install -r "$TARGET_DIR/requirements.in" -U
-
-echo "Script executed successfully."
+$HOME/local/bin/python3 -m pip install -r pybot/new/newapi/requirements.in -U
