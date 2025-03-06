@@ -76,6 +76,8 @@ function add_li(string $qua, array $types, array $endpoint_params = []): string
             // ---
             if ($added == "not_mt" || $added == "not_empty") {
                 $add_str = " $where_or_and ($column != '' AND $column IS NOT NULL) ";
+            } elseif ($added == "mt" || $added == "empty") {
+                $add_str = " $where_or_and ($column = '' OR $column IS NULL) ";
             } elseif ($added == ">0" || $added == "&#62;0") {
                 $add_str = " $where_or_and $column > 0 ";
             } else {

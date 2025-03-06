@@ -125,8 +125,11 @@ switch ($get) {
         break;
 
     case 'count_pages':
-        $target_t = (isset($_GET['target_empty'])) ? " target = '' " : " target != '' ";
-        $qua = "SELECT DISTINCT user, count(target) as count from pages where $target_t group by user order by count desc";
+        // $target_t = (isset($_GET['target_empty'])) ? " target = '' " : " target != '' ";
+        // $qua = "SELECT DISTINCT user, count(target) as count from pages where $target_t group by user order by count desc";
+        $qua = "SELECT DISTINCT user, count(target) as count from pages";
+        $qua = add_li($qua, [], $endpoint_params);
+        $qua .= " group by user order by count desc";
         $qua = add_limit($qua);
         break;
 
