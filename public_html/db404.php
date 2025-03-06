@@ -41,8 +41,8 @@ try {
     exit;
 }
 
-// الحصول على المسار بدون الاستعلام (? وما بعدها)
-$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$path = $_SERVER['REQUEST_URI'];
+// $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 echox("Path: " . $path . "<br/>");
 
 // التحقق مما إذا كان المسار موجودًا بالفعل
