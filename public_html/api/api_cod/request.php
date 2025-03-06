@@ -16,11 +16,24 @@ use function API\InterWiki\get_inter_wiki;
 use function API\SiteMatrix\get_site_matrix;
 use function API\Helps\sanitize_input;
 use function API\Helps\add_li;
+use function API\Helps\add_li_params;
 use function API\Helps\add_limit;
 use function API\Pages\get_pages_qua;
 use function API\Qids\qids_qua;
 use function API\Leaderboard\leaderboard_table;
 use function API\Status\make_status_query;
+use function API\TitlesInfos\titles_query;
+
+$other_tables = [
+    'assessments',
+    'refs_counts',
+    'enwiki_pageviews',
+    'categories',
+    'full_translators',
+    'projects',
+    'settings',
+    'translate_type'
+];
 
 $DISTINCT = (isset($_GET['distinct'])) ? 'DISTINCT ' : '';
 $get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_SPECIAL_CHARS); //$_GET['get']
@@ -47,6 +60,10 @@ if (!in_array($SELECT, $select_valids)) {
     $SELECT = '*';
 };
 
+// load endpoint_params.json
+$endpoint_params = json_decode(file_get_contents(__DIR__ . '/../endpoint_params.json'), true);
+$endpoint_params = $endpoint_params[$get]['params'] ?? [];
+// ---
 switch ($get) {
     case 'users':
         $qua = "SELECT username FROM users";
@@ -57,6 +74,14 @@ switch ($get) {
             }
         }
         $qua = add_limit($qua);
+        break;
+
+    case 'titles':
+        $tab = titles_query($endpoint_params);
+        $query = $tab['qua'];
+        $params = $tab['params'];
+        // echo json_encode($tab);
+        $query = add_limit($query);
         break;
 
     case 'coordinator':
@@ -197,7 +222,13 @@ switch ($get) {
     case 'words':
         $params = [];
         $query = "SELECT * FROM words WHERE 1=1";
-
+        // ---
+        $tab = add_li_params($query, [], $endpoint_params);
+        // ---
+        $query = $tab['qua'];
+        $params = $tab['params'];
+        // ---
+        /*
         // التحقق من عنوان الكلمات
         $title = sanitize_input($_GET['title'] ?? '', '/^[a-zA-Z0-9\s_-]+$/');
         if ($title !== null) {
@@ -218,7 +249,7 @@ switch ($get) {
             $query .= " AND w_all_words = ?";
             $params[] = $all_words;
         }
-
+        */
         $query = add_limit($query);
         break;
 
@@ -229,8 +260,9 @@ switch ($get) {
         break;
 
     default:
-        if (in_array($get, ['categories', 'full_translators', 'projects', 'settings', 'translate_type'])) {
+        if (in_array($get, $other_tables)) {
             $qua = "SELECT * FROM $get";
+            $qua = add_li($qua, [], $endpoint_params);
             $qua = add_limit($qua);
             break;
         }
@@ -264,6 +296,16 @@ $out = [
 
 // if server is localhost then add query to out
 if ($_SERVER['SERVER_NAME'] === 'localhost') {
-    $out['query'] = $qua;
+    $out = [
+        "query" => $qua,
+        "time" => $execution_time,
+        "length" => count($results),
+        "results" => $results
+    ];
 };
+$out["supported_params"] = [];
+foreach ($endpoint_params as $param) {
+    $out["supported_params"][] = $param["name"];
+};
+
 echo json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
