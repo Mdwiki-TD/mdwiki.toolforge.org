@@ -6,7 +6,7 @@ Usage:
 use function API\Qids\qids_qua;
 */
 
-function qids_qua($get, $dis)
+function qids_qua($get)
 {
     // ---
     $valid_tables = ["qids", "qids_others"];
