@@ -21,6 +21,7 @@ use function API\Helps\add_limit;
 use function API\Pages\get_pages_qua;
 use function API\Qids\qids_qua;
 use function API\Leaderboard\leaderboard_table;
+use function API\Leaderboard\leaderboard_table_new;
 use function API\Status\make_status_query;
 use function API\TitlesInfos\titles_query;
 
@@ -91,6 +92,13 @@ switch ($get) {
 
     case 'leaderboard_table':
         $de = leaderboard_table();
+        $query = $de["qua"];
+        $params = $de["params"];
+
+        break;
+
+    case 'leaderboard_table_new':
+        $de = leaderboard_table_new();
         $query = $de["qua"];
         $params = $de["params"];
 
