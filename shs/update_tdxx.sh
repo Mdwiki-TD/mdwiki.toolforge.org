@@ -1,5 +1,5 @@
 #!/bin/bash
-cd $HOME
+cd "$HOME" || exit 1
 # cd /data/project/mdwiki/
 
 rm -rf tdx
