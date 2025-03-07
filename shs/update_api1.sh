@@ -8,8 +8,7 @@ TEMP_DIR="$HOME_DIR/newapi_x"
 REPO_URL="https://github.com/MrIbrahem/newapi.git"
 PYTHON_BIN="$HOME_DIR/local/bin/python3"
 
-# الانتقال إلى مجلد المستخدم
-cd "$HOME_DIR"
+cd "$HOME" || exit 1
 
 # إزالة أي مجلد مؤقت قديم
 rm -rf "$TEMP_DIR"

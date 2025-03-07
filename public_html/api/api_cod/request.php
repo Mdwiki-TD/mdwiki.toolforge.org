@@ -16,88 +16,25 @@ use function API\InterWiki\get_inter_wiki;
 use function API\SiteMatrix\get_site_matrix;
 use function API\Helps\sanitize_input;
 use function API\Helps\add_li;
+use function API\Helps\add_li_params;
 use function API\Helps\add_limit;
 use function API\Pages\get_pages_qua;
 use function API\Qids\qids_qua;
+use function API\Leaderboard\leaderboard_table;
+use function API\Leaderboard\leaderboard_table_new;
+use function API\Status\make_status_query;
+use function API\TitlesInfos\titles_query;
 
-function leaderboard_table()
-{
-    // ---
-    $pa_rams = [];
-    // ---
-    $qu_ery = "SELECT p.title,
-        p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, LEFT(p.pupdate, 7) as m,
-        p.user,
-        (SELECT u.user_group FROM users u WHERE p.user = u.username) AS user_group
-        FROM pages p
-        WHERE p.target != ''
-    ";
-    // ---
-    $user_group = sanitize_input($_GET['user_group'] ?? '', '/^[a-zA-Z ]+$/');
-    // ---
-    if ($user_group !== null && $user_group !== 'all') {
-        // ---
-        $qu_ery = "SELECT p.title,
-            p.target, p.cat, p.lang, p.word, YEAR(p.pupdate) AS pup_y, p.user, u.user_group, LEFT(p.pupdate, 7) as m
-            FROM pages p, users u
-            WHERE p.user = u.username
-            AND u.user_group = ?
-        ";
-        // ---
-        $pa_rams[] = $user_group;
-    };
-    // ---
-    $year = sanitize_input($_GET['year'] ?? '', '/^\d+$/');
-    // ---
-    if ($year !== null) {
-        $qu_ery .= " AND YEAR(p.pupdate) = ?";
-        $pa_rams[] = $year;
-    }
-    // ---
-    $qu_ery = add_limit($qu_ery);
-    // ---
-    return ["qua" => $qu_ery, "params" => $pa_rams];
-}
-
-function make_status_query()
-{
-    // https://mdwiki.toolforge.org/api.php?get=status&year=2022&user_group=Wiki&campaign=Main
-
-    $qu_ery = <<<SQL
-        SELECT LEFT(p.pupdate, 7) as date, COUNT(*) as count
-        FROM pages p
-        WHERE p.target != ''
-    SQL;
-
-    $pa_rams = [];
-
-    $year       = sanitize_input($_GET['year'] ?? '', '/^\d+$/');
-    $user_group = sanitize_input($_GET['user_group'] ?? '', '/^[a-zA-Z ]+$/');
-    $campaign   = sanitize_input($_GET['campaign'] ?? '', '/^[a-zA-Z ]+$/');
-
-    if ($year !== null) {
-        $added = $year;
-        $qu_ery .= " AND YEAR(p.pupdate) = ?";
-        $pa_rams[] = $added;
-    }
-
-    if ($user_group !== null) {
-        $qu_ery .= " AND p.user IN (SELECT username FROM users WHERE user_group = ?)";
-        $pa_rams[] = $user_group;
-    }
-
-    if ($campaign !== null) {
-        $qu_ery .= " AND p.cat IN (SELECT category FROM categories WHERE campaign = ?)";
-        $pa_rams[] = $campaign;
-    }
-
-    $qu_ery .= <<<SQL
-        GROUP BY LEFT(p.pupdate, 7)
-        ORDER BY LEFT(p.pupdate, 7) ASC;
-    SQL;
-
-    return ["qua" => $qu_ery, "params" => $pa_rams];
-}
+$other_tables = [
+    'assessments',
+    'refs_counts',
+    'enwiki_pageviews',
+    'categories',
+    'full_translators',
+    'projects',
+    'settings',
+    'translate_type'
+];
 
 $DISTINCT = (isset($_GET['distinct'])) ? 'DISTINCT ' : '';
 $get = filter_input(INPUT_GET, 'get', FILTER_SANITIZE_SPECIAL_CHARS); //$_GET['get']
@@ -118,20 +55,34 @@ $select_valids = [
     'user',
 ];
 
-$SELECT   = (isset($_GET['select'])) ? filter_input(INPUT_GET, 'select', FILTER_SANITIZE_SPECIAL_CHARS) : '*';
+$SELECT = (isset($_GET['select'])) ? filter_input(INPUT_GET, 'select', FILTER_SANITIZE_SPECIAL_CHARS) : '*';
 
 if (!in_array($SELECT, $select_valids)) {
     $SELECT = '*';
 };
 
+// load endpoint_params.json
+$endpoint_params = json_decode(file_get_contents(__DIR__ . '/../endpoint_params.json'), true);
+$endpoint_params = $endpoint_params[$get]['params'] ?? [];
+// ---
 switch ($get) {
     case 'users':
         $qua = "SELECT username FROM users";
         if (isset($_GET['userlike'])) {
             $added = filter_input(INPUT_GET, 'userlike', FILTER_SANITIZE_SPECIAL_CHARS);
-            $qua .= " WHERE username like '$added%'";
+            if ($added !== null) {
+                $qua .= " WHERE username like '$added%'";
+            }
         }
         $qua = add_limit($qua);
+        break;
+
+    case 'titles':
+        $tab = titles_query($endpoint_params);
+        $query = $tab['qua'];
+        $params = $tab['params'];
+        // echo json_encode($tab);
+        $query = add_limit($query);
         break;
 
     case 'coordinator':
@@ -141,6 +92,13 @@ switch ($get) {
 
     case 'leaderboard_table':
         $de = leaderboard_table();
+        $query = $de["qua"];
+        $params = $de["params"];
+
+        break;
+
+    case 'leaderboard_table_new':
+        $de = leaderboard_table_new();
         $query = $de["qua"];
         $params = $de["params"];
 
@@ -165,18 +123,21 @@ switch ($get) {
         break;
 
     case 'qids':
-        $qua = qids_qua($get, $dis);
+        $qua = qids_qua($get);
         $qua = add_limit($qua);
         break;
 
     case 'qids_others':
-        $qua = qids_qua($get, $dis);
+        $qua = qids_qua($get);
         $qua = add_limit($qua);
         break;
 
     case 'count_pages':
-        $target_t = (isset($_GET['target_empty'])) ? " target = '' " : " target != '' ";
-        $qua = "SELECT DISTINCT user, count(target) as count from pages where $target_t group by user order by count desc";
+        // $target_t = (isset($_GET['target_empty'])) ? " target = '' " : " target != '' ";
+        // $qua = "SELECT DISTINCT user, count(target) as count from pages where $target_t group by user order by count desc";
+        $qua = "SELECT DISTINCT user, count(target) as count from pages";
+        $qua = add_li($qua, [], $endpoint_params);
+        $qua .= " group by user order by count desc";
         $qua = add_limit($qua);
         break;
 
@@ -272,7 +233,13 @@ switch ($get) {
     case 'words':
         $params = [];
         $query = "SELECT * FROM words WHERE 1=1";
-
+        // ---
+        $tab = add_li_params($query, [], $endpoint_params);
+        // ---
+        $query = $tab['qua'];
+        $params = $tab['params'];
+        // ---
+        /*
         // التحقق من عنوان الكلمات
         $title = sanitize_input($_GET['title'] ?? '', '/^[a-zA-Z0-9\s_-]+$/');
         if ($title !== null) {
@@ -293,18 +260,20 @@ switch ($get) {
             $query .= " AND w_all_words = ?";
             $params[] = $all_words;
         }
-
+        */
         $query = add_limit($query);
         break;
 
+    case 'pages':
+    case 'pages_users':
+        $qua = get_pages_qua($get, $DISTINCT, $SELECT);
+        $qua = add_limit($qua);
+        break;
+
     default:
-        if (in_array($get, ['categories', 'full_translators', 'projects', 'settings', 'translate_type'])) {
+        if (in_array($get, $other_tables)) {
             $qua = "SELECT * FROM $get";
-            $qua = add_limit($qua);
-            break;
-        }
-        if (in_array($get, ['pages', 'pages_users'])) {
-            $qua = get_pages_qua($get, $DISTINCT, $SELECT);
+            $qua = add_li($qua, [], $endpoint_params);
             $qua = add_limit($qua);
             break;
         }
@@ -335,5 +304,19 @@ $out = [
     "length" => count($results),
     "results" => $results
 ];
+
+// if server is localhost then add query to out
+if ($_SERVER['SERVER_NAME'] === 'localhost') {
+    $out = [
+        "query" => $qua,
+        "time" => $execution_time,
+        "length" => count($results),
+        "results" => $results
+    ];
+};
+$out["supported_params"] = [];
+foreach ($endpoint_params as $param) {
+    $out["supported_params"][] = $param["name"];
+};
 
 echo json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
