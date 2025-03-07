@@ -1,11 +1,16 @@
 #!/bin/bash
-cd $HOME
+
+BRANCH="${1:-main}"
+
+echo ">>> clone --branch ${BRANCH} ."
+
+cd "$HOME" || exit 1
 # cd /data/project/mdwiki/
 
 rm -rf authx
 
 # Download the wd-core repository from GitHub.
-git clone https://github.com/Mdwiki-TD/auth-repo.git authx
+git clone --branch "$BRANCH" https://github.com/Mdwiki-TD/auth-repo.git authx
 
 # delete composer.json and composer.lock
 rm -rf authx/composer.json authx/composer.lock

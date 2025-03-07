@@ -1,10 +1,14 @@
 #!/bin/bash
 
-cd "$HOME"
+BRANCH="${1:-main}"
+
+echo ">>> clone --branch ${BRANCH} ."
+
+cd "$HOME" || exit 1
 
 rm -rf mdwikix
 
-git clone https://github.com/MrIbrahem/mdwiki-python-files.git mdwikix || { echo ">>> Failed to clone repository"; exit 1; }
+git clone --branch "$BRANCH" https://github.com/MrIbrahem/mdwiki-python-files.git mdwikix || { echo ">>> Failed to clone repository"; exit 1; }
 
 rm -rf mdwikix/md_core/newapi
 
