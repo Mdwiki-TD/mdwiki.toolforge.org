@@ -37,6 +37,8 @@ function add_order($qua)
 }
 function add_limit($qua)
 {
+    // if $qua has LIMIT then return
+    if (strpos($qua, 'LIMIT') !== false || strpos($qua, 'limit') !== false) return $qua;
     if (isset($_GET['limit'])) {
         $added = filter_input(INPUT_GET, 'limit', FILTER_SANITIZE_SPECIAL_CHARS);
         $qua .= " LIMIT $added";
@@ -50,15 +52,15 @@ function add_li(string $qua, array $types, array $endpoint_params = []): string
     // $not_empty_keys = ['target_notempty' => 'target'];
     // $empty_keys = ['target_empty' => 'target'];
     // ---
-    $types = array_flip($types);
+    // $types = array_flip($types);
     // ---
-    // $types2 = [];
-    // // ---
-    // foreach ($types as $type) {
-    //     $types2[$type] = $type;
-    // }
-    // // ---
-    // $types = $types2;
+    $types2 = [];
+    // ---
+    foreach ($types as $type) {
+        $types2[$type] = $type;
+    }
+    // ---
+    $types = $types2;
     // ---
     if (count($types) == 0 && count($endpoint_params) > 0) {
         foreach ($endpoint_params as $param) {
