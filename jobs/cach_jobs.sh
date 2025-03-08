@@ -6,6 +6,10 @@ $HOME/local/bin/python3 core8/pwb.py mdpages/cashwd
 # apis/cat_cach
 $HOME/local/bin/python3 core8/pwb.py apis/cat_cach
 
+$HOME/local/bin/python3 core8/pwb.py copy_data/all_articles
+
+$HOME/local/bin/python3 core8/pwb.py copy_data/exists_db
+
 #
 $HOME/local/bin/python3 core8/pwb.py wd_works/recheck
 

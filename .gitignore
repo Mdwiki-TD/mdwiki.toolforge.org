@@ -85,3 +85,4 @@ public_html/api/test/script copy.js
 *.html
 /public_html/mdtexts
 /public_html/fixwikirefs/wprefs
+public_html/adminer0.php

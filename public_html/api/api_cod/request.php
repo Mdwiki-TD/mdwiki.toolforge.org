@@ -24,6 +24,7 @@ use function API\Leaderboard\leaderboard_table;
 use function API\Leaderboard\leaderboard_table_new;
 use function API\Status\make_status_query;
 use function API\TitlesInfos\titles_query;
+use function API\Missing\missing_query;
 
 $other_tables = [
     'assessments',
@@ -66,6 +67,15 @@ $endpoint_params = json_decode(file_get_contents(__DIR__ . '/../endpoint_params.
 $endpoint_params = $endpoint_params[$get]['params'] ?? [];
 // ---
 switch ($get) {
+
+    case 'missing':
+        $tab = missing_query($endpoint_params);
+        $query = $tab['qua'];
+        $params = $tab['params'];
+        // echo json_encode($tab);
+        $query = add_limit($query);
+        break;
+
     case 'users':
         $qua = "SELECT username FROM users";
         if (isset($_GET['userlike'])) {
@@ -134,7 +144,7 @@ switch ($get) {
 
     case 'count_pages':
         // $target_t = (isset($_GET['target_empty'])) ? " target = '' " : " target != '' ";
-        // $qua = "SELECT DISTINCT user, count(target) as count from pages where $target_t group by user order by count desc";
+        // $qua = "SELECT DISTINCT user, count(target) as count from pages WHERE $target_t group by user order by count desc";
         $qua = "SELECT DISTINCT user, count(target) as count from pages";
         $qua = add_li($qua, [], $endpoint_params);
         $qua .= " group by user order by count desc";
@@ -145,8 +155,8 @@ switch ($get) {
         $qua = <<<SQL
             select DISTINCT p1.target, p1.title, p1.cat, p1.user, p1.pupdate, p1.lang
             from pages p1
-            where target != ''
-            and p1.pupdate = (select p2.pupdate from pages p2 where p2.user = p1.user ORDER BY p2.pupdate DESC limit 1)
+            WHERE target != ''
+            and p1.pupdate = (select p2.pupdate from pages p2 WHERE p2.user = p1.user ORDER BY p2.pupdate DESC limit 1)
             group by p1.user
             ORDER BY p1.pupdate DESC
         SQL;
@@ -197,7 +207,7 @@ switch ($get) {
             $qua = <<<SQL
                     select p.target, v.countall
                 from pages p, views v
-                where p.user = '{$user_name}'
+                WHERE p.user = '{$user_name}'
                 and p.lang = v.lang
                 and p.target = v.target
             SQL;
@@ -222,7 +232,7 @@ switch ($get) {
             $qua = <<<SQL
                     select p.target, v.countall
                 from pages p, views v
-                where p.lang = '{$lang}'
+                WHERE p.lang = '{$lang}'
                 and p.lang = v.lang
                 and p.target = v.target
             SQL;
@@ -232,7 +242,7 @@ switch ($get) {
 
     case 'words':
         $params = [];
-        $query = "SELECT * FROM words WHERE 1=1";
+        $query = "SELECT * FROM words ";
         // ---
         $tab = add_li_params($query, [], $endpoint_params);
         // ---
