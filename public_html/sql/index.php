@@ -93,10 +93,10 @@ $pass = $_REQUEST['pass'] ?? '';
 $qua  = $_REQUEST['code'] ?? '';
 $raw  = $_REQUEST['raw'] ?? '';
 // ---
-$coordinators = get_td_api(array('get' => 'coordinator', 'select' => 'user'));
+$user_coordinators = get_td_api(array('get' => 'coordinator', 'select' => 'user'));
 // ---
-if (count($coordinators) > 0) {
-    $coordinators = array_map('current', $coordinators);
+if (count($user_coordinators) > 0) {
+    $user_coordinators = array_map('current', $user_coordinators);
 };
 //---
 include_once __DIR__ . '/../header.php';
@@ -113,11 +113,11 @@ if (!empty($raw)) {
     exit;
 };
 // ---
-if (defined('global_username') && global_username != '' && in_array(global_username, $coordinators)) {
+if (defined('global_username') && global_username != '' && in_array(global_username, $user_coordinators)) {
     echo "";
 } else {
     echo "user:" . global_username . " not allowed";
-    echo json_encode($coordinators);
+    echo json_encode($user_coordinators);
     echo "<meta http-equiv='refresh' content='0; url=/Translation_Dashboard/index.php'>";
     exit;
 };

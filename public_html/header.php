@@ -44,27 +44,36 @@ function print_head()
 	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
 	if ($_SERVER['SERVER_NAME'] == 'localhost')  $hoste = 'https://cdnjs.cloudflare.com';
 	//---
+	$stylesheets = [
+		"/Translation_Dashboard/css/styles.css",
+		"/Translation_Dashboard/css/Responsive_Table.css",
+		"/Translation_Dashboard/css/dashboard_new1.css",
+		"$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css",
+		"$hoste/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css",
+		"$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.css",
+		"$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css",
+		"$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css",
+	];
+	foreach ($stylesheets as $css) {
+		echo "\n\t<link rel='stylesheet' href='" . $css . "'>";
+	}
+
+	$scripts = [
+		"$hoste/ajax/libs/jquery/3.7.0/jquery.min.js",
+		"$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js",
+		"$hoste/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js",
+		"$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js",
+		"$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.min.js",
+		"$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js",
+		"/Translation_Dashboard/js/sorttable.js",
+		"/Translation_Dashboard/js/to.js",
+	];
+
+	foreach ($scripts as $js) {
+		echo "\n\t<script src='" . $js . "'></script>";
+	}
 	echo <<<HTML
-		<link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
-		<link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
-		<link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
-		<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
-		<link href='$hoste/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-		<link href='$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.css' rel='stylesheet' type='text/css'>
-		<link href='$hoste/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css' rel='stylesheet' type='text/css'>
-		<link href="$hoste/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel='stylesheet' type='text/css'>
-
-		<script src='$hoste/ajax/libs/jquery/3.7.0/jquery.min.js'></script>
-		<script src='$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js'></script>
-		<script src='$hoste/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js'></script>
-		<script src='$hoste/ajax/libs/datatables.net/2.1.1/jquery.dataTables.min.js'></script>
-		<script src='$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.min.js'></script>
-		<script src='$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
-
 		<script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
-		<script src='/Translation_Dashboard/js/sorttable.js'></script>
-		<script src='/Translation_Dashboard/js/to.js'></script>
-
 		<style>
 		a {
 			text-decoration: none;
@@ -120,8 +129,8 @@ $li_user = <<<HTML
 	</li>
 HTML;
 //---
-if (defined('global_username') && global_username != '') {
-	$u_name = global_username;
+if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
+	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
 		<a href="#" class="nav-link py-2 px-0 px-lg-2">
