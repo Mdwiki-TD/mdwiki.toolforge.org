@@ -2,6 +2,7 @@
 
 # Create temporary files with lists of existing articles for all languages
 $HOME/local/bin/python3 core8/pwb.py mdpages/cashwd
+$HOME/local/bin/python3 core8/pwb.py copy_data/sitelinks
 
 # apis/cat_cach
 $HOME/local/bin/python3 core8/pwb.py apis/cat_cach
