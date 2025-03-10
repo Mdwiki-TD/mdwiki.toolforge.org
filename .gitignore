@@ -76,7 +76,7 @@ public_html/oauth_test.php
 public_html/qdel.php.o
 /public_html/publish/**
 /public_html/Translation_Dashboard1
-*.json
+
 !public_html/api/langs_table.json
 public_html/api/index0.php
 public_html/api/test/script copy.js
@@ -88,3 +88,7 @@ public_html/api/test/script copy.js
 public_html/adminer0.php
 public_html/Translation_Dashboard/
 pybot/
+**/composer.json
+public_html/gmail1/*.json
+public_html/prior/Tables/*.json
+public_html/replace/find/**
