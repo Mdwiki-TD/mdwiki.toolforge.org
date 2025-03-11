@@ -59,7 +59,7 @@
 
 # make views
 - name: views
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews && $HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews_new"
   schedule: '15 5 * * *'
   image: python3.9
   emails: none
