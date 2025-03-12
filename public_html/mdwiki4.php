@@ -1,5 +1,6 @@
 <?php
-require 'header.php';
+include_once 'header.php';
+include_once 'bots/python.php';
 //---
 print_h3_title("Med updater");
 //---
@@ -21,7 +22,10 @@ if (!empty($title)) {
 $pathParts = explode('public_html', __FILE__);
 $root_paath = $pathParts[0];
 $root_paath = str_replace('\\', '/', $root_paath);
-// echo "root_paath:$root_paath<br>";
+// ---
+if (strpos($root_paath, "I:/") !== false) {
+    $root_paath = "I:/mdwiki/";
+}
 // ---
 $title2 = add_quotes($title);
 // ---
@@ -65,15 +69,13 @@ function strstartswith($text, $start)
 {
     return strpos($text, $start) === 0;
 };
-//---
+
 function endsWith($string, $endString)
 {
     $len = strlen($endString);
     return substr($string, -$len) === $endString;
 };
-//---
-require 'bots/python.php';
-//---
+
 function get_results($title)
 {
     //---
@@ -97,7 +99,7 @@ function get_results($title)
         'test' => $test
     );
     //---
-    $result = do_py_sh($params);
+    $result = do_py($params);
     //---
     return $result;
 }
@@ -127,7 +129,8 @@ function worknew($title)
         <input type='hidden' id='wikitext-old' value=''>
     HTML;
     //---
-    $resultb = get_results($title);
+    $resultb = get_results($title) ?? '';
+    //---
     $resultb = trim($resultb);
     //---
     $t3 = endsWith($resultb, '.txt');
@@ -190,9 +193,9 @@ function worknew($title)
     };
     //---
 };
-//---
+
 echo "</div></div>";
-//---
+
 echo <<<HTML
 <hr />
     <div class='card'>
@@ -203,14 +206,14 @@ echo <<<HTML
         </div>
         <div class='card-body'>
 HTML;
-// ---
+
 if (empty($username)) {
     echo 'log in!!';
 };
 if (!empty($title) && !empty($username)) {
     worknew($title);
 };
-//---
+
 echo "</div></div>";
-//---
-require 'footer.php';
+
+include_once 'footer.php';
