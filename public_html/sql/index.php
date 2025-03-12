@@ -101,22 +101,25 @@ if (count($user_coordinators) > 0) {
 //---
 include_once __DIR__ . '/../header.php';
 //---
-$dir_t = __DIR__;
-//---
-if (strpos(__FILE__, "I:\\") !== false) $dir_t = "I:/mdwiki/";
-//---
-include_once $dir_t  . '/auth/auth/user_infos.php';
-include_once $dir_t  . '/auth/auth/mdwiki_sql.php';
+if (strpos(__FILE__, "I:\\") !== false) {
+    include_once __DIR__ . '/../../../auth/auth/user_infos.php';
+    include_once __DIR__ . '/../../../auth/auth/user_infos.php';
+} else {
+    include_once __DIR__ . '/../auth/auth/user_infos.php';
+    include_once __DIR__ . '/../auth/auth/user_infos.php';
+}
 //---
 if (!empty($raw)) {
     raw($qua, $pass, $raw, $sqlpass);
     exit;
 };
 // ---
-if (defined('global_username') && global_username != '' && in_array(global_username, $user_coordinators)) {
+$u_name = isset($GLOBALS['global_username']) ? $GLOBALS['global_username'] : '';
+// ---
+if ($u_name != '' && in_array($u_name, $user_coordinators)) {
     echo "";
 } else {
-    echo "user:" . global_username . " not allowed";
+    echo "user:" . $u_name . " not allowed";
     echo json_encode($user_coordinators);
     echo "<meta http-equiv='refresh' content='0; url=/Translation_Dashboard/index.php'>";
     exit;

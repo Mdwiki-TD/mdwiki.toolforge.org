@@ -1,8 +1,22 @@
 <?php
-include_once 'header.php';
-include_once 'bots/python.php';
+include_once __DIR__ . '/header.php';
+// include_once __DIR__ . '/bots/python.php';
 //---
-print_h3_title("Med updater");
+function add_quote($str)
+{
+    // if str have ' then use "
+    // else use '
+    $value = "'$str'";
+    if (preg_match("/[\']+/", $str)) $value = '"' . $str . '"';
+    return $value;
+}
+//---
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Med updater</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $test       = $_GET['test'] ?? '';
 $title      = $_GET['title'] ?? '';
@@ -27,7 +41,7 @@ if (strpos($root_paath, "I:/") !== false) {
     $root_paath = "I:/mdwiki/";
 }
 // ---
-$title2 = add_quotes($title);
+$title2 = add_quote($title);
 // ---
 $test  = $_GET['test'] ?? '';
 $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
@@ -36,45 +50,60 @@ $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'
 // ---
 if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
 // ---
-echo <<<HTML
-    <form action='mdwiki4.php' method='GET'>
-        $testinput
-        <div class='container'>
-            <div class='row'>
-                <div class='col-md-4'>
-                    <div class='input-group mb-3'>
-                        <div class='input-group-prepend'>
-                            <span class='input-group-text'>Title</span>
-                        </div>
-                        <input class='form-control' type='text' id='title' name='title' value=$title2 required />
-                    </div>
-                </div>
-                <div class='col-md-3'>
-                    <div class='form-check form-switch'>
-                        <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
-                        <label class='check-label' for='save'>Auto save</label>
-                    </div>
-                </div>
-                <div class='col-md-5'>
-                    <h4 class='aligncenter'>
-                        $start_icon
-                    </h4>
-                </div>
-            </div>
-        </div>
-    </form>
-HTML;
-//---
 function strstartswith($text, $start)
 {
     return strpos($text, $start) === 0;
-};
+}
 
 function endsWith($string, $endString)
 {
     $len = strlen($endString);
     return substr($string, -$len) === $endString;
 };
+function do_py($params, $do_test = true, $return_commaand = false)
+{
+    //---
+    global $root_paath;
+    //---
+    $dir        = $params['dir'] ?? '';
+    $localdir   = $params['localdir'] ?? '';
+    $pyfile     = $params['pyfile'] ?? '';
+    $other      = $params['other'] ?? '';
+    //---
+    $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+    //---
+    $py3 = $root_paath . "/local/bin/python3";
+    //---
+    $my_dir = $dir;
+    //---
+    if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        $my_dir = $localdir;
+        $py3 = "python3";
+    };
+    //---
+    if ($pyfile != '' && $my_dir != '') {
+        $command = $py3 . " $my_dir/$pyfile $other";
+        //---
+        // replace // with /
+        $command = str_replace('//', '/', $command);
+        //---
+        if ($do_test == true) {
+            if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
+                echo "<h6>$command</h6>";
+            };
+        };
+        //---
+        // Passing the command to the function
+        $cmd_output = shell_exec($command);
+        //---
+        if ($return_commaand == true) {
+            return ["command" => $command, "output" => $cmd_output];
+        }
+        //---
+        return $cmd_output;
+    };
+    return '';
+}
 
 function get_results($title)
 {
@@ -194,6 +223,35 @@ function worknew($title)
     //---
 };
 
+echo <<<HTML
+    <form action='mdwiki4.php' method='GET'>
+        $testinput
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-4'>
+                    <div class='input-group mb-3'>
+                        <div class='input-group-prepend'>
+                            <span class='input-group-text'>Title</span>
+                        </div>
+                        <input class='form-control' type='text' id='title' name='title' value=$title2 required />
+                    </div>
+                </div>
+                <div class='col-md-3'>
+                    <div class='form-check form-switch'>
+                        <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
+                        <label class='check-label' for='save'>Auto save</label>
+                    </div>
+                </div>
+                <div class='col-md-5'>
+                    <h4 class='aligncenter'>
+                        $start_icon
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </form>
+HTML;
+
 echo "</div></div>";
 
 echo <<<HTML
@@ -216,4 +274,4 @@ if (!empty($title) && !empty($username)) {
 
 echo "</div></div>";
 
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';
