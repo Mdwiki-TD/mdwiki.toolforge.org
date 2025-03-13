@@ -61,20 +61,21 @@ function do_py2($params)
         $cmd_output = shell_exec($command);
         //---
         return ["command" => $command, "output" => $cmd_output];
-
     };
     return [];
 };
 
-function do_py($params, $do_test=true, $return_commaand=false)
+function do_py($params, $do_test = true, $return_commaand = false)
 {
     //---
-    global $root_paath, $test;
+    global $root_paath;
     //---
     $dir        = $params['dir'] ?? '';
     $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
+    //---
+    $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
     //---
     $py3 = $root_paath . "/local/bin/python3";
     //---
@@ -91,7 +92,7 @@ function do_py($params, $do_test=true, $return_commaand=false)
         // replace // with /
         $command = str_replace('//', '/', $command);
         //---
-        if ( $do_test == true) {
+        if ($do_test == true) {
             if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
                 echo "<h6>$command</h6>";
             };
@@ -126,7 +127,7 @@ function make_sh_file($string)
     chmod($filepath, 0755);
     // ---
     $text = "#!/bin/bash" . "\n";
-    $text .= 'export PATH=$HOME/local/bin:$HOME/local/bin:/usr/local/bin:/usr/bin:/bin' . "\n";
+    $text .= 'export PATH=$HOME/openssl/bin:$HOME/local/bin:$HOME/local/bin:/usr/local/bin:/usr/bin:/bin' . "\n";
     $text .= 'export PYWIKIBOT_DIR=$HOME/core8' . "\n";
     $text .= 'cd $PWD' . "\n" . "\n" . $string . "\n";
     //---
@@ -138,11 +139,13 @@ function make_sh_file($string)
 function do_py_sh($params)
 {
     //---
-    global $test, $root_paath;
+    global $root_paath;
     //---
     if ($_SERVER['SERVER_NAME'] == 'localhost') {
         return do_py($params);
     };
+    //---
+    $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
     //---
     $dir        = $params['dir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
@@ -170,7 +173,7 @@ function do_py_sh($params)
         //---
         $sh_command = "sh $file";
         //---
-        if ($_SERVER['SERVER_NAME'] == 'localhost' or $test != '') {
+        if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
             echo "<h6>$command</h6>";
             echo "<h6>$sh_command</h6>";
         };

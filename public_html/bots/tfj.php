@@ -43,7 +43,7 @@ function make_sh_file_2($string)
     chmod($filepath, 0755);
     // ---
     $text = "#!/bin/bash" . "\n";
-    $text .= 'export PATH=$HOME/local/bin:$HOME/local/bin:/usr/local/bin:/usr/bin:/bin' . "\n";
+    $text .= 'export PATH=$HOME/openssl/bin:$HOME/local/bin:$HOME/local/bin:/usr/local/bin:/usr/bin:/bin' . "\n";
     $text .= 'export PYWIKIBOT_DIR=$HOME/core8' . "\n";
     $text .= 'cd $PWD' . "\n" . "\n" . $string . "\n";
     //---
