@@ -267,7 +267,7 @@ switch ($get) {
         if (isset($_GET['lang'])) {
             $query = <<<SQL
                 SELECT v.target, v.lang, v.views
-                FROM views_new v
+                FROM views_new_all v
                 LEFT JOIN pages p
                     ON p.target = v.target
                     AND p.lang = v.lang
