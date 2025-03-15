@@ -27,6 +27,7 @@ use function API\Missing\missing_query;
 use function API\Missing\missing_qids_query;
 
 $other_tables = [
+    'in_process',
     'assessments',
     'refs_counts',
     'enwiki_pageviews',
@@ -153,7 +154,7 @@ switch ($get) {
     case 'views':
     case 'views_new':
         $query = <<<SQL
-            SELECT p.title, v.target, v.lang, v.views as views
+            SELECT p.title, v.target, v.lang, v.views
             FROM views_new_all v
             LEFT JOIN pages p
                 ON p.target = v.target
