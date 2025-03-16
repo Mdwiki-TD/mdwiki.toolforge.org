@@ -13,8 +13,8 @@ UPDATE pages
 SET title = REPLACE(title, char(9), ''),
 target = REPLACE(target, char(9), '')
 // ---
-delete from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
-select * from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
+delete from pages where (target = '' OR target IS NULL) and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
+select * from pages where (target = '' OR target IS NULL) and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)
 // ---
 delete table
 DROP table views_by_month ;
@@ -125,7 +125,7 @@ if ($u_name != '' && in_array($u_name, $user_coordinators)) {
     exit;
 };
 // ---
-$quu = "SELECT A.id from pages A, pages B where A.target = '' and A.lang = B.lang and A.title = B.title and B.target != '';";
+$quu = "SELECT A.id from pages A, pages B where (A.target = '' OR A.target IS NULL) and A.lang = B.lang and A.title = B.title and B.target != '';";
 // ---
 $quaa = $qua ? $qua : $quu;
 // ---
@@ -152,7 +152,7 @@ $queries = [
         and A.id != B.id
         ;",
     "qu2" => "SELECT * from pages p1
-        where p1.target = '' and EXISTS  (SELECT 1 FROM pages p2 WHERE p1.title = p2.title and p2.target != ''
+        where (p1.target = '' OR p1.target IS NULL) and EXISTS  (SELECT 1 FROM pages p2 WHERE p1.title = p2.title and p2.target != ''
         and p1.lang = p2.lang
     )",
     "qu3" => "SELECT A.lang as lang,A.title as title,
@@ -180,7 +180,7 @@ $queries = [
         and A.id != B.id
         and B.qid != ''
         ;",
-    "qu6" => "SELECT * from pages where target = '' and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)",
+    "qu6" => "SELECT * from pages where (target = '' OR target IS NULL) and date < ADDDATE(CURDATE(), INTERVAL -7 DAY)",
     "qu7" => "SELECT
         A.id as id1, A.title as t1, A.qid as q1,
         B.id as id2, B.title as t2, B.qid as q2
