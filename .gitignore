@@ -92,3 +92,4 @@ pybot/
 public_html/gmail1/*.json
 public_html/prior/Tables/*.json
 public_html/replace/find/**
+public_html/api/api_cod/request_countall.php
