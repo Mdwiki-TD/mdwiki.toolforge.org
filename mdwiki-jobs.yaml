@@ -1,7 +1,8 @@
+# rm $HOME/cookies/* -v
 
 - name: rmv
   command: "$HOME/jobs/rmc.sh"
-  schedule: '@hourly'
+  schedule: '0 1 * * *'
   image: bullseye
   emails: none
 
@@ -18,6 +19,8 @@
   image: mariadb
   emails: none
 
+# $HOME/local/bin/python3 core8/pwb.py mdcount/countref newpages
+# $HOME/local/bin/python3 core8/pwb.py mdcount/countref sql
 - name: countref
   command: "$HOME/jobs/countref.sh"
   schedule: '30 3 * * *'
@@ -33,23 +36,30 @@
   emails: none
 
 # Find qids and fix qids
+# $HOME/local/bin/python3 core8/pwb.py td_other_qids/make_list all add
+# $HOME/local/bin/python3 core8/pwb.py mdpages/find_qids redirects add
+# $HOME/local/bin/python3 core8/pwb.py db_work/get_red
+# $HOME/local/bin/python3 core8/pwb.py td_other_qids/fix_qids fix all
+# $HOME/local/bin/python3 core8/pwb.py p11143_bot/bot all add addq
+# $HOME/local/bin/python3 core8/pwb.py unlinked_wb/bot
+
 - name: qids1
   command: "$HOME/pybot/td_core/mdpages/findqids.sh"
   schedule: '40 */5 * * *'
   image: tf-python39
   emails: none
 
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/revid
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash nodone
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki nodone
+
 - name: medwiki
   command: "$HOME/jobs/copy_to_medwiki.sh"
   schedule: '1 * * * 1'
   image: tf-python39
   emails: none
-
-# - name: wpreff
-#   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
-#   schedule: '10 * * * *'
-#   image: python3.9
-#   emails: none
 
 - name: days7
   command: "$HOME/local/bin/python3 core8/pwb.py db_work/days_7"
@@ -59,8 +69,15 @@
 
 # make views
 - name: views
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews && $HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews_new"
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews"
   schedule: '15 5 * * *'
+  image: python3.9
+  emails: none
+
+# make views
+- name: views1
+  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews_new"
+  schedule: '15 6 * * *'
   image: python3.9
   emails: none
 
@@ -97,9 +114,13 @@
   emails: none
 
 # $HOME/local/bin/python3 core8/pwb.py mdpages/cashwd
+# $HOME/local/bin/python3 core8/pwb.py copy_data/sitelinks
 # $HOME/local/bin/python3 core8/pwb.py apis/cat_cach newlist
+# $HOME/local/bin/python3 core8/pwb.py copy_data/all_articles
+# $HOME/local/bin/python3 core8/pwb.py copy_data/exists_db
 # $HOME/local/bin/python3 core8/pwb.py wd_works/recheck
 # $HOME/local/bin/python3 core8/pwb.py db_work/check_titles
+
 - name: cach-jobs
   command: "$HOME/jobs/cach_jobs.sh"
   schedule: '10 */6 * * *'
@@ -111,3 +132,9 @@
   # schedule: '21 2 * * *'
   # image: python3.9
   # emails: none
+
+# - name: wpreff
+#   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
+#   schedule: '10 * * * *'
+#   image: python3.9
+#   emails: none
