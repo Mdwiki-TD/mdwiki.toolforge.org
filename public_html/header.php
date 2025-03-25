@@ -150,7 +150,7 @@ echo <<<HTML
 	<header class="mb-3 border-bottom">
 		<nav id="mainnav" class="navbar navbar-expand-lg shadow">
 			<div class="container-fluid" id="navbardiv">
-				<a class="navbar-brand mb-0 h1" href="/index.php" style="color:#0d6efd;">
+				<a class="tool_title navbar-brand mb-0 h1" href="/index.php" style="color:#0d6efd;">
 					WikiProjectMed Tools
 				</a>
 				<button class="navbar-toggler me_ms_by_dir" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
