@@ -31,6 +31,7 @@ function print_head()
 	// ---
 	if (isset($_GET['noboot']) == '') {
 		echo <<<HTML
+			<link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
 			<link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
 			<link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
 			<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
@@ -60,10 +61,10 @@ function print_head()
 print_head();
 
 $them_li = <<<HTML
-	<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
+	<button class="btn btn-link nav-link px-2 d-flex align-items-center " id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
 		data-bs-display="static" aria-label="Toggle theme (light)">
 		<span class="theme-icon-active my-1">
-			<i class="bi bi-sun-fill"></i>
+			<i class="bi bi-circle-half"></i>
 		</span>
 		<span class="d-lg-none ms-2" id="bd-theme-text"></span>
 	</button>
@@ -87,46 +88,52 @@ $them_li = <<<HTML
 HTML;
 
 echo <<<HTML
-<body>
+	<body>
 
-<header class="mb-3 border-bottom">
-	<nav id="mainnav" class="navbar navbar-expand-lg shadow">
-	   	<div class="container-fluid" id="navbardiv">
-			<a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
-				WHO essential medicines
-			</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
-				aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="collapsibleNavbar">
-				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-					<li class="nav-item col-4 col-lg-auto" id="prior">
-						<a class="nav-link py-2 px-0 px-lg-2" href="index.php">
-							<span class="navtitles">Top Languages</span>
-						</a>
-					</li>
-					<li class="nav-item col-4 col-lg-auto">
-						<a class="nav-link py-2 px-0 px-lg-2" href="https://mdwiki.org/wiki/Category:World_Health_Organization_essential_medicines" target="_blank">
-							<span class="navtitles">WHO list</span>
-						</a>
-					</li>
-					<li class="nav-item col-4 col-lg-auto">
-						<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/mdwiki.toolforge.org/tree/main/public_html" target="_blank" rel="noopener noreferrer">
-							<span class="navtitles">Github</span>
-						</a>
-					</li>
-				</ul>
-				<hr class="d-lg-none text-black-50">
-				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
-					<li class="nav-item col-4 col-lg-auto dropdown">
+	<header class="mb-3 border-bottom">
+		<nav id="mainnav" class="navbar navbar-expand-lg shadow">
+			<div class="container-fluid" id="navbardiv">
+				<a class="navbar-brand mb-0 h1" href="index.php" style="color:#0d6efd;">
+					WHO essential medicines
+				</a>
+				<button class="navbar-toggler me_ms_by_dir" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
+					aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="collapsibleNavbar">
+					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+						<li class="nav-item col-4 col-lg-auto" id="prior">
+							<a class="nav-link py-2 px-0 px-lg-2" href="index.php">
+								<span class="navtitles">Top Languages</span>
+							</a>
+						</li>
+						<li class="nav-item col-4 col-lg-auto">
+							<a class="nav-link py-2 px-0 px-lg-2" href="https://mdwiki.org/wiki/Category:World_Health_Organization_essential_medicines" target="_blank">
+								<span class="navtitles">WHO list</span>
+							</a>
+						</li>
+						<li class="nav-item col-4 col-lg-auto">
+							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/mdwiki.toolforge.org/tree/main/public_html" target="_blank" rel="noopener noreferrer">
+								<span class="navtitles">Github</span>
+							</a>
+						</li>
+					</ul>
+					<hr class="d-lg-none text-black-50">
+					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
+						<!-- <li class="nav-item col-4 col-lg-auto dropdown"> $them_li </li> -->
+					</ul>
+				</div>
+				<div class="d-flex ms-2">
+					<span class="nav-item col-4 col-lg-auto dropdown">
 						$them_li
-					</li>
-				</ul>
+					</span>
+					<!-- <button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
+						<i class="bi bi-moon-stars-fill"></i>
+					</button> -->
+				</div>
 			</div>
-		</div>
-	</nav>
-</header>
+		</nav>
+	</header>
 HTML;
 ?>
 <main id="body">

@@ -174,6 +174,9 @@ echo <<<HTML
 								<span class="navtitles">Github</span>
 							</a>
 						</li>
+						<li class="nav-item col-4 col-lg-auto">
+							<span class="nav-link py-2 px-0 px-lg-2" id="load_time"></span>
+						</li>
 					</ul>
 					<hr class="d-lg-none text-black-50">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
