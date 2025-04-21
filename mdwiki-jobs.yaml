@@ -131,3 +131,9 @@
 #   schedule: '10 * * * *'
 #   image: python3.9
 #   emails: none
+
+- name: pup
+  command: "$HOME/local/bin/python3 core8/pwb.py add_rtt/pup"
+  schedule: '@monthly'
+  image: python3.9
+  emails: none
