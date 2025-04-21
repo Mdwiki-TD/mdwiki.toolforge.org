@@ -68,13 +68,6 @@
   emails: none
 
 # make views
-- name: views
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews"
-  schedule: '15 5 * * *'
-  image: python3.9
-  emails: none
-
-# make views
 - name: views1
   command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews_new"
   schedule: '15 6 * * *'
@@ -138,3 +131,9 @@
 #   schedule: '10 * * * *'
 #   image: python3.9
 #   emails: none
+
+- name: pup
+  command: "$HOME/local/bin/python3 core8/pwb.py add_rtt/pup"
+  schedule: '@monthly'
+  image: python3.9
+  emails: none
