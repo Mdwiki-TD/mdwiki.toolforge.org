@@ -137,3 +137,9 @@
   schedule: '@monthly'
   image: python3.9
   emails: none
+
+- name: fixusers
+  command: "$HOME/local/bin/python3 core8/pwb.py fix_user_pages/bot"
+  schedule: '@daily'
+  image: python3.9
+  emails: none
