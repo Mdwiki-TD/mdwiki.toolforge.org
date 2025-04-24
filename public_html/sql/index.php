@@ -143,6 +143,10 @@ HTML;
 $sql_php = "index.php?pass=$pass";
 // ---
 $queries = [
+    "users" => "#INSERT INTO users (username)
+        SELECT
+        distinct user from pages where user not in (select username from users)
+        ;",
     "qu1" => "SELECT
         A.id as id1, A.target as t1,
         B.id as id2, B.target as t2
@@ -196,6 +200,7 @@ echo <<<HTML
     <div class='row'>
         <div class='col-md'>
             <ul>
+                <li><a href='#' onclick="copy_qua('users')">Users</a></li>
                 <li><a href='#' onclick="to_code('show tables;')">show tables</a></li>
                 <li><a href='#' onclick="to_code('describe words;')">describe words;</a></li>
                 <li><a href='#' onclick="to_code('describe pages;')">describe pages;</a></li>

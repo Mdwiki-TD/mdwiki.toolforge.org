@@ -114,6 +114,10 @@ switch ($get) {
         // echo json_encode($tab);
         break;
 
+    case 'pages_users_to_main':
+        $qua = "SELECT * FROM pages_users_to_main pum, pages_users pu where pum.id = pu.id";
+        break;
+
     case 'coordinator':
         $qua = "SELECT $SELECT FROM coordinator";
         $qua = add_limit($qua);
