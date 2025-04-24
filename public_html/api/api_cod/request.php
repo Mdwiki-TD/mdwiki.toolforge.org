@@ -115,7 +115,15 @@ switch ($get) {
         break;
 
     case 'pages_users_to_main':
-        $qua = "SELECT * FROM pages_users_to_main pum, pages_users pu where pum.id = pu.id";
+        $query = "SELECT * FROM pages_users_to_main pum, pages_users pu where pum.id = pu.id";
+        $params = [];
+        if (isset($_GET['lang'])) {
+            $added = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_SPECIAL_CHARS);
+            if ($added !== null) {
+                $query .= " AND pu.lang = ?";
+                $params[] = $added;
+            }
+        }
         break;
 
     case 'coordinator':
