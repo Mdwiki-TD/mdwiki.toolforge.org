@@ -1,5 +1,4 @@
 # rm $HOME/cookies/* -v
-
 - name: rmv
   command: "$HOME/jobs/rmc.sh"
   schedule: '0 1 * * *'
@@ -13,6 +12,7 @@
   emails: none
 
 # sql backup
+# tfj run dbbackup --image mariadb --command "$HOME/jobs/db_backup.sh"
 - name: backup
   command: "$HOME/jobs/db_backup.sh"
   schedule: '11 1 * * *'
