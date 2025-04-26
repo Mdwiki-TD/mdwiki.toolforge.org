@@ -21,8 +21,9 @@
 
 # $HOME/local/bin/python3 core8/pwb.py mdcount/countref newpages
 # $HOME/local/bin/python3 core8/pwb.py mdcount/countref sql
+# $HOME/local/bin/python3 core8/pwb.py mdcount/words newpages
 - name: countref
-  command: "$HOME/jobs/countref.sh"
+  command: "$HOME/jobs/count_refs_words.sh"
   schedule: '30 3 * * *'
   image: tf-python39
   emails: none
