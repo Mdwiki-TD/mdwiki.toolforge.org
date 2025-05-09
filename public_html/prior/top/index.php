@@ -3,6 +3,7 @@
 namespace TopIndex;
 
 use function Functions\ColSm;
+use function Functions\makeColSm4;
 use function LeaderTables\NumbsTableNew;
 use function LeaderTables\LangsTableNew;
 use function LeaderTables\UsersTableNew;
@@ -16,14 +17,14 @@ if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
 function generateLeaderboardTable(): void
 {
     $numbersTable = NumbsTableNew();
-    $numbersCol   = ColSm('Numbers', $numbersTable, $numb = 3);
+    $numbersCol   = ColSm('Numbers', $numbersTable);
     // TODO: Uncomment these lines to include a users table.
     // $usersTable = UsersTableNew();
-    // $usersCol   = ColSm('Top Translators', $usersTable, $numb=5);
+    // $usersCol   = ColSm('Top Translators', $usersTable);
     $usersCol      = '';
 
     $languagesTable = LangsTableNew();
-    $languagesCol = ColSm('Top Languages', $languagesTable, $numb = 8);
+    $languagesCol = ColSm('Top Languages', $languagesTable);
 
     echo <<<HTML
         <div class="container-fluid">

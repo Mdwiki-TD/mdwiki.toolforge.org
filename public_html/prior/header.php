@@ -41,6 +41,7 @@ function print_head()
 			<link rel="stylesheet" href="$hoste/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css" rel='stylesheet' type='text/css'>
 
 			<script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
+			<script type="module" src="/Translation_Dashboard/js/c.js"></script>
 			<script src='$hoste/ajax/libs/jquery/3.7.0/jquery.min.js'></script>
 			<script src='$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js'></script>
 			<script src='$hoste/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js'></script>
