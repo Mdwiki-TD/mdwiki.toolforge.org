@@ -1,4 +1,5 @@
 <?php
+
 namespace Prior;
 
 require 'header.php';
@@ -17,9 +18,19 @@ if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
+
 $langs = $_REQUEST['lang'] ?? '';
 
+echo <<<HTML
+    <div class="container">
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> This is a draft that requires further verification.
+        </div>
+    </div>
+HTML;
+
 // Display the appropriate top page based on 'lang' request parameter
+
 if ($langs !== '') {
     make_lang_tab();
 } else {
@@ -27,4 +38,5 @@ if ($langs !== '') {
 }
 
 echo '<script>$("#prior").addClass("active");</script>';
+
 require 'foter.php';

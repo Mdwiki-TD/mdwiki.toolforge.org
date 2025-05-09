@@ -1,13 +1,38 @@
 <?PHP
+
 namespace LeaderTables;
 
 include_once('tables.php');
 
 $mainlang = $_REQUEST['lang'] ?? '';
 
-function NumbsTableNew(): string {
+function make_modal_fade($label, $text, $id, $button = '')
+{
+    $exampleModalLabel = rand(1000, 9999);
+    return <<<HTML
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="$id" tabindex="-1" role="dialog" aria-labelledby="$exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="$exampleModalLabel">$label</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">$text</div>
+                    <div class="modal-footer">
+                        $button
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
+}
+function NumbsTableNew(): string
+{
     global $numbers, $mainlang;
-    
+
     // Initialize the HTML string with the table header
     $Numbers_table = <<<HTML
     <table class="sortable table table-striped table-sm">
@@ -60,7 +85,8 @@ function NumbsTableNew(): string {
     return $Numbers_table;
 };
 
-function UsersTableNew(): string {
+function UsersTableNew(): string
+{
     global $top_translators, $translators_views, $translators_words, $mainlang;
 
     // Start the table with a header row
@@ -84,7 +110,7 @@ function UsersTableNew(): string {
     $numb = 0;
 
     // Loop through each translator.
-    foreach ( $top_translators as $user => $usercount ) {
+    foreach ($top_translators as $user => $usercount) {
 
         // Increment number count.
         $numb++;
@@ -123,38 +149,29 @@ function UsersTableNew(): string {
     return $text;
 }
 
-function UsersTableTarget(): string {
+function module_copy(): string
+{
     global $top_translators, $mainlang;
 
-    $text = <<<HTML
-    <div style="height:580px;width:100%;overflow-x:auto; overflow-y:auto">
-        <textarea rows="30" cols="70" id="userslist">
-    HTML;
+    $text = "<textarea cols='55' rows='10' id='users_targets' name='users_targets'>";
 
     arsort($top_translators);
 
-    foreach ( $top_translators as $user => $usercount ) {
+    foreach ($top_translators as $user => $usercount) {
 
         $mass = "#{{#target:User:$user|$mainlang.wikipedia.org}}";
         $text .= $mass . "\n";
     };
-
-    $text .= <<<HTML
-        </textarea>
-    </div>
-    <script>
-        function copy() {
-            let textarea = document.getElementById("userslist");
-            textarea.select();
-            document.execCommand("copy");
-            }
-    </script>
-    HTML;
-
-    return $text;
+    //---
+    $text .= '</textarea>';
+    //---
+    $modal = make_modal_fade('', $text, 'targets', '<a class="btn btn-outline-primary" onclick="copy_target_text(\'users_targets\')">Copy</a>');
+    //---
+    return $modal;
 }
 
-function LangsTableNew(): string {
+function LangsTableNew(): string
+{
 
     global $translates_by_lang;
 
@@ -177,10 +194,10 @@ function LangsTableNew(): string {
     HTML;
 
     // Initialize row number
-    $numb=0;
+    $numb = 0;
 
     // Loop through each language in the array
-    foreach ( $translates_by_lang as $langcode => $table ) {
+    foreach ($translates_by_lang as $langcode => $table) {
 
         // Get the Articles numbers, words and views
         $comp  = count($table['titles']);
@@ -188,7 +205,7 @@ function LangsTableNew(): string {
         $views = number_format($table['views']);
 
         // Only add a table row if there are articles for this language
-        if ( $comp > 0 ) {
+        if ($comp > 0) {
 
             $numb++;
 

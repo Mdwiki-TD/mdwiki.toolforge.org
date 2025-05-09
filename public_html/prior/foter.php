@@ -2,9 +2,19 @@
 </main>
 
 <script>
-	
+	function copy() {
+		let textarea = document.getElementById("userslist");
+		textarea.select();
+		document.execCommand("copy");
+	}
+
+	function copy_target_text(id) {
+		let textarea = document.getElementById(id);
+		textarea.select();
+		document.execCommand("copy");
+	}
 	$(document).ready(function() {
-		var table = $('.soro2').DataTable( {
+		var table = $('.soro2').DataTable({
 			// paging: false,
 			info: false,
 			lengthMenu: [
@@ -13,8 +23,8 @@
 			],
 			searching: false,
 			// lengthChange: false
-		} );
-	
+		});
+
 		$('[data-toggle="tooltip"]').tooltip();
 
 		$('.sortable').DataTable({
