@@ -1,0 +1,55 @@
+{
+    "time": "0.00",
+    "query": "SELECT * FROM pages p WHERE (p.lang != '' AND p.lang IS NOT NULL) LIMIT 100",
+    "source": "db",
+    "length": 100,
+    "results": [
+        {
+            "id": 15,
+            "title": "Kidney dysplasia",
+            "word": 180,
+            "translate_type": "lead",
+            "cat": "RTT",
+            "lang": "ar",
+            "user": "عرين أسد أبو رمان",
+            "target": "خلل التنسج الكلوي",
+            "date": "2021-07-10",
+            "pupdate": "2021-07-10",
+            "add_date": "2021-07-10 03:00:00",
+            "deleted": 0
+        },
+        {
+            "id": 16,
+            "title": "Spinal shock",
+            "word": 203,
+            "translate_type": "lead",
+            "cat": "RTT",
+            "lang": "ar",
+            "user": "عرين أسد أبو رمان",
+            "target": "صدمة نخاعية",
+            "date": "2021-07-10",
+            "pupdate": "2021-07-10",
+            "add_date": "2021-07-10 03:00:00",
+            "deleted": 0
+        }
+    ],
+    "supported_params": [
+        "title",
+        "lang",
+        "user",
+        "target",
+        "cat",
+        "group",
+        "order",
+        "pupdate",
+        "add_date",
+        "limit",
+        "offset",
+        "year",
+        "YEAR(date)",
+        "select",
+        "translate_type",
+        "distinct",
+        "Deleted"
+    ]
+}
