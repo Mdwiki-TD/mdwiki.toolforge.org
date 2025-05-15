@@ -3,7 +3,7 @@
   "info": {  
     "title": "MDwiki API",  
     "description": "API for accessing MDwiki data including pages, translations, views, and more",  
-    "version": "1.0.0",  
+    "version": "1.0.1",  
     "contact": {  
       "name": "MDwiki Team"  
     }  
