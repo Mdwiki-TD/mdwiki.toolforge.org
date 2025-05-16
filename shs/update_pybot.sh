@@ -10,6 +10,8 @@ rm -rf mdwikix
 
 git clone --branch "$BRANCH" https://github.com/MrIbrahem/mdwiki-python-files.git mdwikix || { echo ">>> Failed to clone repository"; exit 1; }
 
+rm -rf mdwikix/.git
+
 rm -rf mdwikix/md_core/newapi
 
 cp -rf -v mdwikix/* pybot/

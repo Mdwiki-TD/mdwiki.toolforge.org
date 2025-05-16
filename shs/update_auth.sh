@@ -12,6 +12,8 @@ rm -rf authx
 # Download the wd-core repository from GitHub.
 git clone --branch "$BRANCH" https://github.com/Mdwiki-TD/auth-repo.git authx
 
+rm -rf authx/.git
+
 # delete composer.json and composer.lock
 rm -rf authx/composer.json authx/composer.lock
 

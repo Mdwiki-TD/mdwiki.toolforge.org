@@ -19,6 +19,8 @@ mkdir -p "$TARGET_DIR"
 # استنساخ المستودع إلى المجلد المؤقت
 git clone "$REPO_URL" "$TEMP_DIR"
 
+rm -rf "$TEMP_DIR"/.git
+
 # نسخ الملفات من المجلد المؤقت إلى الوجهة
 cp -rf "$TEMP_DIR"/* "$TARGET_DIR" -v
 

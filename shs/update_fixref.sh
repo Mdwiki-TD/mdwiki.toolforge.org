@@ -17,6 +17,8 @@ if git clone "$REPO_URL" "$TARGET_DIR_2"; then
     if [ -f "$TARGET_DIR_2/all_pages_revids.json" ]; then
         rm "$TARGET_DIR_2/all_pages_revids.json"
     fi
+
+    rm -rf "$TARGET_DIR_2"/.git
     cp -rf "$TARGET_DIR_2"/* "$TARGET_DIR/" -v
 
     # Remove backup directory
