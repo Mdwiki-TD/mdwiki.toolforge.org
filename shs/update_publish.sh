@@ -21,6 +21,7 @@ if git clone --branch "$BRANCH" "$REPO_URL" "$TARGET_DIR_2"; then
     if [ -f "$TARGET_DIR_2"/fix_refs ]; then
         rm "$TARGET_DIR_2"/fix_refs
     fi
+    rm -rf "$TARGET_DIR_2"/.git
     cp -rf "$TARGET_DIR_2"/publish_reports/*.* public_html/publish_reports/ -v
     rm -rf "$TARGET_DIR_2"/publish_reports
     cp -rf "$TARGET_DIR_2"/* "$TARGET_DIR/" -v

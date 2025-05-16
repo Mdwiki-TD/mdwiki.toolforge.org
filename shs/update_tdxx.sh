@@ -7,6 +7,8 @@ rm -rf tdx
 # Download the wd-core repository from GitHub.
 git clone --recurse-submodules https://github.com/MrIbrahem/Translation-Dashboard.git tdx
 
+rm -rf tdx/.git
+
 # delete composer.json and composer.lock
 rm -rf tdx/composer.json tdx/composer.lock
 

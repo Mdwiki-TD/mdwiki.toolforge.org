@@ -2,13 +2,18 @@
 cd "$HOME" || exit 1
 # cd /data/project/mdwiki/
 
+BRANCH="${1:-main}"
+
+echo ">>> clone --branch ${BRANCH} ."
+
+
 rm -rf newapi_x
 
 mkdir  pybot/new
 mkdir  pybot/new/newapi
 
 # Download the wd-core repository from GitHub.
-git clone https://github.com/MrIbrahem/newapi.git newapi_x
+git clone --branch "$BRANCH" https://github.com/MrIbrahem/newapi.git newapi_x
 
 rm -rf newapi_x/.git
 
