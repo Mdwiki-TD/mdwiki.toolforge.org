@@ -10,6 +10,8 @@ mkdir  pybot/new/newapi
 # Download the wd-core repository from GitHub.
 git clone https://github.com/MrIbrahem/newapi.git newapi_x
 
+rm -rf newapi_x/.git
+
 cp -rf newapi_x/* pybot/new/newapi -v
 
 find pybot/new/newapi -name "*.pyc" -exec rm -f {} +
