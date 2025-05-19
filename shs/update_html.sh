@@ -22,9 +22,8 @@ rm -rf mdall
 
 echo "Removing Translation_Dashboard directory..."
 rm -rf htmlx/Translation_Dashboard
+rm -rf htmlx/api
 rm -rf htmlx/publish
-
-cp -rf -v htmlx/api/* public_html/api/
 
 echo "Deleting all JSON files..."
 find htmlx -name "*.json" -delete && echo "JSON files deleted successfully" || echo "Failed to delete JSON files"
