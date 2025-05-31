@@ -15,7 +15,7 @@ $apiUrl = (isset($_GET['api']) && array_key_exists($_GET['api'], $apis)) ? $_GET
 ?>
 
 <body dir="ltr" class="mt-3">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="card shadow">
 			<div class="card-header">
 				<div class="row">
@@ -37,16 +37,17 @@ $apiUrl = (isset($_GET['api']) && array_key_exists($_GET['api'], $apis)) ? $_GET
 					</div>
 				</div>
 			</div>
-			<div class="card-body">
+			<div class="card-body p-1">
 				<div class="row">
-					<div class="col-md-6">
-						<canvas id="loginsChart" height="70"></canvas>
+					<div class="col-md-6 mb-0 pb-0">
+						<canvas id="loginsChart" height="100"></canvas>
 					</div>
 					<div class="col-md-6" id="ActionsChartContainer">
-						<canvas id="ActionsChart" height="70"></canvas>
+						<canvas id="ActionsChart" height="100"></canvas>
 					</div>
 				</div>
-				<hr>
+			</div>
+			<div class="card-body">
 				<ul id="navs" class="nav nav-tabs" role="tablist">
 					<li class="nav-item">
 						<button class="nav-link active" id="All-tab" data-bs-toggle="tab" data-bs-target="#All-tab-pane"
