@@ -16,37 +16,6 @@ const baseBorderColors = [
     'rgb(153, 102, 255)'
 ];
 
-const main_columns = [{
-    data: null,
-    render: (_, __, ___, meta) => meta.row + 1
-},
-{
-    data: 'count'
-},
-{
-    data: 'action'
-},
-{
-    data: 'site'
-},
-{
-    data: 'result'
-},
-{
-    data: 'username'
-},
-{
-    data: 'first'
-},
-{
-    data: 'last'
-},
-{
-    data: null,
-    render: time_diff
-}
-];
-
 function time_diff(data) {
     const first = new Date(data.first);
     const last = new Date(data.last);
@@ -81,26 +50,28 @@ function getsortedSites(data) {
         .sort((a, b) => b[1] - a[1]) // ترتيب تنازلي حسب عدد الاستعلامات
         .slice(0, 5); // اختيار أول 5 مواقع فقط
 
+    return sortedSites;
+}
+function getSiteLabel(site) {
+    const labels = {
+        'www.mdwiki.org': 'mdwiki',
+        'www.wikidata.org': 'wikidata',
+    };
+
+    let label = labels[site] || site;
+
+    if (label.includes('.wikipedia.org')) {
+        label = label.replace('.wikipedia.org', ' wiki');
+    }
+
+    return label;
+}
+function createSiteNavigation(sortedSites) {
     sortedSites.forEach(([site, count]) => {
         // add to navs
         // <li class="nav-item"><a class="nav-link">2025</a></li>
         let id = Math.random().toString(36).slice(2);
-        // ---
-        let label = site;
-        // ---
-        const labels = {
-            'www.mdwiki.org': 'mdwiki',
-            'www.wikidata.org': 'wikidata',
-        };
-        // ---
-        if (labels[label]) {
-            label = labels[label];
-        }
-        // ---
-        // if label has .wikipedia.org replace it with wiki
-        if (label.includes('.wikipedia.org')) {
-            label = label.replace('.wikipedia.org', ' wiki');
-        }
+        let label = getSiteLabel(site);
         // ---
         $('#navs').append(`
             <li class="nav-item">
@@ -110,7 +81,6 @@ function getsortedSites(data) {
             </li>
         `);
     })
-    return sortedSites;
 }
 
 function getsortedActions(data, site) {
@@ -149,14 +119,14 @@ function ActionsCharts(data, site) {
         // ---
         $("#ActionsChartContainer").html('<canvas id="ActionsChart" height="70"></canvas>');
         // ---
-        newFunction(sorted_Sites, site);
+        renderActionsChart(sorted_Sites, site);
         // ---
     });
     // ---
-    newFunction(sortedSites, site);
+    renderActionsChart(sortedSites, site);
 }
 
-function newFunction(sortedSites, site) {
+function renderActionsChart(sortedSites, site) {
     const labels = sortedSites.map(item => item[0]);
     const counts = sortedSites.map(item => item[1]);
 
@@ -218,7 +188,7 @@ function newFunction(sortedSites, site) {
 function drawChart(data) {
 
     const sortedSites = getsortedSites(data);
-
+    createSiteNavigation(sortedSites);
     const labels = sortedSites.map(item => item[0]);
     const counts = sortedSites.map(item => item[1]);
 
@@ -278,7 +248,7 @@ function drawChart(data) {
 async function load_table(apiUrl, id, site = "") {
     let table_data = {
         ajax: {
-            url: apiUrl + "?site=" + site,
+            url: apiUrl,
             type: 'GET',
             dataType: 'json',
             dataSrc: function (json) {
@@ -289,7 +259,37 @@ async function load_table(apiUrl, id, site = "") {
         },
         paging: false,
         info: false,
-        columns: main_columns
+        columns: [
+            {
+                data: null,
+                render: (_, __, ___, meta) => meta.row + 1
+            },
+            {
+                data: 'count'
+            },
+            {
+                data: 'action'
+            },
+            {
+                data: 'site'
+            },
+            {
+                data: 'result'
+            },
+            {
+                data: 'username'
+            },
+            {
+                data: 'first'
+            },
+            {
+                data: 'last'
+            },
+            {
+                data: null,
+                render: time_diff
+            }
+        ]
     }
     // ---
     let table = $(id).DataTable(table_data);

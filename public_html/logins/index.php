@@ -3,14 +3,14 @@
 <?php
 require_once __DIR__ . "/header1.php";
 
-// تحديد رابط API من الرابط (query parameter)
-$apiUrl = isset($_GET['api']) ? $_GET['api'] : '/logins/api.php';
-
 $apis = [
 	'/logins/api.php' => 'Local',
 	'https://mdwiki.toolforge.org/logins/api.php' => 'MDWiki',
 	'https://himo.toolforge.org/logins/api.php' => 'Himo'
 ];
+
+// تحديد رابط API من الرابط (query parameter)
+$apiUrl = (isset($_GET['api']) && array_key_exists($_GET['api'], $apis)) ? $_GET['api'] : '/logins/api.php';
 
 ?>
 

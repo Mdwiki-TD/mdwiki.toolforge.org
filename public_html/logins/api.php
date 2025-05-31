@@ -26,6 +26,8 @@ if (isset($_REQUEST['test'])) {
 use PDO;
 use PDOException;
 
+$global_db = null;
+
 class Database
 {
 
@@ -96,18 +98,17 @@ class Database
     }
 }
 
-
 function fetch_query_new($sql_query)
 {
+    global $global_db;
+
+    if ($global_db === null) {
+        // Create a new database object
+        $global_db = new Database($_SERVER['SERVER_NAME'] ?? '');
+    }
     // ---
-    // Create a new database object
-    $db = new Database($_SERVER['SERVER_NAME'] ?? '');
-
     // Execute a SQL query
-    $results = $db->fetch_query($sql_query, []);
-
-    // Destroy the database object
-    $db = null;
+    $results = $global_db->fetch_query($sql_query, []);
 
     return $results ?? [];
 }
@@ -118,6 +119,14 @@ $query = "SELECT DISTINCT count(*) as count, action, site, result, username, MIN
 ";
 
 if (isset($_GET['limit'])) {
+    $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT, [
+        'options' => ['min_range' => 1, 'max_range' => 1000]
+    ]);
+    // ---
+    if ($limit !== false) {
+        $query .= " LIMIT " . (int)$limit;
+    }
+    // ---
     $added = filter_input(INPUT_GET, 'limit', FILTER_SANITIZE_SPECIAL_CHARS);
     $query .= " LIMIT $added";
 }
