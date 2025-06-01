@@ -1,58 +1,20 @@
 <?php
-if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+if (isset($_GET['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
 //---
 include_once __DIR__ . '/../header.php';
+include_once __DIR__ . '/include.php';
 //---
-if (strpos(__FILE__, "I:\\") !== false) {
-    include_once __DIR__ . '/../../../auth/auth/send_edit.php';
-    include_once __DIR__ . '/../../../auth/auth/access_helps.php';
-} else {
-    include_once __DIR__ . '/../auth/auth/send_edit.php';
-    include_once __DIR__ . '/../auth/auth/access_helps.php';
-};
-//---
-include_once __DIR__ . '/fix.php';
-//---
-use function OAuth\SendEdit\auth_make_edit;
-use function OAuth\AccessHelps\get_access_from_dbs;
-//---
-print_h3_title("Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a>");
-//---
-// https://hashtags.wmcloud.org/graph/?query=mdwiki&project=&startdate=&enddate=&search_type=or&user=
-
-function endsWith($string, $endString)
-{
-    $len = strlen($endString);
-    return substr($string, -$len) === $endString;
-};
-
-function saveit($title, $lang, $text)
-{
-    global $username;
-    // ---
-    $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
-    // ---
-    $access = get_access_from_dbs($username);
-    // ---
-    if ($access == null) {
-        return false;
-    };
-    // ---
-    $access_key = $access['access_key'];
-    $access_secret = $access['access_secret'];
-    // ---
-    $result = auth_make_edit($title, $text, $summary, $lang, $access_key, $access_secret);
-    // ---
-    $Success = $result['edit']['result'] == 'Success';
-    // ---
-    return $Success;
-}
-
-function worknew($title, $lang, $save, $test, $movedots, $infobox)
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a></h3>
+    </div>
+    <div class="card-body">
+HTML;
+function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
 {
     $site = "$lang.wikipedia.org";
     //---
@@ -80,10 +42,10 @@ function worknew($title, $lang, $save, $test, $movedots, $infobox)
         <input type='hidden' id='wikitext-old' value=''>
     HTML;
     //---
-    $resultb = get_results($title, $lang, $movedots, $infobox, $test);
+    $resultb = get_results_new($sourcetitle, $title, $lang);
     $resultb = trim($resultb);
     //---
-    $t3 = endsWith($resultb, '.txt');
+    $newtext = '';
     //---
     if ($test) $text_re .= "results:({$resultb})<br>";
     //---
@@ -106,11 +68,9 @@ function worknew($title, $lang, $save, $test, $movedots, $infobox)
     } elseif ($resultb == "notext") {
         $text_re .= "text == ''";
         $text_re .= $edt_link_row;
-        // } elseif ($resultb == "ok") { $text_re .= ("save done.");
-    } elseif ($t3 || $test) {
+    } else {
         //---
-        $newtext = '';
-        if ($resultb != "") $newtext = file_get_contents($resultb);
+        $newtext = $resultb;
         //---
         $form = $form . <<<HTML
             <div class='form-group'>
@@ -136,15 +96,11 @@ function worknew($title, $lang, $save, $test, $movedots, $infobox)
             }
         } else {
             $text_re .= $form;
-        };
-        //---
-    } else {
-        $text_re .= $resultb;
-        $text_re .= $edt_link_row;
+        }
     };
     //---
     return $text_re;
-};
+}
 
 function print_form($title, $lang, $save, $movedots, $infobox, $test, $username)
 {
@@ -158,7 +114,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $username)
     if ($username == '') $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
     // ---
     return <<<HTML
-        <form action='fixwikirefs.php' method='GET'>
+        <form action='/fixwikirefs.php' method='GET'>
             $testinput
             <div class='container'>
                 <div class='row'>
@@ -210,6 +166,7 @@ $save       = isset($_GET['save']) ? 'save' : '';
 $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
 $lang       = isset($_GET['lang']) ? trim($_GET['lang']) : '';
+$sourcetitle       = isset($_GET['sourcetitle']) ? trim($_GET['sourcetitle']) : '';
 
 echo print_form($title, $lang, $save, $movedots, $infobox, $test, $username);
 // ---
@@ -218,7 +175,7 @@ echo "</div></div>";
 $new_tt = "";
 //---
 if (!empty($title) && !empty($lang) && $lang != 'en' && !empty($username)) {
-    $new_tt = worknew($title, $lang, $save, $test, $movedots, $infobox);
+    $new_tt = worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox);
 };
 //---
 echo <<<HTML
