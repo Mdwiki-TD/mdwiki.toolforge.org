@@ -62,7 +62,7 @@ function make_save_result($title, $lang, $newtext, $new)
     if ($Success) {
         $result .= '<div class="alert alert-success" role="alert">Changes has published.</div>';
     } else {
-        var_export(json_encode($save2['edit'], JSON_PRETTY_PRINT));
+        // var_export(json_encode($save2['error'], JSON_PRETTY_PRINT));
         // ---
         $aleart = <<<HTML
             <div class="alert alert-danger" role="alert">
