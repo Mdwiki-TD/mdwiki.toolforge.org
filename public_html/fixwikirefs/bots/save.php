@@ -57,13 +57,19 @@ function make_save_result($title, $lang, $newtext, $new)
     // var_export(json_encode($save2, JSON_PRETTY_PRINT));
     // ---
     $error_code = ($save2['error']['code'] ?? '') ?? '';
+    $error_info = ($save2['error']['info'] ?? '') ?? '';
     // ---
     $Success = ($save2['edit']['result'] ?? '') == 'Success';
     // ---
     if ($Success) {
         $result .= '<div class="alert alert-success" role="alert">Changes has published.</div>';
     } else {
-        $aleart = '<div class="alert alert-danger" role="alert">Changes are not published, try to do it manually. Error: ' . $error_code . '</div>';
+        $aleart = <<<HTML
+            <div class="alert alert-danger" role="alert">
+                Changes are not published, try to do it manually. Error: $error_code ($error_info)
+            </div>
+        HTML;
+        // ---
         $result .= $aleart;
         $result .= make_result_form($new, $newtext);
     }
