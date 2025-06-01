@@ -37,11 +37,11 @@
 	foreach ($stylesheets as $css) {
 		echo "\n\t<link rel='stylesheet' href='" . $css . "'>";
 	}
-	foreach ($scripts as $js) {
-		echo "\n\t<script src='" . $js . "'></script>";
-	}
 	foreach ($scripts_module as $js) {
 		echo "\n\t<script type='module' src='" . $js . "'></script>";
+	}
+	foreach ($scripts as $js) {
+		echo "\n\t<script src='" . $js . "'></script>";
 	}
 	?>
 	<style>

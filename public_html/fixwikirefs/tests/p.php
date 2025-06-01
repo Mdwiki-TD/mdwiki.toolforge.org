@@ -5,11 +5,16 @@ if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     error_reporting(E_ALL);
 };
 
-include_once __DIR__ . '/../header.php';
-// include_once __DIR__ . '/../Translation_Dashboard/publish/helps.php';
-include_once __DIR__ . '/fix.php';
+include_once __DIR__ . '/../../header.php';
+include_once __DIR__ . '/../include.php';
 //---
-print_h3_title("Fix references in Wikipedia's:");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Fix references in Wikipedia's:</h3>
+    </div>
+    <div class="card-body">
+HTML;
+//---
 $test       = $_GET['test'] ?? '';
 //---
 $text       = $_POST['text'] ?? '';
@@ -51,4 +56,4 @@ HTML;
 
 echo "</div></div>";
 //---
-require __DIR__ . '/../footer.php';
+require __DIR__ . '/../../footer.php';
