@@ -4,7 +4,7 @@ if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-include_once __DIR__ . '/../header.php';
+include_once __DIR__ . '/../../header.php';
 ?>
 <div>
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -77,4 +77,4 @@ include_once __DIR__ . '/../header.php';
 
 <?php
 //---
-require __DIR__ . '/../footer.php';
+require __DIR__ . '/../../footer.php';

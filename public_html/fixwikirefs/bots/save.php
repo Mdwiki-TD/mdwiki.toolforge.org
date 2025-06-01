@@ -1,6 +1,6 @@
 <?php
 
-// namespace WpRefs\SavePage;
+namespace FixWikiRefs\SavePage;
 
 if (isset($_GET['test'])) {
     ini_set('display_errors', 1);
@@ -10,7 +10,7 @@ if (isset($_GET['test'])) {
 /*
 usage:
 
-use function WpRefs\SavePage\save_text;
+use function FixWikiRefs\SavePage\saveit;
 
 */
 
@@ -20,18 +20,18 @@ use function OAuth\AccessHelpsNew\get_access_from_dbs_new;
 
 function saveit($title, $lang, $text)
 {
-    $username = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
+    $user_name = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
     // ---
-    if ($username == '') {
+    if ($user_name == '') {
         return false;
     }
     // ---
     $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
     // ---
-    $access = get_access_from_dbs_new($username);
+    $access = get_access_from_dbs_new($user_name);
     // ---
     if ($access == null) {
-        $access = get_access_from_dbs($username);
+        $access = get_access_from_dbs($user_name);
     }
     // ---
     if ($access == null) {

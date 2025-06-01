@@ -1,7 +1,16 @@
 <?php
 
+namespace FixWikiRefs\Fix;
+
 use function WpRefs\FixPage\DoChangesToText1;
-// $text = DoChangesToText1($sourcetitle, $title, $text, $lang, $mdwiki_revid)
+use function FixWikiRefs\WikiText\get_wikipedia_text;
+
+/*
+usage:
+
+use function FixWikiRefs\Fix\get_results_new;
+
+*/
 
 function get_results_new($sourcetitle, $title, $lang, $text = "")
 {

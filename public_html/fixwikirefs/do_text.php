@@ -4,6 +4,8 @@ header('Content-Type: application/json');
 
 include_once __DIR__ . '/include.php';
 
+use function FixWikiRefs\Fix\get_results_new;
+
 $text = $_POST['text'] ?? '';
 $lang = $_POST['lang'] ?? '';
 

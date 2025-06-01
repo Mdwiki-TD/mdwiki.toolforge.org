@@ -1,6 +1,6 @@
 <?php
 
-// namespace WpRefs\WikiText;
+namespace FixWikiRefs\WikiText;
 
 if (isset($_GET['test'])) {
     ini_set('display_errors', 1);
@@ -11,7 +11,7 @@ if (isset($_GET['test'])) {
 /*
 usage:
 
-use function WpRefs\WikiText\get_wikipedia_text; // get_wikipedia_text($title, $lang)
+use function FixWikiRefs\WikiText\get_wikipedia_text; // get_wikipedia_text($title, $lang)
 
 */
 

@@ -5,8 +5,8 @@ if (isset($_GET['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
     error_reporting(E_ALL);
 };
 
-include_once __DIR__ . '/../header.php';
-include_once __DIR__ . '/include.php';
+include_once __DIR__ . '/../../header.php';
+include_once __DIR__ . '/../include.php';
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -56,4 +56,4 @@ HTML;
 
 echo "</div></div>";
 //---
-require __DIR__ . '/../footer.php';
+require __DIR__ . '/../../footer.php';
