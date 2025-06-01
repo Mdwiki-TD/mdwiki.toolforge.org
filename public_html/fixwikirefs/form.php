@@ -11,6 +11,7 @@ if (isset($_GET['test'])) {
 /*
 
 use function FixWikiRefs\Form\print_form;
+use function FixWikiRefs\Form\make_result_form;
 
 */
 function quotes($str)
@@ -78,4 +79,33 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
         </form>
     HTML;
     //---
+}
+
+function make_result_form($new, $newtext)
+{
+    $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
+    //---
+    return <<<HTML
+        <form id='editform' name='editform' method='POST' action='$new'>
+            <input type='hidden' value='' name='wpEdittime'/>
+            <input type='hidden' value='' name='wpStarttime'/>
+            <input type='hidden' value='' name='wpScrolltop' id='wpScrolltop'/>
+            <input type='hidden' value='12' name='parentRevId'/>
+            <input type='hidden' value='wikitext' name='model'/>
+            <input type='hidden' value='text/x-wiki' name='format'/>
+            <input type='hidden' value='1' name='wpUltimateParam'/>
+            <input type='hidden' name='wpSummary' value='$summary'>
+            <input type='hidden' id='wikitext-old' value=''>
+            <div class='form-group'>
+                <label for='find'>new text:</label>
+                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
+            </div>
+            <div class='editOptions aligncenter'>
+                <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
+                <input id='wpDiff' type='submit' class='btn btn-outline-primary' tabindex='7' name='wpDiff' value='show changes' accesskey='v' title='show changes.'>
+                <div class='editButtons'>
+                </div>
+            </div>
+        </form>
+    HTML;
 }

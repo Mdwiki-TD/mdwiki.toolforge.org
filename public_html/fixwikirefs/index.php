@@ -10,7 +10,8 @@ include_once __DIR__ . '/include.php';
 //---
 use function FixWikiRefs\Form\print_form;
 use function FixWikiRefs\Fix\get_results_new;
-use function FixWikiRefs\SavePage\saveit;
+use function FixWikiRefs\SavePage\make_save_result;
+use function FixWikiRefs\Form\make_result_form;
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -26,43 +27,17 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
     $new = "https://$site/w/index.php?title=$title&action=submit";
     $articleurl = "https://$site/w/index.php?title=$title";
     //---
-    $text_re =  <<<HTML
-        <h3>
-            page: <a target='_blank' href='$articleurl'>$title</a>
-        </h3>
-    HTML;
-    //---
-    $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
-    //---
-    $form = <<<HTML
-        <form id='editform' name='editform' method='POST' action='$new'>
-        <input type='hidden' value='' name='wpEdittime'/>
-        <input type='hidden' value='' name='wpStarttime'/>
-        <input type='hidden' value='' name='wpScrolltop' id='wpScrolltop'/>
-        <input type='hidden' value='12' name='parentRevId'/>
-        <input type='hidden' value='wikitext' name='model'/>
-        <input type='hidden' value='text/x-wiki' name='format'/>
-        <input type='hidden' value='1' name='wpUltimateParam'/>
-        <input type='hidden' name='wpSummary' value='$summary'>
-        <input type='hidden' id='wikitext-old' value=''>
-    HTML;
+    $text_re = "";
     //---
     $resultb = get_results_new($sourcetitle, $title, $lang);
-    $resultb = trim($resultb);
-    //---
-    $newtext = '';
     //---
     if ($test) $text_re .= "results:({$resultb})<br>";
-    //---
-    $edit_link = <<<HTML
-        <a type='button' target='_blank' class='btn btn-outline-primary' href='$new'>Open edit new tab.</a>
-        <a type='button' target='_blank' class='btn btn-outline-primary' href='$articleurl'>Open page new tab.</a>
-    HTML;
     //---
     $edt_link_row = <<<HTML
         <div class='aligncenter'>
             <div class='col-sm'>
-                $edit_link
+                <a type='button' target='_blank' class='btn btn-outline-primary' href='$new'>Open edit new tab.</a>
+                <a type='button' target='_blank' class='btn btn-outline-primary' href='$articleurl'>Open page new tab.</a>
             </div>
         </div>
     HTML;
@@ -70,39 +45,22 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
     if ($resultb == 'no changes') {
         $text_re .= "no changes";
         $text_re .= $edt_link_row;
-    } elseif ($resultb == "notext") {
+        return $text_re;
+    }
+    // ---
+    if ($resultb == "notext") {
         $text_re .= "text == ''";
         $text_re .= $edt_link_row;
-    } else {
-        //---
-        $newtext = $resultb;
-        //---
-        $form = $form . <<<HTML
-            <div class='form-group'>
-                <label for='find'>new text:</label>
-                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
-            </div>
-            <div class='editOptions aligncenter'>
-                <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
-                <input id='wpDiff' type='submit' class='btn btn-outline-primary' tabindex='7' name='wpDiff' value='show changes' accesskey='v' title='show changes.'>
-                <div class='editButtons'>
-                </div>
-            </div>
-        </form>
-        HTML;
-        //---
-        if ($save != "") {
-            $save2 = saveit($title, $lang, $newtext);
-            if ($save2) {
-                $text_re .= 'changes has published';
-            } else {
-                $text_re .= 'Changes are not published, try to do it manually.';
-                $text_re .= $form;
-            }
-        } else {
-            $text_re .= $form;
-        }
-    };
+        return $text_re;
+    }
+    // ---
+    $newtext = $resultb;
+    //---
+    if (!empty($save)) {
+        return make_save_result($title, $lang, $newtext, $new);
+    }
+    //---
+    $text_re .= make_result_form($new, $newtext);
     //---
     return $text_re;
 }
@@ -119,7 +77,7 @@ $user_name = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] 
 // ---
 echo print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name);
 // ---
-echo "</div></div>";
+echo "<!-- x --></div></div><!-- x -->";
 //---
 $new_tt = "";
 //---

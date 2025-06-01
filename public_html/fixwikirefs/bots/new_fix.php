@@ -19,7 +19,17 @@ function get_results_new($sourcetitle, $title, $lang, $text = "")
         $text = get_wikipedia_text($title, $lang);
     }
     //---
+    if (empty($text)) {
+        return "notext";
+    }
+    //---
     $newtext = DoChangesToText1($sourcetitle, $title, $text, $lang, 0);
+    //---
+    $newtext = trim($newtext);
+    //---
+    if ($newtext == $text) {
+        return "no changes";
+    }
     //---
     return $newtext;
 }

@@ -21,6 +21,7 @@ if (!file_exists($work_file_path)) {
 //---
 include_once $work_file_path;
 //---
+include_once __DIR__ . '/form.php';
 include_once __DIR__ . '/bots/save.php';
 include_once __DIR__ . '/bots/get_text.php';
 include_once __DIR__ . '/bots/new_fix.php';

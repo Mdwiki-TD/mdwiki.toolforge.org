@@ -17,6 +17,7 @@ use function FixWikiRefs\SavePage\saveit;
 use function OAuth\SendEdit\auth_make_edit;
 use function OAuth\AccessHelps\get_access_from_dbs;
 use function OAuth\AccessHelpsNew\get_access_from_dbs_new;
+use function FixWikiRefs\Form\make_result_form;
 
 function saveit($title, $lang, $text)
 {
@@ -43,7 +44,29 @@ function saveit($title, $lang, $text)
     // ---
     $result = auth_make_edit($title, $text, $summary, $lang, $access_key, $access_secret);
     // ---
-    $Success = ($result['edit']['result'] ?? '') == 'Success';
+    return $result;
+}
+
+function make_save_result($title, $lang, $newtext, $new)
+{
     // ---
-    return $Success;
+    $result = "";
+    // ---
+    $save2 = saveit($title, $lang, $newtext);
+    // ---
+    // var_export(json_encode($save2, JSON_PRETTY_PRINT));
+    // ---
+    $error_code = ($save2['error']['code'] ?? '') ?? '';
+    // ---
+    $Success = ($save2['edit']['result'] ?? '') == 'Success';
+    // ---
+    if ($Success) {
+        $result .= '<div class="alert alert-success" role="alert">Changes has published.</div>';
+    } else {
+        $aleart = '<div class="alert alert-danger" role="alert">Changes are not published, try to do it manually. Error: ' . $error_code . '</div>';
+        $result .= $aleart;
+        $result .= make_result_form($new, $newtext);
+    }
+    // ---
+    return $result;
 }
