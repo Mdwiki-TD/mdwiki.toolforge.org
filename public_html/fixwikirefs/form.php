@@ -14,20 +14,15 @@ use function FixWikiRefs\Form\print_form;
 use function FixWikiRefs\Form\make_result_form;
 
 */
-function quotes($str)
-{
-    // if str have ' then use "
-    // else use '
-    $value = "'$str'";
-    if (preg_match("/[\']+/", $str)) $value = '"' . $str . '"';
-    return $value;
-};
-
 function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name)
 {
+    // Escape all inputs
+    $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+    $lang = htmlspecialchars($lang, ENT_QUOTES, 'UTF-8');
+    $user_name = htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8');
+
     $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
     //---
-    $title2 = quotes($title);
     $save_checked  = ($save != "") ? 'checked' : '';
     //---
     $start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
@@ -50,7 +45,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Title</span>
                             </div>
-                            <input class='form-control' type='text' id='title' name='title' value=$title2 required />
+                            <input class='form-control' type='text' id='title' name='title' value='$title' required />
                         </div>
                     </div>
                     <div class='col-md-3'>

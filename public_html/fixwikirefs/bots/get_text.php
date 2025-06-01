@@ -15,8 +15,12 @@ use function FixWikiRefs\WikiText\get_wikipedia_text; // get_wikipedia_text($tit
 
 */
 
+$usr_agent = 'WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)';
+
+
 function from_api($title, $lang)
 {
+    global $usr_agent;
     $url = "https://{$lang}.wikipedia.org/w/api.php";
     $data = [
         'action' => 'query',
@@ -33,9 +37,21 @@ function from_api($title, $lang)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
+
     $response = curl_exec($ch);
+
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
+
     curl_close($ch);
 
+    if ($response === false || $httpCode !== 200) {
+        error_log("Failed to fetch from API: $curlError, HTTP code: $httpCode");
+        return '';
+    }
     $json = json_decode($response, true);
 
     $pages = $json['query']['pages'] ?? [];
@@ -52,8 +68,7 @@ function from_api($title, $lang)
 
 function from_rest($title, $lang)
 {
-    $usr_agent = 'WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)';
-
+    global $usr_agent;
     $title = str_replace("/", "%2F", $title);
 
     $url = "https://{$lang}.wikipedia.org/w/rest.php/v1/page/{$title}";
@@ -66,20 +81,36 @@ function from_rest($title, $lang)
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
     $output = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
     curl_close($ch);
 
+    if ($output === false) {
+        error_log("Failed to fetch from REST API: $curlError");
+        return '';
+    }
     $json = json_decode($output, true);
     // var_export(json_encode($json, JSON_PRETTY_PRINT));
 
     if (isset($json['source'])) {
         return $json['source'];
     }
+
+    if ($httpCode !== 200) {
+        error_log("REST API returned HTTP code: $httpCode");
+    }
+
     return '';
 }
 
 function get_wikipedia_text($title, $lang)
 {
-    // replace / with "%2F"
+    if (empty($title) || empty($lang)) {
+        return '';
+    }
+    // ---
+    // Normalize title for both methods
+    $title = trim($title);
     // ---
     $text = "";
     // ---

@@ -32,6 +32,7 @@ function saveit($title, $lang, $text)
     $access = get_access_from_dbs_new($user_name);
     // ---
     if ($access == null) {
+        error_log("Failed to get access from any database for user: $user_name");
         $access = get_access_from_dbs($user_name);
     }
     // ---
@@ -57,7 +58,7 @@ function make_save_result($title, $lang, $newtext, $new)
     $error_code = ($save2['error']['code'] ?? '') ?? '';
     $error_info = ($save2['error']['info'] ?? '') ?? '';
     // ---
-    $Success = ($save2['edit']['result'] ?? '') == 'Success';
+    $Success = isset($save2['edit']['result']) && $save2['edit']['result'] == 'Success';
     // ---
     if ($Success) {
         $result .= '<div class="alert alert-success" role="alert">Changes has published.</div>';
