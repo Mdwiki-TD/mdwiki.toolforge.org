@@ -98,3 +98,4 @@ public_html/api/api_cod/request_countall.php
 /public_html/adminer-plugins
 public_html/Translation_Dashboardx/
 public_html/all_pages_revids.json
+public_html/logins/get.php

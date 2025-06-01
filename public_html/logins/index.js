@@ -48,7 +48,7 @@ function getsortedSites(data) {
     // تحويل siteCounts إلى مصفوفة لتسهيل الفرز
     const sortedSites = Object.entries(siteCounts)
         .sort((a, b) => b[1] - a[1]) // ترتيب تنازلي حسب عدد الاستعلامات
-        .slice(0, 5); // اختيار أول 5 مواقع فقط
+        .slice(0, 10); // اختيار أول 10 مواقع فقط
 
     return sortedSites;
 }
@@ -103,7 +103,7 @@ function getsortedActions(data, site) {
     // تحويل siteCounts إلى مصفوفة لتسهيل الفرز
     const sortedSites = Object.entries(Counts)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 5);
+        .slice(0, 10);
 
     return sortedSites;
 }
@@ -143,7 +143,7 @@ function renderActionsChart(sortedSites, site) {
 
     // إذا كان الرسم موجود مسبقًا فقم بتحديثه بدلاً من إنشائه من جديد
     let ActionChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
             labels: labels,
             datasets: [{
@@ -164,6 +164,17 @@ function renderActionsChart(sortedSites, site) {
                 title: {
                     display: true,
                     text: `Actions by type: (${site})`
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'right',
+                    color: 'black',
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value) {
+                        return value;
+                    }
                 }
             },
             scales: {
@@ -223,7 +234,18 @@ function drawChart(data) {
                 },
                 title: {
                     display: true,
-                    text: "Total queries by site (top 5)"
+                    text: "Total queries by site (top 10)"
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'right',
+                    color: 'black',
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function (value) {
+                        return value;
+                    }
                 }
             },
             scales: {
