@@ -1,3 +1,13 @@
+
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/revid
+
+- name: medwiki
+  command: "$HOME/jobs/copy_to_medwiki.sh"
+  schedule: '1 * * * 1'
+  image: tf-python39
+  emails: none
+
+
 # rm $HOME/cookies/* -v
 - name: rmv
   command: "$HOME/jobs/rmc.sh"
@@ -29,7 +39,7 @@
   emails: none
 
 # $HOME/local/bin/python3 core8/pwb.py fix_cs1/bot
-# $HOME/local/bin/python3 core8/pwb.py fix_cs1/fix_cs_params/bot all
+# $HOME/local/bin/python3 core8/pwb.py fix_cs1/fix_cs_params/bot
 - name: fixrefs
   command: "$HOME/jobs/fix_refs.sh"
   schedule: '@weekly'
@@ -47,18 +57,6 @@
 - name: qids1
   command: "$HOME/pybot/td_core/mdpages/findqids.sh"
   schedule: '40 */5 * * *'
-  image: tf-python39
-  emails: none
-
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/revid
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash nodone
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki nodone
-
-- name: medwiki
-  command: "$HOME/jobs/copy_to_medwiki.sh"
-  schedule: '1 * * * 1'
   image: tf-python39
   emails: none
 
@@ -117,7 +115,7 @@
 
 - name: cach-jobs
   command: "$HOME/jobs/cach_jobs.sh"
-  schedule: '10 */6 * * *'
+  schedule: '10 6 * * *'
   image: tf-python39
   emails: none
 
