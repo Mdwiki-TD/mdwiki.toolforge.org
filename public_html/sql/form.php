@@ -13,6 +13,15 @@ $queries = [
         SELECT
         distinct user from pages where user not in (select username from users)
     ",
+    "update_words" => "UPDATE
+        pages p
+        JOIN words w ON w.w_title = p.title
+        SET p.word = CASE
+                        WHEN p.translate_type = 'all' THEN w.w_all_words
+                        ELSE w.w_lead_words
+                    END
+        WHERE p.word = 0 OR p.word IS NULL
+        ",
     "qu1" => "SELECT
         A.id as id1, A.target as t1,
         B.id as id2, B.target as t2
@@ -116,6 +125,12 @@ function make_form($pass, $code)
                 </ul>
             </div>
             <div class='col-md'>
+                UPDATE:
+                <ul>
+                    <li><a href='#' onclick="copy_qua('update_words')">pages words</a></li>
+                </ul>
+            </div>
+            <div class='col-md'>
                 DELETE:
                 <ul>
                     <li><a href='#' onclick="copy_qua('qu6')">In process > 7</a></li>
@@ -126,9 +141,13 @@ function make_form($pass, $code)
         <form action='index.php' method='POST'>
             <div class='row'>
                 <div class='col-9'>
-                <!-- <textarea cols="10" rows="12" id="code" name="code" class="form-control" style="font-family: monospace; white-space: pre; direction: ltr; background-color: #f8f9fa;">$qua</textarea> -->
-                    <div id="editor" style="height: 300px; width: 100%;">$qua</div>
-                    <textarea id="code" name="code" style="display: none;"></textarea>
+                    <div class="row justify-content-center">
+                        <div class="col-11">
+                        <label for="editor" class="form-label fw-semibold">🛠 SQL Query</label>
+                        <div id="editor" style="height: 300px; width: 100%;">$qua</div>
+                        <textarea id="code" name="code" style="display: none;"></textarea>
+                        </div>
+                    </div>
                 </div>
                 <div class='col-3'>
                     <div class='input-group mb-2'>
@@ -151,16 +170,6 @@ function make_form($pass, $code)
                 </div>
             </div>
         </form>
-        <script>
-            var editor = ace.edit("editor");
-            editor.session.setMode("ace/mode/sql");
-            editor.setTheme("ace/theme/sqlserver");
-
-            // لتمرير القيمة إلى textarea عند الإرسال
-            document.querySelector("form").addEventListener("submit", function () {
-                document.getElementById("code").value = editor.getValue();
-            });
-        </script>
     HTML;
     // ---
     $form .= "<script> var queries = " . json_encode($queries) . "</script>";

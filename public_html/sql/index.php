@@ -55,14 +55,41 @@ if (!empty($code)) {
 // ---
 echo "</div>";
 // ---
+$old = <<<HTML
+    <script>
+        function to_code(text) {
+            $("#code").val(text);
+        }
+        function copy_qua(id) {
+            const queryString = queries[id];
+            $("#code").val(queryString);
+        }
+    </script>
+HTML;
+// ---
 echo <<<HTML
 <script>
+    var editor = ace.edit("editor");
+    editor.session.setMode("ace/mode/sql");
+    editor.setTheme("ace/theme/sqlserver");
+    editor.setOptions({
+        fontSize: "16px",
+        showPrintMargin: false,
+        wrap: true
+        });
+
+    // لتمرير القيمة إلى textarea عند الإرسال
+    document.querySelector("form")?.addEventListener("submit", function () {
+        document.getElementById("code").value = editor.getValue();
+    });
+
     function to_code(text) {
-        $("#code").val(text);
+        editor.setValue(text, -1); // -1 = بدون تحريك الكيرسر
     }
+
     function copy_qua(id) {
-        const queryString = queries[id];
-        $("#code").val(queryString);
+        const queryString = queries[id]; // تأكد أن المتغير queries موجود مسبقًا
+        editor.setValue(queryString, -1);
     }
 </script>
 HTML;
