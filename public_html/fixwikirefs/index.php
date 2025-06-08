@@ -11,13 +11,16 @@ include_once __DIR__ . '/include.php';
 use function FixWikiRefs\Form\print_form;
 use function FixWikiRefs\Fix\get_results_new;
 use function FixWikiRefs\SavePage\make_save_result;
+use function FixWikiRefs\SavePage\published_success_alert;
+use function FixWikiRefs\SavePage\published_danger_alert;
 use function FixWikiRefs\Form\make_result_form;
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a></h3>
     </div>
-    <div class="card-body">
+    <!-- padding bottom 0 -->
+    <div class="card-body pb-0">
 HTML;
 
 function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
@@ -83,21 +86,21 @@ $new_tt = "";
 //---
 if (!empty($title) && !empty($lang) && $lang != 'en' && !empty($user_name)) {
     $new_tt = worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox);
+    echo <<<HTML
+        <!-- <hr /> -->
+            <div class='card mt-3'>
+                <div class="card-header aligncenter" style="font-weight:bold;">
+                    <h3>
+                        <i class="bi bi-file-earmark-text"></i>
+                        <a target='_blank' href="https://$lang.wikipedia.org/w/index.php?title=$title">$title</a>
+                    </h3>
+                </div>
+                <div class='card-body'>
+                    $new_tt
+                </div>
+            </div>
+        HTML;
 };
-//---
-echo <<<HTML
-<hr />
-    <div class='card'>
-        <div class="card-header aligncenter" style="font-weight:bold;">
-            <h3>
-                page: <a target='_blank' href="https://$lang.wikipedia.org/w/index.php?title=$title">$title</a>
-            </h3>
-        </div>
-        <div class='card-body'>
-            $new_tt
-        </div>
-    </div>
-HTML;
 // ---
 echo "</div></div>";
 //---

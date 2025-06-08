@@ -11,6 +11,9 @@ if (isset($_GET['test'])) {
 usage:
 
 use function FixWikiRefs\SavePage\saveit;
+use function FixWikiRefs\SavePage\make_save_result;
+use function FixWikiRefs\SavePage\published_success_alert;
+use function FixWikiRefs\SavePage\published_danger_alert;
 
 */
 
@@ -48,6 +51,44 @@ function saveit($title, $lang, $text)
     return $result;
 }
 
+function published_success_alert($lang, $newrevid, $title)
+{
+    return <<<HTML
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-12">
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i> Changes have been published.
+                        <div class="ms-auto d-flex gap-2">
+                            <a href="https://$lang.wikipedia.org/w/index.php?title=Special:Diff/$newrevid" target="_blank" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-file-earmark-text me-1"></i> Diff
+                            </a>
+                            <a href="https://$lang.wikipedia.org/w/index.php?title=$title&action=history" target="_blank" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-clock-history me-1"></i> History
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
+}
+
+function published_danger_alert($error_code, $error_info)
+{
+    return <<<HTML
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-12">
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        Changes are not published, try to do it manually. Error: $error_code ($error_info)
+                    </div>
+                </div>
+            </div>
+        </div>
+    HTML;
+}
+
 function make_save_result($title, $lang, $newtext, $new)
 {
     // ---
@@ -58,18 +99,20 @@ function make_save_result($title, $lang, $newtext, $new)
     $error_code = ($save2['error']['code'] ?? '') ?? '';
     $error_info = ($save2['error']['info'] ?? '') ?? '';
     // ---
+    // if (isset($_GET['test'])) { var_export(json_encode($save2, JSON_PRETTY_PRINT)); }
+    // ---
     $Success = isset($save2['edit']['result']) && $save2['edit']['result'] == 'Success';
     // ---
     if ($Success) {
-        $result .= '<div class="alert alert-success" role="alert">Changes has published.</div>';
+        // '{ "edit": { "result": "Success", "pageid": 7613329, "title": "Anemia na gravidez", "contentmodel": "wikitext", "oldrevid": 70215097, "newrevid": 70257752, "newtimestamp": "2025-06-08T00:30:18Z" } }'
+        // ---
+        $newrevid = $save2['edit']['newrevid'];
+        // ---
+        $result .= published_success_alert($lang, $newrevid, $title);
     } else {
         // var_export(json_encode($save2['error'], JSON_PRETTY_PRINT));
         // ---
-        $aleart = <<<HTML
-            <div class="alert alert-danger" role="alert">
-                Changes are not published, try to do it manually. Error: $error_code ($error_info)
-            </div>
-        HTML;
+        $aleart = published_danger_alert($error_code, $error_info);
         // ---
         $result .= $aleart;
         $result .= make_result_form($new, $newtext);
