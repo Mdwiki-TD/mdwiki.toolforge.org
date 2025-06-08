@@ -39,7 +39,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Langcode</span>
                             </div>
-                            <input class='form-control' type='text' name='lang' value='$lang' required />
+                            <input class='form-control' type='text' id='lang' name='lang' value='$lang' required />
                         </div>
                         <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
