@@ -67,6 +67,7 @@ function print_head()
 		"$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js",
 		"/Translation_Dashboard/js/sorttable.js",
 		"/Translation_Dashboard/js/to.js",
+		"$hoste/ajax/libs/ace/1.42.0/ace.js",
 	];
 
 	foreach ($scripts as $js) {

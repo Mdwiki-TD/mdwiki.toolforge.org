@@ -126,7 +126,9 @@ function make_form($pass, $code)
         <form action='index.php' method='POST'>
             <div class='row'>
                 <div class='col-9'>
-                    <textarea cols='120' rows='12' id='code' name='code'>$qua</textarea>
+                <!-- <textarea cols="10" rows="12" id="code" name="code" class="form-control" style="font-family: monospace; white-space: pre; direction: ltr; background-color: #f8f9fa;">$qua</textarea> -->
+                    <div id="editor" style="height: 300px; width: 100%;">$qua</div>
+                    <textarea id="code" name="code" style="display: none;"></textarea>
                 </div>
                 <div class='col-3'>
                     <div class='input-group mb-2'>
@@ -149,6 +151,16 @@ function make_form($pass, $code)
                 </div>
             </div>
         </form>
+        <script>
+            var editor = ace.edit("editor");
+            editor.session.setMode("ace/mode/sql");
+            editor.setTheme("ace/theme/sqlserver");
+
+            // لتمرير القيمة إلى textarea عند الإرسال
+            document.querySelector("form").addEventListener("submit", function () {
+                document.getElementById("code").value = editor.getValue();
+            });
+        </script>
     HTML;
     // ---
     $form .= "<script> var queries = " . json_encode($queries) . "</script>";
