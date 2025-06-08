@@ -13,7 +13,7 @@ usage:
 use function FixWikiRefs\SavePage\saveit;
 use function FixWikiRefs\SavePage\make_save_result;
 use function FixWikiRefs\SavePage\published_success_alert;
-use function FixWikiRefs\SavePage\published_danger_alert;
+use function FixWikiRefs\SavePage\published_alert;
 
 */
 
@@ -74,14 +74,16 @@ function published_success_alert($lang, $newrevid, $title)
     HTML;
 }
 
-function published_danger_alert($error_code, $error_info)
+function published_alert($text, $type)
 {
+    $alert_classes = ['success', 'info', 'warning', 'danger'];
+    $class = in_array($type, $alert_classes) ? $type : 'info';
     return <<<HTML
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-9 col-12">
-                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                        Changes are not published, try to do it manually. Error: $error_code ($error_info)
+                    <div class="alert alert-$type d-flex align-items-center" role="alert">
+                        $text
                     </div>
                 </div>
             </div>
@@ -112,7 +114,7 @@ function make_save_result($title, $lang, $newtext, $new)
     } else {
         // var_export(json_encode($save2['error'], JSON_PRETTY_PRINT));
         // ---
-        $aleart = published_danger_alert($error_code, $error_info);
+        $aleart = published_alert("Changes are not published, try to do it manually. Error: $error_code ($error_info)", "danger");
         // ---
         $result .= $aleart;
         $result .= make_result_form($new, $newtext);

@@ -11,8 +11,7 @@ include_once __DIR__ . '/include.php';
 use function FixWikiRefs\Form\print_form;
 use function FixWikiRefs\Fix\get_results_new;
 use function FixWikiRefs\SavePage\make_save_result;
-use function FixWikiRefs\SavePage\published_success_alert;
-use function FixWikiRefs\SavePage\published_danger_alert;
+use function FixWikiRefs\SavePage\published_alert;
 use function FixWikiRefs\Form\make_result_form;
 //---
 echo <<<HTML
@@ -46,13 +45,14 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
     HTML;
     //---
     if ($resultb == 'no changes') {
-        $text_re .= "no changes";
+        $text_re .= published_alert("No changes", "warning");
         $text_re .= $edt_link_row;
         return $text_re;
     }
     // ---
     if ($resultb == "notext") {
-        $text_re .= "text == ''";
+        // $text_re .= "text == ''";
+        $text_re .= published_alert("No text", "warning");
         $text_re .= $edt_link_row;
         return $text_re;
     }
