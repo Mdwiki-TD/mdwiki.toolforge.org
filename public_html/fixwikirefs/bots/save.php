@@ -108,11 +108,10 @@ function make_save_result($title, $lang, $newtext, $new)
     if ($Success) {
         // '{ "edit": { "result": "Success", "pageid": 7613329, "title": "Anemia na gravidez", "contentmodel": "wikitext", "oldrevid": 70215097, "newrevid": 70257752, "newtimestamp": "2025-06-08T00:30:18Z" } }'
         // ---
-        $newrevid = $save2['edit']['newrevid'];
+        $newrevid = $save2['edit']['newrevid'] ?? '0';
         // ---
         $result .= published_success_alert($lang, $newrevid, $title);
     } else {
-        // var_export(json_encode($save2['error'], JSON_PRETTY_PRINT));
         // ---
         $aleart = published_alert("Changes are not published, try to do it manually. Error: $error_code ($error_info)", "danger");
         // ---
