@@ -22,10 +22,10 @@
   emails: none
 
 # sql backup
-# tfj run dbbackup --image mariadb --command "$HOME/jobs/db_backup.sh"
+# tfj run dbbackup --image mariadb --command "$HOME/jobs/db_backup_gzip.sh"
 - name: backup
-  command: "$HOME/jobs/db_backup.sh"
-  schedule: '11 1 * * *'
+  command: "$HOME/jobs/db_backup_gzip.sh"
+  schedule: '@daily'
   image: mariadb
   emails: none
 
