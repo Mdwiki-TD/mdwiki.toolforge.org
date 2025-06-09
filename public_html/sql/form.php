@@ -9,6 +9,24 @@ if (isset($_REQUEST['test'])) {
 // include_once __DIR__ . '/sql_result.php';
 
 $queries = [
+    "RTT_cats" => "SELECT title, cat, category
+        FROM pages, articles_cats
+        WHERE cat = 'RTT' and article_id = title
+        and category != 'RTT' and category != '' and category is not null
+
+        # update pages JOIN articles_cats set cat = category where cat = 'RTT' and article_id = title and category != '' and category is not null and category != 'RTT'
+        ",
+    "articles_cats" => "SELECT title, cat, category
+        FROM pages, articles_cats
+        WHERE cat in ( '', null) and article_id = title
+        and category != '' and category is not null
+
+        # update pages JOIN articles_cats set cat = category where cat in ( '', null) and article_id = title and category != '' and category is not null
+        ",
+    "video" => "SELECT *
+        FROM pages WHERE title LIKE '%Video:%' AND cat != 'Videowiki scripts'
+        # update pages set cat = 'Videowiki scripts' where title LIKE '%Video:%'
+    ",
     "users" => "#INSERT INTO users (username)
         SELECT
         distinct user from pages where user not in (select username from users)
@@ -128,6 +146,9 @@ function make_form($pass, $code)
                 UPDATE:
                 <ul>
                     <li><a href='#' onclick="copy_qua('update_words')">pages words</a></li>
+                    <li><a href='#' onclick="copy_qua('video')">videos</a></li>
+                    <li><a href='#' onclick="copy_qua('articles_cats')">articles_cats</a></li>
+                    <li><a href='#' onclick="copy_qua('RTT_cats')">RTT_cats</a></li>
                 </ul>
             </div>
             <div class='col-md'>
