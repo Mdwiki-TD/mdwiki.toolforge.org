@@ -70,58 +70,60 @@ function make_sql_result($qua)
     //---
     $execution_time = number_format(microtime(true) - $start_time, 2);
     //---
-    $start = <<<HTML
-    <table class="table table-striped sortable">
-        <thead>
-            <tr>
-                <th>#</th>
-    HTML;
+    $thead = "";
     //---
-    $text = '';
+    $tbody = '';
     //---
     $number = 0;
     //---
     foreach ($uu as $id => $row) {
-        $number = $number + 1;
-        $tr = '';
+        $number += 1;
         //---
         // echo var_export(json_encode($row, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), 1) . "<br>";
         // '{ "user": "Dr3939", "targets": 1, "words": null, "views": "3922" }'
         // ---
+        if ($number == 1) {
+            foreach ($row as $column => $value) {
+                $thead .= "<th class='text-nowrap'>$column</th>";
+            }
+        }
+        // ---
+        $tr = '';
+        // ---
         foreach ($row as $column => $value) {
-            // if (!empty($column)) {
             // ---
             if (!preg_match('/^\d+$/', $column, $m)) {
                 // ---
-                $value = strval($value);
+                $value = ($value !== null) ? strval($value) : 'null';
                 // ---
                 $tr .= "<td>$value</th>";
-                // ---
-                if ($number == 1) {
-                    $start .= "<th class='text-nowrap'>$column</th>";
-                };
             };
         }
         //---
         if (!empty($tr)) {
-            $text .= "<tr><td>$number</td>$tr</tr>";
+            $tbody .= "<tr><td>$number</td>$tr</tr>";
         };
-        //---
     };
     //---
-    $start .= <<<HTML
-        </tr>
-        </thead>
-    HTML;
-    //---
     // echo "<h4>sql results:$number. (time:$execution_time)</h4>";
-    echo "<h4>SQL Results: $number (Execution time: $execution_time seconds)</h4>";
-    //---
-    echo $start . $text . '</table>';
+    echo <<<HTML
+        <h4>SQL Results: $number (Execution time: $execution_time seconds)</h4>
+        <table class="table table-striped sortable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                $thead
+                </tr>
+            </thead>
+            <tbody>
+                $tbody
+            </tbody>
+        </table>
+    HTML;
     //---
     if (isset($_GET['test'])) var_export($uu);
     //---
-    if (empty($text)) {
+    if (empty($tbody)) {
         if (isset($_GET['test'])) {
             print_r($uu);
         } else {
