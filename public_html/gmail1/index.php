@@ -141,7 +141,7 @@ HTML;
 if ($no_format !=  "") {
     $msg1 = $msg;
 }
-//---
+
 function createEmail()
 {
     global $email_from, $email_to, $msg_title, $msg1, $ccme, $cc_to;

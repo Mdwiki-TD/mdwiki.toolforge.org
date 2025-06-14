@@ -37,7 +37,7 @@ function print_h3_title($h3_title)
     <div class="card-body">
 HTML;
 }
-//---
+
 function print_head()
 {
 	global $hoste;

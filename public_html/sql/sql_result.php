@@ -85,15 +85,23 @@ function make_sql_result($qua)
         $number = $number + 1;
         $tr = '';
         //---
-        foreach ($row as $nas => $value) {
-            // if (!empty($nas)) {
-            if (!preg_match('/^\d+$/', $nas, $m)) {
+        // echo var_export(json_encode($row, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), 1) . "<br>";
+        // '{ "user": "Dr3939", "targets": 1, "words": null, "views": "3922" }'
+        // ---
+        foreach ($row as $column => $value) {
+            // if (!empty($column)) {
+            // ---
+            if (!preg_match('/^\d+$/', $column, $m)) {
+                // ---
+                $value = strval($value);
+                // ---
                 $tr .= "<td>$value</th>";
+                // ---
                 if ($number == 1) {
-                    $start .= "<th class='text-nowrap'>$nas</th>";
+                    $start .= "<th class='text-nowrap'>$column</th>";
                 };
             };
-        };
+        }
         //---
         if (!empty($tr)) {
             $text .= "<tr><td>$number</td>$tr</tr>";
