@@ -96,7 +96,7 @@ function make_sql_result($qua)
                 // ---
                 $value = ($value !== null) ? strval($value) : 'null';
                 // ---
-                $tr .= "<td>$value</th>";
+                $tr .= "<td>$value</td>";
             };
         }
         //---

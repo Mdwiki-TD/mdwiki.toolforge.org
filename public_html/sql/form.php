@@ -18,10 +18,10 @@ $queries = [
         ",
     "articles_cats" => "SELECT title, cat, category
         FROM pages, articles_cats
-        WHERE cat in ( '', null) and article_id = title
+        WHERE (cat = '' OR cat IS NULL) and article_id = title
         and category != '' and category is not null
 
-        # update pages JOIN articles_cats set cat = category where cat in ( '', null) and article_id = title and category != '' and category is not null
+        # update pages JOIN articles_cats set cat = category where (cat = '' OR cat IS NULL) and article_id = title and category != '' and category is not null
         ",
     "video" => "SELECT *
         FROM pages WHERE title LIKE '%Video:%' AND cat != 'Videowiki scripts'
