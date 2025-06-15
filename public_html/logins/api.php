@@ -113,23 +113,11 @@ function fetch_query_new($sql_query)
     return $results ?? [];
 }
 
-$query = "SELECT DISTINCT count(*) as count, action, site, result, username, MIN(timestamp) AS first, MAX(timestamp) AS last
-    from login_attempts
-    GROUP BY action, site, result, username ORDER BY 1 DESC
+$query = "SELECT DISTINCT count, action, site, result, username, first, last
+    from logins
+    ORDER BY 1 DESC
 ";
 
-if (isset($_GET['limit'])) {
-    $limit = filter_input(INPUT_GET, 'limit', FILTER_VALIDATE_INT, [
-        'options' => ['min_range' => 1, 'max_range' => 1000]
-    ]);
-    // ---
-    if ($limit !== false) {
-        $query .= " LIMIT " . (int)$limit;
-    }
-    // ---
-    $added = filter_input(INPUT_GET, 'limit', FILTER_SANITIZE_SPECIAL_CHARS);
-    $query .= " LIMIT $added";
-}
 $result = fetch_query_new($query);
 
 echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

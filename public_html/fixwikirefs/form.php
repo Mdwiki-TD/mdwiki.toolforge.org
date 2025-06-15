@@ -39,7 +39,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
                             <div class='input-group-prepend'>
                                 <span class='input-group-text'>Langcode</span>
                             </div>
-                            <input class='form-control' type='text' name='lang' value='$lang' required />
+                            <input class='form-control' type='text' id='lang' name='lang' value='$lang' required />
                         </div>
                         <div class='input-group mb-3'>
                             <div class='input-group-prepend'>
@@ -81,7 +81,7 @@ function make_result_form($new, $newtext)
     $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
     //---
     return <<<HTML
-        <form id='editform' name='editform' method='POST' action='$new'>
+        <form id='editform' name='editform' method='POST' action='$new' target='_blank'>
             <input type='hidden' value='' name='wpEdittime'/>
             <input type='hidden' value='' name='wpStarttime'/>
             <input type='hidden' value='' name='wpScrolltop' id='wpScrolltop'/>
@@ -91,9 +91,11 @@ function make_result_form($new, $newtext)
             <input type='hidden' value='1' name='wpUltimateParam'/>
             <input type='hidden' name='wpSummary' value='$summary'>
             <input type='hidden' id='wikitext-old' value=''>
-            <div class='form-group'>
-                <label for='find'>new text:</label>
-                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
+            <div class="mb-3">
+                <label for="wikitext-new" class="form-label fw-semibold">
+                    📝 New Wikitext
+                </label>
+                <textarea id="wikitext-new" class="form-control" name="wpTextbox1" rows="5">$newtext</textarea>
             </div>
             <div class='editOptions aligncenter'>
                 <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>

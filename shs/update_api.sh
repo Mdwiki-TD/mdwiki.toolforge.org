@@ -1,29 +1,47 @@
 #!/bin/bash
-cd "$HOME" || exit 1
-# cd /data/project/mdwiki/
 
 BRANCH="${1:-main}"
 
 echo ">>> clone --branch ${BRANCH} ."
 
+REPO_URL="https://github.com/WikiAr/newapi.git"
+TARGET_DIR="pybot/new/newapi"
+CLONE_DIR="newapi_x"
 
-rm -rf newapi_x
+# Remove any existing clone directory
+rm -rf "$CLONE_DIR"
 
-mkdir  pybot/new
-mkdir  pybot/new/newapi
+# Clone the repository
+if git clone --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"; then
+    echo "Repository cloned successfully."
+else
+    echo "Failed to clone the repository." >&2
+    exit 1
+fi
 
-# Download the wd-core repository from GitHub.
-git clone --branch "$BRANCH" https://github.com/MrIbrahem/newapi.git newapi_x
+rm -rf "$CLONE_DIR"/.git
 
-rm -rf newapi_x/.git
+# Optional: remove any non-Python files
+# find "$CLONE_DIR" -type f ! -name "*.py" -exec rm -rf {} \;
 
-cp -rf newapi_x/* pybot/new/newapi -v
+# Copy the required files to the target directory
+# cp -rf "$CLONE_DIR/"* "$TARGET_DIR/" -v
+# if [ -d "$CLONE_DIR/newapi" ]; then
 
-find pybot/new/newapi -name "*.pyc" -exec rm -f {} +
+if [ -d "$CLONE_DIR/newapi/super" ]; then
+    cp -rf "$CLONE_DIR/newapi/"* "$TARGET_DIR/" -v
+else
+    cp -rf "$CLONE_DIR/"* "$TARGET_DIR/" -v
+fi
 
-#chmod -R 6770 pybot/new/newapi
-find pybot/new/newapi -type f ! -name "*.pyc" -exec chmod 6770 {} \;
+find "$TARGET_DIR" -name "*.pyc" -exec rm -f -v {} +
 
-rm -rf newapi_x
+# Optional: Set permissions
+# chmod -R 6770 "$TARGET_DIR"
+find "$TARGET_DIR" -type f ! -name "*.pyc" -exec chmod 6770 {} \;
 
-$HOME/local/bin/python3 -m pip install -r pybot/new/newapi/requirements.in -U
+# Optional: Install dependencies
+#"$HOME/local/bin/python3" -m pip install -r "$TARGET_DIR/requirements.in"
+
+# Remove the "$CLONE_DIR" directory.
+rm -rf "$CLONE_DIR"

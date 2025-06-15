@@ -11,13 +11,15 @@ include_once __DIR__ . '/include.php';
 use function FixWikiRefs\Form\print_form;
 use function FixWikiRefs\Fix\get_results_new;
 use function FixWikiRefs\SavePage\make_save_result;
+use function FixWikiRefs\SavePage\published_alert;
 use function FixWikiRefs\Form\make_result_form;
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a></h3>
     </div>
-    <div class="card-body">
+    <!-- padding bottom 0 -->
+    <div class="card-body pb-0">
 HTML;
 
 function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
@@ -43,13 +45,14 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
     HTML;
     //---
     if ($resultb == 'no changes') {
-        $text_re .= "no changes";
+        $text_re .= published_alert("No changes", "warning");
         $text_re .= $edt_link_row;
         return $text_re;
     }
     // ---
     if ($resultb == "notext") {
-        $text_re .= "text == ''";
+        // $text_re .= "text == ''";
+        $text_re .= published_alert("No text", "warning");
         $text_re .= $edt_link_row;
         return $text_re;
     }
@@ -83,22 +86,55 @@ $new_tt = "";
 //---
 if (!empty($title) && !empty($lang) && $lang != 'en' && !empty($user_name)) {
     $new_tt = worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox);
+    echo <<<HTML
+        <!-- <hr /> -->
+            <div class='card mt-3'>
+                <div class="card-header aligncenter" style="font-weight:bold;">
+                    <h3>
+                        <i class="bi bi-file-earmark-text"></i>
+                        <a target='_blank' href="https://$lang.wikipedia.org/w/index.php?title=$title">$title</a>
+                    </h3>
+                </div>
+                <div class='card-body'>
+                    $new_tt
+                </div>
+            </div>
+        HTML;
 };
-//---
-echo <<<HTML
-<hr />
-    <div class='card'>
-        <div class="card-header aligncenter" style="font-weight:bold;">
-            <h3>
-                page: <a target='_blank' href="https://$lang.wikipedia.org/w/index.php?title=$title">$title</a>
-            </h3>
-        </div>
-        <div class='card-body'>
-            $new_tt
-        </div>
-    </div>
-HTML;
 // ---
 echo "</div></div>";
 //---
-require __DIR__ . '/../footer.php';
+echo <<<HTML
+    <script>
+        // attach autocomplete behavior to input field
+        $("#title").autocomplete({
+            source: function(request, response) {
+                // make AJAX request to Wikipedia API
+                $.ajax({
+                    url: "https://" + $("#lang").val() + ".wikipedia.org/w/api.php",
+                    headers: {
+                        'Api-User-Agent': "Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)"
+                    },
+                    dataType: "jsonp",
+                    data: {
+                        action: "query",
+                        list: "prefixsearch",
+                        format: "json",
+                        pssearch: request.term,
+                        psnamespace: 0,
+                        psbackend: "CirrusSearch",
+                        cirrusUseCompletionSuggester: "yes"
+                    },
+                    success: function(data) {
+                        // extract titles from API response and pass to autocomplete
+                        response($.map(data.query.prefixsearch, function(item) {
+                            return item.title;
+                        }));
+                    }
+                });
+            }
+        });
+    </script>
+    HTML;
+//---
+require __DIR__ . '/footer.php';

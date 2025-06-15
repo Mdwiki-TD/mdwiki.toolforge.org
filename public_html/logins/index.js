@@ -77,7 +77,7 @@ function createSiteNavigation(sortedSites) {
             <li class="nav-item">
                 <button class="nav-link" id="${id}-tab" data-bs-toggle="tab" data-bs-target="#All-tab-pane"
                 site="${site}"
-                type="button" role="tab" aria-controls="All-tab-pane" aria-selected="false">${label} (${count})</button>
+                type="button" role="tab" aria-controls="All-tab-pane" aria-selected="false">${label} (${count.toLocaleString()})</button>
             </li>
         `);
     })
@@ -117,7 +117,7 @@ function ActionsCharts(data, site) {
         // ---
         const sorted_Sites = getsortedActions(data, site);
         // ---
-        $("#ActionsChartContainer").html('<canvas id="ActionsChart" height="70"></canvas>');
+        $("#ActionsChartContainer").html('<canvas id="ActionsChart" height="100"></canvas>');
         // ---
         renderActionsChart(sorted_Sites, site);
         // ---
@@ -287,7 +287,10 @@ async function load_table(apiUrl, id, site = "") {
                 render: (_, __, ___, meta) => meta.row + 1
             },
             {
-                data: 'count'
+                data: 'count',
+                render: function (data) {
+                    return Number(data).toLocaleString();
+                }
             },
             {
                 data: 'action'

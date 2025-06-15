@@ -132,7 +132,7 @@ function get_results($title)
     //---
     return $result;
 }
-//---
+
 function worknew($title)
 {
     //---
