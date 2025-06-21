@@ -47,6 +47,7 @@ function get_host()
 
 	return $hoste;
 }
+
 function print_head()
 {
 	$hoste = get_host();

@@ -10,7 +10,6 @@ if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 };
 
 include_once('functions.php');
-
 function get_host()
 {
 	// $hoste = get_host();
@@ -18,7 +17,7 @@ function get_host()
 	static $cached_host = null;
 
 	if ($cached_host !== null) {
-		return $cached_host;
+		return $cached_host; // استخدم القيمة المحفوظة
 	}
 
 	//---
@@ -30,14 +29,15 @@ function get_host()
 		$url = "https://tools-static.wmflabs.org";
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_NOBODY, true); // only load header
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // no print
+		curl_setopt($ch, CURLOPT_NOBODY, true); // لا نريد تحميل الجسم
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // لمنع الطباعة
 		curl_setopt($ch, CURLOPT_TIMEOUT, 3); // المهلة القصوى للاتصال
 
 		$result = curl_exec($ch);
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
+		// إذا فشل الاتصال أو لم تكن الاستجابة ضمن 200–399، نستخدم cdnjs
 		if ($result === false || $httpCode < 200 || $httpCode >= 400) {
 			$hoste = "https://cdnjs.cloudflare.com";
 		}
@@ -47,6 +47,7 @@ function get_host()
 
 	return $hoste;
 }
+
 function print_head()
 {
 	$hoste = get_host();
