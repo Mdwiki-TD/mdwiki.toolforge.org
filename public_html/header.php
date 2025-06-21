@@ -26,8 +26,6 @@ if (strpos(__FILE__, "I:\\") !== false) $dir_t = "I:/mdwiki/";
 //---
 include_once $dir_t  . '/auth/auth/user_infos.php';
 //---
-$hoste = '';
-//---
 function print_h3_title($h3_title)
 {
 	echo <<<HTML
@@ -38,11 +36,55 @@ function print_h3_title($h3_title)
 HTML;
 }
 
+function get_host()
+{
+	// $hoste = get_host();
+	//---
+	static $cached_host = null;
+	//---
+	if ($cached_host !== null) {
+		return $cached_host; // استخدم القيمة المحفوظة
+	}
+	//---
+	$hoste = ($_SERVER["SERVER_NAME"] == "localhost")
+		? "https://cdnjs.cloudflare.com"
+		: "https://tools-static.wmflabs.org/cdnjs";
+	//---
+	if ($hoste == "https://tools-static.wmflabs.org/cdnjs") {
+		$url = "https://tools-static.wmflabs.org";
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_HEADER, true);
+		curl_setopt($ch, CURLOPT_NOBODY, true); // لا نريد تحميل الجسم
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // لمنع الطباعة
+
+		curl_setopt($ch, CURLOPT_TIMEOUT, 3); // المهلة القصوى للاتصال
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; CDN-Checker)');
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+
+		$result = curl_exec($ch);
+		$curlError = curl_error($ch);
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		curl_close($ch);
+
+		// إذا فشل الاتصال أو لم تكن الاستجابة ضمن 200–399، نستخدم cdnjs
+		if ($result === false || !empty($curlError) || $httpCode < 200 || $httpCode >= 400) {
+			$hoste = "https://cdnjs.cloudflare.com";
+		}
+	}
+
+	$cached_host = $hoste;
+
+	return $hoste;
+}
+
 function print_head()
 {
-	global $hoste;
-	$hoste = 'https://tools-static.wmflabs.org/cdnjs';
-	if ($_SERVER['SERVER_NAME'] == 'localhost')  $hoste = 'https://cdnjs.cloudflare.com';
+	//---
+	$hoste = get_host();
 	//---
 	$stylesheets = [
 		"/Translation_Dashboard/css/styles.css",
