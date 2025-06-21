@@ -9,7 +9,7 @@ if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
 	error_reporting(E_ALL);
 };
 
-include_once('functions.php');
+include_once 'functions.php';
 function get_host()
 {
 	// $hoste = get_host();
