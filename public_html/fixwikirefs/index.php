@@ -137,4 +137,4 @@ echo <<<HTML
     </script>
     HTML;
 //---
-require __DIR__ . '/footer.php';
+include_once __DIR__ . '/footer.php';

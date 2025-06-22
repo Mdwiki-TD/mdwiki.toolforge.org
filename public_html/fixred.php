@@ -1,14 +1,14 @@
 <?php
-require('header.php');
-print_h3_title("Fix redirects");
+include_once 'header.php';
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Fix redirects</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $title = $_GET['title'] ?? '';
 $test  = $_GET['test'] ?? '';
-//---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$root_paath = $pathParts[0];
-$root_paath = str_replace('\\', '/', $root_paath);
 //---
 echo <<<HTML
 	<div class='container'>
@@ -48,13 +48,12 @@ echo <<<HTML
 	</form>
 HTML;
 //---
-require  'bots/tfj.php';
-// $result = do_tfj_sh($params, $name);
+include_once 'bots/tfj.php';
 //---
 function get_results($title)
 {
 	//---
-	global $root_paath, $test;
+	global $test;
 	//---
 	$title2 = str_replace('+', '_', $title);
 	$title2 = str_replace(' ', '_', $title2);
@@ -91,4 +90,4 @@ echo <<<HTML
 	</div>
 HTML;
 //---
-require 'footer.php';
+include_once 'footer.php';

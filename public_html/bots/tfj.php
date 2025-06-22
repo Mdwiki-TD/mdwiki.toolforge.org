@@ -1,8 +1,7 @@
 <?php
 //---
 /*
-require  'bots/tfj.php';
-// $result = do_tfj_sh($params, $name);
+include_once 'bots/tfj.php';
 // $result = do_tfj(array( 'name' => "", 'command' => $command));
 
 /////////
@@ -13,10 +12,7 @@ $params = array(
 //---
 */
 //---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$root_paath = $pathParts[0];
-$root_paath = str_replace('\\', '/', $root_paath);
+$root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
 $test   = $_REQUEST['test'] ?? '';
 if ($test != '') {
@@ -56,7 +52,7 @@ function make_sh_file_2($string)
 function make_command($params)
 {
     //---
-    global $root_paath;
+    global $root_path;
     //---
     $dir        = $params['dir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
@@ -69,7 +65,7 @@ function make_command($params)
         $uu = "$my_dir/$pyfile";
         //---
         if ($uu == "core8/pwb.py" || $uu == "c8/pwb.py") {
-            $uu = $root_paath . "/" . $uu;
+            $uu = $root_path . "/" . $uu;
         }
         //---
         $command = "python3 $uu $other";

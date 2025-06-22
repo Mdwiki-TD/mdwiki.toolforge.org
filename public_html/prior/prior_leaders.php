@@ -2,7 +2,7 @@
 
 namespace LeaderTables;
 
-include_once('tables.php');
+include_once 'tables.php';
 
 $mainlang = $_REQUEST['lang'] ?? '';
 

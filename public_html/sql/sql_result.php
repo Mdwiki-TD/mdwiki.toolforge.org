@@ -135,13 +135,9 @@ function make_sql_result($qua)
 function get_sql_pass()
 {
     // ---
-    $pathParts = explode('public_html', __FILE__)[0];
-    // if root path find (I:\) then $ROOT_PATH = ""
-    if (strpos($pathParts, "I:\\") !== false) {
-        $pathParts = "I:/mdwiki/mdwiki/";
-    }
+    $ROOT_PATH = explode('public_html', __FILE__)[0];
     // ---
-    $_dir = $pathParts . '/confs/';
+    $_dir = $ROOT_PATH . '/confs/';
     // ---
     $ini = parse_ini_file($_dir . 'OAuthConfig.ini');
     // ---

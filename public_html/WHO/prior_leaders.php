@@ -1,13 +1,13 @@
 <?PHP
 namespace LeaderTables;
 
-include_once('tables.php');
+include_once 'tables.php';
 
 $mainlang = $_REQUEST['lang'] ?? '';
 
 function NumbsTableNew(): string {
     global $numbers, $mainlang;
-    
+
     // Initialize the HTML string with the table header
     $Numbers_table = <<<HTML
     <table class="datatable table table-striped table-sm">

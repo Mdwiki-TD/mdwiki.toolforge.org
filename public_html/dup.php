@@ -1,13 +1,13 @@
 <?php
-// Include header
-require('header.php');
-//---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+include_once 'header.php';
 //---
 // Output HTML structure
-print_h3_title("Fix duplicate redirects.");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Fix duplicate redirects.</h3>
+    </div>
+    <div class="card-body">
+HTML;
 
 // Process request parameters
 $start = $_REQUEST['start'] ?? '';
@@ -36,9 +36,8 @@ if (empty($start) || empty($username)) {
 } else {
     // Define command
     echo "starting....";
-    // $faf = "kubectl exec -q mdwiki-6fd7885d59-sn5pl -- /bin/sh -c $ROOT_PATH/public_html/dup.sh";
 
-    $faf = "kubectl create job dup --output=json --image=busybox -- public_html/dup.sh";
+    $faf = "kubectl create job dup0 --output=json --image=busybox -- public_html/fix_duplicate.sh";
 
     // Output command if in test mode
     if (!empty($test)) {
@@ -51,5 +50,4 @@ if (empty($start) || empty($username)) {
 }
 
 // Include footer
-require 'footer.php';
-?>
+include_once 'footer.php';

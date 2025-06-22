@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-require_once __DIR__ . "/header1.php";
+include_once __DIR__ . "/header1.php";
 
 $apis = [
 	'/logins/api.php' => 'Local',

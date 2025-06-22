@@ -1,12 +1,16 @@
 <?PHP
 //---
-require 'header.php';
+include_once 'header.php';
 //---
-print_h3_title("Import history from enwiki");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Import history from enwiki</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 // the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+$ROOT_PATH = explode('public_html', __FILE__)[0];
 //---
 $test       = $_REQUEST['test'] ?? '';
 $from       = $_REQUEST['from'] ?? '';
@@ -15,7 +19,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 //---
 $valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
 //---
-require 'bots/tfj.php';
+include_once 'bots/tfj.php';
 
 function get_results($aargs)
 {
@@ -142,5 +146,5 @@ if ((empty($titlelist) && empty($title)) || !$valid_user) {
     //---
 }
 //---
-require 'footer.php';
+include_once 'footer.php';
 //---

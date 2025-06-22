@@ -1,18 +1,22 @@
 <?php
 
-require('header.php');
+include_once 'header.php';
 
-print_h3_title("Create redirects.");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Create redirects.</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $test       = $_REQUEST['test'] ?? '';
 $title      = $_REQUEST['title'] ?? '';
 $titlelist  = $_REQUEST['titlelist'] ?? '';
 //---
 // the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+$ROOT_PATH = explode('public_html', __FILE__)[0];
 
-require 'bots/tfj.php';
+include_once 'bots/tfj.php';
 //---
 function printForm($title, $titlelist, $test)
 {
@@ -124,4 +128,4 @@ if ((empty($title) && empty($titlelist)) || empty($username)) {
     createRedirects($title, $titlelist, $test);
 }
 
-require 'footer.php';
+include_once 'footer.php';

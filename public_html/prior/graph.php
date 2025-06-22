@@ -1,7 +1,7 @@
 <?PHP
 namespace LeaderGraph;
 //---
-require_once('tables.php');
+include_once 'tables.php';
 //---
 echo '<script src="/Translation_Dashboard/js/g.js"></script>';
 //---

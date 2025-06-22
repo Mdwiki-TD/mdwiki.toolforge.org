@@ -99,7 +99,7 @@
   image: python3.9
   emails: none
 
-- name: dup
+- name: dup1
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
   schedule: '1 1 * * 0'
   image: python3.9

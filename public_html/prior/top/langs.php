@@ -8,7 +8,7 @@ use function Functions\makeColSm4;
 use function LeaderTables\NumbsTableNew;
 use function LeaderTables\UsersTableNew;
 use function LeaderTables\module_copy;
-// require 'tables.php';
+// include_once 'tables.php';
 /**
  * Build and return an HTML string which represents a table with categories,
  * specified by the provided language.

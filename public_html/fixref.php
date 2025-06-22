@@ -1,16 +1,17 @@
 <?php
-require 'header.php';
-print_h3_title("Normalize references (mdwiki).");
+include_once 'header.php';
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Normalize references (mdwiki).</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
 //---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
-//---
-require  'bots/tfj.php';
+include_once 'bots/tfj.php';
 //---
 function make_form($titlelist, $number, $test)
 {
@@ -60,25 +61,25 @@ function make_form($titlelist, $number, $test)
 HTML;
 }
 
-// require 'bots/python.php';
+// include_once 'bots/python.php';
 function get_results($aargs)
 {
-    //---
-    global $test;
-    //---
-    $ccc = " mdpy/fixref/start $aargs save";
-    //---
-    $params = array(
-        'dir' => "core8",
-        'localdir' => "core8",
-        'pyfile' => 'pwb.py',
-        'other' => $ccc,
-        'test' => $test
-    );
-    //---
+	//---
+	global $test;
+	//---
+	$ccc = " mdpy/fixref/start $aargs save";
+	//---
+	$params = array(
+		'dir' => "core8",
+		'localdir' => "core8",
+		'pyfile' => 'pwb.py',
+		'other' => $ccc,
+		'test' => $test
+	);
+	//---
 	$result = do_tfj_sh($params, "fixref");
-    //---
-    return $result;
+	//---
+	return $result;
 }
 if ((empty($number) && empty($titlelist)) || empty($username)) {
 	make_form($titlelist, $number, $test);
@@ -121,4 +122,4 @@ if ((empty($number) && empty($titlelist)) || empty($username)) {
 	echo $result;
 }
 //---
-require 'footer.php';
+include_once 'footer.php';

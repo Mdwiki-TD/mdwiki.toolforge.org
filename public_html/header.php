@@ -25,16 +25,6 @@ $dir_t = __DIR__;
 if (strpos(__FILE__, "I:\\") !== false) $dir_t = "I:/mdwiki/";
 //---
 include_once $dir_t  . '/auth/auth/user_infos.php';
-//---
-function print_h3_title($h3_title)
-{
-	echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>$h3_title</h3>
-    </div>
-    <div class="card-body">
-HTML;
-}
 
 function get_host()
 {
@@ -122,15 +112,6 @@ function print_head()
 			text-decoration: none;
 		}</style>
 	HTML;
-};
-//---
-function add_quotes($str)
-{
-	// if str have ' then use "
-	// else use '
-	$value = "'$str'";
-	if (preg_match("/[\']+/", $str)) $value = '"' . $str . '"';
-	return $value;
 };
 //---
 print_head();
