@@ -1,6 +1,6 @@
 <?php
 // Include header
-require('header.php');
+include_once 'header.php';
 //---
 // the root path is the first part of the split file path
 $pathParts = explode('public_html', __FILE__);
@@ -56,4 +56,4 @@ if (empty($start) || empty($username)) {
 }
 
 // Include footer
-require 'footer.php';
+include_once 'footer.php';

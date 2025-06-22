@@ -17,4 +17,4 @@ if (!file_exists($path)) {
     $path = __DIR__ . '/../../TD_API/index.php';
 }
 
-require($path);
+include_once $path;

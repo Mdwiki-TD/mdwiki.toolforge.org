@@ -1,6 +1,6 @@
 <?php
 
-require('header.php');
+include_once 'header.php';
 
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -17,7 +17,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $pathParts = explode('public_html', __FILE__);
 $ROOT_PATH = $pathParts[0];
 
-require 'bots/tfj.php';
+include_once 'bots/tfj.php';
 //---
 function printForm($title, $titlelist, $test)
 {
@@ -129,4 +129,4 @@ if ((empty($title) && empty($titlelist)) || empty($username)) {
     createRedirects($title, $titlelist, $test);
 }
 
-require 'footer.php';
+include_once 'footer.php';

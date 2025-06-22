@@ -1,12 +1,12 @@
 <?php
 namespace Prior;
 
-require 'header.php';
-require 'graph.php';
-require 'prior_leaders.php';
-require 'top/lead_help.php';
-require 'top/index.php';
-require 'top/langs.php';
+include_once 'header.php';
+include_once 'graph.php';
+include_once 'prior_leaders.php';
+include_once 'top/lead_help.php';
+include_once 'top/index.php';
+include_once 'top/langs.php';
 
 use function TopIndex\generateLeaderboardTable;
 use function TopLangs\make_lang_tab;
@@ -28,4 +28,4 @@ if ($langs !== '') {
 }
 // print_graph_tab();
 echo '<script>$("#prior").addClass("active");</script>';
-require 'foter.php';
+include_once 'foter.php';

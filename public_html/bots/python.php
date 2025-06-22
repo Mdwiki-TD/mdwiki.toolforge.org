@@ -1,7 +1,7 @@
 <?php
 //---
 /*
-require 'bots/python.php';
+include_once 'bots/python.php';
 $result = do_py($params);
 
 /////////

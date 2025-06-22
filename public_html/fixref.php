@@ -1,5 +1,5 @@
 <?php
-require 'header.php';
+include_once 'header.php';
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Normalize references (mdwiki).</h3>
@@ -65,7 +65,7 @@ function make_form($titlelist, $number, $test)
 HTML;
 }
 
-// require 'bots/python.php';
+// include_once 'bots/python.php';
 function get_results($aargs)
 {
 	//---
@@ -126,4 +126,4 @@ if ((empty($number) && empty($titlelist)) || empty($username)) {
 	echo $result;
 }
 //---
-require 'footer.php';
+include_once 'footer.php';

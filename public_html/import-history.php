@@ -1,6 +1,6 @@
 <?PHP
 //---
-require 'header.php';
+include_once 'header.php';
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -20,7 +20,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 //---
 $valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
 //---
-require 'bots/tfj.php';
+include_once 'bots/tfj.php';
 
 function get_results($aargs)
 {
@@ -147,5 +147,5 @@ if ((empty($titlelist) && empty($title)) || !$valid_user) {
     //---
 }
 //---
-require 'footer.php';
+include_once 'footer.php';
 //---
