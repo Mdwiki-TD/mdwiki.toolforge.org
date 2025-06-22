@@ -19,7 +19,8 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-$langs = $_REQUEST['lang'] ?? '';
+
+$langs = $_GET['lang'] ?? '';
 
 // Display the appropriate top page based on 'lang' request parameter
 if ($langs !== '') {
