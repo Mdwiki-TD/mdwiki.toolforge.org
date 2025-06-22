@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 core8/pwb.py mdpy/dup save
+python3 core8/pwb.py mdpy/fix_duplicate save

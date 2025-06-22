@@ -43,7 +43,7 @@ if (empty($start) || empty($username)) {
     echo "starting....";
     // $faf = "kubectl exec -q mdwiki-6fd7885d59-sn5pl -- /bin/sh -c $ROOT_PATH/public_html/dup.sh";
 
-    $faf = "kubectl create job dup --output=json --image=busybox -- public_html/dup.sh";
+    $faf = "kubectl create job dup0 --output=json --image=busybox -- public_html/fix_duplicate.sh";
 
     // Output command if in test mode
     if (!empty($test)) {
