@@ -1,5 +1,7 @@
 <?php
-include_once __DIR__ . '/header.php';
+
+include_once __DIR__ . '/../header.php';
+
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Fix redirects</h3>
@@ -48,7 +50,7 @@ echo <<<HTML
 	</form>
 HTML;
 //---
-include_once __DIR__ . '/bots/tfj.php';
+include_once __DIR__ . '/../bots/tfj.php';
 //---
 function get_results($title)
 {
@@ -90,4 +92,4 @@ echo <<<HTML
 	</div>
 HTML;
 //---
-include_once __DIR__ . '/footer.php';
+include_once __DIR__ . '/../footer.php';

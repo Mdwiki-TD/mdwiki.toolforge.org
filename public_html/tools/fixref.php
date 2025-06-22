@@ -4,7 +4,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 }
-include_once __DIR__ . '/header.php';
+include_once __DIR__ . '/../header.php';
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Normalize references (mdwiki).</h3>
@@ -16,7 +16,7 @@ $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 $number     = $_GET['number'] ?? $_POST['number'] ?? '';
 $test       = $_GET['test'] ?? $_POST['test'] ?? '';
 //---
-include_once __DIR__ . '/bots/tfj.php';
+include_once __DIR__ . '/../bots/tfj.php';
 //---
 function make_form($titlelist, $number, $test)
 {
@@ -126,4 +126,4 @@ if ((empty($number) && empty($titlelist)) || empty($username)) {
 	echo $result;
 }
 //---
-include_once __DIR__ . '/footer.php';
+include_once __DIR__ . '/../footer.php';
