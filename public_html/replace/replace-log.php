@@ -33,7 +33,6 @@ include_once __DIR__ . '/../header.php';
 </style>
 <?php
 //---
-$test = $_GET['test'] ?? "";
 $id = $_GET['id'] ?? "";
 //---
 $restart_text = "<a href='job.php?id=$id&to=restart' class='btn btn-primary' target='_blank'>Restart</a>";
@@ -256,7 +255,7 @@ if ($id == '') {
     //---
     // if ($nodone == 0) $rows .= "<li class='filterDiv nodone'>a</li>";
     //---
-    if ($test != '') {
+    if (!empty($_GET['test'] ?? '')) {
         $rows .= "
         <li>$log</li>";
     };
