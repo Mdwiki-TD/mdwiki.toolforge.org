@@ -18,10 +18,7 @@ $url = "bots/python.php?" . http_build_query( $params );
 $output = file_get_contents($url);
 */
 //---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$root_paath = $pathParts[0];
-$root_paath = str_replace('\\', '/', $root_paath);
+$root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
 // include_once  'tfj.php';
 //---
@@ -35,14 +32,14 @@ if ($test != '') {
 function do_py2($params)
 {
     //---
-    global $root_paath;
+    global $root_path;
     //---
     $dir        = $params['dir'] ?? '';
     $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
     //---
-    $py3 = $root_paath . "/local/bin/python3";
+    $py3 = $root_path . "/local/bin/python3";
     //---
     $my_dir = $dir;
     //---
@@ -68,7 +65,7 @@ function do_py2($params)
 function do_py($params, $do_test = true, $return_commaand = false)
 {
     //---
-    global $root_paath;
+    global $root_path;
     //---
     $dir        = $params['dir'] ?? '';
     $localdir   = $params['localdir'] ?? '';
@@ -77,7 +74,7 @@ function do_py($params, $do_test = true, $return_commaand = false)
     //---
     $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
     //---
-    $py3 = $root_paath . "/local/bin/python3";
+    $py3 = $root_path . "/local/bin/python3";
     //---
     $my_dir = $dir;
     //---
@@ -139,7 +136,7 @@ function make_sh_file($string)
 function do_py_sh($params)
 {
     //---
-    global $root_paath;
+    global $root_path;
     //---
     if ($_SERVER['SERVER_NAME'] == 'localhost') {
         return do_py($params);
@@ -155,12 +152,12 @@ function do_py_sh($params)
     //---
     if ($pyfile != '' && $my_dir != '') {
         //---
-        // $root_paath
+        // $root_path
         //---
         $uu = "$my_dir/$pyfile";
         //---
         if ($uu == "core8/pwb.py" || $uu == "c8/pwb.py") {
-            $uu = $root_paath . "/" . $uu;
+            $uu = $root_path . "/" . $uu;
         }
         //---
         $command = "python3 $uu $other";
