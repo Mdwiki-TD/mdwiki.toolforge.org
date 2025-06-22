@@ -29,7 +29,6 @@
 /public_html/Translation_Dashboard_x
 /public_html/adminer/**
 /public_html/api/test
-/public_html/bots/sh
 /public_html/cats
 /public_html/fixwikirefs/wprefs
 /public_html/md_test
@@ -93,3 +92,4 @@ w.xml
 نجاح الوصول للرابط واستبدال النص.js
 /‏‏pybot - نسخة
 public_html/adminer.php
+/public_html/tools/bots/sh
