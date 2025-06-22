@@ -1,4 +1,9 @@
 <?php
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 //---
 /*
 include_once __DIR__ . '/bots/python.php';
@@ -22,13 +27,6 @@ $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
 // include_once __DIR__ . '/tfj.php';
 //---
-$test   = $_REQUEST['test'] ?? '';
-if ($test != '') {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-};
-
 function do_py2($params)
 {
     //---
@@ -72,8 +70,6 @@ function do_py($params, $do_test = true, $return_commaand = false)
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
     //---
-    $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
-    //---
     $py3 = $root_path . "/local/bin/python3";
     //---
     $my_dir = $dir;
@@ -90,7 +86,7 @@ function do_py($params, $do_test = true, $return_commaand = false)
         $command = str_replace('//', '/', $command);
         //---
         if ($do_test == true) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
+            if ($_SERVER['SERVER_NAME'] == 'localhost' || ($_GET['test'] ?? "") != '') {
                 echo "<h6>$command</h6>";
             };
         };
@@ -142,8 +138,6 @@ function do_py_sh($params)
         return do_py($params);
     };
     //---
-    $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
-    //---
     $dir        = $params['dir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
@@ -170,7 +164,7 @@ function do_py_sh($params)
         //---
         $sh_command = "sh $file";
         //---
-        if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
+        if ($_SERVER['SERVER_NAME'] == 'localhost' || ($_GET['test'] ?? "") != '') {
             echo "<h6>$command</h6>";
             echo "<h6>$sh_command</h6>";
         };

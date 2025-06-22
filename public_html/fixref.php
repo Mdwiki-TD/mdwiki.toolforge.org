@@ -1,4 +1,9 @@
 <?php
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+}
 include_once __DIR__ . '/header.php';
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -7,9 +12,9 @@ echo <<<HTML
     <div class="card-body">
 HTML;
 //---
-$titlelist  = $_REQUEST['titlelist'] ?? '';
-$number     = $_REQUEST['number'] ?? '';
-$test       = $_REQUEST['test'] ?? '';
+$titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
+$number     = $_GET['number'] ?? $_POST['number'] ?? '';
+$test       = $_GET['test'] ?? $_POST['test'] ?? '';
 //---
 include_once __DIR__ . '/bots/tfj.php';
 //---

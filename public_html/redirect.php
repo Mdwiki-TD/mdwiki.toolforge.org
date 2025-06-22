@@ -1,5 +1,9 @@
 <?php
-
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 include_once __DIR__ . '/header.php';
 
 echo <<<HTML
@@ -9,9 +13,9 @@ echo <<<HTML
     <div class="card-body">
 HTML;
 //---
-$test       = $_REQUEST['test'] ?? '';
-$title      = $_REQUEST['title'] ?? '';
-$titlelist  = $_REQUEST['titlelist'] ?? '';
+$test       = $_GET['test'] ?? $_POST['test'] ?? '';
+$title      = $_GET['title'] ?? $_POST['title'] ?? '';
+$titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 //---
 // the root path is the first part of the split file path
 $ROOT_PATH = explode('public_html', __FILE__)[0];
@@ -91,7 +95,7 @@ function get_results($aargs)
     //---
     return $result;
 }
-function createRedirects($title, $titlelist, $test)
+function createRedirects($title, $titlelist)
 {
     //---
     global $ROOT_PATH;
@@ -125,7 +129,7 @@ function createRedirects($title, $titlelist, $test)
 if ((empty($title) && empty($titlelist)) || empty($username)) {
     printForm($title, $titlelist, $test);
 } else {
-    createRedirects($title, $titlelist, $test);
+    createRedirects($title, $titlelist);
 }
 
 include_once __DIR__ . '/footer.php';

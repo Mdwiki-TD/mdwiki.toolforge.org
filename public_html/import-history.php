@@ -1,4 +1,9 @@
 <?PHP
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 //---
 include_once __DIR__ . '/header.php';
 //---
@@ -12,10 +17,10 @@ HTML;
 // the root path is the first part of the split file path
 $ROOT_PATH = explode('public_html', __FILE__)[0];
 //---
-$test       = $_REQUEST['test'] ?? '';
-$from       = $_REQUEST['from'] ?? '';
-$title      = $_REQUEST['title'] ?? '';
-$titlelist  = $_REQUEST['titlelist'] ?? '';
+$test       = $_GET['test'] ?? $_POST['test'] ?? '';
+$from       = $_GET['from'] ?? $_POST['from'] ?? '';
+$title      = $_GET['title'] ?? $_POST['title'] ?? '';
+$titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 //---
 $valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
 //---
