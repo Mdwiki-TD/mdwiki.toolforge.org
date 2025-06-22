@@ -7,7 +7,12 @@ $pathParts = explode('public_html', __FILE__);
 $ROOT_PATH = $pathParts[0];
 //---
 // Output HTML structure
-print_h3_title("Fix duplicate redirects.");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Fix duplicate redirects.</h3>
+    </div>
+    <div class="card-body">
+HTML;
 
 // Process request parameters
 $start = $_REQUEST['start'] ?? '';
@@ -52,4 +57,3 @@ if (empty($start) || empty($username)) {
 
 // Include footer
 require 'footer.php';
-?>

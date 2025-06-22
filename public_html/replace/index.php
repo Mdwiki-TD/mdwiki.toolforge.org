@@ -1,7 +1,12 @@
 <?php
 require __DIR__ . '/../header.php';
 //---
-print_h3_title("Find and replace.");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Find and replace.</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $listtype   = $_REQUEST['listtype'] ?? '';
 $test       = $_REQUEST['test'] ?? '';

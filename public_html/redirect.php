@@ -2,7 +2,12 @@
 
 require('header.php');
 
-print_h3_title("Create redirects.");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Create redirects.</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $test       = $_REQUEST['test'] ?? '';
 $title      = $_REQUEST['title'] ?? '';

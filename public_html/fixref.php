@@ -1,6 +1,11 @@
 <?php
 require 'header.php';
-print_h3_title("Normalize references (mdwiki).");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Normalize references (mdwiki).</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
@@ -63,22 +68,22 @@ HTML;
 // require 'bots/python.php';
 function get_results($aargs)
 {
-    //---
-    global $test;
-    //---
-    $ccc = " mdpy/fixref/start $aargs save";
-    //---
-    $params = array(
-        'dir' => "core8",
-        'localdir' => "core8",
-        'pyfile' => 'pwb.py',
-        'other' => $ccc,
-        'test' => $test
-    );
-    //---
+	//---
+	global $test;
+	//---
+	$ccc = " mdpy/fixref/start $aargs save";
+	//---
+	$params = array(
+		'dir' => "core8",
+		'localdir' => "core8",
+		'pyfile' => 'pwb.py',
+		'other' => $ccc,
+		'test' => $test
+	);
+	//---
 	$result = do_tfj_sh($params, "fixref");
-    //---
-    return $result;
+	//---
+	return $result;
 }
 if ((empty($number) && empty($titlelist)) || empty($username)) {
 	make_form($titlelist, $number, $test);

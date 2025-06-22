@@ -2,7 +2,12 @@
 //---
 require 'header.php';
 //---
-print_h3_title("Import history from enwiki");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Import history from enwiki</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 // the root path is the first part of the split file path
 $pathParts = explode('public_html', __FILE__);

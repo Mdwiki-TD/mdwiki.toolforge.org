@@ -1,6 +1,11 @@
 <?php
 require('header.php');
-print_h3_title("Fix redirects");
+echo <<<HTML
+    <div class="card-header aligncenter" style="font-weight:bold;">
+        <h3>Fix redirects</h3>
+    </div>
+    <div class="card-body">
+HTML;
 //---
 $title = $_GET['title'] ?? '';
 $test  = $_GET['test'] ?? '';
