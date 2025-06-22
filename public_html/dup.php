@@ -1,5 +1,6 @@
 <?php
-// (include_once|require_once|require|include)
+// find: ^\$([^ ]+)\s*=\s*\$_REQUEST\[(['"][^'"]+['"])\]\s*\?\?\s*['"]['"];$
+// replace: $1 = $_REQUEST[$2] ?? '';
 
 include_once __DIR__ . '/header.php';
 //---
