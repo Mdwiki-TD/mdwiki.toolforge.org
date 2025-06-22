@@ -1,15 +1,5 @@
 <?php
 include_once __DIR__ . '/header.php';
-// include_once __DIR__ . '/bots/python.php';
-//---
-function add_quote($str)
-{
-    // if str have ' then use "
-    // else use '
-    $value = "'$str'";
-    if (preg_match("/[\']+/", $str)) $value = '"' . $str . '"';
-    return $value;
-}
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -18,38 +8,14 @@ echo <<<HTML
     <div class="card-body">
 HTML;
 //---
-$test       = $_GET['test'] ?? '';
-$title      = $_GET['title'] ?? '';
-$save       = isset($_GET['save']) ? 'save' : '';
-$save_checked  = isset($_GET['save']) ? 'checked' : '';
+$test         = $_GET['test'] ?? '';
+$title        = $_GET['title'] ?? '';
+$save         = isset($_GET['save']) ? 'save' : '';
+$save_checked = isset($_GET['save']) ? 'checked' : '';
 //---
-$href = '';
-$url = '';
-//---
-if (!empty($title)) {
-    $encoded_title = rawurlencode(str_replace(' ', '_', $title));
-    $href = 'https://mdwiki.org/wiki/$encoded_title';
-    $url = "<a target='_blank' href='$href'>$title</a>";
-}
-// ---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$root_paath = $pathParts[0];
-$root_paath = str_replace('\\', '/', $root_paath);
-// ---
-if (strpos($root_paath, "I:/") !== false) {
-    $root_paath = "I:/mdwiki/";
-}
-// ---
-$title2 = add_quote($title);
-// ---
-$test  = $_GET['test'] ?? '';
-$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
-//---
-$start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
-// ---
-if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
-// ---
+
+$root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
+
 function strstartswith($text, $start)
 {
     return strpos($text, $start) === 0;
@@ -63,16 +29,16 @@ function endsWith($string, $endString)
 function do_py($params, $do_test = true, $return_commaand = false)
 {
     //---
-    global $root_paath;
+    global $root_path;
     //---
     $dir        = $params['dir'] ?? '';
     $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
     //---
-    $test = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+    $test2 = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
     //---
-    $py3 = $root_paath . "/local/bin/python3";
+    $py3 = $root_path . "/local/bin/python3";
     //---
     $my_dir = $dir;
     //---
@@ -88,7 +54,7 @@ function do_py($params, $do_test = true, $return_commaand = false)
         $command = str_replace('//', '/', $command);
         //---
         if ($do_test == true) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
+            if ($_SERVER['SERVER_NAME'] == 'localhost' || $test2 != '') {
                 echo "<h6>$command</h6>";
             };
         };
@@ -108,21 +74,21 @@ function do_py($params, $do_test = true, $return_commaand = false)
 function get_results($title)
 {
     //---
-    global $save, $root_paath, $test;
+    global $save, $root_path, $test;
     //---
-    $title2 = str_replace('+', '_', $title);
-    $title2 = str_replace(' ', '_', $title2);
-    $title2 = str_replace('"', '\\"', $title2);
-    $title2 = str_replace("'", "\\'", $title2);
-    $title2 = rawurlencode($title2);
+    $titlex = str_replace('+', '_', $title);
+    $titlex = str_replace(' ', '_', $titlex);
+    $titlex = str_replace('"', '\\"', $titlex);
+    $titlex = str_replace("'", "\\'", $titlex);
+    $titlex = rawurlencode($titlex);
     //---
     $sa = (!empty($save)) ? ' save' : '';
     //---
-    $ccc = "-page:$title2 from_toolforge $sa";
+    $ccc = "-page:$titlex from_toolforge $sa";
     //---
     $params = array(
-        'dir' => $root_paath . "/pybot/newupdater",
-        'localdir' => $root_paath . "/pybot/newupdater",
+        'dir' => $root_path . "/pybot/newupdater",
+        'localdir' => $root_path . "/pybot/newupdater",
         'pyfile' => 'med.py',
         'other' => $ccc,
         'test' => $test
@@ -223,6 +189,16 @@ function worknew($title)
     //---
 };
 
+// ---
+$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
+//---
+$start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
+// ---
+if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+
+// ---
+$title3 = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+// ---
 echo <<<HTML
     <form action='mdwiki4.php' method='GET'>
         $testinput
@@ -233,7 +209,7 @@ echo <<<HTML
                         <div class='input-group-prepend'>
                             <span class='input-group-text'>Title</span>
                         </div>
-                        <input class='form-control' type='text' id='title' name='title' value=$title2 required />
+                        <input class='form-control' type='text' id='title' name='title' value="$title3" required />
                     </div>
                 </div>
                 <div class='col-md-3'>

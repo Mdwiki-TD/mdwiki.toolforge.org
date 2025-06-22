@@ -114,15 +114,6 @@ function print_head()
 	HTML;
 };
 //---
-function add_quotes($str)
-{
-	// if str have ' then use "
-	// else use '
-	$value = "'$str'";
-	if (preg_match("/[\']+/", $str)) $value = '"' . $str . '"';
-	return $value;
-};
-//---
 print_head();
 //---
 echo "</head>";
