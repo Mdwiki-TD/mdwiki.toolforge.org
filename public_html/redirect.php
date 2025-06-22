@@ -1,6 +1,6 @@
 <?php
 
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -128,4 +128,4 @@ if ((empty($title) && empty($titlelist)) || empty($username)) {
     createRedirects($title, $titlelist, $test);
 }
 
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';

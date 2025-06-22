@@ -1,6 +1,6 @@
 <?PHP
 //---
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 //---
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -146,5 +146,5 @@ if ((empty($titlelist) && empty($title)) || !$valid_user) {
     //---
 }
 //---
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';
 //---

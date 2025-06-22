@@ -1,5 +1,5 @@
 <?php
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 //---
 // Output HTML structure
 echo <<<HTML
@@ -50,4 +50,4 @@ if (empty($start) || empty($username)) {
 }
 
 // Include footer
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';

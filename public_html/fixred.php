@@ -1,5 +1,5 @@
 <?php
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Fix redirects</h3>
@@ -90,4 +90,4 @@ echo <<<HTML
 	</div>
 HTML;
 //---
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';

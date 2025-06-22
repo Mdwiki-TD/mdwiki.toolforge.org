@@ -2,7 +2,7 @@
 
 namespace Prior;
 
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 include_once 'graph.php';
 include_once 'prior_leaders.php';
 include_once 'top/lead_help.php';

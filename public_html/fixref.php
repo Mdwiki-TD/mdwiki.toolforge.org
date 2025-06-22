@@ -1,5 +1,5 @@
 <?php
-include_once 'header.php';
+include_once __DIR__ . '/header.php';
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Normalize references (mdwiki).</h3>
@@ -121,4 +121,4 @@ if ((empty($number) && empty($titlelist)) || empty($username)) {
 	echo $result;
 }
 //---
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';
