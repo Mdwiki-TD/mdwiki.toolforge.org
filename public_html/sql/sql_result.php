@@ -136,10 +136,6 @@ function get_sql_pass()
 {
     // ---
     $pathParts = explode('public_html', __FILE__)[0];
-    // if root path find (I:\) then $ROOT_PATH = ""
-    if (strpos($pathParts, "I:\\") !== false) {
-        $pathParts = "I:/mdwiki/mdwiki/";
-    }
     // ---
     $_dir = $pathParts . '/confs/';
     // ---

@@ -48,7 +48,7 @@ echo <<<HTML
 	</form>
 HTML;
 //---
-include_once  'bots/tfj.php';
+include_once 'bots/tfj.php';
 //---
 function get_results($title)
 {

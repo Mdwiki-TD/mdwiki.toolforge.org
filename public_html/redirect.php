@@ -14,8 +14,7 @@ $title      = $_REQUEST['title'] ?? '';
 $titlelist  = $_REQUEST['titlelist'] ?? '';
 //---
 // the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+$ROOT_PATH = explode('public_html', __FILE__)[0];
 
 include_once 'bots/tfj.php';
 //---

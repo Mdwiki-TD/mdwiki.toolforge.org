@@ -1,7 +1,7 @@
 <?php
 //---
 /*
-include_once  'bots/tfj.php';
+include_once 'bots/tfj.php';
 // $result = do_tfj(array( 'name' => "", 'command' => $command));
 
 /////////

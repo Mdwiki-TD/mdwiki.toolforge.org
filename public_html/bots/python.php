@@ -20,7 +20,7 @@ $output = file_get_contents($url);
 //---
 $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
-// include_once  'tfj.php';
+// include_once 'tfj.php';
 //---
 $test   = $_REQUEST['test'] ?? '';
 if ($test != '') {

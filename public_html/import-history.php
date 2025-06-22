@@ -10,8 +10,7 @@ echo <<<HTML
 HTML;
 //---
 // the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
+$ROOT_PATH = explode('public_html', __FILE__)[0];
 //---
 $test       = $_REQUEST['test'] ?? '';
 $from       = $_REQUEST['from'] ?? '';

@@ -1,10 +1,5 @@
 <?php
-// Include header
 include_once 'header.php';
-//---
-// the root path is the first part of the split file path
-$pathParts = explode('public_html', __FILE__);
-$ROOT_PATH = $pathParts[0];
 //---
 // Output HTML structure
 echo <<<HTML
@@ -41,7 +36,6 @@ if (empty($start) || empty($username)) {
 } else {
     // Define command
     echo "starting....";
-    // $faf = "kubectl exec -q mdwiki-6fd7885d59-sn5pl -- /bin/sh -c $ROOT_PATH/public_html/dup.sh";
 
     $faf = "kubectl create job dup0 --output=json --image=busybox -- public_html/fix_duplicate.sh";
 
