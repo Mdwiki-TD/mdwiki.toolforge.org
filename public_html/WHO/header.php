@@ -2,12 +2,11 @@
 <HTML lang=en dir=ltr data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
 <?php
 // ---
-$test   = $_REQUEST['test'] ?? '';
-if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-};
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 
 include_once __DIR__ . '/functions.php';
 function get_host()

@@ -1,6 +1,6 @@
 <?php
-// find: ^(\$[^ ]+\s*=\s*)\$_REQUEST\[(['"][^'"]+['"])\]\s*\?\?\s*['"]['"];$
-// replace: $1$_GET[$2] ?? $_POST[$2] ?? '';
+// find: ^(\$[^ ]+\s*=\s*)\$_REQUEST\[(['"][^'"]+['"])\]\s*\?\?
+// replace: $1$_GET[$2] ?? $_POST[$2] ??
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);

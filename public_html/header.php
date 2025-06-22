@@ -4,9 +4,9 @@
 //---
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 }
 
 echo <<<HTML
@@ -17,8 +17,6 @@ echo <<<HTML
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WikiProjectMed Tools</title>
 HTML;
-//---
-$test   = $_REQUEST['test'] ?? '';
 //---
 ini_set('session.use_strict_mode', '1');
 //---

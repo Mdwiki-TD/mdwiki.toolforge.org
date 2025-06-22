@@ -8,8 +8,8 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 
 // Get the 'cat' parameter from the request, defaulting to 'all' if it's not present
 
-$get_lang = $_REQUEST['lang'] ?? 'all';
-$get_cat  = $_REQUEST['cat'] ?? 'all';
+$get_lang = $_GET['lang'] ?? 'all';
+$get_cat  = $_GET['cat'] ?? 'all';
 
 // Initialize an array to hold our various counts
 $numbers = [
