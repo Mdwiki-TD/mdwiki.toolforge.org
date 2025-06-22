@@ -61,7 +61,6 @@ function make_form($titlelist, $number, $test)
 HTML;
 }
 
-// include_once 'bots/python.php';
 function get_results($aargs)
 {
 	//---
