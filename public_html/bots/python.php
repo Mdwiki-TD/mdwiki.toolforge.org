@@ -23,7 +23,7 @@ $pathParts = explode('public_html', __FILE__);
 $root_paath = $pathParts[0];
 $root_paath = str_replace('\\', '/', $root_paath);
 //---
-// require  'tfj.php';
+// include_once  'tfj.php';
 //---
 $test   = $_REQUEST['test'] ?? '';
 if ($test != '') {

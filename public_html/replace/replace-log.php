@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../header.php';
+include_once __DIR__ . '/../header.php';
 //---
 ?>
 <style>
@@ -328,6 +328,6 @@ if ($id == '') {
 <?php
 echo '<!-- start foter -->
 ';
-require __DIR__ . '/../footer.php';
+include_once __DIR__ . '/../footer.php';
 //---
 ?>

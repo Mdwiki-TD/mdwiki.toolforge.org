@@ -53,7 +53,7 @@ echo <<<HTML
 	</form>
 HTML;
 //---
-require  'bots/tfj.php';
+include_once  'bots/tfj.php';
 // $result = do_tfj_sh($params, $name);
 //---
 function get_results($title)

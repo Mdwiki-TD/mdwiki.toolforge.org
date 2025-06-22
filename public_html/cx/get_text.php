@@ -9,7 +9,7 @@ if (isset($_GET['test'])) {
     ini_set('display_errors', 1);
 }
 
-require __DIR__ . '/req.php';
+include_once __DIR__ . '/req.php';
 
 $title = $_GET['title'] ?? '';
 

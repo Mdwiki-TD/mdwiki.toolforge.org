@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../header.php';
+include_once __DIR__ . '/../header.php';
 
 $test = isset($_GET['test']) ? htmlspecialchars($_GET['test']) : '';
 $id = isset($_GET['id']) ? filter_var($_GET['id']) : '';
@@ -46,5 +46,5 @@ if ($to == 'stop') {
     exit;
 }
 // ---
-require __DIR__ . '/../footer.php';
+include_once __DIR__ . '/../footer.php';
 //---
