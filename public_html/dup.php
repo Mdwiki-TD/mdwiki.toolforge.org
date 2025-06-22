@@ -1,5 +1,13 @@
 <?php
-include_once 'header.php';
+// find: ^(\$[^ ]+\s*=\s*)\$_REQUEST\[(['"][^'"]+['"])\]\s*\?\?
+// replace: $1$_GET[$2] ?? $_POST[$2] ??
+
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
+include_once __DIR__ . '/header.php';
 //---
 // Output HTML structure
 echo <<<HTML
@@ -10,8 +18,8 @@ echo <<<HTML
 HTML;
 
 // Process request parameters
-$start = $_REQUEST['start'] ?? '';
-$test  = $_REQUEST['test'] ?? '';
+$start = $_POST['start'] ?? '';
+$test  = $_GET['test'] ?? $_POST['test'] ?? '';
 
 $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
@@ -50,4 +58,4 @@ if (empty($start) || empty($username)) {
 }
 
 // Include footer
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';

@@ -2,6 +2,13 @@
 <HTML lang=en dir=ltr data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
 <?php
 //---
+
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+}
+
 echo <<<HTML
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,13 +17,6 @@ echo <<<HTML
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WikiProjectMed Tools</title>
 HTML;
-//---
-$test   = $_REQUEST['test'] ?? '';
-if ($test != '' || $_SERVER['SERVER_NAME'] == 'localhost') {
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-};
 //---
 ini_set('session.use_strict_mode', '1');
 //---

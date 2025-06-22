@@ -8,11 +8,11 @@ echo <<<HTML
     <div class="card-body">
 HTML;
 //---
-$listtype   = $_REQUEST['listtype'] ?? '';
-$test       = $_REQUEST['test'] ?? '';
-$find       = $_REQUEST['find'] ?? '';
-$replace    = $_REQUEST['replace'] ?? '';
-$number     = $_REQUEST['number'] ?? '';
+$listtype   = $_GET['listtype'] ?? $_POST['listtype'] ?? '';
+$test       = $_GET['test'] ?? $_POST['test'] ?? '';
+$find       = $_GET['find'] ?? $_POST['find'] ?? '';
+$replace    = $_GET['replace'] ?? $_POST['replace'] ?? '';
+$number     = $_GET['number'] ?? $_POST['number'] ?? '';
 //---
 $valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
 //---

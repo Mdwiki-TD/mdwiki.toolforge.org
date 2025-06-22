@@ -15,13 +15,11 @@ echo <<<HTML
     <div class="card-body">
 HTML;
 //---
-$test       = $_GET['test'] ?? '';
-//---
 $text       = $_POST['text'] ?? '';
 $lang       = $_POST['lang'] ?? '';
 $lang = trim($lang);
 // ---
-$testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+$testinput = (!empty($_GET['test'] ?? '')) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
 echo <<<HTML
     <form action='do_text.php' method='POST'>

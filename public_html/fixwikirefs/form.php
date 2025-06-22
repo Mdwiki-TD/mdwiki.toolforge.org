@@ -21,7 +21,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
     $lang = htmlspecialchars($lang, ENT_QUOTES, 'UTF-8');
     $user_name = htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8');
 
-    $testinput = ($test != '') ? '<input type="hidden" name="test" value="1" />' : '';
+    $testinput = (!empty($_GET['test'] ?? '')) ? '<input type="hidden" name="test" value="1" />' : '';
     //---
     $save_checked  = ($save != "") ? 'checked' : '';
     //---

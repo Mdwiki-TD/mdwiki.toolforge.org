@@ -96,19 +96,19 @@ if (count($results->getLabels()) == 0) {
 // Helper function to create an email
 
 //---
-$msg        = $_REQUEST['msg'] ?? '';
+$msg        = $_POST['msg'] ?? '';
 if (empty($msg)) {
     echo "Please enter a message.";
     exit;
 };
 //---
-$no_format  = $_REQUEST['no_format'] ?? '';
-$email_to   = $_REQUEST['email_to'] ?? '';
-$email_from = $_REQUEST['email_from'] ?? 'mdwiki.org@gmail.com';
-$msg_title  = $_REQUEST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
+$no_format  = $_POST['no_format'] ?? '';
+$email_to   = $_POST['email_to'] ?? '';
+$email_from = $_POST['email_from'] ?? 'mdwiki.org@gmail.com';
+$msg_title  = $_POST['msg_title'] ?? 'Wiki Project Med Translation Dashboard';
 //---
-$ccme       = isset($_REQUEST['ccme']) ? 1 : 0;
-$cc_to      = $_REQUEST['cc_to'] ?? '';
+$ccme       = isset($_POST['ccme']) ? 1 : 0;
+$cc_to      = $_POST['cc_to'] ?? '';
 //---
 $msg1 = <<<HTML
     <!DOCTYPE html>

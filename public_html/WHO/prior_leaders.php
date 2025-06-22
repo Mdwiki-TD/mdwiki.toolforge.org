@@ -1,9 +1,9 @@
 <?PHP
 namespace LeaderTables;
 
-include_once 'tables.php';
+include_once __DIR__ . '/tables.php';
 
-$mainlang = $_REQUEST['lang'] ?? '';
+$mainlang = $_GET['lang'] ?? '';
 
 function NumbsTableNew(): string {
     global $numbers, $mainlang;

@@ -33,8 +33,7 @@ include_once __DIR__ . '/../header.php';
 </style>
 <?php
 //---
-$test = $_REQUEST['test'] ?? "";
-$id = $_REQUEST['id'] ?? "";
+$id = $_GET['id'] ?? "";
 //---
 $restart_text = "<a href='job.php?id=$id&to=restart' class='btn btn-primary' target='_blank'>Restart</a>";
 // ---
@@ -56,12 +55,6 @@ echo "
         <div class='container'>
 
 ";
-//---
-function str_end_with($haystack, $needle)
-{
-    return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
-};
-
 function make_rows($dirs)
 {
 
@@ -262,7 +255,7 @@ if ($id == '') {
     //---
     // if ($nodone == 0) $rows .= "<li class='filterDiv nodone'>a</li>";
     //---
-    if ($test != '') {
+    if (!empty($_GET['test'] ?? '')) {
         $rows .= "
         <li>$log</li>";
     };

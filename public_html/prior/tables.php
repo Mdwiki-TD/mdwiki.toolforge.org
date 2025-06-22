@@ -1,6 +1,6 @@
 <?php
 // Only display errors and startup errors if 'test' is set in the request
-if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_errors', '1');
 	ini_set('display_startup_errors', '1');
 	error_reporting(E_ALL);
@@ -8,7 +8,7 @@ if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
 
 // Get the 'lang' parameter from the request, defaulting to 'all' if it's not present
 
-$get_lang = $_REQUEST['lang'] ?? 'all';
+$get_lang = $_GET['lang'] ?? 'all';
 
 // Initialize an array to hold our various counts
 $numbers = [
