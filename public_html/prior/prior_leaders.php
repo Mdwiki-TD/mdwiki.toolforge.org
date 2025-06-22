@@ -4,7 +4,7 @@ namespace LeaderTables;
 
 include_once __DIR__ . '/tables.php';
 
-$mainlang = $_REQUEST['lang'] ?? '';
+$mainlang = $_GET['lang'] ?? '';
 
 function make_modal_fade($label, $text, $id, $button = '')
 {

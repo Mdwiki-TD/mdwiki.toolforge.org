@@ -19,7 +19,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
-$langs = $_REQUEST['lang'] ?? '';
+$langs = $_GET['lang'] ?? '';
 
 echo <<<HTML
     <div class="container">
