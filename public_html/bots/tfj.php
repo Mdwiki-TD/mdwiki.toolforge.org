@@ -63,8 +63,7 @@ function make_command($params)
         return $command;
     };
     return '';
-};
-
+}
 
 function do_tfj_sh($params, $name)
 {
@@ -93,34 +92,4 @@ function do_tfj_sh($params, $name)
         return $cmd_output;
     };
     return '';
-};
-
-
-function do_tfj($params)
-{
-    //---
-    global $test;
-    //---
-    $name       = $params['name'] ?? '';
-    $command    = $params['command'] ?? '';
-    //---
-    if ($name != '' && $command != '') {
-        $escapedCommand = escapeshellcmd($command);
-        $toolforge = "/usr/bin/toolforge jobs run $name --image python3.9 --command \"$escapedCommand\"";
-        //---
-        if ($_SERVER['SERVER_NAME'] == 'localhost' or $test != '') {
-            echo "<h6>$toolforge</h6>";
-        };
-        //---
-        // write commnd to sh file
-        $file = make_sh_file_2($toolforge);
-        //---
-        $sh_command = "sh $file";
-        //---
-        // Passing the toolforge command to the function
-        $cmd_output = shell_exec($sh_command);
-        //---
-        return $cmd_output;
-    };
-    return '';
-};
+}
