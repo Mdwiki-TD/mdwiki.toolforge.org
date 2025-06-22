@@ -2,13 +2,13 @@
 //---
 $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
-$test   = $_REQUEST['test'] ?? '';
+$test = $_REQUEST['test'] ?? '';
 if ($test != '') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
+
 
 function make_sh_file_2($string)
 {
@@ -67,7 +67,8 @@ function make_command($params)
 };
 
 
-function do_tfj_sh($params, $name) {
+function do_tfj_sh($params, $name)
+{
     //---
     global $test;
     //---
@@ -82,7 +83,7 @@ function do_tfj_sh($params, $name) {
         //---
         $sh_command = "sh $file";
         //---
-        if ( $_SERVER['SERVER_NAME'] == 'localhost' or $test != '' ) {
+        if ($_SERVER['SERVER_NAME'] == 'localhost' or $test != '') {
             echo "<h6>$toolforge</h6>";
             echo "<h6>$sh_command</h6>";
         };
@@ -96,7 +97,8 @@ function do_tfj_sh($params, $name) {
 };
 
 
-function do_tfj($params) {
+function do_tfj($params)
+{
     //---
     global $test;
     //---
@@ -107,7 +109,7 @@ function do_tfj($params) {
         $escapedCommand = escapeshellcmd($command);
         $toolforge = "/usr/bin/toolforge jobs run $name --image python3.9 --command \"$escapedCommand\"";
         //---
-        if ( $_SERVER['SERVER_NAME'] == 'localhost' or $test != '' ) {
+        if ($_SERVER['SERVER_NAME'] == 'localhost' or $test != '') {
             echo "<h6>$toolforge</h6>";
         };
         //---
