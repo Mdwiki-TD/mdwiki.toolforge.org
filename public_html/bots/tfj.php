@@ -1,17 +1,5 @@
 <?php
 //---
-/*
-include_once 'bots/tfj.php';
-// $result = do_tfj(array( 'name' => "", 'command' => $command));
-
-/////////
-$params = array(
-    'name' => '',
-    'command' => ''
-);
-//---
-*/
-//---
 $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
 $test   = $_REQUEST['test'] ?? '';

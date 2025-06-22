@@ -1,6 +1,6 @@
 <?php
 // Only display errors and startup errors if 'test' is set in the request
-if (isset($_REQUEST['test']) || $_SERVER['SERVER_NAME'] == 'localhost') {
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_errors', '1');
 	ini_set('display_startup_errors', '1');
 	error_reporting(E_ALL);
