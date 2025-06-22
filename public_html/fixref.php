@@ -11,7 +11,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 $number     = $_REQUEST['number'] ?? '';
 $test       = $_REQUEST['test'] ?? '';
 //---
-include_once 'bots/tfj.php';
+include_once __DIR__ . '/bots/tfj.php';
 //---
 function make_form($titlelist, $number, $test)
 {

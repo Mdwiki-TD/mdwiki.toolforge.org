@@ -1,4 +1,6 @@
 <?php
+// (include_once|require_once|require|include)
+
 include_once __DIR__ . '/header.php';
 //---
 // Output HTML structure

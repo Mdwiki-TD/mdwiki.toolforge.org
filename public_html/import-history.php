@@ -19,7 +19,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 //---
 $valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
 //---
-include_once 'bots/tfj.php';
+include_once __DIR__ . '/bots/tfj.php';
 
 function get_results($aargs)
 {

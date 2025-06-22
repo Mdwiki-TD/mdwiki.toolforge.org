@@ -1,7 +1,7 @@
 <?php
 //---
 /*
-include_once 'bots/python.php';
+include_once __DIR__ . '/bots/python.php';
 $result = do_py($params);
 
 /////////
@@ -20,7 +20,7 @@ $output = file_get_contents($url);
 //---
 $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
-// include_once 'tfj.php';
+// include_once __DIR__ . '/tfj.php';
 //---
 $test   = $_REQUEST['test'] ?? '';
 if ($test != '') {

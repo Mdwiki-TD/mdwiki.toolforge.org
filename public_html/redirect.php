@@ -16,7 +16,7 @@ $titlelist  = $_REQUEST['titlelist'] ?? '';
 // the root path is the first part of the split file path
 $ROOT_PATH = explode('public_html', __FILE__)[0];
 
-include_once 'bots/tfj.php';
+include_once __DIR__ . '/bots/tfj.php';
 //---
 function printForm($title, $titlelist, $test)
 {
