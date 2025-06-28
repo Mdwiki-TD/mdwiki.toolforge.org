@@ -13,123 +13,26 @@
 
 <?php
 echo "<body>";
-
-function render_data_all_x($files, $main_dir, $all_data)
-{
-    $output = '<table id="jsonTable" class="table table-striped table-bordered">';
-    $done_all = 0;
-    $i = 1;
-    $output .= <<<HTML
-        <thead>
-            <tr>
-                <th style="width: 10%">#</th>
-                <th >Lang</th>
-                <th>Count</th>
-                <th>Ready</th>
-                <th>Still</th>
-                <th style="width: 10%">Done!</th>
-            </tr>
-        </thead>
-        <tbody>
-    HTML;
-    foreach ($files as $file) {
-        $basename = basename($file);
-        // ---
-        $lang_n = str_replace('.json', '', $basename);
-        // ---
-        $exploreUrl = "?main_dir=$main_dir&lang=$lang_n";
-        // ---
-        $count = $all_data[$lang_n] ?? 0;
-        // ---
-        $ready_data = json_decode(file_get_contents($file), true);
-        // count keys in $ready_data with value['all'] != 0
-        $ready = count(array_filter($ready_data, function ($value) {
-            return $value['all'] != 0;
-        }));
-        // ---
-        $done = $count == $ready;
-        // ---
-        if ($done) {
-            $done_all++;
-        };
-        // ---
-        $still = $count - $ready;
-        // ---
-        $output .= <<<HTML
-            <tr>
-                <td>$i</td>
-                <td><a class='item' href='$exploreUrl'>$lang_n</a></td>
-                <td>$count</td>
-                <td>$ready</td>
-                <td>$still</td>
-                <td>$done</td>
-            </tr>
-        HTML;
-        // ---
-        $i++;
-    }
-    // ---
-    $output .= '</tbody></table>';
-    // ---
-    return <<<HTML
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title h2">
-                    All JSON Files, langs done: $done_all
-                </span>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                </div>
-            </div>
-            <div class="card-body">
-                $output
-            </div>
-        </div>
-    HTML;
-}
-
 function render_data_all($files, $main_dir, $all_data)
 {
-    $output = '<table id="jsonTable" class="table table-striped table-bordered">';
     $done_all = 0;
+    $pending_all = 0;
     $i = 1;
-    $output .= <<<HTML
-        <thead>
-            <tr>
-                <th style="width: 10%">#</th>
-                <th >Lang</th>
-                <th>Count</th>
-                <th>Ready</th>
-                <th>Still</th>
-                <th style="width: 10%">Done!</th>
-            </tr>
-        </thead>
-        <tbody>
-    HTML;
+    $rows_done = '';
+    $rows_pending = '';
+
     foreach ($files as $file) {
         $basename = basename($file);
-        // ---
         $lang_n = str_replace('.json', '', $basename);
-        // ---
         $exploreUrl = "?main_dir=$main_dir&lang=$lang_n";
-        // ---
         $count = $all_data[$lang_n] ?? 0;
-        // ---
+
         $ready_data = json_decode(file_get_contents($file), true);
-        // count keys in $ready_data with value['all'] != 0
-        $ready = count(array_filter($ready_data, function ($value) {
-            return $value['all'] != 0;
-        }));
-        // ---
+        $ready = count(array_filter($ready_data, fn($value) => $value['all'] != 0));
         $done = $count == $ready;
-        // ---
-        if ($done) {
-            $done_all++;
-        };
-        // ---
         $still = $count - $ready;
-        // ---
-        $output .= <<<HTML
+
+        $row = <<<HTML
             <tr>
                 <td>$i</td>
                 <td><a class='item' href='$exploreUrl'>$lang_n</a></td>
@@ -139,27 +42,78 @@ function render_data_all($files, $main_dir, $all_data)
                 <td>$done</td>
             </tr>
         HTML;
-        // ---
+
+        if ($done) {
+            $done_all++;
+            $rows_done .= $row;
+        } else {
+            $pending_all++;
+            $rows_pending .= $row;
+        }
+
         $i++;
     }
-    // ---
-    $output .= '</tbody></table>';
-    // ---
-    return <<<HTML
+
+    $table_head = <<<HTML
+        <thead>
+            <tr>
+                <th style="width: 10%">#</th>
+                <th>Lang</th>
+                <th>Count</th>
+                <th>Ready</th>
+                <th>Still</th>
+                <th style="width: 10%">Done!</th>
+            </tr>
+        </thead>
+    HTML;
+
+    $card_done = <<<HTML
         <div class="card">
             <div class="card-header">
                 <span class="card-title h2">
-                    All JSON Files, langs done: $done_all
+                    Completed Languages ($done_all)
                 </span>
                 <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
                 </div>
             </div>
             <div class="card-body">
-                $output
+                <table id="doneTable" class="table table-striped table-bordered">
+                    $table_head
+                    <tbody>
+                        $rows_done
+                    </tbody>
+                </table>
             </div>
         </div>
     HTML;
+
+    $card_pending = <<<HTML
+        <div class="card mt-4">
+            <div class="card-header">
+                <span class="card-title h2">
+                    Pending Languages ($pending_all)
+                </span>
+                <div class="card-tools">
+                    <button type="button" class="btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="pendingTable" class="table table-striped table-bordered">
+                    $table_head
+                    <tbody>
+                        $rows_pending
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    HTML;
+
+    return $card_done . $card_pending;
 }
 
 function render_data_new($data, $lang, $main_dir)
@@ -278,7 +232,7 @@ HTML;
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#jsonTable').DataTable({
+        $('.table').DataTable({
             paging: false,
             searching: false
         });
