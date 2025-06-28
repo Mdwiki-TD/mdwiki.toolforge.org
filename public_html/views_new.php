@@ -6,6 +6,9 @@
     <title>All JSON Files</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
+    <link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
+    <script type="module" src="/Translation_Dashboard/js/c.js"></script>
 </head>
 
 <?php
@@ -68,12 +71,20 @@ function render_data_all($files, $main_dir, $all_data)
     // ---
     $output .= '</tbody></table>';
     // ---
+    // ---
     return <<<HTML
-        <div class="container mt-4">
-            <h2 class="mb-4">
-                All JSON Files, langs done: $done_all
-            </h2>
-            $output
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title h2">
+                    All JSON Files, langs done: $done_all
+                </span>
+                <div class="card-tools">
+                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                $output
+            </div>
         </div>
     HTML;
 }
@@ -134,12 +145,19 @@ function render_data_new($data, $lang, $main_dir)
     $output .= '</tbody></table>';
     // ---
     return <<<HTML
-        <div class="container mt-4">
-            <h2 class="mb-4">
-                <a class='btn btn-secondary' href='views_new.php?main_dir=$main_dir'> return All Files</a>
-                JSON File: $lang
-            </h2>
-            $output
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title h2">
+                    <a class='btn btn-secondary' href='views_new.php?main_dir=$main_dir'> return All Files</a>
+                    JSON File: $lang
+                </span>
+                <div class="card-tools">
+                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                $output
+            </div>
         </div>
     HTML;
 }
@@ -168,14 +186,18 @@ $title2 = "";
 if (!empty($lang)) {
     $data = json_decode(file_get_contents("$dir/all/$lang.json") ?? "", true) ?? [];
     // ---
-    echo render_data_new($data, $lang, $main_dir);
+    $table = render_data_new($data, $lang, $main_dir);
 } else {
     // ---
     $all_data = json_decode(file_get_contents("$f_dir/pybot/md_core/update_med_views/languages_counts.json"), true);
     // ---
-    echo render_data_all($files, $main_dir, $all_data);
+    $table = render_data_all($files, $main_dir, $all_data);
 }
-
+echo <<<HTML
+    <div class="container-fluid mt-4">
+        $table
+    </div>
+HTML;
 ?>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
