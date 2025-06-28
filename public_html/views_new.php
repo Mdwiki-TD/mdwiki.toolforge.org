@@ -12,7 +12,9 @@
 </head>
 
 <?php
+
 echo "<body>";
+
 function render_data_all($files, $main_dir, $all_data)
 {
     $done_all = 0;
@@ -141,11 +143,15 @@ function render_data_new($data, $lang, $main_dir)
     // طباعة الصفوف
     $i = 1;
 
-    $data = array_filter($data, function ($value) {
+    $data_not_0 = array_filter($data, function ($value) {
         return $value['all'] != 0;
     });
 
-    foreach ($data as $key => $values) {
+    $data_with_0 = array_filter($data, function ($value) {
+        return $value['all'] == 0;
+    });
+
+    foreach ($data_not_0 as $key => $values) {
         $row = <<<HTML
             <tr>
                 <td>$i</td>
