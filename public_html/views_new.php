@@ -123,77 +123,108 @@ function render_data_new($data, $lang, $main_dir)
     if (empty($data)) {
         return "<p>No data</p>";
     }
-    $output = '<table id="jsonTable" class="table table-striped table-bordered">';
-    // جمع كل المفاتيح الفرعية من جميع العناصر
+
+    // استخراج الأعمدة من كل العناصر
     $all_keys = [];
     foreach ($data as $item) {
         $all_keys = array_merge($all_keys, array_keys($item));
     }
-    // إزالة المكرر وترتيب المفاتيح
+
     $columns = array_unique($all_keys);
-    sort($columns); // إذا أردت ترتيبها تصاعديًا
+    sort($columns);
 
-    // طباعة رأس الجدول
-    $output .= "<thead><tr><th>#</th><th>title</th>";
-    foreach ($columns as $col) {
-        $output .= "<th>$col</th>";
-    }
-    $output .= "</tr></thead><tbody>";
+    // فصل البيانات حسب قيمة all
+    $data_not_0 = array_filter($data, fn($value) => $value['all'] != 0);
+    $data_with_0 = array_filter($data, fn($value) => $value['all'] == 0);
 
-    // طباعة الصفوف
-    $i = 1;
-
-    $data_not_0 = array_filter($data, function ($value) {
-        return $value['all'] != 0;
-    });
-
-    $data_with_0 = array_filter($data, function ($value) {
-        return $value['all'] == 0;
-    });
-
-    foreach ($data_not_0 as $key => $values) {
-        $row = <<<HTML
-            <tr>
-                <td>$i</td>
-                <td>
-                    <a class='item' href='https://$lang.wikipedia.org/wiki/$key' target='_blank'>$key</a>
-                </td>
-        HTML;
-        // ---
+    // دالة مساعدة لإنشاء جدول
+    $build_table = function ($dataset) use ($columns, $lang) {
+        $output = '<table class="table table-striped table-bordered">';
+        $output .= "<thead><tr><th>#</th><th>title</th>";
         foreach ($columns as $col) {
-            $val = isset($values[$col]) ? $values[$col] : '';
-            // ---
-            if ($col == "all") {
-                $url = "https://pageviews.wmcloud.org/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2015-07-01&end=2024-12-31&pages=$key";
-                $val = "<a class='item' href='$url' target='_blank'>$val</a>";
-            }
-            // ---
-            $row .= "<td>$val</td>";
+            $output .= "<th>$col</th>";
         }
-        $row .= "</tr>";
-        $output .= $row;
-        $i++;
-    }
-    // ---
-    $output .= '</tbody></table>';
-    // ---
-    return <<<HTML
+        $output .= "</tr></thead><tbody>";
+
+        $i = 1;
+        foreach ($dataset as $key => $values) {
+            $row = <<<HTML
+                <tr>
+                    <td>$i</td>
+                    <td><a class='item' href='https://$lang.wikipedia.org/wiki/$key' target='_blank'>$key</a></td>
+            HTML;
+            foreach ($columns as $col) {
+                $val = isset($values[$col]) ? $values[$col] : '';
+                if ($col == "all") {
+                    $url = "https://pageviews.wmcloud.org/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2015-07-01&end=2024-12-31&pages=$key";
+                    $val = "<a class='item' href='$url' target='_blank'>$val</a>";
+                }
+                $row .= "<td>$val</td>";
+            }
+            $row .= "</tr>";
+            $output .= $row;
+            $i++;
+        }
+
+        $output .= '</tbody></table>';
+        return $output;
+    };
+
+    // إنشاء الجداول
+    $table_not_0 = $build_table($data_not_0);
+    $table_with_0 = $build_table($data_with_0);
+
+    // عدد الصفوف في كل كارد
+    $count_not_0 = count($data_not_0);
+    $count_with_0 = count($data_with_0);
+
+    // كارد البيانات المكتملة
+    $card_not_0 = <<<HTML
+        <div class="text-center d-flex align-items-center justify-content-between">
+            <a class='h2 btn btn-secondary' href='views_new.php?main_dir=$main_dir'>Return</a>
+            <span class="card-title h2">JSON File: $lang</span>
+            <span class=""></span>
+        </div>
         <div class="card">
             <div class="card-header">
                 <span class="card-title h2">
-                    <a class='btn btn-secondary' href='views_new.php?main_dir=$main_dir'> return All Files</a>
-                    JSON File: $lang
+                    Non-Zero Data ($count_not_0)
                 </span>
                 <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
                 </div>
             </div>
             <div class="card-body">
-                $output
+                $table_not_0
             </div>
         </div>
     HTML;
+
+    // كارد البيانات التي all=0
+    $card_with_0 = <<<HTML
+        <div class="card mt-4">
+            <div class="card-header">
+                <span class="card-title h2">
+                    Zero Data Only ($count_with_0)
+                </span>
+                <div class="card-tools">
+                    <button type="button" class="btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                $table_with_0
+            </div>
+        </div>
+    HTML;
+
+    // إرجاع البطاقتين معًا
+    return $card_not_0 . $card_with_0;
 }
+
 
 $main_dir = (!empty($_GET['main_dir'])) ? $_GET['main_dir'] : "views_new";
 
