@@ -13,17 +13,18 @@ echo "<body>";
 
 function render_data_all($files, $main_dir, $all_data)
 {
-    $output = "";
+    $output = '<table id="jsonTable" class="table table-striped table-bordered">';
     $done_all = 0;
     $i = 1;
     $output .= <<<HTML
         <thead>
             <tr>
-                <th>#</th>
-                <th>Lang</th>
+                <th style="width: 10%">#</th>
+                <th >Lang</th>
                 <th>Count</th>
                 <th>Ready</th>
-                <th>Done</th>
+                <th>Still</th>
+                <th style="width: 10%">Done!</th>
             </tr>
         </thead>
         <tbody>
@@ -49,12 +50,15 @@ function render_data_all($files, $main_dir, $all_data)
             $done_all++;
         };
         // ---
+        $still = $count - $ready;
+        // ---
         $output .= <<<HTML
             <tr>
                 <td>$i</td>
                 <td><a class='item' href='$exploreUrl'>$lang_n</a></td>
                 <td>$count</td>
                 <td>$ready</td>
+                <td>$still</td>
                 <td>$done</td>
             </tr>
         HTML;
@@ -62,15 +66,24 @@ function render_data_all($files, $main_dir, $all_data)
         $i++;
     }
     // ---
-    return [$output, $done_all];
+    $output .= '</tbody></table>';
+    // ---
+    return <<<HTML
+        <div class="container mt-4">
+            <h2 class="mb-4">
+                All JSON Files, langs done: $done_all
+            </h2>
+            $output
+        </div>
+    HTML;
 }
 
-function render_data_new($data, $lang)
+function render_data_new($data, $lang, $main_dir)
 {
     if (empty($data)) {
         return "<p>No data</p>";
     }
-    $output = '';
+    $output = '<table id="jsonTable" class="table table-striped table-bordered">';
     // جمع كل المفاتيح الفرعية من جميع العناصر
     $all_keys = [];
     foreach ($data as $item) {
@@ -117,9 +130,18 @@ function render_data_new($data, $lang)
         $output .= $row;
         $i++;
     }
-
-    $output .= "</tbody>";
-    return $output;
+    // ---
+    $output .= '</tbody></table>';
+    // ---
+    return <<<HTML
+        <div class="container mt-4">
+            <h2 class="mb-4">
+                <a class='btn btn-secondary' href='views_new.php?main_dir=$main_dir'> return All Files</a>
+                JSON File: $lang
+            </h2>
+            $output
+        </div>
+    HTML;
 }
 
 $main_dir = (!empty($_GET['main_dir'])) ? $_GET['main_dir'] : "views_new";
@@ -139,9 +161,6 @@ $files = glob($dir . '/all/*.json');
 
 $done_all = 0;
 
-$table = '<table id="jsonTable" class="table table-striped table-bordered">';
-
-
 $title = "";
 
 $title2 = "";
@@ -149,38 +168,13 @@ $title2 = "";
 if (!empty($lang)) {
     $data = json_decode(file_get_contents("$dir/all/$lang.json") ?? "", true) ?? [];
     // ---
-    $table .= render_data_new($data, $lang);
-    // ---
-    $title = "JSON File: {$lang}";
-    // ---
-    $title2 = "<a class='btn btn-secondary' href='views_new.php?main_dir=$main_dir'> return All Files</a>";
-    // ---
+    echo render_data_new($data, $lang, $main_dir);
 } else {
     // ---
     $all_data = json_decode(file_get_contents("$f_dir/pybot/md_core/update_med_views/languages_counts.json"), true);
     // ---
-    [$table2, $done_all] = render_data_all($files, $main_dir, $all_data);
-    // ---
-    $table .= $table2;
-    // ---
-    $title = "All JSON Files, langs done: $done_all";
-    // ---
-    $title2 = "";
-    // ---
+    echo render_data_all($files, $main_dir, $all_data);
 }
-
-$table .= '</tbody></table>';
-
-echo <<<HTML
-    <div class="container mt-4">
-        <h2 class="mb-4">
-            $title2
-            $title
-        </h2>
-        $table
-    </div>
-
-HTML;
 
 ?>
 
