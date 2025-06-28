@@ -9,6 +9,61 @@
 </head>
 
 <?php
+echo "<body>";
+
+function render_data_all($files, $main_dir, $all_data)
+{
+    $output = "";
+    $done_all = 0;
+    $i = 1;
+    $output .= <<<HTML
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Lang</th>
+                <th>Count</th>
+                <th>Ready</th>
+                <th>Done</th>
+            </tr>
+        </thead>
+        <tbody>
+    HTML;
+    foreach ($files as $file) {
+        $basename = basename($file);
+        // ---
+        $lang_n = str_replace('.json', '', $basename);
+        // ---
+        $exploreUrl = "?main_dir=$main_dir&lang=$lang_n";
+        // ---
+        $count = $all_data[$lang_n] ?? 0;
+        // ---
+        $ready_data = json_decode(file_get_contents($file), true);
+        // count keys in $ready_data with value['all'] != 0
+        $ready = count(array_filter($ready_data, function ($value) {
+            return $value['all'] != 0;
+        }));
+        // ---
+        $done = $count == $ready;
+        // ---
+        if ($done) {
+            $done_all++;
+        };
+        // ---
+        $output .= <<<HTML
+            <tr>
+                <td>$i</td>
+                <td><a class='item' href='$exploreUrl'>$lang_n</a></td>
+                <td>$count</td>
+                <td>$ready</td>
+                <td>$done</td>
+            </tr>
+        HTML;
+        // ---
+        $i++;
+    }
+    // ---
+    return [$output, $done_all];
+}
 
 function render_data_new($data, $lang)
 {
@@ -72,21 +127,6 @@ $main_dir = (!empty($_GET['main_dir'])) ? $_GET['main_dir'] : "views_new";
 // Get language from query or default to 'en'
 $lang = $_GET['lang'] ?? "";
 
-$title = (!empty($lang)) ? "JSON File: {$lang}" : "All JSON Files";
-
-$title2 = (empty($lang)) ? "" : "<a class='btn btn-secondary' href='views_new.php?main_dir=$main_dir'> return All Files</a>";
-
-echo <<<HTML
-    <body>
-        <div class="container mt-4">
-            <h2 class="mb-4">
-                $title2
-                $title
-            </h2>
-            <table id="jsonTable" class="table table-striped table-bordered">
-HTML;
-
-
 $f_dir = __DIR__ . "/../../";
 
 if (!empty(getenv('HOME'))) {
@@ -95,62 +135,55 @@ if (!empty(getenv('HOME'))) {
 
 $dir = "$f_dir/pybot/md_core/update_med_views/$main_dir";
 
-$all_data = json_decode(file_get_contents("$f_dir/pybot/md_core/update_med_views/languages_counts.json"), true);
-
 $files = glob($dir . '/all/*.json');
+
+$done_all = 0;
+
+$table = '<table id="jsonTable" class="table table-striped table-bordered">';
+
+
+$title = "";
+
+$title2 = "";
 
 if (!empty($lang)) {
     $data = json_decode(file_get_contents("$dir/all/$lang.json") ?? "", true) ?? [];
     // ---
-    echo render_data_new($data, $lang);
+    $table .= render_data_new($data, $lang);
+    // ---
+    $title = "JSON File: {$lang}";
+    // ---
+    $title2 = "<a class='btn btn-secondary' href='views_new.php?main_dir=$main_dir'> return All Files</a>";
+    // ---
 } else {
-    $i = 1;
-    echo <<<HTML
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Lang</th>
-                <th>Count</th>
-                <th>Ready</th>
-                <th>Done</th>
-            </tr>
-        </thead>
-        <tbody>
-    HTML;
-    foreach ($files as $file) {
-        $basename = basename($file);
-        // ---
-        $lang_n = str_replace('.json', '', $basename);
-        // ---
-        $exploreUrl = "?main_dir=$main_dir&lang=$lang_n";
-        // ---
-        $count = $all_data[$lang_n] ?? 0;
-        // ---
-        $ready_data = json_decode(file_get_contents($file), true);
-        // count keys in $ready_data with value['all'] != 0
-        $ready = count(array_filter($ready_data, function ($value) {
-            return $value['all'] != 0;
-        }));
-        // ---
-        $done = $count == $ready;
-        // ---
-        echo <<<HTML
-            <tr>
-                <td>$i</td>
-                <td><a class='item' href='$exploreUrl'>$lang_n</a></td>
-                <td>$count</td>
-                <td>$ready</td>
-                <td>$done</td>
-            </tr>
-        HTML;
-        // ---
-        $i++;
-    }
+    // ---
+    $all_data = json_decode(file_get_contents("$f_dir/pybot/md_core/update_med_views/languages_counts.json"), true);
+    // ---
+    [$table2, $done_all] = render_data_all($files, $main_dir, $all_data);
+    // ---
+    $table .= $table2;
+    // ---
+    $title = "All JSON Files, langs done: $done_all";
+    // ---
+    $title2 = "";
+    // ---
 }
+
+$table .= '</tbody></table>';
+
+echo <<<HTML
+    <div class="container mt-4">
+        <h2 class="mb-4">
+            $title2
+            $title
+        </h2>
+        $table
+    </div>
+
+HTML;
+
 ?>
-</tbody>
-</table>
-</div>
+
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
