@@ -112,6 +112,7 @@ if (!empty($lang)) {
                 <th>Lang</th>
                 <th>Count</th>
                 <th>Ready</th>
+                <th>Done</th>
             </tr>
         </thead>
         <tbody>
@@ -131,12 +132,15 @@ if (!empty($lang)) {
             return $value['all'] != 0;
         }));
         // ---
+        $done = $count == $ready;
+        // ---
         echo <<<HTML
             <tr>
                 <td>$i</td>
                 <td><a class='item' href='$exploreUrl'>$lang_n</a></td>
                 <td>$count</td>
                 <td>$ready</td>
+                <td>$done</td>
             </tr>
         HTML;
         // ---
