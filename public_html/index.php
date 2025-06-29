@@ -22,7 +22,7 @@ HTML;
 		<div class='col-md'>
 			<h4>mdwiki tools:</h4>
 			<ul>
-				<li><a href="mdwiki3.php">Med updater</a></li>
+				<li><a href="mdwiki4.php">Med updater</a></li>
 				<li><a href="redirect.php">Create redirects</a>*</li>
 				<li><a href="import-history.php">Import history</a>*</li>
 				<li><a href="replace.php">Find and replace</a> (<a href="replace-log.php">Logs</a>)</li>
