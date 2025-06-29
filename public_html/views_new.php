@@ -138,11 +138,98 @@ function build_table_head($y): string
 }
 
 
+function render_data_all_new(string $base_path, array $all_data): string
+{
+    // ---
+    $main_dir = 'views_new';
+    // ---
+    $rows_done = $rows_pending = '';
+    $done_all = $pending_all = $i = 0;
+
+    $form = make_form($main_dir);
+    $all_titles = 0;
+
+    $year = ($main_dir == 'views_new') ? '2024' : 'all';
+
+    $stats = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/views_new/stats.json"), true);
+
+    $count_all = count($stats);
+
+    foreach ($stats as $lang => $org_data) {
+
+        // روابط منفصلة لكل نوع بيانات
+        $url_non_0 = "?main_dir=$main_dir&lang=$lang&data_type=non_zero";
+        $url_zero  = "?main_dir=$main_dir&lang=$lang&data_type=zero";
+        $url_hash  = "?main_dir=$main_dir&lang=$lang&data_type=hash";
+
+        $count = $all_data[$lang] ?? 0;
+
+        // {'all': 1, 'empty': 0, 'not_empty': 1, 'hash': 0, 'views': {'all': 2554, '2024': 685}}
+        // $org_data = get_data($file);
+
+        $all_titles += $org_data['all'] ?? 0;
+        $lang_views = $org_data['views']['2024'] ?? 0;
+        // ---
+        $lang_views = number_format($lang_views);
+        // ---
+        $with_hash = (int) $org_data['hash'] ?? 0;
+        $count = $count - $with_hash;
+        $count_non_zero = (int) $org_data['not_empty'] ?? 0;
+        $count_zero = (int) $org_data['empty'] ?? 0;
+        // ---
+        $done = $count == $count_non_zero || $count_zero == 0;
+        // ---
+        $row = <<<HTML
+        <tr>
+            <td>$i</td>
+            <td>$lang</td>
+            <td>$count</td>
+            <td>$lang_views</td>
+            <td><a class='item' href='$url_non_0'>$count_non_zero</a></td>
+            <td><a class='item' href='$url_zero'>$count_zero</a></td>
+            <td><a class='item' href='$url_hash'>$with_hash</a></td>
+            <td>$done</td>
+        </tr>
+    HTML;
+
+        if ($done) {
+            $rows_done .= $row;
+            $done_all++;
+        } else {
+            $rows_pending .= $row;
+            $pending_all++;
+        }
+        $i++;
+    }
+
+    $all_titles = number_format($all_titles);
+
+    $header = <<<HTML
+        <div class="text-center d-flex align-items-center justify-content-between">
+            <span class="h2">ALL JSON Files: $count_all</span>
+            <span class="h3">ALL Titles: $all_titles</span>
+            $form
+        </div>
+        <hr/>
+    HTML;
+
+    $thead = build_table_head($year);
+    $table_done = "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$rows_done</tbody></table>";
+    $table_pending = "<table id='pending' class='table table-striped table-bordered'>$thead<tbody>$rows_pending</tbody></table>";
+
+    $card_done = build_card_with_table("Completed Languages ($done_all)", $table_done, "collapsed-card");
+    $card_pending = build_card_with_table("Pending Languages ($pending_all)", $table_pending, "mt-4");
+
+    return $header . $card_done . $card_pending;
+    // ---
+}
 function render_data_all(array $files, string $main_dir, array $all_data): string
 {
     $rows_done = $rows_pending = '';
     $done_all = $pending_all = $i = 0;
-    $count_all_files = count($files);
+    $count_all = count($files);
+    // {'all': 1, 'empty': 0, 'not_empty': 1, 'hash': 0, 'views': {'all': 2554, '2024': 685}}
+    // dump_one(/data/project/mdwiki/pybot/md_core/update_med_views/views_new/stats/gag.json), len(data)=5
 
     $form = make_form($main_dir);
     $all_titles = 0;
@@ -204,7 +291,7 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
 
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="h2">ALL JSON Files: $count</span>
+            <span class="h2">ALL JSON Files: $count_all</span>
             <span class="h3">ALL Titles: $all_titles</span>
             $form
         </div>
@@ -348,7 +435,12 @@ if ($lang) {
 } else {
     $files = glob("$dir/*.json");
     $all_data = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/languages_counts.json"), true);
-    $table = render_data_all($files, $main_dir, $all_data);
+    // ---
+    if ($main_dir === "views_new") {
+        $table = render_data_all_new($base_path, $all_data);
+    } else {
+        $table = render_data_all($files, $main_dir, $all_data);
+    }
 }
 
 ?>
