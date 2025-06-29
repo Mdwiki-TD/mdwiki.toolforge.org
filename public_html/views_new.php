@@ -8,20 +8,9 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 
 $dir_with_sub = [
     "views_new" => "views_new/all",
-    "2021" => "views/2021",
 ];
 
 $base_path = getenv('HOME') ?: __DIR__ . "/../../";
-
-$views_dir = "$base_path/pybot/md_core/update_med_views/views";
-
-// add all year folders in $views_dir to $dir_with_sub
-$views_dirs = glob("$views_dir/*");
-
-foreach ($views_dirs as $views_dir) {
-    $na = basename($views_dir);
-    $dir_with_sub[$na] = "views/$na";
-};
 
 function split_data_hash($org_data)
 {
@@ -37,38 +26,6 @@ function split_data_hash($org_data)
     $zero = array_diff_key($data, $non_zero);
 
     return [$data, $data_with_hash, $non_zero, $zero];
-}
-
-function make_form($main_dir)
-{
-    global $dir_with_sub;
-
-    $options = array_map(function ($dir) use ($main_dir) {
-        $selected = $dir == $main_dir ? 'selected' : '';
-        return "<option value='$dir' $selected>$dir</option>";
-    }, array_keys($dir_with_sub));
-
-    $options_html = implode("\n", $options);
-
-    $form = <<<HTML
-        <form action="" method="get">
-            <div class="row">
-                <div class="col-9">
-                    <div class="input-group">
-                        <span class="input-group-text">Folder:</span>
-                        <select name="main_dir" class="form-control">
-                            $options_html
-                        </select>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <button type="submit" class="btn btn-primary">Go</button>
-                </div>
-            </div>
-        </form>
-    HTML;
-
-    return $form;
 }
 
 function get_data($path)
@@ -146,7 +103,6 @@ function render_data_all_new(string $base_path, array $all_data): string
     $rows_done = $rows_pending = '';
     $done_all = $pending_all = $i = 0;
 
-    $form = make_form($main_dir);
     $all_titles = 0;
 
     $year = ($main_dir == 'views_new') ? '2024' : 'all';
@@ -158,9 +114,9 @@ function render_data_all_new(string $base_path, array $all_data): string
     foreach ($stats as $lang => $org_data) {
 
         // روابط منفصلة لكل نوع بيانات
-        $url_non_0 = "?main_dir=$main_dir&lang=$lang&data_type=non_zero";
-        $url_zero  = "?main_dir=$main_dir&lang=$lang&data_type=zero";
-        $url_hash  = "?main_dir=$main_dir&lang=$lang&data_type=hash";
+        $url_non_0 = "?lang=$lang&data_type=non_zero";
+        $url_zero  = "?lang=$lang&data_type=zero";
+        $url_hash  = "?lang=$lang&data_type=hash";
 
         $count = $all_data[$lang] ?? 0;
 
@@ -206,9 +162,8 @@ function render_data_all_new(string $base_path, array $all_data): string
 
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="h2">ALL JSON Files: $count_all</span>
-            <span class="h3">ALL Titles: $all_titles</span>
-            $form
+            <span class="h2">All Languages: $count_all</span>
+            <span class="h3">All Titles: $all_titles</span>
         </div>
         <hr/>
     HTML;
@@ -222,90 +177,6 @@ function render_data_all_new(string $base_path, array $all_data): string
 
     return $header . $card_done . $card_pending;
     // ---
-}
-function render_data_all(array $files, string $main_dir, array $all_data): string
-{
-    $rows_done = $rows_pending = '';
-    $done_all = $pending_all = $i = 0;
-    $count_all = count($files);
-    // {'all': 1, 'empty': 0, 'not_empty': 1, 'hash': 0, 'views': {'all': 2554, '2024': 685}}
-    // dump_one(/data/project/mdwiki/pybot/md_core/update_med_views/views_new/stats/gag.json), len(data)=5
-
-    $form = make_form($main_dir);
-    $all_titles = 0;
-
-    $year = ($main_dir == 'views_new') ? '2024' : 'all';
-
-    foreach ($files as $file) {
-        $lang = basename($file, '.json');
-
-        // روابط منفصلة لكل نوع بيانات
-        $url_non_0 = "?main_dir=$main_dir&lang=$lang&data_type=non_zero";
-        $url_zero  = "?main_dir=$main_dir&lang=$lang&data_type=zero";
-        $url_hash  = "?main_dir=$main_dir&lang=$lang&data_type=hash";
-
-        $count = $all_data[$lang] ?? 0;
-        $org_data = get_data($file);
-
-        $all_titles += count($org_data);
-
-        [$data, $data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
-
-        // $lang_views = sum all $data ['all'] values
-        // $lang_views = array_sum(array_column($data, 'all'));
-        $lang_views = array_sum(array_column($data, $year));
-        // ---
-        $lang_views = number_format($lang_views);
-        // ---
-        $with_hash = count($data_with_hash);
-        $count = $count - $with_hash;
-        $count_non_zero = count($non_zero);
-        $count_zero = count($zero);
-        // ---
-        $done = $count == $count_non_zero || $count_zero == 0;
-        // ---
-        $row = <<<HTML
-        <tr>
-            <td>$i</td>
-            <td>$lang</td>
-            <td>$count</td>
-            <td>$lang_views</td>
-            <td><a class='item' href='$url_non_0'>$count_non_zero</a></td>
-            <td><a class='item' href='$url_zero'>$count_zero</a></td>
-            <td><a class='item' href='$url_hash'>$with_hash</a></td>
-            <td>$done</td>
-        </tr>
-    HTML;
-
-        if ($done) {
-            $rows_done .= $row;
-            $done_all++;
-        } else {
-            $rows_pending .= $row;
-            $pending_all++;
-        }
-        $i++;
-    }
-
-    $all_titles = number_format($all_titles);
-
-    $header = <<<HTML
-        <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="h2">ALL JSON Files: $count_all</span>
-            <span class="h3">ALL Titles: $all_titles</span>
-            $form
-        </div>
-        <hr/>
-    HTML;
-
-    $thead = build_table_head($year);
-    $table_done = "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$rows_done</tbody></table>";
-    $table_pending = "<table id='pending' class='table table-striped table-bordered'>$thead<tbody>$rows_pending</tbody></table>";
-
-    $card_done = build_card_with_table("Completed Languages ($done_all)", $table_done, "collapsed-card");
-    $card_pending = build_card_with_table("Pending Languages ($pending_all)", $table_pending, "mt-4");
-
-    return $header . $card_done . $card_pending;
 }
 
 function get_columns(array $dataset): array
@@ -395,9 +266,9 @@ function render_data_new(array $org_data, string $lang, string $main_dir, string
 
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="card-title h2">JSON File: $lang</span>
+            <span class="card-title h2">Language code: $lang</span>
             <span class="h3">All Views: $all_views</span>
-            <a class='h2 btn btn-secondary' href='views_new.php?main_dir=$main_dir'> >> Return</a>
+            <a class='h2 btn btn-secondary' href='views_new.php'> >> Return</a>
         </div>
         <hr/>
     HTML;
@@ -407,24 +278,11 @@ function render_data_new(array $org_data, string $lang, string $main_dir, string
     return $header . $card;
 }
 
-
-function get_main_dir()
-{
-    global $dir_with_sub;
-    // ---
-    $main_dir = $_GET['main_dir'] ?? 'views_new';
-    // ---
-    $main_dir_with_sub = $dir_with_sub[$main_dir] ?? $main_dir;
-    // ---
-    return [$main_dir_with_sub, $main_dir];
-}
-// Main Execution Logic
-[$main_dir_with_sub, $main_dir] = get_main_dir();
-
+$main_dir = $_GET['main_dir'] ?? 'views_new';
 $lang = $_GET['lang'] ?? '';
 $data_type = $_GET['data_type'] ?? 'non_zero';
 
-$dir = "$base_path/pybot/md_core/update_med_views/$main_dir_with_sub";
+$dir = "$base_path/pybot/md_core/update_med_views/views_new/all";
 
 if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z0-9]+)*$/i', $lang)) {
     $lang = ''; // Invalid language code
@@ -438,11 +296,7 @@ if ($lang) {
     $files = glob("$dir/*.json");
     $all_data = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/languages_counts.json"), true);
     // ---
-    if ($main_dir === "views_new") {
-        $table = render_data_all_new($base_path, $all_data);
-    } else {
-        $table = render_data_all($files, $main_dir, $all_data);
-    }
+    $table = render_data_all_new($base_path, $all_data);
 }
 
 ?>
@@ -451,7 +305,7 @@ if ($lang) {
 
 <head>
     <meta charset="UTF-8">
-    <title>All JSON Files</title>
+    <title>All Languages</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet'>
