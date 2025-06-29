@@ -14,6 +14,24 @@
 <?php
 
 echo "<body>";
+function build_card_with_table(string $title, string $table_html, string $extra_classes = ''): string
+{
+    return <<<HTML
+        <div class="card $extra_classes">
+            <div class="card-header">
+                <span class="card-title h2">$title</span>
+                <div class="card-tools">
+                    <button type="button" class="btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                $table_html
+            </div>
+        </div>
+    HTML;
+}
 
 function render_data_all($files, $main_dir, $all_data)
 {
@@ -56,7 +74,7 @@ function render_data_all($files, $main_dir, $all_data)
         $i++;
     }
 
-    $table_head = <<<HTML
+    $table_thead = <<<HTML
         <thead>
             <tr>
                 <th style="width: 10%">#</th>
@@ -68,54 +86,79 @@ function render_data_all($files, $main_dir, $all_data)
             </tr>
         </thead>
     HTML;
-
-    $card_done = <<<HTML
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title h2">
-                    Completed Languages ($done_all)
-                </span>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <table id="doneTable" class="table table-striped table-bordered">
-                    $table_head
-                    <tbody>
-                        $rows_done
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    // ---
+    $table_done = <<<HTML
+        <table class="table table-striped table-bordered">
+            $table_thead
+            <tbody>
+                $rows_done
+            </tbody>
+        </table>
     HTML;
 
-    $card_pending = <<<HTML
-        <div class="card mt-4">
-            <div class="card-header">
-                <span class="card-title h2">
-                    Pending Languages ($pending_all)
-                </span>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                <table id="pendingTable" class="table table-striped table-bordered">
-                    $table_head
-                    <tbody>
-                        $rows_pending
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    $table_pending = <<<HTML
+        <table class="table table-striped table-bordered">
+            $table_thead
+            <tbody>
+                $rows_pending
+            </tbody>
+        </table>
     HTML;
+
+    // إنشاء الكاردات باستخدام الدالة الموحدة
+    $card_done = build_card_with_table("Completed Languages ($done_all)", $table_done);
+    $card_pending = build_card_with_table("Pending Languages ($pending_all)", $table_pending, "mt-4");
 
     return $card_done . $card_pending;
+}
+
+
+function build_table_from_dataset(array $dataset, string $lang): string
+{
+    if (empty($dataset)) {
+        return "<p>No rows</p>";
+    }
+
+    // استخراج جميع الأعمدة المستخدمة
+    $all_keys = [];
+    foreach ($dataset as $item) {
+        $all_keys = array_merge($all_keys, array_keys($item));
+    }
+
+    $columns = array_unique($all_keys);
+    sort($columns);
+
+    $output = '<table class="table table-striped table-bordered">';
+    $output .= "<thead><tr><th>#</th><th>title</th>";
+    foreach ($columns as $col) {
+        $output .= "<th>$col</th>";
+    }
+    $output .= "</tr></thead><tbody>";
+
+    $i = 1;
+    foreach ($dataset as $key => $values) {
+        $row = <<<HTML
+            <tr>
+                <td>$i</td>
+                <td><a class='item' href='https://$lang.wikipedia.org/wiki/$key' target='_blank'>$key</a></td>
+        HTML;
+
+        foreach ($columns as $col) {
+            $val = isset($values[$col]) ? $values[$col] : '';
+            if ($col === "all") {
+                $url = "https://pageviews.wmcloud.org/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2015-07-01&end=2024-12-31&pages=$key";
+                $val = "<a class='item' href='$url' target='_blank'>$val</a>";
+            }
+            $row .= "<td>$val</td>";
+        }
+
+        $row .= "</tr>";
+        $output .= $row;
+        $i++;
+    }
+
+    $output .= "</tbody></table>";
+    return $output;
 }
 
 function render_data_new($data, $lang, $main_dir)
@@ -124,107 +167,33 @@ function render_data_new($data, $lang, $main_dir)
         return "<p>No data</p>";
     }
 
-    // استخراج الأعمدة من كل العناصر
-    $all_keys = [];
-    foreach ($data as $item) {
-        $all_keys = array_merge($all_keys, array_keys($item));
-    }
-
-    $columns = array_unique($all_keys);
-    sort($columns);
-
-    // فصل البيانات حسب قيمة all
+    // فصل البيانات
     $data_not_0 = array_filter($data, fn($value) => $value['all'] != 0);
     $data_with_0 = array_filter($data, fn($value) => $value['all'] == 0);
 
-    // دالة مساعدة لإنشاء جدول
-    $build_table = function ($dataset) use ($columns, $lang) {
-        $output = '<table class="table table-striped table-bordered">';
-        $output .= "<thead><tr><th>#</th><th>title</th>";
-        foreach ($columns as $col) {
-            $output .= "<th>$col</th>";
-        }
-        $output .= "</tr></thead><tbody>";
-
-        $i = 1;
-        foreach ($dataset as $key => $values) {
-            $row = <<<HTML
-                <tr>
-                    <td>$i</td>
-                    <td><a class='item' href='https://$lang.wikipedia.org/wiki/$key' target='_blank'>$key</a></td>
-            HTML;
-            foreach ($columns as $col) {
-                $val = isset($values[$col]) ? $values[$col] : '';
-                if ($col == "all") {
-                    $url = "https://pageviews.wmcloud.org/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2015-07-01&end=2024-12-31&pages=$key";
-                    $val = "<a class='item' href='$url' target='_blank'>$val</a>";
-                }
-                $row .= "<td>$val</td>";
-            }
-            $row .= "</tr>";
-            $output .= $row;
-            $i++;
-        }
-
-        $output .= '</tbody></table>';
-        return $output;
-    };
-
     // إنشاء الجداول
-    $table_not_0 = $build_table($data_not_0);
-    $table_with_0 = $build_table($data_with_0);
+    $table_not_0 = build_table_from_dataset($data_not_0, $lang);
+    $table_with_0 = build_table_from_dataset($data_with_0, $lang);
 
-    // عدد الصفوف في كل كارد
+    // عدد الصفوف في كل جدول
     $count_not_0 = count($data_not_0);
     $count_with_0 = count($data_with_0);
 
-    // كارد البيانات المكتملة
-    $card_not_0 = <<<HTML
+    $return_header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
             <a class='h2 btn btn-secondary' href='views_new.php?main_dir=$main_dir'>Return</a>
             <span class="card-title h2">JSON File: $lang</span>
             <span class=""></span>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <span class="card-title h2">
-                    Non-Zero Data ($count_not_0)
-                </span>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                $table_not_0
-            </div>
-        </div>
     HTML;
 
-    // كارد البيانات التي all=0
-    $card_with_0 = <<<HTML
-        <div class="card mt-4">
-            <div class="card-header">
-                <span class="card-title h2">
-                    Zero Data Only ($count_with_0)
-                </span>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                $table_with_0
-            </div>
-        </div>
-    HTML;
+    $card_not_0 = $return_header;
+    $card_not_0 .= build_card_with_table("Non-Zero Data ($count_not_0)", $table_not_0);
 
-    // إرجاع البطاقتين معًا
+    $card_with_0 = build_card_with_table("Zero Data Only ($count_with_0)", $table_with_0, "mt-4");
+
     return $card_not_0 . $card_with_0;
 }
-
 
 $main_dir = (!empty($_GET['main_dir'])) ? $_GET['main_dir'] : "views_new";
 
