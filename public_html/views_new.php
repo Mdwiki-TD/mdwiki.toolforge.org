@@ -169,7 +169,7 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
     $table_done = "<table class='table table-striped table-bordered'>$thead<tbody>$rows_done</tbody></table>";
     $table_pending = "<table class='table table-striped table-bordered'>$thead<tbody>$rows_pending</tbody></table>";
 
-    $card_done = build_card_with_table("Completed Languages ($done_all)", $table_done);
+    $card_done = build_card_with_table("Completed Languages ($done_all)", $table_done, "collapsed-card");
     $card_pending = build_card_with_table("Pending Languages ($pending_all)", $table_pending, "mt-4");
 
     return $header . $card_done . $card_pending;
@@ -233,7 +233,7 @@ function render_data_new(array $data, string $lang, string $main_dir): string
     $data_not_0 = data_not_zero($data);
     $table1 = build_table_from_dataset($data_not_0, $lang);
     $count1 = count($data_not_0);
-    $card1 = build_card_with_table("Non-Zero Data ($count1)", $table1);
+    $card1 = build_card_with_table("Non-Zero Data ($count1)", $table1, "collapsed-card");
 
     $data_with_0 = array_diff_key($data, $data_not_0);
     $table2 = build_table_from_dataset($data_with_0, $lang);
