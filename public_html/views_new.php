@@ -23,6 +23,22 @@ foreach ($views_dirs as $views_dir) {
     $dir_with_sub[$na] = "views/$na";
 };
 
+function split_data_hash($org_data)
+{
+
+    $data_with_hash = array_filter($org_data, function ($v, $k) {
+        return strpos($k, '#') !== false;
+    }, ARRAY_FILTER_USE_BOTH);
+
+    $data = array_diff_key($org_data, $data_with_hash);
+
+    $non_zero = data_not_zero($data);
+
+    $zero = array_diff_key($data, $non_zero);
+
+    return [$data_with_hash, $non_zero, $zero];
+}
+
 function make_form($main_dir)
 {
     global $dir_with_sub;
@@ -83,6 +99,7 @@ function data_not_zero($data): array
     });
 }
 
+
 function build_card_with_table(string $title, string $table_html, string $extra_classes = ''): string
 {
     return <<<HTML
@@ -112,6 +129,7 @@ function build_table_head(): string
                 <th>Count</th>
                 <th>Ready</th>
                 <th>Still</th>
+                <th>with_hash</th>
                 <th style="width: 10%">Done!</th>
             </tr>
         </thead>
@@ -140,22 +158,29 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
         $lang = basename($file, '.json');
 
         // روابط منفصلة لكل نوع بيانات
-        $url_non_zero = "?main_dir=$main_dir&lang=$lang&data_type=non_zero";
-        $url_zero = "?main_dir=$main_dir&lang=$lang&data_type=zero";
+        $url_non_0 = "?main_dir=$main_dir&lang=$lang&data_type=non_zero";
+        $url_zero  = "?main_dir=$main_dir&lang=$lang&data_type=zero";
+        $url_hash  = "?main_dir=$main_dir&lang=$lang&data_type=hash";
 
         $count = $all_data[$lang] ?? 0;
-        $data = get_data($file);
-        $ready = count(data_not_zero($data));
-        $done = $count == $ready;
-        $still = $count - $ready;
+        $org_data = get_data($file);
 
+        [$data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
+
+        $with_hash = count($data_with_hash);
+        $count = $count - $with_hash;
+        $count_non_zero = count($non_zero);
+        $count_zero = count($zero);
+        $done = $count == $count_non_zero;
+        // ---
         $row = <<<HTML
         <tr>
             <td>$i</td>
             <td>$lang</td>
             <td>$count</td>
-            <td><a class='item' href='$url_non_zero'>$ready</a></td>
-            <td><a class='item' href='$url_zero'>$still</a></td>
+            <td><a class='item' href='$url_non_0'>$count_non_zero</a></td>
+            <td><a class='item' href='$url_zero'>$count_zero</a></td>
+            <td><a class='item' href='$url_hash'>$with_hash</a></td>
             <td>$done</td>
         </tr>
     HTML;
@@ -241,7 +266,7 @@ function build_table_from_dataset(array $dataset, string $lang): string
     return "<table class='table table-striped table-bordered $class_1'>$thead<tbody>$tbody</tbody></table>";
 }
 
-function render_data_new(array $data, string $lang, string $main_dir, string $data_type = 'non_zero'): string
+function render_data_new(array $org_data, string $lang, string $main_dir, string $data_type = 'non_zero'): string
 {
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
@@ -251,18 +276,22 @@ function render_data_new(array $data, string $lang, string $main_dir, string $da
         </div>
         <hr/>
     HTML;
+    $data_types = ['non_zero', 'zero', 'hash'];
+    $data_type = in_array($data_type, $data_types) ? $data_type : 'non_zero';
+
+    [$data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
 
     if ($data_type === 'non_zero') {
-        $data_filtered = data_not_zero($data);
+        $data_filtered = $non_zero;
         $title = "Non-Zero Data (" . count($data_filtered) . ")";
+        // ---
     } elseif ($data_type === 'zero') {
-        $data_not_0 = data_not_zero($data);
-        $data_filtered = array_diff_key($data, $data_not_0);
+        $data_filtered = $zero;
         $title = "Zero Data Only (" . count($data_filtered) . ")";
-    } else {
-        // إذا كانت قيمة غير معروفة نعرض كل البيانات
-        $data_filtered = $data;
-        $title = "All Data (" . count($data_filtered) . ")";
+        // ---
+    } elseif ($data_type === 'hash') {
+        $data_filtered = $data_with_hash;
+        $title = "Hash Data (" . count($data_filtered) . ")";
     }
 
     $table = build_table_from_dataset($data_filtered, $lang);
@@ -290,7 +319,7 @@ $data_type = $_GET['data_type'] ?? 'non_zero';
 
 $dir = "$base_path/pybot/md_core/update_med_views/$main_dir_with_sub";
 
-if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z]+)?$/i', $lang)) {
+if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z0-9]+)*$/i', $lang)) {
     $lang = ''; // Invalid language code
 }
 
