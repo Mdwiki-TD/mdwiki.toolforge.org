@@ -166,8 +166,8 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
     }
 
     $thead = build_table_head();
-    $table_done = "<table class='table table-striped table-bordered'>$thead<tbody>$rows_done</tbody></table>";
-    $table_pending = "<table class='table table-striped table-bordered'>$thead<tbody>$rows_pending</tbody></table>";
+    $table_done = "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$rows_done</tbody></table>";
+    $table_pending = "<table id='pending' class='table table-striped table-bordered'>$thead<tbody>$rows_pending</tbody></table>";
 
     $card_done = build_card_with_table("Completed Languages ($done_all)", $table_done, "collapsed-card");
     $card_pending = build_card_with_table("Pending Languages ($pending_all)", $table_pending, "mt-4");
@@ -214,7 +214,7 @@ function build_table_from_dataset(array $dataset, string $lang): string
         $tbody .= $row . '</tr>';
         $i++;
     }
-    return "<table class='table table-striped table-bordered'>$thead<tbody>$tbody</tbody></table>";
+    return "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$tbody</tbody></table>";
 }
 
 function render_data_new(array $data, string $lang, string $main_dir): string
@@ -298,9 +298,16 @@ if ($lang) {
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.table').DataTable({
+            $('.DataTable').DataTable({
                 paging: false,
                 searching: false
+            });
+            $('#pending').DataTable({
+                paging: false,
+                searching: false,
+                order: [
+                    [4, 'desc']
+                ]
             });
         });
     </script>
