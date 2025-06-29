@@ -18,6 +18,6 @@ if ($items === false) {
 
 $items['now'] = $now;
 
-$data = json_encode($items);
+// $data = json_encode($items);
 
-echo json_encode($data);
+echo json_encode($items);

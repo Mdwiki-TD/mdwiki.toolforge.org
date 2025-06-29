@@ -14,12 +14,18 @@ function dump_to_file($titlelist, $filepath)
     //---
     // Ensure directory exists
     if (!is_dir(dirname($filepath))) {
-        mkdir(dirname($filepath), 0755, true);
+        if (!mkdir(dirname($filepath), 0755, true)) {
+            echo "Error: Unable to create directory: " . dirname($filepath);
+            return "";
+        }
     }
     //---
     $myfile = fopen($filepath, "w");
     //---
-    // if (!$myfile) { die("Error: Unable to create temporary file"); }
+    if (!$myfile) {
+        echo "Error: Unable to create file: " . $filepath;
+        return "";
+    }
     //---
     fwrite($myfile, $titlelist);
     fclose($myfile);
