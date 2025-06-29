@@ -47,6 +47,11 @@ if (empty($start) || empty($username)) {
 
     $faf = "kubectl create job dup0 --output=json --image=busybox -- public_html/fix_duplicate.sh";
 
+    // TODO: Load or validate the script path for fix_duplicate.sh
+    // and use the Kubernetes API client to create the job, for example:
+    // $job = $client->batchV1()->createNamespacedJob($namespace, $jobSpec);
+    // Handle errors and log responses accordingly.
+
     // Output command if in test mode
     if (!empty($test)) {
         echo $faf;

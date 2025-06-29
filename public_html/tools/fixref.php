@@ -5,6 +5,12 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 }
 include_once __DIR__ . '/../header.php';
+include_once __DIR__ . '/bots/tfj.php';
+include_once __DIR__ . '/bots/file_bots.php';
+
+use function BOTS\TFJ\do_tfj_sh;
+use function BOTS\FILE_BOTS\dump_to_file;
+
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Normalize references (mdwiki).</h3>
@@ -12,12 +18,14 @@ echo <<<HTML
     <div class="card-body">
 HTML;
 //---
+// the root path is the first part of the split file path
+$ROOT_PATH = explode('public_html', __FILE__)[0];
+//---
 $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 $number     = $_GET['number'] ?? $_POST['number'] ?? '';
 $test       = $_GET['test'] ?? $_POST['test'] ?? '';
 //---
-include_once __DIR__ . '/bots/tfj.php';
-//---
+
 function make_form($titlelist, $number, $test)
 {
 	global $username;
@@ -89,8 +97,6 @@ if ((empty($number) && empty($titlelist)) || empty($username)) {
 	make_form($titlelist, $number, $test);
 } else {
 	//---
-	$nn = rand();
-	//---
 	$command = "";
 	//---
 	$titlelist = trim($titlelist);
@@ -102,13 +108,14 @@ if ((empty($number) && empty($titlelist)) || empty($username)) {
 		//---
 		if (count($lines) == 1) {
 			$title = $lines[0];
+			// Escape shell arguments to prevent command injection
+			$title = escapeshellarg($title);
 			$command .= " -title:$title";
 		} else {
-			$filename = $nn . '_fix_ref_list.txt';
-			//---
-			$myfile = fopen('find/' . $filename, "w");
-			fwrite($myfile, $titlelist);
-			fclose($myfile);
+			// ---
+			$file_name = $ROOT_PATH . '/find/' . rand() . '_fix_ref_list.txt';
+			// ---
+			$filename = dump_to_file($titlelist, $file_name);
 			//---
 			$command .= " -file:$filename";
 			//---

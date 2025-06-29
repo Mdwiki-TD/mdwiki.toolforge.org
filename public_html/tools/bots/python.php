@@ -1,4 +1,14 @@
 <?php
+
+namespace BOTS\Python;
+/*
+usage:
+include_once __DIR__ . '/bots/python.php';
+
+use function BOTS\Python\do_py;
+
+*/
+
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -58,7 +68,7 @@ function do_py2($params)
         return ["command" => $command, "output" => $cmd_output];
     };
     return [];
-};
+}
 
 function do_py($params, $do_test = true, $return_commaand = false)
 {
@@ -101,7 +111,7 @@ function do_py($params, $do_test = true, $return_commaand = false)
         return $cmd_output;
     };
     return '';
-};
+}
 
 function make_sh_file($string)
 {
@@ -129,6 +139,7 @@ function make_sh_file($string)
     //---
     return  $filepath;
 }
+
 function do_py_sh($params)
 {
     //---
@@ -175,4 +186,4 @@ function do_py_sh($params)
         return $cmd_output;
     };
     return '';
-};
+}

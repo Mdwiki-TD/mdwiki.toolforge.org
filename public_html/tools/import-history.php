@@ -1,12 +1,16 @@
-<?PHP
+<?php
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-//---
 include_once __DIR__ . '/../header.php';
-//---
+include_once __DIR__ . '/bots/tfj.php';
+include_once __DIR__ . '/bots/file_bots.php';
+
+use function BOTS\TFJ\do_tfj_sh;
+use function BOTS\FILE_BOTS\dump_to_file;
+
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
         <h3>Import history from enwiki</h3>
@@ -23,8 +27,6 @@ $title      = $_GET['title'] ?? $_POST['title'] ?? '';
 $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 //---
 $valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
-//---
-include_once __DIR__ . '/bots/tfj.php';
 
 function get_results($aargs)
 {
@@ -107,6 +109,8 @@ function make_form($test, $title, $titlelist)
     HTML;
     //---
 }
+
+
 if ((empty($titlelist) && empty($title)) || !$valid_user) {
     //---
     echo make_form($test, $title, $titlelist);
@@ -130,11 +134,9 @@ if ((empty($titlelist) && empty($title)) || !$valid_user) {
         //---
     } else {
         //---
-        $filee = "$ROOT_PATH/public_html/texts/importlist.txt";
+        $filename = "$ROOT_PATH/public_html/texts/importlist.txt";
         //---
-        $myfile = fopen($filee, "w");
-        fwrite($myfile, $titlelist);
-        fclose($myfile);
+        $filee = dump_to_file($titlelist, $filename);
         //---
         $command .= " -file:" . $filee;
         //---

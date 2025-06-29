@@ -5,6 +5,11 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 include_once __DIR__ . '/../header.php';
+include_once __DIR__ . '/bots/tfj.php';
+include_once __DIR__ . '/bots/file_bots.php';
+
+use function BOTS\TFJ\do_tfj_sh;
+use function BOTS\FILE_BOTS\dump_to_file;
 
 echo <<<HTML
     <div class="card-header aligncenter" style="font-weight:bold;">
@@ -20,8 +25,6 @@ $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 // the root path is the first part of the split file path
 $ROOT_PATH = explode('public_html', __FILE__)[0];
 
-include_once __DIR__ . '/bots/tfj.php';
-//---
 function printForm($title, $titlelist, $test)
 {
     global $username;
@@ -111,10 +114,10 @@ function createRedirects($title, $titlelist)
         $pythonCommand = "-page2:" . rawurlencode($title);
         echo '<span class="">The Bot will create redirects for ' . rawurldecode($title) . ' in seconds.</span>';
     } else {
-        $myfile = fopen($file, "w");
-        fwrite($myfile, $titlelist);
-        fclose($myfile);
-        $pythonCommand = "-file:$file";
+        $filename = dump_to_file($titlelist, $file);
+        // ---
+        $pythonCommand = "-file:$filename";
+        // ---
         echo '<span class="">The Bot will create redirects for titles in the list in seconds.</span>';
     }
 

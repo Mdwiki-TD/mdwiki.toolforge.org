@@ -1,4 +1,9 @@
 <?php
+if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 include_once __DIR__ . '/../header.php';
 //---
 echo <<<HTML
@@ -26,7 +31,7 @@ function endsWith($string, $endString)
     $len = strlen($endString);
     return substr($string, -$len) === $endString;
 };
-function do_py($params, $do_test = true, $return_commaand = false)
+function do_py_new($params, $do_test = true, $return_commaand = false)
 {
     //---
     global $root_path;
@@ -94,13 +99,21 @@ function get_results($title)
         'test' => $test
     );
     //---
-    $result = do_py($params);
+    $result = do_py_new($params);
     //---
     return $result;
 }
 
 function worknew($title)
 {
+    // TODO: function is
+    // too long and mixes multiple responsibilities like form generation, result
+    // processing, and save handling. Refactor by extracting three smaller functions:
+    // generateEditForm() to build and return the HTML form string, processResults() to
+    // handle the logic of interpreting $resultb and deciding what to display, and
+    // handleSaveOperation() to manage the save-specific conditional logic. Then,
+    // update worknew to call these functions in sequence, improving readability and
+    // maintainability.
     //---
     global $save, $test;
     //---
@@ -154,8 +167,7 @@ function worknew($title)
         // } elseif ($resultb == "save ok") { echo ("save done.");
     } elseif ($t3 || $test) {
         //---
-        $newtext = '';
-        if (!empty($resultb)) $newtext = file_get_contents($resultb);
+        $newtext = (!empty($resultb)) ? file_get_contents($resultb) : '';
         //---
         $form = $form . <<<HTML
             <div class='form-group'>
