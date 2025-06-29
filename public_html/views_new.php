@@ -335,6 +335,7 @@ function get_columns(array $dataset): array
 
 function pageviews_link(string $lang, string $title, int $count): string
 {
+    $lang = ($lang == 'be-x-old') ? 'be-tarask' : $lang;
     $url = "https://pageviews.wmcloud.org/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2015-07-01&end=2025-06-27&pages=$title";
 
     return "<a class='item' href='$url' target='_blank'>$count</a>";
@@ -351,6 +352,7 @@ function build_table_from_dataset(array $dataset, string $lang): string
     $i = 1;
 
     foreach ($dataset as $key => $values) {
+        $lang = ($lang == 'be-x-old') ? 'be-tarask' : $lang;
         $row = "<tr><td>$i</td><td><a class='item' href='https://$lang.wikipedia.org/wiki/$key' target='_blank'>$key</a></td>";
         foreach ($columns as $col) {
             $val = $values[$col] ?? 0;
