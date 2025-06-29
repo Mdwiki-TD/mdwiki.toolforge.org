@@ -36,7 +36,7 @@ function split_data_hash($org_data)
 
     $zero = array_diff_key($data, $non_zero);
 
-    return [$data_with_hash, $non_zero, $zero];
+    return [$data, $data_with_hash, $non_zero, $zero];
 }
 
 function make_form($main_dir)
@@ -119,7 +119,7 @@ function build_card_with_table(string $title, string $table_html, string $extra_
     HTML;
 }
 
-function build_table_head(): string
+function build_table_head($y): string
 {
     return <<<HTML
         <thead>
@@ -127,6 +127,7 @@ function build_table_head(): string
                 <th style="width: 10%">#</th>
                 <th>Lang</th>
                 <th>Count</th>
+                <th>$y Views</th>
                 <th>Ready</th>
                 <th>Still</th>
                 <th>with_hash</th>
@@ -141,18 +142,12 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
 {
     $rows_done = $rows_pending = '';
     $done_all = $pending_all = $i = 0;
-    $count = count($files);
+    $count_all_files = count($files);
 
     $form = make_form($main_dir);
+    $all_titles = 0;
 
-    $header = <<<HTML
-        <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="h2">ALL JSON Files: $count</span>
-            <span></span>
-            $form
-        </div>
-        <hr/>
-    HTML;
+    $year = ($main_dir == 'views_new') ? '2024' : 'all';
 
     foreach ($files as $file) {
         $lang = basename($file, '.json');
@@ -165,19 +160,29 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
         $count = $all_data[$lang] ?? 0;
         $org_data = get_data($file);
 
-        [$data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
+        $all_titles += count($org_data);
 
+        [$data, $data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
+
+        // $lang_views = sum all $data ['all'] values
+        // $lang_views = array_sum(array_column($data, 'all'));
+        $lang_views = array_sum(array_column($data, $year));
+        // ---
+        $lang_views = number_format($lang_views);
+        // ---
         $with_hash = count($data_with_hash);
         $count = $count - $with_hash;
         $count_non_zero = count($non_zero);
         $count_zero = count($zero);
-        $done = $count == $count_non_zero;
+        // ---
+        $done = $count == $count_non_zero || $count_zero == 0;
         // ---
         $row = <<<HTML
         <tr>
             <td>$i</td>
             <td>$lang</td>
             <td>$count</td>
+            <td>$lang_views</td>
             <td><a class='item' href='$url_non_0'>$count_non_zero</a></td>
             <td><a class='item' href='$url_zero'>$count_zero</a></td>
             <td><a class='item' href='$url_hash'>$with_hash</a></td>
@@ -195,8 +200,18 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
         $i++;
     }
 
+    $all_titles = number_format($all_titles);
 
-    $thead = build_table_head();
+    $header = <<<HTML
+        <div class="text-center d-flex align-items-center justify-content-between">
+            <span class="h2">ALL JSON Files: $count</span>
+            <span class="h3">ALL Titles: $all_titles</span>
+            $form
+        </div>
+        <hr/>
+    HTML;
+
+    $thead = build_table_head($year);
     $table_done = "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$rows_done</tbody></table>";
     $table_pending = "<table id='pending' class='table table-striped table-bordered'>$thead<tbody>$rows_pending</tbody></table>";
 
@@ -268,18 +283,10 @@ function build_table_from_dataset(array $dataset, string $lang): string
 
 function render_data_new(array $org_data, string $lang, string $main_dir, string $data_type = 'non_zero'): string
 {
-    $header = <<<HTML
-        <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="card-title h2">JSON File: $lang</span>
-            <span></span>
-            <a class='h2 btn btn-secondary' href='views_new.php?main_dir=$main_dir'> >> Return</a>
-        </div>
-        <hr/>
-    HTML;
     $data_types = ['non_zero', 'zero', 'hash'];
     $data_type = in_array($data_type, $data_types) ? $data_type : 'non_zero';
 
-    [$data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
+    [$data, $data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
 
     if ($data_type === 'non_zero') {
         $data_filtered = $non_zero;
@@ -294,6 +301,17 @@ function render_data_new(array $org_data, string $lang, string $main_dir, string
         $title = "Hash Data (" . count($data_filtered) . ")";
     }
 
+    $all_views = array_sum(array_column($data_filtered, 'all'));
+    $all_views = number_format($all_views);
+
+    $header = <<<HTML
+        <div class="text-center d-flex align-items-center justify-content-between">
+            <span class="card-title h2">JSON File: $lang</span>
+            <span class="h3">All Views: $all_views</span>
+            <a class='h2 btn btn-secondary' href='views_new.php?main_dir=$main_dir'> >> Return</a>
+        </div>
+        <hr/>
+    HTML;
     $table = build_table_from_dataset($data_filtered, $lang);
     $card = build_card_with_table($title, $table);
 
