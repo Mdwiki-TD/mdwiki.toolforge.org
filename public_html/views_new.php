@@ -118,6 +118,7 @@ function build_table_head(): string
     HTML;
 }
 
+
 function render_data_all(array $files, string $main_dir, array $all_data): string
 {
     $rows_done = $rows_pending = '';
@@ -137,7 +138,11 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
 
     foreach ($files as $file) {
         $lang = basename($file, '.json');
-        $url = "?main_dir=$main_dir&lang=$lang";
+
+        // روابط منفصلة لكل نوع بيانات
+        $url_non_zero = "?main_dir=$main_dir&lang=$lang&data_type=non_zero";
+        $url_zero = "?main_dir=$main_dir&lang=$lang&data_type=zero";
+
         $count = $all_data[$lang] ?? 0;
         $data = get_data($file);
         $ready = count(data_not_zero($data));
@@ -145,15 +150,15 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
         $still = $count - $ready;
 
         $row = <<<HTML
-            <tr>
-                <td>$i</td>
-                <td><a class='item' href='$url'>$lang</a></td>
-                <td>$count</td>
-                <td>$ready</td>
-                <td>$still</td>
-                <td>$done</td>
-            </tr>
-        HTML;
+        <tr>
+            <td>$i</td>
+            <td>$lang</td>
+            <td>$count</td>
+            <td><a class='item' href='$url_non_zero'>$ready</a></td>
+            <td><a class='item' href='$url_zero'>$still</a></td>
+            <td>$done</td>
+        </tr>
+    HTML;
 
         if ($done) {
             $rows_done .= $row;
@@ -164,6 +169,7 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
         }
         $i++;
     }
+
 
     $thead = build_table_head();
     $table_done = "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$rows_done</tbody></table>";
@@ -178,13 +184,28 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
 function get_columns(array $dataset): array
 {
     $all_keys = [];
+    // ---
+    /*
+    Fatal error: Maximum execution time of 30 seconds exceeded in /data/project/mdwiki/public_html/views_new.php on line 182
+
     foreach ($dataset as $item) {
         $all_keys = array_merge($all_keys, array_keys($item));
     }
     $columns = array_unique($all_keys);
+    */
+    // ---
+    foreach ($dataset as $item) {
+        foreach (array_keys($item) as $key) {
+            $all_keys[$key] = true;
+        }
+    }
+    $columns = array_keys($all_keys);
+    // ---
     sort($columns);
+    // ---
     return $columns;
 }
+
 function pageviews_link(string $lang, string $title, int $count): string
 {
     $url = "https://pageviews.wmcloud.org/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2015-07-01&end=2025-06-27&pages=$title";
@@ -214,13 +235,14 @@ function build_table_from_dataset(array $dataset, string $lang): string
         $tbody .= $row . '</tr>';
         $i++;
     }
-    return "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$tbody</tbody></table>";
+    // ---
+    $class_1 = (count($dataset) > 10000) ? "" : "DataTable";
+    // ---
+    return "<table class='table table-striped table-bordered $class_1'>$thead<tbody>$tbody</tbody></table>";
 }
 
-function render_data_new(array $data, string $lang, string $main_dir): string
+function render_data_new(array $data, string $lang, string $main_dir, string $data_type = 'non_zero'): string
 {
-    // if (!$data || empty($data)) return "<p>No data</p>";
-
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
             <span class="card-title h2">JSON File: $lang</span>
@@ -230,19 +252,25 @@ function render_data_new(array $data, string $lang, string $main_dir): string
         <hr/>
     HTML;
 
-    $data_not_0 = data_not_zero($data);
-    $table1 = build_table_from_dataset($data_not_0, $lang);
-    $count1 = count($data_not_0);
-    $card1 = build_card_with_table("Non-Zero Data ($count1)", $table1, "collapsed-card");
+    if ($data_type === 'non_zero') {
+        $data_filtered = data_not_zero($data);
+        $title = "Non-Zero Data (" . count($data_filtered) . ")";
+    } elseif ($data_type === 'zero') {
+        $data_not_0 = data_not_zero($data);
+        $data_filtered = array_diff_key($data, $data_not_0);
+        $title = "Zero Data Only (" . count($data_filtered) . ")";
+    } else {
+        // إذا كانت قيمة غير معروفة نعرض كل البيانات
+        $data_filtered = $data;
+        $title = "All Data (" . count($data_filtered) . ")";
+    }
 
-    $data_with_0 = array_diff_key($data, $data_not_0);
-    $table2 = build_table_from_dataset($data_with_0, $lang);
-    $count2 = count($data_with_0);
+    $table = build_table_from_dataset($data_filtered, $lang);
+    $card = build_card_with_table($title, $table);
 
-    $card2 = build_card_with_table("Zero Data Only ($count2)", $table2, "mt-4");
-
-    return $header . $card1 . $card2;
+    return $header . $card;
 }
+
 
 function get_main_dir()
 {
@@ -258,6 +286,7 @@ function get_main_dir()
 [$main_dir_with_sub, $main_dir] = get_main_dir();
 
 $lang = $_GET['lang'] ?? '';
+$data_type = $_GET['data_type'] ?? 'non_zero';
 
 $dir = "$base_path/pybot/md_core/update_med_views/$main_dir_with_sub";
 
@@ -268,7 +297,7 @@ if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z]+)?$/i', $lang)) {
 if ($lang) {
     $data = get_data("$dir/$lang.json");
     // ---
-    $table = render_data_new($data, $lang, $main_dir);
+    $table = render_data_new($data, $lang, $main_dir, $data_type);
 } else {
     $files = glob("$dir/*.json");
     $all_data = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/languages_counts.json"), true);
