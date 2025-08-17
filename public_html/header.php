@@ -80,6 +80,7 @@ function print_head()
 		"/Translation_Dashboard/css/styles.css",
 		"/Translation_Dashboard/css/Responsive_Table.css",
 		"/Translation_Dashboard/css/dashboard_new1.css",
+		"/Translation_Dashboard/css/theme.css",
 		"$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css",
 		"$hoste/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css",
 		"$hoste/ajax/libs/datatables.net-bs5/1.13.1/dataTables.bootstrap5.css",
@@ -99,6 +100,7 @@ function print_head()
 		"$hoste/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js",
 		"/Translation_Dashboard/js/sorttable.js",
 		"/Translation_Dashboard/js/to.js",
+		"/Translation_Dashboard/js/theme.js",
 		"$hoste/ajax/libs/ace/1.42.0/ace.js",
 	];
 
@@ -118,32 +120,6 @@ print_head();
 //---
 echo "</head>";
 //---
-$them_li = <<<HTML
-	<button class="btn btn-link nav-link px-2 d-flex align-items-center " id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
-		data-bs-display="static" aria-label="Toggle theme (light)">
-		<span class="theme-icon-active my-1">
-			<i class="bi bi-circle-half"></i>
-		</span>
-		<span class="d-lg-none ms-2" id="bd-theme-text"></span>
-	</button>
-	<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-				<i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i> Light
-			</button>
-		</li>
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-				<i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i> Dark
-			</button>
-		</li>
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-				<i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i> Auto
-			</button>
-		</li>
-	</ul>
-HTML;
 //---
 $li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
@@ -202,19 +178,15 @@ echo <<<HTML
 							<span class="nav-link py-2 px-0 px-lg-2" id="load_time"></span>
 						</li>
 					</ul>
-					<hr class="d-lg-none text-black-50">
+					<hr class="d-lg-none text-dark-subtle text-50">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
-						<!-- <li class="nav-item col-4 col-lg-auto dropdown"> $them_li </li> -->
 						$li_user
 					</ul>
 				</div>
 				<div class="d-flex ms-2">
-					<span class="nav-item col-4 col-lg-auto dropdown">
-						$them_li
-					</span>
-					<!-- <button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
+					<button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
 						<i class="bi bi-moon-stars-fill"></i>
-					</button> -->
+					</button>
 				</div>
 			</div>
 		</nav>

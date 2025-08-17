@@ -75,6 +75,7 @@ function print_head()
 	if (isset($_GET['noboot']) == '') {
 		echo <<<HTML
 			<link href='/Translation_Dashboard/css/styles.css' rel='stylesheet' type='text/css'>
+			<link href='/Translation_Dashboard/css/theme.css' rel='stylesheet' type='text/css'>
 			<link href='/Translation_Dashboard/css/Responsive_Table.css' rel='stylesheet' type='text/css'>
 			<link href='/Translation_Dashboard/css/dashboard_new1.css' rel='stylesheet' type='text/css'>
 			<link href='$hoste/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css'>
@@ -85,6 +86,7 @@ function print_head()
 
 			<script type="module" src="/Translation_Dashboard/js/color-modes.js"></script>
 			<script type="module" src="/Translation_Dashboard/js/c.js"></script>
+			<script src="/Translation_Dashboard/js/theme.js"></script>
 			<script src='$hoste/ajax/libs/jquery/3.7.0/jquery.min.js'></script>
 			<script src='$hoste/ajax/libs/popper.js/2.11.8/umd/popper.min.js'></script>
 			<script src='$hoste/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js'></script>
@@ -102,32 +104,6 @@ function print_head()
 };
 
 print_head();
-$them_li = <<<HTML
-	<button class="btn btn-link nav-link px-2 d-flex align-items-center " id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
-		data-bs-display="static" aria-label="Toggle theme (light)">
-		<span class="theme-icon-active my-1">
-			<i class="bi bi-circle-half"></i>
-		</span>
-		<span class="d-lg-none ms-2" id="bd-theme-text"></span>
-	</button>
-	<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-				<i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i> Light
-			</button>
-		</li>
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-				<i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i> Dark
-			</button>
-		</li>
-		<li>
-			<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-				<i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i> Auto
-			</button>
-		</li>
-	</ul>
-HTML;
 
 echo <<<HTML
 	<body>
@@ -170,18 +146,14 @@ echo <<<HTML
 							</a>
 						</li>
 					</ul>
-					<hr class="d-lg-none text-black-50">
+					<hr class="d-lg-none text-dark-subtle text-50">
 					<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav ms-lg-auto">
-						<!-- <li class="nav-item col-4 col-lg-auto dropdown"> $them_li </li> -->
 					</ul>
 				</div>
 				<div class="d-flex ms-2">
-					<span class="nav-item col-4 col-lg-auto dropdown">
-						$them_li
-					</span>
-					<!-- <button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
+					<button class="theme-toggle btn btn-link me-ms-auto" aria-label="Toggle theme">
 						<i class="bi bi-moon-stars-fill"></i>
-					</button> -->
+					</button>
 				</div>
 			</div>
 		</nav>

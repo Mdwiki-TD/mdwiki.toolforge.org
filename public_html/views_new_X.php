@@ -76,25 +76,19 @@ function build_card_with_table(string $title, string $table_html, string $extra_
     HTML;
 }
 
-function build_table_head(): string
+function build_table_head($y): string
 {
     return <<<HTML
         <thead>
             <tr>
                 <th style="width: 10%">#</th>
                 <th>Lang</th>
-                <th>Titles</th>
-                <th>2015</th>
-                <th>2016</th>
-                <th>2017</th>
-                <th>2018</th>
-                <th>2019</th>
-                <th>2020</th>
-                <th>2021</th>
-                <th>2022</th>
-                <th>2023</th>
-                <th>2024</th>
-                <th>2025</th>
+                <th>Titltes</th>
+                <th>$y Views</th>
+                <th>Ready</th>
+                <th>Still</th>
+                <th>with_hash</th>
+                <th style="width: 10%">Done!</th>
             </tr>
         </thead>
     HTML;
@@ -103,44 +97,64 @@ function build_table_head(): string
 
 function render_data_all_new(string $base_path, array $all_data): string
 {
-    $rows_done = '';
-    $done_all = 0;
+    // ---
+    $main_dir = 'views_new';
+    // ---
+    $rows_done = $rows_pending = '';
+    $done_all = $pending_all = $i = 0;
 
     $all_titles = 0;
+
+    $year = ($main_dir == 'views_new') ? '2024' : 'all';
 
     $stats = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/views_new/stats.json"), true);
 
     $count_all = count($stats);
 
-    $i = 1;
-
     foreach ($stats as $lang => $org_data) {
 
-        $all_titles += $org_data['not_empty'] ?? 0;
+        // روابط منفصلة لكل نوع بيانات
         $url_non_0 = "?lang=$lang&data_type=non_zero";
+        $url_zero  = "?lang=$lang&data_type=zero";
+        $url_hash  = "?lang=$lang&data_type=hash";
 
+        $count = $all_data[$lang] ?? 0;
+
+        // {'all': 1, 'empty': 0, 'not_empty': 1, 'hash': 0, 'views': {'all': 2554, '2024': 685}}
+        // $org_data = get_data($file);
+
+        $all_titles += $org_data['all'] ?? 0;
+        $lang_views = $org_data['views']['2024'] ?? 0;
         // ---
-        $count = $org_data['not_empty'];
+        $lang_views = number_format($lang_views);
         // ---
-        $years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
+        $with_hash = (int) $org_data['hash'] ?? 0;
+        $count = $count - $with_hash;
+        $count_non_zero = (int) $org_data['not_empty'] ?? 0;
+        $count_zero = (int) $org_data['empty'] ?? 0;
+        // ---
+        $done = $count == $count_non_zero || $count_zero == 0;
         // ---
         $row = <<<HTML
-            <tr>
-                <td>$i</td>
-                <td>$lang</td>
-                <td><a class='item' href='$url_non_0'>$count</a></td>
-        HTML;
-        // ---
-        foreach ($years as $year) {
-            $y_count = $org_data['views'][$year] ?? 0;
-            $y_count = number_format($y_count);
-            $row .= "<td>$y_count</td>";
-        };
-        // ---
-        $row .= "</tr>";
-        // ---
-        $rows_done .= $row;
-        $done_all++;
+        <tr>
+            <td>$i</td>
+            <td>$lang</td>
+            <td>$count</td>
+            <td>$lang_views</td>
+            <td><a class='item' href='$url_non_0'>$count_non_zero</a></td>
+            <td><a class='item' href='$url_zero'>$count_zero</a></td>
+            <td><a class='item' href='$url_hash'>$with_hash</a></td>
+            <td>$done</td>
+        </tr>
+    HTML;
+
+        if ($done) {
+            $rows_done .= $row;
+            $done_all++;
+        } else {
+            $rows_pending .= $row;
+            $pending_all++;
+        }
         $i++;
     }
 
@@ -155,17 +169,29 @@ function render_data_all_new(string $base_path, array $all_data): string
         <hr/>
     HTML;
 
-    $thead = build_table_head();
-    $table_done = "<table class='table table-striped table-bordered table-sm DataTable'>$thead<tbody>$rows_done</tbody></table>";
-    $card_done = build_card_with_table("", $table_done, "collapsed-card1");
+    $thead = build_table_head($year);
+    $table_done = "<table class='table table-striped table-bordered DataTable'>$thead<tbody>$rows_done</tbody></table>";
+    $table_pending = "<table id='pending' class='table table-striped table-bordered'>$thead<tbody>$rows_pending</tbody></table>";
 
-    return $header . $card_done;
+    $card_done = build_card_with_table("Completed Languages ($done_all)", $table_done, "collapsed-card1");
+    $card_pending = build_card_with_table("Pending Languages ($pending_all)", $table_pending, "mt-4");
+
+    return $header . $card_done . $card_pending;
     // ---
 }
 
 function get_columns(array $dataset): array
 {
     $all_keys = [];
+    // ---
+    /*
+    Fatal error: Maximum execution time of 30 seconds exceeded in /data/project/mdwiki/public_html/views_new.php on line 182
+
+    foreach ($dataset as $item) {
+        $all_keys = array_merge($all_keys, array_keys($item));
+    }
+    $columns = array_unique($all_keys);
+    */
     // ---
     foreach ($dataset as $item) {
         foreach (array_keys($item) as $key) {
@@ -175,9 +201,6 @@ function get_columns(array $dataset): array
     $columns = array_keys($all_keys);
     // ---
     sort($columns);
-    // ---
-    // remove any key < 2015 and not = "all"
-    $columns = array_filter($columns, fn($c) => $c == "all" || $c >= "2015");
     // ---
     return $columns;
 }
@@ -193,8 +216,7 @@ function build_table_from_dataset(array $dataset, string $lang): string
 {
     if (empty($dataset)) return "<p>No rows</p>";
 
-    // $columns = get_columns($dataset);
-    $columns = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "all"];
+    $columns = get_columns($dataset);
 
     $thead = '<thead><tr><th>#</th><th>title</th>' . implode('', array_map(fn($c) => "<th>$c</th>", $columns)) . '</tr></thead>';
     $tbody = '';
@@ -263,7 +285,9 @@ $data_type = $_GET['data_type'] ?? 'non_zero';
 
 $dir = "$base_path/pybot/md_core/update_med_views/views_new/all";
 
-// if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z0-9]+)*$/i', $lang)) $lang = ''; // Invalid language code
+if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z0-9]+)*$/i', $lang)) {
+    $lang = ''; // Invalid language code
+}
 
 if ($lang) {
     $data = get_data("$dir/$lang.json");
