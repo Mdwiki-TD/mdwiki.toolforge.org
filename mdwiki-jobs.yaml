@@ -15,6 +15,7 @@
   image: bullseye
   emails: none
 
+# tfj run find1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
 - name: findreplace
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
   schedule: '1 1 * * *'
