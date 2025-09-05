@@ -20,11 +20,12 @@ rm -rf "$TARGET_DIR_2"
 # Clone the repository
 if git clone --branch "$BRANCH" "$REPO_URL" "$TARGET_DIR_2"; then
     # ---
-    if [ -d "$TARGET_DIR_2"/src ]; then
-        COPY_dir="$TARGET_DIR_2"/src
-    fi
+    rm -rf "$TARGET_DIR_2"/.git
+    rm -f "$TARGET_DIR_2"/.gitignore
     # ---
-    rm -rf "$COPY_dir"/.git
+    if [ -d "$TARGET_DIR_2/src" ]; then
+        COPY_dir="$TARGET_DIR_2/src"
+    fi
     # ---
     cp -rf "$COPY_dir"/publish_reports/*.* public_html/publish_reports/ -v
     rm -rf "$COPY_dir"/publish_reports
