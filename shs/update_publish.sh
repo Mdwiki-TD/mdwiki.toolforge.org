@@ -7,7 +7,9 @@ echo ">>> clone --branch ${BRANCH} ."
 
 REPO_URL="https://github.com/Mdwiki-TD/publish.git"
 TARGET_DIR="public_html/publish"
-TARGET_DIR_2="public_html/publish2"
+
+TARGET_DIR_2="publish_clone"
+COPY_dir="$TARGET_DIR_2"
 
 # Navigate to the project directory
 cd $HOME || exit 1
@@ -17,19 +19,23 @@ rm -rf "$TARGET_DIR_2"
 
 # Clone the repository
 if git clone --branch "$BRANCH" "$REPO_URL" "$TARGET_DIR_2"; then
-    # Copy JSON file if it exists
-    if [ -f "$TARGET_DIR_2"/fix_refs ]; then
-        rm "$TARGET_DIR_2"/fix_refs
+    # ---
+    if [ -d "$TARGET_DIR_2"/src ]; then
+        COPY_dir="$TARGET_DIR_2"/src
     fi
-    rm -rf "$TARGET_DIR_2"/.git
-    cp -rf "$TARGET_DIR_2"/publish_reports/*.* public_html/publish_reports/ -v
-    rm -rf "$TARGET_DIR_2"/publish_reports
-    cp -rf "$TARGET_DIR_2"/* "$TARGET_DIR/" -v
-    # ln -s ~/public_html/fix_refs ~/public_html/publish/fix_refs
+    # ---
+    rm -rf "$COPY_dir"/.git
+    # ---
+    cp -rf "$COPY_dir"/publish_reports/*.* public_html/publish_reports/ -v
+    rm -rf "$COPY_dir"/publish_reports
+    # ---
+    cp -rf "$COPY_dir"/* "$TARGET_DIR/" -v
+    # ---
     # Remove backup directory
     rm -rf "$TARGET_DIR_2"
-
+    # ---
     echo "Repository cloned successfully."
+    # ---
     chmod -R 6774 "$TARGET_DIR"
 else
     echo "Failed to clone the repository." >&2
