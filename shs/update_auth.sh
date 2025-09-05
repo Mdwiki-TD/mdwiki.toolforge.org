@@ -24,7 +24,11 @@ find authx -name *.json -delete
 rm -rf authx/vendor
 
 # copy all files to public_html
-cp -rf -v authx/* public_html/auth
-
+# cp -rf -v authx/* public_html/auth
+if [ -d "authx/src" ]; then
+    cp -rf -v authx/src/* public_html/auth/
+else
+    cp -rf -v authx/* public_html/auth/
+fi
 # Remove the `authx` directory.
 rm -rf authx

@@ -20,12 +20,12 @@ HTML;
 //---
 ini_set('session.use_strict_mode', '1');
 //---
-$dir_t = __DIR__;
+if (substr(__DIR__, 0, 2) == 'I:') {
+    include_once 'I:/mdwiki/auth_repo/oauth/user_infos.php';
+} else {
+    include_once __DIR__ . '/../auth/oauth/user_infos.php';
+}
 //---
-if (strpos(__FILE__, "I:\\") !== false) $dir_t = "I:/mdwiki/";
-//---
-include_once $dir_t  . '/auth/auth/user_infos.php';
-
 function get_host()
 {
 	// $hoste = get_host();
