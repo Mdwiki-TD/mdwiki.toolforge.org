@@ -7,7 +7,7 @@ echo ">>> clone --branch ${BRANCH} ."
 REPO_URL="https://github.com/Mdwiki-TD/tdc.git"
 TARGET_DIR="public_html/tdc"
 
-TARGET_DIR_2="public_html/tdc2"
+TARGET_DIR_2="tdc_clone"
 COPY_dir="$TARGET_DIR_2"
 
 # Navigate to the project directory
