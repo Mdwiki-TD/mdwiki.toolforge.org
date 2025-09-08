@@ -24,7 +24,12 @@ find tdx -name *.json -delete
 rm -rf tdx/vendor
 
 # copy all files to public_html
-cp -rf -v tdx/* public_html/Translation_Dashboard
+# cp -rf -v tdx/* public_html/Translation_Dashboard
+if [ -d "tdx/src" ]; then
+    cp -rf -v tdx/src/* public_html/Translation_Dashboard/
+else
+    cp -rf -v tdx/* public_html/Translation_Dashboard/
+fi
 
 # Remove the `tdx` directory.
 rm -rf tdx
