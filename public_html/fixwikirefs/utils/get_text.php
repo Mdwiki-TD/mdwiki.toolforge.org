@@ -62,7 +62,7 @@ function from_api($title, $lang)
         // ---
         if (!empty($redirect)) {
             // It's a redirect page
-            return '';
+            return 'redirect';
         }
         // ---
         $text = $page['revisions'][0]['slots']['main']['*'] ?? '';

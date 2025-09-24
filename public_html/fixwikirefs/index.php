@@ -57,6 +57,13 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
         return $text_re;
     }
     // ---
+    if ($resultb == "redirect") {
+        // $text_re .= "text == ''";
+        $text_re .= published_alert("Page is redirect", "warning");
+        $text_re .= $edt_link_row;
+        return $text_re;
+    }
+    // ---
     $newtext = $resultb;
     //---
     if (!empty($save)) {

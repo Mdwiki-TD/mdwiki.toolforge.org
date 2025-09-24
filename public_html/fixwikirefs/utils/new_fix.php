@@ -23,6 +23,10 @@ function get_results_new($sourcetitle, $title, $lang, $text = "")
         return "notext";
     }
     //---
+    if ($text == "redirect") {
+        return "redirect";
+    }
+    //---
     $newtext = DoChangesToText1($sourcetitle, $title, $text, $lang, 0);
     //---
     $newtext = trim($newtext);
