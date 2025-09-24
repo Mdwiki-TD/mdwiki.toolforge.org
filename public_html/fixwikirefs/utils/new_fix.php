@@ -12,7 +12,7 @@ use function FixWikiRefs\Fix\get_results_new;
 
 */
 
-function get_results_new($sourcetitle, $title, $lang, $text = "")
+function get_results_new($sourcetitle, $title, $lang, $mdwiki_revid, $text = "")
 {
     //---
     $err = "";
@@ -25,7 +25,7 @@ function get_results_new($sourcetitle, $title, $lang, $text = "")
         return [$err, $text];
     }
     //---
-    $newtext = DoChangesToText1($sourcetitle, $title, $text, $lang, 0);
+    $newtext = DoChangesToText1($sourcetitle, $title, $text, $lang, $mdwiki_revid);
     //---
     $newtext = trim($newtext);
     //---

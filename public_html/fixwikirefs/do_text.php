@@ -8,10 +8,11 @@ use function FixWikiRefs\Fix\get_results_new;
 
 $text = $_POST['text'] ?? '';
 $lang = $_POST['lang'] ?? '';
+$mdwiki_revid = $_POST['revid'] ?? $_POST['mdwiki_revid'] ?? '';
 
 if ($text != '' && $lang != '') {
     //---
-    [$err, $resultb] = get_results_new("!", "!", $lang, $text);
+    [$err, $resultb] = get_results_new("!", "!", $lang, $mdwiki_revid, $text);
     // ---
     $newtext = trim($resultb);
     // ---
