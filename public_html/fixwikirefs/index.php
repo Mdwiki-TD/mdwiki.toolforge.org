@@ -44,6 +44,13 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
         </div>
     HTML;
     //---
+    if ($resultb == "redirect") {
+        // $text_re .= "text == ''";
+        $text_re .= published_alert("Page is redirect", "warning");
+        $text_re .= $edt_link_row;
+        return $text_re;
+    }
+    // ---
     if ($resultb == 'no changes') {
         $text_re .= published_alert("No changes", "warning");
         $text_re .= $edt_link_row;
@@ -53,13 +60,6 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
     if ($resultb == "notext") {
         // $text_re .= "text == ''";
         $text_re .= published_alert("No text", "warning");
-        $text_re .= $edt_link_row;
-        return $text_re;
-    }
-    // ---
-    if ($resultb == "redirect") {
-        // $text_re .= "text == ''";
-        $text_re .= published_alert("Page is redirect", "warning");
         $text_re .= $edt_link_row;
         return $text_re;
     }
