@@ -31,7 +31,7 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
     //---
     $text_re = "";
     //---
-    $resultb = get_results_new($sourcetitle, $title, $lang);
+    [$err, $resultb] = get_results_new($sourcetitle, $title, $lang);
     //---
     if ($test) $text_re .= "results:({$resultb})<br>";
     //---
@@ -43,6 +43,12 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
             </div>
         </div>
     HTML;
+    //---
+    if (!empty($err)) {
+        $text_re .= published_alert($err, "warning");
+        $text_re .= $edt_link_row;
+        return $text_re;
+    };
     //---
     if ($resultb == "redirect") {
         // $text_re .= "text == ''";

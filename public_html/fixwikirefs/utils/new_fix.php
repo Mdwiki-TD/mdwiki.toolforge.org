@@ -15,16 +15,14 @@ use function FixWikiRefs\Fix\get_results_new;
 function get_results_new($sourcetitle, $title, $lang, $text = "")
 {
     //---
-    if (empty($text)) {
-        $text = get_wikipedia_text($title, $lang);
-    }
+    $err = "";
     //---
     if (empty($text)) {
-        return "notext";
+        [$err, $text] = get_wikipedia_text($title, $lang);
     }
     //---
-    if ($text === "redirect") {
-        return "redirect";
+    if (!empty($err)) {
+        return [$err, $text];
     }
     //---
     $newtext = DoChangesToText1($sourcetitle, $title, $text, $lang, 0);
@@ -32,8 +30,8 @@ function get_results_new($sourcetitle, $title, $lang, $text = "")
     $newtext = trim($newtext);
     //---
     if ($newtext == $text) {
-        return "no changes";
+        return ["no changes", ""];
     }
     //---
-    return $newtext;
+    return ["", $newtext];
 }
