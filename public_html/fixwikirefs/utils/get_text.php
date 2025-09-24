@@ -23,14 +23,15 @@ function from_api($title, $lang)
     global $usr_agent;
     $url = "https://{$lang}.wikipedia.org/w/api.php";
     $data = [
-        'action' => 'query',
-        'format' => 'json',
-        'prop' => 'revisions',
-        'rvslots' => '*',
-        'rvprop' => 'content',
-        'titles' => $title,
+        "action" => "query",
+        "format" => "json",
+        "prop" => "revisions|info",
+        "titles" => $title,
+        "utf8" => 1,
+        "formatversion" => "2",
+        "rvprop" => "content",
+        "rvslots" => "*"
     ];
-
     // echo $url . '?' . http_build_query($data) . "<br>";
 
     $ch = curl_init($url);
@@ -57,10 +58,19 @@ function from_api($title, $lang)
     $pages = $json['query']['pages'] ?? [];
     // ---
     foreach ($pages as $page) {
+        $redirect = $page['redirect'] ?? '';
+        // ---
+        if (!empty($redirect)) {
+            // It's a redirect page
+            return '';
+        }
+        // ---
         $text = $page['revisions'][0]['slots']['main']['*'] ?? '';
+        // ---
         if (!empty($text)) {
             return $text;
         }
+        // ---
     }
     // ---
     return '';
