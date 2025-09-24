@@ -65,7 +65,7 @@ function from_api($title, $lang)
             return 'redirect';
         }
         // ---
-        $text = $page['revisions'][0]['slots']['main']['*'] ?? '';
+        $text = $page['revisions'][0]['slots']['main']['content'] ?? '';
         // ---
         if (!empty($text)) {
             return $text;
