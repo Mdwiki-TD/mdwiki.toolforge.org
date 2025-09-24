@@ -1,5 +1,6 @@
 <?php
-function echox($s = '') {
+function echox($s = '')
+{
     if (isset($_GET['tx'])) {
         echo $s;
     }
@@ -22,17 +23,21 @@ if ($_SERVER['SERVER_NAME'] === 'localhost') {
 
 // الاتصال بقاعدة البيانات
 try {
-    $db = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echox("Error connecting to database: " . $e->getMessage());
     exit;
 }
 
+// $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+// $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
 // إنشاء جدول `errors` لتسجيل المسارات الخاطئة إذا لم يكن موجودًا
 $sql = "CREATE TABLE IF NOT EXISTS errors (
-    path VARCHAR(512) NOT NULL PRIMARY KEY,
-    visits INT NOT NULL DEFAULT 1
+        path VARCHAR(512) NOT NULL PRIMARY KEY,
+        visits INT NOT NULL DEFAULT 1,
+        UNIQUE KEY `path` (`path`)
 )";
 try {
     $db->exec($sql);
@@ -43,50 +48,22 @@ try {
 
 $path = $_SERVER['REQUEST_URI'];
 // $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+$path = mb_substr($path, 0, 512);
+
 echox("Path: " . $path . "<br/>");
 
-// التحقق مما إذا كان المسار موجودًا بالفعل
-$sql = "SELECT visits FROM errors WHERE path = ?";
-
+$sql = "INSERT INTO errors (path, visits)
+        VALUES (?, 1)
+        ON DUPLICATE KEY UPDATE visits = visits + 1";
 try {
     $stmt = $db->prepare($sql);
     $stmt->bindParam(1, $path, PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echox("Error checking for path: " . $e->getMessage());
+    echox('Error upserting visit count: ' . $e->getMessage());
     exit;
-}
-
-if ($result) {
-    // تحديث عدد الزيارات إذا كان المسار مسجلاً من قبل
-    $visits = (int) $result['visits'] + 1;
-
-    $sql = "UPDATE errors SET visits = ? WHERE path = ?";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(1, $visits, PDO::PARAM_INT);
-    $stmt->bindParam(2, $path, PDO::PARAM_STR);
-
-    try {
-        $stmt->execute();
-    } catch (PDOException $e) {
-        echox("Error updating visit count: " . $e->getMessage());
-        exit;
-    }
-} else {
-    // إدراج مسار جديد إذا لم يكن مسجلاً من قبل
-    $sql = "INSERT INTO errors (path, visits) VALUES (?, 1)";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(1, $path, PDO::PARAM_STR);
-
-    try {
-        $stmt->execute();
-    } catch (PDOException $e) {
-        echox("Error inserting new path: " . $e->getMessage());
-        exit;
-    }
 }
 
 // إغلاق الاتصال بقاعدة البيانات
 $db = null;
-?>

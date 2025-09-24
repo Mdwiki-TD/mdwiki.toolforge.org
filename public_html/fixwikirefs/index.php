@@ -22,7 +22,7 @@ echo <<<HTML
     <div class="card-body pb-0">
 HTML;
 
-function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
+function worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $movedots, $infobox)
 {
     $site = "$lang.wikipedia.org";
     //---
@@ -31,7 +31,7 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
     //---
     $text_re = "";
     //---
-    $resultb = get_results_new($sourcetitle, $title, $lang);
+    [$err, $resultb] = get_results_new($sourcetitle, $title, $lang, $mdwiki_revid);
     //---
     if ($test) $text_re .= "results:({$resultb})<br>";
     //---
@@ -44,6 +44,19 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox)
         </div>
     HTML;
     //---
+    if (!empty($err)) {
+        $text_re .= published_alert($err, "warning");
+        $text_re .= $edt_link_row;
+        return $text_re;
+    };
+    //---
+    if ($resultb == "redirect") {
+        // $text_re .= "text == ''";
+        $text_re .= published_alert("Page is redirect", "warning");
+        $text_re .= $edt_link_row;
+        return $text_re;
+    }
+    // ---
     if ($resultb == 'no changes') {
         $text_re .= published_alert("No changes", "warning");
         $text_re .= $edt_link_row;
@@ -75,6 +88,7 @@ $movedots   = isset($_GET['movedots']) ? 'checked' : '';
 $infobox    = isset($_GET['infobox']) ? 'checked' : '';
 $lang       = isset($_GET['lang']) ? trim($_GET['lang']) : '';
 $sourcetitle       = isset($_GET['sourcetitle']) ? trim($_GET['sourcetitle']) : '';
+$mdwiki_revid      = $_GET['revid'] ?? $_GET['mdwiki_revid'] ?? "";
 // ---
 $user_name = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
 // ---
@@ -85,7 +99,7 @@ echo "<!-- x --></div></div><!-- x -->";
 $new_tt = "";
 //---
 if (!empty($title) && !empty($lang) && $lang != 'en' && !empty($user_name)) {
-    $new_tt = worknew($title, $lang, $save, $test, $sourcetitle, $movedots, $infobox);
+    $new_tt = worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $movedots, $infobox);
     echo <<<HTML
         <!-- <hr /> -->
             <div class='card mt-3'>

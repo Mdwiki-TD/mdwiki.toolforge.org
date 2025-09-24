@@ -8,14 +8,15 @@ use function FixWikiRefs\Fix\get_results_new;
 
 $text = $_POST['text'] ?? '';
 $lang = $_POST['lang'] ?? '';
+$mdwiki_revid = $_POST['revid'] ?? $_POST['mdwiki_revid'] ?? '';
 
 if ($text != '' && $lang != '') {
     //---
-    $resultb = get_results_new("!", "!", $lang, $text);
+    [$err, $resultb] = get_results_new("!", "!", $lang, $mdwiki_revid, $text);
     // ---
     $newtext = trim($resultb);
     // ---
-    echo json_encode(['newtext' => $newtext, 'result' => "", 'command' => ""]);
+    echo json_encode(['newtext' => $newtext, 'result' => "", 'command' => "", "err" => $err]);
 } else {
     echo json_encode(['error' => 'text or lang is empty', 'text' => $text, 'lang' => $lang]);
 }
