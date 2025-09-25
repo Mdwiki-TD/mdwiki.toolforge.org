@@ -34,7 +34,7 @@ function get_parse_text(string $title): array
         "formatversion" => "2"
     ];
     // ---
-    $url = $end_point . '?' . http_build_query($params);
+    $url = $end_point . '?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
     // ---
     $text = "";
     $revid = 0;

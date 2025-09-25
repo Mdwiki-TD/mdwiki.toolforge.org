@@ -60,7 +60,7 @@ function post_url_params_result(string $endPoint, array $params = []): string
 
     curl_setopt($ch, CURLOPT_URL, $endPoint);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params, '', '&', PHP_QUERY_RFC3986));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     // curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
     // curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
@@ -69,7 +69,7 @@ function post_url_params_result(string $endPoint, array $params = []): string
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
     $output = curl_exec($ch);
-    $url = "{$endPoint}?" . http_build_query($params);
+    $url = "{$endPoint}?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
     if ($output === FALSE) {
         echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
     }
