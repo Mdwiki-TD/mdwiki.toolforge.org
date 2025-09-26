@@ -24,8 +24,8 @@ $queries = [
         # update pages JOIN articles_cats set cat = category where (cat = '' OR cat IS NULL) and article_id = title and category != '' and category is not null
         ",
     "video" => "SELECT *
-        FROM pages WHERE title LIKE '%Video:%' AND cat != 'Videowiki scripts'
-        # update pages set cat = 'Videowiki scripts' where title LIKE '%Video:%'
+        FROM pages WHERE title LIKE '%Video:%' AND cat != 'RTTVideo'
+        # update pages set cat = 'RTTVideo' where title LIKE '%Video:%'
     ",
     "users" => "#INSERT INTO users (username)
         SELECT

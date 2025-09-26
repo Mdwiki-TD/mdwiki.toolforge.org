@@ -1,5 +1,9 @@
 
 # $HOME/local/bin/python3 core8/pwb.py copy_to_en/revid
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash nodone
+# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki nodone
 
 - name: medwiki
   command: "$HOME/jobs/copy_to_medwiki.sh"
@@ -107,11 +111,13 @@
   emails: none
 
 # $HOME/local/bin/python3 core8/pwb.py mdpages/cashwd
-# $HOME/local/bin/python3 core8/pwb.py copy_data/sitelinks
+# $HOME/local/bin/python3 core8/pwb.py copy_data/by_qid/sitelinks
 # $HOME/local/bin/python3 core8/pwb.py apis/cat_cach newlist
-# $HOME/local/bin/python3 core8/pwb.py copy_data/all_articles
-# $HOME/local/bin/python3 core8/pwb.py copy_data/exists_db
+
+# $HOME/local/bin/python3 core8/pwb.py copy_data/by_title/all_articles
+# $HOME/local/bin/python3 core8/pwb.py copy_data/by_title/exists_db
 # $HOME/local/bin/python3 core8/pwb.py wd_works/recheck
+
 # $HOME/local/bin/python3 core8/pwb.py db_work/check_titles
 
 - name: cach-jobs
