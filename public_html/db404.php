@@ -1,4 +1,5 @@
 <?php
+
 function echox($s = '')
 {
     if (isset($_GET['tx'])) {
@@ -8,7 +9,7 @@ function echox($s = '')
 
 if ($_SERVER['SERVER_NAME'] === 'localhost') {
     $host = 'localhost:3306';
-    $dbname = 'vi';
+    $dbname = 'mv';
     $user = 'root';
     $password = 'root11';
 } else {
