@@ -9,25 +9,26 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 // include_once __DIR__ . '/sql_result.php';
 
 $queries = [
-    "RTT_cats" => "SELECT title, cat, category
-        FROM pages, articles_cats
-        WHERE cat = 'RTT' and article_id = title
-        and category != 'RTT' and category != '' and category is not null
+    "RTT_cats" => "SELECT p.title, p.cat, ac.category
+            FROM pages p, s54732__mdwiki_new.all_qids_titles ac
+            WHERE p.cat = 'RTT' and ac.title = p.title
+            and ac.category != 'RTT' and ac.category != '' and ac.category is not null
 
-        # update pages JOIN articles_cats set cat = category where cat = 'RTT' and article_id = title and category != '' and category is not null and category != 'RTT'
+            # update pages p JOIN s54732__mdwiki_new.all_qids_titles ac set p.cat = ac.category where p.cat = 'RTT' and ac.title = p.title and ac.category != '' and ac.category is not null and ac.category != 'RTT'
+
         ",
-    "articles_cats" => "SELECT title, cat, category
-        FROM pages, articles_cats
-        WHERE (cat = '' OR cat IS NULL) and article_id = title
-        and category != '' and category is not null
+    "articles_cats" => "SELECT p.title, p.cat, ac.category
+            FROM pages p, s54732__mdwiki_new.all_qids_titles ac
+            WHERE (p.cat = '' OR p.cat IS NULL) and ac.title = p.title
+            and ac.category != '' and ac.category is not null
 
-        # update pages JOIN articles_cats set cat = category where (cat = '' OR cat IS NULL) and article_id = title and category != '' and category is not null
+            # update pages p JOIN s54732__mdwiki_new.all_qids_titles ac set p.cat = ac.category where (p.cat = '' OR p.cat IS NULL) and ac.title = p.title and ac.category != '' and ac.category is not null
         ",
     "video" => "SELECT *
         FROM pages WHERE title LIKE '%Video:%' AND cat != 'RTTVideo'
         # update pages set cat = 'RTTVideo' where title LIKE '%Video:%'
     ",
-    "users" => "#INSERT INTO users (username)
+    "users" => "INSERT # INTO users (username)
         SELECT
         distinct user from pages where user not in (select username from users)
     ",
