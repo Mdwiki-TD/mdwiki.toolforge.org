@@ -36,7 +36,7 @@ function get_text_html($title, $revision)
     // replace " " by "_"
     $title = str_replace(" ", "_", $title);
     // ---
-	$url = $revision !== '' ? "https://mdwiki.org/w/rest.php/v1/revision/$revision/html"  : "https://mdwiki.org/w/rest.php/v1/page/$title/html";
+    $url = $revision !== '' ? "https://mdwiki.org/w/rest.php/v1/revision/$revision/html"  : "https://mdwiki.org/w/rest.php/v1/page/$title/html";
     // ---
     $text = "";
     // ---
@@ -71,7 +71,7 @@ function post_url_params_result(string $endPoint, array $params = []): string
     $output = curl_exec($ch);
     $url = "{$endPoint}?" . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
     if ($output === FALSE) {
-        echo ("<br>cURL Error: " . curl_error($ch) . "<br>$url");
+        error_log("<br>cURL Error: " . curl_error($ch) . "<br>$url");
     }
 
     curl_close($ch);

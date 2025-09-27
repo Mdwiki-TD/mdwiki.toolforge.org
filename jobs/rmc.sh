@@ -1,3 +1,5 @@
 #!/bin/bash
-rm $HOME/cookies/* -v
 
+set -euo pipefail
+
+rm -fv "$HOME"/cookies/*
