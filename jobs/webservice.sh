@@ -1,5 +1,5 @@
 #!/bin/bash
 webservice stop
-webservice --backend=kubernetes php7.4 start
+webservice --backend=kubernetes php8.2 start
 rm *.out
 

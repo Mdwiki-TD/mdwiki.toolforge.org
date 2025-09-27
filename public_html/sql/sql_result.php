@@ -58,7 +58,7 @@ CREATE TABLE words (
     )
 */
 
-use function OAuth\MdwikiSql\fetch_queries;
+// use function OAuth\MdwikiSql\fetch_queries;
 use function OAuth\MdwikiSql\execute_queries;
 
 function make_sql_result($qua)

@@ -47,12 +47,12 @@ function from_api($title, $lang)
         "rvprop" => "content",
         "rvslots" => "*"
     ];
-    // echo $url . '?' . http_build_query($data) . "<br>";
+    // echo $url . '?' . http_build_query($data, '', '&', PHP_QUERY_RFC3986) . "<br>";
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data, '', '&', PHP_QUERY_RFC3986));
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
     curl_setopt($ch, CURLOPT_USERAGENT, $usr_agent);
@@ -62,7 +62,7 @@ function from_api($title, $lang)
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlError = curl_error($ch);
     //---
-    $url2 = $url . '?' . http_build_query($data);
+    $url2 = $url . '?' . http_build_query($data, '', '&', PHP_QUERY_RFC3986);
     // ---
     // remove "&format=json" from $url2 then make it link <a href="$url2">
     $url2 = str_replace('&format=json', '', $url2);
