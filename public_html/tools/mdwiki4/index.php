@@ -192,9 +192,6 @@ function handleSaveOperation($resultb, $form)
 
 function worknew($title)
 {
-    //---
-    global $save, $test;
-    //---
     $resultb = get_results($title) ?? '';
     //---
     $result = processResults($resultb, $title);
