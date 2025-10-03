@@ -87,24 +87,11 @@ function get_results($title)
     return $result;
 }
 
-function worknew($title)
+function generateEditForm($title, $newtext = '')
 {
-    // TODO: function is
-    // too long and mixes multiple responsibilities like form generation, result
-    // processing, and save handling. Refactor by extracting three smaller functions:
-    // generateEditForm() to build and return the HTML form string, processResults() to
-    // handle the logic of interpreting $resultb and deciding what to display, and
-    // handleSaveOperation() to manage the save-specific conditional logic. Then,
-    // update worknew to call these functions in sequence, improving readability and
-    // maintainability.
-    //---
-    global $save, $test;
     //---
     $site = "mdwiki.org";
-    //---
     $new = "https://$site/w/index.php?title=$title&action=submit";
-    $articleurl = "https://$site/w/index.php?title=$title";
-    //---
     $summary = "mdwiki changes.";
     //---
     $form = <<<HTML
@@ -120,13 +107,38 @@ function worknew($title)
         <input type='hidden' id='wikitext-old' value=''>
     HTML;
     //---
-    $resultb = get_results($title) ?? '';
+    if (!empty($newtext)) {
+        $form .= <<<HTML
+            <div class='form-group'>
+                <label for='find'>new text:</label>
+                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
+            </div>
+            <div class='editOptions aligncenter'>
+                <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
+                <input id='wpDiff' type='submit' class='btn btn-outline-primary' tabindex='7' name='wpDiff' value='show changes' accesskey='v' title='show changes.'>
+                <div class='editButtons'>
+                </div>
+            </div>
+        </form>
+        HTML;
+    }
+    //---
+    return $form;
+}
+
+function processResults($resultb, $title)
+{
+    //---
+    global $test;
     //---
     $resultb = trim($resultb);
-    //---
     $t3 = endsWith($resultb, '.txt');
     //---
     if ($test) echo "results:({$resultb})<br>";
+    //---
+    $site = "mdwiki.org";
+    $new = "https://$site/w/index.php?title=$title&action=submit";
+    $articleurl = "https://$site/w/index.php?title=$title";
     //---
     $edit_link = <<<HTML
         <a type='button' target='_blank' class='btn btn-outline-primary' href='$new'>Open edit new tab.</a>
@@ -144,45 +156,59 @@ function worknew($title)
     if ($resultb == 'no changes') {
         echo "no changes";
         echo $edt_link_row;
+        return 'no_changes';
     } elseif ($resultb == "notext") {
         echo "text == ''";
         echo $edt_link_row;
-        // } elseif ($resultb == "save ok") { echo ("save done.");
+        return 'notext';
     } elseif ($t3 || $test) {
         //---
         $newtext = (!empty($resultb)) ? file_get_contents($resultb) : '';
         //---
-        $form = $form . <<<HTML
-            <div class='form-group'>
-                <label for='find'>new text:</label>
-                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
-            </div>
-            <div class='editOptions aligncenter'>
-                <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
-                <input id='wpDiff' type='submit' class='btn btn-outline-primary' tabindex='7' name='wpDiff' value='show changes' accesskey='v' title='show changes.'>
-                <div class='editButtons'>
-                </div>
-            </div>
-        </form>
-        HTML;
-        //---
-        if (!empty($save)) {
-            if ($resultb == "save ok") {
-                echo 'changes has published';
-            } else {
-                echo 'Changes are not published, try to do it manually.';
-                echo $form;
-            };
-        } else {
-            echo $form;
-        };
-        //---
+        return ['show_form' => true, 'newtext' => $newtext, 'resultb' => $resultb];
     } else {
         echo $resultb;
         echo $edt_link_row;
-    };
+        return 'other';
+    }
+}
+
+function handleSaveOperation($resultb, $form)
+{
     //---
-};
+    global $save;
+    //---
+    if (!empty($save)) {
+        if ($resultb == "save ok") {
+            echo 'changes has published';
+        } else {
+            echo 'Changes are not published, try to do it manually.';
+            echo $form;
+        }
+    } else {
+        echo $form;
+    }
+}
+
+function worknew($title)
+{
+    //---
+    global $save, $test;
+    //---
+    $resultb = get_results($title) ?? '';
+    //---
+    $result = processResults($resultb, $title);
+    //---
+    if ($result == 'no_changes' || $result == 'notext' || $result == 'other') {
+        // Results already displayed in processResults
+        return;
+    }
+    //---
+    if (is_array($result) && $result['show_form']) {
+        $form = generateEditForm($title, $result['newtext']);
+        handleSaveOperation($result['resultb'], $form);
+    }
+}
 
 echo <<<HTML
     <div class="card">
@@ -201,7 +227,7 @@ $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' :
 //---
 $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
 // ---
-if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+if (empty($GLOBALS['global_username'])) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
 // ---
 $title3 = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 // ---
@@ -247,10 +273,10 @@ echo <<<HTML
         <div class='card-body'>
 HTML;
 
-if (empty($username)) {
+if (empty($GLOBALS['global_username'])) {
     echo 'log in!!';
 };
-if (!empty($title) && !empty($username)) {
+if (!empty($title) && !empty($GLOBALS['global_username'])) {
     worknew($title);
 };
 

@@ -27,11 +27,9 @@ HTML;
 //---
 $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
-// global $username;
-// ---
 $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
 // ---
-if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+if (empty($GLOBALS['global_username'])) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
 // ---
 echo <<<HTML
 	<form action='fixred.php' method='GET'>
@@ -85,7 +83,7 @@ function get_results($title)
 	return $result;
 }
 //---
-if (!empty($title) && !empty($username)) {
+if (!empty($title) && !empty($GLOBALS['global_username'])) {
 	echo "starting:<br>";
 	//---
 	$resultb = get_results($title);

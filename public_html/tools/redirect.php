@@ -20,11 +20,9 @@ $ROOT_PATH = explode('public_html', __FILE__)[0];
 
 function printForm($title, $titlelist, $test)
 {
-    global $username;
-    // ---
     $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
     // ---
-    if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+    if (empty($GLOBALS['global_username'])) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
     // ---
     $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
     //---
@@ -130,7 +128,7 @@ echo <<<HTML
         <div class="card-body">
 HTML;
 //---
-if ((empty($title) && empty($titlelist)) || empty($username)) {
+if ((empty($title) && empty($titlelist)) || empty($GLOBALS['global_username'])) {
     printForm($title, $titlelist, $test);
 } else {
     createRedirects($title, $titlelist);

@@ -21,11 +21,9 @@ $test       = $_GET['test'] ?? $_POST['test'] ?? '';
 
 function make_form($titlelist, $number, $test)
 {
-	global $username;
-	// ---
 	$start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
 	// ---
-	if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+	if (empty($GLOBALS['global_username'])) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
 	// ---
 	$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 	//---
@@ -96,7 +94,7 @@ echo <<<HTML
 HTML;
 //---
 
-if ((empty($number) && empty($titlelist)) || empty($username)) {
+if ((empty($number) && empty($titlelist)) || empty($GLOBALS['global_username'])) {
 	make_form($titlelist, $number, $test);
 } else {
 	//---

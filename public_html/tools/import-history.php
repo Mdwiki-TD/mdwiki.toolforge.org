@@ -19,7 +19,7 @@ $from       = $_GET['from'] ?? $_POST['from'] ?? '';
 $title      = $_GET['title'] ?? $_POST['title'] ?? '';
 $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 //---
-$valid_user = $username == 'Doc James' || $username == 'Mr. Ibrahem';
+$valid_user = $GLOBALS['global_username'] == 'Doc James' || $GLOBALS['global_username'] == 'Mr. Ibrahem';
 
 function get_results($aargs)
 {
@@ -44,11 +44,11 @@ function get_results($aargs)
 //---
 function make_form($test, $title, $titlelist)
 {
-    global $username, $valid_user;
+    global $valid_user;
     // ---
-    $codeNote = (!$valid_user && !empty($username)) ? "<span style='font-size:12pt;color:red'>! ($username) Access denied.</span>" : '';
+    $codeNote = (!$valid_user && !empty($GLOBALS['global_username'])) ? "<span style='font-size:12pt;color:red'> Access denied.</span>" : '';
     // ---
-    $start_icon = (empty($username)) ? '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>' : "";
+    $start_icon = (empty($GLOBALS['global_username'])) ? '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>' : "";
     // ---
     if ($valid_user) {
         $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
