@@ -1,5 +1,5 @@
 <?php
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -11,13 +11,6 @@ include_once __DIR__ . '/bots/file_bots.php';
 use function BOTS\TFJ\do_tfj_sh;
 use function BOTS\FILE_BOTS\dump_to_file;
 
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Create redirects.</h3>
-    </div>
-    <div class="card-body">
-HTML;
-//---
 $test       = $_GET['test'] ?? $_POST['test'] ?? '';
 $title      = $_GET['title'] ?? $_POST['title'] ?? '';
 $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
@@ -129,10 +122,22 @@ function createRedirects($title, $titlelist)
     echo $result;
 }
 
+echo <<<HTML
+    <div class="card">
+        <div class="card-header aligncenter" style="font-weight:bold;">
+            <h3>Create redirects.</h3>
+        </div>
+        <div class="card-body">
+HTML;
+//---
 if ((empty($title) && empty($titlelist)) || empty($username)) {
     printForm($title, $titlelist, $test);
 } else {
     createRedirects($title, $titlelist);
 }
+echo <<<HTML
+    </div>
+HTML;
+//---
 
 include_once __DIR__ . '/../footer.php';

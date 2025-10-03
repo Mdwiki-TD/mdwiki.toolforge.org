@@ -1,5 +1,5 @@
 <?php
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
@@ -11,10 +11,11 @@ include_once __DIR__ . '/bots/tfj.php';
 use function BOTS\TFJ\do_tfj_sh;
 
 echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Fix redirects</h3>
-    </div>
-    <div class="card-body">
+    <div class="card">
+		<div class="card-header aligncenter" style="font-weight:bold;">
+			<h3>Fix redirects</h3>
+		</div>
+		<div class="card-body">
 HTML;
 //---
 $title = $_GET['title'] ?? '';

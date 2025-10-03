@@ -2,7 +2,7 @@
 // find: ^(\$[^ ]+\s*=\s*)\$_REQUEST\[(['"][^'"]+['"])\]\s*\?\?
 // replace: $1$_GET[$2] ?? $_POST[$2] ??
 
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -11,10 +11,11 @@ include_once __DIR__ . '/../header.php';
 //---
 // Output HTML structure
 echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Fix duplicate redirects.</h3>
-    </div>
-    <div class="card-body">
+    <div class="card">
+        <div class="card-header aligncenter" style="font-weight:bold;">
+            <h3>Fix duplicate redirects.</h3>
+        </div>
+        <div class="card-body">
 HTML;
 
 // Process request parameters
@@ -61,6 +62,9 @@ if (empty($start) || empty($username)) {
     $result = shell_exec($faf);
     echo $result;
 }
+echo <<<HTML
+    </div>
+HTML;
 
 // Include footer
 include_once __DIR__ . '/../footer.php';

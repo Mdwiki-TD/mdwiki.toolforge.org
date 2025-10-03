@@ -24,8 +24,6 @@ if (!empty($GLOBALS['global_username'] ?? "")) {
 	}
 }
 ?>
-</div> <!-- <div class="card-body"> -->
-</div> <!-- <div class="card"> -->
 </div> <!-- <div id="maindiv" class="container"> -->
 </main>
 <!-- Footer -->

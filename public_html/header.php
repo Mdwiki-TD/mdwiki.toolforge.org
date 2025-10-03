@@ -120,7 +120,6 @@ print_head();
 //---
 echo "</head>";
 //---
-//---
 $li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=login">
@@ -196,4 +195,3 @@ HTML;
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container">
-		<div class="card">

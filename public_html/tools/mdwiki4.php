@@ -1,47 +1,28 @@
 <?php
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-include_once __DIR__ . '/../header.php';
-//---
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Med updater</h3>
-    </div>
-    <div class="card-body">
-HTML;
-//---
-$test         = $_GET['test'] ?? '';
-$title        = $_GET['title'] ?? '';
-$save         = isset($_GET['save']) ? 'save' : '';
-$save_checked = isset($_GET['save']) ? 'checked' : '';
-//---
 
-$root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
-
-function strstartswith($text, $start)
-{
-    return strpos($text, $start) === 0;
-}
 
 function endsWith($string, $endString)
 {
     $len = strlen($endString);
     return substr($string, -$len) === $endString;
 };
+
 function do_py_new($params, $do_test = true, $return_commaand = false)
 {
     //---
-    global $root_path;
+    $root_path = getenv('HOME') ?: 'I:/mdwiki';
     //---
     $dir        = $params['dir'] ?? '';
     $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
     //---
-    $test2 = isset($_REQUEST['test']) ? $_REQUEST['test'] : '';
+    $test2 = isset($_GET['test']) ? $_GET['test'] : '';
     //---
     $py3 = $root_path . "/local/bin/python3";
     //---
@@ -79,7 +60,9 @@ function do_py_new($params, $do_test = true, $return_commaand = false)
 function get_results($title)
 {
     //---
-    global $save, $root_path, $test;
+    global $save, $test;
+    //---
+    $root_path = getenv('HOME') ?: 'I:/mdwiki';
     //---
     $titlex = str_replace('+', '_', $title);
     $titlex = str_replace(' ', '_', $titlex);
@@ -201,13 +184,24 @@ function worknew($title)
     //---
 };
 
-// ---
+echo <<<HTML
+    <div class="card">
+        <div class="card-header aligncenter" style="font-weight:bold;">
+            <h3>Med updater</h3>
+        </div>
+        <div class="card-body">
+HTML;
+//---
+$test         = $_GET['test'] ?? '';
+$title        = $_GET['title'] ?? '';
+$save         = isset($_GET['save']) ? 'save' : '';
+$save_checked = isset($_GET['save']) ? 'checked' : '';
+//---
 $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
 $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
 // ---
 if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
-
 // ---
 $title3 = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 // ---
@@ -261,5 +255,3 @@ if (!empty($title) && !empty($username)) {
 };
 
 echo "</div></div>";
-
-include_once __DIR__ . '/../footer.php';

@@ -9,14 +9,14 @@ use function BOTS\TFJ\do_tfj_sh;
 
 */
 
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
 
 $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
-$test = $_REQUEST['test'] ?? '';
+$test = $_GET['test'] ?? '';
 
 function make_sh_file_2($string)
 {

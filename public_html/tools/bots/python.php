@@ -9,7 +9,7 @@ use function BOTS\Python\do_py;
 
 */
 
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -25,7 +25,7 @@ $params = array(
     'localdir' => '',
     'pyfile' => '',
     'other' => '',
-    'test' => $_REQUEST['test']
+    'test' => $_GET['test']
 );
 $params['other'] .= '';
 $url = "bots/python.php?" . http_build_query( $params );
