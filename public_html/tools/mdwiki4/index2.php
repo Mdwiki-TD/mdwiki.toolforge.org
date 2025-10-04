@@ -69,13 +69,13 @@ class MedUpdater
         $titlex = str_replace("'", "\\'", $titlex);
         $titlex = rawurlencode($titlex);
 
-        $paramsDir = $this->rootPath . "/pybot/newupdater";
-        $pyfile = 'med.py';
         $args = ["-page:$titlex", 'from_toolforge'];
-
         if ($saveFlag) {
             $args[] = 'save';
         }
+
+        $paramsDir = $this->rootPath . "/pybot/newupdater";
+        $pyfile = 'med.py';
 
         // Run Python and return its output (could be filename or messages)
         return $this->runPython($paramsDir, $pyfile, $args, $this->testMode || $this->isLocalhost);

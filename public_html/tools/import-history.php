@@ -19,7 +19,8 @@ $from       = $_GET['from'] ?? $_POST['from'] ?? '';
 $title      = $_GET['title'] ?? $_POST['title'] ?? '';
 $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 //---
-$valid_user = $GLOBALS['global_username'] == 'Doc James' || $GLOBALS['global_username'] == 'Mr. Ibrahem';
+$authorized_users = ['Doc James', 'Mr. Ibrahem']; // Consider moving this to a configuration file
+$valid_user = in_array($GLOBALS['global_username'] ?? '', $authorized_users);
 
 function get_results($aargs)
 {
