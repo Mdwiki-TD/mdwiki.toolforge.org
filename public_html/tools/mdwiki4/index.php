@@ -40,7 +40,7 @@ function do_py_new($params)
         $command = str_replace('//', '/', $command);
         //---
         // Passing the command to the function
-        $cmd_output = @shell_exec($command);
+        $cmd_output = shell_exec($command);
     };
     // ---
     return [$cmd_output, $command];

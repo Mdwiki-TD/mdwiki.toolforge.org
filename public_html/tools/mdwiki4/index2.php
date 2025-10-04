@@ -58,7 +58,7 @@ class MedUpdater
         }
 
         // Execute and return output
-        $output = @shell_exec($command);
+        $output = shell_exec($command);
         // ---
         return (string)($output ?? '');
     }
@@ -87,7 +87,6 @@ class MedUpdater
     // Process the raw response from python and return a structured result instead of echoing
     public function processResults(string $resultb, string $title): array
     {
-        $resultb = trim($resultb);
         $isTxt = self::endsWith($resultb, '.txt');
 
         if ($this->testMode) {
@@ -261,6 +260,7 @@ function make_result($test, $title, $save)
     $resultHtml = '';
     // Get raw result from python
     $raw = $updater->getResults($title, $save);
+    $raw = trim($raw);
 
     // Process it (no echoes inside)
     $processed = $updater->processResults($raw, $title);
