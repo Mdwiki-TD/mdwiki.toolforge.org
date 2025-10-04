@@ -1,13 +1,6 @@
 <?php
 include_once __DIR__ . '/../header.php';
 //---
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Find and replace.</h3>
-    </div>
-    <div class="card-body">
-HTML;
-//---
 $listtype   = $_GET['listtype'] ?? $_POST['listtype'] ?? '';
 $test       = $_GET['test'] ?? $_POST['test'] ?? '';
 $find       = $_GET['find'] ?? $_POST['find'] ?? '';
@@ -161,10 +154,19 @@ function performReplacement($find, $replace, $number, $listtype)
     HTML;
 }
 
+echo <<<HTML
+        <div class="card">
+        <div class="card-header aligncenter" style="font-weight:bold;">
+            <h3>Find and replace.</h3>
+        </div>
+        <div class="card-body">
+HTML;
+//---
 if (empty($find) || empty($replace) || !$valid_user) {
     generateForm($find, $replace, $number, $test);
 } else {
     performReplacement($find, $replace, $number, $listtype);
 }
+echo "</div>";
 
 include_once __DIR__ . '/../footer.php';

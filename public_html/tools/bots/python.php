@@ -9,7 +9,7 @@ use function BOTS\Python\do_py;
 
 */
 
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -25,7 +25,7 @@ $params = array(
     'localdir' => '',
     'pyfile' => '',
     'other' => '',
-    'test' => $_REQUEST['test']
+    'test' => $_GET['test']
 );
 $params['other'] .= '';
 $url = "bots/python.php?" . http_build_query( $params );
@@ -63,7 +63,7 @@ function do_py2($params)
         $command = str_replace('//', '/', $command);
         //---
         // Passing the command to the function
-        $cmd_output = shell_exec($command);
+        $cmd_output = @shell_exec($command);
         //---
         return ["command" => $command, "output" => $cmd_output];
     };
@@ -102,7 +102,7 @@ function do_py($params, $do_test = true, $return_commaand = false)
         };
         //---
         // Passing the command to the function
-        $cmd_output = shell_exec($command);
+        $cmd_output = @shell_exec($command);
         //---
         if ($return_commaand == true) {
             return ["command" => $command, "output" => $cmd_output];
@@ -181,7 +181,7 @@ function do_py_sh($params)
         };
         //---
         // Passing the command to the function
-        $cmd_output = shell_exec($sh_command);
+        $cmd_output = @shell_exec($sh_command);
         //---
         return $cmd_output;
     };

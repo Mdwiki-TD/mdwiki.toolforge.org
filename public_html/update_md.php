@@ -32,6 +32,10 @@ echo "<br>$command<br>";
 // Execute the command and display the result
 $result = shell_exec($command);
 
+if ($result === null) {
+    echo "<p style='color:red;'>Error: Command execution failed</p>";
+}
+
 echo "<pre>";
 echo $result;
 echo "</pre>";

@@ -1,5 +1,5 @@
 <?php
-if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
+if (isset($_GET['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
@@ -11,10 +11,11 @@ include_once __DIR__ . '/bots/tfj.php';
 use function BOTS\TFJ\do_tfj_sh;
 
 echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Fix redirects</h3>
-    </div>
-    <div class="card-body">
+    <div class="card">
+		<div class="card-header aligncenter" style="font-weight:bold;">
+			<h3>Fix redirects</h3>
+		</div>
+		<div class="card-body">
 HTML;
 //---
 $title = $_GET['title'] ?? '';
@@ -26,11 +27,9 @@ HTML;
 //---
 $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
 //---
-// global $username;
-// ---
 $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send'>";
 // ---
-if (empty($username)) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+if (empty($GLOBALS['global_username'])) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
 // ---
 echo <<<HTML
 	<form action='fixred.php' method='GET'>
@@ -84,7 +83,7 @@ function get_results($title)
 	return $result;
 }
 //---
-if (!empty($title) && !empty($username)) {
+if (!empty($title) && !empty($GLOBALS['global_username'])) {
 	echo "starting:<br>";
 	//---
 	$resultb = get_results($title);

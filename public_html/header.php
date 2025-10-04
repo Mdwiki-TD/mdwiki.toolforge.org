@@ -18,13 +18,7 @@ echo <<<HTML
 	<title>WikiProjectMed Tools</title>
 HTML;
 //---
-ini_set('session.use_strict_mode', '1');
-//---
-if (substr(__DIR__, 0, 2) == 'I:') {
-    include_once 'I:/mdwiki/auth_repo/oauth/user_infos.php';
-} else {
-    include_once __DIR__ . '/auth/oauth/user_infos.php';
-}
+include_once __DIR__ . '/userinfos_wrap.php';
 //---
 function get_host()
 {
@@ -120,7 +114,6 @@ print_head();
 //---
 echo "</head>";
 //---
-//---
 $li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=login">
@@ -129,7 +122,7 @@ $li_user = <<<HTML
 	</li>
 HTML;
 //---
-if (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') {
+if (!empty($GLOBALS['global_username'] ?? "")) {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
@@ -196,4 +189,3 @@ HTML;
 <main id="body">
 	<!-- <div id="maindiv" class="container-fluid"> -->
 	<div id="maindiv" class="container">
-		<div class="card">

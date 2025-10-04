@@ -14,14 +14,6 @@ use function FixWikiRefs\SavePage\make_save_result;
 use function FixWikiRefs\SavePage\published_alert;
 use function FixWikiRefs\Form\make_result_form;
 //---
-echo <<<HTML
-    <div class="card-header aligncenter" style="font-weight:bold;">
-        <h3>Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a></h3>
-    </div>
-    <!-- padding bottom 0 -->
-    <div class="card-body pb-0">
-HTML;
-
 function worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $movedots, $infobox)
 {
     $site = "$lang.wikipedia.org";
@@ -80,6 +72,15 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $move
     //---
     return $text_re;
 }
+
+echo <<<HTML
+    <div class="card">
+        <div class="card-header aligncenter" style="font-weight:bold;">
+            <h3>Fix references in Wikipedia's: <a href='https://hashtags.wmcloud.org/?query=mdwiki' target='_blank'>#mdwiki</a></h3>
+        </div>
+        <!-- padding bottom 0 -->
+        <div class="card-body pb-0">
+HTML;
 
 $test       = $_GET['test'] ?? '';
 $title      = $_GET['title'] ?? '';

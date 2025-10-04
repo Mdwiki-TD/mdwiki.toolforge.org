@@ -47,14 +47,6 @@ $strs = "Log file for id:$id $restart_text";
 //---
 if ($id == '') $strs = 'log files';
 //---
-echo "
-    <div class='card-header aligncenter' style='font-weight:bold;'>
-        <h3>$strs</h3>
-    </div>
-    <div class='card-body'>
-        <div class='container'>
-
-";
 function make_rows($dirs)
 {
 
@@ -154,6 +146,15 @@ function open_dir()
     //---
 };
 //---
+echo <<<HTML
+    <div class='card'>
+    <div class='card-header aligncenter' style='font-weight:bold;'>
+        <h3>$strs</h3>
+    </div>
+    <div class='card-body'>
+        <div class='container'>
+
+HTML;
 if ($id == '') {
     //---
     open_dir();
@@ -274,7 +275,7 @@ if ($id == '') {
     <br>";
 };
 //---
-// echo'</div>';
+echo'</div>';
 //---
 ?>
 
