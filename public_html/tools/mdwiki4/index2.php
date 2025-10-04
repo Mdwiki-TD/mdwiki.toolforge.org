@@ -40,7 +40,9 @@ class MedUpdater
         $cmdParts[] = escapeshellarg($scriptPath);
 
         foreach ($args as $arg) {
-            $cmdParts[] = escapeshellarg($arg);
+            // escapeshellarg will change -page:Fuchs%27_dystrophy to "-page:Fuchs 27_dystrophy"
+            // $cmdParts[] = escapeshellarg($arg);
+            $cmdParts[] = $arg;
         }
 
         // Build final string carefully
@@ -65,8 +67,8 @@ class MedUpdater
     {
         // sanitize and encode title like original
         $titlex = str_replace(['+', ' '], '_', $title);
-        $titlex = str_replace('"', '\\"', $titlex);
-        $titlex = str_replace("'", "\\'", $titlex);
+        // $titlex = str_replace('"', '\\"', $titlex);
+        // $titlex = str_replace("'", "\\'", $titlex);
         $titlex = rawurlencode($titlex);
 
         $args = ["-page:$titlex", 'from_toolforge'];
@@ -136,7 +138,8 @@ class MedUpdaterView
         $new = "https://$site/w/index.php?title=" . rawurlencode($title) . "&action=submit";
         $summary = "mdwiki changes.";
 
-        $safeText = htmlspecialchars($newtext, ENT_QUOTES, 'UTF-8');
+        // $safeText = htmlspecialchars($newtext, ENT_QUOTES, 'UTF-8');
+        $safeText = $newtext;
 
         $form = <<<HTML
         <form id='editform' name='editform' method='POST' action='$new' target='_blank'>

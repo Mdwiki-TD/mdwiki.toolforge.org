@@ -51,10 +51,9 @@ function get_results($title, $save)
     //---
     $root_path = getenv('HOME') ?: 'I:/mdwiki';
     //---
-    $titlex = str_replace('+', '_', $title);
-    $titlex = str_replace(' ', '_', $titlex);
-    $titlex = str_replace('"', '\\"', $titlex);
-    $titlex = str_replace("'", "\\'", $titlex);
+    $titlex = str_replace(['+', ' '], '_', $title);
+    // $titlex = str_replace('"', '\\"', $titlex);
+    // $titlex = str_replace("'", "\\'", $titlex);
     $titlex = rawurlencode($titlex);
     //---
     $sa = (!empty($save)) ? ' save' : '';
