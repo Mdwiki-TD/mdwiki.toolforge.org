@@ -40,7 +40,9 @@ class MedUpdater
         $cmdParts[] = escapeshellarg($scriptPath);
 
         foreach ($args as $arg) {
-            $cmdParts[] = escapeshellarg($arg);
+            // escapeshellarg will change -page:Fuchs%27_dystrophy to "-page:Fuchs 27_dystrophy"
+            // $cmdParts[] = escapeshellarg($arg);
+            $cmdParts[] = $arg;
         }
 
         // Build final string carefully
@@ -49,13 +51,14 @@ class MedUpdater
         // normalize duplicate slashes
         $command = preg_replace('#/+#', '/', $command);
 
-        if ($echoCommand || $this->testMode) {
+        // if ($echoCommand || $this->testMode) {
+        if ($this->testMode) {
             // show the full command (safe enough since it's for debugging)
             echo "<h6>" . htmlspecialchars($command, ENT_QUOTES, 'UTF-8') . "</h6>";
         }
 
         // Execute and return output
-        $output = @shell_exec($command);
+        $output = shell_exec($command);
         // ---
         return (string)($output ?? '');
     }
@@ -65,8 +68,8 @@ class MedUpdater
     {
         // sanitize and encode title like original
         $titlex = str_replace(['+', ' '], '_', $title);
-        $titlex = str_replace('"', '\\"', $titlex);
-        $titlex = str_replace("'", "\\'", $titlex);
+        // $titlex = str_replace('"', '\\"', $titlex);
+        // $titlex = str_replace("'", "\\'", $titlex);
         $titlex = rawurlencode($titlex);
 
         $args = ["-page:$titlex", 'from_toolforge'];
@@ -84,7 +87,6 @@ class MedUpdater
     // Process the raw response from python and return a structured result instead of echoing
     public function processResults(string $resultb, string $title): array
     {
-        $resultb = trim($resultb);
         $isTxt = self::endsWith($resultb, '.txt');
 
         if ($this->testMode) {
@@ -136,7 +138,8 @@ class MedUpdaterView
         $new = "https://$site/w/index.php?title=" . rawurlencode($title) . "&action=submit";
         $summary = "mdwiki changes.";
 
-        $safeText = htmlspecialchars($newtext, ENT_QUOTES, 'UTF-8');
+        // $safeText = htmlspecialchars($newtext, ENT_QUOTES, 'UTF-8');
+        $safeText = $newtext;
 
         $form = <<<HTML
         <form id='editform' name='editform' method='POST' action='$new' target='_blank'>
@@ -151,7 +154,7 @@ class MedUpdaterView
             <input type='hidden' id='wikitext-old' value=''>
             <div class='form-group'>
                 <label for='find'>new text:</label>
-                <textarea id='wikitext-new' class='form-control' name='wpTextbox1' rows='18'>{$safeText}</textarea>
+                <textarea id='wikitext-new' class='form-control' name='wpTextbox1' rows='5'>{$safeText}</textarea>
             </div>
             <div class='editOptions aligncenter'>
                 <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
@@ -232,9 +235,6 @@ $save_checked = $save;
 $global_username = $GLOBALS['global_username'] ?? null;
 $loggedIn = !empty($global_username);
 
-// Instantiate updater
-$updater = new MedUpdater(['test' => $test]);
-
 // Title form
 $title_form = MedUpdaterView::makeTitleForm($title, $save_checked, $test, $loggedIn);
 
@@ -251,39 +251,47 @@ echo <<<HTML
     <hr />
 HTML;
 
-// If not logged in, show a message
-if (!$loggedIn) {
-    echo "<div class='alert alert-warning'>log in!!</div>";
-}
+function make_result($test, $title, $save)
+{
+    // Instantiate updater
+    $updater = new MedUpdater(['test' => $test]);
 
-// If title provided and user logged in, run flow
-$resultHtml = '';
-if (!empty($title) && $loggedIn) {
+    // If title provided and user logged in, run flow
+    $resultHtml = '';
     // Get raw result from python
     $raw = $updater->getResults($title, $save);
+    $raw = trim($raw);
 
     // Process it (no echoes inside)
     $processed = $updater->processResults($raw, $title);
     $actionlinks = MedUpdaterView::renderActionLinks($title, $updater);
     // ---
     if ($processed['status'] === 'no_changes') {
-        echo "<div>no changes</div>";
-        echo $actionlinks;
+        $resultHtml = "<div>no changes</div>" . $actionlinks;
+    } elseif ($raw == "save ok") {
+        $resultHtml = "<div class='alert alert-success'>Changes has published</div>";
     } elseif ($processed['status'] === 'notext') {
-        echo "<div>text == ''</div>";
-        echo $actionlinks;
+        $resultHtml = "<div>text == ''</div>" .  $actionlinks;
     } elseif ($processed['status'] === 'show_form') {
         $form = MedUpdaterView::generateEditForm($title, $processed['newtext']);
         // If save requested, display message about save status (original code echoed different behavior),
         // here we just display the form and the action links; implement save handling in server-side if required.
-        echo $form;
-        echo $actionlinks;
+        $resultHtml = $form;
     } elseif ($processed['status'] === 'other') {
-        echo "<pre>" . htmlspecialchars($processed['message'], ENT_QUOTES, 'UTF-8') . "</pre>";
-        echo $actionlinks;
+        $resultHtml = "<pre>" . htmlspecialchars($processed['message'], ENT_QUOTES, 'UTF-8') . "</pre>";
+        $resultHtml .= $actionlinks;
     } else { // error or unknown
-        echo "<pre>" . htmlspecialchars($processed['message'] ?? 'Unknown error', ENT_QUOTES, 'UTF-8') . "</pre>";
+        $resultHtml = "<pre>" . htmlspecialchars($processed['message'] ?? 'Unknown error', ENT_QUOTES, 'UTF-8') . "</pre>";
     }
+    return $resultHtml;
+}
+
+
+// If not logged in, show a message
+if ($loggedIn && !empty($title)) {
+    $result = make_result($test, $title, $save);
+} else {
+    $result = "<div class='alert alert-warning'>log in!!</div>";
 }
 
 // Footer card with quick link to page
@@ -295,6 +303,7 @@ echo <<<HTML
             </h3>
         </div>
         <div class='card-body'>
+            $result
         </div>
     </div>
 HTML;

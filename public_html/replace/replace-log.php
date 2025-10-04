@@ -165,7 +165,7 @@ if ($id == '') {
     //---
     $textx_file = $id_dir . "/text.txt";
     if (is_file($textx_file)) {
-        $textlog = file_get_contents($textx_file);
+        $textlog = file_get_contents($textx_file) ?: "";
         echo '<pre>' . $textlog . '</pre>';
     };
     //---
@@ -175,8 +175,8 @@ if ($id == '') {
     //---
     if (is_file($find_file) && is_file($replace_file)) {
         //---
-        $find    = file_get_contents($find_file);
-        $replace = file_get_contents($replace_file);
+        $find    = file_get_contents($find_file) ?: "";
+        $replace = file_get_contents($replace_file) ?: "";
         //---
         $find_row = "
         <div class='form-group'>
@@ -201,10 +201,10 @@ if ($id == '') {
     //---
     $rows = '';
     //---
-    $log = file_get_contents($log_file);
+    $log = is_file($log_file) ? (file_get_contents($log_file) ?: "") : "";
     //---
     $log = '{' . $log .  '"0":0}';
-    $table = json_decode($log);
+    $table = json_decode($log) ?? [];
     //---
     $all = 0;
     $no_change = 0;
@@ -275,7 +275,7 @@ if ($id == '') {
     <br>";
 };
 //---
-echo'</div>';
+echo '</div>';
 //---
 ?>
 

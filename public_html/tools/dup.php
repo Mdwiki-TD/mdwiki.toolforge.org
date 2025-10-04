@@ -7,7 +7,7 @@ if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-include_once __DIR__ . '/../header.php';
+
 //---
 // Output HTML structure
 echo <<<HTML
@@ -57,7 +57,8 @@ if (empty($start) || empty($GLOBALS['global_username'])) {
     }
 
     // Execute command and output result
-    $result = @shell_exec($faf);
+    $result = shell_exec($faf);
+
     echo $result;
 }
 echo <<<HTML
@@ -65,4 +66,3 @@ echo <<<HTML
 HTML;
 
 // Include footer
-include_once __DIR__ . '/../footer.php';

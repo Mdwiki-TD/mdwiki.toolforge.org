@@ -5,7 +5,6 @@ if (isset($_GET['test']) || isset($_COOKIE['test'])) {
 	error_reporting(E_ALL);
 }
 
-include_once __DIR__ . '/../header.php';
 include_once __DIR__ . '/bots/tfj.php';
 
 use function BOTS\TFJ\do_tfj_sh;
@@ -78,7 +77,7 @@ function get_results($title)
 		'test' => $test
 	);
 	//---
-	$result = do_tfj_sh($params, 'fixred');
+	$result = do_tfj_sh($params, 'fixred0');
 	//---
 	return $result;
 }
@@ -97,4 +96,3 @@ echo <<<HTML
 	</div>
 HTML;
 //---
-include_once __DIR__ . '/../footer.php';

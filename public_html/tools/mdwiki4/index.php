@@ -11,7 +11,7 @@ function endsWith($string, $endString)
     return substr($string, -$len) === $endString;
 };
 
-function do_py_new($params, $do_test = true, $return_commaand = false)
+function do_py_new($params)
 {
     //---
     $root_path = getenv('HOME') ?: 'I:/mdwiki';
@@ -20,8 +20,6 @@ function do_py_new($params, $do_test = true, $return_commaand = false)
     $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
-    //---
-    $test2 = isset($_GET['test']) ? $_GET['test'] : '';
     //---
     $py3 = $root_path . "/local/bin/python3";
     //---
@@ -32,28 +30,20 @@ function do_py_new($params, $do_test = true, $return_commaand = false)
         $py3 = "python3";
     };
     //---
+    $cmd_output = "";
+    $command = "";
+    //---
     if ($pyfile != '' && $my_dir != '') {
         $command = $py3 . " $my_dir/$pyfile $other";
         //---
         // replace // with /
         $command = str_replace('//', '/', $command);
         //---
-        if ($do_test == true) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost' || $test2 != '') {
-                echo "<h6>$command</h6>";
-            };
-        };
-        //---
         // Passing the command to the function
-        $cmd_output = @shell_exec($command);
-        //---
-        if ($return_commaand == true) {
-            return ["command" => $command, "output" => $cmd_output];
-        }
-        //---
-        return $cmd_output;
+        $cmd_output = shell_exec($command);
     };
-    return '';
+    // ---
+    return [$cmd_output, $command];
 }
 
 function get_results($title, $save)
@@ -61,10 +51,9 @@ function get_results($title, $save)
     //---
     $root_path = getenv('HOME') ?: 'I:/mdwiki';
     //---
-    $titlex = str_replace('+', '_', $title);
-    $titlex = str_replace(' ', '_', $titlex);
-    $titlex = str_replace('"', '\\"', $titlex);
-    $titlex = str_replace("'", "\\'", $titlex);
+    $titlex = str_replace(['+', ' '], '_', $title);
+    // $titlex = str_replace('"', '\\"', $titlex);
+    // $titlex = str_replace("'", "\\'", $titlex);
     $titlex = rawurlencode($titlex);
     //---
     $sa = (!empty($save)) ? ' save' : '';
@@ -78,9 +67,7 @@ function get_results($title, $save)
         'other' => $ccc
     );
     //---
-    $result = do_py_new($params);
-    //---
-    return $result;
+    return do_py_new($params);
 }
 
 function generateEditForm($title, $newtext = '')
@@ -107,7 +94,7 @@ function generateEditForm($title, $newtext = '')
         $form .= <<<HTML
             <div class='form-group'>
                 <label for='find'>new text:</label>
-                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
+                <textarea id='wikitext-new' class='form-control' name='wpTextbox1' rows='5'>$newtext</textarea>
             </div>
             <div class='editOptions aligncenter'>
                 <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
@@ -120,20 +107,6 @@ function generateEditForm($title, $newtext = '')
     }
     //---
     return $form;
-}
-
-function handleSaveOperation($resultb, $form, $save)
-{
-    if (!empty($save)) {
-        if ($resultb == "save ok") {
-            echo 'changes has published';
-        } else {
-            echo 'Changes are not published, try to do it manually.';
-            echo $form;
-        }
-    } else {
-        echo $form;
-    }
 }
 
 function make_title_form($test, $title, $save_checked)
@@ -178,15 +151,21 @@ function make_title_form($test, $title, $save_checked)
 
 function worknew($title, $test, $save)
 {
-    $resultb = get_results($title, $save) ?? '';
+    [$resultb, $command] = get_results($title, $save) ?? '';
+    //---
+    $resultHtml = '';
+    //---
+    if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
+        $resultHtml .= "<h6>$command</h6>";
+    };
     //---
     $resultb = trim($resultb);
     //---
     $t3 = endsWith($resultb, '.txt');
     //---
     if ($test) {
-        echo "results:<br>";
-        echo "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
+        $resultHtml .= "results:<br>";
+        $resultHtml .= "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
     }
     //---
     $site = "mdwiki.org";
@@ -208,27 +187,32 @@ function worknew($title, $test, $save)
     HTML;
     //---
     if ($resultb == 'no changes') {
-        echo "no changes";
-        echo $edt_link_row;
-        return 'no_changes';
+        $resultHtml .= "no changes";
+        $resultHtml .= $edt_link_row;
+    } elseif ($resultb == "save ok") {
+        $resultHtml .= "<div class='alert alert-success'>Changes has published</div>";
     } elseif ($resultb == "notext") {
-        echo "text == ''";
-        echo $edt_link_row;
-        return 'notext';
-    } elseif ($t3 || $test) {
+        $resultHtml .= "text == ''";
+        $resultHtml .= $edt_link_row;
+    } elseif (!$t3) {
+        $resultHtml .= "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
+        $resultHtml .= $edt_link_row;
+    }
+    // ---
+    if ($t3 || $test) {
         //---
         $newtext = $t3 ? file_get_contents($resultb) : '';
         //---
         $form = generateEditForm($title, $newtext);
         //---
-        handleSaveOperation($resultb, $form, $save);
+        if (!empty($save)) {
+            $resultHtml .= "<div class='alert alert-warning'>Changes are not published, try to do it manually.</div>";
+        }
         //---
-    } else {
-        echo "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
-        echo $edt_link_row;
-        return 'other';
+        $resultHtml .= $form;
     }
     //---
+    return $resultHtml;
 }
 
 $test         = $_GET['test'] ?? '';
@@ -253,7 +237,7 @@ HTML;
 $result = "";
 // ---
 if (empty($GLOBALS['global_username'])) {
-    $result = 'log in!!';
+    $result = "<div class='alert alert-warning'>log in!!</div>";
 };
 // ---
 if (!empty($title) && !empty($GLOBALS['global_username'])) {
