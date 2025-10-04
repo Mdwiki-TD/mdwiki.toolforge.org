@@ -109,19 +109,6 @@ function generateEditForm($title, $newtext = '')
     return $form;
 }
 
-function handleSaveOperation($resultb, $form, $save)
-{
-    if (!empty($save)) {
-        if ($resultb == "save ok") {
-            return "<div class='alert alert-success'>Changes has published</div>";
-        } else {
-            return "<div class='alert alert-warning'>Changes are not published, try to do it manually.</div>" . $form;
-        }
-    }
-    // ---
-    return $form;
-}
-
 function make_title_form($test, $title, $save_checked)
 {
     $title3 = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -202,6 +189,8 @@ function worknew($title, $test, $save)
     if ($resultb == 'no changes') {
         $resultHtml .= "no changes";
         $resultHtml .= $edt_link_row;
+    } elseif ($resultb == "save ok") {
+        $resultHtml .= "<div class='alert alert-success'>Changes has published</div>";
     } elseif ($resultb == "notext") {
         $resultHtml .= "text == ''";
         $resultHtml .= $edt_link_row;
@@ -216,7 +205,11 @@ function worknew($title, $test, $save)
         //---
         $form = generateEditForm($title, $newtext);
         //---
-        $resultHtml = handleSaveOperation($resultb, $form, $save);
+        if (!empty($save)) {
+            if ($resultb !== "save ok") {
+                $resultHtml = "<div class='alert alert-warning'>Changes are not published, try to do it manually.</div>" . $form;
+            }
+        }
         //---
     }
     //---

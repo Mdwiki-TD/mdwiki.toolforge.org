@@ -268,6 +268,8 @@ function make_result($test, $title, $save)
     // ---
     if ($processed['status'] === 'no_changes') {
         $resultHtml = "<div>no changes</div>" . $actionlinks;
+    } elseif ($raw == "save ok") {
+        $resultHtml = "<div class='alert alert-success'>Changes has published</div>";
     } elseif ($processed['status'] === 'notext') {
         $resultHtml = "<div>text == ''</div>" .  $actionlinks;
     } elseif ($processed['status'] === 'show_form') {
