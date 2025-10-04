@@ -11,7 +11,7 @@ function endsWith($string, $endString)
     return substr($string, -$len) === $endString;
 };
 
-function do_py_new($params, $do_test = true, $return_commaand = false)
+function do_py_new($params)
 {
     //---
     $root_path = getenv('HOME') ?: 'I:/mdwiki';
@@ -20,8 +20,6 @@ function do_py_new($params, $do_test = true, $return_commaand = false)
     $localdir   = $params['localdir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
     $other      = $params['other'] ?? '';
-    //---
-    $test2 = isset($_GET['test']) ? $_GET['test'] : '';
     //---
     $py3 = $root_path . "/local/bin/python3";
     //---
@@ -32,28 +30,20 @@ function do_py_new($params, $do_test = true, $return_commaand = false)
         $py3 = "python3";
     };
     //---
+    $cmd_output = "";
+    $command = "";
+    //---
     if ($pyfile != '' && $my_dir != '') {
         $command = $py3 . " $my_dir/$pyfile $other";
         //---
         // replace // with /
         $command = str_replace('//', '/', $command);
         //---
-        if ($do_test == true) {
-            if ($_SERVER['SERVER_NAME'] == 'localhost' || $test2 != '') {
-                echo "<h6>$command</h6>";
-            };
-        };
-        //---
         // Passing the command to the function
         $cmd_output = @shell_exec($command);
-        //---
-        if ($return_commaand == true) {
-            return ["command" => $command, "output" => $cmd_output];
-        }
-        //---
-        return $cmd_output;
     };
-    return '';
+    // ---
+    return [$cmd_output, $command];
 }
 
 function get_results($title, $save)
@@ -78,9 +68,7 @@ function get_results($title, $save)
         'other' => $ccc
     );
     //---
-    $result = do_py_new($params);
-    //---
-    return $result;
+    return do_py_new($params);
 }
 
 function generateEditForm($title, $newtext = '')
@@ -178,7 +166,11 @@ function make_title_form($test, $title, $save_checked)
 
 function worknew($title, $test, $save)
 {
-    $resultb = get_results($title, $save) ?? '';
+    [$resultb, $command] = get_results($title, $save) ?? '';
+    //---
+    if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
+        echo "<h6>$command</h6>";
+    };
     //---
     $resultb = trim($resultb);
     //---

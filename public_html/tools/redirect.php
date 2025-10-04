@@ -4,7 +4,7 @@ if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-include_once __DIR__ . '/../header.php';
+
 include_once __DIR__ . '/bots/tfj.php';
 include_once __DIR__ . '/bots/file_bots.php';
 
@@ -85,7 +85,7 @@ function get_results($aargs)
         'test' => $test
     );
     //---
-    $result = do_tfj_sh($params, "redirect");
+    $result = do_tfj_sh($params, "redirect0");
     //---
     return $result;
 }
@@ -137,5 +137,3 @@ echo <<<HTML
     </div>
 HTML;
 //---
-
-include_once __DIR__ . '/../footer.php';

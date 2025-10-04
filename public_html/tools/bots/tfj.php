@@ -15,9 +15,6 @@ if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
-$root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
-$test = $_GET['test'] ?? '';
-
 function make_sh_file_2($string)
 {
     //---
@@ -48,7 +45,7 @@ function make_sh_file_2($string)
 function make_command($params)
 {
     //---
-    global $root_path;
+    $root_path = getenv('HOME') ?: 'I:/mdwiki';
     //---
     $dir        = $params['dir'] ?? '';
     $pyfile     = $params['pyfile'] ?? '';
@@ -77,7 +74,7 @@ function make_command($params)
 function do_tfj_sh($params, $name)
 {
     //---
-    global $test;
+    $test = $_GET['test'] ?? '';
     //---
     $command    = make_command($params);
     //---
@@ -90,7 +87,7 @@ function do_tfj_sh($params, $name)
         //---
         $sh_command = "sh $file";
         //---
-        if ($_SERVER['SERVER_NAME'] == 'localhost' or $test != '') {
+        if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
             echo "<h6>$toolforge</h6>";
             echo "<h6>$sh_command</h6>";
         };

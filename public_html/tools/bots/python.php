@@ -37,38 +37,6 @@ $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
 //---
 // include_once __DIR__ . '/tfj.php';
 //---
-function do_py2($params)
-{
-    //---
-    global $root_path;
-    //---
-    $dir        = $params['dir'] ?? '';
-    $localdir   = $params['localdir'] ?? '';
-    $pyfile     = $params['pyfile'] ?? '';
-    $other      = $params['other'] ?? '';
-    //---
-    $py3 = $root_path . "/local/bin/python3";
-    //---
-    $my_dir = $dir;
-    //---
-    if ($_SERVER['SERVER_NAME'] == 'localhost') {
-        $my_dir = $localdir;
-        $py3 = "python3";
-    };
-    //---
-    if ($pyfile != '' && $my_dir != '') {
-        $command = $py3 . " $my_dir/$pyfile $other";
-        //---
-        // replace // with /
-        $command = str_replace('//', '/', $command);
-        //---
-        // Passing the command to the function
-        $cmd_output = @shell_exec($command);
-        //---
-        return ["command" => $command, "output" => $cmd_output];
-    };
-    return [];
-}
 
 function do_py($params, $do_test = true, $return_commaand = false)
 {
@@ -137,7 +105,7 @@ function make_sh_file($string)
     fwrite($myfile, $text);
     fclose($myfile);
     //---
-    return  $filepath;
+    return $filepath;
 }
 
 function do_py_sh($params)
@@ -156,8 +124,6 @@ function do_py_sh($params)
     $my_dir = $dir;
     //---
     if ($pyfile != '' && $my_dir != '') {
-        //---
-        // $root_path
         //---
         $uu = "$my_dir/$pyfile";
         //---
