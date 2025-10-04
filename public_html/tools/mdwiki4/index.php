@@ -206,11 +206,10 @@ function worknew($title, $test, $save)
         $form = generateEditForm($title, $newtext);
         //---
         if (!empty($save)) {
-            if ($resultb !== "save ok") {
-                $resultHtml = "<div class='alert alert-warning'>Changes are not published, try to do it manually.</div>" . $form;
-            }
+            $resultHtml = "<div class='alert alert-warning'>Changes are not published, try to do it manually.</div>";
         }
         //---
+        $resultHtml = $form;
     }
     //---
     return $resultHtml;
