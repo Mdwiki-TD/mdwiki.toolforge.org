@@ -96,7 +96,7 @@ function do_tfj_sh($params, $name)
         };
         //---
         // Passing the toolforge command to the function
-        $cmd_output = shell_exec($sh_command);
+        $cmd_output = @shell_exec($sh_command);
         //---
         return $cmd_output;
     };

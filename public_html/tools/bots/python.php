@@ -63,7 +63,7 @@ function do_py2($params)
         $command = str_replace('//', '/', $command);
         //---
         // Passing the command to the function
-        $cmd_output = shell_exec($command);
+        $cmd_output = @shell_exec($command);
         //---
         return ["command" => $command, "output" => $cmd_output];
     };
@@ -102,7 +102,7 @@ function do_py($params, $do_test = true, $return_commaand = false)
         };
         //---
         // Passing the command to the function
-        $cmd_output = shell_exec($command);
+        $cmd_output = @shell_exec($command);
         //---
         if ($return_commaand == true) {
             return ["command" => $command, "output" => $cmd_output];
@@ -181,7 +181,7 @@ function do_py_sh($params)
         };
         //---
         // Passing the command to the function
-        $cmd_output = shell_exec($sh_command);
+        $cmd_output = @shell_exec($sh_command);
         //---
         return $cmd_output;
     };
