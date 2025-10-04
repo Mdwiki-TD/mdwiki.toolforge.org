@@ -224,7 +224,7 @@ function worknew($title, $test, $save)
         handleSaveOperation($resultb, $form, $save);
         //---
     } else {
-        "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
+        echo "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
         echo $edt_link_row;
         return 'other';
     }
