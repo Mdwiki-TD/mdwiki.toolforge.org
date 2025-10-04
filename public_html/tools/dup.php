@@ -57,7 +57,8 @@ if (empty($start) || empty($GLOBALS['global_username'])) {
     }
 
     // Execute command and output result
-    $result = @shell_exec($faf);
+    $result = shell_exec($faf);
+
     echo $result;
 }
 echo <<<HTML
