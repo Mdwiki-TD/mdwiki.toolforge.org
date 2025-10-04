@@ -94,7 +94,7 @@ function generateEditForm($title, $newtext = '')
         $form .= <<<HTML
             <div class='form-group'>
                 <label for='find'>new text:</label>
-                <textarea id='wikitext-new' class='form-control' name='wpTextbox1'>$newtext</textarea>
+                <textarea id='wikitext-new' class='form-control' name='wpTextbox1' rows='5'>$newtext</textarea>
             </div>
             <div class='editOptions aligncenter'>
                 <input id='wpPreview' type='submit' class='btn btn-outline-primary' tabindex='5' title='[p]' accesskey='p' name='wpPreview' value='Preview changes'/>
@@ -113,14 +113,13 @@ function handleSaveOperation($resultb, $form, $save)
 {
     if (!empty($save)) {
         if ($resultb == "save ok") {
-            echo 'changes has published';
+            return "<div class='alert alert-success'>Changes has published</div>";
         } else {
-            echo 'Changes are not published, try to do it manually.';
-            echo $form;
+            return "<div class='alert alert-warning'>Changes are not published, try to do it manually.</div>" . $form;
         }
-    } else {
-        echo $form;
     }
+    // ---
+    return $form;
 }
 
 function make_title_form($test, $title, $save_checked)
@@ -167,8 +166,10 @@ function worknew($title, $test, $save)
 {
     [$resultb, $command] = get_results($title, $save) ?? '';
     //---
+    $resultHtml = '';
+    //---
     if ($_SERVER['SERVER_NAME'] == 'localhost' || $test != '') {
-        echo "<h6>$command</h6>";
+        $resultHtml .= "<h6>$command</h6>";
     };
     //---
     $resultb = trim($resultb);
@@ -176,8 +177,8 @@ function worknew($title, $test, $save)
     $t3 = endsWith($resultb, '.txt');
     //---
     if ($test) {
-        echo "results:<br>";
-        echo "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
+        $resultHtml .= "results:<br>";
+        $resultHtml .= "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
     }
     //---
     $site = "mdwiki.org";
@@ -199,27 +200,27 @@ function worknew($title, $test, $save)
     HTML;
     //---
     if ($resultb == 'no changes') {
-        echo "no changes";
-        echo $edt_link_row;
-        return 'no_changes';
+        $resultHtml .= "no changes";
+        $resultHtml .= $edt_link_row;
     } elseif ($resultb == "notext") {
-        echo "text == ''";
-        echo $edt_link_row;
-        return 'notext';
-    } elseif ($t3 || $test) {
+        $resultHtml .= "text == ''";
+        $resultHtml .= $edt_link_row;
+    } elseif (!$t3) {
+        $resultHtml .= "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
+        $resultHtml .= $edt_link_row;
+    }
+    // ---
+    if ($t3 || $test) {
         //---
         $newtext = $t3 ? file_get_contents($resultb) : '';
         //---
         $form = generateEditForm($title, $newtext);
         //---
-        handleSaveOperation($resultb, $form, $save);
+        $resultHtml = handleSaveOperation($resultb, $form, $save);
         //---
-    } else {
-        echo "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
-        echo $edt_link_row;
-        return 'other';
     }
     //---
+    return $resultHtml;
 }
 
 $test         = $_GET['test'] ?? '';
@@ -244,7 +245,7 @@ HTML;
 $result = "";
 // ---
 if (empty($GLOBALS['global_username'])) {
-    $result = 'log in!!';
+    $result = "<div class='alert alert-warning'>log in!!</div>";
 };
 // ---
 if (!empty($title) && !empty($GLOBALS['global_username'])) {
