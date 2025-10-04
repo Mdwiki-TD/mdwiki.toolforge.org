@@ -28,7 +28,7 @@ class MedUpdater
     }
 
     // Build and run python command safely
-    public function runPython(string $dir, string $pyfile, string $other = '', bool $echoCommand = false): string
+    public function runPython(string $dir, string $pyfile, array $args = [], bool $echoCommand = false): string
     {
         $dir = rtrim($dir, "/\\");
         $pyPath = $this->pyBinary;
@@ -39,12 +39,10 @@ class MedUpdater
         $cmdParts[] = escapeshellcmd($pyPath);
         $cmdParts[] = escapeshellarg($scriptPath);
 
-        if ($other !== '') {
-            // keep other as a single argument so flags with spaces are preserved safely
-            $cmdParts[] = $other; // we will escape below more carefully
+        foreach ($args as $arg) {
+            $cmdParts[] = escapeshellarg($arg);
         }
 
-        // If $other contains multiple tokens (like "-page:... from_toolforge"), it's safer to append as-is
         // Build final string carefully
         $command = implode(' ', $cmdParts);
 
@@ -57,8 +55,8 @@ class MedUpdater
         }
 
         // Execute and return output
-        // Note: depending on server config, shell_exec may be disabled.
         $output = @shell_exec($command);
+        // ---
         return (string)($output ?? '');
     }
 
@@ -71,14 +69,16 @@ class MedUpdater
         $titlex = str_replace("'", "\\'", $titlex);
         $titlex = rawurlencode($titlex);
 
-        $sa = $saveFlag ? ' save' : '';
-        $ccc = "-page:$titlex from_toolforge $sa";
-
         $paramsDir = $this->rootPath . "/pybot/newupdater";
         $pyfile = 'med.py';
+        $args = ["-page:$titlex", 'from_toolforge'];
+
+        if ($saveFlag) {
+            $args[] = 'save';
+        }
 
         // Run Python and return its output (could be filename or messages)
-        return $this->runPython($paramsDir, $pyfile, $ccc, $this->testMode || $this->isLocalhost);
+        return $this->runPython($paramsDir, $pyfile, $args, $this->testMode || $this->isLocalhost);
     }
 
     // Process the raw response from python and return a structured result instead of echoing
