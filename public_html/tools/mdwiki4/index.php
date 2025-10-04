@@ -5,7 +5,6 @@ if (isset($_GET['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
-
 function endsWith($string, $endString)
 {
     $len = strlen($endString);
@@ -57,10 +56,8 @@ function do_py_new($params, $do_test = true, $return_commaand = false)
     return '';
 }
 
-function get_results($title)
+function get_results($title, $save, $test)
 {
-    //---
-    global $save, $test;
     //---
     $root_path = getenv('HOME') ?: 'I:/mdwiki';
     //---
@@ -126,10 +123,8 @@ function generateEditForm($title, $newtext = '')
     return $form;
 }
 
-function processResults($resultb, $title)
+function processResults($resultb, $title, $test)
 {
-    //---
-    global $test;
     //---
     $resultb = trim($resultb);
     $t3 = endsWith($resultb, '.txt');
@@ -137,6 +132,7 @@ function processResults($resultb, $title)
     if ($test) echo "results:({$resultb})<br>";
     //---
     $site = "mdwiki.org";
+    //---
     $new = "https://$site/w/index.php?title=$title&action=submit";
     $articleurl = "https://$site/w/index.php?title=$title";
     //---
@@ -173,11 +169,8 @@ function processResults($resultb, $title)
     }
 }
 
-function handleSaveOperation($resultb, $form)
+function handleSaveOperation($resultb, $form, $save)
 {
-    //---
-    global $save;
-    //---
     if (!empty($save)) {
         if ($resultb == "save ok") {
             echo 'changes has published';
@@ -230,11 +223,11 @@ function make_title_form($test, $title, $save_checked)
     HTML;
 }
 
-function worknew($title)
+function worknew($title, $test, $save)
 {
-    $resultb = get_results($title) ?? '';
+    $resultb = get_results($title, $save, $test) ?? '';
     //---
-    $result = processResults($resultb, $title);
+    $result = processResults($resultb, $title, $test);
     //---
     if ($result == 'no_changes' || $result == 'notext' || $result == 'other') {
         // Results already displayed in processResults
@@ -243,7 +236,7 @@ function worknew($title)
     //---
     if (is_array($result) && $result['show_form']) {
         $form = generateEditForm($title, $result['newtext']);
-        handleSaveOperation($result['resultb'], $form);
+        handleSaveOperation($result['resultb'], $form, $save);
     }
 }
 
@@ -273,7 +266,7 @@ if (empty($GLOBALS['global_username'])) {
 };
 // ---
 if (!empty($title) && !empty($GLOBALS['global_username'])) {
-    $result = worknew($title);
+    $result = worknew($title, $test, $save);
 };
 // ---
 echo <<<HTML

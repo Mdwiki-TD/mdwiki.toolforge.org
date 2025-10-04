@@ -265,6 +265,7 @@ if (!empty($title) && $loggedIn) {
     // Process it (no echoes inside)
     $processed = $updater->processResults($raw, $title);
     $actionlinks = MedUpdaterView::renderActionLinks($title, $updater);
+    // ---
     if ($processed['status'] === 'no_changes') {
         echo "<div>no changes</div>";
         echo $actionlinks;
