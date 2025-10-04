@@ -190,6 +190,46 @@ function handleSaveOperation($resultb, $form)
     }
 }
 
+function make_title_form($test, $title, $save_checked)
+{
+    $title3 = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+    // ---
+    $start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
+    // ---
+    if (empty($GLOBALS['global_username'])) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+    // ---
+    $testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
+    //---
+    return <<<HTML
+        <form action='mdwiki4.php' method='GET'>
+            $testinput
+            <div class='container'>
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <div class='input-group mb-3'>
+                            <div class='input-group-prepend'>
+                                <span class='input-group-text'>Title</span>
+                            </div>
+                            <input class='form-control' type='text' id='title' name='title' value="$title3" required />
+                        </div>
+                    </div>
+                    <div class='col-md-3'>
+                        <div class='form-check form-switch'>
+                            <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
+                            <label class='check-label' for='save'>Auto save</label>
+                        </div>
+                    </div>
+                    <div class='col-md-5'>
+                        <h4 class='aligncenter'>
+                            $start_icon
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </form>
+    HTML;
+}
+
 function worknew($title)
 {
     $resultb = get_results($title) ?? '';
@@ -207,60 +247,36 @@ function worknew($title)
     }
 }
 
+$test         = $_GET['test'] ?? '';
+$title        = $_GET['title'] ?? '';
+$save         = isset($_GET['save']) ? 'save' : '';
+$save_checked = isset($_GET['save']) ? 'checked' : '';
+//---
+$title_form = make_title_form($test, $title, $save_checked);
+// ---
 echo <<<HTML
     <div class="card">
         <div class="card-header aligncenter" style="font-weight:bold;">
             <h3>Med updater</h3>
         </div>
         <div class="card-body">
-HTML;
-//---
-$test         = $_GET['test'] ?? '';
-$title        = $_GET['title'] ?? '';
-$save         = isset($_GET['save']) ? 'save' : '';
-$save_checked = isset($_GET['save']) ? 'checked' : '';
-//---
-$testinput = (!empty($test)) ? '<input type="hidden" name="test" value="1" />' : '';
-//---
-$start_icon = "<input class='btn btn-outline-primary' type='submit' value='send' />";
-// ---
-if (empty($GLOBALS['global_username'])) $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
-// ---
-$title3 = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
-// ---
-echo <<<HTML
-    <form action='mdwiki4.php' method='GET'>
-        $testinput
-        <div class='container'>
-            <div class='row'>
-                <div class='col-md-4'>
-                    <div class='input-group mb-3'>
-                        <div class='input-group-prepend'>
-                            <span class='input-group-text'>Title</span>
-                        </div>
-                        <input class='form-control' type='text' id='title' name='title' value="$title3" required />
-                    </div>
-                </div>
-                <div class='col-md-3'>
-                    <div class='form-check form-switch'>
-                        <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
-                        <label class='check-label' for='save'>Auto save</label>
-                    </div>
-                </div>
-                <div class='col-md-5'>
-                    <h4 class='aligncenter'>
-                        $start_icon
-                    </h4>
-                </div>
-            </div>
+            $title_form
         </div>
-    </form>
+    </div>
+    <hr />
 HTML;
-
-echo "</div></div>";
-
+// ---
+$result = "";
+// ---
+if (empty($GLOBALS['global_username'])) {
+    $result = 'log in!!';
+};
+// ---
+if (!empty($title) && !empty($GLOBALS['global_username'])) {
+    $result = worknew($title);
+};
+// ---
 echo <<<HTML
-<hr />
     <div class='card'>
         <div class="card-header aligncenter" style="font-weight:bold;">
             <h3>
@@ -268,13 +284,7 @@ echo <<<HTML
             </h3>
         </div>
         <div class='card-body'>
+            $result
+        </div>
+    </div>
 HTML;
-
-if (empty($GLOBALS['global_username'])) {
-    echo 'log in!!';
-};
-if (!empty($title) && !empty($GLOBALS['global_username'])) {
-    worknew($title);
-};
-
-echo "</div></div>";
