@@ -56,7 +56,7 @@ function do_py_new($params, $do_test = true, $return_commaand = false)
     return '';
 }
 
-function get_results($title, $save, $test)
+function get_results($title, $save)
 {
     //---
     $root_path = getenv('HOME') ?: 'I:/mdwiki';
@@ -75,8 +75,7 @@ function get_results($title, $save, $test)
         'dir' => $root_path . "/pybot/newupdater",
         'localdir' => $root_path . "/pybot/newupdater",
         'pyfile' => 'med.py',
-        'other' => $ccc,
-        'test' => $test
+        'other' => $ccc
     );
     //---
     $result = do_py_new($params);
@@ -121,52 +120,6 @@ function generateEditForm($title, $newtext = '')
     }
     //---
     return $form;
-}
-
-function processResults($resultb, $title, $test)
-{
-    //---
-    $resultb = trim($resultb);
-    $t3 = endsWith($resultb, '.txt');
-    //---
-    if ($test) echo "results:({$resultb})<br>";
-    //---
-    $site = "mdwiki.org";
-    //---
-    $new = "https://$site/w/index.php?title=$title&action=submit";
-    $articleurl = "https://$site/w/index.php?title=$title";
-    //---
-    $edit_link = <<<HTML
-        <a type='button' target='_blank' class='btn btn-outline-primary' href='$new'>Open edit new tab.</a>
-        <a type='button' target='_blank' class='btn btn-outline-primary' href='$articleurl'>Open page new tab.</a>
-    HTML;
-    //---
-    $edt_link_row = <<<HTML
-        <div class='aligncenter'>
-            <div class='col-sm'>
-                $edit_link
-            </div>
-        </div>
-    HTML;
-    //---
-    if ($resultb == 'no changes') {
-        echo "no changes";
-        echo $edt_link_row;
-        return 'no_changes';
-    } elseif ($resultb == "notext") {
-        echo "text == ''";
-        echo $edt_link_row;
-        return 'notext';
-    } elseif ($t3 || $test) {
-        //---
-        $newtext = (!empty($resultb)) ? file_get_contents($resultb) : '';
-        //---
-        return ['show_form' => true, 'newtext' => $newtext, 'resultb' => $resultb];
-    } else {
-        echo $resultb;
-        echo $edt_link_row;
-        return 'other';
-    }
 }
 
 function handleSaveOperation($resultb, $form, $save)
@@ -225,19 +178,57 @@ function make_title_form($test, $title, $save_checked)
 
 function worknew($title, $test, $save)
 {
-    $resultb = get_results($title, $save, $test) ?? '';
+    $resultb = get_results($title, $save) ?? '';
     //---
-    $result = processResults($resultb, $title, $test);
+    $resultb = trim($resultb);
     //---
-    if ($result == 'no_changes' || $result == 'notext' || $result == 'other') {
-        // Results already displayed in processResults
-        return;
+    $t3 = endsWith($resultb, '.txt');
+    //---
+    if ($test) {
+        echo "results:<br>";
+        echo "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
     }
     //---
-    if (is_array($result) && $result['show_form']) {
-        $form = generateEditForm($title, $result['newtext']);
-        handleSaveOperation($result['resultb'], $form, $save);
+    $site = "mdwiki.org";
+    //---
+    $new = "https://$site/w/index.php?title=$title&action=submit";
+    $articleurl = "https://$site/w/index.php?title=$title";
+    //---
+    $edit_link = <<<HTML
+        <a type='button' target='_blank' class='btn btn-outline-primary' href='$new'>Open edit new tab.</a>
+        <a type='button' target='_blank' class='btn btn-outline-primary' href='$articleurl'>Open page new tab.</a>
+    HTML;
+    //---
+    $edt_link_row = <<<HTML
+        <div class='aligncenter'>
+            <div class='col-sm'>
+                $edit_link
+            </div>
+        </div>
+    HTML;
+    //---
+    if ($resultb == 'no changes') {
+        echo "no changes";
+        echo $edt_link_row;
+        return 'no_changes';
+    } elseif ($resultb == "notext") {
+        echo "text == ''";
+        echo $edt_link_row;
+        return 'notext';
+    } elseif ($t3 || $test) {
+        //---
+        $newtext = $t3 ? file_get_contents($resultb) : '';
+        //---
+        $form = generateEditForm($title, $newtext);
+        //---
+        handleSaveOperation($resultb, $form, $save);
+        //---
+    } else {
+        "<pre>" . htmlspecialchars($resultb, ENT_QUOTES, 'UTF-8') . "</pre>";
+        echo $edt_link_row;
+        return 'other';
     }
+    //---
 }
 
 $test         = $_GET['test'] ?? '';
