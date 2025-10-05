@@ -135,7 +135,7 @@ function make_sql_result($qua)
 function get_sql_pass()
 {
     // ---
-    $ROOT_PATH = explode('public_html', __FILE__)[0];
+	$ROOT_PATH = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
     // ---
     $_dir = $ROOT_PATH . '/confs/';
     // ---

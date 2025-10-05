@@ -33,7 +33,8 @@ $url = "bots/python.php?" . http_build_query( $params );
 $output = file_get_contents($url);
 */
 //---
-$root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
+// $root_path = trim(getenv('HOME') ?? '') ?: 'I:/mdwiki';
+$root_path = getenv("HOME") ?: 'I:/mdwiki';
 //---
 // include_once __DIR__ . '/tfj.php';
 //---

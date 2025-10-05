@@ -4,8 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //---
-// the root path is the first part of the split file path
-$ROOT_PATH = explode('public_html', __FILE__)[0];
+$ROOT_PATH = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
 //---
 // Define the command mappings
 $commands = [
