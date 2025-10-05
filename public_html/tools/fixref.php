@@ -12,7 +12,7 @@ use function BOTS\TFJ\do_tfj_sh;
 use function BOTS\FILE_BOTS\dump_to_file;
 
 // the root path is the first part of the split file path
-$ROOT_PATH = explode('public_html', __FILE__)[0];
+$ROOT_PATH = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
 //---
 $titlelist  = $_GET['titlelist'] ?? $_POST['titlelist'] ?? '';
 $number     = $_GET['number'] ?? $_POST['number'] ?? '';

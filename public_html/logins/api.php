@@ -39,7 +39,7 @@ class Database
 
     public function __construct($server_name)
     {
-        if ($server_name === 'localhost' || !getenv('HOME')) {
+        if ($server_name === 'localhost') {
             $this->host = 'localhost:3306';
             $this->dbname = 'mv';
             $this->user = 'root';
