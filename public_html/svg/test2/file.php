@@ -9,6 +9,7 @@
     <!-- load jquery -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js'></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="bg-light py-4">
@@ -21,9 +22,9 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h6 class="card-title text-primary">File: Parkinsons-disease-prevalence-ihme,World,1990.svg</h6>
+                        <h6 class="card-title text-primary">File: Parkinsons-disease-prevalence-ihme,Asia,2002.svg</h6>
                         <p class="mb-1 fw-semibold">Languages:</p>
-                        <div class="get_languages" data-file="File:Parkinsons-disease-prevalence-ihme,World,1990.svg"></div>
+                        <div class="get_languages" data-file="File:Parkinsons-disease-prevalence-ihme,Asia,2002.svg"></div>
                     </div>
                 </div>
             </div>
@@ -63,39 +64,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        class RealMwApi {
-            async get(params) {
-                // const end_point = 'https://commons.wikimedia.org/w/api.php';
-                const end_point = 'https://ar.wikipedia.org/w/api.php';
-                const url = new URL(end_point);
-                for (const [key, value] of Object.entries(params)) {
-                    url.searchParams.append(key, value);
-                }
-                url.searchParams.append('origin', '*'); // required for CORS in browser
-
-                const res = await fetch(url);
-                if (!res.ok) {
-                    throw new Error(`HTTP error ${res.status}`);
-                }
-                return res.json();
-            }
-        }
-
-        // Replace mw.Api with the real fetch-based implementation
-        const mw = {
-            Api: RealMwApi,
-            loader: {
-                using(modules) {
-                    console.log('Loaded modules:', modules);
-                    return Promise.resolve();
-                }
-            }
-        };
-    </script>
-    <script src="../FileLanguages.js"></script>
+    <script src="../mw.js"></script>
+    <script src="../Gadget-SVGLanguages.js"></script>
 
     <script>
         let divs = $('.get_languages');
