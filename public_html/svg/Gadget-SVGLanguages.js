@@ -34,15 +34,22 @@ function extractLanguagesFromSVG(text) {
             }
         });
     });
+
     let data = Array.from(savedLanguages);
     if (data.length) {
+        console.log(`switches data: `, data.length)
         return data;
     }
-    let texts = svgDoc.querySelectorAll('text');
-    if (texts.length) {
+
+    let anyText = svgDoc.querySelectorAll('text');
+    console.log(`anyText data: `, anyText.length);
+    if (anyText.length) {
         return ["en"];
     }
-    return null;
+
+    console.log(`extractLanguagesFromSVG no result.`);
+
+    return [];
 }
 
 // Helper: fetch SVG content from URL
@@ -70,38 +77,51 @@ async function fetchAndExtractSVG(url) {
 
 // Helper: get file URL from Wikimedia Commons using mw.Api
 async function getFileURL(fileName) {
-    const normalizedName = fileName.replace(/^File:/i, '');
+    // return object { error, url }
+    if (!fileName) return { error: 'Empty fileName', url: null };
+
+    const normalizedName = fileName.replace(/^File:/i, '').trim();
     const api = new mw.Api();
+    let data;
+    try {
+        data = await api.get({
+            action: 'query',
+            titles: `File:${normalizedName}`,
+            prop: 'imageinfo',
+            iiprop: 'url',
+            formatversion: "latest",
+            format: 'json'
+        });
 
-    const data = await api.get({
-        action: 'query',
-        titles: `File:${normalizedName}`,
-        prop: 'imageinfo',
-        iiprop: 'url',
-        formatversion: "latest",
-        format: 'json'
-    });
+    } catch (err) {
+        console.error('mw.Api error:', err);
+        return { error: 'API error', url: null };
+    }
 
-    const pages = data.query.pages;
-    const pageArray = Array.isArray(pages) ? pages : Object.values(pages);
+    const pages = data.query && data.query.pages;
+    if (!pages) return { error: 'Unexpected API response', url: null };
 
-    const page = pageArray[0];
+    // pages is an object keyed by pageid; pick the first value
+    const page = Array.isArray(pages) ? pages[0] : Object.values(pages)[0];
+
+    if (!page) return { error: 'Page not found in API response', url: null };
 
     // If the file does not exist locally or on Commons
     if (page.missing && !page.known) {
-        return [`❌ File ${page.title} does not exist.`, ""];
+        return { error: `File ${page.title} does not exist.`, url: null };
     }
 
     // If the file exists on Commons (shared repository)
     console.log(`ℹ️ File ${page.title} exists on Wikimedia Commons (shared repository).`);
 
-    const fileUrl = page.imageinfo?.[0]?.url;
-    if (fileUrl) {
-        return ["", fileUrl];
+    const fileUrl = page.imageinfo && page.imageinfo[0] && page.imageinfo[0].url;
+    if (fileUrl && fileUrl !== "") {
+        console.log(`fileUrl: ${fileUrl}`)
+        return { error: "", url: fileUrl };
     }
 
-    return ["⚠️ File URL not found.", ""];
-};
+    return { error: `File URL not found for ${page.title}`, url: null };
+}
 
 // Main function: process all <div class="get_languages" file="...">
 async function oneFile(item) {
@@ -109,6 +129,7 @@ async function oneFile(item) {
     const itemSpan = item;
     itemSpan.text("");
     const fileName = item.attr('data-file');
+
     if (!fileName || fileName === "" || fileName === "{{{1}}}") {
         itemSpan.text('Error: Could not find file name');
         return;
@@ -116,15 +137,15 @@ async function oneFile(item) {
 
     itemSpan.text('Loading languages');
 
-    const [err, fileUrl] = await getFileURL(fileName);
-    if (!fileUrl) {
-        console.error(err);
-        itemSpan.text(err ? err : 'Error: Could not find file URL');
+    const { error, url } = await getFileURL(fileName);
+    if (!url) {
+        console.error(error);
+        itemSpan.text(error || 'Error: Could not find file URL');
         return;
     }
 
-    const languages = await fetchAndExtractSVG(fileUrl);
-    const result = languages.length === 0
+    const languages = await fetchAndExtractSVG(url);
+    const result = (!languages || languages.length === 0)
         ? 'No languages found'
         : ' ' + languages.join(', ');
 
@@ -138,11 +159,11 @@ async function initGetLanguages() {
         type: 'button',
         class: 'cdx-button cdx-button--action-progressive cdx-button--weight-primary cdx-button--size-medium',
         text: 'Load'
-    });*/
+    });
 
-    // divs.append($('<span>'));
     // divs.append(button);
-
+    // divs.append($('<span>'));
+    */
     console.log("start initGetLanguages, get_languages divs: ", divs.length);
 
     if (!divs.length) {
@@ -160,7 +181,6 @@ async function initGetLanguages() {
         await oneFile($div);
     });
 }
-
 
 $(document).ready(async function () {
     mw.loader.using(['mediawiki.api', 'oojs-ui', 'mediawiki.util']).then(async function () {
