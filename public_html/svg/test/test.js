@@ -18,49 +18,74 @@ async function testWithURL(url) {
 
 // == Test Function 3: Using Wikimedia Commons file name (reuse getFileURL + fetchAndExtractSVG) ==
 async function testWithFileName(fileName) {
-    const [err, fileUrl] = await getFileURL(fileName);
-    if (!fileUrl) {
-        console.error(err);
-        return [err, []];
+    const { error, url } = await getFileURL(fileName);
+
+    if (!url || url === "") {
+        console.error('testWithFileName no result');
+        return [error, []];
     }
-    const result = await testWithURL(fileUrl);
+
+    const result = await testWithURL(url);
     return ["", result];
 }
 
 // == Show results helper ==
-function showResults(jsonData, id) {
-    const resultBox = document.getElementById(id);
+function showResults(jsonData, resultBox) {
 
     const result = jsonData.length === 0
-        ? 'No languages found'
-        : ' ' + jsonData.join(', ');
+        ? 'No data found'
+        : 'Languages: ' + jsonData.join(', ');
 
-    resultBox.textContent = "Languages found: " + result;
+    resultBox.textContent = result;
 }
 
 // == Event Listeners ==
 document.getElementById('fileTestBtn').addEventListener('click', async () => {
+    // ---
     const file = document.getElementById('svgFileInput').files[0];
+    // ---
     if (!file) { alert('Please select a file first.'); return; }
+    // ---
+    const resultBox = document.getElementById('fileResult');
+    // ---
+    resultBox.textContent = "Loading..."
+    // ---
     const result = await testWithFile(file);
-    showResults(result, 'fileResult');
+    // ---
+    showResults(result, resultBox);
 });
 
 document.getElementById('urlTestBtn').addEventListener('click', async () => {
+    // ---
     const url = document.getElementById('svgUrlInput').value.trim();
+    // ---
     if (!url) { alert('Please enter a URL first.'); return; }
+    // ---
+    const resultBox = document.getElementById('urlResult');
+    // ---
+    resultBox.textContent = "Loading..."
+    // ---
     const result = await testWithURL(url);
-    showResults(result, 'urlResult');
+    // ---
+    showResults(result, resultBox);
 });
 
 document.getElementById('fileNameBtn').addEventListener('click', async () => {
+    // ---
     const fileName = document.getElementById('svgFileNameInput').value.trim();
+    // ---
     if (!fileName) { alert('Please enter a file name.'); return; }
+    // ---
+    const resultBox = document.getElementById('fileNameResult');
+    // ---
+    resultBox.textContent = "Loading..."
+    // ---
     const [err, result] = await testWithFileName(fileName);
-
+    // ---
     if (err) {
-        $('#fileNameResult').text(err);
+        resultBox.textContent = err.toString();
         return;
     }
-    showResults(result, 'fileNameResult');
+    // ---
+    showResults(result, resultBox);
 });

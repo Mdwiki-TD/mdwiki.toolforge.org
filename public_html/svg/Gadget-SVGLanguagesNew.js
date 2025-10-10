@@ -16,15 +16,23 @@
     - output		[[:File:Parkinsons-disease-prevalence-ihme,World,1990.svg|File]] languages: pt, es, ca, eu, cs, si, ar
 */
 
+const SVG_LANG_CACHE = new Map(); // simple in-memory cache
 
-// Helper: extract languages from SVG DOM
+// Helper: extract languages from SVG DOM string
 function extractLanguagesFromSVG(text) {
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(text, "image/svg+xml");
 
-    const switches = svgDoc.querySelectorAll('switch');
+    // detect XML parse errors
+    if (svgDoc.getElementsByTagName('parsererror').length) {
+        console.error('SVG parse error');
+        return [];
+    }
+
     const savedLanguages = new Set();
 
+    // 1) search <switch> -> <text> elements with systemLanguage
+    const switches = svgDoc.querySelectorAll('switch');
     switches.forEach(sw => {
         const texts = sw.querySelectorAll('text');
         texts.forEach(t => {
@@ -35,47 +43,63 @@ function extractLanguagesFromSVG(text) {
         });
     });
 
+    // 2) if we have languages return them
     let data = Array.from(savedLanguages);
     if (data.length) {
-        console.log(`switches data: `, data.length)
+        console.log(`switches data: `, data.length);
         return data;
     }
-
-    let anyText = svgDoc.querySelectorAll('text');
+    // 3) If there are text nodes but no language metadata assume English
+    const anyText = svgDoc.querySelectorAll('text');
     console.log(`anyText data: `, anyText.length);
     if (anyText.length) {
-        return ["en"];
+        return ['en'];
     }
 
     console.log(`extractLanguagesFromSVG no result.`);
 
+    // none found
     return [];
 }
 
-// Helper: fetch SVG content from URL
-async function fetchAndExtractSVG(url) {
-    let text = "";
+// Helper: fetch SVG content with timeout and return parsed languages
+async function fetchAndExtractSVG(url, timeoutMs = 8000) {
+    if (!url) return [];
+
+    // use cache
+    if (SVG_LANG_CACHE.has(url)) {
+        return SVG_LANG_CACHE.get(url);
+    }
+
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+
+    let text;
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(id);
         if (!response.ok) {
-            console.error(`Failed to fetch SVG: ${response.statusText}`);
+            console.error('Failed to fetch SVG:', response.status, response.statusText);
             return [];
         }
-
         text = await response.text();
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        clearTimeout(id);
+        console.error('Fetch error:', err && err.name ? err.name : err);
         return [];
     }
+
     try {
-        return extractLanguagesFromSVG(text);
-    } catch (error) {
-        console.error(error);
+        const langs = extractLanguagesFromSVG(text);
+        SVG_LANG_CACHE.set(url, langs);
+        return langs;
+    } catch (err) {
+        console.error('SVG parse error:', err);
         return [];
     }
 }
 
-// Helper: get file URL from Wikimedia Commons using mw.Api
+// Helper: get file URL from MediaWiki using mw.Api
 async function getFileURL(fileName) {
     // return object { error, url }
     if (!fileName) return { error: 'Empty fileName', url: null };
@@ -116,14 +140,14 @@ async function getFileURL(fileName) {
 
     const fileUrl = page.imageinfo && page.imageinfo[0] && page.imageinfo[0].url;
     if (fileUrl && fileUrl !== "") {
-        console.log(`fileUrl: ${fileUrl}`)
+        console.log(`fileUrl: ${fileUrl}`);
         return { error: "", url: fileUrl };
     }
 
     return { error: `File URL not found for ${page.title}`, url: null };
 }
 
-// Main function: process all <div class="get_languages" file="...">
+// Main per-item worker. Accepts jQuery-wrapped element
 async function oneFile(item) {
     // const itemSpan = item.find("span") || item;
     const itemSpan = item;
@@ -152,38 +176,23 @@ async function oneFile(item) {
     itemSpan.text(result);
 }
 
+// Initialize: process all .get_languages elements concurrently but wait for all
 async function initGetLanguages() {
-    let divs = $('.get_languages');
+    const divs = $('.get_languages');
+    console.log('start initGetLanguages, get_languages divs: ', divs.length);
 
-    /*var button = $('<button>', {
-        type: 'button',
-        class: 'cdx-button cdx-button--action-progressive cdx-button--weight-primary cdx-button--size-medium',
-        text: 'Load'
-    });
+    if (!divs.length) return;
 
-    // divs.append(button);
-    // divs.append($('<span>'));
-    */
-    console.log("start initGetLanguages, get_languages divs: ", divs.length);
-
-    if (!divs.length) {
-        return;
-    }
-
-    // $('.get_languages .cdx-button').on('click', async function () {
-    //     console.log("cdx-button");
-    //     let $div = $(this);
-    //     await oneFile($div);
-    // });
-
-    divs.each(async function () {
-        let $div = $(this);
-        await oneFile($div);
-    });
+    // convert to array of promises and run them concurrently
+    const promises = divs.toArray().map(el => oneFile($(el)));
+    await Promise.allSettled(promises);
 }
 
-$(document).ready(async function () {
-    mw.loader.using(['mediawiki.api', 'oojs-ui', 'mediawiki.util']).then(async function () {
-        await initGetLanguages();
-    });
+// Document ready and load MediaWiki modules, then init
+$(document).ready(function () {
+    mw.loader.using(['mediawiki.api', 'oojs-ui', 'mediawiki.util'])
+        .then(initGetLanguages)
+        .catch(err => {
+            console.error('Failed to load MW modules:', err);
+        });
 });
