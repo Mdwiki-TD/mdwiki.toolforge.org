@@ -1,11 +1,21 @@
 /*
-    Gadget for Wikipedia using mw.Api() to extract SVG languages
-    Add importScript("User:Mr._Ibrahem/Gadget-SVGLanguages.js"); to [[Special:MyPage/common.js]]
-    Examples: [[User:Mr. Ibrahem/Gadget-SVGLanguages]]
-    Usage example:
-    - usage			{{SVGLanguages|Parkinsons-disease-prevalence-ihme,World,1990.svg}}
-    - result		File languages: pt, es, ca, eu, cs, si, ar, fallback
+  # Gadget for Wikipedia using mw.Api() to extract SVG languages
+
+  ## To use it:
+    - In your local wiki add next line to [[Special:MyPage/common.js|common.js]]:
+      mw.loader.load('//meta.wikimedia.org/w/index.php?title=User:Mr._Ibrahem/Gadget-SVGLanguages.js&action=raw&ctype=text/javascript');
+
+    - For global use add next line to [[:metawiki:Special:MyPage/global.js|global.js]]:
+      importScript("User:Mr._Ibrahem/Gadget-SVGLanguages.js");
+
+  ## Examples
+    - [[:metawiki:User:Mr. Ibrahem/Gadget-SVGLanguages]]
+
+  ## Usage example:
+    - input			{{SVGLanguages|Parkinsons-disease-prevalence-ihme,World,1990.svg}}
+    - output		[[:File:Parkinsons-disease-prevalence-ihme,World,1990.svg|File]] languages: pt, es, ca, eu, cs, si, ar
 */
+
 
 // Helper: extract languages from SVG DOM
 function extractLanguagesFromSVG(svgDoc) {
