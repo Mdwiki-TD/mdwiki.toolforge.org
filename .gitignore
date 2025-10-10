@@ -97,4 +97,6 @@ public_html/views_x.php
 /public_html/with_vendor
 /public_html/side
 public_html/svg/**
-!public_html/svg/FileLanguages.js
+
+!public_html/svg/test2
+!public_html/svg/test2/file.php
