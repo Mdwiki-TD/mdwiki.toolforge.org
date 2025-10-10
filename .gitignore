@@ -100,3 +100,4 @@ public_html/svg/**
 
 !public_html/svg/test2
 !public_html/svg/test2/file.php
+!public_html/svg/mw.js
