@@ -18,7 +18,10 @@
 
 
 // Helper: extract languages from SVG DOM
-function extractLanguagesFromSVG(svgDoc) {
+function extractLanguagesFromSVG(text) {
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(text, "image/svg+xml");
+
     const switches = svgDoc.querySelectorAll('switch');
     const savedLanguages = new Set();
 
@@ -58,10 +61,7 @@ async function fetchAndExtractSVG(url) {
         return [];
     }
     try {
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(text, "image/svg+xml");
-
-        return extractLanguagesFromSVG(svgDoc);
+        return extractLanguagesFromSVG(text);
     } catch (error) {
         console.error(error);
         return [];
