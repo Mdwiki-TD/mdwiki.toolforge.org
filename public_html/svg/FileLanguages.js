@@ -15,21 +15,39 @@ function extractLanguagesFromSVG(svgDoc) {
     switches.forEach(sw => {
         const texts = sw.querySelectorAll('text');
         texts.forEach(text => {
-            const lang = text.getAttribute('systemLanguage') || 'fallback';
-            savedLanguages.add(lang);
+            const lang = text.getAttribute('systemLanguage');
+            if (lang) {
+                savedLanguages.add(lang);
+            }
         });
     });
-
-    return Array.from(savedLanguages);
+    let data = Array.from(savedLanguages);
+    if (data.length) {
+        return data;
+    }
+    let texts = svgDoc.querySelectorAll('text');
+    if (texts.length) {
+        return ["en"];
+    }
+    return null;
 }
 
 // Helper: fetch SVG content from URL
 async function fetchAndExtractSVG(url) {
+    let text = "";
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`Failed to fetch SVG: ${response.statusText}`);
+        if (!response.ok) {
+            console.error(`Failed to fetch SVG: ${response.statusText}`);
+            return [];
+        }
 
-        const text = await response.text();
+        text = await response.text();
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+    try {
         const parser = new DOMParser();
         const svgDoc = parser.parseFromString(text, "image/svg+xml");
 
@@ -45,26 +63,35 @@ async function getFileURL(fileName) {
     const normalizedName = fileName.replace(/^File:/i, '');
     const api = new mw.Api();
 
-    try {
-        const data = await api.get({
-            action: 'query',
-            titles: `File:${normalizedName}`,
-            prop: 'imageinfo',
-            iiprop: 'url',
-            format: 'json'
-        });
+    const data = await api.get({
+        action: 'query',
+        titles: `File:${normalizedName}`,
+        prop: 'imageinfo',
+        iiprop: 'url',
+        formatversion: "latest",
+        format: 'json'
+    });
 
-        const pages = data.query.pages;
-        const pageKey = Object.keys(pages)[0];
-        const fileUrl = pages[pageKey].imageinfo?.[0]?.url;
-        if (!fileUrl) throw new Error('File URL not found');
+    const pages = data.query.pages;
+    const pageArray = Array.isArray(pages) ? pages : Object.values(pages);
 
-        return fileUrl;
-    } catch (error) {
-        console.error(error);
-        return null;
+    const page = pageArray[0];
+
+    // If the file does not exist locally or on Commons
+    if (page.missing && !page.known) {
+        return [`❌ File ${page.title} does not exist.`, ""];
     }
-}
+
+    // If the file exists on Commons (shared repository)
+    console.log(`ℹ️ File ${page.title} exists on Wikimedia Commons (shared repository).`);
+
+    const fileUrl = page.imageinfo?.[0]?.url;
+    if (fileUrl) {
+        return ["", fileUrl];
+    }
+
+    return ["⚠️ File URL not found.", ""];
+};
 
 // Main function: process all <div class="get_languages" file="...">
 async function oneFile(item) {
@@ -77,11 +104,12 @@ async function oneFile(item) {
         return;
     }
 
-    itemSpan.text('Loading languages fileName: ', fileName);
+    itemSpan.text('Loading languages');
 
-    const fileUrl = await getFileURL(fileName);
+    const [err, fileUrl] = await getFileURL(fileName);
     if (!fileUrl) {
-        itemSpan.text('Error: Could not find file URL');
+        console.error(err);
+        itemSpan.text(err ? err : 'Error: Could not find file URL');
         return;
     }
 
@@ -96,11 +124,11 @@ async function oneFile(item) {
 async function initGetLanguages() {
     let divs = $('.get_languages');
 
-    var button = $('<button>', {
+    /*var button = $('<button>', {
         type: 'button',
         class: 'cdx-button cdx-button--action-progressive cdx-button--weight-primary cdx-button--size-medium',
         text: 'Load'
-    });
+    });*/
 
     // divs.append($('<span>'));
     // divs.append(button);
