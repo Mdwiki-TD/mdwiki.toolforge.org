@@ -17,9 +17,9 @@
     <div class="container">
         <h4 class="mb-4 text-center">SVG Languages</h4>
 
-        <div class="row g-4">
+        <div class="row cols row-cols-2 g-2">
             <!-- Card 1 -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h6 class="card-title text-primary">File: Parkinsons-disease-prevalence-ihme,Asia,2002.svg</h6>
@@ -30,7 +30,7 @@
             </div>
 
             <!-- Card 2 -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h6 class="card-title text-primary">File: test.svg</h6>
@@ -41,7 +41,7 @@
             </div>
 
             <!-- Card 3 -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h6 class="card-title text-primary">File: maternal-mortality,World,1751.svg</h6>
@@ -52,7 +52,7 @@
             </div>
 
             <!-- Card 4 -->
-            <div class="col-md-6 col-lg-4">
+            <div class="col">
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h6 class="card-title text-primary">File: zzzzzzzzzzzzzzzzzzzzz.svg</h6>

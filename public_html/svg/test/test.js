@@ -19,17 +19,23 @@ async function testWithURL(url) {
 // == Test Function 3: Using Wikimedia Commons file name (reuse getFileURL + fetchAndExtractSVG) ==
 async function testWithFileName(fileName) {
     const [err, fileUrl] = await getFileURL(fileName);
-    if (!fileUrl) throw new Error(err || "File URL not found");
-
-    const languages = await fetchAndExtractSVG(fileUrl);
-    console.log("Languages found in file name:", languages);
-    return languages;
+    if (!fileUrl) {
+        console.error(err);
+        return [err, []];
+    }
+    const result = await testWithURL(fileUrl);
+    return ["", result];
 }
 
 // == Show results helper ==
 function showResults(jsonData, id) {
     const resultBox = document.getElementById(id);
-    resultBox.textContent = "Languages found: " + (jsonData.length ? jsonData.join(', ') : "None");
+
+    const result = jsonData.length === 0
+        ? 'No languages found'
+        : ' ' + jsonData.join(', ');
+
+    resultBox.textContent = "Languages found: " + result;
 }
 
 // == Event Listeners ==
@@ -50,6 +56,11 @@ document.getElementById('urlTestBtn').addEventListener('click', async () => {
 document.getElementById('fileNameBtn').addEventListener('click', async () => {
     const fileName = document.getElementById('svgFileNameInput').value.trim();
     if (!fileName) { alert('Please enter a file name.'); return; }
-    const result = await testWithFileName(fileName);
+    const [err, result] = await testWithFileName(fileName);
+
+    if (err) {
+        $('#fileNameResult').text(err);
+        return;
+    }
     showResults(result, 'fileNameResult');
 });
