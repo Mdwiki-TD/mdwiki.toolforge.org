@@ -101,3 +101,5 @@ public_html/svg/*.svg
 public_html/svg/**/*.svg
 public_html/svg/**/*.url
 public_html/svg/SvgFile.php
+public_html/svg/test/Gadget-SVGLanguagesNew.js
+public_html/svg/test/Gadget-SVGLanguages.js
