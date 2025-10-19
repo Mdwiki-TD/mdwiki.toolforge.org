@@ -37,8 +37,8 @@ fi
 find "$TARGET_DIR" -name "*.pyc" -exec rm -f -v {} +
 
 # Optional: Set permissions
-# chmod -R 6770 "$TARGET_DIR"
-find "$TARGET_DIR" -type f ! -name "*.pyc" -exec chmod 6770 {} \;
+# chmod -R 770 "$TARGET_DIR"
+find "$TARGET_DIR" -type f ! -name "*.pyc" -exec chmod 770 {} \;
 
 # Optional: Install dependencies
 #"$HOME/local/bin/python3" -m pip install -r "$TARGET_DIR/requirements.in"

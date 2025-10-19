@@ -21,6 +21,6 @@ rm -rf mdwikix
 #$HOME/local/bin/python3 -m pip install -r pybot/requirements.in
 #pip install --upgrade pip
 
-#find pybot -type f ! -name "*.pyc" -exec chmod 6770 {} \;
+#find pybot -type f ! -name "*.pyc" -exec chmod 770 {} \;
 
 echo ">>> Script execution completed successfully."
