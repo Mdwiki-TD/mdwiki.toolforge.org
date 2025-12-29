@@ -8,6 +8,11 @@ set -euo pipefail
 REPO_NAME="$1"        # e.g. cats_maker
 TARGET_DIR="$2"       # e.g. bots/cats_maker
 
+if [ -z "${1:-}" ] || [ -z "${2:-}" ]; then
+    echo "Usage: $0 <repo_name> <target_dir> [branch]" >&2
+    exit 1
+fi
+
 BRANCH="${3:-main}"
 SUB_DIR_COPY="${SUB_DIR_COPY:-}"
 USER_NAME="${USER_NAME:-MrIbrahem}"
