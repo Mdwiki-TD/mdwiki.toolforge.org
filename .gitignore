@@ -96,3 +96,10 @@ public_html/adminer.php
 public_html/views_x.php
 /public_html/with_vendor
 /public_html/side
+
+public_html/svg/*.svg
+public_html/svg/**/*.svg
+public_html/svg/**/*.url
+public_html/svg/SvgFile.php
+public_html/svg/test/Gadget-SVGLanguagesNew.js
+public_html/svg/test/Gadget-SVGLanguages.js
