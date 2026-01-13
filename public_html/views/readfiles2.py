@@ -1,9 +1,9 @@
 """
 
 """
-import functools
 from pathlib import Path
 import json
+from tqdm import tqdm
 from collections import defaultdict
 
 # Path definitions
@@ -31,12 +31,11 @@ def dump_final_data():
 
 def start() -> None:
     years_paths = [p for p in views_by_year_path.glob("*/") if p.is_dir()]
-    for year_path in years_paths:
+    for year_path in tqdm(years_paths, desc="Processing years"):
         year = year_path.name
         # Process each json file in the source directory
         for file_path in year_path.glob("*.json"):
             lang = file_path.stem
-            print(f"Processing {lang}...")
 
             with open(file_path, "r", encoding="utf-8") as f:
                 try:
