@@ -32,6 +32,19 @@ function build_table_head($years_data): string
         </thead>
     HTML;
 }
+
+function pageviews_link(string $lang, string $title, $y_count, $year): string
+{
+    $lang = ($lang == 'be-x-old') ? 'be-tarask' : $lang;
+    // <!-- https://pageviews.wmcloud.org/pageviews/?project=oc.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2025-01&end=2025-12&pages=Arsenic -->
+
+    $year_link = <<<HTML
+        <a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=$year-01&end=$year-12&pages=$title' target='_blank'>$y_count</a>
+    HTML;
+    return $year_link;
+}
+
+
 function render_data_all_new($lang, $years_data): string
 {
     $rows_done = '';
@@ -69,9 +82,7 @@ function render_data_all_new($lang, $years_data): string
             $y_count = number_format($y_count);
             // <!-- https://pageviews.wmcloud.org/pageviews/?project=oc.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2025-01&end=2025-12&pages=Arsenic -->
 
-            $year_link = <<<HTML
-                <a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=$year-01&end=$year-12&pages=$title' target='_blank'>$y_count</a>
-            HTML;
+            $year_link = pageviews_link($lang, $title, $y_count, $year);
 
             $row .= "<td>$year_link</td>";
         }
@@ -89,8 +100,8 @@ function render_data_all_new($lang, $years_data): string
 
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="card-title h2">Language code: $lang</span>
-            <span class="h3">All Titles: $all_titles</span>
+            <span></span>
+            <span class="h3">WikiProject Medicine Pageviews (lang: $lang)</span>
             <a class='h2 btn btn-secondary' href='index.php'> >> Return</a>
         </div>
         <hr/>
@@ -144,7 +155,13 @@ if ($lang) {
     foreach ($years_dirs as $year_dir) {
         if (!is_dir($year_dir)) continue;
         $year = basename($year_dir);
-        $years_data[$year] = json_decode(file_get_contents("$year_dir/$lang.json"), true);
+        $file_path = "$year_dir/$lang.json";
+
+        $contents = $file_path && file_exists($file_path)
+            ? file_get_contents($file_path)
+            : '{}';
+
+        $years_data[$year] = json_decode($contents, true) ?? [];
     }
     // ---
     $table = render_data_all_new($lang, $years_data);

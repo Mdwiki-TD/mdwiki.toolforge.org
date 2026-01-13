@@ -47,7 +47,7 @@ function render_data_all_new(array $all_data, $years_data): string
     foreach ($all_data as $lang => $count) {
 
         $all_titles += $count ?? 0;
-        $url_non_0 = "views_new_one_lang.php?lang=$lang&data_type=non_zero";
+        $url_non_0 = "views_new_one_lang.php?lang=$lang";
         // ---
         $row = <<<HTML
             <tr>
@@ -78,8 +78,8 @@ function render_data_all_new(array $all_data, $years_data): string
 
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="h2">All Languages: $all_langs</span>
-            <span class="h3">All Titles: $all_titles</span>
+            <span></span>
+            <span class="h3">WikiProject Medicine Pageviews</span>
             <span></span>
         </div>
         <hr/>
@@ -127,7 +127,6 @@ function render_data_all_new(array $all_data, $years_data): string
 
 $main_dir = $_GET['main_dir'] ?? 'views_new';
 $lang = $_GET['lang'] ?? '';
-$data_type = $_GET['data_type'] ?? 'non_zero';
 
 $years = glob("$base_path/views_by_year/*.json");
 $years_data = [];
