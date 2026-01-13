@@ -25,6 +25,10 @@
             align-items: center;
             z-index: 1000;
         }
+
+        .DataTable thead th {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -75,7 +79,6 @@ $type_titles = [
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="mainTable" class="table table-striped table-bordered table-sm w-100">
-                        <!-- Header will be built dynamically -->
                     </table>
                 </div>
             </div>
@@ -85,9 +88,8 @@ $type_titles = [
 </body>
 
 <script>
-    /**
-     * Fetches chart data from the dedicated API and renders the chart.
-     */
+    const subDirSelected = '<?= $sub_dir_selected ?>';
+
     async function loadChart(subDir) {
         try {
             const response = await fetch(`api.php?chart_data=1&sub_dir=${subDir}`);
@@ -120,25 +122,54 @@ $type_titles = [
         }
     }
 
-    /**
-     * Fetches table data and years, builds the header, and initializes DataTable.
-     */
     async function loadTable(subDir) {
         try {
             const response = await fetch(`api.php?sub_dir=${subDir}`);
             const res = await response.json();
 
-            // 1. Build Table Header
-            let theadHtml = '<thead><tr><th>#</th><th>Lang</th><th>Titles</th>';
-            res.years.forEach(year => {
-                theadHtml += `<th>${year}</th>`;
-            });
-            theadHtml += '<th>Total</th></tr></thead>';
-            $('#mainTable').html(theadHtml + '<tbody></tbody>');
+            const columns = [
+                { data: 'index', title: '#' },
+                {
+                    data: 'lang',
+                    title: 'Lang',
+                    render: function(data, type, row) {
+                        return row.is_summary ? `<strong>${data}</strong>` : data;
+                    }
+                },
+                {
+                    data: 'titles',
+                    title: 'Titles',
+                    render: function(data, type, row) {
+                        const val = Number(data).toLocaleString();
+                        if (row.is_summary) return `<strong>${val}</strong>`;
+                        return `<a class='item' href='langs.php?lang=${row.lang}&sub_dir=${subDirSelected}'>${val}</a>`;
+                    }
+                }
+            ];
 
-            // 2. Initialize DataTable
+            res.years.forEach(year => {
+                columns.push({
+                    data: year,
+                    title: year,
+                    render: function(data, type, row) {
+                        const val = Number(data).toLocaleString();
+                        return row.is_summary ? `<strong>${val}</strong>` : val;
+                    }
+                });
+            });
+
+            columns.push({
+                data: 'total',
+                title: 'Total',
+                render: function(data, type, row) {
+                    const val = Number(data).toLocaleString();
+                    return row.is_summary ? `<strong>${val}</strong>` : val;
+                }
+            });
+
             $('#mainTable').DataTable({
                 data: res.data,
+                columns: columns,
                 paging: false,
                 searching: false,
                 order: [
@@ -147,7 +178,12 @@ $type_titles = [
                 columnDefs: [{
                     targets: 0,
                     width: "5%"
-                }]
+                }],
+                createdRow: function(row, data, dataIndex) {
+                    if (data.is_summary) {
+                        $(row).addClass('table-primary');
+                    }
+                }
             });
         } catch (err) {
             console.error('Error fetching table data:', err);
@@ -158,7 +194,6 @@ $type_titles = [
     $(document).ready(async function() {
         const subDir = '<?= $sub_dir_selected ?>';
 
-        // Execute both data loading operations concurrently
         await Promise.all([
             loadChart(subDir),
             loadTable(subDir)

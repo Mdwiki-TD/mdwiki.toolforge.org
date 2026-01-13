@@ -81,43 +81,36 @@ $all_titles_count = count($titles_to_year);
 
 // 2. Summary/Total row
 $summary_row = [
-    "0",
-    "<strong>" . number_format($all_titles_count) . "</strong>"
+    "index" => "0",
+    "title" => (string)$all_titles_count,
+    "is_summary" => true
 ];
 
 $all_total_views = 0;
 foreach ($years_data as $year => $data) {
     $y_sum = array_sum($data);
     $all_total_views += $y_sum;
-    $summary_row[] = "<strong>" . number_format($y_sum) . "</strong>";
+    $summary_row[$year] = $y_sum;
 }
-$summary_row[] = "<strong>" . number_format($all_total_views) . "</strong>";
+$summary_row["total"] = $all_total_views;
 $data_rows[] = $summary_row;
 
 // 3. Individual Article rows
 $i = 1;
-// Helper for pageviews link
-function make_pv_link($lang, $title, $count, $year)
-{
-    $project_lang = ($lang == 'be-x-old') ? 'be-tarask' : $lang;
-    $formatted_count = number_format($count);
-    return "<a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=$project_lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=$year-01&end=$year-12&pages=$title' target='_blank'>$formatted_count</a>";
-}
-
 foreach ($titles_to_year as $title => $counts_by_year) {
-    $article_url = "<a class='item' href='https://$lang.wikipedia.org/wiki/" . urlencode($title) . "' target='_blank'>$title</a>";
     $row = [
-        (string)$i,
-        $article_url
+        "index" => (string)$i,
+        "title" => $title,
+        "is_summary" => false
     ];
 
     $row_total = 0;
     foreach ($years_data as $year => $_) {
         $c = $counts_by_year[$year] ?? 0;
         $row_total += $c;
-        $row[] = make_pv_link($lang, $title, $c, $year);
+        $row[$year] = $c;
     }
-    $row[] = number_format($row_total);
+    $row["total"] = $row_total;
     $data_rows[] = $row;
     $i++;
 }

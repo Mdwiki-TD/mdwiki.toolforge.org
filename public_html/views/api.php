@@ -37,65 +37,7 @@ foreach ($year_files as $file) {
 // Sort years ascending
 ksort($years_data);
 
-// Load main language counts
-$all_data_file = "$base_path/languages_counts.json";
-$all_data = [];
-if (file_exists($all_data_file)) {
-    $all_data = json_decode(file_get_contents($all_data_file), true);
-}
-
-$data_rows = [];
-$total_views_by_year = [];
-
-// 1. Summary/Total row
-$all_langs = count($all_data);
-$all_titles = 0;
-foreach ($all_data as $count) {
-    $all_titles += $count ?? 0;
-}
-
-$summary_row = [
-    "0",
-    "<strong>" . $all_langs . "</strong>",
-    "<strong>" . number_format($all_titles) . "</strong>"
-];
-
-$all_total_views = 0;
-foreach ($years_data as $year => $year_counts) {
-    $y_sum = array_sum($year_counts);
-    $all_total_views += $y_sum;
-    $summary_row[] = "<strong>" . number_format($y_sum) . "</strong>";
-    $total_views_by_year[$year] = $y_sum;
-}
-$summary_row[] = "<strong>" . number_format($all_total_views) . "</strong>";
-
-$data_rows[] = $summary_row;
-
-// 2. Individual language rows
-$i = 1;
-foreach ($all_data as $lang => $count) {
-    $url_lang = "langs.php?lang=" . urlencode($lang);
-
-    $row = [
-        (string)$i,
-        $lang,
-        "<a class='item' href='$url_lang'>" . number_format($count ?? 0) . "</a>"
-    ];
-
-    $lang_total = 0;
-    foreach ($years_data as $year => $year_counts) {
-        $y_count = $year_counts[$lang] ?? 0;
-        $row[] = number_format($y_count);
-        $lang_total += $y_count;
-    }
-    $row[] = number_format($lang_total);
-    $data_rows[] = $row;
-    $i++;
-}
 $get_chart_data = $_GET['chart_data'] ?? null;
-
-// Sort years ascending
-ksort($years_data);
 
 $total_views_by_year = [];
 foreach ($years_data as $year => $year_counts) {
@@ -108,10 +50,65 @@ if ($get_chart_data) {
         "labels" => array_keys($total_views_by_year),
         "data" => array_values($total_views_by_year)
     ], JSON_PRETTY_PRINT);
-} else {
-    // Return JSON for DataTables
-    echo json_encode([
-        "data" => $data_rows,
-        "years" => array_keys($years_data),
-    ], JSON_PRETTY_PRINT);
+    exit;
 }
+
+// Load main language counts
+$all_data_file = "$base_path/languages_counts.json";
+$all_data = [];
+if (file_exists($all_data_file)) {
+    $all_data = json_decode(file_get_contents($all_data_file), true);
+}
+
+$data_rows = [];
+
+// 1. Summary/Total row
+$all_langs = count($all_data);
+$all_titles = 0;
+foreach ($all_data as $count) {
+    $all_titles += $count ?? 0;
+}
+
+$summary_row = [
+    "index" => "0",
+    "lang" => (string)$all_langs,
+    "titles" => $all_titles,
+    "is_summary" => true
+];
+
+$all_total_views = 0;
+foreach ($years_data as $year => $year_counts) {
+    $y_sum = array_sum($year_counts);
+    $all_total_views += $y_sum;
+    $summary_row[$year] = $y_sum;
+}
+$summary_row["total"] = $all_total_views;
+
+$data_rows[] = $summary_row;
+
+// 2. Individual language rows
+$i = 1;
+foreach ($all_data as $lang => $count) {
+    $row = [
+        "index" => (string)$i,
+        "lang" => $lang,
+        "titles" => $count ?? 0,
+        "is_summary" => false
+    ];
+
+    $lang_total = 0;
+    foreach ($years_data as $year => $year_counts) {
+        $y_count = $year_counts[$lang] ?? 0;
+        $row[$year] = $y_count;
+        $lang_total += $y_count;
+    }
+    $row["total"] = $lang_total;
+    $data_rows[] = $row;
+    $i++;
+}
+
+// Return JSON for DataTables
+echo json_encode([
+    "data" => $data_rows,
+    "years" => array_keys($years_data),
+], JSON_PRETTY_PRINT);

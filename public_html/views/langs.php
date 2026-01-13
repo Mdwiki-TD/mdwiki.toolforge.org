@@ -25,6 +25,10 @@
             align-items: center;
             z-index: 1000;
         }
+
+        .DataTable thead th {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -83,7 +87,6 @@ $type_titles = [
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="langTable" class="table table-striped table-bordered table-sm w-100">
-                        <!-- Header will be built dynamically -->
                     </table>
                 </div>
             </div>
@@ -136,18 +139,46 @@ $type_titles = [
                     return;
                 }
 
-                // 1. Build Header
-                let thead = '<thead><tr><th>#</th><th>Title</th>';
-                res.years.forEach(year => {
-                    thead += `<th>${year}</th>`;
-                });
-                thead += '<th>Total</th></tr></thead>';
-                $('#langTable').html(thead + '<tbody></tbody>');
+                const columns = [
+                    { data: 'index', title: '#' },
+                    {
+                        data: 'title',
+                        title: 'Title',
+                        render: function(data, type, row) {
+                            if (row.is_summary) return `<strong>${data}</strong>`;
+                            const encodedTitle = encodeURIComponent(data);
+                            return `<a class='item' href='https://${lang}.wikipedia.org/wiki/${encodedTitle}' target='_blank'>${data}</a>`;
+                        }
+                    }
+                ];
 
-                // 2. Init DataTable
+                res.years.forEach(year => {
+                    columns.push({
+                        data: year,
+                        title: year,
+                        render: function(data, type, row) {
+                            const val = Number(data).toLocaleString();
+                            if (row.is_summary) return `<strong>${val}</strong>`;
+                            const encodedTitle = encodeURIComponent(row.title);
+                            const projectLang = (lang === 'be-x-old') ? 'be-tarask' : lang;
+                            return `<a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=${projectLang}.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=${year}-01&end=${year}-12&pages=${encodedTitle}' target='_blank'>${val}</a>`;
+                        }
+                    });
+                });
+
+                columns.push({
+                    data: 'total',
+                    title: 'Total',
+                    render: function(data, type, row) {
+                        const val = Number(data).toLocaleString();
+                        return row.is_summary ? `<strong>${val}</strong>` : val;
+                    }
+                });
+
                 $('#langTable').DataTable({
                     data: res.data,
-                    paging: true, // Specific language pages might have many titles
+                    columns: columns,
+                    paging: true,
                     pageLength: 50,
                     searching: true,
                     order: [
@@ -156,7 +187,12 @@ $type_titles = [
                     columnDefs: [{
                         targets: 0,
                         width: "5%"
-                    }]
+                    }],
+                    createdRow: function(row, data, dataIndex) {
+                        if (data.is_summary) {
+                            $(row).addClass('table-primary');
+                        }
+                    }
                 });
             } catch (err) {
                 console.error('Error loading table:', err);
