@@ -45,6 +45,7 @@ if (file_exists($all_data_file)) {
 }
 
 $data_rows = [];
+$total_views_by_year = [];
 
 // 1. Summary/Total row
 $all_langs = count($all_data);
@@ -64,6 +65,7 @@ foreach ($years_data as $year => $year_counts) {
     $y_sum = array_sum($year_counts);
     $all_total_views += $y_sum;
     $summary_row[] = "<strong>" . number_format($y_sum) . "</strong>";
+    $total_views_by_year[$year] = $y_sum;
 }
 $summary_row[] = "<strong>" . number_format($all_total_views) . "</strong>";
 
@@ -90,9 +92,26 @@ foreach ($all_data as $lang => $count) {
     $data_rows[] = $row;
     $i++;
 }
+$get_chart_data = $_GET['chart_data'] ?? null;
 
-// Return JSON for DataTables
-echo json_encode([
-    "data" => $data_rows,
-    "years" => array_keys($years_data)
-], JSON_PRETTY_PRINT);
+// Sort years ascending
+ksort($years_data);
+
+$total_views_by_year = [];
+foreach ($years_data as $year => $year_counts) {
+    $total_views_by_year[$year] = array_sum($year_counts);
+}
+
+// Return JSON for Chart
+if ($get_chart_data) {
+    echo json_encode([
+        "labels" => array_keys($total_views_by_year),
+        "data" => array_values($total_views_by_year)
+    ], JSON_PRETTY_PRINT);
+} else {
+    // Return JSON for DataTables
+    echo json_encode([
+        "data" => $data_rows,
+        "years" => array_keys($years_data),
+    ], JSON_PRETTY_PRINT);
+}
