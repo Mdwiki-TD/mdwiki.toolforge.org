@@ -32,22 +32,20 @@ function build_table_head($years_data): string
     HTML;
 }
 
-
 function render_total_by_year($years_data): array
 {
     $total_by_year = [];
-    $all_total = 0;
     foreach ($years_data as $year => $data) {
         // sum all data values for this year
         $y_count =  0;
         foreach ($data as $lang => $count) {
             $y_count += $count;
         }
-        $all_total += $y_count;
         $total_by_year[$year] = $y_count;
     }
-    return ["total_by_year" => $total_by_year, "all_total" => $all_total];
+    return $total_by_year;
 }
+
 function render_data_all_new(array $all_data, $years_data): string
 {
     $rows_done = '';
@@ -91,15 +89,6 @@ function render_data_all_new(array $all_data, $years_data): string
 
     $all_titles = number_format($all_titles);
 
-    $header = <<<HTML
-        <div class="text-center d-flex align-items-center justify-content-between">
-            <span></span>
-            <span class="h3">WikiProject Medicine Pageviews</span>
-            <span></span>
-        </div>
-        <hr/>
-    HTML;
-
     $row_total = <<<HTML
         <tr class="table-primary">
             <td><strong>0</strong></td>
@@ -134,9 +123,7 @@ function render_data_all_new(array $all_data, $years_data): string
         </table>
     HTML;
 
-    $card_done = build_card_with_table("", $table_done, "collapsed-card1");
-
-    return $header . $card_done;
+    return $table_done;
     // ---
 }
 
@@ -156,8 +143,24 @@ ksort($years_data);
 
 $all_data = json_decode(file_get_contents("$base_path/languages_counts.json"), true);
 // ---
-$table = render_data_all_new($all_data, $years_data);
+$table_done = render_data_all_new($all_data, $years_data);
 
+$header = <<<HTML
+    <div class="text-center d-flex align-items-center justify-content-between">
+        <span></span>
+        <span class="h3">WikiProject Medicine Pageviews</span>
+        <span></span>
+    </div>
+    <hr/>
+HTML;
+
+$total_views_by_year = render_total_by_year($years_data);
+$chart_html = "";
+
+$chart_card = build_card_with_table("", $chart_html, "");
+$card_done = build_card_with_table("Views data", $table_done, "collapsed-card1");
+
+$table = $header . $chart_card . $card_done;
 
 ?>
 <!DOCTYPE html>
