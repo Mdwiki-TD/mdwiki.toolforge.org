@@ -1,19 +1,23 @@
 <?php
 header('Content-Type: application/json');
 
+// Error reporting for testing
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
 
+// Set base path for data files
 $base_path = __DIR__ . "/update_med_views/";
 
+// Directory mapping based on sub_dir parameter
 $dir_with_sub = [
     "all-agens" => "views_by_year_all_agens",
     "users-agents" => "views_by_year_users_agents",
 ];
 
+// Determine selected sub_dir
 $sub_dir_selected = $_GET['sub_dir'] ?? 'all-agens';
 $sub_dir = $dir_with_sub[$sub_dir_selected] ?? 'views_by_year_all_agens';
 $lang = $_GET['lang'] ?? '';
@@ -42,6 +46,7 @@ foreach ($years_dirs as $year_dir) {
     }
 }
 
+// Sort years ascending
 ksort($years_data);
 
 // --- Process for Chart ---
