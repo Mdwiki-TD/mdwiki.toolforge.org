@@ -74,7 +74,7 @@ $data_rows[] = $summary_row;
 // 2. Individual language rows
 $i = 1;
 foreach ($all_data as $lang => $count) {
-    $url_lang = "views_new_one_lang.php?lang=" . urlencode($lang);
+    $url_lang = "langs.php?lang=" . urlencode($lang);
 
     $row = [
         (string)$i,

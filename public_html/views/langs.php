@@ -182,7 +182,7 @@ $table_done = render_data_all_new($lang, $years_data);
 $type_title = $type_titles[$sub_dir_selected] ?? "All Agents";
 // write form to select $type_title
 $type_title_form = <<<HTML
-    <form method="get" action="views_new_one_lang.php">
+    <form method="get" action="langs.php">
         <input type="hidden" name="lang" value="$lang"/>
         <select name="sub_dir" onchange="this.form.submit()">
 HTML;
