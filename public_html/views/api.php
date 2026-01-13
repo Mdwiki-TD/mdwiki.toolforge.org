@@ -139,12 +139,6 @@ $sub_dir_selected = $_GET['sub_dir'] ?? 'all-agens';
 
 $sub_dir = $dir_with_sub[$sub_dir_selected] ?? 'views_by_year_all_agens';
 
-$lang = $_GET['lang'] ?? '';
-if ($lang) {
-    header("Location: views_new_one_lang.php?lang=$lang&sub_dir=$sub_dir_selected");
-    exit;
-}
-
 $years = glob("$base_path/$sub_dir/*.json");
 $years_data = [];
 

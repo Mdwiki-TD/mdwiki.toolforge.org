@@ -8,7 +8,7 @@ from collections import defaultdict
 
 # Path definitions
 base_path = Path(__file__).parent / "update_med_views"
-views_by_year_path = base_path / "views_by_year"
+views_by_year_path = base_path / "views_by_year_users_agents"
 
 # To store summary counts
 languages_counts_by_year_data = defaultdict(lambda: defaultdict(int))
