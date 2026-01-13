@@ -33,6 +33,21 @@ function build_table_head($years_data): string
 }
 
 
+function render_total_by_year($years_data): array
+{
+    $total_by_year = [];
+    $all_total = 0;
+    foreach ($years_data as $year => $data) {
+        // sum all data values for this year
+        $y_count =  0;
+        foreach ($data as $lang => $count) {
+            $y_count += $count;
+        }
+        $all_total += $y_count;
+        $total_by_year[$year] = $y_count;
+    }
+    return ["total_by_year" => $total_by_year, "all_total" => $all_total];
+}
 function render_data_all_new(array $all_data, $years_data): string
 {
     $rows_done = '';
