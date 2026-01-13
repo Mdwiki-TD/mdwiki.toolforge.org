@@ -109,5 +109,5 @@ public_html/views/update_med_views/views_new/all
 public_html/views/update_med_views/all_languages_titles.json
 public_html/views/update_med_views/views_new/stats.json
 public_html/views/update_med_views/languages_counts.json
+public_html/views/update_med_views/views_by_year/*
 !public_html/views/update_med_views/views_by_year/*.json
-public_html/views/update_med_views/views_by_year
