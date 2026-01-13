@@ -77,62 +77,80 @@ $type_titles = [
         </div>
     </div>
 
-    <script shadow>
-        $(document).ready(function() {
+    <script>
+        /**
+         * Fetches chart data from the dedicated API and renders the chart.
+         */
+        async function loadChart(subDir) {
+            try {
+                const response = await fetch(`api_chart.php?sub_dir=${subDir}`);
+                const res = await response.json();
+
+                new Chart(document.getElementById('viewsChart'), {
+                    type: 'line',
+                    data: {
+                        labels: res.labels,
+                        datasets: [{
+                            label: 'Total Views by Year',
+                            data: res.data,
+                            borderColor: '#007bff',
+                            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            } catch (err) {
+                console.error('Error fetching chart data:', err);
+            }
+        }
+
+        /**
+         * Fetches table data and years, builds the header, and initializes DataTable.
+         */
+        async function loadTable(subDir) {
+            try {
+                const response = await fetch(`api.php?sub_dir=${subDir}`);
+                const res = await response.json();
+
+                // 1. Build Table Header
+                let theadHtml = '<thead><tr><th>#</th><th>Lang</th><th>Titles</th>';
+                res.years.forEach(year => {
+                    theadHtml += `<th>${year}</th>`;
+                });
+                theadHtml += '<th>Total</th></tr></thead>';
+                $('#mainTable').html(theadHtml + '<tbody></tbody>');
+
+                // 2. Initialize DataTable
+                $('#mainTable').DataTable({
+                    data: res.data,
+                    paging: false,
+                    searching: false,
+                    order: [[0, 'asc']],
+                    columnDefs: [
+                        { targets: 0, width: "5%" }
+                    ]
+                });
+            } catch (err) {
+                console.error('Error fetching table data:', err);
+                alert('Failed to load table data.');
+            }
+        }
+
+        $(document).ready(async function() {
             const subDir = '<?= $sub_dir_selected ?>';
 
-            fetch(`api.php?sub_dir=${subDir}`)
-                .then(response => response.json())
-                .then(res => {
-                    // 1. Build Table Header
-                    let theadHtml = '<thead><tr><th>#</th><th>Lang</th><th>Titles</th>';
-                    res.years.forEach(year => {
-                        theadHtml += `<th>${year}</th>`;
-                    });
-                    theadHtml += '<th>Total</th></tr></thead>';
-                    $('#mainTable').html(theadHtml + '<tbody></tbody>');
+            // Execute both data loading operations concurrently
+            await Promise.all([
+                loadChart(subDir),
+                loadTable(subDir)
+            ]);
 
-                    // 2. Initialize DataTable
-                    $('#mainTable').DataTable({
-                        data: res.data,
-                        paging: false,
-                        searching: false,
-                        order: [[0, 'asc']],
-                        columnDefs: [
-                            { targets: 0, width: "5%" }
-                        ]
-                    });
-
-                    // 3. Update Chart
-                    const labels = Object.keys(res.total_views_by_year);
-                    const dataValues = Object.values(res.total_views_by_year);
-
-                    new Chart(document.getElementById('viewsChart'), {
-                        type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Total Views by Year',
-                                data: dataValues,
-                                borderColor: '#007bff',
-                                backgroundColor: 'rgba(0, 123, 255, 0.1)',
-                                fill: true,
-                                tension: 0.3
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            scales: { y: { beginAtZero: true } }
-                        }
-                    });
-
-                    $('#loading').fadeOut();
-                })
-                .catch(err => {
-                    console.error('Error fetching data:', err);
-                    alert('Failed to load data.');
-                    $('#loading').hide();
-                });
+            $('#loading').fadeOut();
         });
     </script>
 </body>
