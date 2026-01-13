@@ -103,3 +103,4 @@ public_html/svg/**/*.url
 public_html/svg/SvgFile.php
 public_html/svg/test/Gadget-SVGLanguagesNew.js
 public_html/svg/test/Gadget-SVGLanguages.js
+/public_html/views_statics/update_med_views
