@@ -14,86 +14,142 @@ require_once __DIR__ . '/helpers.php';
 
 $base_path = __DIR__ . "/update_med_views/";
 
-function build_table_from_dataset(array $dataset, string $lang): string
+
+function build_table_head($years_data): string
 {
-    if (empty($dataset)) return "<p>No rows</p>";
+    $years_ths = '';
+    foreach ($years_data as $year => $data) {
+        $years_ths .= "<th>$year</th>";
+    }
+    return <<<HTML
+        <thead>
+            <tr>
+                <th style="width: 10%">#</th>
+                <th>Title</th>
+                $years_ths
+                <th>Total</th>
+            </tr>
+        </thead>
+    HTML;
+}
+function render_data_all_new($lang, $years_data): string
+{
+    $rows_done = '';
+    $done_all = 0;
 
-    $columns = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "all"];
+    $all_years_list = [];
+    $titles_to_year = [];
+    foreach ($years_data as $year => $titles) {
+        foreach ($titles as $title => $count) {
+            if (!isset($titles_to_year[$title])) {
+                $titles_to_year[$title] = [];
+            }
+            $titles_to_year[$title][$year] = $count;
+            $all_years_list[$year] = true;
+        }
+    }
 
-    $thead = '<thead><tr><th>#</th><th>title</th>' . implode('', array_map(fn($c) => "<th>$c</th>", $columns)) . '</tr></thead>';
-    $tbody = '';
+    $all_titles = count($titles_to_year);
 
     $i = 1;
+    foreach ($titles_to_year as $title => $years) {
+        $articleUrl = "<a class='item' href='https://$lang.wikipedia.org/wiki/$title' target='_blank'>$title</a>";
+        // ---
+        $row = <<<HTML
+            <tr>
+                <th>$i</th>
+                <td>$articleUrl</td>
+        HTML;
+        // ---
+        $lang_total = 0;
+        // ---
+        // foreach ($years as $year => $y_count) {
+        foreach ($all_years_list as $year => $_) {
+            $y_count = $years[$year] ?? 0;
 
-    foreach ($dataset as $key => $values) {
-        $lang = ($lang == 'be-x-old') ? 'be-tarask' : $lang;
-        $row = "<tr><td>$i</td><td><a class='item' href='https://$lang.wikipedia.org/wiki/$key' target='_blank'>$key</a></td>";
-        foreach ($columns as $col) {
-            $val = $values[$col] ?? 0;
-            if ($col === 'all') {
-                $val = pageviews_link($lang, $key, $val);
-            }
-            $row .= "<td>$val</td>";
+            $lang_total += $y_count;
+            $y_count = number_format($y_count);
+
+            $year_link = <<<HTML
+                <!-- https://pageviews.wmcloud.org/pageviews/?project=oc.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2025-01&end=2025-12&pages=Arsenic -->
+                <a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=$year-01&end=$year-12&pages=$title' target='_blank'>$y_count</a>
+            HTML;
+
+            $row .= "<td>$year_link</td>";
         }
-        $tbody .= $row . '</tr>';
+        // ---
+        $lang_total = number_format($lang_total);
+        $row .= "<td>$lang_total</td>";
+        $row .= "</tr>";
+        // ---
+        $rows_done .= $row;
+        $done_all++;
         $i++;
     }
-    // ---
-    $class_1 = (count($dataset) > 10000) ? "" : "DataTable";
-    // ---
-    return "<table class='table table-striped table-bordered $class_1'>$thead<tbody>$tbody</tbody></table>";
-}
 
-function render_data_new(array $org_data, string $lang, string $main_dir, string $data_type = 'non_zero'): string
-{
-    $data_types = ['non_zero', 'zero', 'hash'];
-    $data_type = in_array($data_type, $data_types) ? $data_type : 'non_zero';
-
-    [$data, $data_with_hash, $non_zero, $zero] = split_data_hash($org_data);
-
-    if ($data_type === 'non_zero') {
-        $data_filtered = $non_zero;
-        $title = "Non-Zero Data (" . count($data_filtered) . ")";
-        // ---
-    } elseif ($data_type === 'zero') {
-        $data_filtered = $zero;
-        $title = "Zero Data Only (" . count($data_filtered) . ")";
-        // ---
-    } elseif ($data_type === 'hash') {
-        $data_filtered = $data_with_hash;
-        $title = "Hash Data (" . count($data_filtered) . ")";
-    }
-
-    $all_views = array_sum(array_column($data_filtered, 'all'));
-    $all_views = number_format($all_views);
+    $all_titles = number_format($all_titles);
 
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
             <span class="card-title h2">Language code: $lang</span>
-            <span class="h3">All Views: $all_views</span>
-            <a class='h2 btn btn-secondary' href='views_new.php'> >> Return</a>
+            <span class="h3">All Titles: $all_titles</span>
+            <a class='h2 btn btn-secondary' href='index.php'> >> Return</a>
         </div>
         <hr/>
     HTML;
-    $table = build_table_from_dataset($data_filtered, $lang);
-    $card = build_card_with_table($title, $table);
+    $row_total = <<<HTML
+        <tr class="table-primary">
+            <td style="width: 5%">0</td>
+            <td><strong>$all_titles</strong></td>
+    HTML;
+    $all_total = 0;
+    foreach ($years_data as $year => $data) {
+        // sum all data values for this year
+        $y_count =  0;
+        foreach ($data as $lang => $count) {
+            $y_count += $count;
+        }
+        $all_total += $y_count;
+        $y_count = number_format($y_count);
+        $row_total .= "<td><strong>$y_count</strong></td>";
+    }
+    $all_total = number_format($all_total);
+    $row_total .= <<<HTML
+            <td><strong>$all_total</strong></td>
+        </tr>
+    HTML;
+    $thead = build_table_head($years_data);
 
-    return $header . $card;
+    $table_done = <<<HTML
+        <table class='table table-striped table-bordered table-sm DataTable'>
+            $thead
+            <tbody>
+                $row_total
+                $rows_done
+            </tbody>
+        </table>
+    HTML;
+
+    $card_done = build_card_with_table("", $table_done, "collapsed-card1");
+
+    return $header . $card_done;
+    // ---
 }
-
 $main_dir = $_GET['main_dir'] ?? 'views_new';
 $lang = $_GET['lang'] ?? '';
-$data_type = $_GET['data_type'] ?? 'non_zero';
-
-$dir = "$base_path/views_new/all";
-
-// if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z0-9]+)*$/i', $lang)) $lang = ''; // Invalid language code
 
 $table = "";
 if ($lang) {
-    $data = get_data("$dir/$lang.json");
+    $years_dirs = glob("$base_path/views_by_year/*");
+    $years_data = [];
+
+    foreach ($years_dirs as $year_dir) {
+        if (!is_dir($year_dir)) continue;
+        $year = basename($year_dir);
+        $years_data[$year] = json_decode(file_get_contents("$year_dir/$lang.json"), true);
+    }
     // ---
-    $table = render_data_new($data, $lang, $main_dir, $data_type);
+    $table = render_data_all_new($lang, $years_data);
 }
 
 ?>
@@ -121,13 +177,9 @@ if ($lang) {
         $(document).ready(function() {
             $('.DataTable').DataTable({
                 paging: false,
-                searching: false
-            });
-            $('#pending').DataTable({
-                paging: false,
                 searching: false,
                 order: [
-                    [4, 'desc']
+                    [0, 'asc']
                 ]
             });
         });

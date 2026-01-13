@@ -13,53 +13,41 @@ $dir_with_sub = [
 
 $base_path = __DIR__ . "/update_med_views/";
 
-function build_table_head(): string
+function build_table_head($years_data): string
 {
+    $years_ths = '';
+    foreach ($years_data as $year => $data) {
+        $years_ths .= "<th>$year</th>";
+    }
     return <<<HTML
         <thead>
             <tr>
                 <th style="width: 10%">#</th>
                 <th>Lang</th>
                 <th>Titles</th>
-                <th>2015</th>
-                <th>2016</th>
-                <th>2017</th>
-                <th>2018</th>
-                <th>2019</th>
-                <th>2020</th>
-                <th>2021</th>
-                <th>2022</th>
-                <th>2023</th>
-                <th>2024</th>
-                <th>2025</th>
+                $years_ths
+                <th>Total</th>
             </tr>
         </thead>
     HTML;
 }
 
 
-function render_data_all_new(string $base_path, array $all_data): string
+function render_data_all_new(array $all_data, $years_data): string
 {
     $rows_done = '';
     $done_all = 0;
 
     $all_titles = 0;
 
-    $stats = json_decode(file_get_contents("$base_path/views_new/stats.json"), true);
-
-    $count_all = count($stats);
+    $all_langs = count($all_data);
 
     $i = 1;
 
-    foreach ($stats as $lang => $org_data) {
+    foreach ($all_data as $lang => $count) {
 
-        $all_titles += $org_data['not_empty'] ?? 0;
+        $all_titles += $count ?? 0;
         $url_non_0 = "views_new_one_lang.php?lang=$lang&data_type=non_zero";
-
-        // ---
-        $count = $org_data['not_empty'];
-        // ---
-        $years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
         // ---
         $row = <<<HTML
             <tr>
@@ -68,12 +56,17 @@ function render_data_all_new(string $base_path, array $all_data): string
                 <td><a class='item' href='$url_non_0'>$count</a></td>
         HTML;
         // ---
-        foreach ($years as $year) {
-            $y_count = $org_data['views'][$year] ?? 0;
+        $lang_total = 0;
+        // ---
+        foreach ($years_data as $year => $data) {
+            $y_count = $data[$lang] ?? 0;
             $y_count = number_format($y_count);
             $row .= "<td>$y_count</td>";
-        };
+            $lang_total += $data[$lang] ?? 0;
+        }
         // ---
+        $lang_total = number_format($lang_total);
+        $row .= "<td>$lang_total</td>";
         $row .= "</tr>";
         // ---
         $rows_done .= $row;
@@ -85,15 +78,47 @@ function render_data_all_new(string $base_path, array $all_data): string
 
     $header = <<<HTML
         <div class="text-center d-flex align-items-center justify-content-between">
-            <span class="h2">All Languages: $count_all</span>
+            <span class="h2">All Languages: $all_langs</span>
             <span class="h3">All Titles: $all_titles</span>
             <span></span>
         </div>
         <hr/>
     HTML;
 
-    $thead = build_table_head();
-    $table_done = "<table class='table table-striped table-bordered table-sm DataTable'>$thead<tbody>$rows_done</tbody></table>";
+    $row_total = <<<HTML
+        <tr class="table-primary">
+            <td><strong>0</strong></td>
+            <td><strong>$all_langs</strong></td>
+            <td><strong>$all_titles</strong></td>
+    HTML;
+    $all_total = 0;
+    foreach ($years_data as $year => $data) {
+        // sum all data values for this year
+        $y_count =  0;
+        foreach ($data as $lang => $count) {
+            $y_count += $count;
+        }
+        $all_total += $y_count;
+        $y_count = number_format($y_count);
+        $row_total .= "<td><strong>$y_count</strong></td>";
+    }
+    $all_total = number_format($all_total);
+    $row_total .= <<<HTML
+            <td><strong>$all_total</strong></td>
+        </tr>
+    HTML;
+    $thead = build_table_head($years_data);
+
+    $table_done = <<<HTML
+        <table class='table table-striped table-bordered table-sm DataTable'>
+            $thead
+            <tbody>
+                $row_total
+                $rows_done
+            </tbody>
+        </table>
+    HTML;
+
     $card_done = build_card_with_table("", $table_done, "collapsed-card1");
 
     return $header . $card_done;
@@ -104,12 +129,20 @@ $main_dir = $_GET['main_dir'] ?? 'views_new';
 $lang = $_GET['lang'] ?? '';
 $data_type = $_GET['data_type'] ?? 'non_zero';
 
-$dir = "$base_path/views_new/all";
+$years = glob("$base_path/views_by_year/*.json");
+$years_data = [];
 
-$files = glob("$dir/*.json");
+foreach ($years as $year_file) {
+    $year = basename($year_file, '.json');
+    $year = str_replace('_languages_counts', '', $year);
+    $years_data[$year] = json_decode(file_get_contents($year_file), true);
+}
+// sort years_data by year ascending
+ksort($years_data);
+
 $all_data = json_decode(file_get_contents("$base_path/languages_counts.json"), true);
 // ---
-$table = render_data_all_new($base_path, $all_data);
+$table = render_data_all_new($all_data, $years_data);
 
 
 ?>

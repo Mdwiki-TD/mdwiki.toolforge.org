@@ -35,6 +35,7 @@ source_path = base_path / "views_new" / "all"
 views_by_year_path = base_path / "views_by_year"
 
 # To store summary counts
+languages_titles_by_year_data = defaultdict(lambda: defaultdict(int))
 languages_counts_by_year_data = defaultdict(lambda: defaultdict(int))
 
 
@@ -84,11 +85,15 @@ def start() -> None:
             for key, count in views_dict.items():
                 if key == "all" or not key.isdigit():
                     continue
-
                 year = key
+
+                if year == "2025":
+                    continue  # Skip year 2025 as per instructions
+
                 if count > 0:
                     year_split_data[year][title] = count
-                    languages_counts_by_year_data[lang][year] += 1
+                    languages_counts_by_year_data[lang][year] += count
+                    languages_titles_by_year_data[lang][year] += 1
 
         # Save the split files
         for year, titles_data in year_split_data.items():
