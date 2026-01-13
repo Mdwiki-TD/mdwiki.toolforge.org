@@ -153,11 +153,44 @@ $header = <<<HTML
     </div>
     <hr/>
 HTML;
-
 $total_views_by_year = render_total_by_year($years_data);
-$chart_html = "";
 
-$chart_card = build_card_with_table("", $chart_html, "");
+$labels = json_encode(array_keys($total_views_by_year));
+$data_values = json_encode(array_values($total_views_by_year));
+
+$chart_html = <<<HTML
+<canvas id="viewsChart" height="60"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new Chart(document.getElementById('viewsChart'), {
+            type: 'line',
+            data: {
+                labels: $labels,
+                datasets: [{
+                    label: 'Total Views by Year',
+                    data: $data_values,
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    });
+</script>
+HTML;
+
+$chart_card = build_card_with_table("Total Views by Year", $chart_html, "");
 $card_done = build_card_with_table("Views data", $table_done, "collapsed-card1");
 
 $table = $header . $chart_card . $card_done;
