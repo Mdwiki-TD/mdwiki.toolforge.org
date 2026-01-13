@@ -37,7 +37,6 @@ function render_data_all_new($lang, $years_data): string
     $rows_done = '';
     $done_all = 0;
 
-    $all_years_list = [];
     $titles_to_year = [];
     foreach ($years_data as $year => $titles) {
         foreach ($titles as $title => $count) {
@@ -45,7 +44,6 @@ function render_data_all_new($lang, $years_data): string
                 $titles_to_year[$title] = [];
             }
             $titles_to_year[$title][$year] = $count;
-            $all_years_list[$year] = true;
         }
     }
 
@@ -64,14 +62,14 @@ function render_data_all_new($lang, $years_data): string
         $lang_total = 0;
         // ---
         // foreach ($years as $year => $y_count) {
-        foreach ($all_years_list as $year => $_) {
+        foreach ($years_data as $year => $_) {
             $y_count = $years[$year] ?? 0;
 
             $lang_total += $y_count;
             $y_count = number_format($y_count);
+            // <!-- https://pageviews.wmcloud.org/pageviews/?project=oc.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2025-01&end=2025-12&pages=Arsenic -->
 
             $year_link = <<<HTML
-                <!-- https://pageviews.wmcloud.org/pageviews/?project=oc.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2025-01&end=2025-12&pages=Arsenic -->
                 <a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=$year-01&end=$year-12&pages=$title' target='_blank'>$y_count</a>
             HTML;
 
