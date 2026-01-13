@@ -10,7 +10,7 @@ $dir_with_sub = [
     "views_new" => "views_new/all",
 ];
 
-$base_path = getenv('HOME') ?: __DIR__ . "/../../../";
+$base_path = __DIR__ . "/update_med_views/";
 
 function split_data_hash($org_data)
 {
@@ -107,7 +107,7 @@ function render_data_all_new(string $base_path, array $all_data): string
 
     $year = ($main_dir == 'views_new') ? '2024' : 'all';
 
-    $stats = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/views_new/stats.json"), true);
+    $stats = json_decode(file_get_contents("$base_path/views_new/stats.json"), true);
 
     $count_all = count($stats);
 
@@ -283,19 +283,17 @@ $main_dir = $_GET['main_dir'] ?? 'views_new';
 $lang = $_GET['lang'] ?? '';
 $data_type = $_GET['data_type'] ?? 'non_zero';
 
-$dir = "$base_path/pybot/md_core/update_med_views/views_new/all";
-
 if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z0-9]+)*$/i', $lang)) {
     $lang = ''; // Invalid language code
 }
 
 if ($lang) {
-    $data = get_data("$dir/$lang.json");
+    $data = get_data("$base_path/views_new/all/$lang.json");
     // ---
     $table = render_data_new($data, $lang, $main_dir, $data_type);
 } else {
-    $files = glob("$dir/*.json");
-    $all_data = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/languages_counts.json"), true);
+    $files = glob("$base_path/views_new/all/*.json");
+    $all_data = json_decode(file_get_contents("$base_path/languages_counts.json"), true);
     // ---
     $table = render_data_all_new($base_path, $all_data);
 }

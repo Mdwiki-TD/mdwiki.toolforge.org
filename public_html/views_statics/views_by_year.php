@@ -6,14 +6,15 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
+require_once __DIR__ . '/helpers.php';
+
 $dir_with_sub = [
-    "views_new" => "views_new/all",
-    "2021" => "views/2021",
+    "2025" => "views_by_year/2025",
 ];
 
-$base_path = getenv('HOME') ?: __DIR__ . "/../../../";
+$base_path = __DIR__ . "/update_med_views/";
 
-$views_dir = "$base_path/pybot/md_core/update_med_views/views";
+$views_dir = "$base_path/views";
 
 // add all year folders in $views_dir to $dir_with_sub
 $views_dirs = glob("$views_dir/*");
@@ -23,21 +24,6 @@ foreach ($views_dirs as $views_dir) {
     $dir_with_sub[$na] = "views/$na";
 };
 
-function split_data_hash($org_data)
-{
-
-    $data_with_hash = array_filter($org_data, function ($v, $k) {
-        return strpos($k, '#') !== false;
-    }, ARRAY_FILTER_USE_BOTH);
-
-    $data = array_diff_key($org_data, $data_with_hash);
-
-    $non_zero = data_not_zero($data);
-
-    $zero = array_diff_key($data, $non_zero);
-
-    return [$data, $data_with_hash, $non_zero, $zero];
-}
 
 function make_form($main_dir)
 {
@@ -90,35 +76,6 @@ function get_data($path)
     return $data;
 }
 
-function data_not_zero($data): array
-{
-    if (!is_array($data)) return [];
-
-    return array_filter($data, function ($v) {
-        return $v['all'] != 0;
-    });
-}
-
-
-function build_card_with_table(string $title, string $table_html, string $extra_classes = ''): string
-{
-    return <<<HTML
-        <div class="card $extra_classes">
-            <div class="card-header">
-                <span class="card-title h2">$title</span>
-                <div class="card-tools">
-                    <button type="button" class="btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body">
-                $table_html
-            </div>
-        </div>
-    HTML;
-}
-
 function build_table_head($y): string
 {
     return <<<HTML
@@ -142,8 +99,6 @@ function render_data_all(array $files, string $main_dir, array $all_data): strin
     $rows_done = $rows_pending = '';
     $done_all = $pending_all = $i = 0;
     $count_all = count($files);
-    // {'all': 1, 'empty': 0, 'not_empty': 1, 'hash': 0, 'views': {'all': 2554, '2024': 685}}
-    // dump_one(/data/project/mdwiki/pybot/md_core/update_med_views/views_new/stats/gag.json), len(data)=5
 
     $form = make_form($main_dir);
     $all_titles = 0;
@@ -247,13 +202,6 @@ function get_columns(array $dataset): array
     return $columns;
 }
 
-function pageviews_link(string $lang, string $title, int $count): string
-{
-    $lang = ($lang == 'be-x-old') ? 'be-tarask' : $lang;
-    $url = "https://pageviews.wmcloud.org/?project=$lang.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=2015-07-01&end=2025-06-27&pages=$title";
-
-    return "<a class='item' href='$url' target='_blank'>$count</a>";
-}
 function build_table_from_dataset(array $dataset, string $lang): string
 {
     if (empty($dataset)) return "<p>No rows</p>";
@@ -338,7 +286,7 @@ function get_main_dir()
 $lang = $_GET['lang'] ?? '';
 $data_type = $_GET['data_type'] ?? 'non_zero';
 
-$dir = "$base_path/pybot/md_core/update_med_views/$main_dir_with_sub";
+$dir = "$base_path/$main_dir_with_sub";
 
 if ($lang && !preg_match('/^[a-z]{2,3}(-[a-z0-9]+)*$/i', $lang)) {
     $lang = ''; // Invalid language code
@@ -350,7 +298,7 @@ if ($lang) {
     $table = render_data_new($data, $lang, $main_dir, $data_type);
 } else {
     $files = glob("$dir/*.json");
-    $all_data = json_decode(file_get_contents("$base_path/pybot/md_core/update_med_views/languages_counts.json"), true);
+    $all_data = json_decode(file_get_contents("$base_path/languages_counts.json"), true);
     // ---
     $table = render_data_all($files, $main_dir, $all_data);
 }
