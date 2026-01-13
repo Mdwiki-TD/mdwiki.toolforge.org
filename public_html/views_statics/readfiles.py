@@ -28,8 +28,8 @@ import functools
 from pathlib import Path
 import json
 
-views_by_year_path = Path(__file__).parent.parent / "update_med_views" / "views_by_year"
-languages_counts_by_year_path = Path(__file__).parent.parent / "languages_counts_by_year.json"
+views_by_year_path = Path(__file__).parent / "update_med_views" / "views_by_year"
+languages_counts_by_year_path = Path(__file__).parent / "update_med_views" / "languages_counts_by_year.json"
 
 languages_counts_by_year_data = {
     "ab": {
