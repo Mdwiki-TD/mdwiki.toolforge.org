@@ -150,7 +150,7 @@ $type_titles = [
             res.years.forEach(year => {
                 columns.push({
                     data: year,
-                    title: year,
+                    title: String(year),
                     render: function(data, type, row) {
                         const val = Number(data).toLocaleString();
                         return row.is_summary ? `<strong>${val}</strong>` : val;
