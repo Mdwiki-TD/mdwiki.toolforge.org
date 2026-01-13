@@ -187,7 +187,7 @@ $type_titles = [
             });
         } catch (err) {
             console.error('Error fetching table data:', err);
-            alert('Failed to load table data.');
+            alert('Failed to load table data. Check console for details.');
         }
     }
 
