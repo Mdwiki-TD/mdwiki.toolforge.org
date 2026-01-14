@@ -476,104 +476,103 @@ $type_titles = [
             }
         }
 
-        async function loadTable() {
-            try {
-                const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}`);
-                const res = await response.json();
+    async function loadTable() {
+        try {
+            // First fetch to get columns/years metadata
+            const initResponse = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&start=0&length=1`);
+            const initRes = await initResponse.json();
 
-                if (res.error) {
-                    alert(res.error);
-                    return;
-                }
+            if (initRes.error) {
+                alert(initRes.error);
+                return;
+            }
 
-                const columns = [{
-                        data: 'index',
-                        title: '#'
-                    },
-                    {
-                        data: 'title',
-                        title: 'Article Title',
-                        render: function(data, type, row) {
-                            if (row.is_summary) return `<strong>Total Stats</strong>`;
-                            const encodedTitle = encodeURIComponent(data);
-                            return `<div class="d-flex align-items-center">
-                                        <i class="fa-brands fa-wikipedia-w me-2 text-muted"></i>
-                                        <a href='https://${lang}.wikipedia.org/wiki/${encodedTitle}' target='_blank'>${data}</a>
-                                    </div>`;
-                        }
+            const years = initRes.years;
+            const columns = [
+                { data: 'index', title: '#' },
+                {
+                    data: 'title',
+                    title: 'Article Title',
+                    render: function(data, type, row) {
+                        if (row.is_summary) return `<strong>Total Stats</strong>`;
+                        const encodedTitle = encodeURIComponent(data);
+                        return `<div class="d-flex align-items-center">
+                                    <i class="fa-brands fa-wikipedia-w me-2 text-muted"></i>
+                                    <a href='https://${lang}.wikipedia.org/wiki/${encodedTitle}' target='_blank'>${data}</a>
+                                </div>`;
                     }
-                ];
+                }
+            ];
 
-                res.years.forEach(year => {
-                    columns.push({
-                        data: year,
-                        title: String(year),
-                        render: function(data, type, row) {
-                            const val = Number(data).toLocaleString();
-                            if (row.is_summary) return `<strong>${val}</strong>`;
-                            const projectLang = (lang === 'be-x-old') ? 'be-tarask' : lang;
-                            const params = {
-                                project: `${projectLang}.wikipedia.org`,
-                                platform: 'all-access',
-                                agent: (subDir === 'users-agents') ? 'user' : 'all-agents',
-                                redirects: 0,
-                                start: `${year}-01`,
-                                end: `${year}-12`,
-                                pages: row.title
-                            };
-                            const queryString = new URLSearchParams(params).toString();
-                            return `<a class="text-decoration-none" style="font-weight: 500;" href="https://pageviews.wmcloud.org/pageviews/?${queryString}" target="_blank">${val}</a>`;
-                        }
-                    });
-                });
-
+            years.forEach(year => {
                 columns.push({
-                    data: 'total',
-                    title: 'Cumulative',
+                    data: year,
+                    title: String(year),
                     render: function(data, type, row) {
                         const val = Number(data).toLocaleString();
-                        return `<strong>${val}</strong>`;
-                    }
-                });
+                        if (row.is_summary) return `<strong>${val}</strong>`;
 
-                $('#langTable').DataTable({
-                    data: res.data,
-                    columns: columns,
-                    paging: true,
-                    pageLength: 1000,
-                    lengthChange: true,
-                    lengthMenu: [
-                        [10, 25, 50, 100, 500, 1000],
-                        [10, 25, 50, 100, 500, "1,000"]
-                    ],
-                    searching: true,
-                    order: [
-                        [0, 'asc']
-                    ],
-                    dom: '<"d-flex justify-content-between align-items-center mb-3"lf>rtip',
-                    language: {
-                        search: "",
-                        searchPlaceholder: "Search articles...",
-                        lengthMenu: "Show _MENU_ articles",
-                        paginate: {
-                            previous: '<i class="fa-solid fa-chevron-left"></i>',
-                            next: '<i class="fa-solid fa-chevron-right"></i>'
-                        }
-                    },
-                    columnDefs: [{
-                        targets: 0,
-                        width: "40px"
-                    }],
-                    createdRow: function(row, data, dataIndex) {
-                        if (data.is_summary) {
-                            $(row).addClass('summary-row');
-                        }
+                        const params = {
+                            project: `${lang}.wikipedia.org`,
+                            platform: 'all-access',
+                            agent: (subDir === 'users-agents') ? 'user' : 'all-agents',
+                            redirects: 0,
+                            start: `${year}-01`,
+                            end: `${year}-12`,
+                            pages: row.title
+                        };
+                        const queryString = new URLSearchParams(params).toString();
+                        return `<a class="text-decoration-none" style="font-weight: 500;" href="https://pageviews.wmcloud.org/pageviews/?${queryString}" target="_blank">${val}</a>`;
                     }
                 });
-            } catch (err) {
-                console.error('Error fetching table data:', err);
-            }
+            });
+
+            columns.push({
+                data: 'total',
+                title: 'Cumulative',
+                render: function(data, type, row) {
+                    const val = Number(data).toLocaleString();
+                    return `<strong>${val}</strong>`;
+                }
+            });
+
+            $('#langTable').DataTable({
+                serverSide: true,
+                ajax: {
+                    url: 'api.php',
+                    data: function(d) {
+                        d.lang = lang;
+                        d.sub_dir = subDir;
+                    },
+                    dataSrc: 'data'
+                },
+                columns: columns,
+                paging: true,
+                pageLength: 1000,
+                lengthChange: true,
+                lengthMenu: [[100, 500, 1000], [100, 500, 1000]],
+                searching: false,
+                order: [[0, 'asc']],
+                dom: '<"d-flex justify-content-between align-items-center mb-3"lp>rtip',
+                language: {
+                    paginate: {
+                        previous: '<i class="fa-solid fa-chevron-left"></i>',
+                        next: '<i class="fa-solid fa-chevron-right"></i>'
+                    }
+                },
+                columnDefs: [
+                    { targets: 0, width: "40px" }
+                ],
+                createdRow: function(row, data, dataIndex) {
+                    if (data.is_summary) {
+                        $(row).addClass('summary-row');
+                    }
+                }
+            });
+        } catch (err) {
+            console.error('Error fetching table data:', err);
         }
+    }
 
         $(document).ready(async function() {
             await Promise.all([
