@@ -28,11 +28,45 @@
             --radius-lg: 16px;
         }
 
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6);
+        }
+
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
             overflow-x: hidden;
             letter-spacing: -0.01em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
         }
 
         /* Loading Overlay */
@@ -42,7 +76,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: var(--bg-body);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -52,28 +86,9 @@
             transition: all 0.4s ease;
         }
 
-        .spinner-custom {
-            width: 48px;
-            height: 48px;
-            border: 4px solid var(--border-color);
-            border-bottom-color: var(--primary-color);
-            border-radius: 50%;
-            animation: rotation 1s linear infinite;
-        }
-
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg)
-            }
-
-            100% {
-                transform: rotate(360deg)
-            }
-        }
-
         /* Navbar / Header */
         .dashboard-header {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--bg-card);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             padding: 1.25rem 0;
@@ -82,71 +97,58 @@
             z-index: 1000;
         }
 
-        .dashboard-title {
-            font-weight: 700;
-            font-size: 1.5rem;
+        [data-theme="dark"] .dashboard-header {
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        /* Table Styling */
+        .table-premium thead th {
+            background-color: var(--bg-body);
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .table-premium thead th {
+            background-color: #1e293b;
+        }
+
+        .table-premium tbody tr:hover {
+            background-color: rgba(79, 70, 229, 0.05);
+        }
+
+        .table-premium tr.summary-row {
+            background-color: rgba(79, 70, 229, 0.1) !important;
             color: var(--primary-color);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
         }
 
-        .dashboard-title i {
-            font-size: 1.25rem;
+        /* Badges */
+        .badge-lang {
+            background: rgba(79, 70, 229, 0.15);
+            color: var(--primary-color);
         }
 
-        /* Controls */
-        .form-select-custom {
+        [data-theme="dark"] .btn-return {
+            color: #94a3b8;
+        }
+
+        [data-theme="dark"] .btn-return:hover {
+            color: var(--primary-color);
+        }
+
+        [data-theme="dark"] .form-select-custom {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        }
+
+        [data-theme="dark"] .dataTables_wrapper .dataTables_length,
+        [data-theme="dark"] .dataTables_wrapper .dataTables_info,
+        [data-theme="dark"] .dataTables_wrapper .dataTables_paginate {
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .page-link {
             background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            font-weight: 500;
-            color: var(--text-main);
-            padding: 0.5rem 2.5rem 0.5rem 1rem;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .form-select-custom:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-            outline: none;
-        }
-
-        /* Cards */
-        .card-premium {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 2rem;
-            overflow: hidden;
-        }
-
-        .card-premium:hover {
-            box-shadow: var(--shadow-lg);
-        }
-
-        .card-header-premium {
-            background: transparent;
-            border-bottom: 1px solid var(--border-color);
-            padding: 1.25rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-header-premium h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 0;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            border-color: var(--border-color);
+            color: var(--text-muted);
         }
 
         .card-body-premium {
@@ -295,6 +297,12 @@ $type_titles = [
 ?>
 
 <body>
+    <script>
+        // Apply theme immediately to prevent flicker
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+
     <div id="loading" class="loading-overlay">
         <div class="spinner-custom"></div>
         <p class="mt-3 font-weight-600 text-muted">Preparing language data...</p>
@@ -316,6 +324,11 @@ $type_titles = [
                 </div>
 
                 <div class="d-flex align-items-center gap-3">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                        <i class="fa-solid fa-moon dark-icon"></i>
+                        <i class="fa-solid fa-sun light-icon d-none"></i>
+                    </button>
+
                     <form method="get" id="subDirForm" class="m-0">
                         <input type="hidden" name="lang" value="<?= htmlspecialchars($lang) ?>">
                         <select name="sub_dir" class="form-select-custom" onchange="this.form.submit()">
@@ -372,10 +385,45 @@ $type_titles = [
         const lang = <?= json_encode($lang) ?>;
         const subDir = <?= json_encode($sub_dir_selected) ?>;
 
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+
+            // Reload chart to update colors
+            if (window.myChart) {
+                window.myChart.destroy();
+                loadChart();
+            }
+        }
+
+        function updateThemeIcons(theme) {
+            const moon = document.querySelector('.dark-icon');
+            const sun = document.querySelector('.light-icon');
+            if (theme === 'dark') {
+                moon.classList.add('d-none');
+                sun.classList.remove('d-none');
+            } else {
+                moon.classList.remove('d-none');
+                sun.classList.add('d-none');
+            }
+        }
+
+        // Initialize icons on load
+        updateThemeIcons(localStorage.getItem('theme') || 'light');
+
         async function loadChart() {
             try {
                 const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&chart_data=1`);
                 const res = await response.json();
+
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const textColor = isDark ? '#94a3b8' : '#64748b';
+                const gridColor = isDark ? 'rgba(51, 65, 85, 0.5)' : '#f1f5f9';
 
                 const ctx = document.getElementById('viewsChart').getContext('2d');
 
@@ -384,7 +432,7 @@ $type_titles = [
                 gradient.addColorStop(0, 'rgba(79, 70, 229, 0.4)');
                 gradient.addColorStop(1, 'rgba(79, 70, 229, 0)');
 
-                new Chart(ctx, {
+                window.myChart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: res.labels,
@@ -397,7 +445,7 @@ $type_titles = [
                             fill: true,
                             tension: 0.4,
                             pointRadius: 4,
-                            pointBackgroundColor: '#fff',
+                            pointBackgroundColor: isDark ? '#1e293b' : '#fff',
                             pointBorderColor: '#4f46e5',
                             pointBorderWidth: 2,
                             pointHoverRadius: 6,
@@ -415,7 +463,7 @@ $type_titles = [
                                 display: false
                             },
                             tooltip: {
-                                backgroundColor: '#1e293b',
+                                backgroundColor: isDark ? '#0f172a' : '#1e293b',
                                 titleFont: {
                                     size: 14,
                                     weight: 'bold'
@@ -440,10 +488,10 @@ $type_titles = [
                                     display: false
                                 },
                                 grid: {
-                                    color: '#f1f5f9'
+                                    color: gridColor
                                 },
                                 ticks: {
-                                    color: '#64748b',
+                                    color: textColor,
                                     font: {
                                         size: 12
                                     },
@@ -462,7 +510,7 @@ $type_titles = [
                                     display: false
                                 },
                                 ticks: {
-                                    color: '#64748b',
+                                    color: textColor,
                                     font: {
                                         size: 12
                                     }
@@ -476,105 +524,113 @@ $type_titles = [
             }
         }
 
-    async function loadTable() {
-        try {
-            // First fetch to get columns/years metadata
-            const initResponse = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&start=0&length=1`);
-            const initRes = await initResponse.json();
+        async function loadTable() {
+            try {
+                // First fetch to get columns/years metadata
+                const initResponse = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&start=0&length=1`);
+                const initRes = await initResponse.json();
 
-            if (initRes.error) {
-                alert(initRes.error);
-                return;
-            }
+                if (initRes.error) {
+                    alert(initRes.error);
+                    return;
+                }
 
-            const years = initRes.years;
-            const columns = [
-                { data: 'index', title: '#' },
-                {
-                    data: 'title',
-                    title: 'Article Title',
-                    render: function(data, type, row) {
-                        if (row.is_summary) return `<strong>Total Stats</strong>`;
-                        const encodedTitle = encodeURIComponent(data);
-                        return `<div class="d-flex align-items-center">
+                const years = initRes.years;
+                const columns = [{
+                        data: 'index',
+                        title: '#'
+                    },
+                    {
+                        data: 'title',
+                        title: 'Article Title',
+                        render: function(data, type, row) {
+                            if (row.is_summary) return `<strong>Total Stats</strong>`;
+                            const encodedTitle = encodeURIComponent(data);
+                            return `<div class="d-flex align-items-center">
                                     <i class="fa-brands fa-wikipedia-w me-2 text-muted"></i>
                                     <a href='https://${lang}.wikipedia.org/wiki/${encodedTitle}' target='_blank'>${data}</a>
                                 </div>`;
+                        }
                     }
-                }
-            ];
+                ];
 
-            years.forEach(year => {
+                years.forEach(year => {
+                    columns.push({
+                        data: year,
+                        title: String(year),
+                        render: function(data, type, row) {
+                            const val = Number(data).toLocaleString();
+                            if (row.is_summary) return `<strong>${val}</strong>`;
+
+                            const params = {
+                                project: `${lang}.wikipedia.org`,
+                                platform: 'all-access',
+                                agent: (subDir === 'users-agents') ? 'user' : 'all-agents',
+                                redirects: 0,
+                                start: `${year}-01`,
+                                end: `${year}-12`,
+                                pages: row.title
+                            };
+                            const queryString = new URLSearchParams(params).toString();
+                            return `<a class="text-decoration-none" style="font-weight: 500;" href="https://pageviews.wmcloud.org/pageviews/?${queryString}" target="_blank">${val}</a>`;
+                        }
+                    });
+                });
+
                 columns.push({
-                    data: year,
-                    title: String(year),
+                    data: 'total',
+                    title: 'Cumulative',
                     render: function(data, type, row) {
                         const val = Number(data).toLocaleString();
-                        if (row.is_summary) return `<strong>${val}</strong>`;
-
-                        const params = {
-                            project: `${lang}.wikipedia.org`,
-                            platform: 'all-access',
-                            agent: (subDir === 'users-agents') ? 'user' : 'all-agents',
-                            redirects: 0,
-                            start: `${year}-01`,
-                            end: `${year}-12`,
-                            pages: row.title
-                        };
-                        const queryString = new URLSearchParams(params).toString();
-                        return `<a class="text-decoration-none" style="font-weight: 500;" href="https://pageviews.wmcloud.org/pageviews/?${queryString}" target="_blank">${val}</a>`;
+                        return `<strong>${val}</strong>`;
                     }
                 });
-            });
 
-            columns.push({
-                data: 'total',
-                title: 'Cumulative',
-                render: function(data, type, row) {
-                    const val = Number(data).toLocaleString();
-                    return `<strong>${val}</strong>`;
-                }
-            });
-
-            $('#langTable').DataTable({
-                serverSide: true,
-                ajax: {
-                    url: 'api.php',
-                    data: function(d) {
-                        d.lang = lang;
-                        d.sub_dir = subDir;
+                $('#langTable').DataTable({
+                    serverSide: true,
+                    ajax: {
+                        url: 'api.php',
+                        data: function(d) {
+                            d.lang = lang;
+                            d.sub_dir = subDir;
+                        },
+                        dataSrc: 'data'
                     },
-                    dataSrc: 'data'
-                },
-                columns: columns,
-                paging: true,
-                pageLength: 500,
-                lengthChange: true,
-                lengthMenu: [[100, 500, 1000, 5000], [100, 500, 1000, 5000]],
-                searching: true,
-                order: [[0, 'asc']],
-                dom: '<"d-flex justify-content-between align-items-center mb-3"lp>f<"clear">rtip',
-                language: {
-                    search: "",
-                    searchPlaceholder: "Search articles...",
-                    paginate: {
-                        previous: '<i class="fa-solid fa-chevron-left"></i>',
-                        next: '<i class="fa-solid fa-chevron-right"></i>'
+                    columns: columns,
+                    paging: true,
+                    pageLength: 500,
+                    lengthChange: true,
+                    lengthMenu: [
+                        [100, 500, 1000, 5000],
+                        [100, 500, 1000, 5000]
+                    ],
+                    searching: true,
+                    order: [
+                        [0, 'asc']
+                    ],
+                    dom: '<"d-flex justify-content-between align-items-center mb-3"lp>f<"clear">rtip',
+                    language: {
+                        search: "",
+                        searchPlaceholder: "Search articles...",
+                        paginate: {
+                            previous: '<i class="fa-solid fa-chevron-left"></i>',
+                            next: '<i class="fa-solid fa-chevron-right"></i>'
+                        }
+                    },
+                    columnDefs: [{
+                        targets: 0,
+                        width: "40px"
+                    }],
+                    createdRow: function(row, data, dataIndex) {
+                        if (data.is_summary) {
+                            $(row).addClass('summary-row');
+                        }
                     }
-                },
-                columnDefs: [
-                    { targets: 0, width: "40px" }
-                ],
-                createdRow: function(row, data, dataIndex) {
-                    if (data.is_summary) {
-                        $(row).addClass('summary-row');
-                    }
-                }
-            });
-        } catch (err) {
-            console.error('Error fetching table data:', err);
+                });
+            } catch (err) {
+                console.error('Error fetching table data:', err);
+            }
         }
-    }
 
         $(document).ready(async function() {
             await Promise.all([

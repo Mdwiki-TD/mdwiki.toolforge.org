@@ -102,7 +102,7 @@ function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
 
     // Apply Server-side search
     if (!empty($search_value)) {
-        $filtered_rows = array_filter($all_rows, function($row) use ($search_value) {
+        $filtered_rows = array_filter($all_rows, function ($row) use ($search_value) {
             return mb_stripos($row['title'], $search_value) !== false;
         });
     }
