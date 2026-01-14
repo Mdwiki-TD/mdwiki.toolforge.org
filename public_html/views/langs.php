@@ -99,7 +99,7 @@ $type_titles = [
 
         async function loadChart() {
             try {
-                const response = await fetch(`langs_api.php?lang=${lang}&sub_dir=${subDir}&chart_data=1`);
+                const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&chart_data=1`);
                 const res = await response.json();
 
                 new Chart(document.getElementById('viewsChart'), {
@@ -131,7 +131,7 @@ $type_titles = [
 
         async function loadTable() {
             try {
-                const response = await fetch(`langs_api.php?lang=${lang}&sub_dir=${subDir}`);
+                const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}`);
                 const res = await response.json();
 
                 if (res.error) {
