@@ -38,21 +38,38 @@
         /* Loading Overlay */
         .loading-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(255, 255, 255, 0.9);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             z-index: 9999;
             backdrop-filter: blur(8px);
             transition: all 0.4s ease;
         }
+
         .spinner-custom {
-            width: 48px; height: 48px;
+            width: 48px;
+            height: 48px;
             border: 4px solid var(--border-color);
             border-bottom-color: var(--primary-color);
             border-radius: 50%;
             animation: rotation 1s linear infinite;
         }
-        @keyframes rotation { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) } }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
 
         /* Navbar / Header */
         .dashboard-header {
@@ -61,16 +78,23 @@
             border-bottom: 1px solid var(--border-color);
             padding: 1.25rem 0;
             position: sticky;
-            top: 0; z-index: 1000;
+            top: 0;
+            z-index: 1000;
         }
+
         .dashboard-title {
             font-weight: 700;
             font-size: 1.5rem;
             color: var(--primary-color);
             margin: 0;
-            display: flex; align-items: center; gap: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
-        .dashboard-title i { font-size: 1.25rem; }
+
+        .dashboard-title i {
+            font-size: 1.25rem;
+        }
 
         /* Controls */
         .form-select-custom {
@@ -84,6 +108,7 @@
             transition: all 0.2s ease;
             cursor: pointer;
         }
+
         .form-select-custom:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
@@ -100,23 +125,33 @@
             margin-bottom: 2rem;
             overflow: hidden;
         }
+
         .card-premium:hover {
             box-shadow: var(--shadow-lg);
         }
+
         .card-header-premium {
             background: transparent;
             border-bottom: 1px solid var(--border-color);
             padding: 1.25rem 1.5rem;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
         .card-header-premium h2 {
             font-size: 1.1rem;
             font-weight: 600;
             margin: 0;
             color: var(--text-main);
-            display: flex; align-items: center; gap: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .card-body-premium { padding: 1.5rem; }
+
+        .card-body-premium {
+            padding: 1.5rem;
+        }
 
         /* Table Styling */
         #langTable_wrapper .dataTables_info,
@@ -124,10 +159,12 @@
             margin-top: 1.5rem;
             font-weight: 500;
         }
+
         .table-premium {
             border-collapse: separate;
             border-spacing: 0;
         }
+
         .table-premium thead th {
             background-color: #f1f5f9;
             color: var(--text-muted);
@@ -139,6 +176,7 @@
             border-bottom: 2px solid var(--border-color);
             text-align: center;
         }
+
         .table-premium tbody td {
             padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--border-color);
@@ -146,22 +184,29 @@
             font-weight: 500;
             text-align: center;
         }
-        .table-premium tbody tr:last-child td { border-bottom: none; }
+
+        .table-premium tbody tr:last-child td {
+            border-bottom: none;
+        }
+
         .table-premium tbody tr:hover {
             background-color: rgba(79, 70, 229, 0.02);
             transition: background 0.2s ease;
         }
+
         .table-premium tr.summary-row {
             background-color: #eef2ff !important;
             font-weight: 700;
             color: var(--primary-color);
         }
+
         .table-premium a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.2s ease;
         }
+
         .table-premium a:hover {
             color: var(--primary-hover);
             text-decoration: underline;
@@ -171,18 +216,43 @@
         .fade-in {
             animation: fadeIn 0.8s ease-out;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-body); }
-        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
 
-        .chart-container { position: relative; height: 350px; width: 100%; }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
 
         .badge-lang {
             background: rgba(79, 70, 229, 0.1);
@@ -202,6 +272,7 @@
             gap: 0.5rem;
             transition: color 0.2s ease;
         }
+
         .btn-return:hover {
             color: var(--primary-color);
         }
@@ -298,8 +369,8 @@ $type_titles = [
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const lang = '<?= $lang ?>';
-        const subDir = '<?= $sub_dir_selected ?>';
+        const lang = <?= json_encode($lang) ?>;
+        const subDir = <?= json_encode($sub_dir_selected) ?>;
 
         async function loadChart() {
             try {
@@ -340,11 +411,18 @@ $type_titles = [
                             intersect: false,
                         },
                         plugins: {
-                            legend: { display: false },
+                            legend: {
+                                display: false
+                            },
                             tooltip: {
                                 backgroundColor: '#1e293b',
-                                titleFont: { size: 14, weight: 'bold' },
-                                bodyFont: { size: 13 },
+                                titleFont: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                bodyFont: {
+                                    size: 13
+                                },
                                 padding: 12,
                                 cornerRadius: 8,
                                 displayColors: false,
@@ -358,11 +436,17 @@ $type_titles = [
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                border: { display: false },
-                                grid: { color: '#f1f5f9' },
+                                border: {
+                                    display: false
+                                },
+                                grid: {
+                                    color: '#f1f5f9'
+                                },
                                 ticks: {
                                     color: '#64748b',
-                                    font: { size: 12 },
+                                    font: {
+                                        size: 12
+                                    },
                                     callback: function(value) {
                                         if (value >= 1000000) return (value / 1000000).toFixed(1) + 'M';
                                         if (value >= 1000) return (value / 1000).toFixed(1) + 'K';
@@ -371,11 +455,17 @@ $type_titles = [
                                 }
                             },
                             x: {
-                                border: { display: false },
-                                grid: { display: false },
+                                border: {
+                                    display: false
+                                },
+                                grid: {
+                                    display: false
+                                },
                                 ticks: {
                                     color: '#64748b',
-                                    font: { size: 12 }
+                                    font: {
+                                        size: 12
+                                    }
                                 }
                             }
                         }
@@ -396,8 +486,10 @@ $type_titles = [
                     return;
                 }
 
-                const columns = [
-                    { data: 'index', title: '#' },
+                const columns = [{
+                        data: 'index',
+                        title: '#'
+                    },
                     {
                         data: 'title',
                         title: 'Article Title',
@@ -448,22 +540,30 @@ $type_titles = [
                     data: res.data,
                     columns: columns,
                     paging: true,
-                    pageLength: 25,
-                    lengthChange: false,
+                    pageLength: 1000,
+                    lengthChange: true,
+                    lengthMenu: [
+                        [10, 25, 50, 100, 500, 1000],
+                        [10, 25, 50, 100, 500, "1,000"]
+                    ],
                     searching: true,
-                    order: [[0, 'asc']],
-                    dom: '<"d-flex justify-content-between align-items-center mb-3"f>rtip',
+                    order: [
+                        [0, 'asc']
+                    ],
+                    dom: '<"d-flex justify-content-between align-items-center mb-3"lf>rtip',
                     language: {
                         search: "",
                         searchPlaceholder: "Search articles...",
+                        lengthMenu: "Show _MENU_ articles",
                         paginate: {
                             previous: '<i class="fa-solid fa-chevron-left"></i>',
                             next: '<i class="fa-solid fa-chevron-right"></i>'
                         }
                     },
-                    columnDefs: [
-                        { targets: 0, width: "40px" }
-                    ],
+                    columnDefs: [{
+                        targets: 0,
+                        width: "40px"
+                    }],
                     createdRow: function(row, data, dataIndex) {
                         if (data.is_summary) {
                             $(row).addClass('summary-row');
@@ -485,4 +585,5 @@ $type_titles = [
         });
     </script>
 </body>
+
 </html>

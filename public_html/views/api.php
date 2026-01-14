@@ -65,10 +65,8 @@ function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
         }
     }
 
-    $data_rows = [];
+    // Summary Row Calculation
     $all_titles_count = count($titles_to_year);
-
-    // Summary Row
     $summary_row = ["index" => "0", "title" => (string)$all_titles_count, "is_summary" => true];
     $all_total_views = 0;
     foreach ($years_data as $year => $data) {
@@ -77,9 +75,9 @@ function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
         $summary_row[$year] = $y_sum;
     }
     $summary_row["total"] = $all_total_views;
-    $data_rows[] = $summary_row;
 
     // Article Rows
+    $all_rows = [];
     $i = 1;
     foreach ($titles_to_year as $title => $counts) {
         $row = ["index" => (string)$i, "title" => $title, "is_summary" => false];
@@ -90,11 +88,33 @@ function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
             $row[$year] = $c;
         }
         $row["total"] = $total;
-        $data_rows[] = $row;
+        $all_rows[] = $row;
         $i++;
     }
 
-    echo json_encode(["data" => $data_rows, "years" => array_keys($years_data)], JSON_PRETTY_PRINT);
+    // Server-side pagination parameters
+    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+    $length = isset($_GET['length']) ? (int)$_GET['length'] : 1000;
+
+    // Sort logic (optional, but good for index consistency)
+    $total_records = count($all_rows);
+
+    // Slice data for current page
+    $paged_data = array_slice($all_rows, $start, $length);
+
+    // Include summary row ONLY on the first page
+    $final_data = $paged_data;
+    if ($start === 0) {
+        array_unshift($final_data, $summary_row);
+    }
+
+    echo json_encode([
+        "draw" => isset($_GET['draw']) ? (int)$_GET['draw'] : 1,
+        "recordsTotal" => $total_records + 1, // +1 for the sticky summary row
+        "recordsFiltered" => $total_records + 1,
+        "data" => $final_data,
+        "years" => array_keys($years_data)
+    ], JSON_PRETTY_PRINT);
 }
 
 /**
