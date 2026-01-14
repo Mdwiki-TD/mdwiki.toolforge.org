@@ -94,7 +94,7 @@ function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
 
     // Server-side pagination parameters
     $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $length = isset($_GET['length']) ? (int)$_GET['length'] : 1000;
+    $length = isset($_GET['length']) ? (int)$_GET['length'] : 500;
 
     // Sort logic (optional, but good for index consistency)
     $total_records = count($all_rows);
