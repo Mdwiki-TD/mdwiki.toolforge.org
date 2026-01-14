@@ -92,23 +92,44 @@ body {
 }
 
 /* Table Styling */
+.table-premium,
+.table-responsive {
+    background-color: transparent !important;
+}
+
+.table-premium {
+    color: var(--text-main);
+    border-color: var(--border-color);
+}
+
 .table-premium thead th {
     background-color: var(--bg-body);
     color: var(--text-muted);
     border-bottom: 2px solid var(--border-color);
+    border-top: none;
 }
 
 [data-theme="dark"] .table-premium thead th {
-    background-color: #1e293b;
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.table-premium tbody td {
+    background-color: transparent !important;
+    border-color: var(--border-color);
+    color: var(--text-main);
 }
 
 .table-premium tbody tr:hover {
-    background-color: rgba(79, 70, 229, 0.05);
+    background-color: rgba(79, 70, 229, 0.05) !important;
 }
 
 .table-premium tr.summary-row {
-    background-color: rgba(79, 70, 229, 0.1) !important;
-    color: var(--primary-color);
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    color: var(--accent-color);
+}
+
+[data-theme="dark"] .table-premium tr.summary-row {
+    background-color: rgba(16, 185, 129, 0.15) !important;
 }
 
 /* Badges */
@@ -137,10 +158,25 @@ body {
     color: var(--text-muted);
 }
 
+[data-theme="dark"] .dataTables_wrapper .dataTables_filter input,
+[data-theme="dark"] .dataTables_wrapper .dataTables_length select {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2px 8px;
+}
+
 [data-theme="dark"] .page-link {
     background-color: var(--bg-card);
     border-color: var(--border-color);
     color: var(--text-muted);
+}
+
+[data-theme="dark"] .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
 }
 
 /* Premium Dashboard Elements */
