@@ -419,9 +419,18 @@ $type_titles = [
                         render: function(data, type, row) {
                             const val = Number(data).toLocaleString();
                             if (row.is_summary) return `<strong>${val}</strong>`;
-                            const encodedTitle = encodeURIComponent(row.title);
                             const projectLang = (lang === 'be-x-old') ? 'be-tarask' : lang;
-                            return `<a class="text-decoration-none" style="font-weight: 500;" href="https://pageviews.wmcloud.org/pageviews/?project=${projectLang}.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=${year}-01&end=${year}-12&pages=${encodedTitle}" target="_blank">${val}</a>`;
+                            const params = {
+                                project: `${projectLang}.wikipedia.org`,
+                                platform: 'all-access',
+                                agent: (subDir === 'users-agents') ? 'user' : 'all-agents',
+                                redirects: 0,
+                                start: `${year}-01`,
+                                end: `${year}-12`,
+                                pages: row.title
+                            };
+                            const queryString = new URLSearchParams(params).toString();
+                            return `<a class="text-decoration-none" style="font-weight: 500;" href="https://pageviews.wmcloud.org/pageviews/?${queryString}" target="_blank">${val}</a>`;
                         }
                     });
                 });
