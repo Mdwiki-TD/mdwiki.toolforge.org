@@ -127,8 +127,15 @@ $type_titles = [
             const response = await fetch(`api.php?sub_dir=${subDir}`);
             const res = await response.json();
 
-            const columns = [
-                { data: 'index', title: '#' },
+            if (res.error) {
+                alert(res.error);
+                return;
+            }
+
+            const columns = [{
+                    data: 'index',
+                    title: '#'
+                },
                 {
                     data: 'lang',
                     title: 'Lang',

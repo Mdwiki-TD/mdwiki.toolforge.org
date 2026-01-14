@@ -93,120 +93,124 @@ $type_titles = [
         </div>
     </div>
 
-    <script>
-        const lang = '<?= $lang ?>';
-        const subDir = '<?= $sub_dir_selected ?>';
+</body>
 
-        async function loadChart() {
-            try {
-                const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&chart_data=1`);
-                const res = await response.json();
+<script>
+    const lang = '<?= $lang ?>';
+    const subDir = '<?= $sub_dir_selected ?>';
 
-                new Chart(document.getElementById('viewsChart'), {
-                    type: 'line',
-                    data: {
-                        labels: res.labels,
-                        datasets: [{
-                            label: 'Total Views by Year',
-                            data: res.data,
-                            borderColor: '#007bff',
-                            backgroundColor: 'rgba(0, 123, 255, 0.1)',
-                            fill: true,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
+    async function loadChart() {
+        try {
+            const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&chart_data=1`);
+            const res = await response.json();
+
+            new Chart(document.getElementById('viewsChart'), {
+                type: 'line',
+                data: {
+                    labels: res.labels,
+                    datasets: [{
+                        label: 'Total Views by Year',
+                        data: res.data,
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
-                });
-            } catch (err) {
-                console.error('Error loading chart:', err);
-            }
-        }
-
-        async function loadTable() {
-            try {
-                const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}`);
-                const res = await response.json();
-
-                if (res.error) {
-                    alert(res.error);
-                    return;
                 }
+            });
+        } catch (err) {
+            console.error('Error fetching chart data:', err);
+        }
+    }
 
-                const columns = [
-                    { data: 'index', title: '#' },
-                    {
-                        data: 'title',
-                        title: 'Title',
-                        render: function(data, type, row) {
-                            if (row.is_summary) return `<strong>${data}</strong>`;
-                            const encodedTitle = encodeURIComponent(data);
-                            return `<a class='item' href='https://${lang}.wikipedia.org/wiki/${encodedTitle}' target='_blank'>${data}</a>`;
-                        }
+    async function loadTable() {
+        try {
+            const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}`);
+            const res = await response.json();
+
+            if (res.error) {
+                alert(res.error);
+                return;
+            }
+
+            const columns = [{
+                    data: 'index',
+                    title: '#'
+                },
+                {
+                    data: 'title',
+                    title: 'Title',
+                    render: function(data, type, row) {
+                        if (row.is_summary) return `<strong>${data}</strong>`;
+                        const encodedTitle = encodeURIComponent(data);
+                        return `<a class='item' href='https://${lang}.wikipedia.org/wiki/${encodedTitle}' target='_blank'>${data}</a>`;
                     }
-                ];
+                }
+            ];
 
-                res.years.forEach(year => {
-                    columns.push({
-                        data: year,
-                        title: String(year),
-                        render: function(data, type, row) {
-                            const val = Number(data).toLocaleString();
-                            if (row.is_summary) return `<strong>${val}</strong>`;
-                            const encodedTitle = encodeURIComponent(row.title);
-                            const projectLang = (lang === 'be-x-old') ? 'be-tarask' : lang;
-                            return `<a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=${projectLang}.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=${year}-01&end=${year}-12&pages=${encodedTitle}' target='_blank'>${val}</a>`;
-                        }
-                    });
-                });
-
+            res.years.forEach(year => {
                 columns.push({
-                    data: 'total',
-                    title: 'Total',
+                    data: year,
+                    title: String(year),
                     render: function(data, type, row) {
                         const val = Number(data).toLocaleString();
-                        return row.is_summary ? `<strong>${val}</strong>` : val;
+                        if (row.is_summary) return `<strong>${val}</strong>`;
+                        const encodedTitle = encodeURIComponent(row.title);
+                        const projectLang = (lang === 'be-x-old') ? 'be-tarask' : lang;
+                        return `<a class='item' href='https://pageviews.wmcloud.org/pageviews/?project=${projectLang}.wikipedia.org&platform=all-access&agent=all-agents&redirects=0&start=${year}-01&end=${year}-12&pages=${encodedTitle}' target='_blank'>${val}</a>`;
                     }
                 });
+            });
 
-                $('#langTable').DataTable({
-                    data: res.data,
-                    columns: columns,
-                    paging: true,
-                    pageLength: 50,
-                    searching: true,
-                    order: [
-                        [0, 'asc']
-                    ],
-                    columnDefs: [{
-                        targets: 0,
-                        width: "5%"
-                    }],
-                    createdRow: function(row, data, dataIndex) {
-                        if (data.is_summary) {
-                            $(row).addClass('table-primary');
-                        }
+            columns.push({
+                data: 'total',
+                title: 'Total',
+                render: function(data, type, row) {
+                    const val = Number(data).toLocaleString();
+                    return row.is_summary ? `<strong>${val}</strong>` : val;
+                }
+            });
+
+            $('#langTable').DataTable({
+                data: res.data,
+                columns: columns,
+                paging: true,
+                pageLength: 50,
+                searching: true,
+                order: [
+                    [0, 'asc']
+                ],
+                columnDefs: [{
+                    targets: 0,
+                    width: "5%"
+                }],
+                createdRow: function(row, data, dataIndex) {
+                    if (data.is_summary) {
+                        $(row).addClass('table-primary');
                     }
-                });
-            } catch (err) {
-                console.error('Error loading table:', err);
-            }
+                }
+            });
+        } catch (err) {
+            console.error('Error fetching table data:', err);
+            alert('Failed to load table data. Check console for details.');
         }
+    }
 
-        $(document).ready(async function() {
-            await Promise.all([
-                loadChart(),
-                loadTable()
-            ]);
-            $('#loading').fadeOut();
-        });
-    </script>
-</body>
+    $(document).ready(async function() {
+        await Promise.all([
+            loadChart(),
+            loadTable()
+        ]);
+        $('#loading').fadeOut();
+    });
+</script>
 
 </html>
