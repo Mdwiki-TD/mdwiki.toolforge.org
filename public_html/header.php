@@ -165,6 +165,11 @@ echo <<<HTML
 							</a>
 						</li>
 						<li class="nav-item col-4 col-lg-auto">
+							<a class="nav-link py-2 px-0 px-lg-2" href="/views">
+								<span class="navtitles">PageViews</span>
+							</a>
+						</li>
+						<li class="nav-item col-4 col-lg-auto">
 							<a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/MrIbrahem/mdwiki.toolforge.org" target="_blank">
 								<span class="navtitles">Github</span>
 							</a>
