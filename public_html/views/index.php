@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.svg" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <title>WikiProject Medicine Pageviews | Dashboard</title>
 
     <!-- Fonts -->
@@ -42,10 +44,10 @@ $type_titles = [
     <header class="dashboard-header mb-4">
         <div class="container">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
-                <h1 class="dashboard-title">
-                    <i class="fa-solid fa-chart-line"></i>
+                <h2 class="dashboard-title">
+                    <img class="med-logo" width="40px" height="40px" src="/favicon.svg" decoding="async" alt="Wiki Project Med Foundation logo">
                     WikiProject Medicine Pageviews
-                </h1>
+                </h2>
 
                 <div class="d-flex align-items-center gap-3">
                     <button class="theme-toggle" onclick="toggleTheme(() => { if(window.myChart) { window.myChart.destroy(); loadChart(subDirSelected); } })" title="Toggle Dark/Light Mode">
