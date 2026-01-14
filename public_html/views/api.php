@@ -11,13 +11,13 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 // Configuration
 $base_path = __DIR__ . "/update_med_views/";
 $dir_with_sub = [
-    "all-agens" => "views_by_year_all_agens",
+    "all-agens" => "views_by_year_all_agents",
     "users-agents" => "views_by_year_users_agents",
 ];
 
 // Parameters
 $sub_dir_selected = $_GET['sub_dir'] ?? 'all-agens';
-$sub_dir = $dir_with_sub[$sub_dir_selected] ?? 'views_by_year_all_agens';
+$sub_dir = $dir_with_sub[$sub_dir_selected] ?? 'views_by_year_all_agents';
 $lang = $_GET['lang'] ?? '';
 $chart_requested = isset($_GET['chart_data']);
 
