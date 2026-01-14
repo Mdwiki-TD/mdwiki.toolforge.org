@@ -273,7 +273,7 @@ $type_titles = [
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const subDirSelected = '<?= $sub_dir_selected ?>';
+        const subDirSelected = <?= json_encode($sub_dir_selected) ?>;
 
         async function loadChart(subDir) {
             try {
