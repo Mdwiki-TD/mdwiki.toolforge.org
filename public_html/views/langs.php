@@ -551,10 +551,12 @@ $type_titles = [
                 pageLength: 500,
                 lengthChange: true,
                 lengthMenu: [[100, 500, 1000, 5000], [100, 500, 1000, 5000]],
-                searching: false,
+                searching: true,
                 order: [[0, 'asc']],
-                dom: '<"d-flex justify-content-between align-items-center mb-3"lp>rtip',
+                dom: '<"d-flex justify-content-between align-items-center mb-3"lp>f<"clear">rtip',
                 language: {
+                    search: "",
+                    searchPlaceholder: "Search articles...",
                     paginate: {
                         previous: '<i class="fa-solid fa-chevron-left"></i>',
                         next: '<i class="fa-solid fa-chevron-right"></i>'

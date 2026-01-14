@@ -92,26 +92,36 @@ function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
         $i++;
     }
 
-    // Server-side pagination parameters
+    // Server-side pagination and search parameters
     $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
     $length = isset($_GET['length']) ? (int)$_GET['length'] : 500;
+    $search_value = $_GET['search']['value'] ?? '';
 
-    // Sort logic (optional, but good for index consistency)
     $total_records = count($all_rows);
+    $filtered_rows = $all_rows;
 
-    // Slice data for current page
-    $paged_data = array_slice($all_rows, $start, $length);
+    // Apply Server-side search
+    if (!empty($search_value)) {
+        $filtered_rows = array_filter($all_rows, function($row) use ($search_value) {
+            return mb_stripos($row['title'], $search_value) !== false;
+        });
+    }
 
-    // Include summary row ONLY on the first page
+    $records_filtered = count($filtered_rows);
+
+    // Slice data for current page from filtered results
+    $paged_data = array_slice($filtered_rows, $start, $length);
+
+    // Include summary row ONLY on the first page of NON-SEARCH results
     $final_data = $paged_data;
-    if ($start === 0) {
+    if ($start === 0 && empty($search_value)) {
         array_unshift($final_data, $summary_row);
     }
 
     echo json_encode([
         "draw" => isset($_GET['draw']) ? (int)$_GET['draw'] : 1,
-        "recordsTotal" => $total_records + 1, // +1 for the sticky summary row
-        "recordsFiltered" => $total_records + 1,
+        "recordsTotal" => $total_records + 1,
+        "recordsFiltered" => empty($search_value) ? ($total_records + 1) : $records_filtered,
         "data" => $final_data,
         "years" => array_keys($years_data)
     ], JSON_PRETTY_PRINT);
