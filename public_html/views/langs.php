@@ -6,21 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.svg" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <title>WikiProject Medicine Pageviews | Dashboard</title>
-
-    <!-- Fonts -->
+    <title>WikiProject Medicine Pageviews | Language Details</title>
 
     <!-- CSS Frameworks -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css' rel='stylesheet'>
 
-    <!-- Custom CSS -->
     <link href="style.css" rel="stylesheet">
 </head>
 
 <?php
+$lang = basename($_GET['lang'] ?? '');
 $sub_dir_selected = $_GET['sub_dir'] ?? 'all-agents';
+
+if (!$lang) {
+    header("Location: index.php");
+    exit;
+}
+
 $type_titles = [
     "all-agents" => "All Agents",
     "users-agents" => "Users Agents",
@@ -28,34 +32,41 @@ $type_titles = [
 ?>
 
 <body>
+    <script src="theme.js"></script>
     <script>
         // Apply theme immediately to prevent flicker
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
-    <script src="theme.js"></script>
 
     <div id="loading" class="loading-overlay">
         <div class="spinner-custom"></div>
-        <p class="mt-3 font-weight-600 text-muted">Preparing your data...</p>
+        <p class="mt-3 font-weight-600 text-muted">Preparing language data...</p>
     </div>
 
     <!-- Header -->
     <header class="dashboard-header mb-4">
         <div class="container">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
-                <h2 class="dashboard-title">
-                    <img class="med-logo" width="40px" height="40px" src="/favicon.svg" decoding="async" alt="Wiki Project Med Foundation logo">
-                    WikiProject Medicine Pageviews
-                </h2>
+                <div class="d-flex align-items-center gap-4">
+                    <a href="index.php?sub_dir=<?= $sub_dir_selected ?>" class="btn-return">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Back</span>
+                    </a>
+                    <h1 class="dashboard-title">
+                        <i class="fa-solid fa-language"></i>
+                        Details for: <span class="ms-2 badge-lang" style="font-size: 1.2rem;"><?= htmlspecialchars($lang) ?></span>
+                    </h1>
+                </div>
 
                 <div class="d-flex align-items-center gap-3">
-                    <button class="theme-toggle" onclick="toggleTheme(() => { if(window.myChart) { window.myChart.destroy(); loadChart(subDirSelected); } })" title="Toggle Dark/Light Mode">
+                    <button class="theme-toggle" onclick="toggleTheme(() => { if(window.myChart) { window.myChart.destroy(); loadChart(); } })" title="Toggle Dark/Light Mode">
                         <i class="fa-solid fa-moon dark-icon"></i>
                         <i class="fa-solid fa-sun light-icon d-none"></i>
                     </button>
 
                     <form method="get" id="subDirForm" class="m-0">
+                        <input type="hidden" name="lang" value="<?= htmlspecialchars($lang) ?>">
                         <select name="sub_dir" class="form-select-custom" onchange="this.form.submit()">
                             <?php foreach ($type_titles as $type => $title): ?>
                                 <option value="<?= $type ?>" <?= $type === $sub_dir_selected ? 'selected' : '' ?>><?= $title ?></option>
@@ -71,8 +82,8 @@ $type_titles = [
         <!-- Chart Section -->
         <div class="card-premium">
             <div class="card-header-premium">
-                <h2><i class="fa-solid fa-wave-square me-2" style="color: var(--primary-color)"></i> Global Trends</h2>
-                <span class="text-muted small font-weight-500">Total Views by Year</span>
+                <h2><i class="fa-solid fa-wave-square me-2" style="color: var(--primary-color)"></i> Traffic Trends</h2>
+                <span class="text-muted small font-weight-500">Language Pageviews by Year</span>
             </div>
             <div class="card-body-premium">
                 <div class="chart-container">
@@ -84,16 +95,16 @@ $type_titles = [
         <!-- Table Section -->
         <div class="card-premium">
             <div class="card-header-premium">
-                <h2><i class="fa-solid fa-table me-2" style="color: var(--primary-color)"></i> Language Distribution</h2>
+                <h2><i class="fa-solid fa-table me-2" style="color: var(--primary-color)"></i> Article Distribution</h2>
                 <div class="d-flex gap-2">
                     <span class="badge" style="background: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-muted);">
-                        <i class="fa-solid fa-globe me-1"></i> Data aggregated
+                        <i class="fa-solid fa-book-medical me-1"></i> Article details
                     </span>
                 </div>
             </div>
             <div class="card-body-premium">
                 <div class="table-responsive">
-                    <table id="mainTable" class="table table-premium w-100">
+                    <table id="langTable" class="table table-premium w-100">
                     </table>
                 </div>
             </div>
@@ -107,13 +118,14 @@ $type_titles = [
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const subDirSelected = <?= json_encode($sub_dir_selected) ?>;
+        const lang = <?= json_encode($lang) ?>;
+        const subDir = <?= json_encode($sub_dir_selected) ?>;
 
         // Note: toggleTheme and updateThemeIcons are now in theme.js
 
-        async function loadChart(subDir) {
+        async function loadChart() {
             try {
-                const response = await fetch(`api.php?chart_data=1&sub_dir=${subDir}`);
+                const response = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&chart_data=1`);
                 const res = await response.json();
 
                 const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -219,73 +231,94 @@ $type_titles = [
             }
         }
 
-        async function loadTable(subDir) {
+        async function loadTable() {
             try {
-                const response = await fetch(`api.php?sub_dir=${subDir}`);
-                const res = await response.json();
+                // First fetch to get columns/years metadata
+                const initResponse = await fetch(`api.php?lang=${lang}&sub_dir=${subDir}&start=0&length=1`);
+                const initRes = await initResponse.json();
 
-                if (res.error) {
-                    alert(res.error);
+                if (initRes.error) {
+                    alert(initRes.error);
                     return;
                 }
 
+                const years = initRes.years;
                 const columns = [{
                         data: 'index',
                         title: '#'
                     },
                     {
-                        data: 'lang',
-                        title: 'Lang',
+                        data: 'title',
+                        title: 'Article Title',
                         render: function(data, type, row) {
-                            if (row.is_summary) return `<strong>Global</strong>`;
-                            return `<span class="badge-lang">${data}</span>`;
-                        }
-                    },
-                    {
-                        data: 'titles',
-                        title: 'Articles',
-                        render: function(data, type, row) {
-                            const val = Number(data).toLocaleString();
-                            if (row.is_summary) return `<strong>${val}</strong>`;
-                            return `<a href='langs.php?lang=${row.lang}&sub_dir=${subDirSelected}'>${val} <i class="fa-solid fa-arrow-up-right-from-square ms-1 small"></i></a>`;
+                            if (row.is_summary) return `<strong>Total Stats</strong>`;
+                            const encodedTitle = encodeURIComponent(data);
+                            return `<div class="d-flex align-items-center">
+                                    <i class="fa-brands fa-wikipedia-w me-2 text-muted"></i>
+                                    <a href='https://${lang}.wikipedia.org/wiki/${encodedTitle}' target='_blank'>${data}</a>
+                                </div>`;
                         }
                     }
                 ];
 
-                res.years.forEach(year => {
+                years.forEach(year => {
                     columns.push({
                         data: year,
                         title: String(year),
                         render: function(data, type, row) {
                             const val = Number(data).toLocaleString();
-                            return row.is_summary ? `<strong>${val}</strong>` : val;
+                            if (row.is_summary) return `<strong>${val}</strong>`;
+
+                            const params = {
+                                project: `${lang}.wikipedia.org`,
+                                platform: 'all-access',
+                                agent: (subDir === 'users-agents') ? 'user' : 'all-agents',
+                                redirects: 0,
+                                start: `${year}-01`,
+                                end: `${year}-12`,
+                                pages: row.title
+                            };
+                            const queryString = new URLSearchParams(params).toString();
+                            return `<a class="text-decoration-none" style="font-weight: 500;" href="https://pageviews.wmcloud.org/pageviews/?${queryString}" target="_blank">${val}</a>`;
                         }
                     });
                 });
 
                 columns.push({
                     data: 'total',
-                    title: 'Total View',
+                    title: 'Cumulative',
                     render: function(data, type, row) {
                         const val = Number(data).toLocaleString();
-                        return row.is_summary ? `<strong>${val}</strong>` : `<strong>${val}</strong>`;
+                        return `<strong>${val}</strong>`;
                     }
                 });
 
-                $('#mainTable').DataTable({
-                    data: res.data,
+                $('#langTable').DataTable({
+                    serverSide: true,
+                    ajax: {
+                        url: 'api.php',
+                        data: function(d) {
+                            d.lang = lang;
+                            d.sub_dir = subDir;
+                        },
+                        dataSrc: 'data'
+                    },
                     columns: columns,
                     paging: true,
-                    pageLength: 25,
-                    lengthChange: false,
+                    pageLength: 500,
+                    lengthChange: true,
+                    lengthMenu: [
+                        [100, 500, 1000, 5000],
+                        [100, 500, 1000, 5000]
+                    ],
                     searching: true,
                     order: [
                         [0, 'asc']
                     ],
-                    dom: '<"d-flex justify-content-between align-items-center mb-3"f>rtip',
+                    dom: '<"d-flex justify-content-between align-items-center mb-3"lp>f<"clear">rtip',
                     language: {
                         search: "",
-                        searchPlaceholder: "Search languages...",
+                        searchPlaceholder: "Search articles...",
                         paginate: {
                             previous: '<i class="fa-solid fa-chevron-left"></i>',
                             next: '<i class="fa-solid fa-chevron-right"></i>'
@@ -307,11 +340,9 @@ $type_titles = [
         }
 
         $(document).ready(async function() {
-            const subDir = '<?= $sub_dir_selected ?>';
-
             await Promise.all([
-                loadChart(subDir),
-                loadTable(subDir)
+                loadChart(),
+                loadTable()
             ]);
 
             $('#loading').fadeOut(600);
