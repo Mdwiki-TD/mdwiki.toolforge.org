@@ -132,27 +132,13 @@ function make_sql_result($qua)
     };
 }
 
-function get_sql_pass()
-{
-    // ---
-	$ROOT_PATH = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
-    // ---
-    $_dir = $ROOT_PATH . '/confs/';
-    // ---
-    $ini = parse_ini_file($_dir . 'OAuthConfig.ini');
-    // ---
-    return $ini['sqlpass'];
-}
-
 function get_sql_result($qua, $pass)
 {
     if ($_SERVER['SERVER_NAME'] == 'localhost') {
         return make_sql_result($qua);
     }
-    // ---
-    $sqlpass = get_sql_pass();
-    // ---
-    if ($pass == $sqlpass) {
+	
+    if ($pass == getenv("SQLPASS")) {
         return make_sql_result($qua);
     }
 }
