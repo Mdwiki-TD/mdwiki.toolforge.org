@@ -14,7 +14,7 @@ $path = __DIR__ . '/api/index.php';
 
 if (!file_exists($path)) {
     // I:\mdwiki\TD_API
-    $path = __DIR__ . '/../../TD_API/index.php';
+    $path = __DIR__ . '/../../TD_API/src/index.php';
 }
 
 include_once $path;

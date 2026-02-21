@@ -4,4 +4,7 @@ export SUB_DIR_COPY="newapi"
 export CLEAN_INSTALL=1
 export USER_NAME="WikiAr"
 BRANCH="${1:-main}"
-$HOME/shs/deploy_repo.sh newapi pybot/new/newapi "$BRANCH"
+REPO_NAME=newapi
+REPO_PATH="pybot/new/newapi"
+
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
