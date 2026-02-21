@@ -113,3 +113,4 @@ public_html/views/update_med_views/views_by_year_all_agents/*
 !public_html/views/update_med_views/views_by_year_all_agents/*.json
 public_html/views/update_med_views/views_by_year_users_agents/*
 !public_html/views/update_med_views/views_by_year_users_agents/*.json
+.claude/settings.local.json

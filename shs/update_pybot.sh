@@ -1,7 +1,10 @@
 #!/bin/bash
-# toolforge-jobs run update --image python3.11 --command "~/shs/update_api.sh" --wait
+# toolforge-jobs run updatepybot --image python3.11 --command "~/shs/update_pybot.sh" --wait
 export SUB_DIR_COPY=""
 export CLEAN_INSTALL=0
 export USER_NAME="Mdwiki-TD"
 BRANCH="${1:-main}"
-$HOME/shs/deploy_repo.sh "mdwiki-python-files" pybot "$BRANCH"
+REPO_NAME="mdwiki-python-files"
+REPO_PATH="pybot"
+
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"

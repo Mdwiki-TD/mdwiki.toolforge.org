@@ -1,23 +1,11 @@
 #!/bin/bash
-
-echo "Cd to home directory..."
-cd "$HOME" || { echo "Failed to change directory to home directory"; exit 1; }
-
-echo "Removing old TD_API directory if exists..."
-rm -rf TD_API
-
+# toolforge-jobs run updatetdapi --image  --command "~/shs/update_td_api.sh" --wait
+export SUB_DIR_COPY="src"
+export CLEAN_INSTALL=1
+export USER_NAME="Mdwiki-TD"
 BRANCH="${1:-main}"
-echo ">>> clone --branch ${BRANCH} ."
-
-echo "Cloning repository from GitHub..."
-git clone --branch "$BRANCH" https://github.com/Mdwiki-TD/TD_API.git TD_API || { echo "Failed to clone repository"; exit 1; }
-
-rm -rf TD_API/.git
-
-cp -rf -v TD_API/* public_html/api/
-
-echo "Removing TD_API directory..."
-rm -rf TD_API
+REPO_NAME=TD_API
+REPO_PATH="public_html/api"
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
 
 echo "Script execution completed successfully."
-

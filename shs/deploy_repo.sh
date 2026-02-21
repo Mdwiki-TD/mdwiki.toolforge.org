@@ -13,6 +13,8 @@ if [ -z "${1:-}" ] || [ -z "${2:-}" ]; then
     exit 1
 fi
 
+COPY_TO_TARGET="${COPY_TO_TARGET:-}"
+
 BRANCH="${3:-main}"
 SUB_DIR_COPY="${SUB_DIR_COPY:-}"
 USER_NAME="${USER_NAME:-MrIbrahem}"
@@ -63,6 +65,11 @@ if [ -n "$SUB_DIR_COPY" ]; then
 fi
 
 cp -rf "$SRC_DIR/"* "$TARGET_DIR/" -v
+
+if [ -n "$COPY_TO_TARGET" ]; then
+    echo ">>> Copying additional file: $COPY_TO_TARGET"
+    cp -f "$CLONE_DIR/$COPY_TO_TARGET" "$TARGET_DIR/" -v
+fi
 
 # Compile all Python files to .pyc explicitly to avoid race conditions
 export PYTHONDONTWRITEBYTECODE=1
