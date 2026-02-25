@@ -1,9 +1,9 @@
 <?php
 
-namespace OAuth\SendEdit;
+namespace RefsOAuth\SendEdit;
 /*
 Usage:
-use function OAuth\SendEdit\auth_make_edit;
+use function RefsOAuth\SendEdit\auth_make_edit;
 */
 
 

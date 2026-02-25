@@ -2,8 +2,8 @@
 
 namespace FixWikiRefs\SavePage;
 
-use function OAuth\MdwikiSql\fetch_queries;
-use function OAuth\SendEdit\auth_make_edit;
+use function RefsOAuth\MdwikiSql\fetch_queries;
+use function RefsOAuth\SendEdit\auth_make_edit;
 use function FixWikiRefs\Form\make_result_form;
 
 use Defuse\Crypto\Crypto;
@@ -39,7 +39,7 @@ function get_access_from_dbs($user)
     SQL;
 
     // تنفيذ الاستعلام وتمرير اسم المستخدم كمعامل
-    $result = fetch_queries($query, [$user]);
+    $result = fetchqueries($query, [$user]);
 
     // التحقق مما إذا كان قد تم العثور على نتائج
 

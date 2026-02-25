@@ -1,6 +1,6 @@
 <?php
 
-namespace OAuth\MdwikiSql;
+namespace RefsOAuth\MdwikiSql;
 
 use PDO;
 use PDOException;
