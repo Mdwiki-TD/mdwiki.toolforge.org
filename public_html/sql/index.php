@@ -12,7 +12,7 @@ $user_coordinators = get_td_api(['get' => 'coordinator', 'select' => 'user']);
 include_once __DIR__ . '/../header.php';
 //---
 if (substr(__DIR__, 0, 2) == 'I:') {
-    include_once 'I:/mdwiki/auth_repo/oauth/user_infos.php';
+    include_once 'I:/mdwiki/auth_repo/src/oauth/user_infos.php';
 } else {
     include_once __DIR__ . '/../auth/oauth/user_infos.php';
 }
