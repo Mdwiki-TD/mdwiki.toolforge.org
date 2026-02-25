@@ -2,26 +2,59 @@
 
 namespace FixWikiRefs\SavePage;
 
-if (isset($_GET['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-}
-/*
-usage:
-
-use function FixWikiRefs\SavePage\saveit;
-use function FixWikiRefs\SavePage\make_save_result;
-use function FixWikiRefs\SavePage\published_success_alert;
-use function FixWikiRefs\SavePage\published_alert;
-
-*/
-
-use function OAuth\SendEdit\auth_make_edit;
-use function OAuth\AccessHelps\get_access_from_dbs;
-use function OAuth\AccessHelpsNew\get_access_from_dbs_new;
+use function RefsOAuth\MdwikiSql\fetch_queries;
+use function RefsOAuth\SendEdit\auth_make_edit;
 use function FixWikiRefs\Form\make_result_form;
 
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
+
+
+function de_code_value($value)
+{
+    // ---
+    if (empty(trim($value))) {
+        return "";
+    }
+    // ---
+    $cookieKey      = getenv('COOKIE_KEY')      ?: $_ENV['COOKIE_KEY']      ?? '';
+    $cookieKey      = $cookieKey  ? Key::loadFromAsciiSafeString($cookieKey)  : null;
+    try {
+        $value = Crypto::decrypt($value, $cookieKey);
+    } catch (\Exception $e) {
+        $value = "";
+    }
+    return $value;
+}
+function get_access_from_dbs($user)
+{
+    // Validate and sanitize username
+    $user = trim($user);
+
+    // Query to get access_key and access_secret for the user
+    $query = <<<SQL
+        SELECT access_key, access_secret
+        FROM access_keys
+        WHERE user_name = ?;
+    SQL;
+
+    // تنفيذ الاستعلام وتمرير اسم المستخدم كمعامل
+    $result = fetch_queries($query, [$user]);
+
+    // التحقق مما إذا كان قد تم العثور على نتائج
+
+    if (!$result) {
+        // إذا لم يتم العثور على نتيجة، إرجاع null أو يمكنك تخصيص رد معين
+        return null;
+    }
+
+    $result = $result[0];
+    // ---
+    return [
+        'access_key' => de_code_value($result['access_key']),
+        'access_secret' => de_code_value($result['access_secret'])
+    ];
+}
 function saveit($title, $lang, $text)
 {
     $user_name = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
@@ -32,12 +65,7 @@ function saveit($title, $lang, $text)
     // ---
     $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
     // ---
-    $access = get_access_from_dbs_new($user_name);
-    // ---
-    if ($access == null) {
-        error_log("Failed to get access from any database for user: $user_name");
-        $access = get_access_from_dbs($user_name);
-    }
+    $access = get_access_from_dbs($user_name);
     // ---
     if ($access == null) {
         return false;

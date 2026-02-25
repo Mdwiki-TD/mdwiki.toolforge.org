@@ -6,7 +6,7 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 }
 
 if (!isset($_GET['get'])) {
-    header("Location: api/test.html");
+    header("Location: api/openapi.html");
     exit();
 }
 
