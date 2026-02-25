@@ -39,7 +39,7 @@ function get_access_from_dbs($user)
     SQL;
 
     // تنفيذ الاستعلام وتمرير اسم المستخدم كمعامل
-    $result = fetchqueries($query, [$user]);
+    $result = fetch_queries($query, [$user]);
 
     // التحقق مما إذا كان قد تم العثور على نتائج
 
