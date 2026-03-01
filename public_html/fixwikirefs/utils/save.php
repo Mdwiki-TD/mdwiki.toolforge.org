@@ -17,11 +17,14 @@ function de_code_value($value)
         return "";
     }
     // ---
-    $cookieKey      = getenv('COOKIE_KEY')      ?: $_ENV['COOKIE_KEY']      ?? '';
-    $cookieKey      = $cookieKey  ? Key::loadFromAsciiSafeString($cookieKey)  : null;
+    $cookieKeyString = getenv('COOKIE_KEY') ?: $_ENV['COOKIE_KEY'] ?? '';
+    $cookieKey = $cookieKeyString ? Key::loadFromAsciiSafeString($cookieKeyString) : null;
+    if ($cookieKey === null) {
+        return "";
+    }
     try {
         $value = Crypto::decrypt($value, $cookieKey);
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         $value = "";
     }
     return $value;
