@@ -1,38 +1,11 @@
 #!/bin/bash
-
+# toolforge-jobs run updatetd --image python3.11 --command "~/shs/update_td.sh" --wait
+# toolforge-jobs run updatetd --image python3.11 --command "~/shs/update_td.sh update_new" --wait
+export SUB_DIR_COPY="src"
+export CLEAN_INSTALL=0
+export USER_NAME="Mdwiki-TD"
 BRANCH="${1:-main}"
+REPO_NAME=Translation-Dashboard
+REPO_PATH="public_html/Translation_Dashboard"
 
-echo ">>> clone --branch ${BRANCH} ."
-
-cd "$HOME" || exit 1
-# cd /data/project/mdwiki/
-
-rm -rf tdx
-
-# Download the wd-core repository from GitHub.
-git clone --branch "$BRANCH" --recurse-submodules https://github.com/Mdwiki-TD/Translation-Dashboard.git tdx
-
-rm -rf tdx/.git
-
-# delete composer.json and composer.lock
-rm -rf tdx/composer.json tdx/composer.lock
-
-# delete all json files in all subdirectories
-find tdx -name *.json -delete
-
-# delete vendor
-rm -rf tdx/vendor
-
-# copy all files to public_html
-#cp -rf -v tdx/* public_html/Translation_Dashboard
-if [ -d "tdx/src" ]; then
-    cp -rf -v tdx/src/* public_html/Translation_Dashboard/
-else
-    cp -rf -v tdx/* public_html/Translation_Dashboard/
-fi
-
-
-# Remove the `tdx` directory.
-rm -rf tdx
-
-echo "Repository cloned and cleaned successfully."
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
