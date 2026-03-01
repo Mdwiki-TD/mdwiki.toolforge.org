@@ -1,34 +1,10 @@
 #!/bin/bash
-
+# toolforge-jobs run updateauth --image python3.11 --command "~/shs/update_auth.sh" --wait
+export SUB_DIR_COPY="src"
+export CLEAN_INSTALL=0
+export USER_NAME="Mdwiki-TD"
 BRANCH="${1:-main}"
+REPO_NAME="auth-repo"
+REPO_PATH="public_html/auth"
 
-echo ">>> clone --branch ${BRANCH} ."
-
-cd "$HOME" || exit 1
-# cd /data/project/mdwiki/
-
-rm -rf authx
-
-# Download the wd-core repository from GitHub.
-git clone --branch "$BRANCH" https://github.com/Mdwiki-TD/auth-repo.git authx
-
-# copy all files to public_html
-# cp -rf -v authx/* public_html/auth
-if [ -d "authx/src" ]; then
-    cp -rf -v authx/src/* public_html/auth/
-else
-    rm -rf authx/.git
-
-    # delete composer.json and composer.lock
-    rm -rf authx/composer.json authx/composer.lock
-
-    # delete all json files in all subdirectories
-    find authx -name *.json -delete
-
-    # delete vendor
-    rm -rf authx/vendor
-
-    cp -rf -v authx/* public_html/auth/
-fi
-# Remove the `authx` directory.
-rm -rf authx
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
