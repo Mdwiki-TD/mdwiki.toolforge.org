@@ -64,6 +64,14 @@ if [ -n "$SUB_DIR_COPY" ]; then
     fi
 fi
 
+# Optional clean of jsons files before copy to avoid issues with old jsons files
+REMOVE_SRC_JSONS_BEFORE_COPY="${REMOVE_SRC_JSONS_BEFORE_COPY:-0}"
+
+if [ "$REMOVE_SRC_JSONS_BEFORE_COPY" = "1" ]; then
+    echo ">>> Removing old JSON files from $SRC_DIR"
+    find "$SRC_DIR" -name "*.json" -delete
+fi
+
 cp -rf "$SRC_DIR/"* "$TARGET_DIR/" -v
 
 if [ -n "$COPY_TO_TARGET" ]; then
@@ -71,17 +79,24 @@ if [ -n "$COPY_TO_TARGET" ]; then
     cp -f "$CLONE_DIR/$COPY_TO_TARGET" "$TARGET_DIR/" -v
 fi
 
-# Compile all Python files to .pyc explicitly to avoid race conditions
-export PYTHONDONTWRITEBYTECODE=1
+COMPILE_PYTHON_FILES="${COMPILE_PYTHON_FILES:-0}"
 
-# Compile all Python files in the TARGET_DIR
-"$HOME/local/bin/python3" -m compileall -q -f "$TARGET_DIR"
+if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
+    echo ">>> Compiling Python files to .pyc"
 
-unset PYTHONDONTWRITEBYTECODE
+    # Compile all Python files to .pyc explicitly to avoid race conditions
+    export PYTHONDONTWRITEBYTECODE=1
 
-# Optional: Set permissions
-# chmod -R 770 "$TARGET_DIR"
-find "$TARGET_DIR" -type f ! -name "*.pyc" -exec chmod 770 {} \;
+    # Compile all Python files in the TARGET_DIR
+    "$HOME/local/bin/python3" -m compileall -q -f "$TARGET_DIR"
+
+    unset PYTHONDONTWRITEBYTECODE
+
+    # Optional: Set permissions
+    # chmod -R 770 "$TARGET_DIR"
+
+    find "$TARGET_DIR" -type f ! -name "*.pyc" -exec chmod 770 {} \;
+fi
 
 # Optional: Install dependencies
 #"$HOME/local/bin/python3" -m pip install -r "$TARGET_DIR/requirements.in"
