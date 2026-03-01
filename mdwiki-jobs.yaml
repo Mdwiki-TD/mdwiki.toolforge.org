@@ -1,4 +1,5 @@
-
+# sed -i 's/\r$//' ~/shs/*.sh && chmod +x ~/shs/*.sh
+# sed -i 's/\r$//' ~/jobs/*.sh && chmod +x ~/jobs/*.sh
 # $HOME/local/bin/python3 core8/pwb.py copy_to_en/revid
 # $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki
 # $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash
