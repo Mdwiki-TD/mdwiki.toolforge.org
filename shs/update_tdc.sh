@@ -1,31 +1,12 @@
 #!/bin/bash
-set -e
-
+# toolforge-jobs run updatetdc --image python3.11 --command "~/shs/update_tdc.sh" --wait
+export SUB_DIR_COPY="src"
+export CLEAN_INSTALL=1
+export USER_NAME="Mdwiki-TD"
 BRANCH="${1:-main}"
-echo ">>> clone --branch ${BRANCH} ."
+REPO_NAME="tdc"
+REPO_PATH="public_html/tdc"
 
-REPO_URL="https://github.com/Mdwiki-TD/tdc.git"
-TARGET_DIR="public_html/tdc"
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
 
-TARGET_DIR_2="tdc_clone"
-
-# Navigate to the project directory
-cd $HOME || exit 1
-
-# Remove any existing backup directory
-rm -rf "$TARGET_DIR_2"
-
-# Clone the repository
-if git clone --branch "$BRANCH" "$REPO_URL" "$TARGET_DIR_2"; then
-    # ---
-    cp -rf "$TARGET_DIR_2/src"/* "$TARGET_DIR/" -v
-    # ---
-    # Remove backup directory
-    rm -rf "$TARGET_DIR_2"
-    # ---
-    echo "Repository cloned successfully."
-    chmod -R 6774 "$TARGET_DIR"
-else
-    echo "Failed to clone the repository." >&2
-    exit 1
-fi
+chmod -R 6774 "$REPO_PATH"
