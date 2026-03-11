@@ -10,5 +10,8 @@ BRANCH="${1:-main}"
 REPO_NAME="publish"
 REPO_PATH="public_html/publish"
 
+# copy `~/public_html/publish/all_pages_revids.json` to `~/data` before start deploy, overwrite, make sure `~/data` exist
+ALL_PAGES_REVIDS_PATH="$HOME/public_html/publish/all_pages_revids.json"
+
 $HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
 
