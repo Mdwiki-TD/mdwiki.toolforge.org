@@ -8,6 +8,10 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
+$years_to_skip = [
+    "2015"
+];
+
 // Configuration
 $base_path = __DIR__ . "/update_med_views/";
 $dir_with_sub = [
