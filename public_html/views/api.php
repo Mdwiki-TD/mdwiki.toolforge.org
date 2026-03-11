@@ -36,11 +36,15 @@ if ($lang) {
  */
 function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
 {
+    global $years_to_skip;
     // Load article data from yearly directories
     $years_dirs = glob("$base_path/$sub_dir/*", GLOB_ONLYDIR);
     $years_data = [];
     foreach ($years_dirs as $year_dir) {
         $year = basename($year_dir);
+        if (in_array($year, $years_to_skip)) {
+            continue;
+        }
         $file_path = "$year_dir/$lang.json";
         $data = file_exists($file_path) ? json_decode(file_get_contents($file_path), true) : [];
         $years_data[$year] = is_array($data) ? $data : [];
@@ -136,12 +140,16 @@ function handle_lang_request($base_path, $sub_dir, $lang, $chart_requested)
  */
 function handle_global_request($base_path, $sub_dir, $chart_requested)
 {
+    global $years_to_skip;
     // Load language summary data from yearly JSON files
     $year_files = glob("$base_path/$sub_dir/*.json");
     $years_data = [];
     foreach ($year_files as $file) {
         $year = basename($file, '.json');
         $year = str_replace('_languages_counts', '', $year);
+        if (in_array($year, $years_to_skip)) {
+            continue;
+        }
         $data = json_decode(file_get_contents($file), true);
         if (is_array($data)) $years_data[$year] = $data;
     }
