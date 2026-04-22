@@ -11,7 +11,7 @@ include_once __DIR__ . '/bots/file_bots.php';
 use function BOTS\TFJ\do_tfj_sh;
 use function BOTS\FILE_BOTS\dump_to_file;
 
-$ROOT_PATH = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
+$ROOT_PATH = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
 //---
 $test       = $_GET['test'] ?? $_POST['test'] ?? '';
 $from       = $_GET['from'] ?? $_POST['from'] ?? '';
