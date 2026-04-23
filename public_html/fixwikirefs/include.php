@@ -7,7 +7,7 @@ if (isset($_GET['test'])) {
 }
 
 if (substr(__DIR__, 0, 2) == 'I:') {
-    include_once 'I:/mdwiki/fix_refs_repo/work.php';
+    include_once 'I:/MD_TOOLS/mdwiki.toolforge.org/PHP_REPOS/fix_refs_repo/work.php';
 } else {
     include_once __DIR__ . '/../fix_refs/work.php';
 }

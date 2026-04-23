@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //---
-$ROOT_PATH = getenv("HOME") ?: 'I:/mdwiki/mdwiki';
+$ROOT_PATH = getenv("HOME") ?: 'I:/MD_TOOLS/MDWIKI_MAIN_REPO';
 //---
 // Define the command mappings
 $commands = [
