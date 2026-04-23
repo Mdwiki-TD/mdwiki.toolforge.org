@@ -9,53 +9,47 @@ use function FixWikiRefs\Form\make_result_form;
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 
-
-function decode_value($value)
+function decode_value($value, $key_type = "cookie")
 {
-    // ---
-    if (empty(trim($value))) {
-        return "";
-    }
-    // ---
+    if (empty(trim($value))) return "";
+
     $cookieKeyString = getenv('COOKIE_KEY') ?: $_ENV['COOKIE_KEY'] ?? '';
-    $cookieKey = $cookieKeyString ? Key::loadFromAsciiSafeString($cookieKeyString) : null;
-    if ($cookieKey === null) {
+    $decryptKeyString = getenv('DECRYPT_KEY') ?: $_ENV['DECRYPT_KEY'] ?? '';
+
+    $use_key_String  = ($key_type === "decrypt") ? $decryptKeyString : $cookieKeyString;
+    $use_key = $use_key_String ? Key::loadFromAsciiSafeString($use_key_String) : null;
+
+    if ($use_key === null) return "";
+
+    try {
+        return Crypto::decrypt($value, $use_key);
+    } catch (\Exception $e) {
         return "";
     }
-    try {
-        $value = Crypto::decrypt($value, $cookieKey);
-    } catch (\Throwable $e) {
-        $value = "";
-    }
-    return $value;
 }
+
 function get_access_from_db($user)
 {
-    // Validate and sanitize username
     $user = trim($user);
 
-    // Query to get access_key and access_secret for the user
     $query = <<<SQL
         SELECT access_key, access_secret
         FROM access_keys
         WHERE user_name = ?;
     SQL;
 
-    // تنفيذ الاستعلام وتمرير اسم المستخدم كمعامل
     $result = fetch_query($query, [$user]);
 
-    // التحقق مما إذا كان قد تم العثور على نتائج
 
     if (!$result) {
-        // إذا لم يتم العثور على نتيجة، إرجاع null أو يمكنك تخصيص رد معين
         return null;
     }
 
     $result = $result[0];
     // ---
     return [
-        'access_key' => decode_value($result['access_key']),
-        'access_secret' => decode_value($result['access_secret'])
+        'access_key' => decode_value($result['access_key'], "decrypt"),
+        'access_secret' => decode_value($result['access_secret'], "decrypt")
     ];
 }
 function saveit($title, $lang, $text)
