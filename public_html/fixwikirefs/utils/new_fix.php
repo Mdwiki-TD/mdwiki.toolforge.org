@@ -31,9 +31,9 @@ function get_results_new($sourcetitle, $title, $lang, $mdwiki_revid, $text = "")
         $text,
         $lang,
         $mdwiki_revid,
-        $move_dots = null,
-        $expand = null,
-        $add_en_lang = null,
+        null,
+        null,
+        null,
     );
     //---
     $newtext = trim($newtext);
