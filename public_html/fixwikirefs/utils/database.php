@@ -135,7 +135,7 @@ class Database
 }
 
 
-function fetch_queries($sql_query, $params = null)
+function fetch_query($sql_query, $params = null)
 {
     // Create a new database object
     $db = new Database('DB_NAME');

@@ -2,7 +2,7 @@
 
 namespace FixWikiRefs\SavePage;
 
-use function RefsOAuth\MdwikiSql\fetch_queries;
+use function RefsOAuth\MdwikiSql\fetch_query;
 use function RefsOAuth\SendEdit\auth_make_edit;
 use function FixWikiRefs\Form\make_result_form;
 
@@ -10,7 +10,7 @@ use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 
 
-function de_code_value($value)
+function decode_value($value)
 {
     // ---
     if (empty(trim($value))) {
@@ -29,7 +29,7 @@ function de_code_value($value)
     }
     return $value;
 }
-function get_access_from_dbs($user)
+function get_access_from_db($user)
 {
     // Validate and sanitize username
     $user = trim($user);
@@ -42,7 +42,7 @@ function get_access_from_dbs($user)
     SQL;
 
     // تنفيذ الاستعلام وتمرير اسم المستخدم كمعامل
-    $result = fetch_queries($query, [$user]);
+    $result = fetch_query($query, [$user]);
 
     // التحقق مما إذا كان قد تم العثور على نتائج
 
@@ -54,8 +54,8 @@ function get_access_from_dbs($user)
     $result = $result[0];
     // ---
     return [
-        'access_key' => de_code_value($result['access_key']),
-        'access_secret' => de_code_value($result['access_secret'])
+        'access_key' => decode_value($result['access_key']),
+        'access_secret' => decode_value($result['access_secret'])
     ];
 }
 function saveit($title, $lang, $text)
@@ -68,7 +68,7 @@ function saveit($title, $lang, $text)
     // ---
     $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
     // ---
-    $access = get_access_from_dbs($user_name);
+    $access = get_access_from_db($user_name);
     // ---
     if ($access == null) {
         return false;

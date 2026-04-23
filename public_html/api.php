@@ -13,8 +13,8 @@ if (!isset($_GET['get'])) {
 $path = __DIR__ . '/api/index.php';
 
 if (!file_exists($path)) {
-    // I:\mdwiki\TD_API
-    $path = __DIR__ . '/../../TD_API/src/index.php';
+    // I:\MD_TOOLS\mdwiki.toolforge.org\PHP_REPOS\TD_API\src\index.php
+    $path = dirname(dirname(__DIR__)) . '/mdwiki.toolforge.org/PHP_REPOS/TD_API/src/index.php';
 }
 
 include_once $path;

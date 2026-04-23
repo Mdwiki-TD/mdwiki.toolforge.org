@@ -2,7 +2,7 @@
 
 namespace FixWikiRefs\Fix;
 
-use function WpRefs\FixPage\DoChangesToText1;
+use function WpRefs\FixPage\fix_page_with_setting;
 use function FixWikiRefs\WikiText\get_wikipedia_text;
 
 /*
@@ -25,7 +25,16 @@ function get_results_new($sourcetitle, $title, $lang, $mdwiki_revid, $text = "")
         return [$err, $text];
     }
     //---
-    $newtext = DoChangesToText1($sourcetitle, $title, $text, $lang, $mdwiki_revid);
+    $newtext = fix_page_with_setting(
+        $sourcetitle,
+        $title,
+        $text,
+        $lang,
+        $mdwiki_revid,
+        $move_dots = null,
+        $expand = null,
+        $add_en_lang = null,
+    );
     //---
     $newtext = trim($newtext);
     //---
