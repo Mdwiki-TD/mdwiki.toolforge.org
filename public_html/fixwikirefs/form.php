@@ -27,7 +27,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
     //---
     $start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
     // ---
-    if ($user_name == '') $start_icon = '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+    if ($user_name == '') $start_icon = '<a role="button" class="btn btn-primary" href="/auth/login.php">Log in</a>';
     // ---
     return <<<HTML
         <form action='/fixwikirefs.php' method='GET'>
