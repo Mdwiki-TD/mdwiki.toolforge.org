@@ -171,7 +171,7 @@ class MedUpdaterView
     {
         $title3 = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
-        $starticon = $loggedIn ? "<input class='btn btn-outline-primary' type='submit' value='send' />" : '<a role="button" class="btn btn-primary" href="/auth/index.php?a=login">Log in</a>';
+        $starticon = $loggedIn ? "<input class='btn btn-outline-primary' type='submit' value='send' />" : '<a role="button" class="btn btn-primary" href="/auth/login.php">Log in</a>';
         $testinput = $test ? '<input type="hidden" name="test" value="1" />' : '';
         $saveAttr = $saveChecked ? 'checked' : '';
 

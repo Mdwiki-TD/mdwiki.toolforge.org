@@ -118,7 +118,7 @@ echo "</head>";
 //---
 $li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
-		<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=login">
+		<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/auth/login.php">
 			<i class="fas fa-sign-in-alt fa-sm fa-fw mr-2"></i> <span class="navtitles">Login</span>
 		</a>
 	</li>
@@ -133,7 +133,7 @@ if (!empty($GLOBALS['global_username'] ?? "")) {
 		</a>
 	</li>
 	<li class="nav-item col-4 col-lg-auto">
-		<a class="nav-link py-2 px-0 px-lg-2" href="/auth/index.php?a=logout">
+		<a class="nav-link py-2 px-0 px-lg-2" href="/auth/logout.php">
 			<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> <span class="d-lg-none navtitles">Logout</span>
 		</a>
 	</li>
