@@ -1,12 +1,20 @@
 #!/bin/bash
 # toolforge-jobs run updatetdc --image python3.11 --command "~/shs/update_tdc.sh" --wait
+
+export USER_NAME="Mdwiki-TD"
 export SUB_DIR_COPY="src"
 export CLEAN_INSTALL=0
-export USER_NAME="Mdwiki-TD"
-BRANCH="${1:-main}"
+
+# Optional clean of jsons files before copy to avoid issues with old jsons files
+export REMOVE_SRC_JSONS_BEFORE_COPY=0
+
+# additional file to copy to TARGET_DIR
+export COPY_TO_TARGET=""
+
 REPO_NAME="tdc"
-REPO_PATH="public_html/tdc"
+TARGET_DIR="public_html/tdc"
+BRANCH="${1:-main}"
 
-$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
+$HOME/shs/deploy_php_repo.sh "$REPO_NAME" "$TARGET_DIR" "$BRANCH"
 
-chmod -R 6774 "$REPO_PATH"
+chmod -R 6774 "$TARGET_DIR"

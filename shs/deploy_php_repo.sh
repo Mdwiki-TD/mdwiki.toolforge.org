@@ -31,11 +31,6 @@ OLD_REPOS_BASE="${HOME}/old_repos"
 # Optional clean of jsons files before copy to avoid issues with old jsons files
 REMOVE_SRC_JSONS_BEFORE_COPY="${REMOVE_SRC_JSONS_BEFORE_COPY:-0}"
 
-# Ensure the Python3 binary exists before compiling
-PYTHON_BIN="${PYTHON_BIN:-$HOME/local/bin/python3}"
-
-COMPILE_PYTHON_FILES="${COMPILE_PYTHON_FILES:-0}"
-
 REPO_URL="https://github.com/${USER_NAME}/${REPO_NAME}.git"
 
 # Navigate to the project directory
@@ -99,30 +94,6 @@ if [ -n "$COPY_TO_TARGET" ]; then
     echo ">>> Copying additional file: $COPY_TO_TARGET"
     cp -f "$CLONE_DIR/$COPY_TO_TARGET" "$TARGET_DIR/" -v
 fi
-
-if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
-    echo ">>> Compiling Python files to .pyc"
-
-    # Compile all Python files to .pyc explicitly to avoid race conditions
-    # Ensure the Python3 binary exists before compiling
-    if [ -x "$PYTHON_BIN" ]; then
-        export PYTHONDONTWRITEBYTECODE=1
-
-        # Compile all Python files in the TARGET_DIR
-        "$PYTHON_BIN" -m compileall -q -f "$TARGET_DIR"
-        unset PYTHONDONTWRITEBYTECODE
-    else
-        echo ">>> Warning: Python binary not found at $PYTHON_BIN, skipping bytecode compilation"
-    fi
-
-    # Optional: Set permissions
-    # chmod -R 770 "$TARGET_DIR"
-
-    find "$TARGET_DIR" -type f ! -name "*.pyc" -exec chmod 770 {} \;
-fi
-
-# Optional: Install dependencies
-#"$PYTHON_BIN" -m pip install -r "$TARGET_DIR/requirements.in"
 
 # Remove the "$CLONE_DIR" directory.
 rm -rf "$CLONE_DIR"
