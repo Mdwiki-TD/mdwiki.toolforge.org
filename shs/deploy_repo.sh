@@ -21,6 +21,21 @@ USER_NAME="${USER_NAME:-MrIbrahem}"
 BASE_DIR="${BASE_DIR:-${HOME}}"
 
 CLONE_DIR="${BASE_DIR}/${REPO_NAME}_tmp"
+
+# Optional clean of TARGET_DIR
+CLEAN_INSTALL="${CLEAN_INSTALL:-0}"
+
+# Define the centralized archive directory in the home folder
+OLD_REPOS_BASE="${HOME}/old_repos"
+
+# Optional clean of jsons files before copy to avoid issues with old jsons files
+REMOVE_SRC_JSONS_BEFORE_COPY="${REMOVE_SRC_JSONS_BEFORE_COPY:-0}"
+
+# Ensure the Python3 binary exists before compiling
+PYTHON_BIN="${PYTHON_BIN:-$HOME/local/bin/python3}"
+
+COMPILE_PYTHON_FILES="${COMPILE_PYTHON_FILES:-0}"
+
 REPO_URL="https://github.com/${USER_NAME}/${REPO_NAME}.git"
 
 # Navigate to the project directory
@@ -38,17 +53,11 @@ git clone --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
 
 rm -rf "$CLONE_DIR/.git"
 
-# Optional clean of TARGET_DIR
-CLEAN_INSTALL="${CLEAN_INSTALL:-0}"
-
 if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
     echo ">>> Clean install enabled"
 
     # Ensure the directory is writable before moving/deleting
     chmod -R u+w "$TARGET_DIR" 2>/dev/null || true
-
-    # Define the centralized archive directory in the home folder
-    OLD_REPOS_BASE="${HOME}/old_repos"
 
     # Ensure the archive directory exists
     mkdir -p "$OLD_REPOS_BASE"
@@ -79,9 +88,6 @@ if [ -n "$SUB_DIR_COPY" ]; then
     fi
 fi
 
-# Optional clean of jsons files before copy to avoid issues with old jsons files
-REMOVE_SRC_JSONS_BEFORE_COPY="${REMOVE_SRC_JSONS_BEFORE_COPY:-0}"
-
 if [ "$REMOVE_SRC_JSONS_BEFORE_COPY" = "1" ]; then
     echo ">>> Removing old JSON files from $SRC_DIR"
     find "$SRC_DIR" -name "*.json" -delete
@@ -94,8 +100,6 @@ if [ -n "$COPY_TO_TARGET" ]; then
     cp -f "$CLONE_DIR/$COPY_TO_TARGET" "$TARGET_DIR/" -v
 fi
 
-COMPILE_PYTHON_FILES="${COMPILE_PYTHON_FILES:-0}"
-
 if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
     echo ">>> Compiling Python files to .pyc"
 
@@ -103,7 +107,7 @@ if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
     export PYTHONDONTWRITEBYTECODE=1
 
     # Compile all Python files in the TARGET_DIR
-    "$HOME/local/bin/python3" -m compileall -q -f "$TARGET_DIR"
+    "$PYTHON_BIN" -m compileall -q -f "$TARGET_DIR"
 
     unset PYTHONDONTWRITEBYTECODE
 
@@ -114,7 +118,7 @@ if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
 fi
 
 # Optional: Install dependencies
-#"$HOME/local/bin/python3" -m pip install -r "$TARGET_DIR/requirements.in"
+#"$PYTHON_BIN" -m pip install -r "$TARGET_DIR/requirements.in"
 
 # Remove the "$CLONE_DIR" directory.
 rm -rf "$CLONE_DIR"
