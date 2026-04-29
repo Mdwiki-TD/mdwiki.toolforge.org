@@ -19,11 +19,11 @@ export COMPILE_PYTHON_FILES=0
 export COPY_TO_TARGET=""
 
 REPO_NAME="publish"
-REPO_PATH="public_html/publish"
+TARGET_DIR="public_html/publish"
 BRANCH="${1:-main}"
 
 # Run deploy
-$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$TARGET_DIR" "$BRANCH"
 
 # ============================
 # recreate symlink for all_pages_revids.json

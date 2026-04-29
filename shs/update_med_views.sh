@@ -5,9 +5,9 @@ export CLEAN_INSTALL=1
 export USER_NAME="Mdwiki-TD"
 BRANCH="${1:-main}"
 REPO_NAME=med_views
-REPO_PATH="pybot/med_views"
+TARGET_DIR="pybot/med_views"
 
-$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$TARGET_DIR" "$BRANCH"
 
 rm -rf pybot/med_views/dumps -v
 

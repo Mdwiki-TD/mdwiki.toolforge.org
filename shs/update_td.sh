@@ -8,6 +8,6 @@ export BASE_DIR="$HOME"
 
 BRANCH="${1:-main}"
 REPO_NAME="Translation-Dashboard"
-REPO_PATH="public_html/Translation_Dashboard"
+TARGET_DIR="public_html/Translation_Dashboard"
 
-$HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
+$HOME/shs/deploy_repo.sh "$REPO_NAME" "$TARGET_DIR" "$BRANCH"
