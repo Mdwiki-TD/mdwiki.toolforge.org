@@ -56,8 +56,8 @@ if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
     # Extract the directory name (e.g., cats_maker) to use in the archive name
     DIR_NAME=$(basename "$TARGET_DIR")
 
-    # Set the destination path with a timestamp (e.g., ~/old_repos/cats_maker_old_1715000)
-    DESTINATION="${OLD_REPOS_BASE}/${DIR_NAME}_old_$(date +%s)"
+    # Set the destination path with a timestamp (e.g., ~/old_repos/src_backup_1715000)
+    DESTINATION="${OLD_REPOS_BASE}/${DIR_NAME}_backup_$(date +%s)"
 
     echo ">>> Archiving old version to: $DESTINATION"
     mv "$TARGET_DIR" "$DESTINATION"
