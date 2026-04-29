@@ -7,11 +7,20 @@
 export USER_NAME="Mdwiki-TD"
 export SUB_DIR_COPY="src"
 export CLEAN_INSTALL=1
+
+# Optional clean of jsons files before copy to avoid issues with old jsons files
 export REMOVE_SRC_JSONS_BEFORE_COPY=1
 
-BRANCH="${1:-main}"
+# Ensure the Python3 binary exists before compiling
+export PYTHON_BIN="$HOME/local/bin/python3"
+export COMPILE_PYTHON_FILES=0
+
+# additional file to copy to TARGET_DIR
+export COPY_TO_TARGET=""
+
 REPO_NAME="publish"
 REPO_PATH="public_html/publish"
+BRANCH="${1:-main}"
 
 # Run deploy
 $HOME/shs/deploy_repo.sh "$REPO_NAME" "$REPO_PATH" "$BRANCH"
