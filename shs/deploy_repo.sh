@@ -43,17 +43,23 @@ CLEAN_INSTALL="${CLEAN_INSTALL:-0}"
 
 if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
     echo ">>> Clean install enabled"
+
+    # Ensure the directory is writable before moving/deleting
     chmod -R u+w "$TARGET_DIR" 2>/dev/null || true
-    # rm -rf "$TARGET_DIR" 2>/dev/null || mv "$TARGET_DIR" "${TARGET_DIR}_old_$(date +%s)"
-    PARENT_DIR=$(dirname "$TARGET_DIR")
-    OLD_STORAGE_DIR="${PARENT_DIR}/old"
-    
-    mkdir -p "$OLD_STORAGE_DIR"
-    
+
+    # Define the centralized archive directory in the home folder
+    OLD_REPOS_BASE="${HOME}/old_repos"
+
+    # Ensure the archive directory exists
+    mkdir -p "$OLD_REPOS_BASE"
+
+    # Extract the directory name (e.g., cats_maker) to use in the archive name
     DIR_NAME=$(basename "$TARGET_DIR")
-    DESTINATION="${OLD_STORAGE_DIR}/${DIR_NAME}_old_$(date +%s)"
-    
-    echo ">>> Moving old version to: $DESTINATION"
+
+    # Set the destination path with a timestamp (e.g., ~/old_repos/cats_maker_old_1715000)
+    DESTINATION="${OLD_REPOS_BASE}/${DIR_NAME}_old_$(date +%s)"
+
+    echo ">>> Archiving old version to: $DESTINATION"
     mv "$TARGET_DIR" "$DESTINATION"
 fi
 
