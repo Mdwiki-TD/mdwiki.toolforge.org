@@ -105,7 +105,7 @@ if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
 
     # Compile all Python files to .pyc explicitly to avoid race conditions
     # Ensure the Python3 binary exists before compiling
-    if [ -x "$PYTHON_BIN" ]; then
+    if command -v "$PYTHON_BIN" >/dev/null 2>&1; then
         export PYTHONDONTWRITEBYTECODE=1
 
         # Compile all Python files in the TARGET_DIR
