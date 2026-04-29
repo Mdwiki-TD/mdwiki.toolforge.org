@@ -45,7 +45,16 @@ if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
     echo ">>> Clean install enabled"
     chmod -R u+w "$TARGET_DIR" 2>/dev/null || true
     # rm -rf "$TARGET_DIR" 2>/dev/null || mv "$TARGET_DIR" "${TARGET_DIR}_old_$(date +%s)"
-    mv "$TARGET_DIR" "${TARGET_DIR}_old_$(date +%s)"
+    PARENT_DIR=$(dirname "$TARGET_DIR")
+    OLD_STORAGE_DIR="${PARENT_DIR}/old"
+    
+    mkdir -p "$OLD_STORAGE_DIR"
+    
+    DIR_NAME=$(basename "$TARGET_DIR")
+    DESTINATION="${OLD_STORAGE_DIR}/${DIR_NAME}_old_$(date +%s)"
+    
+    echo ">>> Moving old version to: $DESTINATION"
+    mv "$TARGET_DIR" "$DESTINATION"
 fi
 
 mkdir -p "$TARGET_DIR"
