@@ -104,12 +104,16 @@ if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
     echo ">>> Compiling Python files to .pyc"
 
     # Compile all Python files to .pyc explicitly to avoid race conditions
-    export PYTHONDONTWRITEBYTECODE=1
+    # Ensure the Python3 binary exists before compiling
+    if [ -x "$PYTHON_BIN" ]; then
+        export PYTHONDONTWRITEBYTECODE=1
 
-    # Compile all Python files in the TARGET_DIR
-    "$PYTHON_BIN" -m compileall -q -f "$TARGET_DIR"
-
-    unset PYTHONDONTWRITEBYTECODE
+        # Compile all Python files in the TARGET_DIR
+        "$PYTHON_BIN" -m compileall -q -f "$TARGET_DIR"
+        unset PYTHONDONTWRITEBYTECODE
+    else
+        echo ">>> Warning: Python binary not found at $PYTHON_BIN, skipping bytecode compilation"
+    fi
 
     # Optional: Set permissions
     # chmod -R 770 "$TARGET_DIR"
