@@ -15,6 +15,7 @@
 *.sql
 *.tmp.py
 *.txt
+!requirements.txt
 *.zip
 */.gitx/**
 */__pycache__/**
