@@ -1,29 +1,23 @@
 # sed -i 's/\r$//' ~/shs/*.sh && chmod +x ~/shs/*.sh
 # sed -i 's/\r$//' ~/jobs/*.sh && chmod +x ~/jobs/*.sh
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/revid
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash nodone
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki nodone
 
 - name: medwiki
-  command: "$HOME/jobs/copy_to_medwiki.sh"
-  schedule: '1 * * * 1'
-  image: tf-python39
+  command: "$HOME/local/bin/python3 c9/pwb.py copy_to_en/revid"
+  schedule: "1 * * * 1"
+  image: python3.9
   emails: none
-
 
 # rm $HOME/cookies/* -v
 - name: rmv
   command: "$HOME/jobs/rmc.sh"
-  schedule: '0 1 * * *'
+  schedule: "0 1 * * *"
   image: bullseye
   emails: none
 
 # tfj run find1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
 - name: findreplace
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
-  schedule: '1 1 * * *'
+  schedule: "1 1 * * *"
   image: python3.9
   emails: none
 
@@ -31,7 +25,7 @@
 # tfj run dbbackup --image mariadb --command "$HOME/jobs/db_backup_gzip.sh"
 - name: backup
   command: "$HOME/jobs/db_backup_gzip.sh"
-  schedule: '@daily'
+  schedule: "@daily"
   image: mariadb
   emails: none
 
@@ -40,7 +34,7 @@
 # $HOME/local/bin/python3 core8/pwb.py mdcount/words newpages
 - name: countref
   command: "$HOME/jobs/count_refs_words.sh"
-  schedule: '30 3 * * *'
+  schedule: "30 3 * * *"
   image: tf-python39
   emails: none
 
@@ -48,7 +42,7 @@
 # $HOME/local/bin/python3 core8/pwb.py fix_cs1/fix_cs_params/bot
 - name: fixrefs
   command: "$HOME/jobs/fix_refs.sh"
-  schedule: '@weekly'
+  schedule: "@weekly"
   image: tf-python39
   emails: none
 
@@ -62,52 +56,52 @@
 
 - name: qids1
   command: "$HOME/pybot/td_core/mdpages/findqids.sh"
-  schedule: '40 */5 * * *'
+  schedule: "40 */5 * * *"
   image: tf-python39
   emails: none
 
 - name: days7
   command: "$HOME/local/bin/python3 core8/pwb.py db_work/days_7"
-  schedule: '1 1 * * 1'
+  schedule: "1 1 * * 1"
   image: python3.9
   emails: none
 
 # make views
 - name: views1
   command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews_new"
-  schedule: '15 6 * * *'
+  schedule: "15 6 * * *"
   image: python3.9
   emails: none
 
 # important
 - name: getas
   command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/getas"
-  schedule: '12 2 * * *'
+  schedule: "12 2 * * *"
   image: python3.9
   emails: none
 
 - name: enpv
   command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/enwiki_views"
-  schedule: '1 1 * * 3'
+  schedule: "1 1 * * 3"
   image: python3.9
   emails: none
 
 # find old pages
 - name: updates
   command: "$HOME/local/bin/python3 core8/pwb.py updates/io && $HOME/local/bin/python3 core8/pwb.py updates/listo"
-  schedule: '55 21 * * *'
+  schedule: "55 21 * * *"
   image: python3.9
   emails: none
 
 - name: upstats
   command: "$HOME/local/bin/python3 core8/pwb.py updates/Medicine_articles"
-  schedule: '1 1 1 * *'
+  schedule: "1 1 1 * *"
   image: python3.9
   emails: none
 
 - name: dup1
   command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
-  schedule: '1 1 * * 0'
+  schedule: "1 1 * * 0"
   image: python3.9
   emails: none
 
@@ -123,15 +117,15 @@
 
 - name: cach-jobs
   command: "$HOME/jobs/cach_jobs.sh"
-  schedule: '10 6 * * *'
+  schedule: "10 6 * * *"
   image: tf-python39
   emails: none
 
 # - name: twitter-job
-  # command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
-  # schedule: '21 2 * * *'
-  # image: python3.9
-  # emails: none
+# command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
+# schedule: '21 2 * * *'
+# image: python3.9
+# emails: none
 
 # - name: wpreff
 #   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
@@ -141,12 +135,12 @@
 
 - name: pup
   command: "$HOME/local/bin/python3 core8/pwb.py add_rtt/pup"
-  schedule: '@monthly'
+  schedule: "@monthly"
   image: python3.9
   emails: none
 
 - name: fixusers
   command: "$HOME/local/bin/python3 core8/pwb.py fix_user_pages/bot"
-  schedule: '@daily'
+  schedule: "@daily"
   image: python3.9
   emails: none
