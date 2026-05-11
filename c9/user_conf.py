@@ -23,7 +23,6 @@ user_script_paths = [
 if os.getenv("APP_ENV") == "production":
     user_script_paths = [
         '/data/project/mdwiki',
-        '/data/project/mdwiki/pybot/wd_api_new',
         '/data/project/mdwiki/pybot',
         '/data/project/mdwiki/pybot/new',
         '/data/project/mdwiki/pybot/td_core',
@@ -129,7 +128,6 @@ bots = [
     "typos",
     "wd",
     "wd_api",
-    "wd_api_new",
     "wd_link",
     "wd_utils",
     "WDYe",
