@@ -96,12 +96,12 @@ def find_filename(filename):
     def test_paths(paths, root: Path):
         """Search for filename in given paths within 'root' base directory."""
         for file_package in paths:
-            package = file_package.split('.')
-            path = package + [filename]
+            # package = file_package.split('.') # replaces I:/MD_TOOLS/mdwiki.toolforge.org/ by I:/MD_TOOLS/mdwiki/toolforge/org/
+            path = [file_package] + [filename]
             testpath = root.joinpath(*path)
             if testpath.exists():
                 return str(testpath)
-            path_list.append(testpath.parent)
+            path_list.append(str(testpath.resolve()))
         return None
 
     # base_dir = config.base_dir
@@ -109,6 +109,11 @@ def find_filename(filename):
 
     found = test_paths(user_script_paths, Path(base_dir))
 
+    if found is None:
+        print(f"{filename} not found in any path in user_script_paths: ")
+        for x in path_list:
+            file_path = x.replace("\\", "/")
+            print(f"\t {file_path}")
     return found
 
 
@@ -121,6 +126,7 @@ def execute():
     filename, script_args = handle_args(*sys.argv)
 
     if not filename:
+        warn("No filename given")
         return False
 
     file_package = None

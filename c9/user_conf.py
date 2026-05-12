@@ -10,11 +10,11 @@ except Exception as e:
     print(e)
 
 user_script_paths = [
+    'I:/core/bots/new/newapi_bot',
+    'I:/core/bots/new/',
+
     'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/',
-    'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/pybot/md_core/',
-    'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/pybot/md_core_helps/',
-    'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/pybot/td_core/',
-    'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/pybot/',
+    'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/pybot/src/',
 ]
 
 if os.getenv("APP_ENV") == "production":
@@ -22,9 +22,6 @@ if os.getenv("APP_ENV") == "production":
         '/data/project/mdwiki',
         '/data/project/mdwiki/pybot',
         '/data/project/mdwiki/pybot/new',
-        '/data/project/mdwiki/pybot/td_core',
-        '/data/project/mdwiki/pybot/md_core_helps',
-        '/data/project/mdwiki/pybot/md_core',
         # '/data/project/mdwiki/local/lib/python3.11/site-packages'
     ]
 
@@ -42,7 +39,7 @@ for _u_path in user_script_paths.copy():
     else:
         print(f"user-config.py, path not exists:{_red_ % _u_path}")
 
-bots = [
+_bots = [
     "__main__",
     "newapi",
     "copy_text",
@@ -56,5 +53,5 @@ bots = [
     "wprefs",
 ]
 
-for _bot in bots:
+for _bot in _bots:
     _setup_logging(name=_bot, level="INFO")
