@@ -48,7 +48,7 @@ Managed via Composer in `composer.json`:
 
 ### Python Bot Jobs
 Scheduled jobs run on Toolforge via `toolforge-jobs`. Configuration in `mdwiki-jobs.yaml`:
-- Uses pywikibot scripts from `core8/pwb.py`
+- Uses pywikibot scripts from `c9/pwb.py`
 - Jobs include: translation syncing, database backups, reference fixing, pageview stats, Wikidata QID management
 - Shell scripts in `jobs/` directory
 

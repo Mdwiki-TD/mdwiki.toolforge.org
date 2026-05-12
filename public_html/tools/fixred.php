@@ -70,8 +70,8 @@ function get_results($title)
 	$ccc = " mdpy/fixred -page2:$title2 save";
 	//---
 	$params = array(
-		'dir' => "c8",
-		'localdir' => "c8",
+		'dir' => "c9",
+		'localdir' => "c9",
 		'pyfile' => 'pwb.py',
 		'other' => $ccc,
 		'test' => $test

@@ -73,8 +73,8 @@ function get_results($aargs)
 	$ccc = " mdpy/fixref/start $aargs save";
 	//---
 	$params = array(
-		'dir' => "core8",
-		'localdir' => "core8",
+		'dir' => "c9",
+		'localdir' => "c9",
 		'pyfile' => 'pwb.py',
 		'other' => $ccc,
 		'test' => $test
