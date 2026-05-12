@@ -38,8 +38,8 @@
   image: tf-python39
   emails: none
 
-# $HOME/local/bin/python3 core8/pwb.py fix_cs1/bot
-# $HOME/local/bin/python3 core8/pwb.py fix_cs1/fix_cs_params/bot
+# $HOME/local/bin/python3 core8/pwb.py md_core/fix_cs1/bot
+# $HOME/local/bin/python3 core8/pwb.py md_core/fix_cs1/fix_cs_params/bot
 - name: fixrefs
   command: "$HOME/jobs/fix_refs.sh"
   schedule: "@weekly"
@@ -51,8 +51,8 @@
 # $HOME/local/bin/python3 core8/pwb.py td_core/mdpages/find_qids redirects add
 # $HOME/local/bin/python3 core8/pwb.py td_core/db_work/get_red
 # $HOME/local/bin/python3 core8/pwb.py td_core/td_other_qids/fix_qids fix all
-# $HOME/local/bin/python3 core8/pwb.py p11143_bot/bot all add addq
-# $HOME/local/bin/python3 core8/pwb.py unlinked_wb/bot
+# $HOME/local/bin/python3 core8/pwb.py md_core/p11143_bot/bot all add addq
+# $HOME/local/bin/python3 core8/pwb.py md_core/unlinked_wb/bot
 
 - name: qids1
   command: "$HOME/pybot/td_core/mdpages/findqids.sh"
@@ -88,19 +88,19 @@
 
 # find old pages
 - name: updates
-  command: "$HOME/local/bin/python3 core8/pwb.py updates/io && $HOME/local/bin/python3 core8/pwb.py updates/listo"
+  command: "$HOME/local/bin/python3 core8/pwb.py md_core/updates/io && $HOME/local/bin/python3 core8/pwb.py md_core/updates/listo"
   schedule: "55 21 * * *"
   image: python3.9
   emails: none
 
 - name: upstats
-  command: "$HOME/local/bin/python3 core8/pwb.py updates/Medicine_articles"
+  command: "$HOME/local/bin/python3 core8/pwb.py md_core/updates/Medicine_articles"
   schedule: "1 1 1 * *"
   image: python3.9
   emails: none
 
 - name: dup1
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
+  command: "$HOME/local/bin/python3 core8/pwb.py md_core/mdpy/fix_duplicate save"
   schedule: "1 1 * * 0"
   image: python3.9
   emails: none
@@ -134,7 +134,7 @@
 #   emails: none
 
 - name: pup
-  command: "$HOME/local/bin/python3 core8/pwb.py add_rtt/pup"
+  command: "$HOME/local/bin/python3 core8/pwb.py md_core/add_rtt/pup"
   schedule: "@monthly"
   image: python3.9
   emails: none
