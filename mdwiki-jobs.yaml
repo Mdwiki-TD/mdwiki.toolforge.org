@@ -107,7 +107,7 @@
 
 # $HOME/local/bin/python3 core8/pwb.py td_core/mdpages/cashwd
 # $HOME/local/bin/python3 core8/pwb.py td_core/copy_data/by_qid/sitelinks
-# $HOME/local/bin/python3 core8/pwb.py apis/cat_cach newlist
+# $HOME/local/bin/python3 core8/pwb.py md_core_helps/apis/cat_cach newlist
 
 # $HOME/local/bin/python3 core8/pwb.py td_core/copy_data/by_title/all_articles
 # $HOME/local/bin/python3 core8/pwb.py td_core/copy_data/by_title/exists_db
@@ -120,12 +120,6 @@
   schedule: "10 6 * * *"
   image: tf-python39
   emails: none
-
-# - name: twitter-job
-# command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
-# schedule: '21 2 * * *'
-# image: python3.9
-# emails: none
 
 # - name: wpreff
 #   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
