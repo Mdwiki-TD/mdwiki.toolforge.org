@@ -2,7 +2,7 @@
 # toolforge-jobs run updatepybot --image python3.11 --command "~/shs/update_pybot.sh" --wait
 
 export USER_NAME="Mdwiki-TD"
-export SUB_DIR_COPY=""
+export SUB_DIR_COPY="src"
 export CLEAN_INSTALL=0
 
 # Optional clean of jsons files before copy to avoid issues with old jsons files

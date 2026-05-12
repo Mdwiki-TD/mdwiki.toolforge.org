@@ -33,7 +33,7 @@ function make_sh_file_2($string)
     // ---
     $text = "#!/bin/bash" . "\n";
     $text .= 'export PATH=$HOME/openssl/bin:$HOME/local/bin:$HOME/local/bin:/usr/local/bin:/usr/bin:/bin' . "\n";
-    $text .= 'export PYWIKIBOT_DIR=$HOME/core8' . "\n";
+    $text .= 'export PYWIKIBOT_DIR=$HOME/c9' . "\n";
     $text .= 'cd $PWD' . "\n" . "\n" . $string . "\n";
     //---
     fwrite($myfile, $text);
@@ -57,7 +57,7 @@ function make_command($params)
         //---
         $uu = "$my_dir/$pyfile";
         //---
-        if ($uu == "core8/pwb.py" || $uu == "c8/pwb.py") {
+        if ($uu == "c9/pwb.py" || $uu == "c9/pwb.py") {
             $uu = $root_path . "/" . $uu;
         }
         //---

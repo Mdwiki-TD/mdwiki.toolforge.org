@@ -1,6 +1,7 @@
 #!/bin/bash
 # toolforge-jobs run installar --image python3.11 --command "~/shs/update_ArWikiCats.sh" --wait
 # sed -i 's/\r$//' ~/shs/*.sh && chmod +x ~/shs/*.sh
+# sed -i 's/\r$//' ~/jobs/*.sh && chmod +x ~/jobs/*.sh
 
 # use bash strict mode
 set -euo pipefail

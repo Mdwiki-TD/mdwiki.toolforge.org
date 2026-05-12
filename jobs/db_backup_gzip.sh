@@ -3,7 +3,7 @@ export PATH=/data/project/mdwiki/local/bin:/usr/local/bin:/usr/bin:/bin
 
 # tfj run db1 --image mariadb --command "$HOME/jobs/db_backup_gzip.sh"
 
-dbs=("s54732__mdwiki" "s54732__mdwiki_new")
+dbs=("s54732__mdwiki")
 backup_dir=~/databasebackup
 
 mkdir -p "$backup_dir"

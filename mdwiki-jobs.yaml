@@ -1,29 +1,23 @@
 # sed -i 's/\r$//' ~/shs/*.sh && chmod +x ~/shs/*.sh
 # sed -i 's/\r$//' ~/jobs/*.sh && chmod +x ~/jobs/*.sh
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/revid
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki slash nodone
-# $HOME/local/bin/python3 core8/pwb.py copy_to_en/medwiki nodone
 
 - name: medwiki
-  command: "$HOME/jobs/copy_to_medwiki.sh"
-  schedule: '1 * * * 1'
-  image: tf-python39
+  command: "$HOME/local/bin/python3 c9/pwb.py copy_to_en/revid"
+  schedule: "1 * * * 1"
+  image: python3.9
   emails: none
-
 
 # rm $HOME/cookies/* -v
 - name: rmv
   command: "$HOME/jobs/rmc.sh"
-  schedule: '0 1 * * *'
+  schedule: "0 1 * * *"
   image: bullseye
   emails: none
 
-# tfj run find1 --image python3.9 --command "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
+# tfj run find1 --image python3.9 --command "$HOME/local/bin/python3 c9/pwb.py md_core/mdpy/find_replace_bot/bot"
 - name: findreplace
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/find_replace_bot/bot"
-  schedule: '1 1 * * *'
+  command: "$HOME/local/bin/python3 c9/pwb.py md_core/mdpy/find_replace_bot/bot"
+  schedule: "1 1 * * *"
   image: python3.9
   emails: none
 
@@ -31,122 +25,116 @@
 # tfj run dbbackup --image mariadb --command "$HOME/jobs/db_backup_gzip.sh"
 - name: backup
   command: "$HOME/jobs/db_backup_gzip.sh"
-  schedule: '@daily'
+  schedule: "@daily"
   image: mariadb
   emails: none
 
-# $HOME/local/bin/python3 core8/pwb.py mdcount/countref newpages
-# $HOME/local/bin/python3 core8/pwb.py mdcount/countref sql
-# $HOME/local/bin/python3 core8/pwb.py mdcount/words newpages
+# $HOME/local/bin/python3 c9/pwb.py td_core/mdcount/countref newpages
+# $HOME/local/bin/python3 c9/pwb.py td_core/mdcount/countref sql
+# $HOME/local/bin/python3 c9/pwb.py td_core/mdcount/words newpages
 - name: countref
   command: "$HOME/jobs/count_refs_words.sh"
-  schedule: '30 3 * * *'
+  schedule: "30 3 * * *"
   image: tf-python39
   emails: none
 
-# $HOME/local/bin/python3 core8/pwb.py fix_cs1/bot
-# $HOME/local/bin/python3 core8/pwb.py fix_cs1/fix_cs_params/bot
+# $HOME/local/bin/python3 c9/pwb.py md_core/fix_cs1/bot
+# $HOME/local/bin/python3 c9/pwb.py md_core/fix_cs1/fix_cs_params/bot
 - name: fixrefs
   command: "$HOME/jobs/fix_refs.sh"
-  schedule: '@weekly'
+  schedule: "@weekly"
   image: tf-python39
   emails: none
 
 # Find qids and fix qids
-# $HOME/local/bin/python3 core8/pwb.py td_other_qids/make_list all add
-# $HOME/local/bin/python3 core8/pwb.py mdpages/find_qids redirects add
-# $HOME/local/bin/python3 core8/pwb.py db_work/get_red
-# $HOME/local/bin/python3 core8/pwb.py td_other_qids/fix_qids fix all
-# $HOME/local/bin/python3 core8/pwb.py p11143_bot/bot all add addq
-# $HOME/local/bin/python3 core8/pwb.py unlinked_wb/bot
+# $HOME/local/bin/python3 c9/pwb.py td_core/td_other_qids/make_list all add
+# $HOME/local/bin/python3 c9/pwb.py td_core/mdpages/find_qids redirects add
+# $HOME/local/bin/python3 c9/pwb.py td_core/db_work/get_red
+# $HOME/local/bin/python3 c9/pwb.py td_core/td_other_qids/fix_qids fix all
+# $HOME/local/bin/python3 c9/pwb.py md_core/p11143_bot/bot all add addq
+# $HOME/local/bin/python3 c9/pwb.py md_core/unlinked_wb/bot
 
 - name: qids1
   command: "$HOME/pybot/td_core/mdpages/findqids.sh"
-  schedule: '40 */5 * * *'
+  schedule: "40 */5 * * *"
   image: tf-python39
   emails: none
 
 - name: days7
-  command: "$HOME/local/bin/python3 core8/pwb.py db_work/days_7"
-  schedule: '1 1 * * 1'
+  command: "$HOME/local/bin/python3 c9/pwb.py td_core/db_work/days_7"
+  schedule: "1 1 * * 1"
   image: python3.9
   emails: none
 
 # make views
 - name: views1
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/sqlviews_new"
-  schedule: '15 6 * * *'
+  command: "$HOME/local/bin/python3 c9/pwb.py td_core/mdpyget/sqlviews_new"
+  schedule: "15 6 * * *"
   image: python3.9
   emails: none
 
 # important
 - name: getas
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/getas"
-  schedule: '12 2 * * *'
+  command: "$HOME/local/bin/python3 c9/pwb.py td_core/mdpyget/getas"
+  schedule: "12 2 * * *"
   image: python3.9
   emails: none
 
 - name: enpv
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpyget/enwiki_views"
-  schedule: '1 1 * * 3'
+  command: "$HOME/local/bin/python3 c9/pwb.py td_core/mdpyget/enwiki_views"
+  schedule: "1 1 * * 3"
   image: python3.9
   emails: none
 
 # find old pages
 - name: updates
-  command: "$HOME/local/bin/python3 core8/pwb.py updates/io && $HOME/local/bin/python3 core8/pwb.py updates/listo"
-  schedule: '55 21 * * *'
+  command: "$HOME/local/bin/python3 c9/pwb.py md_core/updates/io && $HOME/local/bin/python3 c9/pwb.py md_core/updates/listo"
+  schedule: "55 21 * * *"
   image: python3.9
   emails: none
 
 - name: upstats
-  command: "$HOME/local/bin/python3 core8/pwb.py updates/Medicine_articles"
-  schedule: '1 1 1 * *'
+  command: "$HOME/local/bin/python3 c9/pwb.py md_core/updates/Medicine_articles"
+  schedule: "1 1 1 * *"
   image: python3.9
   emails: none
 
 - name: dup1
-  command: "$HOME/local/bin/python3 core8/pwb.py mdpy/fix_duplicate save"
-  schedule: '1 1 * * 0'
+  command: "$HOME/local/bin/python3 c9/pwb.py md_core/mdpy/fix_duplicate save"
+  schedule: "1 1 * * 0"
   image: python3.9
   emails: none
 
-# $HOME/local/bin/python3 core8/pwb.py mdpages/cashwd
-# $HOME/local/bin/python3 core8/pwb.py copy_data/by_qid/sitelinks
-# $HOME/local/bin/python3 core8/pwb.py apis/cat_cach newlist
+# $HOME/local/bin/python3 c9/pwb.py td_core/mdpages/cashwd
+# $HOME/local/bin/python3 c9/pwb.py td_core/copy_data/by_qid/sitelinks
+# $HOME/local/bin/python3 c9/pwb.py md_core_helps/apis/cat_cach newlist
 
-# $HOME/local/bin/python3 core8/pwb.py copy_data/by_title/all_articles
-# $HOME/local/bin/python3 core8/pwb.py copy_data/by_title/exists_db
-# $HOME/local/bin/python3 core8/pwb.py wd_works/recheck
+# $HOME/local/bin/python3 c9/pwb.py td_core/copy_data/by_title/all_articles
+# $HOME/local/bin/python3 c9/pwb.py td_core/copy_data/by_title/exists_db
+# $HOME/local/bin/python3 c9/pwb.py td_core/wd_works/recheck
 
-# $HOME/local/bin/python3 core8/pwb.py db_work/check_titles
+# $HOME/local/bin/python3 c9/pwb.py td_core/db_work/check_titles
 
 - name: cach-jobs
   command: "$HOME/jobs/cach_jobs.sh"
-  schedule: '10 6 * * *'
+  schedule: "10 6 * * *"
   image: tf-python39
   emails: none
 
-# - name: twitter-job
-  # command: "$HOME/local/bin/python3 core8/pwb.py tw/t"
-  # schedule: '21 2 * * *'
-  # image: python3.9
-  # emails: none
-
 # - name: wpreff
-#   command: "$HOME/local/bin/python3 core8/pwb.py wprefs/bot"
+#   command: "$HOME/local/bin/python3 c9/pwb.py wprefs/bot"
 #   schedule: '10 * * * *'
 #   image: python3.9
 #   emails: none
 
 - name: pup
-  command: "$HOME/local/bin/python3 core8/pwb.py add_rtt/pup"
-  schedule: '@monthly'
+  command: "$HOME/local/bin/python3 c9/pwb.py md_core/add_rtt/pup"
+  schedule: "@monthly"
   image: python3.9
   emails: none
 
 - name: fixusers
-  command: "$HOME/local/bin/python3 core8/pwb.py fix_user_pages/bot"
-  schedule: '@daily'
+  command: "$HOME/local/bin/python3 c9/pwb.py td_core/fix_user_pages/bot"
+  schedule: "@daily"
   image: python3.9
   emails: none
