@@ -12,7 +12,6 @@ python3 c9/pwb.py md_core/updates/Medicine_articles
 python3 c9/pwb.py md_core_helps/apis/cat_cach
 python3 c9/pwb.py td_core/copy_data/by_qid/sitelinks
 python3 c9/pwb.py td_core/copy_data/by_title/all_articles
-python3 c9/pwb.py td_core/copy_data/by_title/exists_db
 python3 c9/pwb.py td_core/db_work/check_titles
 python3 c9/pwb.py td_core/db_work/days_7
 python3 c9/pwb.py td_core/db_work/get_red
