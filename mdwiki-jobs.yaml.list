@@ -1,0 +1,29 @@
+python3 c9/pwb.py copy_to_en/revid
+python3 c9/pwb.py md_core/add_rtt/pup
+python3 c9/pwb.py md_core/fix_cs1/bot
+python3 c9/pwb.py md_core/fix_cs1/fix_cs_params/bot
+python3 c9/pwb.py md_core/mdpy/find_replace_bot/bot
+python3 c9/pwb.py md_core/mdpy/fix_duplicate save
+python3 c9/pwb.py md_core/p11143_bot/bot all add addq
+python3 c9/pwb.py md_core/unlinked_wb/bot
+python3 c9/pwb.py md_core/updates/io
+python3 c9/pwb.py md_core/updates/listo
+python3 c9/pwb.py md_core/updates/Medicine_articles
+python3 c9/pwb.py md_core_helps/apis/cat_cach
+python3 c9/pwb.py td_core/copy_data/by_qid/sitelinks
+python3 c9/pwb.py td_core/copy_data/by_title/all_articles
+python3 c9/pwb.py td_core/db_work/check_titles
+python3 c9/pwb.py td_core/db_work/days_7
+python3 c9/pwb.py td_core/db_work/get_red
+python3 c9/pwb.py td_core/fix_user_pages/bot
+python3 c9/pwb.py td_core/mdcount/countref newpages
+python3 c9/pwb.py td_core/mdcount/countref sql
+python3 c9/pwb.py td_core/mdcount/words newpages
+python3 c9/pwb.py td_core/mdpages/cashwd
+python3 c9/pwb.py td_core/mdpages/find_qids redirects add
+python3 c9/pwb.py td_core/mdpyget/enwiki_views
+python3 c9/pwb.py td_core/mdpyget/getas
+python3 c9/pwb.py td_core/mdpyget/sqlviews_new
+python3 c9/pwb.py td_core/td_other_qids/fix_qids fix all
+python3 c9/pwb.py td_core/td_other_qids/make_list all add
+python3 c9/pwb.py td_core/wd_works/recheck
