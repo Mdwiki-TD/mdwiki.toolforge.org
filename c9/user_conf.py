@@ -11,7 +11,6 @@ except Exception as e:
 
 user_script_paths = [
     'I:/core/bots/new/newapi_bot',
-    'I:/core/bots/new/',
 
     'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/',
     'I:/MD_TOOLS/mdwiki.toolforge.org/PYTHON_REPOS/pybot/src/',
