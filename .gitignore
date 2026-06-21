@@ -118,3 +118,4 @@ public_html/views/update_med_views/views_by_year_users_agents/*
 /public_html/sqlz
 .env
 *.env
+/public_html/tests
