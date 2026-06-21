@@ -119,3 +119,4 @@ public_html/views/update_med_views/views_by_year_users_agents/*
 .env
 *.env
 /public_html/tests
+/public_html/demos
