@@ -19,13 +19,12 @@ include_once __DIR__ . '/header.php';
 				<div class='col-md'>
 					<h4>mdwiki tools:</h4>
 					<ul>
-						<li><a href="mdwiki4.php">Med updater</a></li>
-						<li><a href="redirect.php">Create redirects</a>*</li>
-						<li><a href="import-history.php">Import history</a>*</li>
-						<li><a href="replace.php">Find and replace</a> (<a href="replace-log.php">Logs</a>)</li>
-						<!-- <li><a href="dup.php">Fix duplicate redirects</a>*</li> -->
-						<li><a href="fixred.php">Fix redirects</a>*</li>
-						<li><a href="fixref.php">Normalize references</a>*</li>
+						<li><a href="https://mdw.toolforge.org/newupdater/">Med updater</a></li>
+						<li><a href="https://mdw.toolforge.org/jobs/create_redirects">Create redirects</a></li>
+						<li><a href="https://mdw.toolforge.org/jobs/import_history">Import history</a></li>
+						<li><a href="https://mdw.toolforge.org/jobs/find_and_replace">Find and replace</a>
+						<li><a href="https://mdw.toolforge.org/fixred/">Fix redirects</a></li>
+						<li><a href="https://mdw.toolforge.org/public_jobs/fixref">Normalize references</a></li>
 					</ul>
 				</div>
 
