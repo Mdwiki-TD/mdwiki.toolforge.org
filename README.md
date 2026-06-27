@@ -8,7 +8,7 @@
 
 | Endpoint        | Method | Description             |
 | --------------- | ------ | ----------------------- |
-| `/`             | GET    | Main entry / Dashboard  |
+| `/`             | GET    | Main entry              |
 | `/fixwikirefs/` | GET    | Fix References tool     |
 | `/views/`       | GET    | Pageviews Dashboard     |
 | `/prior/`       | GET    | Prior List Dashboard    |
@@ -16,7 +16,7 @@
 | `/gmail1/`      | POST   | Gmail Sender            |
 | `/404.php`      | GET    | Custom 404 handler      |
 
-# Tools end points
+## Tools endpoints
 
 | Endpoint              | Method | Description                       |
 | --------------------- | ------ | --------------------------------- |
@@ -29,10 +29,11 @@
 | `/import-history.php` | GET    | Redirect → import history job     |
 | `/replace.php`        | GET    | Redirect → find & replace job     |
 
-# Sub end points
+## Sub end points (Uses other/sub-repositories)
 
 | Endpoint                  | Method   | Description                       |
 | ------------------------- | -------- | --------------------------------- |
 | `/api/` or `/api.php`     | GET/POST | API Gateway (delegates to TD_API) |
 | `/Translation_Dashboard/` | GET      | Translation Dashboard main        |
 | `/auth/`                  | GET/POST | OAuth Login / logout / callback   |
+| `/tdc/`                   | GET/POST | admins tools                      |
