@@ -1,2 +1,2 @@
 <?php
-header("Location: https://mdw.toolforge.org/public_jobs/fixref");
+header("Location: https://mdw.toolforge.org/jobs/fixref");

@@ -24,7 +24,7 @@ include_once __DIR__ . '/header.php';
 						<li><a href="https://mdw.toolforge.org/jobs/import_history">Import history</a></li>
 						<li><a href="https://mdw.toolforge.org/jobs/find_and_replace">Find and replace</a>
 						<li><a href="https://mdw.toolforge.org/fixred/">Fix redirects</a></li>
-						<li><a href="https://mdw.toolforge.org/public_jobs/fixref">Normalize references</a></li>
+						<li><a href="https://mdw.toolforge.org/jobs/fixref">Normalize references</a></li>
 					</ul>
 				</div>
 
