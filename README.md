@@ -6,6 +6,34 @@
 
 # End points
 
-| Endpoint | Method | Description |
-| -------- | ------ | ----------- |
-| `/`      | GET    | Main entry  |
+| Endpoint        | Method | Description             |
+| --------------- | ------ | ----------------------- |
+| `/`             | GET    | Main entry              |
+| `/fixwikirefs/` | GET    | Fix References tool     |
+| `/views/`       | GET    | Pageviews Dashboard     |
+| `/prior/`       | GET    | Prior List Dashboard    |
+| `/WHO/`         | GET    | WHO Essential Medicines |
+| `/gmail1/`      | POST   | Gmail Sender            |
+| `/404.php`      | GET    | Custom 404 handler      |
+
+## Tools endpoints
+
+| Endpoint              | Method | Description                       |
+| --------------------- | ------ | --------------------------------- |
+| `/mdwiki4.php`        | GET    | Redirect → mdw updater            |
+| `/mdwiki5.php`        | GET    | Redirect → mdw updater            |
+| `/redirect.php`       | GET    | Redirect → create redirects job   |
+| `/fixred.php`         | GET    | Redirect → fix redlinks           |
+| `/fixref.php`         | GET    | Redirect → fix references job     |
+| `/dup.php`            | GET    | Redirect → duplicate redirect job |
+| `/import-history.php` | GET    | Redirect → import history job     |
+| `/replace.php`        | GET    | Redirect → find & replace job     |
+
+## Sub end points (Uses other/sub-repositories)
+
+| Endpoint                  | Method   | Description                       |
+| ------------------------- | -------- | --------------------------------- |
+| `/api/` or `/api.php`     | GET/POST | API Gateway (delegates to TD_API) |
+| `/Translation_Dashboard/` | GET      | Translation Dashboard main        |
+| `/auth/`                  | GET/POST | OAuth Login / logout / callback   |
+| `/tdc/`                   | GET/POST | admins tools                      |
