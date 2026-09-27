@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <HTML lang=en dir=ltr data-bs-theme="light" xmlns="http://www.w3.org/1999/xhtml">
 <?php
-//---
 
 if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
 	ini_set('display_errors', 1);
@@ -19,7 +18,7 @@ echo <<<HTML
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WikiProjectMed Tools</title>
 HTML;
-//---
+
 include_once __DIR__ . '/userinfos_wrap.php';
 
 function print_head()
