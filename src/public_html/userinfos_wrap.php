@@ -33,3 +33,4 @@ if ($currentUser->isLoggedIn()) {
 }
 
 define('global_username', $global_username);
+$GLOBALS['global_username'] = $global_username;
