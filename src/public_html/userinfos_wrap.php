@@ -7,9 +7,3 @@ if (substr(__DIR__, 0, 2) == 'I:') {
     ini_set('session.use_strict_mode', '1');
     include_once __DIR__ . '/auth/oauth/user_infos.php';
 }
-
-if (!empty($GLOBALS['global_username'] ?? "")) {
-    $global_username = $GLOBALS['global_username'];
-} else {
-    $GLOBALS['global_username'] = '';
-}
