@@ -4,29 +4,29 @@ if (isset($_GET['test'])) {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 };
-//---
+
 include_once __DIR__ . '/../header.php';
 include_once __DIR__ . '/include.php';
-//---
+
 use function FixWikiRefs\Form\print_form;
 use function FixWikiRefs\Fix\get_results_new;
 use function FixWikiRefs\SavePage\make_save_result;
 use function FixWikiRefs\SavePage\published_alert;
 use function FixWikiRefs\Form\make_result_form;
-//---
+
 function worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $movedots, $infobox)
 {
     $site = "$lang.wikipedia.org";
-    //---
+
     $new = "https://$site/w/index.php?title=$title&action=submit";
     $articleurl = "https://$site/w/index.php?title=$title";
-    //---
+
     $text_re = "";
-    //---
+
     [$err, $resultb] = get_results_new($sourcetitle, $title, $lang, $mdwiki_revid);
-    //---
+
     if ($test) $text_re .= "results:({$resultb})<br>";
-    //---
+
     $edt_link_row = <<<HTML
         <div class='aligncenter'>
             <div class='col-sm'>
@@ -35,13 +35,13 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $move
             </div>
         </div>
     HTML;
-    //---
+
     if (!empty($err)) {
         $text_re .= published_alert($err, "warning");
         $text_re .= $edt_link_row;
         return $text_re;
     };
-    //---
+
     if ($resultb == "redirect") {
         // $text_re .= "text == ''";
         $text_re .= published_alert("Page is redirect", "warning");
@@ -63,13 +63,13 @@ function worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $move
     }
     // ---
     $newtext = $resultb;
-    //---
+
     if (!empty($save)) {
         return make_save_result($title, $lang, $newtext, $new);
     }
-    //---
+
     $text_re .= make_result_form($new, $newtext);
-    //---
+
     return $text_re;
 }
 
@@ -96,9 +96,9 @@ $user_name = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] 
 echo print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name);
 // ---
 echo "<!-- x --></div></div><!-- x -->";
-//---
+
 $new_tt = "";
-//---
+
 if (!empty($title) && !empty($lang) && $lang != 'en' && !empty($user_name)) {
     $new_tt = worknew($title, $lang, $save, $test, $sourcetitle, $mdwiki_revid, $movedots, $infobox);
     echo <<<HTML
@@ -118,7 +118,7 @@ if (!empty($title) && !empty($lang) && $lang != 'en' && !empty($user_name)) {
 };
 // ---
 echo "</div></div>";
-//---
+
 echo <<<HTML
     <script>
         // attach autocomplete behavior to input field
@@ -151,5 +151,5 @@ echo <<<HTML
         });
     </script>
     HTML;
-//---
+
 include_once __DIR__ . '/footer.php';
