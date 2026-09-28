@@ -1,6 +1,5 @@
 <?php
 
-use OAuth\Settings\Settings;
 use OAuth\User\CurrentUser;
 
 if (substr(__DIR__, 0, 2) == 'I:') {
@@ -12,7 +11,6 @@ if (substr(__DIR__, 0, 2) == 'I:') {
 
 /*@phpstan-ignore-next-line */
 $currentUser = CurrentUser::getInstance();
-$settings = Settings::getInstance();
 
 $msg = $currentUser->getAlertMessage();
 
