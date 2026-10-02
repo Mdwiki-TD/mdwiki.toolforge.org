@@ -2,18 +2,6 @@
 
 namespace FixWikiRefs\Form;
 
-if (isset($_GET['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-}
-
-/*
-
-use function FixWikiRefs\Form\print_form;
-use function FixWikiRefs\Form\make_result_form;
-
-*/
 function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name)
 {
     // Escape all inputs

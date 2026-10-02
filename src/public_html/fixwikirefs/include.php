@@ -10,9 +10,9 @@ if (substr(__DIR__, 0, 2) == 'I:') {
     include_once 'I:/MD_TOOLS/mdwiki.toolforge.org/PHP_REPOS/fix_refs_repo/src/work.php';
 } else {
     include_once __DIR__ . '/../fix_refs/work.php';
+    include_once __DIR__ . '/../vendor/autoload.php';
 }
 
-include_once __DIR__ . '/../vendor/autoload.php';
 include_once __DIR__ . '/form.php';
 include_once __DIR__ . '/utils/database.php';
 include_once __DIR__ . '/utils/send_edit.php';

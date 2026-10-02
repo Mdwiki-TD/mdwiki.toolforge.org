@@ -133,26 +133,3 @@ class Database
         $this->db = null;
     }
 }
-
-
-function fetch_query($sql_query, $params = null)
-{
-    // Create a new database object
-    $db = new Database('DB_NAME');
-
-    // Execute a SQL query
-    if ($params) {
-        $results = $db->fetchquery($sql_query, $params);
-    } else {
-        $results = $db->fetchquery($sql_query);
-    }
-
-    // Print the results
-    // foreach ($results as $row) echo $row['column1'] . " " . $row['column2'] . "<br>";
-
-    // Destroy the database object
-    $db = null;
-
-    //---
-    return $results;
-};
