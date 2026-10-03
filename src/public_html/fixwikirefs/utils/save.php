@@ -2,22 +2,18 @@
 
 namespace FixWikiRefs\SavePage;
 
-use function RefsOAuth\MdwikiSql\fetch_query;
+use RefsOAuth\MdwikiSql\Database;
 use function RefsOAuth\SendEdit\auth_make_edit;
 use function FixWikiRefs\Form\make_result_form;
 
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 
-function decode_value($value, $key_type = "cookie")
+function decode_value($value)
 {
     if (empty(trim($value))) return "";
-
-    $cookieKeyString = getenv('COOKIE_KEY') ?: $_ENV['COOKIE_KEY'] ?? '';
     $decryptKeyString = getenv('DECRYPT_KEY') ?: $_ENV['DECRYPT_KEY'] ?? '';
-
-    $use_key_String  = ($key_type === "decrypt") ? $decryptKeyString : $cookieKeyString;
-    $use_key = $use_key_String ? Key::loadFromAsciiSafeString($use_key_String) : null;
+    $use_key = $decryptKeyString ? Key::loadFromAsciiSafeString($decryptKeyString) : null;
 
     if ($use_key === null) return "";
 
@@ -38,7 +34,11 @@ function get_access_from_db($user)
         WHERE user_name = ?;
     SQL;
 
-    $result = fetch_query($query, [$user]);
+    // Create a new database object
+    $db = new Database();
+
+    // Execute a SQL query
+    $result = $db->fetchquery($query, [$user]);
 
 
     if (!$result) {
@@ -46,10 +46,10 @@ function get_access_from_db($user)
     }
 
     $result = $result[0];
-    // ---
+
     return [
-        'access_key' => decode_value($result['access_key'], "decrypt"),
-        'access_secret' => decode_value($result['access_secret'], "decrypt")
+        'access_key' => decode_value($result['access_key']),
+        'access_secret' => decode_value($result['access_secret'])
     ];
 }
 function saveit($title, $lang, $text)

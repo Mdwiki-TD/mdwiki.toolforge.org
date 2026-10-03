@@ -2,19 +2,6 @@
 
 namespace FixWikiRefs\WikiText;
 
-if (isset($_GET['test'])) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-}
-
-/*
-usage:
-
-use function FixWikiRefs\WikiText\get_wikipedia_text; // get_wikipedia_text($title, $lang)
-
-*/
-
 $usr_agent = 'WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)';
 
 

@@ -5,16 +5,4 @@ if (isset($_REQUEST['test']) || isset($_COOKIE['test'])) {
     error_reporting(E_ALL);
 }
 
-if (!isset($_GET['get'])) {
-    header("Location: api/openapi.html");
-    exit();
-}
-
-$path = __DIR__ . '/api/index.php';
-
-if (!file_exists($path)) {
-    // I:/MD_TOOLS/mdwiki.toolforge.org/PHP_REPOS/TD_API/src/index.php
-    $path = dirname(dirname(dirname(__DIR__))) . '/mdwiki.toolforge.org/PHP_REPOS/TD_API/src/index.php';
-}
-
-include_once $path;
+include_once __DIR__ . '/api/index.php';
