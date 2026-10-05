@@ -13,7 +13,6 @@ if (substr(__DIR__, 0, 2) == 'I:') {
     include_once __DIR__ . '/../vendor/autoload.php';
 }
 
-include_once __DIR__ . '/form.php';
 include_once __DIR__ . '/utils/database.php';
 include_once __DIR__ . '/utils/send_edit.php';
 include_once __DIR__ . '/utils/save.php';
