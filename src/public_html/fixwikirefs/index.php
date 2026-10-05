@@ -23,48 +23,48 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
     if ($user_name == '') $start_icon = '<a role="button" class="btn btn-primary" href="/auth/login.php">Log in</a>';
     // ---
     return <<<HTML
-        <form action='/fixwikirefs.php' method='GET'>
-            $testinput
-            <div class='container'>
-                <div class='row'>
-                    <div class='col-md-4'>
-                        <div class='input-group mb-3'>
-                            <div class='input-group-prepend'>
-                                <span class='input-group-text'>Langcode</span>
+            <form action='/fixwikirefs.php' method='GET'>
+                $testinput
+                <div class='container'>
+                    <div class='row'>
+                        <div class='col-md-4'>
+                            <div class='input-group mb-3'>
+                                <div class='input-group-prepend'>
+                                    <span class='input-group-text'>Langcode</span>
+                                </div>
+                                <input class='form-control' type='text' id='lang' name='lang' value='$lang' required />
                             </div>
-                            <input class='form-control' type='text' id='lang' name='lang' value='$lang' required />
-                        </div>
-                        <div class='input-group mb-3'>
-                            <div class='input-group-prepend'>
-                                <span class='input-group-text'>Title</span>
+                            <div class='input-group mb-3'>
+                                <div class='input-group-prepend'>
+                                    <span class='input-group-text'>Title</span>
+                                </div>
+                                <input class='form-control' type='text' id='title' name='title' value='$title' required />
                             </div>
-                            <input class='form-control' type='text' id='title' name='title' value='$title' required />
                         </div>
-                    </div>
-                    <div class='col-md-3'>
-                        <div class='form-check form-switch'>
-                            <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
-                            <label class='check-label' for='save'>Auto save</label>
-                        </div>
+                        <div class='col-md-3'>
+                            <div class='form-check form-switch'>
+                                <input class='form-check-input' type='checkbox' id='save' name='save' value='1' $save_checked>
+                                <label class='check-label' for='save'>Auto save</label>
+                            </div>
 
-                        <div class='form-check form-switch'>
-                            <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' $movedots>
-                            <label class='form-check-label' for='movedots'>Move dots after references</label>
-                        </div>
+                            <div class='form-check form-switch'>
+                                <input class='form-check-input' type='checkbox' id='movedots' name='movedots' value='1' $movedots>
+                                <label class='form-check-label' for='movedots'>Move dots after references</label>
+                            </div>
 
-                        <div class='form-check form-switch'>
-                            <input class='form-check-input' type='checkbox' id='infobox' name='infobox' value='1' $infobox>
-                            <label class='form-check-label' for='infobox'>Expand Infobox</label>
+                            <div class='form-check form-switch'>
+                                <input class='form-check-input' type='checkbox' id='infobox' name='infobox' value='1' $infobox>
+                                <label class='form-check-label' for='infobox'>Expand Infobox</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class='col-md-5'>
-                        <h4 class='aligncenter'>
-                            $start_icon
-                        </h4>
+                        <div class='col-md-5'>
+                            <h4 class='aligncenter'>
+                                $start_icon
+                            </h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
     HTML;
 
 }
