@@ -7,12 +7,15 @@ use function FixWikiRefs\Fix\get_results_new;
 use function FixWikiRefs\SavePage\make_save_result;
 use function FixWikiRefs\SavePage\published_alert;
 
-function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name)
+function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name, $sourcetitle = '', $mdwiki_revid = '', $text = '')
 {
     // Escape all inputs
     $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
     $lang = htmlspecialchars($lang, ENT_QUOTES, 'UTF-8');
     $user_name = htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8');
+    $sourcetitle = htmlspecialchars($sourcetitle, ENT_QUOTES, 'UTF-8');
+    $mdwiki_revid = htmlspecialchars($mdwiki_revid, ENT_QUOTES, 'UTF-8');
+    $text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 
     $testinput = (!empty($_GET['test'] ?? '')) ? '<input type="hidden" name="test" value="1" />' : '';
     //---
@@ -32,13 +35,27 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
                                 <div class='input-group-prepend'>
                                     <span class='input-group-text'>Langcode</span>
                                 </div>
-                                <input class='form-control' type='text' id='lang' name='lang' value='$lang' required />
+                                <input class='form-control' type='text' id='lang' name='lang' value='$lang' placeholder="e.g., en, ar" required />
                             </div>
                             <div class='input-group mb-3'>
                                 <div class='input-group-prepend'>
-                                    <span class='input-group-text'>Title</span>
+                                    <span class='input-group-text'>Wikipedia title</span>
                                 </div>
                                 <input class='form-control' type='text' id='title' name='title' value='$title' required />
+                            </div>
+                        </div>
+                        <div class='col-md-4'>
+                            <div class='input-group mb-3'>
+                                <div class='input-group-prepend'>
+                                    <span class='input-group-text'>MDWiki Source Title</span>
+                                </div>
+                                <input class='form-control' type='text' id='sourcetitle' name='sourcetitle' value='$sourcetitle' />
+                            </div>
+                            <div class='input-group mb-3'>
+                                <div class='input-group-prepend'>
+                                    <span class='input-group-text'>MDWiki Revision ID</span>
+                                </div>
+                                <input class='form-control' type='text' id='revid' name='revid' value='$mdwiki_revid' />
                             </div>
                         </div>
                         <div class='col-md-3'>
@@ -57,16 +74,19 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
                                 <label class='form-check-label' for='infobox'>Expand Infobox</label>
                             </div>
                         </div>
-                        <div class='col-md-5'>
+                        <div class='col-md-1'>
                             <h4 class='aligncenter'>
                                 $start_icon
                             </h4>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="text" class="form-label">Text Content</label>
+                        <textarea class="form-control" id="text" name="text" rows="5">$text</textarea>
+                    </div>
                 </div>
             </form>
     HTML;
-
 }
 
 function make_result_form($new, $newtext)
@@ -168,18 +188,19 @@ echo <<<HTML
         <div class="card-body pb-0">
 HTML;
 
-$test       = $_GET['test'] ?? '';
-$title      = $_GET['title'] ?? '';
-$save       = isset($_GET['save']) ? 'save' : '';
-$movedots   = isset($_GET['movedots']) ? 'checked' : '';
-$infobox    = isset($_GET['infobox']) ? 'checked' : '';
-$lang       = isset($_GET['lang']) ? trim($_GET['lang']) : '';
-$sourcetitle       = isset($_GET['sourcetitle']) ? trim($_GET['sourcetitle']) : '';
-$mdwiki_revid      = $_GET['revid'] ?? $_GET['mdwiki_revid'] ?? "";
+$test         = $_GET['test'] ?? '';
+$title        = $_GET['title'] ?? '';
+$save         = isset($_GET['save']) ? 'save' : '';
+$movedots     = isset($_GET['movedots']) ? 'checked' : '';
+$infobox      = isset($_GET['infobox']) ? 'checked' : '';
+$lang         = isset($_GET['lang']) ? trim($_GET['lang']) : '';
+$sourcetitle  = isset($_GET['sourcetitle']) ? trim($_GET['sourcetitle']) : (isset($_GET['source_title']) ? trim($_GET['source_title']) : '');
+$mdwiki_revid = $_GET['revid'] ?? $_GET['mdwiki_revid'] ?? "";
+$text         = $_GET['text'] ?? $_POST['text'] ?? '';
 
 $user_name = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '') ? $GLOBALS['global_username'] : '';
 
-echo print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name);
+echo print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name, $sourcetitle, $mdwiki_revid, $text);
 
 echo "<!-- x --></div></div><!-- x -->";
 
