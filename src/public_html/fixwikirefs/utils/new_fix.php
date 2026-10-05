@@ -2,7 +2,6 @@
 
 namespace FixWikiRefs\Fix;
 
-use function WpRefs\FixPage\fix_page_with_setting;
 use function FixWikiRefs\WikiText\get_wikipedia_text;
 
 function get_results_new($sourcetitle, $title, $lang, $mdwiki_revid, $text = "")
@@ -18,16 +17,18 @@ function get_results_new($sourcetitle, $title, $lang, $mdwiki_revid, $text = "")
         return [$err, $text];
     }
     //---
-    $newtext = fix_page_with_setting(
-        $sourcetitle,
-        $title,
-        $text,
-        $lang,
-        $mdwiki_revid,
-        null,
-        null,
-        null,
-    );
+    if (function_exists('\WpRefs\FixPage\fix_page_with_setting')) {
+        $newtext = \WpRefs\FixPage\fix_page_with_setting(
+            $sourcetitle,
+            $title,
+            $text,
+            $lang,
+            $mdwiki_revid,
+            null,
+            null,
+            null,
+        );
+    }
     //---
     $newtext = trim($newtext);
     //---

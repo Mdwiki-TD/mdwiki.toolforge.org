@@ -1,11 +1,6 @@
 <?php
 
 namespace RefsOAuth\SendEdit;
-/*
-Usage:
-use function RefsOAuth\SendEdit\auth_make_edit;
-*/
-
 
 use MediaWiki\OAuthClient\Client;
 use MediaWiki\OAuthClient\ClientConfig;
