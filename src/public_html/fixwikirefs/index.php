@@ -25,6 +25,15 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
     // ---
     if ($user_name == '') $start_icon = '<a role="button" class="btn btn-primary" href="/auth/login.php">Log in</a>';
     // ---
+    $text_part = <<<HTML
+        <div class="mb-3">
+            <label for="text" class="form-label">Text Content</label>
+            <textarea class="form-control" id="text" name="text" rows="5">$text</textarea>
+        </div>
+        HTML;
+    // ---
+    if (!$text) $text_part = '';
+    // ---
     return <<<HTML
             <form action='/fixwikirefs.php' method='GET'>
                 $testinput
@@ -80,10 +89,7 @@ function print_form($title, $lang, $save, $movedots, $infobox, $test, $user_name
                             </h4>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="text" class="form-label">Text Content</label>
-                        <textarea class="form-control" id="text" name="text" rows="5">$text</textarea>
-                    </div>
+                    {$text_part}
                 </div>
             </form>
     HTML;
@@ -106,7 +112,7 @@ function make_result_form($new, $newtext)
             <input type='hidden' id='wikitext-old' value=''>
             <div class="mb-3">
                 <label for="wikitext-new" class="form-label fw-semibold">
-                    📝 New Wikitext
+                    New Wikitext
                 </label>
                 <textarea id="wikitext-new" class="form-control" name="wpTextbox1" rows="5">$newtext</textarea>
             </div>
