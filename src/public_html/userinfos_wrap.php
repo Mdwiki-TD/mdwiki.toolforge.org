@@ -24,11 +24,9 @@ if ($msg) {
 	HTML;
 }
 
-if ($currentUser->isLoggedIn()) {
-    $global_username = $currentUser->getUsername();
-} else {
-    $global_username = "";
-}
+$global_username = ($currentUser->isLoggedIn())
+    ? $currentUser->getUsername()
+    : "";
 
 define('global_username', $global_username);
 $GLOBALS['global_username'] = $global_username;

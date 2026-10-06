@@ -2,18 +2,126 @@
 
 namespace App\Controllers;
 
-use function FixWikiRefs\SavePage\saveit;
-use function FixWikiRefs\Fix\get_results_new;
+use OAuth\User\CurrentUser;
+use OAuth\Settings;
+use MediaWiki\OAuthClient\Client;
+use MediaWiki\OAuthClient\ClientConfig;
+use MediaWiki\OAuthClient\Consumer;
+use MediaWiki\OAuthClient\Token;
+
+use function FixWikiRefs\WikiText\get_wikipedia_text;
+
+function get_results_new($sourcetitle, $title, $lang, $mdwiki_revid, $text = "")
+{
+
+    $err = "";
+
+    if (empty($text)) {
+        [$err, $text] = get_wikipedia_text($title, $lang);
+    }
+
+    if (!empty($err)) {
+        return [$err, $text];
+    }
+
+    if (function_exists('\WpRefs\FixPage\fix_page_with_setting')) {
+        $newtext = \WpRefs\FixPage\fix_page_with_setting(
+            $sourcetitle,
+            $title,
+            $text,
+            $lang,
+            $mdwiki_revid,
+            null,
+            null,
+            null,
+        );
+    }
+
+    $newtext = trim($newtext);
+
+    if ($newtext == $text) {
+        return ["no changes", ""];
+    }
+
+    return ["", $newtext];
+}
+
+function get_edits_tokens($client, $accessToken, $apiUrl)
+{
+    $response = $client->makeOAuthCall($accessToken, "$apiUrl?action=query&meta=tokens&format=json");
+
+    $data = json_decode($response);
+
+    if ($data == null || !isset($data->query->tokens->csrftoken)) {
+        // Handle error
+        echo "<br>get_edits_tokens Error: " . json_last_error() . " " . json_last_error_msg();
+        return null;
+    }
+
+    return $data->query->tokens->csrftoken;
+}
+
+function auth_make_edit(
+    string $title,
+    string $text,
+    string $summary,
+    string $wiki,
+    Consumer $consumer,
+    array $access
+): mixed {
+    $accessToken = new Token($access['access_key'], $access['access_secret']);
+
+    $wikiOauthUrl = "https://$wiki.wikipedia.org/w/index.php?title=Special:OAuth";
+    $apiUrl = "https://$wiki.wikipedia.org/w/api.php";
+
+    // Configure the OAuth client with the URL and consumer details.
+    $conf = new ClientConfig($wikiOauthUrl);
+
+    $conf->setConsumer($consumer);
+    $conf->setUserAgent('mdwiki MediaWiki OAuth Client/1.0');
+
+    $client = new Client($conf);
+
+    $editToken = get_edits_tokens($client, $accessToken, $apiUrl);
+
+    $apiParams = [
+        'action' => 'edit',
+        'title' => $title,
+        // 'section' => 'new',
+        'summary' => $summary,
+        'text' => $text,
+        'token' => $editToken,
+        'format' => 'json',
+    ];
+
+    $req = $client->makeOAuthCall(
+        $accessToken,
+        $apiUrl,
+        true,
+        $apiParams
+    );
+
+    $editResult = json_decode($req, true);
+
+    return $editResult;
+}
 
 class FixRefsController
 {
-    private string $user_name;
+    private string $username;
+    private Settings $settings;
+    private CurrentUser $currentUser;
 
-    public function __construct()
+    public function __construct(?CurrentUser $currentUser = null)
     {
-        $this->user_name = (isset($GLOBALS['global_username']) && $GLOBALS['global_username'] != '')
-            ? $GLOBALS['global_username']
-            : '';
+        $this->currentUser = $currentUser ?? CurrentUser::getInstance();
+
+        $this->settings = Settings::getInstance();
+
+        $this->username = ($this->currentUser->isLoggedIn())
+            ? $this->currentUser->getUsername()
+            : "";
+
     }
     public function handleRequest(array $getRequest): void
     {
@@ -35,7 +143,7 @@ class FixRefsController
                 <div class="card-body pb-0">
         HTML;
 
-        $shouldShowResult = (!empty($title) && !empty($lang) && !empty($this->user_name));
+        $shouldShowResult = (!empty($title) && !empty($lang) && !empty($this->username));
 
         echo $this->printForm(
             $title,
@@ -93,7 +201,8 @@ class FixRefsController
         $save_checked = ($save !== '') ? 'checked' : '';
 
         $start_icon = "<input class='btn btn-outline-primary' type='submit' value='start'>";
-        if ($this->user_name === '') {
+
+        if ($this->username === '') {
             $start_icon = '<a role="button" class="btn btn-primary" href="/auth/login.php">Log in</a>';
         }
 
@@ -166,12 +275,12 @@ class FixRefsController
         HTML;
     }
 
-    private function makeResultForm(string $new, string $newtext): string
+    private function makeResultForm(string $submitHref, string $newtext): string
     {
         $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
 
         return <<<HTML
-            <form id='editform' name='editform' method='POST' action='{$new}' target='_blank'>
+            <form id='editform' name='editform' method='POST' action='{$submitHref}' target='_blank'>
                 <input type='hidden' value='' name='wpEdittime'/>
                 <input type='hidden' value='' name='wpStarttime'/>
                 <input type='hidden' value='' name='wpScrolltop' id='wpScrolltop'/>
@@ -208,7 +317,7 @@ class FixRefsController
     ): string {
         $site = "{$lang}.wikipedia.org";
 
-        $new = "https://{$site}/w/index.php?title={$title}&action=submit";
+        $submitHref = "https://{$site}/w/index.php?title={$title}&action=submit";
         $articleurl = "https://{$site}/w/index.php?title={$title}";
 
         $text_re = "";
@@ -218,7 +327,7 @@ class FixRefsController
         $edt_link_row = <<<HTML
             <div class='aligncenter'>
                 <div class='col-sm'>
-                    <a type='button' target='_blank' class='btn btn-outline-primary' href='{$new}'>Open edit new tab.</a>
+                    <a type='button' target='_blank' class='btn btn-outline-primary' href='{$submitHref}'>Open edit new tab.</a>
                     <a type='button' target='_blank' class='btn btn-outline-primary' href='{$articleurl}'>Open page new tab.</a>
                 </div>
             </div>
@@ -251,42 +360,50 @@ class FixRefsController
         $newtext = $resultb;
 
         if (!empty($save)) {
-            return $this->make_save_result($title, $lang, $newtext, $new);
+            return $this->make_save_result($title, $lang, $newtext, $submitHref);
         }
 
-        $text_re .= $this->makeResultForm($new, $newtext);
+        $text_re .= $this->makeResultForm($submitHref, $newtext);
 
         return $text_re;
     }
 
-    private function make_save_result($title, $lang, $newtext, $new)
+    private function make_save_result(string $title, string $lang, string $newtext, string $submitHref): string
     {
-        // ---
-        $result = "";
-        // ---
-        $save2 = saveit($title, $lang, $newtext, $this->user_name);
-        // ---
+
+        $access = $this->currentUser->getUserAccessKeys();
+        if (!$access) {
+            return $this->published_alert("No access keys", "danger");
+        }
+        $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
+
+        $consumer = new Consumer($this->settings->consumerKey, $this->settings->consumerSecret);
+
+        $save2 = auth_make_edit(
+            $title,
+            $newtext,
+            $summary,
+            $lang,
+            $consumer,
+            $access,
+        );
+
         $error_code = ($save2['error']['code'] ?? '') ?? '';
         $error_info = ($save2['error']['info'] ?? '') ?? '';
-        // ---
-        // if (isset($_GET['test'])) { var_export(json_encode($save2, JSON_PRETTY_PRINT)); }
-        // ---
+
         $Success = isset($save2['edit']['result']) && $save2['edit']['result'] == 'Success';
-        // ---
+
         if ($Success) {
             // '{ "edit": { "result": "Success", "pageid": 7613329, "title": "Anemia na gravidez", "contentmodel": "wikitext", "oldrevid": 70215097, "newrevid": 70257752, "newtimestamp": "2025-06-08T00:30:18Z" } }'
-            // ---
+
             $newrevid = $save2['edit']['newrevid'] ?? '0';
-            // ---
-            $result .= $this->published_success_alert($lang, $newrevid, $title);
-        } else {
-            // ---
-            $aleart = $this->published_alert("Changes are not published, try to do it manually. Error: $error_code ($error_info)", "danger");
-            // ---
-            $result .= $aleart;
-            $result .= $this->makeResultForm($new, $newtext);
+
+            return $this->published_success_alert($lang, $newrevid, $title);
         }
-        // ---
+        $result = $this->published_alert("Changes are not published, try to do it manually. Error: $error_code ($error_info)", "danger");
+
+        $result .= $this->makeResultForm($submitHref, $newtext);
+
         return $result;
     }
     private function published_success_alert($lang, $newrevid, $title)

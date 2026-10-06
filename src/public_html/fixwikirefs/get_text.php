@@ -5,21 +5,6 @@ namespace FixWikiRefs\WikiText;
 $usr_agent = 'WikiProjectMed Translation Dashboard/1.0 (https://mdwiki.toolforge.org/; tools.mdwiki@toolforge.org)';
 
 
-function test_print_o($s)
-{
-    if (isset($_COOKIE['test']) && $_COOKIE['test'] == 'x') {
-        return;
-    }
-    $print_t = (isset($_REQUEST['test']) || isset($_COOKIE['test'])) ? true : false;
-
-    if ($print_t && gettype($s) == 'string') {
-        echo "\n<br>\n$s";
-    } elseif ($print_t) {
-        echo "\n<br>\n";
-        print_r($s);
-    }
-}
-
 function from_api($title, $lang)
 {
     global $usr_agent;
@@ -48,16 +33,13 @@ function from_api($title, $lang)
 
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlError = curl_error($ch);
-    //---
+
     $url2 = $url . '?' . http_build_query($data, '', '&', PHP_QUERY_RFC3986);
-    // ---
+
     // remove "&format=json" from $url2 then make it link <a href="$url2">
     $url2 = str_replace('&format=json', '', $url2);
     $url2 = "<a target='_blank' href='$url2'>$url2</a>";
-    //---
-    test_print_o("post_url: (http_code: $httpCode) $url2");
-    // ---
-    curl_close($ch);
+
 
     if ($response === false || $httpCode !== 200) {
         error_log("Failed to fetch from API: $curlError, HTTP code: $httpCode");
@@ -66,27 +48,27 @@ function from_api($title, $lang)
     $json = json_decode($response, true);
 
     $pages = $json['query']['pages'] ?? [];
-    // ---
+
     foreach ($pages as $page) {
         $missing = $page['missing'] ?? '';
         $redirect = $page['redirect'] ?? '';
-        // ---
+
         if (!empty($redirect)) {
             return ['Page is redirect', ""];
         }
-        // ---
+
         if (!empty($missing)) {
             return ['Page is missing', ""];
         }
-        // ---
+
         $main = $page['revisions'][0]['slots']['main'] ?? [];
         $text = $main['content'] ?? $main['*'] ?? '';
-        // ---
+
         if (!empty($text)) {
             return ["", $text];
         }
     }
-    // ---
+
     return ["notext", ""];
 }
 
@@ -107,7 +89,6 @@ function from_rest($title, $lang)
     $output = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlError = curl_error($ch);
-    curl_close($ch);
 
     if ($output === false) {
         error_log("Failed to fetch from REST API: $curlError");
@@ -133,19 +114,19 @@ function get_wikipedia_text($title, $lang)
     if (empty($title)) {
         return ["title is empty", ""];
     }
-    // ---
+
     if (empty($lang)) {
         return ["lang is empty", ""];
     }
-    // ---
+
     // Normalize title for both methods
     $title = trim($title);
-    // ---
+
     [$err, $text] = from_api($title, $lang);
-    // ---
+
     if (empty($text) && $err === "notext") {
         [$err, $text] = from_rest($title, $lang);
     }
-    // ---
+
     return [$err, $text];
 }

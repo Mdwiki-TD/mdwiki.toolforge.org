@@ -23,13 +23,13 @@ include_once __DIR__ . '/userinfos_wrap.php';
 
 function print_head()
 {
-	//---
+
 
 	$hoste = ($_SERVER["SERVER_NAME"] == "localhost")
 		? "https://cdnjs.cloudflare.com"
 		: "https://tools-static.wmflabs.org/cdnjs";
 
-	//---
+
 	$stylesheets = [
 		"/Translation_Dashboard/css/styles.css",
 		"/Translation_Dashboard/css/Responsive_Table.css",
@@ -69,11 +69,11 @@ function print_head()
 		}</style>
 	HTML;
 };
-//---
+
 print_head();
-//---
+
 echo "</head>";
-//---
+
 $li_user = <<<HTML
 	<li class="nav-item col-4 col-lg-auto">
 		<a role="button" class="nav-link py-2 px-0 px-lg-2" href="/auth/login.php">
@@ -81,7 +81,7 @@ $li_user = <<<HTML
 		</a>
 	</li>
 HTML;
-//---
+
 if (!empty($GLOBALS['global_username'] ?? "")) {
 	$u_name = $GLOBALS['global_username'];
 	$li_user = <<<HTML
@@ -97,7 +97,7 @@ if (!empty($GLOBALS['global_username'] ?? "")) {
 	</li>
 HTML;
 };
-//---
+
 echo <<<HTML
 <body>
 	<header class="mb-3 border-bottom">
