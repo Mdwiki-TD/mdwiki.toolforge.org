@@ -121,7 +121,6 @@ class FixRefsController
         $this->username = ($this->currentUser->isLoggedIn())
             ? $this->currentUser->getUsername()
             : "";
-
     }
     public function handleRequest(array $getRequest): void
     {
@@ -360,7 +359,12 @@ class FixRefsController
         $newtext = $resultb;
 
         if (!empty($save)) {
-            return $this->make_save_result($title, $lang, $newtext, $submitHref);
+            $access = $this->currentUser->getUserAccessKeys();
+            if (!$access) {
+                echo $this->published_alert("No access keys", "danger");
+            } else {
+                return $this->make_save_result($title, $lang, $newtext, $submitHref, $access);
+            }
         }
 
         $text_re .= $this->makeResultForm($submitHref, $newtext);
@@ -368,13 +372,9 @@ class FixRefsController
         return $text_re;
     }
 
-    private function make_save_result(string $title, string $lang, string $newtext, string $submitHref): string
+    private function make_save_result(string $title, string $lang, string $newtext, string $submitHref, array $access): string
     {
 
-        $access = $this->currentUser->getUserAccessKeys();
-        if (!$access) {
-            return $this->published_alert("No access keys", "danger");
-        }
         $summary = "Fix references, Expand infobox #mdwiki .toolforge.org.";
 
         $consumer = new Consumer($this->settings->consumerKey, $this->settings->consumerSecret);
