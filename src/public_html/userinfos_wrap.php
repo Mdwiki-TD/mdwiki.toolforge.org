@@ -3,10 +3,10 @@
 use OAuth\User\CurrentUser;
 
 if (substr(__DIR__, 0, 2) == 'I:') {
-    include_once 'I:/MD_TOOLS/mdwiki.toolforge.org/PHP_REPOS/auth_repo/src/include_all.php';
+    include_once 'I:/MD_TOOLS/mdwiki.toolforge.org/PHP_REPOS/auth_repo/src/bootstrap.php';
 } else {
     ini_set('session.use_strict_mode', '1');
-    include_once __DIR__ . '/auth/include_all.php';
+    include_once __DIR__ . '/auth/bootstrap.php';
 }
 
 /*@phpstan-ignore-next-line */
