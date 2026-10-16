@@ -15,11 +15,12 @@ fi
 
 COPY_TO_TARGET="${COPY_TO_TARGET:-}"
 
-BRANCH="${3:-main}"
 SUB_DIR_COPY="${SUB_DIR_COPY:-}"
-USER_NAME="${USER_NAME:-MrIbrahem}"
-BASE_DIR="${BASE_DIR:-${HOME}}"
 
+BRANCH="${3:-main}"
+USER_NAME="${USER_NAME:-MrIbrahem}"
+
+BASE_DIR="${BASE_DIR:-${HOME}}"
 CLONE_DIR="${BASE_DIR}/${REPO_NAME}_tmp"
 
 # Optional clean of TARGET_DIR
@@ -38,23 +39,6 @@ COMPILE_PYTHON_FILES="${COMPILE_PYTHON_FILES:-0}"
 
 REPO_URL="https://github.com/${USER_NAME}/${REPO_NAME}.git"
 
-# Navigate to the project directory
-cd "$BASE_DIR" || exit
-
-echo ">>> Deploying ${REPO_NAME} (branch: ${BRANCH})"
-
-# Remove any existing clone directory
-rm -rf "$CLONE_DIR"
-
-echo ">>> clone --branch ${BRANCH}"
-echo "${REPO_URL}"
-
-git clone --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
-
-rm -rf "$CLONE_DIR/.git"
-
-echo ">>> Deploying from local uploaded temporary directory..."
-
 cleanup_old_backups() {
     local prefix="$1"
     local keep="${2:-5}"
@@ -68,6 +52,25 @@ cleanup_old_backups() {
         rm -rf -- "${old_backups[@]}"
     fi
 }
+
+clone_repo() {
+    echo ">>> Deploying ${REPO_NAME} (branch: ${BRANCH})"
+
+    # Navigate to the project directory
+    cd "$BASE_DIR" || exit 1
+
+    # Remove any existing clone directory
+    rm -rf "$CLONE_DIR"
+
+    echo ">>> clone --branch ${BRANCH}"
+    echo "${REPO_URL}"
+
+    git clone --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
+
+    rm -rf "$CLONE_DIR/.git"
+}
+
+clone_repo
 
 # 1. Clean install / Archive if requested
 if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
