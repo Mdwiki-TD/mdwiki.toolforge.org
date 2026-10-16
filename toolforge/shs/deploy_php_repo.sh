@@ -1,25 +1,25 @@
 #!/bin/bash
 # toolforge-jobs run installar --image python3.11 --command "~/shs/update_ArWikiCats.sh" --wait
-# sed -i 's/\r$//' ~/shs/*.sh && chmod +x ~/shs/*.sh
+# sed -i 's/\r$//' ~/deploy_scripts/*.sh && chmod +x ~/deploy_scripts/*.sh
 
 # use bash strict mode
 set -euo pipefail
 
-REPO_NAME="$1"        # e.g. cats_maker
-TARGET_DIR="$2"       # e.g. bots/cats_maker
+REPO_NAME="${1:-}"    # e.g. cats_maker
+TARGET_DIR="${2:-}"   # Target tool folder, e.g., ARWIKI_ONE_REPO
 
-if [ -z "${1:-}" ] || [ -z "${2:-}" ]; then
+if [ -z "$REPO_NAME" ] || [ -z "$TARGET_DIR" ]; then
     echo "Usage: $0 <repo_name> <target_dir> [branch]" >&2
     exit 1
 fi
 
 COPY_TO_TARGET="${COPY_TO_TARGET:-}"
+SUB_DIR_COPY="${SUB_DIR_COPY:-}"
 
 BRANCH="${3:-main}"
-SUB_DIR_COPY="${SUB_DIR_COPY:-}"
 USER_NAME="${USER_NAME:-MrIbrahem}"
-BASE_DIR="${BASE_DIR:-${HOME}}"
 
+BASE_DIR="${BASE_DIR:-${HOME}}"
 CLONE_DIR="${BASE_DIR}/${REPO_NAME}_tmp"
 
 # Optional clean of TARGET_DIR
@@ -33,69 +33,150 @@ REMOVE_SRC_JSONS_BEFORE_COPY="${REMOVE_SRC_JSONS_BEFORE_COPY:-0}"
 
 REPO_URL="https://github.com/${USER_NAME}/${REPO_NAME}.git"
 
-# Navigate to the project directory
-cd "$BASE_DIR" || exit
+# ---------------------------------------------------------------------------
+# Functions
+# ---------------------------------------------------------------------------
 
-echo ">>> Deploying ${REPO_NAME} (branch: ${BRANCH})"
+cleanup_old_backups() {
+    local prefix="$1"
+    local keep="${2:-5}"
+    local -a old_backups
 
-# Remove any existing clone directory
-rm -rf "$CLONE_DIR"
+    mapfile -t old_backups < <(ls -1dt "${prefix}"* 2>/dev/null | tail -n +"$((keep + 1))" || true)
 
-echo ">>> clone --branch ${BRANCH}"
-echo "${REPO_URL}"
+    echo ">>> Old backups to delete: ${#old_backups[@]}"
 
-git clone --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
+    if [ "${#old_backups[@]}" -gt 0 ]; then
+        rm -rf -- "${old_backups[@]}"
+    fi
+}
 
-rm -rf "$CLONE_DIR/.git"
+clone_repo() {
+    local repo_url="$1"
+    local branch="$2"
+    local clone_dir="$3"
+    local repo_name="$4"
 
-if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
+    echo ">>> Deploying ${repo_name} (branch: ${branch})"
+
+    # Remove any existing clone directory
+    rm -rf "$clone_dir"
+
+    echo ">>> clone --branch ${branch}"
+    echo "${repo_url}"
+
+    git clone --branch "$branch" "$repo_url" "$clone_dir"
+
+    rm -rf "$clone_dir/.git"
+}
+
+# Move the existing target dir into the archive, then prune old backups
+archive_old_version() {
+    local target_dir="$1"
+    local repo_name="$2"
+    local old_repos_base="$3"
+    local keep="${4:-5}"
+
     echo ">>> Clean install enabled"
 
     # Ensure the directory is writable before moving/deleting
-    chmod -R u+w "$TARGET_DIR" 2>/dev/null || true
+    chmod -R u+w "$target_dir" 2>/dev/null || true
 
     # Ensure the archive directory exists
-    mkdir -p "$OLD_REPOS_BASE"
+    mkdir -p "$old_repos_base"
+
+    local dir_name backup_path destination
 
     # Extract the directory name (e.g., cats_maker) to use in the archive name
-    DIR_NAME=$(basename "$TARGET_DIR")
+    dir_name=$(basename "$target_dir")
+
+    backup_path="${repo_name}_${dir_name}_backup"
 
     # Set the destination path with a timestamp (e.g., ~/old_repos/src_backup_1715000)
-    DESTINATION="${OLD_REPOS_BASE}/${REPO_NAME}_${DIR_NAME}_backup_$(date +%s%N)_$$"
+    destination="${old_repos_base}/${backup_path}_$(date +%s%N)_$$"
 
-    echo ">>> Archiving old version to: $DESTINATION"
-    mv "$TARGET_DIR" "$DESTINATION"
-fi
+    echo ">>> Archiving old version to: $destination"
+    mv "$target_dir" "$destination"
 
-mkdir -p "$TARGET_DIR"
+    cleanup_old_backups "${old_repos_base}/${backup_path}_" "$keep"
+}
 
-# Copy
-SRC_DIR="$CLONE_DIR"
+# Prints the source dir to stdout (logs go to stderr so they are not captured)
+resolve_src_dir() {
+    local base_dir="$1"
+    local sub_dir="${2:-}"
+    local src_dir="$base_dir"
 
-if [ -n "$SUB_DIR_COPY" ]; then
-    SRC_DIR="$CLONE_DIR/$SUB_DIR_COPY"
-    echo ">>> Copying sub-directory: $SRC_DIR"
+    if [ -n "$sub_dir" ]; then
+        src_dir="$base_dir/$sub_dir"
+        echo ">>> Copying sub-directory: $src_dir" >&2
 
-    if [ ! -d "$SRC_DIR" ]; then
-        echo ">>> ERROR: $SRC_DIR does not exist in repo"
-        echo ">>> exit."
-        exit 1
+        if [ ! -d "$src_dir" ]; then
+            echo ">>> ERROR: $src_dir does not exist in repo" >&2
+            echo ">>> exit." >&2
+            return 1
+        fi
     fi
-fi
 
-if [ "$REMOVE_SRC_JSONS_BEFORE_COPY" = "1" ]; then
-    echo ">>> Removing old JSON files from $SRC_DIR"
-    find "$SRC_DIR" -name "*.json" -delete
-fi
+    echo "$src_dir"
+}
 
-cp -rf "$SRC_DIR/"* "$TARGET_DIR/" -v
+remove_json_files() {
+    local src_dir="$1"
+    echo ">>> Removing old JSON files from $src_dir"
+    find "$src_dir" -name "*.json" -delete
+}
 
-if [ -n "$COPY_TO_TARGET" ]; then
-    echo ">>> Copying additional file: $COPY_TO_TARGET"
-    cp -f "$CLONE_DIR/$COPY_TO_TARGET" "$TARGET_DIR/" -v
-fi
+copy_files() {
+    local src_dir="$1"
+    local target_dir="$2"
+    local clone_dir="$3"
+    local extra_file="${4:-}"
 
-# Remove the "$CLONE_DIR" directory.
-rm -rf "$CLONE_DIR"
+    echo ">>> Copying files from $src_dir to $target_dir"
+    cp -rf "$src_dir/"* "$target_dir/" -v
 
-echo ">>> ${REPO_NAME} deployed successfully"
+    if [ -n "$extra_file" ]; then
+        echo ">>> Copying additional file: $extra_file"
+        cp -f "$clone_dir/$extra_file" "$target_dir/" -v
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+main() {
+    local src_dir
+
+    # Navigate to the project directory
+    cd "$BASE_DIR" || exit 1
+
+    # Clone
+    clone_repo "$REPO_URL" "$BRANCH" "$CLONE_DIR" "$REPO_NAME"
+
+    # 1. Clean install / archive if requested
+    if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
+        archive_old_version "$TARGET_DIR" "$REPO_NAME" "$OLD_REPOS_BASE" 5
+    fi
+
+    mkdir -p "$TARGET_DIR"
+
+    # 2. Determine Source Directory (Handle sub-folder like 'src')
+    src_dir=$(resolve_src_dir "$CLONE_DIR" "$SUB_DIR_COPY")
+
+    # 3. Clean JSONs if requested
+    if [ "$REMOVE_SRC_JSONS_BEFORE_COPY" = "1" ]; then
+        remove_json_files "$src_dir"
+    fi
+
+    # 4. Copy files
+    copy_files "$src_dir" "$TARGET_DIR" "$CLONE_DIR" "$COPY_TO_TARGET"
+
+    # Cleanup
+    rm -rf "$CLONE_DIR"
+
+    echo ">>> ${REPO_NAME} Deployed successfully"
+}
+
+main
