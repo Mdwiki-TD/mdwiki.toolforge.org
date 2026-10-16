@@ -1,13 +1,12 @@
 #!/bin/bash
 # toolforge-jobs run installar --image python3.11 --command "~/shs/update_ArWikiCats.sh" --wait
-# sed -i 's/\r$//' ~/shs/*.sh && chmod +x ~/shs/*.sh
-# sed -i 's/\r$//' ~/jobs/*.sh && chmod +x ~/jobs/*.sh
+# sed -i 's/\r$//' ~/deploy_scripts/*.sh && chmod +x ~/deploy_scripts/*.sh
 
 # use bash strict mode
 set -euo pipefail
 
 REPO_NAME="$1"        # e.g. cats_maker
-TARGET_DIR="$2"       # e.g. bots/cats_maker
+TARGET_DIR="$2"       # Target tool folder, e.g., ARWIKI_ONE_REPO
 
 if [ -z "${1:-}" ] || [ -z "${2:-}" ]; then
     echo "Usage: $0 <repo_name> <target_dir> [branch]" >&2
@@ -54,6 +53,23 @@ git clone --branch "$BRANCH" "$REPO_URL" "$CLONE_DIR"
 
 rm -rf "$CLONE_DIR/.git"
 
+echo ">>> Deploying from local uploaded temporary directory..."
+
+cleanup_old_backups() {
+    local prefix="$1"
+    local keep="${2:-5}"
+    local -a old_backups
+
+    mapfile -t old_backups < <(ls -1dt "${prefix}"* 2>/dev/null | tail -n +"$((keep + 1))" || true)
+
+    echo ">>> Old backups to delete: ${#old_backups[@]}"
+
+    if [ "${#old_backups[@]}" -gt 0 ]; then
+        rm -rf -- "${old_backups[@]}"
+    fi
+}
+
+# 1. Clean install / Archive if requested
 if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
     echo ">>> Clean install enabled"
 
@@ -66,16 +82,20 @@ if [ "$CLEAN_INSTALL" = "1" ] && [ -d "$TARGET_DIR" ]; then
     # Extract the directory name (e.g., cats_maker) to use in the archive name
     DIR_NAME=$(basename "$TARGET_DIR")
 
+    BACKUP_PATH="${REPO_NAME}_${DIR_NAME}_backup"
+
     # Set the destination path with a timestamp (e.g., ~/old_repos/src_backup_1715000)
-    DESTINATION="${OLD_REPOS_BASE}/${REPO_NAME}_${DIR_NAME}_backup_$(date +%s%N)_$$"
+    DESTINATION="${OLD_REPOS_BASE}/${BACKUP_PATH}_$(date +%s%N)_$$"
 
     echo ">>> Archiving old version to: $DESTINATION"
     mv "$TARGET_DIR" "$DESTINATION"
+
+    cleanup_old_backups "${OLD_REPOS_BASE}/${BACKUP_PATH}_" 5
 fi
 
 mkdir -p "$TARGET_DIR"
 
-# Copy
+# 2. Determine Source Directory (Handle sub-folder like 'src')
 SRC_DIR="$CLONE_DIR"
 
 if [ -n "$SUB_DIR_COPY" ]; then
@@ -89,11 +109,14 @@ if [ -n "$SUB_DIR_COPY" ]; then
     fi
 fi
 
+# 3. Clean JSONs if requested
 if [ "$REMOVE_SRC_JSONS_BEFORE_COPY" = "1" ]; then
     echo ">>> Removing old JSON files from $SRC_DIR"
     find "$SRC_DIR" -name "*.json" -delete
 fi
 
+# 4. Copy from local temporary folder
+echo ">>> Copying files from $SRC_DIR to $TARGET_DIR"
 cp -rf "$SRC_DIR/"* "$TARGET_DIR/" -v
 
 if [ -n "$COPY_TO_TARGET" ]; then
@@ -101,6 +124,7 @@ if [ -n "$COPY_TO_TARGET" ]; then
     cp -f "$CLONE_DIR/$COPY_TO_TARGET" "$TARGET_DIR/" -v
 fi
 
+# 5. Compile Python Files if requested
 if [ "$COMPILE_PYTHON_FILES" = "1" ]; then
     echo ">>> Compiling Python files to .pyc"
 
@@ -128,4 +152,4 @@ fi
 # Remove the "$CLONE_DIR" directory.
 rm -rf "$CLONE_DIR"
 
-echo ">>> ${REPO_NAME} deployed successfully"
+echo ">>> ${REPO_NAME} Deployed successfully"
