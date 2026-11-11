@@ -1,8 +1,13 @@
 {
-        "name" : "Wiki Project Med Translation Dashboard",
-        "description" : "This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia 
-language.",
-        "url" : "https://mdwiki.toolforge.org/Translation_Dashboard/",
-        "keywords" : "WikiProjectMed, mdwiki, translate",
-        "author" : "Mr. Ibrahem"
+	"name": "Wiki Project Med Translation Dashboard",
+	"description": "This tool looks for Wikidata items that have a page on mdwiki.org but not in another wikipedia language.",
+	"url": "https://mdwiki.toolforge.org/Translation_Dashboard/",
+	"keywords": "WikiProjectMed, mdwiki, translate",
+	"author": [
+		{
+			"name": "Ibrahem Qasim",
+			"wiki_username": "Mr. Ibrahem",
+			"developer_username": "MrIbrahem"
+		}
+	]
 }
