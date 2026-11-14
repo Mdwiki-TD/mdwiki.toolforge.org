@@ -1,8 +1,8 @@
 #!/bin/bash
 # toolforge-jobs run updatepublish --image python3.11 --command "~/shs/update_publish.sh" --wait
+export USER_NAME="Mdwiki-TD"
 export SUB_DIR_COPY="src"
 export CLEAN_INSTALL=1
-export USER_NAME="Mdwiki-TD"
 BRANCH="${1:-main}"
 REPO_NAME=publish
 TARGET_DIR="public_html/publish"
